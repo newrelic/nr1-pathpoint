@@ -1,0 +1,122 @@
+.divStep {
+  display: flex;
+  align-items: center;
+  margin-right: 25px;
+  position: relative;
+  margin-left: 10px;
+}
+
+.circleStep {
+  display: flex;
+  position: absolute;
+  z-index: 2;
+  border-radius: 50%;
+  -moz-border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  color: white;
+  background: #828282;
+  align-items: center;
+  justify-content: center;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+
+.divContentStep {
+  z-index: 1;
+  width: 95%;
+  height: 3vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  margin-left: 5%;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.textContentStep {
+  margin-right: 10px;
+  margin-left: 1vw;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  height: 2vw;
+  width: 100%;
+  border:1px solid #BDBDBD;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  text-transform: capitalize;
+  font-size: 0.9rem;
+  text-align: center;
+  cursor: pointer;
+}
+.textContentSubFirstStep {
+  margin-right: 10px;
+  margin-left: 0.9vw;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  height: 2vw;
+  width: 100%;
+  border:1px solid #BDBDBD;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  text-transform: capitalize;
+  font-size: 0.9rem;
+  text-align: center;
+  cursor: pointer;
+}
+.textContentSubSecondStep {
+  margin-right: 10px;
+  margin-left: 0px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  height: 2vw;
+  width: 100%;
+  border:1px solid #BDBDBD;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  text-transform: capitalize;
+  font-size: 0.9rem;
+  text-align: center;
+  cursor: pointer;
+
+}
+.textEmptyStep {
+  margin-right: 20px;
+  margin-left: 1vw;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  height: 2vw;
+  width: 100%;
+  content: ' ';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Font size for screen of 14"
+@media screen and (max-width: 1366px) {
+  .textContentSubFirstStep {
+    font-size: 0.8rem;
+  }
+  .textContentSubSecondStep{
+    font-size: 0.8rem;
+  }
+  .percentText {
+    font-size: 10px;
+  }
+  .textContentStep{
+    font-size: 0.8rem;
+  }
+}

@@ -1,0 +1,24 @@
+button[disabled] {
+  background-color: gray !important;
+}
+
+.react-selectQuery {
+  &__control {
+    width: 295px !important;
+    height: 30px !important;
+    min-height: 30px !important;
+  }
+
+  &__indicator {
+    padding: 4px;
+  }
+
+  &__menu {
+    z-index: 15;
+  }
+}
+
+
+.form-parent-container {
+  margin-top: 15px;
+}

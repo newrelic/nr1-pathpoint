@@ -1,0 +1,159 @@
+.containerHeader {
+  height: 100%;
+  width: 100%;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  z-index: 9999;
+  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.5);
+}
+
+.pathpointversion {
+  font-size: 10px;
+  padding-top: 20px;
+  padding-left: 10px;
+  color: #c0c0c0;
+}
+
+.logo-container {
+  width: 82px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px;
+}
+
+.logo-container img {
+  width: 82px !important;
+  height: auto;
+}
+
+.logo-text-container {
+  width: 82px;
+  height: 60px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: 10px;
+}
+
+.logo-text-container p {
+  margin: 0 !important;
+  font-weight: bold;
+}
+
+.distributionIcons {
+  display: grid;
+  grid-template: 1fr / 15% 15% 15% 15% 15% 1fr;
+  align-items: center;
+  justify-content: space-between;
+  margin-right: 10%;
+}
+.budgetLoss {
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 25px;
+  /* identical to box height */
+  text-transform: capitalize;
+}
+
+.logoWigilabs {
+  margin-right: 20px;
+}
+.fireIconContainer {
+  width: 40px;
+  height: 25px;
+  border-radius: 2px;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.25);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin-right: 15px;
+}
+.react-select {
+  &__control,
+  &__menu {
+    width: 165px;
+    z-index: 15;
+  }
+}
+
+.quantityDinner {
+  display: flex;
+  align-content: center;
+  width: 400px;
+  margin-left: 5%;
+}
+
+.citiesSelect {
+  margin-left: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.kpi {
+  display: flex;
+}
+
+.kpicontent {
+  line-height: 25px;
+  margin-left: 10px;
+  margin-right: 10px;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+
+  &--colorgrey {
+    color: #bdbdbd;
+  }
+
+  &--colorblack {
+    color: #333333;
+  }
+
+  &--size12 {
+    font-size: 12px;
+  }
+
+  &--size16 {
+    font-size: 16px;
+  }
+}
+
+.checkDinner {
+  margin-left: 5px;
+  font-size: 16px;
+  font-style: normal;
+  line-height: 25px;
+  font-weight: 600;
+  color: #40007c;
+  text-transform: capitalize;
+  text-align: right;
+}
+
+//Select
+.react-select__control {
+  height: 30px !important;
+  min-height: 30px !important;
+}
+
+.react-select__indicator {
+  padding: 4px;
+}
+//
+
+@media screen and (max-width: 1366px) {
+  .checkDinner {
+    font-size: 14px;
+    margin-bottom: 3px;
+  }
+  .budgetLoss {
+    font-size: 16px;
+  }
+}

@@ -1,0 +1,52 @@
+[
+    {
+        "stage_index":1,
+        "stage_title":"Stage1",
+        "states":[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false, false]
+    },
+    {
+        "stage_index":2,
+        "stage_title":"Stage2",
+        "states":[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false, false]
+    },
+    {
+        "stage_index":3,
+        "stage_title":"Stage3",
+        "states":[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false, false]
+    },
+    {
+        "stage_index":4,
+        "stage_title":"Stage4",
+        "states":[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false, false]
+    },
+    {
+        "stage_index":5,
+        "stage_title":"Stage5",
+        "states":[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false, false]
+    },
+    {
+        "stage_index":6,
+        "stage_title":"Stage6",
+        "states":[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false, false]
+    },
+    {
+        "stage_index":7,
+        "stage_title":"Stage7",
+        "states":[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false, false]
+    },
+    {
+        "stage_index":8,
+        "stage_title":"Stage8",
+        "states":[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false, false]
+    },
+    {
+        "stage_index":9,
+        "stage_title":"Stage9",
+        "states":[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false, false]
+    },
+    {
+        "stage_index":10,
+        "stage_title":"Stage10",
+        "states":[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false, false]
+    }
+]

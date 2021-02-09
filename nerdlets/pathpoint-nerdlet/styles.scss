@@ -1,0 +1,32 @@
+@import "./containers/MainContainer/styles.scss";
+@import "./containers/StepContainer/styles.scss";
+@import "./components/Header/styles.scss";
+@import "./components/Stage/style.scss";
+@import "./components/Step/style.scss";
+@import "./components/TouchPoint/styles.scss";
+@import "./components/Arrow/styless.scss";
+@import "./components/Tooltip/styles.scss";
+@import "./components//Modal/styles.scss";
+@import url("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css");
+
+#root {
+  background-color: #fafafa !important;
+}
+
+a[target="_blank"]:after {
+  background-image: none !important;
+  margin-left: 0px !important;
+  position: unset !important;
+  width: 0px !important;
+}
+
+.modal-dialog {
+  display: flex;
+  height: 80%;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.modal-backdrop {
+  background: rgba(51, 51, 51, 0.6);
+}

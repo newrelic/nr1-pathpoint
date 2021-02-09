@@ -1,0 +1,159 @@
+.stage {
+  display: inline-block;
+  width: 94%;
+  margin-left: 3%;
+  margin-right: 3%;
+  flex-direction: column;
+}
+
+.separator{
+  padding-top: 3px;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-right: 1px solid #C0C0C0;
+}
+.titleStage {
+  margin-bottom: 5px;
+  margin-left: 4%;
+  font-size: 1.2rem;
+  font-family: Open Sans;
+  line-height: 19px;
+  font-weight: 600;
+  font-style: normal;
+  display: flex;
+  justify-content: space-between;
+}
+
+.goutTxt {
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 20px;
+  text-align: right;
+  text-transform: capitalize;
+  margin-left: 5px;
+}
+.quantiyTitleStage {
+  margin-bottom: 5px;
+  margin-left: 0px;
+  font-size: 1.2rem;
+  font-family: Open Sans;
+  line-height: 19px;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.quantiyIcon{
+  position: relative;
+  top: -2px;
+  margin-left: 4px;
+  margin-right: 4px;
+  cursor: pointer;
+  
+}
+
+.arrowStage {
+  width: 100%;
+  height: 100px;
+}
+.capacityBar {
+  display: grid;
+  margin-left: 5% 2%;
+  grid-template: 1fr / repeat(13, 7%);
+}
+.percentText {
+  display: grid;
+  grid-template: 1fr / 1fr;
+  font-size: 12px;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  text-transform: capitalize;
+}
+.trafficBack {
+  height: 95%;
+  width: 100%;
+  margin-left: 3%;
+  display: flex;
+  align-items: center;
+  position: relative;
+  border-top: 1px solid #828282;
+  border-bottom: 1px solid #828282;
+}
+.trafficBar {
+  width: 100%;
+  z-index: 1;
+  transform: translate3d(0, 0, 0);
+  position: absolute;
+  transition: height 400ms ease-in-out;
+}
+.statusStage {
+  display: grid;
+  grid-template: 1fr / 20% 80%;
+  flex-direction: row;
+  z-index: 5;
+  transform: translate3d(0, 0, 0);
+  justify-content: center;
+  width: 100%;
+  align-items: flex-end;
+  position: absolute;
+  cursor: pointer;
+}
+
+.circleError {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 4px solid white;
+  box-shadow: 0px 0px 1px 1px #ffffff;
+  -webkit-box-shadow: 0px 0px 1px 1px #ffffff;
+  margin-left: 25%;
+}
+.arrowSeparator {
+  width: 21%;
+  position: absolute;
+  z-index: 4;
+  transform: translate3d(0, 0, 0);
+  margin-left: 88%;
+  height: 151%;
+}
+.arrowLeftSeparator {
+  width: 16%;
+  position: absolute;
+  z-index: 4;
+  transform: translate3d(0, 0, 0);
+  height: 140%;
+}
+.textCapacity {
+  display: flex;
+  font-size: 10px;
+  color: blue;
+}
+
+// Font size for screen of 14"
+@media screen and (max-width: 1366px) {
+  .titleStage,
+  .quantiyTitleStage {
+    font-size: 1rem;
+  }
+  .textLevelBar {
+    font-size: 14px;
+  }
+  .percentText {
+    font-size: 10px;
+  }
+  .goutTxt {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .titleStage {
+    font-size: 0.8rem;
+  }
+
+  .quantiyTitleStage {
+    font-size: 0.8rem;
+  }
+}

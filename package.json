@@ -1,0 +1,37 @@
+{
+    "private": true,
+    "name": "PathpointCore",
+    "version": "1.0.0",
+    "scripts": {
+        "start": "nr1 nerdpack:serve",
+        "samanez": "nr1 nerdpack:serve --profile=samanez",
+        "test": "exit 0"
+    },
+    "nr1": {
+        "uuid": "97fa21ee-0c5b-4160-9b0d-019926e3a934"
+    },
+    "dependencies": {
+        "@apollo/client": "^3.2.9",
+        "@material-ui/core": "^3.9.2",
+        "ajv": "^7.0.3",
+        "axios": "^0.21.1",
+        "formik": "^1.5.7",
+        "graphql": "^15.4.0",
+        "prop-types": "^15.6.2",
+        "react": "^16.6.3",
+        "react-bootstrap": "^0.33.1",
+        "react-contextmenu": "^2.14.0",
+        "react-dom": "^16.6.3",
+        "react-download-link": "^2.3.0",
+        "react-hyper-modal": "^1.1.1",
+        "react-modal": "^3.11.1",
+        "react-select": "^3.1.0",
+        "reactjs-popup": "^2.0.0-0",
+        "yup": "^0.29.0"
+    },
+    "browserslist": [
+        "last 2 versions",
+        "not ie < 11",
+        "not dead"
+    ]
+}

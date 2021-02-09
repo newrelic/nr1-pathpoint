@@ -1,0 +1,7 @@
+{
+    "schemaType": "LAUNCHER",
+    "id": "stark-launcher",
+    "displayName": "Stark Pathpoint",
+    "description": "Describe me",
+    "rootNerdletId": "stark-nerdlet"
+}

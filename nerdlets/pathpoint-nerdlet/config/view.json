@@ -1,0 +1,1304 @@
+{
+  "colors": {
+    "background_capacity": [
+      19,
+      72,
+      104
+    ],
+    "stage_capacity": [
+      255,
+      255,
+      255
+    ],
+    "status_color": {
+      "danger": [
+        255,
+        76,
+        76
+      ],
+      "warning": [
+        242,
+        201,
+        76
+      ],
+      "good": [
+        39,
+        174,
+        96
+      ]
+    },
+    "steps_touchpoints": [
+      {
+        "select_color": [
+          18,
+          167,
+          255
+        ],
+        "unselect_color": [
+          189,
+          189,
+          189
+        ],
+        "error_color": [
+          255,
+          76,
+          76
+        ],
+        "dark": [
+          51,
+          51,
+          51
+        ]
+      }
+    ]
+  },
+  "canary_status": false,
+  "banner_kpis": [
+    {
+      "type": 100,
+      "description": "Total Order Count",
+      "prefix": "",
+      "suffix": "Orders",
+      "query": "SELECT count(*) as value FROM Transaction SINCE 1 minute AGO",
+      "value": 0
+    },
+    {
+      "type": 100,
+      "description": "Total Order Value",
+      "prefix": "$",
+      "suffix": "",
+      "query": "SELECT count(*) as value FROM Transaction SINCE 5 minutes AGO",
+      "value": 0
+    },
+    {
+      "type": 100,
+      "description": "Max Duration",
+      "prefix": "",
+      "suffix": "",
+      "query": "SELECT max(duration) as value FROM Transaction SINCE 30 minutes AGO",
+      "value": 0
+    }
+  ],
+  "stages": [
+    {
+      "index": 1,
+      "title": "PRE-PROCESSING",
+      "latencyStatus": false,
+      "status_color": "good",
+      "gout_enable": false,
+      "gout_quantity": 150,
+      "money_enabled": false,
+      "trafficIconType": "traffic",
+      "money": "",
+      "icon_active": false,
+      "icon_description": "medal",
+      "icon_visible": false,
+      "congestion": {
+        "value": 0,
+        "percentage": 15
+      },
+      "capacity": 0,
+      "total_count": 0,
+      "active_dotted": "none",
+      "active_dotted_color": "#828282",
+      "steps": [
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 1,
+              "id": "ST1-LINE1-SS1",
+              "canary_state": false,
+              "latency": true,
+              "value": "Catalog Processing",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 1,
+              "relationship_touchpoints": [
+                1,
+                2,
+                3,
+                4,
+                5
+              ]
+            },
+            {
+              "index": 2,
+              "id": "ST1-LINE1-SS2",
+              "canary_state": false,
+              "latency": true,
+              "value": "Ambassador",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 1,
+              "relationship_touchpoints": [
+                1,
+                2,
+                3,
+                5
+              ]
+            },
+            {
+              "index": 3,
+              "id": "ST1-LINE1-SS3",
+              "canary_state": false,
+              "latency": false,
+              "value": "Localization",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 1,
+              "relationship_touchpoints": [
+                3,
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 4,
+              "id": "ST1-LINE2-SS1",
+              "canary_state": false,
+              "latency": true,
+              "value": "Duties &Taxes",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 1,
+              "relationship_touchpoints": []
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 5,
+              "id": "ST1-LINE3-SS1",
+              "canary_state": false,
+              "latency": false,
+              "value": "Consulate",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 1,
+              "relationship_touchpoints": [
+                2,
+                3,
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 6,
+              "id": "ST1-LINE4-SS1",
+              "canary_state": false,
+              "latency": false,
+              "value": "Restrictions",
+              "dark": true,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 1,
+              "relationship_touchpoints": [
+                2,
+                3,
+                4
+              ]
+            }
+          ]
+        }
+      ],
+      "touchpoints": [
+        {
+          "index": 1,
+          "stage_index": 1,
+          "status_on_off": true,
+          "active": false,
+          "value": "Questionaire-web-access",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "sixth_sense": false,
+          "sixth_sense_url": [
+            []
+          ],
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NDg"
+          ],
+          "relation_steps": [
+            1,
+            2
+          ]
+        },
+        {
+          "index": 2,
+          "stage_index": 1,
+          "status_on_off": true,
+          "active": false,
+          "value": "Shipping Service-health-check",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "sixth_sense": false,
+          "sixth_sense_url": [
+            []
+          ],
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NDk"
+          ],
+          "relation_steps": [
+            1,
+            2,
+            5,
+            6
+          ]
+        },
+        {
+          "index": 3,
+          "stage_index": 1,
+          "status_on_off": true,
+          "active": false,
+          "value": "Catalog Service Health Check",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "sixth_sense": false,
+          "sixth_sense_url": [
+            []
+          ],
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTA"
+          ],
+          "relation_steps": [
+            1,
+            2,
+            3,
+            5,
+            6
+          ]
+        },
+        {
+          "index": 4,
+          "stage_index": 1,
+          "status_on_off": true,
+          "active": false,
+          "value": "Currency Service Check",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "sixth_sense": false,
+          "sixth_sense_url": [
+            []
+          ],
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTE"
+          ],
+          "relation_steps": [
+            1,
+            3,
+            5,
+            6
+          ]
+        },
+        {
+          "index": 5,
+          "stage_index": 1,
+          "status_on_off": true,
+          "active": false,
+          "value": "Initiate Transaction",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "sixth_sense": false,
+          "sixth_sense_url": [
+            []
+          ],
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTI"
+          ],
+          "relation_steps": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "title": "PRE-ORDER",
+      "latencyStatus": false,
+      "status_color": "good",
+      "gout_enable": false,
+      "gout_quantity": 150,
+      "money_enabled": false,
+      "trafficIconType": "traffic",
+      "money": "",
+      "icon_active": true,
+      "icon_description": "medal",
+      "icon_visible": false,
+      "congestion": {
+        "value": 0,
+        "percentage": 15
+      },
+      "capacity": 0,
+      "total_count": 0,
+      "active_dotted": "dashed",
+      "active_dotted_color": "#828282",
+      "steps": [
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 1,
+              "id": "ST2-LINE1-SS1",
+              "canary_state": false,
+              "latency": true,
+              "value": "Localization",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 2,
+              "relationship_touchpoints": [
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "index": 2,
+              "id": "ST2-LINE1-SS2",
+              "canary_state": false,
+              "latency": false,
+              "value": "Welcome Mat",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 2,
+              "relationship_touchpoints": [
+                1,
+                2,
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 3,
+              "id": "ST2-LINE2-SS1",
+              "canary_state": false,
+              "latency": false,
+              "value": "BFX",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 2,
+              "relationship_touchpoints": [
+                4,
+                5
+              ]
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 4,
+              "id": "ST2-LINE3-SS1",
+              "canary_state": false,
+              "latency": false,
+              "value": "Tagging ",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 2,
+              "relationship_touchpoints": []
+            }
+          ]
+        }
+      ],
+      "touchpoints": [
+        {
+          "index": 1,
+          "stage_index": 2,
+          "status_on_off": true,
+          "active": false,
+          "value": "Questionaire-try-login",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "sixth_sense": false,
+          "sixth_sense_url": [
+            []
+          ],
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTM"
+          ],
+          "relation_steps": [
+            1,
+            2
+          ]
+        },
+        {
+          "index": 2,
+          "stage_index": 2,
+          "status_on_off": true,
+          "active": false,
+          "value": "Shipping Get Quote",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "sixth_sense": false,
+          "sixth_sense_url": [
+            []
+          ],
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTQ"
+          ],
+          "relation_steps": [
+            1,
+            2
+          ]
+        },
+        {
+          "index": 3,
+          "stage_index": 2,
+          "status_on_off": true,
+          "active": false,
+          "value": "Catalog Get Product",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "sixth_sense": false,
+          "sixth_sense_url": [
+            []
+          ],
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTU"
+          ],
+          "relation_steps": [
+            1,
+            2
+          ]
+        },
+        {
+          "index": 4,
+          "stage_index": 2,
+          "status_on_off": true,
+          "active": false,
+          "value": "Create Cart",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "sixth_sense": false,
+          "sixth_sense_url": [
+            []
+          ],
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTY"
+          ],
+          "relation_steps": [
+            3
+          ]
+        },
+        {
+          "index": 5,
+          "stage_index": 2,
+          "status_on_off": true,
+          "active": false,
+          "value": "Adding Products to Cart",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "sixth_sense": false,
+          "sixth_sense_url": [
+            []
+          ],
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTc"
+          ],
+          "relation_steps": [
+            3
+          ]
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "title": "CHECKOUT",
+      "latencyStatus": false,
+      "status_color": "good",
+      "gout_enable": false,
+      "gout_quantity": 150,
+      "money_enabled": false,
+      "trafficIconType": "traffic",
+      "money": "",
+      "icon_active": false,
+      "icon_description": "star",
+      "icon_visible": false,
+      "congestion": {
+        "value": 0,
+        "percentage": 15
+      },
+      "capacity": 0,
+      "total_count": 0,
+      "active_dotted": "none",
+      "active_dotted_color": "#828282",
+      "steps": [
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 1,
+              "id": "ST3-LINE1-SS1",
+              "canary_state": false,
+              "latency": true,
+              "value": "Buyer Checkout",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 3,
+              "relationship_touchpoints": [
+                1,
+                2,
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 2,
+              "id": "ST3-LINE2-SS1",
+              "canary_state": false,
+              "latency": false,
+              "value": "Duty & Tax",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 3,
+              "relationship_touchpoints": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                10
+              ]
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 3,
+              "id": "ST3-LINE3-SS1",
+              "canary_state": false,
+              "latency": false,
+              "value": "Payment Processing",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 3,
+              "relationship_touchpoints": [
+                3,
+                9
+              ]
+            }
+          ]
+        }
+      ],
+      "touchpoints": [
+        {
+          "index": 1,
+          "stage_index": 3,
+          "status_on_off": true,
+          "active": false,
+          "value": "Submit Cart",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "sixth_sense": false,
+          "sixth_sense_url": [
+            []
+          ],
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTg"
+          ],
+          "relation_steps": [
+            1
+          ]
+        },
+        {
+          "index": 2,
+          "stage_index": 3,
+          "status_on_off": true,
+          "active": false,
+          "value": "Questionaire-home",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "sixth_sense": false,
+          "sixth_sense_url": [
+            []
+          ],
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTk"
+          ],
+          "relation_steps": [
+            1
+          ]
+        },
+        {
+          "index": 3,
+          "stage_index": 3,
+          "status_on_off": true,
+          "active": false,
+          "value": "Ship Order",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "sixth_sense": false,
+          "sixth_sense_url": [
+            []
+          ],
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjE"
+          ],
+          "relation_steps": [
+            1,
+            3
+          ]
+        },
+        {
+          "index": 4,
+          "stage_index": 3,
+          "status_on_off": true,
+          "active": false,
+          "value": "Catalog List Product",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "sixth_sense": false,
+          "sixth_sense_url": [
+            []
+          ],
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjI"
+          ],
+          "relation_steps": [
+            2
+          ]
+        },
+        {
+          "index": 5,
+          "stage_index": 3,
+          "status_on_off": true,
+          "active": false,
+          "value": "Currency Convert",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "sixth_sense": false,
+          "sixth_sense_url": [
+            []
+          ],
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjM"
+          ],
+          "relation_steps": [
+            2
+          ]
+        },
+        {
+          "index": 6,
+          "stage_index": 3,
+          "status_on_off": true,
+          "active": false,
+          "value": "Supported Currency",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "sixth_sense": false,
+          "sixth_sense_url": [
+            []
+          ],
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjQ"
+          ],
+          "relation_steps": [
+            2
+          ]
+        },
+        {
+          "index": 7,
+          "stage_index": 3,
+          "status_on_off": true,
+          "active": false,
+          "value": "Questionaire-logout",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "sixth_sense": false,
+          "sixth_sense_url": [
+            []
+          ],
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjU"
+          ],
+          "relation_steps": [
+            2
+          ]
+        },
+        {
+          "index": 8,
+          "stage_index": 3,
+          "status_on_off": true,
+          "active": false,
+          "value": "Checkout Service",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "sixth_sense": false,
+          "sixth_sense_url": [
+            []
+          ],
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjY"
+          ],
+          "relation_steps": [
+            2
+          ]
+        },
+        {
+          "index": 9,
+          "stage_index": 3,
+          "status_on_off": true,
+          "active": false,
+          "value": "Redis",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "sixth_sense": false,
+          "sixth_sense_url": [
+            []
+          ],
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3Njc"
+          ],
+          "relation_steps": [
+            3
+          ]
+        },
+        {
+          "index": 10,
+          "stage_index": 3,
+          "status_on_off": true,
+          "active": false,
+          "value": "DutyCalc",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "sixth_sense": false,
+          "sixth_sense_url": [
+            []
+          ],
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3Njg"
+          ],
+          "relation_steps": [
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "title": "ORDER MANAGEMENT",
+      "latencyStatus": false,
+      "status_color": "danger",
+      "gout_enable": false,
+      "gout_quantity": 150,
+      "money_enabled": false,
+      "trafficIconType": "traffic",
+      "money": "",
+      "icon_active": true,
+      "icon_description": "star",
+      "icon_visible": false,
+      "congestion": {
+        "value": 0,
+        "percentage": 15
+      },
+      "capacity": 0,
+      "total_count": 0,
+      "active_dotted": "none",
+      "active_dotted_color": "#828282",
+      "steps": [
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 1,
+              "id": "ST4-LINE1-SS1",
+              "canary_state": false,
+              "latency": true,
+              "value": "Purchase Orders",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 4,
+              "relationship_touchpoints": [
+                1,
+                2,
+                3,
+                4,
+                5
+              ]
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 2,
+              "id": "ST4-LINE2-SS1",
+              "canary_state": false,
+              "latency": false,
+              "value": "Order Status",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 4,
+              "relationship_touchpoints": [
+                2,
+                3,
+                5
+              ]
+            }
+          ]
+        }
+      ],
+      "touchpoints": [
+        {
+          "index": 1,
+          "stage_index": 4,
+          "status_on_off": true,
+          "active": false,
+          "value": "Questionaire-login",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "sixth_sense": false,
+          "sixth_sense_url": [
+            []
+          ],
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3Njk"
+          ],
+          "relation_steps": [
+            1
+          ]
+        },
+        {
+          "index": 2,
+          "stage_index": 4,
+          "status_on_off": true,
+          "active": false,
+          "value": "Checkout Cart",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "sixth_sense": false,
+          "sixth_sense_url": [
+            []
+          ],
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NzA"
+          ],
+          "relation_steps": [
+            1,
+            2
+          ]
+        },
+        {
+          "index": 3,
+          "stage_index": 4,
+          "status_on_off": true,
+          "active": false,
+          "value": "Set Currency",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "sixth_sense": false,
+          "sixth_sense_url": [
+            []
+          ],
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NzE"
+          ],
+          "relation_steps": [
+            1,
+            2
+          ]
+        },
+        {
+          "index": 4,
+          "stage_index": 4,
+          "status_on_off": true,
+          "active": false,
+          "value": "Recommendations",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "sixth_sense": false,
+          "sixth_sense_url": [
+            []
+          ],
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NzI"
+          ],
+          "relation_steps": [
+            1
+          ]
+        },
+        {
+          "index": 5,
+          "stage_index": 4,
+          "status_on_off": true,
+          "active": false,
+          "value": "Email Service",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "sixth_sense": false,
+          "sixth_sense_url": [
+            []
+          ],
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NzQ"
+          ],
+          "relation_steps": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "title": "DISTRIBUTION & RETURNS",
+      "latencyStatus": false,
+      "status_color": "warning",
+      "gout_enable": false,
+      "gout_quantity": 150,
+      "money_enabled": false,
+      "trafficIconType": "traffic",
+      "money": "",
+      "icon_active": false,
+      "icon_description": "star",
+      "icon_visible": false,
+      "congestion": {
+        "value": 0,
+        "percentage": 15
+      },
+      "capacity": 0,
+      "total_count": 0,
+      "active_dotted": "dashed",
+      "active_dotted_color": "#828282",
+      "steps": [
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 1,
+              "id": "ST5-LINE1-SS1",
+              "canary_state": false,
+              "latency": true,
+              "value": "Distribution",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 5,
+              "relationship_touchpoints": []
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 2,
+              "id": "ST5-LINE2-SS1",
+              "canary_state": false,
+              "latency": false,
+              "value": "Order  Status Updates",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 5,
+              "relationship_touchpoints": []
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 3,
+              "id": "ST5-LINE3-SS1",
+              "canary_state": false,
+              "latency": false,
+              "value": "Tracking",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 5,
+              "relationship_touchpoints": [
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 4,
+              "id": "ST5-LINE4-SS1",
+              "canary_state": false,
+              "latency": false,
+              "value": "Returns",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 5,
+              "relationship_touchpoints": [
+                2,
+                3
+              ]
+            }
+          ]
+        }
+      ],
+      "touchpoints": [
+        {
+          "index": 1,
+          "stage_index": 5,
+          "status_on_off": true,
+          "active": false,
+          "value": "Payment Service",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "sixth_sense": false,
+          "sixth_sense_url": [
+            []
+          ],
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NzU"
+          ],
+          "relation_steps": [
+            3
+          ]
+        },
+        {
+          "index": 2,
+          "stage_index": 5,
+          "status_on_off": true,
+          "active": false,
+          "value": "Kubernetes Metrics",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "sixth_sense": false,
+          "sixth_sense_url": [
+            []
+          ],
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NzY"
+          ],
+          "relation_steps": [
+            4
+          ]
+        },
+        {
+          "index": 3,
+          "stage_index": 5,
+          "status_on_off": true,
+          "active": false,
+          "value": "Servers",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "sixth_sense": false,
+          "sixth_sense_url": [
+            []
+          ],
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3Nzc"
+          ],
+          "relation_steps": [
+            4
+          ]
+        }
+      ]
+    }
+  ]
+}
