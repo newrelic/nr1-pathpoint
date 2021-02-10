@@ -194,10 +194,16 @@ export default class MainContainer extends React.Component {
         .startUpdate(timeRange, city, getOldSessions, stages, banner_kpis)
         .then(() => {
           //console.log('show updates');
-          this.setState({ getOldSessions: false });
-          this.setState({ banner_kpis: this.state.banner_kpis });
-          this.setState({ stages: this.state.stages });
-          this.setState({ loading: false });
+          this.setState({
+            getOldSessions: false,
+            banner_kpis: this.state.banner_kpis,
+            stages: this.state.stages,
+            loading: false
+          })
+          // this.setState({ getOldSessions: false });
+          // this.setState({ banner_kpis: this.state.banner_kpis });
+          // this.setState({ stages: this.state.stages });
+          // this.setState({ loading: false });
         });
     } else {
       setTimeout(() => {
