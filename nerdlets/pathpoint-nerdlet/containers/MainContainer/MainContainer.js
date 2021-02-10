@@ -252,10 +252,16 @@ export default class MainContainer extends React.Component {
           .startUpdate(timeRange, city, getOldSessions, stages, banner_kpis)
           .then(() => {
             //console.log('show updates');
-            this.setState({ waiting: false });
-            this.setState({ getOldSessions: false });
-            this.setState({ banner_kpis: this.state.banner_kpis });
-            this.setState({ stages: this.state.stages });
+            this.setState({
+              waiting: false,
+              getOldSessions: false,
+              banner_kpis: this.state.banner_kpis,
+              stages: this.state.stages
+            })
+            // this.setState({ waiting: false });
+            // this.setState({ getOldSessions: false });
+            // this.setState({ banner_kpis: this.state.banner_kpis });
+            // this.setState({ stages: this.state.stages });
           });
       }, 1500);
     });
@@ -276,9 +282,14 @@ export default class MainContainer extends React.Component {
           .startUpdate(timeRange, city, getOldSessions, stages, banner_kpis)
           .then(() => {
             console.log("show updates");
-            this.setState({ getOldSessions: false });
-            this.setState({ banner_kpis: this.state.banner_kpis });
-            this.setState({ stages: this.state.stages });
+            this.setState({
+              getOldSessions: false,
+              banner_kpis: this.state.banner_kpis,
+              stages: this.state.stages
+            })
+            // this.setState({ getOldSessions: false });
+            // this.setState({ banner_kpis: this.state.banner_kpis });
+            // this.setState({ stages: this.state.stages });
           });
       }
     }, Setup.time_refresh);
@@ -537,8 +548,12 @@ export default class MainContainer extends React.Component {
     } = this.state;
     let actualCanaryStatus = !this.state.iconCanaryStatus;
     if (actualCanaryStatus && this.state.showCanaryWelcomeMat) {
-      this.setState({ viewModal: 6 });
-      this.setState({ stageNameSelected: null });
+      this.setState({
+        viewModal: 6,
+        stageNameSelected: null
+      })
+      // this.setState({ viewModal: 6 });
+      // this.setState({ stageNameSelected: null });
       this._onClose();
     }
     //desactivamos todo el resto
@@ -657,8 +672,12 @@ export default class MainContainer extends React.Component {
     let { iconFireStatus, iconCanaryStatus } = this.state;
     iconFireStatus = !iconFireStatus;
     if (iconFireStatus && this.state.showFireWelcomeMat) {
-      this.setState({ viewModal: 7 });
-      this.setState({ stageNameSelected: null });
+      this.setState({
+        viewModal: 7,
+        stageNameSelected: null
+      })
+      // this.setState({ viewModal: 7 });
+      // this.setState({ stageNameSelected: null });
       this._onClose();
     }
     // check if Canary is ENABLED
@@ -739,8 +758,12 @@ export default class MainContainer extends React.Component {
   }
 
   openModal = (stage) => {
-    this.setState({ viewModal: 0 });
-    this.setState({ stageNameSelected: stage });
+    this.setState({
+      viewModal: 0,
+      stageNameSelected: stage
+    })
+    // this.setState({ viewModal: 0 });
+    // this.setState({ stageNameSelected: stage });
     this._onClose();
   };
 
@@ -955,8 +978,13 @@ export default class MainContainer extends React.Component {
   changeMessage = (value) => {
     const { stageNameSelected } = this.state;
     stageNameSelected.selectedCase = value;
-    this.setState(stageNameSelected);
-    this.setState({ querySample: "", testText: "" });
+    this.setState({
+      stageNameSelected,
+      querySample: "",
+      testText: ""
+    })
+    // this.setState(stageNameSelected);
+    // this.setState({ querySample: "", testText: "" });
   };
 
   chargueSample = (value) => {
@@ -1000,8 +1028,12 @@ export default class MainContainer extends React.Component {
     } else {
       stageNameSelected.datos[0].query_body = event.target.value;
     }
-    this.setState(stageNameSelected);
-    this.setState({ testText: "" });
+    this.setState({
+      stageNameSelected,
+      testText: ""
+    })
+    // this.setState(stageNameSelected);
+    // this.setState({ testText: "" });
   };
   handleChangeTexareaSupport = (event) => {
     const { supportForm } = this.state;
