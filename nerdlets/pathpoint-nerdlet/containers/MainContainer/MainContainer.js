@@ -1741,7 +1741,7 @@ export default class MainContainer extends React.Component {
                           )}
                           <div
                             className="stepColumn"
-                            style={{ width: "100%", marginTop: "5%" }}
+                            style={{ width: "100%"}}
                           >
                             <StepContainer
                               steps={element.steps}
