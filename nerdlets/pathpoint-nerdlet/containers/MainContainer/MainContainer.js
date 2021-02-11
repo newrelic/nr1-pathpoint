@@ -177,10 +177,13 @@ export default class MainContainer extends React.Component {
   }
 */
   // =========================================================== UPDATE DATA API
-
-  updateDataNow() {
+  updateDataNow(){
     console.log("UPDATE-NOW");
     this.setState({ loading: true });
+    this.updateDataNow();
+  }
+
+  updateDataNowCall() {
     if (!this.updateData.loading) {
       let {
         timeRange,
@@ -200,14 +203,10 @@ export default class MainContainer extends React.Component {
             stages: this.state.stages,
             loading: false
           })
-          // this.setState({ getOldSessions: false });
-          // this.setState({ banner_kpis: this.state.banner_kpis });
-          // this.setState({ stages: this.state.stages });
-          // this.setState({ loading: false });
         });
     } else {
       setTimeout(() => {
-        this.updateDataNow();
+        this.updateDataNowCall();
       }, 1000);
     }
   }
@@ -258,10 +257,6 @@ export default class MainContainer extends React.Component {
               banner_kpis: this.state.banner_kpis,
               stages: this.state.stages
             })
-            // this.setState({ waiting: false });
-            // this.setState({ getOldSessions: false });
-            // this.setState({ banner_kpis: this.state.banner_kpis });
-            // this.setState({ stages: this.state.stages });
           });
       }, 1500);
     });
@@ -287,9 +282,6 @@ export default class MainContainer extends React.Component {
               banner_kpis: this.state.banner_kpis,
               stages: this.state.stages
             })
-            // this.setState({ getOldSessions: false });
-            // this.setState({ banner_kpis: this.state.banner_kpis });
-            // this.setState({ stages: this.state.stages });
           });
       }
     }, Setup.time_refresh);
