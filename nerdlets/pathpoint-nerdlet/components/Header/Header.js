@@ -68,7 +68,6 @@ export default class Header extends React.Component {
   }
 
   RenderLogo = () => {
-    //console.log(this.props)
     if (this.props.logoSetup.type.toLowerCase() === 'default') {
       return (
         <div className="logo-container">
@@ -99,17 +98,15 @@ export default class Header extends React.Component {
       iconCanaryStatus,
       iconFireStatus,
       iconStartStatus,
-      activeCanaryIcon,
-      activeStartIcon,
       changeTimeRange,
       iconGoutStatus,
-      activeGoutIcon,
       showLeftPanel,
       openLeftMenu,
       handleContextMenuGout,
       handleContextMenuStar,
       handleContextMenuFire,
-      banner_kpis
+      banner_kpis,
+      ToggleHeaderButtons
     } = this.props;
     let bannerLeftMessage = banner_kpis[0].description;
     let bannerCenterMessage = banner_kpis[1].description;
@@ -207,7 +204,7 @@ export default class Header extends React.Component {
           <div
             className="fireIconContainer"
             onClick={() => {
-              activeCanaryIcon();
+              ToggleHeaderButtons('iconCanaryStatus')
             }}
           >
             <img
@@ -215,10 +212,10 @@ export default class Header extends React.Component {
               src={iconCanaryStatus ? canaryIconOn : canaryIcon}
             />
           </div>
-          {/* <div
+          <div
             className="fireIconContainer"
             onClick={() => {
-              activeGoutIcon();
+              ToggleHeaderButtons('iconGoutStatus')
             }}
             onMouseDown={handleContextMenuGout}
           >
@@ -230,7 +227,7 @@ export default class Header extends React.Component {
           <div
             className="fireIconContainer"
             onClick={() => {
-              activeStartIcon();
+              ToggleHeaderButtons('iconStartStatus')
             }}
             onMouseDown={handleContextMenuStar}
           >
@@ -238,11 +235,11 @@ export default class Header extends React.Component {
               style={{ height: "18px" }}
               src={iconStartStatus ? startIconOn : startIcon}
             />
-          </div> */}
+          </div>
           <div
             className="fireIconContainer"
             onClick={() => {
-              this.activeIconFire();
+              ToggleHeaderButtons('iconFireStatus')
             }}
             onMouseDown={handleContextMenuFire}
           >

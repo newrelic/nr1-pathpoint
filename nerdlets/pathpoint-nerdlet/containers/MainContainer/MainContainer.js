@@ -180,7 +180,7 @@ export default class MainContainer extends React.Component {
   updateDataNow(){
     console.log("UPDATE-NOW");
     this.setState({ loading: true });
-    this.updateDataNow();
+    this.updateDataNowCall();
   }
 
   updateDataNowCall() {
@@ -292,6 +292,25 @@ export default class MainContainer extends React.Component {
   }
 
   // ===========================================================
+
+  ToggleHeaderButtons = (target) => {
+    const previousIconCanaryStatus = this.state.iconCanaryStatus
+    const previousIconGoutStatus = this.state.iconGoutStatus
+    const previousIconStartStatus = this.state.iconStartStatus
+    const previousIconFireStatus = this.state.iconFireStatus
+    this.setState({
+      iconCanaryStatus: false,
+      iconGoutStatus: false,
+      iconStartStatus: false,
+      iconFireStatus: false,
+      [target]: !this.state[target]
+    }, () => {
+      this.ToggleCanaryIcon(previousIconCanaryStatus)
+      this.ToggleGoutIcon(previousIconGoutStatus)
+      this.ToggleStartIcon(previousIconStartStatus)
+      this.ToggleFireIcon(previousIconFireStatus)
+    })
+  }
 
   updateNewGui = () => {
     this.setState({ stages: this.state.stages });
@@ -530,101 +549,44 @@ export default class MainContainer extends React.Component {
     });
   };
 
-  activeCanaryIcon = () => {
-    // console.log('aca canario');
-    let {
-      iconStartStatus,
-      iconFireStatus,
-      iconGoutStatus,
-      iconCanaryStatus,
-    } = this.state;
-    let actualCanaryStatus = !this.state.iconCanaryStatus;
-    if (actualCanaryStatus && this.state.showCanaryWelcomeMat) {
+  ToggleCanaryIcon = (previousIconCanaryStatus) => {
+    let { iconCanaryStatus } = this.state;
+    if (iconCanaryStatus && this.state.showCanaryWelcomeMat) {
       this.setState({
         viewModal: 6,
         stageNameSelected: null
       })
-      // this.setState({ viewModal: 6 });
-      // this.setState({ stageNameSelected: null });
       this._onClose();
     }
-    //desactivamos todo el resto
-    this.setState({
-      iconGoutStatus: false,
-      iconFireStatus: false,
-      iconStartStatus: false,
-      iconSixthSenseStatus: false,
-    });
-
-    this.resetIcons(
-      iconStartStatus,
-      iconFireStatus,
-      iconGoutStatus,
-      !actualCanaryStatus
-    );
-
-    if (!iconCanaryStatus) {
-      //console.log('aca prendido:' + iconCanaryStatus);
+    if (!previousIconCanaryStatus && iconCanaryStatus) {
       this.state.canaryData = this.StorageCanary.getLoadData();
       this.preSelectCanaryData(this.state.canaryData);
-    } else {
+      console.log('ENTRA TRUE')
+    } else if (previousIconCanaryStatus && !iconCanaryStatus) {
       if (this.updateData) {
         this.updateData.clearCanaryData(this.state.stages);
+        console.log('ENTRA FALSE')
+        this.updateDataNow();
       }
     }
+  }
 
-    this.setState({ iconCanaryStatus: !iconCanaryStatus });
-
-    //Data.canary_status = !iconCanaryStatus;
-    this.state.iconCanaryStatus = !iconCanaryStatus;
-    this.updateDataNow();
-  };
-  activeStartIcon = () => {
-    //console.log('este es la estrella');
-
-    let {
-      stages,
-      iconStartStatus,
-      iconFireStatus,
-      iconGoutStatus,
-      iconCanaryStatus,
-    } = this.state;
+  ToggleStartIcon = () => {
+    let {iconStartStatus, stages } = this.state;
+    let newData = []
+    let checkMoney = false
+    for (const stage of stages) {
+      stage.money_enabled = iconStartStatus;
+      stage.icon_visible = iconStartStatus;
+      newData.push(stage);
+    }
+    if (iconStartStatus) {
+      checkMoney = true
+    }
     this.setState({
-      iconGoutStatus: false,
-      iconFireStatus: false,
-      iconCanaryStatus: false,
-      iconSixthSenseStatus: false,
+      stages: newData,
+      checkMoney,
     });
-    this.resetIcons(
-      !iconStartStatus,
-      iconFireStatus,
-      iconGoutStatus,
-      iconCanaryStatus
-    );
-    if (!iconStartStatus) {
-      let newData = [];
-      for (const stage of stages) {
-        stage.money_enabled = !iconStartStatus;
-        stage.icon_visible = !iconStartStatus;
-        newData.push(stage);
-      }
-      this.setState({
-        stages: newData,
-        iconStartStatus: !iconStartStatus,
-        checkMoney: true,
-      });
-    } else {
-      let newData = [];
-      for (const stage of stages) {
-        stage.money_enabled = !iconStartStatus;
-        stage.icon_visible = !iconStartStatus;
-        newData.push(stage);
-      }
-      this.setState({
-        stages: newData,
-        iconStartStatus: !iconStartStatus,
-      });
-    }
   };
 
   clearStepsHistoricError() {
@@ -660,80 +622,35 @@ export default class MainContainer extends React.Component {
     });
   }
 
-  activeFireIcon = () => {
-    let { iconFireStatus, iconCanaryStatus } = this.state;
-    iconFireStatus = !iconFireStatus;
+  ToggleFireIcon = (previousIconFireStatus) => {
+    let { iconFireStatus } = this.state;
     if (iconFireStatus && this.state.showFireWelcomeMat) {
       this.setState({
         viewModal: 7,
         stageNameSelected: null
       })
-      // this.setState({ viewModal: 7 });
-      // this.setState({ stageNameSelected: null });
       this._onClose();
-    }
-    // check if Canary is ENABLED
-    if (iconCanaryStatus) {
-      if (this.updateData) {
-        this.updateData.clearCanaryData(this.state.stages);
-      }
     }
     if (iconFireStatus) {
       if (this.updateData) {
         this.updateData.readHistoricErrors().then(() => {
-          //console.log('Getting Historic Errors');
-          //this.setState({ stages: this.state.stages });
           this.updateHistoricErrors();
         });
       } else {
-        // to work in emulation mode
         this.updateHistoricErrors();
       }
+    } else if (previousIconFireStatus && !iconFireStatus) {
+      // TODO
     }
-    this.setState({
-      iconStartStatus: false,
-      iconGoutStatus: false,
-      iconCanaryStatus: false,
-      iconSixthSenseStatus: false,
-      iconFireStatus: iconFireStatus,
-    });
-  };
+  }
 
-  activeGout = () => {
-    let {
-      iconStartStatus,
-      iconFireStatus,
-      iconGoutStatus,
-      iconCanaryStatus,
-    } = this.state;
-    let next = !this.state.iconGoutStatus;
-    this.setState({
-      iconStartStatus: false,
-      iconFireStatus: false,
-      iconCanaryStatus: false,
-      iconSixthSenseStatus: false,
-    });
-    this.resetIcons(
-      iconStartStatus,
-      iconFireStatus,
-      !iconGoutStatus,
-      iconCanaryStatus
-    );
-    if (next) {
-      const { stages } = this.state;
-      for (const stage of stages) {
-        stage.gout_enable = true;
-      }
-      this.setState({ stages });
-    } else {
-      const { stages } = this.state;
-      for (const stage of stages) {
-        stage.gout_enable = false;
-      }
-      this.setState({ stages });
+  ToggleGoutIcon = () => {
+    let { iconGoutStatus, stages } = this.state;
+    for (const stage of stages) {
+      stage.gout_enable = iconGoutStatus
     }
-    this.setState({ iconGoutStatus: next });
-  };
+    this.setState({ stages })
+  }
 
   removeDuplicates(originalArray) {
     var newArray = [];
@@ -1345,10 +1262,6 @@ export default class MainContainer extends React.Component {
             <Header
               iconSixthSenseStatus={iconSixthSenseStatus}
               activeSixthSenseIcon={this.activeSixthSenseIcon}
-              activeFireIcon={this.activeFireIcon}
-              activeCanaryIcon={this.activeCanaryIcon}
-              activeStartIcon={this.activeStartIcon}
-              activeGoutIcon={this.activeGout}
               checkBudget={this.checkMoneyBudget}
               changeTimeRange={this.changeTimeRange}
               checkMoney={checkMoney}
@@ -1365,6 +1278,7 @@ export default class MainContainer extends React.Component {
               handleContextMenuFire={this._handleContextMenuFire}
               logoSetup={this.state.logoSetup}
               banner_kpis={banner_kpis}
+              ToggleHeaderButtons={ this.ToggleHeaderButtons }
             />
           </div>
           <div
