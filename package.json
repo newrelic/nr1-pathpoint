@@ -1,14 +1,16 @@
 {
     "private": true,
     "name": "PathpointCore",
-    "version": "1.0.1",
+    "version": "1.0.0",
     "scripts": {
         "start": "nr1 nerdpack:serve",
         "samanez": "nr1 nerdpack:serve --profile=samanez",
-        "test": "exit 0"
+        "test": "jest",
+        "eslint-check": "eslint nerdlets/",
+        "eslint-fix": "eslint nerdlets/ --fix"
     },
     "nr1": {
-        "uuid": "97fa21ee-0c5b-4160-9b0d-019926e3a934"
+        "uuid": "4da92288-f951-41c5-a91c-9e45d4864ee9"
     },
     "dependencies": {
         "@apollo/client": "^3.2.9",
@@ -33,5 +35,19 @@
         "last 2 versions",
         "not ie < 11",
         "not dead"
-    ]
+    ],
+    "devDependencies": {
+        "@newrelic/eslint-plugin-newrelic": "^0.3.0",
+        "@semantic-release/changelog": "^3.0.5",
+        "@semantic-release/git": "^7.0.18",
+        "babel-eslint": "^10.1.0",
+        "babel-jest": "^20.0.3",
+        "babel-preset-es2015": "^6.24.1",
+        "babel-preset-react": "^6.24.1",
+        "babel-preset-stage-2": "^6.24.1",
+        "eslint": "^6.8.0",
+        "eslint-plugin-react": "^7.22.0",
+        "jest": "^20.0.4",
+        "prettier": "^1.19.1"
+    }
 }

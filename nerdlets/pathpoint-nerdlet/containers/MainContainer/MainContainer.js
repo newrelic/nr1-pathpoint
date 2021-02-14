@@ -17,16 +17,11 @@ import Setup from "../../config/setup.json";
 import TooltipStages from "../../components/Tooltip/TooltipStages";
 import TooltipSteps from "../../components/Tooltip/TooltipSteps";
 import TooltipTouchPoints from "../../components/Tooltip/TooltipTouchPoints";
-
-import canaryStates from "../../config/canary_states.json";
 import StorageUpdate from "../../services/StorageUpdate";
 import AppContext from "../../Provider/AppProvider";
 import Version from "../../../../package.json";
-import { visitWithTypeInfo } from "graphql";
-
 import support from "../../images/support_on.svg";
 import setup from "../../images/setup_on.svg";
-
 import right_icon from "../../images/right.svg";
 import flame_icon from "../../images/flame_icon.svg";
 import gout_icon from "../../images/gout_icon.svg";
@@ -34,21 +29,12 @@ import star_icon from "../../images/star_icon.svg";
 import down from "../../images/down.svg";
 import DownloadLink from "react-download-link";
 import messages from "../../config/messages.json";
-//import SlackConnector from "../../services/SlackConnector";
-
 import logo_icon from '../../images/logo_icon.svg'
-
 import { sendLogsSlack } from "../../services/SlackConnector";
 import { CreateJiraIssue } from "../../services/JiraConnector";
 import LogoSetupData from '../../services/LogoSetupData'
-
 import Configuration from "../../services/Configuration";
-import {
-  mainContainerStyle,
-  contentStyle,
-  contentContainerStyle,
-  mainColumn,
-} from "./stylesFuntion";
+import { mainContainerStyle, contentStyle, contentContainerStyle, mainColumn } from "./stylesFuntion";
 import ValidationQuery from "../../services/Validations.js";
 import logoNewRelic from "../../images/logoNewRelic.png";
 import loadin from "../../images/Loading.gif";

@@ -1,17 +1,17 @@
 {
-  "tagline": "[30 characters]",
-  "repository": "https://github.com/newrelic/{{ NERDPACK_NAME }}.git",
-  "details": "[]",
+  "tagline": "Pathpoint Core",
+  "repository": "https://github.com/newrelic/nr1-pathpoint.git",
+  "details": "Pathpoint is an enterprise platform tracker that models system health in relation to actual user-impacting business stages.",
   "support": {
     "issues": {
-      "url": "https://github.com/newrelic/{{ NERDPACK_NAME }}/issues"
+      "url": "https://github.com/newrelic/nr1-pathpoint/issues"
     },
     "email": {
-      "address": "opensource+{{ NERDPACK_NAME }}@newrelic.com"
+      "address": "pathpoint-support@wigilabs.com"
     },
     "community": {
-      "url": "https://discuss.newrelic.com/t/[YOUR REPO SUPPORT TOPIC]"
+      "url": "https://nr1-pathpoint.freeforums.net/"
     }
   },
-  "whatsNew": "\n-Fix: One change that was made\n-Fix: Another change that was made\n-Feat: One feature that was added"
+  "whatsNew": "First release!"
 }
