@@ -198,7 +198,7 @@ export const CustomSchemaValidation = (target) => {
             })
          }
          const related_steps = touchpoint.related_steps.split(',')
-         related_steps.map((related, x) => {
+         related_steps.map((related) => {
             let finded = false
             ids.map((id) => {
                if (id === related.trim()) {

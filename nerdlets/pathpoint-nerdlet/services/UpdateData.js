@@ -141,9 +141,11 @@ export default class UpdateData {
                 TouchPoints: this.touchPoints
             },
         }).then(({ data }) => {
-            console.log('SAVE TOUCHPOINTS TO STORAGE');
-            this.getMinPercentageError();
-            //console.log(data.nerdStorageWriteDocument.TouchPoints);
+            if (data != null) {
+                console.log('SAVE TOUCHPOINTS TO STORAGE');
+                this.getMinPercentageError();
+                //console.log(data.nerdStorageWriteDocument.TouchPoints);
+            }
         });
     }
 
@@ -175,8 +177,10 @@ export default class UpdateData {
                 Capacity: this.capacity
             },
         }).then(({ data }) => {
-            console.log('SAVE MAX CAPACITY');
-            //console.log(data.nerdStorageWriteDocument.Capacity);
+            if (data != null) {
+                console.log('SAVE MAX CAPACITY');
+                //console.log(data.nerdStorageWriteDocument.Capacity);
+            }
         });
     }
 
@@ -228,8 +232,10 @@ export default class UpdateData {
                 historicErrorsHighLightPercentage: this.historicErrorsHighLightPercentage
             },
         }).then(({ data }) => {
-            console.log('SAVE HistoricErrorsParams');
-            //console.log(data.nerdStorageWriteDocument.Capacity);
+            if (data != null) {
+                console.log('SAVE HistoricErrorsParams');
+                //console.log(data.nerdStorageWriteDocument.Capacity);
+            }
         });
     }
 
@@ -387,7 +393,7 @@ export default class UpdateData {
     }
 
     checkMaxCapacity(currentValue, stage) {
-        let timeRange = this.timeRange.replaceAll(" ", "_");
+        let timeRange = "STAGES";
         for (const [key, value] of Object.entries(this.capacity[this.city])) {
             if (key == timeRange) {
                 var result = Math.max(value[stage], currentValue);
@@ -466,7 +472,7 @@ export default class UpdateData {
     async updateMerchatKpi() {
         console.log('Updating Banner KPI ');
         this.graphQlmeasures.length = 0; // clear the ARRAY
-        for(let i = 0; i< this.banner_kpis.length; i++){
+        for (let i = 0; i < this.banner_kpis.length; i++) {
             //console.log("KPI_Query[",i,"]=",this.banner_kpis[i].query);
             this.graphQlmeasures.push([this.banner_kpis[i], this.banner_kpis[i].query]);
         }
@@ -536,14 +542,12 @@ export default class UpdateData {
         }
         // Set the values
         //console.log(data);
-        let total_count = 0;
         for (const [key, value] of Object.entries(data.actor)) {
             var c = key.split("_");
             if (c[0] == 'measure') {
                 var measure = this.graphQlmeasures[Number(c[1])][0];
                 if (measure.type == 0 && value.nrql != null) {
                     measure.count = value.nrql.results[0].count;
-                    total_count += measure.count;
                 } else if (measure.type == 1 && value.nrql != null) {
                     measure.error_percentage = value.nrql.results[0].percentage == null ? 0 : value.nrql.results[0].percentage;
                 } else if (measure.type == 2 && value.nrql != null) {
@@ -564,7 +568,6 @@ export default class UpdateData {
                 }
             }
         }
-        //console.log("TOTAL-COUNT=" + total_count);
     }
 
     async evaluateMeasures() {
@@ -811,7 +814,6 @@ export default class UpdateData {
     }
 
     getStageError(stage, element) {
-        let error_touchpoints = 0;
         let count_touchpoints = 0;
         let steps_with_error = [];
         while (steps_with_error.length < this.stepsByStage[stage - 1]) {
@@ -823,7 +825,6 @@ export default class UpdateData {
                 touchpoint.measure_points.forEach(measure => {
                     if (measure.type == 1) {
                         if (measure.error_percentage > measure.error_threshold) {
-                            error_touchpoints += 1;
                             touchpoint.relation_steps.forEach(rel => {
                                 steps_with_error[rel - 1] = 1;
                             });
@@ -838,7 +839,6 @@ export default class UpdateData {
                         }
                     } else if (measure.type == 20) {
                         if (measure.error_percentage > measure.error_threshold) {
-                            error_touchpoints += 1;
                             touchpoint.relation_steps.forEach(rel => {
                                 steps_with_error[rel - 1] = 1;
                             });
@@ -850,7 +850,6 @@ export default class UpdateData {
         });
         if (count_touchpoints > 0) {
             let porcentage = this.getTotalStepsWithError(steps_with_error) / this.stepsByStage[stage - 1];
-            //let porcentage = error_touchpoints / count_touchpoints;
             if (porcentage >= 0.5) {
                 return 'danger';
             }

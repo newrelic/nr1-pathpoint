@@ -15,8 +15,6 @@ import canaryIconOn from "../../images/CanaryIconOn.svg";
 import sixthSenseIcon from "../../images/SixthSense.svg";
 import sixthSenseIconOn from "../../images/SixthSenseOn.svg";
 import Select from "react-select";
-import messages from "../../config/messages.json";
-import { Spinner } from "nr1";
 /**
  *Component header class
  * @export
@@ -212,7 +210,7 @@ export default class Header extends React.Component {
               src={iconCanaryStatus ? canaryIconOn : canaryIcon}
             />
           </div>
-          <div
+          {/* <div
             className="fireIconContainer"
             onClick={() => {
               ToggleHeaderButtons('iconGoutStatus')
@@ -235,7 +233,7 @@ export default class Header extends React.Component {
               style={{ height: "18px" }}
               src={iconStartStatus ? startIconOn : startIcon}
             />
-          </div>
+          </div> */}
           <div
             className="fireIconContainer"
             onClick={() => {

@@ -32,11 +32,11 @@ export default class StorageUpdate {
                 // IF data Exist
                 console.log('READ CANARY DATA');
                 this.dataCanary = data.dataCanary;
-               // console.log(this.dataCanary);
+                // console.log(this.dataCanary);
 
-            }else{
+            } else {
                 this.saveCanaryData(this.dataCanary);
-            } 
+            }
             //console.table(this.dataCanary);
         });
     }
@@ -52,12 +52,14 @@ export default class StorageUpdate {
                 dataCanary: data
             },
         }).then(({ data }) => {
-            console.log('SAVE CANARY DATA');
-           // console.log(data.nerdStorageWriteDocument.dataCanary);
+            if (data != null) {
+                console.log('SAVE CANARY DATA');
+                // console.log(data.nerdStorageWriteDocument.dataCanary);
+            }
         });
     }
 
-    getLoadData(){
+    getLoadData() {
         return this.dataCanary;
     }
 }

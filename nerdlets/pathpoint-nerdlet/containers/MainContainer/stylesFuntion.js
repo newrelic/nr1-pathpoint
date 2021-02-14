@@ -4,19 +4,10 @@ const STAGEWITH = 250;
  * Calculate container size
  *
  * @export
- * @param {number} numStages Number of stages
  * @return {object} Style
  */
-export function mainContainerStyle(numStages) {
-  // if (numStages <= 6) {
+export function mainContainerStyle() {
   return { gridTemplate: "60px 1fr / auto" };
-  // } else {
-  //   return {
-  //     gridTemplate: `60px 1fr / ${
-  //       numStages * STAGEWITH * 0.01 + numStages * STAGEWITH
-  //     }px`,
-  //   };
-  // }
 }
 
 /**

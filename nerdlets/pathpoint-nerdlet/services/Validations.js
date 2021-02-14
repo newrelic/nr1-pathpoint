@@ -1,4 +1,4 @@
-import { NerdGraphQuery, AccountsQuery } from 'nr1';
+import { NerdGraphQuery } from 'nr1';
 import { gql } from '@apollo/client';
 import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
@@ -8,18 +8,7 @@ import messages from '../config/messages.json';
 export default class ValidationQuery {
   constructor(accountId) {
     this.accountId = accountId;
-    //this.getAccountId();
   }
-
-  // getAccountId() {
-  //   AccountsQuery.query()
-  //     .then(({ data }) => {
-  //       this.accountId = data[0].id;
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }
 
   async validateNrqlQuery(query) {
     const gql = `{

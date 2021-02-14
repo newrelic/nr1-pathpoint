@@ -6,7 +6,6 @@ import env from '../../../.env.json'
  * @param {number} accountId New Relic account ID
  */
 async function sendLogsSlack(logs, accountId, title) {
-  const result = [];
   const jsonLogs = {};
   for (let index = 0; index < logs.length; index++) {
     jsonLogs[index] = logs[index];

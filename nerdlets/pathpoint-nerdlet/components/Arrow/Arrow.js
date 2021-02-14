@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 export default class Arrow extends React.Component {
     render() {
         let { arrowWidth, lightColor, latencyPercentage, textLevelBar, showHealth} = this.props;
@@ -58,3 +59,11 @@ export default class Arrow extends React.Component {
         )
     }
 }
+
+Arrow.propTypes = {
+    arrowWidth: PropTypes.number.isRequired, 
+    lightColor: PropTypes.string.isRequired, 
+    latencyPercentage: PropTypes.number.isRequired,
+    textLevelBar: PropTypes.string.isRequired, 
+    showHealth: PropTypes.bool.isRequired
+  };
