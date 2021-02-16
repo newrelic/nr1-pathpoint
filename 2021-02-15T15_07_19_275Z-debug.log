@@ -1,0 +1,39 @@
+0 info it worked if it ends with ok
+1 verbose cli [
+1 verbose cli   '/usr/local/Cellar/node/14.4.0/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'run',
+1 verbose cli   'eslint-check'
+1 verbose cli ]
+2 info using npm@6.14.4
+3 info using node@v14.4.0
+4 verbose run-script [ 'preeslint-check', 'eslint-check', 'posteslint-check' ]
+5 info lifecycle PathpointCore@1.0.0~preeslint-check: PathpointCore@1.0.0
+6 info lifecycle PathpointCore@1.0.0~eslint-check: PathpointCore@1.0.0
+7 verbose lifecycle PathpointCore@1.0.0~eslint-check: unsafe-perm in lifecycle true
+8 verbose lifecycle PathpointCore@1.0.0~eslint-check: PATH: /usr/local/lib/node_modules/npm/node_modules/npm-lifecycle/node-gyp-bin:/Users/rommelsamanez/wigilabs/production_nerdlets/Pathpoint-CORE-V1/node_modules/.bin:/usr/local/sbin:/usr/local/opt/python@3.7/bin:/Users/rommelsamanez/google-cloud-sdk/bin:~/.composer/vendor/bin:/usr/local/opt/php@7.2/sbin:/usr/local/opt/php@7.2/bin:/usr/local/share/emacs/site-lisp:/usr/local/opt/gettext/bin:/Users/rommelsamanez/anaconda3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:/opt/X11/bin:~/.dotnet/tools:/Library/Apple/usr/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Applications/Postgres.app/Contents/Versions/latest/bin
+9 verbose lifecycle PathpointCore@1.0.0~eslint-check: CWD: /Users/rommelsamanez/wigilabs/production_nerdlets/Pathpoint-CORE-V1
+10 silly lifecycle PathpointCore@1.0.0~eslint-check: Args: [ '-c', 'eslint nerdlets/' ]
+11 silly lifecycle PathpointCore@1.0.0~eslint-check: Returned: code: 1  signal: null
+12 info lifecycle PathpointCore@1.0.0~eslint-check: Failed to exec eslint-check script
+13 verbose stack Error: PathpointCore@1.0.0 eslint-check: `eslint nerdlets/`
+13 verbose stack Exit status 1
+13 verbose stack     at EventEmitter.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-lifecycle/index.js:332:16)
+13 verbose stack     at EventEmitter.emit (events.js:315:20)
+13 verbose stack     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-lifecycle/lib/spawn.js:55:14)
+13 verbose stack     at ChildProcess.emit (events.js:315:20)
+13 verbose stack     at maybeClose (internal/child_process.js:1051:16)
+13 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:287:5)
+14 verbose pkgid PathpointCore@1.0.0
+15 verbose cwd /Users/rommelsamanez/wigilabs/production_nerdlets/Pathpoint-CORE-V1
+16 verbose Darwin 20.3.0
+17 verbose argv "/usr/local/Cellar/node/14.4.0/bin/node" "/usr/local/bin/npm" "run" "eslint-check"
+18 verbose node v14.4.0
+19 verbose npm  v6.14.4
+20 error code ELIFECYCLE
+21 error errno 1
+22 error PathpointCore@1.0.0 eslint-check: `eslint nerdlets/`
+22 error Exit status 1
+23 error Failed at the PathpointCore@1.0.0 eslint-check script.
+23 error This is probably not a problem with npm. There is likely additional logging output above.
+24 verbose exit [ 1, true ]
