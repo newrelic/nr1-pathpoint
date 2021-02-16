@@ -136,11 +136,11 @@ export default class Stage extends React.Component {
                             <div>
                                 <span className="quantiyTitleStage">{`${this.transformK(totalCountStage)}`}</span>
                                 <span className="separator"></span>
-                                
+
                                 <span className="quantiyTitleStage">{`${this.transformK(valueCongestion)}`}%</span>
                                 <span className="quantiyIcon">
                                     <img
-                                        style={{ height: '15px' }}
+                                        style={{ height: showTrafficIcon ? '11px':'15px' }}
                                         src={ showTrafficIcon ? trafficIcon:peopleIcon}
                                     />
                                 </span>
