@@ -113,7 +113,7 @@
               "value": "Catalog Processing",
               "dark": false,
               "sixth_sense": false,
-              "history_error": true,
+              "history_error": false,
               "dotted": false,
               "highlighted": false,
               "error": false,
@@ -130,11 +130,11 @@
               "index": 2,
               "id": "ST1-LINE1-SS2",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Ambassador",
               "dark": false,
               "sixth_sense": false,
-              "history_error": true,
+              "history_error": false,
               "dotted": false,
               "highlighted": false,
               "error": false,
@@ -152,9 +152,9 @@
               "canary_state": false,
               "latency": false,
               "value": "Localization",
-              "dark": false,
+              "dark": true,
               "sixth_sense": false,
-              "history_error": true,
+              "history_error": false,
               "dotted": false,
               "highlighted": false,
               "error": false,
@@ -173,11 +173,11 @@
               "index": 4,
               "id": "ST1-LINE2-SS1",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Duties &Taxes",
-              "dark": false,
+              "dark": true,
               "sixth_sense": false,
-              "history_error": true,
+              "history_error": false,
               "dotted": false,
               "highlighted": false,
               "error": false,
@@ -219,7 +219,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Restrictions",
-              "dark": true,
+              "dark": false,
               "sixth_sense": false,
               "history_error": false,
               "dotted": false,
@@ -253,7 +253,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NDg"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNDU"
           ],
           "relation_steps": [
             1,
@@ -277,7 +277,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NDk"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNDY"
           ],
           "relation_steps": [
             1,
@@ -303,7 +303,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTA"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNDg"
           ],
           "relation_steps": [
             1,
@@ -330,7 +330,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTE"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNDk"
           ],
           "relation_steps": [
             1,
@@ -356,7 +356,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTI"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNTA"
           ],
           "relation_steps": [
             1,
@@ -415,7 +415,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Welcome Mat",
-              "dark": false,
+              "dark": true,
               "sixth_sense": false,
               "history_error": false,
               "dotted": false,
@@ -492,7 +492,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTM"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNTE"
           ],
           "relation_steps": [
             1,
@@ -516,7 +516,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTQ"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNTI"
           ],
           "relation_steps": [
             1,
@@ -540,7 +540,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTU"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNTM"
           ],
           "relation_steps": [
             1,
@@ -564,7 +564,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTY"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNTQ"
           ],
           "relation_steps": [
             3
@@ -587,7 +587,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTc"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNTU"
           ],
           "relation_steps": [
             3
@@ -626,7 +626,7 @@
               "canary_state": false,
               "latency": true,
               "value": "Buyer Checkout",
-              "dark": false,
+              "dark": true,
               "sixth_sense": false,
               "history_error": false,
               "dotted": false,
@@ -710,7 +710,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTg"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNTc"
           ],
           "relation_steps": [
             1
@@ -733,7 +733,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTk"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNTk"
           ],
           "relation_steps": [
             1
@@ -756,7 +756,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjE"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNjY"
           ],
           "relation_steps": [
             1,
@@ -780,7 +780,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjI"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNjc"
           ],
           "relation_steps": [
             2
@@ -803,7 +803,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjM"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNjk"
           ],
           "relation_steps": [
             2
@@ -826,7 +826,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjQ"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNzA"
           ],
           "relation_steps": [
             2
@@ -849,7 +849,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjU"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNzE"
           ],
           "relation_steps": [
             2
@@ -872,7 +872,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjY"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNzI"
           ],
           "relation_steps": [
             2
@@ -895,7 +895,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3Njc"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNzQ"
           ],
           "relation_steps": [
             3
@@ -918,7 +918,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3Njg"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNzU"
           ],
           "relation_steps": [
             2
@@ -1017,7 +1017,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3Njk"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNzY"
           ],
           "relation_steps": [
             1
@@ -1040,7 +1040,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NzA"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNzc"
           ],
           "relation_steps": [
             1,
@@ -1064,7 +1064,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NzE"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNzg"
           ],
           "relation_steps": [
             1,
@@ -1088,7 +1088,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NzI"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNzk"
           ],
           "relation_steps": [
             1
@@ -1111,7 +1111,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NzQ"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyODA"
           ],
           "relation_steps": [
             1,
@@ -1246,7 +1246,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NzU"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyODE"
           ],
           "relation_steps": [
             3
@@ -1269,7 +1269,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NzY"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyODI"
           ],
           "relation_steps": [
             4
@@ -1292,7 +1292,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3Nzc"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyODM"
           ],
           "relation_steps": [
             4

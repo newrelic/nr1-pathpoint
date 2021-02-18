@@ -23,7 +23,6 @@ function createDashboard($dashboardBody, $APIKEY)
     ));
 
     $response = curl_exec($curl);
-
     curl_close($curl);
     $dashboardModel = json_decode($response, true);
     return ($dashboardModel['dashboard']["id"]);

@@ -26,8 +26,18 @@ $touchPoints = [
     ]
 ];
 removeTouchpoints($view);
+$createDashboards = false;
 //----------------------------------------------------------------------------
-//$actualDashboardsList = getDashboardsList('pathpoint--', $APIKEY);
+$message   =  "\n\nDo you whant to create default Dashboards on the client Account?[y/n]";
+print $message;
+flush();
+$confirmation  =  trim( fgets( STDIN ) );
+if ( $confirmation == 'y' ) {
+   $createDashboards = true;
+   print("\nCreateting Dashboards...\n\n");
+   $actualDashboardsList = getDashboardsList('pathpoint--', $APIKEY);
+}
+
 $xx = 0;
 $readingHeader = true;
 while (($datos = fgetcsv($f, 1000, ",")) !== FALSE) {
@@ -49,9 +59,11 @@ while (($datos = fgetcsv($f, 1000, ",")) !== FALSE) {
         $tp_session_query = $datos[9];
         $tp_session_duration = $datos[10];
 
-        //$touchpointLink = createDashboardForStage($stages[0], $touchpoint, $actualDashboardsList);
-        $touchpointLink = $datos[11];
-   
+        if($createDashboards){
+            $touchpointLink = createDashboardForStage($stages[0], $touchpoint, $actualDashboardsList);
+        }else{
+            $touchpointLink = $datos[11];
+        }
 
         //----------------------------------
         foreach ($stages as $stage) {
@@ -272,6 +284,11 @@ function createDashboardForStage($stage, $touchpoint, $actualDashboardsList)
     // Create a New Dashboars
     $string = file_get_contents("dashboard_model.json");
     $dashboardModel = json_decode($string, true);
+    //Update the Dashdoard model Account ID
+    for($i=0;$i<count($dashboardModel["dashboard"]["widgets"]);$i++){
+        $dashboardModel["dashboard"]["widgets"][$i]["account_id"]= intval($accountID);
+        //print($dashboardModel["dashboard"]["widgets"][$i]["account_id"]."\n");
+    }
     $apmServiceGuid = getApmServiceGuid($touchpoint, $APIKEY, $accountID);
 
     $dashboardModel["dashboard"]["title"] = $dashboardTitle;
