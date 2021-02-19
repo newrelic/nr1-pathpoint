@@ -4,8 +4,6 @@
 
 ![UI Overview](screenshots/ui_overview.png)
 
-### :white_check_mark: For a detailed setup doc (which is subject to change) go [here](setup/README.md)
-
 ## About this Nerdpack
 
 Pathpoint is an enterprise platform tracker that models system health in relation to actual user-impacting business stages.  
