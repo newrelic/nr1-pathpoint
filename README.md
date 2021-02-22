@@ -1,3 +1,5 @@
+![CI](https://github.com/newrelic/nr1-pathpoint/workflows/CI/badge.svg) ![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/newrelic/nr1-pathpoint?include_prereleases&sort=semver) [![Snyk](https://snyk.io/test/github/newrelic/nr1-pathpoint/badge.svg)](https://snyk.io/test/github/newrelic/nr1-pathpoint)
+
 [![New Relic Community Plus](https://github.com/newrelic/opensource-website/raw/master/src/images/categories/Community_Plus.png)](https://opensource.newrelic.com/oss-category/#new-relic-experimental)
 
 # Pathpoint
