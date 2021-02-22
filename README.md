@@ -4,7 +4,7 @@
 
 # Pathpoint
 
-![UI Overview](catalog/screenshots/nr1-pathpoint-2.png)
+![UI Overview](screenshots/nr1-pathpoint-2.png)
 
 ## About this Nerdpack
 
@@ -14,19 +14,27 @@ Pathpoint is an enterprise platform tracker that models system health in relatio
 
 These are the highest level business stages.   At the actual system level these will be a rollup of many services and methods.  PathPoint will give us a view of Latency, Utilization and Errors for each high level business stage.  As an example from an e-commerce customer may identify the following business critical stages: PRE-PROCESSING, PRE-ORDER, CHECKOUT, ORDER MANAGEMENT, DISTRIBUTION & RETURNS.
 
-![Stages](screenshots/stage_breakdown.png)
+![Stages](screenshots/nr1-pathpoint-7.png)
 
 ### Steps
 
 These are “sub-stages” of a parent stage.  that represent a more granular aggregation of services.  Clicking on a step will highly show more detailed services and functions in the TouchPoints list below.  If a stage has a red border it means there is an error anomaly for this stage.  Below are example steps from an ecommerce company.  In this example these steps correspond to APM services.
 
-![Steps](screenshots/steps.png)
+![Steps](screenshots/nr1-pathpoint-9.png)
 
 ### Touchpoints
 
 These are the most granular entities in the PathPoint model.  With this version of PathPoint TouchPoints are usually a specific APM or Browser application.  The health status of a TouchPoint will be tied to error rate and latency.
 
-![Touchpoints](screenshots/touchpoints.png)
+![Touchpoints](screenshots/nr1-pathpoint-11.png)
+
+### Canary Filter
+
+![Canary Filter](screenshots/nr1-pathpoint-3.png)
+
+### Flame Filter
+
+![Canary Filter](screenshots/nr1-pathpoint-12.png)
 
 ## Open source license
 
@@ -34,7 +42,18 @@ This project is distributed under the [Apache 2 license](LICENSE).
 
 ## What do you need to make this work?
 
-TBD
+Pathpoint will work in nearly any New Relic account.  To get started you'll need some telemetry in your account that you care about.  This could be any of the following telemetry types: Metrics, Events, Logs, Traces.  A common starting place for Pathpoint is APM Events and Logs, but it is up to you.   The other thing you'll need to know is how this telemetry maps onto the business process you want to model as stages and steps.  That may require some internal disucssions with your stakeholders to understand how things really fit  in.
+
+When you are ready to make some edits you can simply download the current version of the JSON config, edit and re-upload it.  You can also use "right click" to adjust touchpoint configurations.
+
+![JSON Configuration](screenshots/nr1-pathpoint-8.png)
+
+
+## Support
+
+In the Pathpoint UI it is possible to submit a support issue which will be triaged by the Pathpoint team.   They will respond within a few days to update you on our overall assesment and if we are able to resolve the issue we'll provide an ETA.
+
+![JSON Configuration](screenshots/nr1-pathpoint-10.png)
 
 ## Getting started
 
