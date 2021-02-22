@@ -4,7 +4,7 @@
 
 # Pathpoint
 
-![UI Overview](screenshots/ui_overview.png)
+![UI Overview](catalog/screenshots/nr1-pathpoint-2.png)
 
 ## About this Nerdpack
 
