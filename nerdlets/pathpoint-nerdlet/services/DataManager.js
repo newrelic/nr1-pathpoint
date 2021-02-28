@@ -50,11 +50,14 @@ export default class DataManager {
     if (this.lastStorageVersion === appPackage.version) {
       this.colors = ViewData.colors;
       await this.GetInitialDataFromStorage();
+      this.GetStorageTouchpoints();
     } else {
       this.stages = ViewData.stages;
       this.banner_kpis = ViewData.banner_kpis;
       this.colors = ViewData.colors;
       this.SetInitialDataViewToStorage();
+      this.SetStorageTouchpoints();
+      this.SetVersion();
     }
     this.stepsByStage = this.GetStepsByStage();
     return {
@@ -645,6 +648,170 @@ export default class DataManager {
           Capacity: this.capacity
         }
     })
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  LoadCanaryData() {
+    return this.dataCanary;
+  }
+
+  SetCanaryData(stages, city) {
+    this.stages = stages;
+    this.city = city;
+    this.OffAllTouchpoints();
+    this.EnableCanaryTouchPoints();
+    this.SetTouchpointsStatus();
+    return {
+      stages: this.stages
+    };
+  }
+
+  OffAllTouchpoints() {
+    this.touchPoints.some(element => {
+      if (element.index == this.city) {
+        element.touchpoints.forEach(tp => {
+            tp.status_on_off = false;
+        });
+        return true;
+      }
+    });
+  }
+
+  EnableCanaryTouchPoints() {
+    for (let i = 0; i < this.stages.length; i++) {
+      this.stages[i].steps.forEach(step => {
+        step.sub_steps.forEach(sub_step => {
+          if (sub_step.canary_state == true) {
+            sub_step.relationship_touchpoints.forEach(touchPointIndex => {
+              this.EnableTouchpoint(i + 1, touchPointIndex);
+            });
+          }
+        });
+      });
+    }
+  }
+
+  EnableTouchpoint(stageIndex, touchPointIndex) {
+    this.touchPoints.some(element => {
+      if (element.index == this.city) {
+        element.touchpoints.some(tp => {
+            if (tp.stage_index == stageIndex && tp.touchpoint_index == touchPointIndex) {
+              tp.status_on_off = true;
+              return true;
+            }
+        });
+        return true;
+      }
+    });
+  }
+
+  SetTouchpointsStatus() {
+    if (this.touchPoints != null) {
+      this.touchPoints.forEach(element => {
+        if (element.index == this.city) {
+          element.touchpoints.forEach(touchpoint => {
+            this.UpdateTouchpointStatus(touchpoint);
+          });
+        }
+      });
+    }
+  }
+
+  UpdateTouchpointStatus(touchpoint) {
+    this.stages.some(stage => {
+      if (stage.index === touchpoint.stage_index) {
+        stage.touchpoints.some(tp => {
+          if (tp.index === touchpoint.touchpoint_index) {
+            tp.status_on_off = touchpoint.status_on_off;
+            return true;
+          }
+        });
+        return true;
+      }
+    });
+  }
+
+  ClearCanaryData(stages) {
+    this.stages = stages;
+    if (this.touchPointsCopy !== null) {
+      this.touchPoints = JSON.parse(JSON.stringify(this.touchPointsCopy));
+      this.SetTouchpointsStatus();
+    }
+    return {
+      stages: this.stages
+    };
+  }
+
+  async SetStorageTouchpoints() {
+    try {
+      this.touchPointsCopy = JSON.parse(JSON.stringify(this.touchPoints));
+      const { data } = await AccountStorageMutation.mutate({
+        accountId: this.accountId,
+        actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
+        collection: 'pathpoint',
+        documentId: 'touchpoints',
+        document: {
+          TouchPoints: this.touchPoints
+        }
+      });
+      if (data) {
+        this.GetMinPercentageError();
+      }
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  GetMinPercentageError() {
+    this.minPercentageError = 100;
+    this.touchPoints.forEach(element => {
+      if (element.index == this.city) {
+        element.touchpoints.forEach(touchpoint => {
+            touchpoint.measure_points.forEach(measure => {
+              if (measure.type == 0 || measure.type == 20) {
+                if (measure.error_threshold < this.minPercentageError) {
+                  this.minPercentageError = measure.error_threshold;
+                }
+              }
+            });
+        });
+      }
+    });
+  }
+
+  SetVersion() {
+    try {
+      AccountStorageMutation.mutate({
+        accountId: this.accountId,
+        actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
+        collection: 'pathpoint',
+        documentId: 'version',
+        document: {
+          Version: this.version
+        }
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async GetStorageTouchpoints() {
+    try {
+      const { data } = await AccountStorageQuery.query({
+        accountId: this.accountId,
+        collection: 'pathpoint',
+        documentId: 'touchpoints'
+      });
+      if (data) {
+        this.touchPoints = data.TouchPoints;
+        this.touchPointsCopy = JSON.parse(JSON.stringify(this.touchPoints)); // clone the touchpoints with new reference
+        this.GetMinPercentageError();
+        this.SetTouchpointsStatus();
+      } else {
+        this.SetStorageTouchpoints();
+      }
     } catch (error) {
       throw new Error(error);
     }
