@@ -374,90 +374,84 @@ export default class MainContainer extends React.Component {
   }
 
   onclickStep = (stepEntry) => {
-    const { stages, iconFireStatus, iconCanaryStatus, canaryData } = this.state;
-    if (iconFireStatus) {
-      this.resetAllStages();
-    }
-
-    let touchpoin = [];
-    let newStages = [];
-    let flag = false;
-    let stage = stages[stepEntry.index_stage - 1];
-    for (const step of stage.steps) {
-      if (step.value === "") {
-        for (const substep of step.sub_steps) {
-          if (substep.value === stepEntry.value) {
-            if (iconCanaryStatus) {
-              //substep.canary_state = true;
-              substep.canary_state = substep.canary_state ? false : true;
-              this.updateData.setCanaryData();
-              this.updateDataNow();
-              //aca actualizo el nnuevo array -- aun no se como guardar el proceso SUBSTEP
-              canaryData[substep.index_stage - 1].states[substep.index - 1] =
-                substep.canary_state;
-              this.StorageCanary.update(canaryData);
-              //actulizamos el nuevo array
-              //console.log(substep);
-              //console.table(canaryData[substep.index_stage - 1].states[substep.index - 1]);
+    this.setState(state => {
+      const { stages, iconFireStatus, iconCanaryStatus, canaryData } = state;
+      if (iconFireStatus) {
+        this.resetAllStages();
+      }
+      let touchpoin = [];
+      let newStages = [];
+      let flag = false;
+      let stage = stages[stepEntry.index_stage - 1];
+      for (const step of stage.steps) {
+        if (step.value === '') {
+          for (const substep of step.sub_steps) {
+            if (substep.value === stepEntry.value) {
+              if (iconCanaryStatus) {
+                substep.canary_state = substep.canary_state ? false : true;
+                this.DataManager.SetCanaryData(stages, city);
+                canaryData[substep.index_stage - 1].states[substep.index - 1] =
+                  substep.canary_state;
+                this.StorageCanary.update(canaryData);
+              } else {
+                flag = substep.highlighted;
+                substep.highlighted = !substep.highlighted;
+                for (const id_touchpoint of substep.relationship_touchpoints) {
+                  touchpoin.push(id_touchpoint);
+                }
+              }
             } else {
-              flag = substep.highlighted;
-              substep.highlighted = !substep.highlighted;
-              for (const id_touchpoint of substep.relationship_touchpoints) {
+              substep.highlighted = false;
+            }
+          }
+        } else {
+          if (step.value === stepEntry.value) {
+            if (iconCanaryStatus) {
+              step.canary_state = step.canary_state ? false : true;
+              this.DataManager.SetCanaryData(stages, city);
+              this.updateDataNow();
+              canaryData[step.index_stage - 1].states[step.index - 1] =
+                step.canary_state;
+              this.StorageCanary.update(canaryData);
+            } else {
+              flag = step.highlighted;
+              step.highlighted = !step.highlighted;
+              for (const id_touchpoint of step.relationship_touchpoints) {
                 touchpoin.push(id_touchpoint);
               }
             }
           } else {
-            substep.highlighted = false;
+            step.highlighted = false;
           }
         }
-      } else {
-        if (step.value === stepEntry.value) {
-          if (iconCanaryStatus) {
-            step.canary_state = step.canary_state ? false : true;
-            this.updateData.setCanaryData();
-            this.updateDataNow();
-            //aca actualizo el nnuevo array -- aun no se como guardar el proceso SUBSTEP
-            canaryData[step.index_stage - 1].states[step.index - 1] =
-              step.canary_state;
-            this.StorageCanary.update(canaryData);
-            //actulizamos el nuevo array
-            //console.log(stepEntry);
-            //console.table(canaryData[step.index_stage - 1].states[step.index - 1]);
-          } else {
-            flag = step.highlighted;
-            step.highlighted = !step.highlighted;
-            for (const id_touchpoint of step.relationship_touchpoints) {
-              touchpoin.push(id_touchpoint);
+      }
+      for (const key in stage.touchpoints) {
+        stage.touchpoints[key].highlighted = false;
+      }
+      if (!flag) {
+        if (touchpoin.length !== 0) {
+          for (const id_to of touchpoin) {
+            for (const key in stage.touchpoints) {
+              if (stage.touchpoints[key].index === id_to) {
+                stage.touchpoints[key].highlighted = !stage.touchpoints[key]
+                  .highlighted;
+              }
             }
           }
+        }
+      }
+      for (const iterator of stages) {
+        if (iterator.title !== stage.title) {
+          newStages.push(iterator);
         } else {
-          step.highlighted = false;
+          newStages.push(stage);
         }
       }
-    }
-    for (const key in stage.touchpoints) {
-      stage.touchpoints[key].highlighted = false;
-    }
-    if (!flag) {
-      if (touchpoin.length !== 0) {
-        for (const id_to of touchpoin) {
-          for (const key in stage.touchpoints) {
-            if (stage.touchpoints[key].index === id_to) {
-              stage.touchpoints[key].highlighted = !stage.touchpoints[key]
-                .highlighted;
-            }
-          }
-        }
-      }
-    }
-    for (const iterator of stages) {
-      if (iterator.title !== stage.title) {
-        newStages.push(iterator);
-      } else {
-        newStages.push(stage);
-      }
-    }
-    this.setState({ stages: newStages, iconFireStatus: false });
+      return {
+        stages: newStages,
+        iconFireStatus: false
+      };
+    });
   };
 
   resetAllStages = () => {
@@ -516,23 +510,39 @@ export default class MainContainer extends React.Component {
     }
   };
 
-  preSelectCanaryData = (canaryData) => {
-    const { stages } = this.state;
-    for (const stage of stages) {
-      for (const step of stage.steps) {
-        if (step.value === "") {
-          for (const substep of step.sub_steps) {
-            substep.canary_state =
-              canaryData[substep.index_stage - 1].states[substep.index - 1];
+  PreSelectCanaryData = (canaryData) => {
+    this.setState(state => {
+      const { stages } = state;
+      for (const stage of stages) {
+        for (const step of stage.steps) {
+          if (step.value === '') {
+            for (const substep of step.sub_steps) {
+              substep.canary_state =
+                canaryData[substep.index_stage - 1].states[substep.index - 1];
+            }
+          } else {
+            step.canary_state =
+              canaryData[step.index_stage - 1].states[step.index - 1];
           }
-        } else {
-          step.canary_state =
-            canaryData[step.index_stage - 1].states[step.index - 1];
         }
       }
-    }
-    this.updateData.setCanaryData();
+      return {
+        stages
+      };
+    }, () => {
+      this.ExecuteSetCanaryData();
+    });
   };
+
+  ExecuteSetCanaryData = () => {
+    this.setState(state => {
+      const { stages, city } = state;
+      const data = this.DataManager.SetCanaryData(stages, city);
+      return {
+        stages: data.stages
+      };
+    })
+  }
 
   clearStepsSixthSense() {
     let { stages } = this.state;
@@ -592,13 +602,20 @@ export default class MainContainer extends React.Component {
       this._onClose();
     }
     if (!previousIconCanaryStatus && iconCanaryStatus) {
-      this.state.canaryData = this.StorageCanary.getLoadData();
-      this.preSelectCanaryData(this.state.canaryData);
-      console.log('ENTRA TRUE')
+      const canaryData = this.DataManager.LoadCanaryData();
+      this.setState({
+        canaryData
+      }, () => {
+        this.PreSelectCanaryData(this.state.canaryData);
+      });
     } else if (previousIconCanaryStatus && !iconCanaryStatus) {
-      this.updateData.clearCanaryData(this.state.stages);
-      console.log('ENTRA FALSE')
-      this.updateDataNow();
+      this.setState(state => {
+        const { stages } = state;
+        const data = this.DataManager.ClearCanaryData(stages);
+        return {
+          stages: data.stages
+        };
+      });
     }
   }
 
