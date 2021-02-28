@@ -1,43 +1,56 @@
-import React from "react";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import Stage from "../../components/Stage/Stage.js";
-import Header from "../../components/Header/Header.js";
-import StepContainer from "../StepContainer/StepContainer.js";
-import TouchPointContainer from "../TouchPointContainer/TouchPointContainer.js";
-import { nerdlet, NerdGraphQuery } from "nr1";
-import medalIconOn from "../../images/medalIconOn.svg";
-import medalIcon from "../../images/medalIcon.svg";
-import startIcon from "../../images/StartIcon.svg";
-import startIconOn from "../../images/StartIconOn.svg";
-import goutBlack from "../../images/goutBlack.svg";
-import Emulator from "../../helpers/Emulator.js";
-import Modal from "../../components/Modal";
-import UpdateData from "../../services/UpdateData";
-import Setup from "../../config/setup.json";
-import TooltipStages from "../../components/Tooltip/TooltipStages";
-import TooltipSteps from "../../components/Tooltip/TooltipSteps";
-import TooltipTouchPoints from "../../components/Tooltip/TooltipTouchPoints";
-import StorageUpdate from "../../services/StorageUpdate";
-import AppContext from "../../Provider/AppProvider";
-import Version from "../../../../package.json";
-import support from "../../images/support_on.svg";
-import setup from "../../images/setup_on.svg";
-import right_icon from "../../images/right.svg";
-import flame_icon from "../../images/flame_icon.svg";
-import gout_icon from "../../images/gout_icon.svg";
-import star_icon from "../../images/star_icon.svg";
-import down from "../../images/down.svg";
-import DownloadLink from "react-download-link";
-import messages from "../../config/messages.json";
-import logo_icon from '../../images/logo_icon.svg'
-import { sendLogsSlack } from "../../services/SlackConnector";
-import { CreateJiraIssue } from "../../services/JiraConnector";
-import LogoSetupData from '../../services/LogoSetupData'
-import Configuration from "../../services/Configuration";
-import { mainContainerStyle, contentStyle, contentContainerStyle, mainColumn } from "./stylesFuntion";
-import ValidationQuery from "../../services/Validations.js";
-import logoNewRelic from "../../images/logoNewRelic.png";
-import loadin from "../../images/Loading.gif";
+import React from 'react';
+import { nerdlet } from 'nr1';
+import Setup from '../../config/setup.json';
+import Version from '../../../../package.json';
+import DownloadLink from 'react-download-link';
+import messages from '../../config/messages.json';
+import {
+  mainContainerStyle,
+  contentStyle,
+  contentContainerStyle,
+  mainColumn
+} from './stylesFuntion';
+
+// IMPORT CONTAINERS AND COMPONENTS
+import AppContext from '../../Provider/AppProvider';
+import TouchPointContainer from '../TouchPointContainer/TouchPointContainer.js';
+import StepContainer from '../StepContainer/StepContainer.js';
+import Stage from '../../components/Stage/Stage.js';
+import Header from '../../components/Header/Header.js';
+import TooltipStages from '../../components/Tooltip/TooltipStages';
+import TooltipSteps from '../../components/Tooltip/TooltipSteps';
+import TooltipTouchPoints from '../../components/Tooltip/TooltipTouchPoints';
+import Modal from '../../components/Modal';
+
+// IMPORT SERVICES
+import DataManager from '../../services/DataManager';
+import ValidationQuery from '../../services/Validations.js';
+import LogoSetupData from '../../services/LogoSetupData';
+import Configuration from '../../services/Configuration';
+import UpdateData from '../../services/UpdateData';
+import StorageUpdate from '../../services/StorageUpdate';
+import { CreateJiraIssue } from '../../services/JiraConnector';
+import { sendLogsSlack } from '../../services/SlackConnector';
+
+// IMPORT STATIC FILES AND IMAGES
+import logoNewRelic from '../../images/logoNewRelic.png';
+import loadin from '../../images/Loading.gif';
+import logo_icon from '../../images/logo_icon.svg';
+import medalIconOn from '../../images/medalIconOn.svg';
+import medalIcon from '../../images/medalIcon.svg';
+import startIcon from '../../images/StartIcon.svg';
+import startIconOn from '../../images/StartIconOn.svg';
+import goutBlack from '../../images/goutBlack.svg';
+import support from '../../images/support_on.svg';
+import setup from '../../images/setup_on.svg';
+import right_icon from '../../images/right.svg';
+import flame_icon from '../../images/flame_icon.svg';
+import gout_icon from '../../images/gout_icon.svg';
+import star_icon from '../../images/star_icon.svg';
+import down from '../../images/down.svg';
+
+// UNUSED
+// import Emulator from '../../helpers/Emulator.js';
 
 /**
  *Main container component
@@ -46,11 +59,12 @@ import loadin from "../../images/Loading.gif";
  * @class MainContainer
  * @extends {React.Component}
  */
+
 export default class MainContainer extends React.Component {
   constructor(props) {
     super(props);
     nerdlet.setConfig({
-      header: false,
+      header: false
     });
     this.state = {
       waiting: true,
@@ -61,11 +75,11 @@ export default class MainContainer extends React.Component {
       iconCanaryStatus: false,
       iconSixthSenseStatus: false,
       hidden: false,
-      stageNameSelected: "",
+      stageNameSelected: '',
       viewModal: 0,
       checkMoney: false,
       city: 0,
-      timeRange: "5 MINUTES AGO",
+      timeRange: '5 MINUTES AGO',
       getOldSessions: true,
       loading: false,
       canaryData: null,
@@ -74,41 +88,41 @@ export default class MainContainer extends React.Component {
       tuneOptions: null,
       checkAllStatus: false,
       visible: false,
-      idVisible: "",
-      version: "0.0.0",
+      idVisible: '',
+      version: '0.0.0',
       showCanaryWelcomeMat: true,
       showFireWelcomeMat: true,
       backdrop: false,
       showLeftPanel: false,
       supportForm: {
-        subject: "",
-        name: "",
-        email: "",
-        phone: "",
-        message: "",
+        subject: '',
+        name: '',
+        email: '',
+        phone: '',
+        message: ''
       },
       showRightPanel: false,
       MenuRightDefault: 0,
       flameForm: {
         days: 0,
-        percentage: 0,
+        percentage: 0
       },
       errorsList: [],
       starForm: {
         starHours: 12,
         starTraffic: 100,
         starCongestion: 25,
-        starTransactions: 400,
+        starTransactions: 400
       },
       dropForm: {
         money: 0,
-        fileContent: "demo file json ....",
+        fileContent: 'demo file json ....'
       },
       logoSetupData: null,
       configuration: null,
       updateData: null,
-      querySample: "",
-      testText: "",
+      querySample: '',
+      testText: '',
       goodQuery: true,
       logoSetup: {
         type: 'Default'
@@ -118,55 +132,55 @@ export default class MainContainer extends React.Component {
   }
 
   // =========================================================== EMULATOR
-/*
-  componentWillMount() {
-    const { state } = this.context;
-    const { stages, colors, banner_kpis } = state;
-    this.state.stages = stages;
-    this.state.colors = colors;
-    const configuration = new Configuration(this.state);
-    this.state.configuration = configuration;
-    this.state.version = Version.version;
-    this.state.banner_kpis = banner_kpis;
-    this.updateData = new UpdateData(this.state.stages, this.state.version);
-    this.state.updateData = this.updateData;
 
-    this.emulator = new Emulator(this.state.stages);
-    this.emulator.init();
+  // componentWillMount() {
+  //   const { state } = this.context;
+  //   const { stages, colors, banner_kpis } = state;
+  //   this.state.stages = stages;
+  //   this.state.colors = colors;
+  //   const configuration = new Configuration(this.state);
+  //   this.state.configuration = configuration;
+  //   this.state.version = Version.version;
+  //   this.state.banner_kpis = banner_kpis;
+  //   this.updateData = new UpdateData(this.state.stages, this.state.version);
+  //   this.state.updateData = this.updateData;
 
-    configuration.getAccountID().then(() => {
-      this.validationQuery = new ValidationQuery(configuration.accountId);
-      this.StorageCanary = new StorageUpdate(configuration.accountId); //activa data canary
-      this.InitLogoSetupData(configuration.accountId);
-      this.setState({ waiting: false });
-    });
+  //   this.emulator = new Emulator(this.state.stages);
+  //   this.emulator.init();
 
-  }
+  //   configuration.getAccountID().then(() => {
+  //     this.validationQuery = new ValidationQuery(configuration.accountId);
+  //     this.StorageCanary = new StorageUpdate(configuration.accountId); //activa data canary
+  //     this.InitLogoSetupData(configuration.accountId);
+  //     this.setState({ waiting: false });
+  //   });
 
-  componentDidMount() {
-    setTimeout(() => {
-      this.initialized = true;
-    }, 4000);
-    this.setState({ stages: this.emulator.getDataState() });
+  // }
 
-    this.interval = setInterval(() => {
-      this.setState({ stages: this.emulator.getDataState() });
-    }, Setup.time_refresh);
-  }
+  // componentDidMount() {
+  //   setTimeout(() => {
+  //     this.initialized = true;
+  //   }, 4000);
+  //   this.setState({ stages: this.emulator.getDataState() });
 
-  componentWillUnmount() {
-    clearInterval(this.interval);
-    this.emulator.closeConnections();
-  }
+  //   this.interval = setInterval(() => {
+  //     this.setState({ stages: this.emulator.getDataState() });
+  //   }, Setup.time_refresh);
+  // }
 
-  updateDataNow() {
-    console.log("UPDATE-NOW");
-    this.setState({ loading: true });
-    setTimeout(() => {
-      this.setState({ loading: false });
-    }, 2000);
-  }
-*/
+  // componentWillUnmount() {
+  //   clearInterval(this.interval);
+  //   this.emulator.closeConnections();
+  // }
+
+  // updateDataNow() {
+  //   console.log("UPDATE-NOW");
+  //   this.setState({ loading: true });
+  //   setTimeout(() => {
+  //     this.setState({ loading: false });
+  //   }, 2000);
+  // }
+
   // =========================================================== UPDATE DATA API
 
   updateDataNow(){
@@ -203,81 +217,114 @@ export default class MainContainer extends React.Component {
     }
   }
 
-  componentWillMount() {
-    const configuration = new Configuration(this.state);
+  BoootstrapApplication = async () => {
+    this.DataManager = new DataManager();
+    const data = await this.DataManager.BootstrapInitialData();
+    this.setState({
+      stages: data.stages,
+      banner_kpis: data.banner_kpis,
+      colors: data.colors,
+      version: data.version,
+      accountId: data.accountId,
+      waiting: false
+    }, () => {
+      this.validationQuery = new ValidationQuery(this.state.accountId);
+      this.InitLogoSetupData(this.state.accountId);
+      this.ExecuteUpdateData();
+      setInterval(() => {
+        console.log('INICIANDO')
+        this.ExecuteUpdateData();
+      }, Setup.time_refresh);
+    });
+  };
 
-    const { state } = this.context;
-    const { stages, colors, banner_kpis } = state;
-    //this.setState({configuration});
-    this.state.configuration = configuration;
-    this.state.stages = stages;
-    this.state.colors = colors;
-    this.state.version = Version.version;
-    this.state.banner_kpis = banner_kpis;
-    this.updateData = new UpdateData(this.state.stages, this.state.version);
-
-    //this.setState({updateData: this.updateData});
-    this.state.updateData = this.updateData;
-
-    this.state.updateData.loading = true;
-    configuration.loadInitialData().then(() => {
-      console.log("WAITING-FALSE");
-      this.updateData.setTouchpointsStatusFromMainContainer(this.state.stages)
-
-      this.validationQuery = new ValidationQuery(configuration.accountId);
-      this.StorageCanary = new StorageUpdate(configuration.accountId); //activa data canary
-      this.InitLogoSetupData(configuration.accountId)
-
-      this.state.updateData.loading = false;
-      //this.setState({ waiting: true });
-      this.setState({ stages: this.state.stages, banner_kpis: this.state.banner_kpis });
-      setTimeout(() => {
-        let {
-          timeRange,
-          city,
-          getOldSessions,
-          stages,
-          banner_kpis
-        } = this.state;
-        this.updateData
-          .startUpdate(timeRange, city, getOldSessions, stages, banner_kpis)
-          .then(() => {
-            //console.log('show updates');
-            this.setState({
-              waiting: false,
-              getOldSessions: false,
-              banner_kpis: this.state.banner_kpis,
-              stages: this.state.stages
-            })
-          });
-      }, 1500);
+  ExecuteUpdateData = async () => {
+    this.setState(async state => {
+      const { timeRange, city, getOldSessions, stages, banner_kpis } = state;
+      const data = await this.DataManager.UpdateData(timeRange, city, getOldSessions, stages, banner_kpis);
+      return {
+        stages: data.stages,
+        banner_kpis: data.banner_kpis
+      }
     });
   }
 
-  componentDidMount() {
-    this.interval = setInterval(() => {
-      if (!this.updateData.loading) {
-        let {
-          timeRange,
-          city,
-          getOldSessions,
-          stages,
-          banner_kpis
-        } = this.state;
-        console.log("goto updater");
-        this.updateData
-          .startUpdate(timeRange, city, getOldSessions, stages, banner_kpis)
-          .then(() => {
-            console.log("show updates");
-            this.setState({
-              getOldSessions: false,
-              banner_kpis: this.state.banner_kpis,
-              stages: this.state.stages
-            })
-          });
-      }
-    }, Setup.time_refresh);
+  componentWillMount() {
+    this.BoootstrapApplication();
+    // const configuration = new Configuration(this.state);
+
+    // const { state } = this.context;
+    // const { stages, colors, banner_kpis } = state;
+    // //this.setState({configuration});
+    // this.state.configuration = configuration;
+    // this.state.stages = stages;
+    // this.state.colors = colors;
+    // this.state.version = Version.version;
+    // this.state.banner_kpis = banner_kpis;
+    // this.updateData = new UpdateData(this.state.stages, this.state.version);
+
+    // //this.setState({updateData: this.updateData});
+    // this.state.updateData = this.updateData;
+
+    // this.state.updateData.loading = true;
+    // configuration.loadInitialData().then(() => {
+    //   console.log("WAITING-FALSE");
+    //   this.updateData.setTouchpointsStatusFromMainContainer(this.state.stages)
+
+    //   this.validationQuery = new ValidationQuery(configuration.accountId);
+    //   this.StorageCanary = new StorageUpdate(configuration.accountId); //activa data canary
+    //   this.InitLogoSetupData(configuration.accountId)
+
+    //   this.state.updateData.loading = false;
+    //   //this.setState({ waiting: true });
+    //   this.setState({ stages: this.state.stages, banner_kpis: this.state.banner_kpis });
+    //   setTimeout(() => {
+    //     let {
+    //       timeRange,
+    //       city,
+    //       getOldSessions,
+    //       stages,
+    //       banner_kpis
+    //     } = this.state;
+    //     this.updateData
+    //       .startUpdate(timeRange, city, getOldSessions, stages, banner_kpis)
+    //       .then(() => {
+    //         //console.log('show updates');
+    //         this.setState({
+    //           waiting: false,
+    //           getOldSessions: false,
+    //           banner_kpis: this.state.banner_kpis,
+    //           stages: this.state.stages
+    //         })
+    //       });
+    //   }, 1500);
+    // });
   }
+
+  // componentDidMount() {
+  //   this.interval = setInterval(() => {
+  //     if (!this.updateData.loading) {
+  //       let {
+  //         timeRange,
+  //         city,
+  //         getOldSessions,
+  //         stages,
+  //         banner_kpis
+  //       } = this.state;
+  //       console.log("goto updater");
+  //       this.updateData
+  //         .startUpdate(timeRange, city, getOldSessions, stages, banner_kpis)
+  //         .then(() => {
+  //           console.log("show updates");
+  //           this.setState({
+  //             getOldSessions: false,
+  //             banner_kpis: this.state.banner_kpis,
+  //             stages: this.state.stages
+  //           })
+  //         });
+  //     }
+  //   }, Setup.time_refresh);
+  // }
 
   componentWillUnmount() {
     clearInterval(this.interval);
