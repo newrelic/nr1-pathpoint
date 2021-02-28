@@ -255,7 +255,7 @@ export default class UpdateData {
 
     async readHistoricErrors() {
 
-        let query = "SELECT count(*) FROM PathpointHistoricErrors WHERE pathpoint_id=" + this.pathpointID + " percentage>" +
+        let query = "SELECT count(*) FROM PathpointHistoricErrors WHERE pathpoint_id=" + this.pathpointId + " percentage>" +
             this.minPercentageError +
             " FACET stage_index,touchpoint_index,percentage LIMIT MAX" +
             " SINCE " + this.historicErrorsDays + " days ago";
