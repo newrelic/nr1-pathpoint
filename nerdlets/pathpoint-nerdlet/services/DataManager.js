@@ -1696,4 +1696,40 @@ for (const [key, value] of Object.entries(return`+ w + `.data.actor)) {
       return found;
     });
   }
+
+  UpdateTouchpointQuerys(touchpoint, datos) {
+    this.touchPoints.some(element => {
+      let found = false;
+      if (element.index === this.city) {
+        found = true;
+        element.touchpoints.some(tp => {
+          if (
+            tp.stage_index === touchpoint.stage_index &&
+            tp.touchpoint_index === touchpoint.index
+          ) {
+            datos.forEach(dato => {
+              this.UpdateMeasure(dato, tp.measure_points);
+            });
+            this.SetStorageTouchpoints();
+          }
+        });
+      }
+      return found;
+    });
+  }
+
+  UpdateMeasure(data, measure_points) {
+    measure_points.some(measure => {
+      let found = false;
+      if (measure.type === data.type) {
+        found = true;
+        if (measure.type === 4) {
+          measure.appName = data.query_body;
+        } else {
+          measure.query = data.query_body;
+        }
+      }
+      return found;
+    });
+  }
 }

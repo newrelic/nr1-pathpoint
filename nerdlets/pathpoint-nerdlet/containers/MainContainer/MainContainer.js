@@ -989,8 +989,8 @@ export default class MainContainer extends React.Component {
     this.setState(supportForm);
   };
 
-  handleSaveUpdateQuery = () => {
-    this.updateData.updateTouchpointQuerys(
+  handleSaveUpdateQuery = async () => {
+    await this.DataManager.UpdateTouchpointQuerys(
       this.state.stageNameSelected.touchpoint,
       this.state.stageNameSelected.datos
     );
