@@ -656,7 +656,7 @@ export default class MainContainer extends React.Component {
     });
   }
 
-  ToggleFireIcon = previousIconFireStatus => {
+  ToggleFireIcon = async previousIconFireStatus => {
     const { iconFireStatus } = this.state;
     if (iconFireStatus && this.state.showFireWelcomeMat) {
       this.setState({
@@ -666,9 +666,15 @@ export default class MainContainer extends React.Component {
       this._onClose();
     }
     if (iconFireStatus) {
-      this.updateData.readHistoricErrors().then(() => {
-        this.updateHistoricErrors();
-      });
+      const data = await this.DataManager.ReadHistoricErrors();
+      this.setState(
+        {
+          stages: data.stages
+        },
+        () => {
+          this.updateHistoricErrors();
+        }
+      );
     } else if (previousIconFireStatus && !iconFireStatus) {
       // TODO
     }
