@@ -1295,6 +1295,121 @@ export default class DataManager {
     return response;
   }
 
+  async ReadHistoricErrors() {
+    const query = `SELECT count(*) FROM PathpointHistoricErrors WHERE pathpoint_id=${this.pathpointId} percentage>${this.minPercentageError} FACET stage_index,touchpoint_index,percentage LIMIT MAX SINCE ${this.historicErrorsDays} days ago` ;
+    const gql = `{
+        actor { account(id: ${this.accountId}) {
+            nrql(query: "${query}", timeout: 10) {
+                results
+            }
+        }}}`;
+    const { data, error } = await NerdGraphQuery.query({ query: gql });
+    if (error) {
+      throw new Error(error);
+    }
+    if (data.actor.account.nrql != null) {
+      this.CalculateHistoricErrors(data.actor.account.nrql);
+    }
+    return {
+      stages: this.stages
+    };
+  }
+
+  CalculateHistoricErrors(nrql) {
+    const results = nrql.results;
+    let key = '';
+    const historicErrors = {};
+    let errorLength = 0;
+    for (let i = 0; i < results.length; i++) {
+      key = `tp_${results[i].facet[0]}_${results[i].facet[1]}`;
+      if (
+        results[i].facet[2] >=
+        this.GetTouchpointErrorThreshold(
+          results[i].facet[0],
+          results[i].facet[1]
+        )
+      ) {
+        if (!(key in historicErrors)) {
+          errorLength++;
+          historicErrors[key] = results[i].count;
+        } else {
+          historicErrors[key] += results[i].count;
+        }
+      }
+    }
+    const sortable = Object.fromEntries(
+      Object.entries(historicErrors).sort(([, a], [, b]) => b - a)
+    );
+    const NumOfErrorsToShow = Math.round(
+      (this.historicErrorsHighLightPercentage * errorLength) / 100
+    );
+    let count = 0;
+    this.ClearTouchpointHistoricError();
+    for (const [key] of Object.entries(sortable)) {
+      count++;
+      if (count <= NumOfErrorsToShow) {
+        const c = key.split('_');
+        this.SetTouchpointHistoricError(c[1], c[2]);
+      }
+    }
+  }
+
+  SetTouchpointHistoricError(stage_index, touchpoint_index) {
+    this.stages.some(stage => {
+      let found1 = false;
+      if (stage.index === stage_index) {
+        stage.touchpoints.some(touchpoint => {
+          let found2 = false;
+          if (touchpoint.index === touchpoint_index) {
+            touchpoint.history_error = true;
+            found2 = true;
+          }
+          return found2;
+        });
+        found1 = true;
+      }
+      return found1;
+    });
+  }
+
+  ClearTouchpointHistoricError() {
+    this.stages.forEach(stage => {
+      stage.touchpoints.forEach(touchpoint => {
+        touchpoint.history_error = false;
+      });
+    });
+  }
+
+  GetTouchpointErrorThreshold(stage_index, touchpoint_index) {
+    let value = 0;
+    this.touchPoints.some(element => {
+      let found1 = false;
+      if (element.index === this.city) {
+        element.touchpoints.some(touchpoint => {
+          let found2 = false;
+          if (
+            touchpoint.stage_index === stage_index &&
+            touchpoint.touchpoint_index === touchpoint_index
+          ) {
+            touchpoint.measure_points.some(measure => {
+              let found3 = false;
+              if (measure.type === 0 || measure.type === 20) {
+                value = measure.error_threshold;
+                found3 = true;
+              }
+              return found3;
+            });
+            found2 = true;
+          }
+          return found2;
+        });
+        found1 = true;
+      }
+      return found1;
+    });
+    return value;
+  }
+
   CreateNrqlQueriesForHistoricErrorScript() {
     let data = 'var raw1 = JSON.stringify({"query":"{ actor {';
     let i = 0;
