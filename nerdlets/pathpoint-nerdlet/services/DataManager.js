@@ -32,6 +32,11 @@ export default class DataManager {
     this.lastStorageVersion = null;
     this.stepsByStage = [];
     this.dataCanary = Canary;
+    this.configuration = {
+      pathpointVersion: null,
+      banner_kpis: [],
+      stages: []
+    };
     this.measureNames = [
       'STANDARD-APM-COUNT-AND',
       'ERROR-PERCENTAGE-QUERY',
@@ -884,5 +889,150 @@ export default class DataManager {
 
   UpdateCanaryData(data) {
     this.SaveCanaryData(data);
+  }
+
+  GetCurrentConfigurationJSON() {
+    this.ReadPathpointConfig();
+    return JSON.stringify(this.configuration, null, 4);
+  }
+
+  ReadPathpointConfig() {
+    let i = 0;
+    let line = 0;
+    let kpi = null;
+    this.configuration.pathpointVersion = this.version;
+    for (let i = 0; i < this.banner_kpis.length; i++) {
+      kpi = {
+        description: this.banner_kpis[i].description,
+        prefix: this.banner_kpis[i].prefix,
+        suffix: this.banner_kpis[i].suffix,
+        query: this.banner_kpis[i].query
+      };
+      this.configuration.banner_kpis.push(kpi);
+    }
+    this.configuration.stages.length = 0;
+    this.stages.forEach(stage => {
+      this.configuration.stages.push({
+        title: stage.title,
+        active_dotted: stage.active_dotted,
+        steps: [],
+        touchpoints: []
+      });
+      i = this.configuration.stages.length;
+      line = 0;
+      stage.steps.forEach(step => {
+        const s_steps = [];
+        line++;
+        step.sub_steps.forEach(sub_step => {
+          s_steps.push({ title: sub_step.value, id: sub_step.id });
+        });
+        this.configuration.stages[i - 1].steps.push({
+          line: line,
+          values: s_steps
+        });
+      });
+      stage.touchpoints.forEach(tp => {
+        this.configuration.stages[i - 1].touchpoints.push({
+          title: tp.value,
+          status_on_off: tp.status_on_off,
+          dashboard_url: tp.dashboard_url,
+          related_steps: this.GetRelatedSteps(tp.stage_index, tp.index),
+          queries: this.GetTouchpointQueryes(tp.stage_index, tp.index)
+        });
+      });
+    });
+  }
+
+  GetRelatedSteps(stage_index, index) {
+    const related_steps = [];
+    this.touchPoints.forEach(element => {
+      if (element.index === this.city) {
+        element.touchpoints.some(touchpoint => {
+          let found = false;
+          if (
+            touchpoint.stage_index === stage_index &&
+            touchpoint.touchpoint_index === index
+          ) {
+            touchpoint.relation_steps.forEach(value => {
+              related_steps.push(value);
+            });
+            found = true;
+          }
+          return found;
+        });
+      }
+    });
+    return this.GetStepsIds(stage_index, related_steps);
+  }
+
+  GetStepsIds(stage_index, related_steps) {
+    let relatedIds = '';
+    related_steps.forEach(rel_step => {
+      this.stages[stage_index - 1].steps.some(step => {
+        let found = false;
+        step.sub_steps.some(sub_step => {
+          if (sub_step.index === rel_step) {
+            if (relatedIds !== '') {
+              relatedIds += ',';
+            }
+            relatedIds += sub_step.id;
+            found = true;
+          }
+          return found;
+        });
+        return found;
+      });
+    });
+    return relatedIds;
+  }
+
+  GetTouchpointQueryes(stage_index, index) {
+    const queries = [];
+    this.touchPoints.forEach(element => {
+      if (element.index === this.city) {
+        element.touchpoints.some(touchpoint => {
+          let found = false;
+          if (
+            touchpoint.stage_index === stage_index &&
+            touchpoint.touchpoint_index === index
+          ) {
+            found = true;
+            touchpoint.measure_points.forEach(measure => {
+              if (measure.type === 0) {
+                queries.push({
+                  type: this.measureNames[0],
+                  query: measure.query,
+                  error_threshold: measure.error_threshold
+                });
+              } else if (measure.type === 1) {
+                queries.push({
+                  type: this.measureNames[1],
+                  query: measure.query,
+                  apdex_time: measure.apdex_time
+                });
+              } else if (measure.type === 2) {
+                queries.push({
+                  type: this.measureNames[2],
+                  query: measure.query
+                });
+              } else if (measure.type === 3) {
+                queries.push({
+                  type: this.measureNames[3],
+                  query: measure.query
+                });
+              } else if (measure.type === 20) {
+                queries.push({
+                  type: this.measureNames[5],
+                  query: measure.query,
+                  error_threshold: measure.error_threshold
+                });
+              }
+            });
+          }
+          return found;
+        });
+      }
+    });
+    return queries;
   }
 }
