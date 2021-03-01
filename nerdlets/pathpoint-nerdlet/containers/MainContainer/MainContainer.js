@@ -728,16 +728,18 @@ export default class MainContainer extends React.Component {
   }
 
   updateTouchpointOnOff = touchpoint => {
-    this.updateTouchpointStageOnOff(touchpoint);
-    this.updateData.updateTouchpointOnOff(touchpoint, true);
+    if (!this.state.iconCanaryStatus) {
+      this.updateTouchpointStageOnOff(touchpoint);
+      this.DataManager.UpdateTouchpointOnOff(touchpoint, true);
+    }
   };
 
   openModalParent = (touchpoint, view) => {
     let datos = null;
     if (view === 2) {
-      datos = this.updateData.getTouchpointTune(touchpoint);
+      datos = this.DataManager.GetTouchpointTune(touchpoint);
     } else if (view === 1) {
-      datos = this.updateData.getTouchpointQuerys(touchpoint);
+      datos = this.DataManager.GetTouchpointQuerys(touchpoint);
     }
     this.setState({
       viewModal: view,
