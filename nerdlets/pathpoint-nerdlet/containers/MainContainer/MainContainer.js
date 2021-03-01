@@ -1139,6 +1139,10 @@ export default class MainContainer extends React.Component {
     this.setState(flameForm);
   };
 
+  GetCurrentConfigurationJSON = () => {
+    alert('mm')
+  };
+
   render() {
     const {
       stages,
@@ -1734,6 +1738,7 @@ export default class MainContainer extends React.Component {
             handleSaveUpdateFire={this.handleSaveUpdateFire}
             LogoFormSubmit={this.LogoFormSubmit}
             validateKpiQuery={this.validationQuery}
+            GetCurrentConfigurationJSON={this.GetCurrentConfigurationJSON}
           />
           <div id="cover-spin" style={{ display: loading ? '' : 'none' }} />
         </div>
