@@ -1009,7 +1009,7 @@ export default class MainContainer extends React.Component {
         apdex_time: event.target.elements.apdex.value
       };
     }
-    this.updateData.updateTouchpointTune(
+    this.DataManager.UpdateTouchpointTune(
       this.state.stageNameSelected.touchpoint,
       datos
     );

@@ -1669,4 +1669,31 @@ for (const [key, value] of Object.entries(return`+ w + `.data.actor)) {
     });
     return datos;
   }
+
+  UpdateTouchpointTune(touchpoint, datos) {
+    this.touchPoints.some(element => {
+      let found = false;
+      if (element.index === this.city) {
+        found = true;
+        element.touchpoints.some(tp => {
+          let found2 = false;
+          if (
+            tp.stage_index === touchpoint.stage_index &&
+            tp.touchpoint_index === touchpoint.index
+          ) {
+            found2 = true;
+            if (tp.measure_points.length > 1) {
+              tp.measure_points[0].error_threshold = datos.error_threshold;
+              tp.measure_points[1].apdex_time = datos.apdex_time;
+            } else {
+              tp.measure_points[0].error_threshold = datos.error_threshold;
+            }
+            this.SetStorageTouchpoints();
+          }
+          return found2;
+        });
+      }
+      return found;
+    });
+  }
 }
