@@ -997,19 +997,12 @@ export default class MainContainer extends React.Component {
     this._onClose();
   };
 
-  handleSaveUpdateTune = event => {
-    event.preventDefault();
-    let datos = {
-      error_threshold: event.target.elements.threshold.value,
-      apdex_time: 0
+  handleSaveUpdateTune = async ({ threshold, apdex }) => {
+    const datos = {
+      error_threshold: threshold,
+      apdex_time: apdex
     };
-    if ('apdex' in event.target.elements) {
-      datos = {
-        error_threshold: event.target.elements.threshold.value,
-        apdex_time: event.target.elements.apdex.value
-      };
-    }
-    this.DataManager.UpdateTouchpointTune(
+    await this.DataManager.UpdateTouchpointTune(
       this.state.stageNameSelected.touchpoint,
       datos
     );
