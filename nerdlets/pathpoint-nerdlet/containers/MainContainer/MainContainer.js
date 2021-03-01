@@ -1140,7 +1140,8 @@ export default class MainContainer extends React.Component {
   };
 
   GetCurrentConfigurationJSON = () => {
-    alert('mm')
+    const data = this.DataManager.GetCurrentConfigurationJSON();
+    return data;
   };
 
   render() {
