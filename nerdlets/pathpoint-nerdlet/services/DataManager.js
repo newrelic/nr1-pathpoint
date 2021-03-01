@@ -61,8 +61,8 @@ export default class DataManager {
     }
     this.stepsByStage = this.GetStepsByStage();
     return {
-      stages: this.stages,
-      banner_kpis: this.banner_kpis,
+      stages: [...this.stages],
+      banner_kpis: [...this.banner_kpis],
       colors: this.colors,
       accountId: this.accountId,
       version: this.version
@@ -174,12 +174,12 @@ export default class DataManager {
       this.getOldSessions = getOldSessions;
       this.stages = stages;
       this.banner_kpis = banner_kpis;
-      this.loading = true;
+      //this.loading = true;
       await this.TouchPointsUpdate();
       await this.UpdateMerchatKpi();
-      this.CalculateUpdates();
-      this.UpdateMaxCapacity();
-      this.loading = false;
+      await this.CalculateUpdates();
+      await this.UpdateMaxCapacity();
+      //this.loading = false;
       return {
         stages: this.stages,
         banner_kpis: this.banner_kpis
@@ -815,5 +815,9 @@ export default class DataManager {
     } catch (error) {
       throw new Error(error);
     }
+  }
+
+  UpdateCanaryData(data) {
+    this.SaveCanaryData(data)
   }
 }
