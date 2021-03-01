@@ -1513,4 +1513,160 @@ for (const [key, value] of Object.entries(return`+ w + `.data.actor)) {
     }
     return data;
   }
+
+  UpdateTouchpointOnOff(touchpoint, updateStorage) {
+    this.touchPoints.some(element => {
+      let found = false;
+      if (element.index === this.city) {
+        found = true;
+        element.touchpoints.some(tp => {
+          let found2 = false
+          if (
+            tp.stage_index === touchpoint.stage_index &&
+            tp.touchpoint_index === touchpoint.index
+          ) {
+            found2 = true;
+            tp.status_on_off = touchpoint.status_on_off;
+            if (updateStorage) {
+              this.SetStorageTouchpoints();
+            }
+          }
+          return found2;
+        });
+      }
+      return found;
+    });
+  }
+
+  GetTouchpointTune(touchpoint) {
+    let datos = null;
+    this.touchPoints.some(element => {
+      let found1 = false;
+      if (element.index === this.city) {
+        found1 = true;
+        element.touchpoints.some(tp => {
+          let found2 = false;
+          if (
+            tp.stage_index === touchpoint.stage_index &&
+            tp.touchpoint_index === touchpoint.index
+          ) {
+            found2 = true;
+            if (tp.measure_points.length > 1) {
+              datos = {
+                error_threshold: tp.measure_points[0].error_threshold,
+                apdex_time: tp.measure_points[1].apdex_time
+              };
+            } else {
+              datos = {
+                error_threshold: tp.measure_points[0].error_threshold,
+                apdex_time: 0
+              };
+            }
+          }
+          return found2;
+        });
+      }
+      return found1;
+    });
+    return datos;
+  }
+
+  GetTouchpointQuerys(touchpoint) {
+    const datos = [];
+    this.touchPoints.some(element => {
+      let found1 = false;
+      if (element.index === this.city) {
+        found1 = true;
+        element.touchpoints.some(tp => {
+          let found2 = false;
+          if (
+            tp.stage_index === touchpoint.stage_index &&
+            tp.touchpoint_index === touchpoint.index
+          ) {
+            found2 = true;
+            let actualValue = 0;
+            tp.measure_points.forEach(measure => {
+              if (measure.type === 0) {
+                datos.push({
+                  label: 'Count Query',
+                  value: actualValue,
+                  type: 0,
+                  query_start: '',
+                  query_body: measure.query,
+                  query_footer: `SINCE ${this.TimeRangeTransform(
+                    this.timeRange,
+                    false
+                  )}`
+                });
+              } else if (measure.type === 1) {
+                datos.push({
+                  label: 'Error Percentage Query',
+                  value: actualValue,
+                  type: 1,
+                  query_start: '',
+                  query_body: measure.query,
+                  query_footer: `SINCE ${this.TimeRangeTransform(
+                    this.timeRange,
+                    false
+                  )}`
+                });
+              } else if (measure.type === 2) {
+                datos.push({
+                  label: 'Apdex Query',
+                  value: actualValue,
+                  type: 2,
+                  query_start: '',
+                  query_body: measure.query,
+                  query_footer: `SINCE ${this.TimeRangeTransform(
+                    this.timeRange,
+                    false
+                  )}`
+                });
+              } else if (measure.type === 3) {
+                datos.push({
+                  label: 'Session Query',
+                  value: actualValue,
+                  type: 3,
+                  query_start: '',
+                  query_body: measure.query,
+                  query_footer: `SINCE ${this.TimeRangeTransform(
+                    this.timeRange,
+                    false
+                  )}`
+                });
+              } else if (measure.type === 4) {
+                datos.push({
+                  label: 'Session Query Duration',
+                  value: actualValue,
+                  type: 4,
+                  query_start: '',
+                  query_body: measure.query,
+                  query_footer: `SINCE ${this.TimeRangeTransform(
+                    this.timeRange,
+                    false
+                  )}`
+                });
+              } else if (measure.type === 20) {
+                datos.push({
+                  label: 'Log Measure Query',
+                  value: actualValue,
+                  type: 20,
+                  query_start: '',
+                  query_body: measure.query,
+                  query_footer: `SINCE ${this.TimeRangeTransform(
+                    this.timeRange,
+                    false
+                  )}`
+                });
+              }
+              actualValue++;
+            });
+          }
+          return found2;
+        });
+      }
+      return found1;
+    });
+    return datos;
+  }
 }
