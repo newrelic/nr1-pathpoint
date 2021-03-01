@@ -1,21 +1,14 @@
-import React from "react";
-import Select from "react-select";
+import React from 'react';
+import PropTypes from 'prop-types';
+import Select from 'react-select';
 
-export const CustomSelect = ({
-  placeholder,
-  field,
-  form,
-  options,
-}) => {
-  const onChange = (option) => {
-    form.setFieldValue(
-      field.name,
-      option.label
-    );
+const CustomSelect = ({ placeholder, field, form, options }) => {
+  const onChange = option => {
+    form.setFieldValue(field.name, option.label);
   };
 
   const getValue = () => {
-      return options.find(option => option.value === field.value);
+    return options.find(option => option.value === field.value);
   };
 
   return (
@@ -26,7 +19,7 @@ export const CustomSelect = ({
       placeholder={placeholder}
       options={options}
       styles={customStyles}
-      theme={(theme) => ({
+      theme={theme => ({
         ...theme,
         borderRadius: 0
       })}
@@ -52,7 +45,14 @@ const customStyles = {
   indicatorsContainer: styles => ({
     ...styles,
     height: '30px !important'
-  }),
+  })
+};
+
+CustomSelect.propTypes = {
+  placeholder: PropTypes.isRequired,
+  form: PropTypes.isRequired,
+  field: PropTypes.isRequired,
+  options: PropTypes.isRequired
 };
 
 export default CustomSelect;
