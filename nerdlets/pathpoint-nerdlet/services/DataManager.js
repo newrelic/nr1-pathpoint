@@ -1285,4 +1285,117 @@ export default class DataManager {
   UpdateTouchpointCopy() {
     this.touchPointsCopy = JSON.parse(JSON.stringify(this.touchPoints));
   }
+
+  GetCurrentHistoricErrorScript() {
+    const data = historicErrorScript();
+    const pathpointId = `var pathpointId = "${this.pathpointId};"`;
+    const response = `${pathpointId}${
+      data.header
+    }${this.CreateNrqlQueriesForHistoricErrorScript()}${data.footer}`;
+    return response;
+  }
+
+  CreateNrqlQueriesForHistoricErrorScript() {
+    let data = 'var raw1 = JSON.stringify({"query":"{ actor {';
+    let i = 0;
+    let n = 1;
+    const countBreak = 20;
+    this.touchPoints.forEach(element => {
+      if (element.index === this.city) {
+        element.touchpoints.forEach(touchpoint => {
+          data += ` measure ${touchpoint.stage_index}_${touchpoint.touchpoint_index}_${touchpoint.measure_points[0].type}:account(id: "+myAccountID+") { nrql(query: \\`;
+          let query2 = '';
+          if (touchpoint.measure_points[0].type === 20) {
+            // TO DO
+          } else {
+            const query = touchpoint.measure_points[0].query.split(' ');
+            query2 =
+              'SELECT count(*), percentage(count(*), WHERE error is true) as percentage';
+            for (let wi = 2; wi < query.length; wi++) {
+              query2 += ` ${query[wi]}`;
+            }
+          }
+          data += query2;
+          data += ' SINCE 5 minutes AGO';
+          data += '\\", timeout: 10) {results }}';
+          i++;
+          if (i === countBreak) {
+            i = 0;
+            data += '}}","variables":""});';
+            data += `
+`;
+            n++;
+            data += `var raw${n} = JSON.stringify({"query":"{ actor {`;
+          }
+        });
+        data += '}}","variables":""});';
+        data += `
+`;
+      }
+    });
+    for (let w = 1; w <= n; w++) {
+        data += `
+var graphqlpack`+ w + ` = {
+headers: {
+    "Content-Type": "application/json",
+    "API-Key": graphQLKey
+},
+url: 'https://api.newrelic.com/graphql',
+body: raw`+ w + `
+};
+
+var return`+ w + ` = null;
+
+`;
+    }
+    for (var w = 1; w < n; w++) {
+        data += `
+function callback`+ w + `(err, response, body) {
+return`+ w + ` = JSON.parse(body);
+$http.post(graphqlpack`+ (w + 1) + `, callback` + (w + 1) + `);
+} 
+
+`;
+    }
+    data += `
+function callback`+ n + `(err, response, body) {
+return`+ n + ` = JSON.parse(body);
+var events = [];
+var event = null;
+var c = null;
+`;
+    for (var w = 1; w <= n; w++) {
+        data += `
+for (const [key, value] of Object.entries(return`+ w + `.data.actor)) {
+    c = key.split("_");
+    if (value.nrql.results != null) {
+        if(c[3]=='0'){
+            event = {
+                "eventType": "PathpointHistoricErrors",
+                "pathpointId": pathpointId,
+                "stage_index": parseInt(c[1]),
+                "touchpoint_index": parseInt(c[2]),
+                "count": value.nrql.results[0].count,
+                "percentage": value.nrql.results[0].percentage
+            }
+        }else{
+            event = {
+                "eventType": "PathpointHistoricErrors",
+                "pathpointId": pathpointId,
+                "stage_index": parseInt(c[1]),
+                "touchpoint_index": parseInt(c[2]),
+                "count": value.nrql.results[0].R1,
+                "percentage": value.nrql.results[0].R2
+            }
+        }
+        
+        console.log(event);
+        events.push(event);
+    }
+}
+
+`;
+    }
+    return data;
+  }
 }

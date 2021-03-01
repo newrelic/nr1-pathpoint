@@ -1152,6 +1152,11 @@ export default class MainContainer extends React.Component {
     });
   };
 
+  GetCurrentHistoricErrorScript = () => {
+    const data = this.DataManager.GetCurrentHistoricErrorScript();
+    return data;
+  };
+
   render() {
     const {
       stages,
@@ -1749,6 +1754,7 @@ export default class MainContainer extends React.Component {
             validateKpiQuery={this.validationQuery}
             GetCurrentConfigurationJSON={this.GetCurrentConfigurationJSON}
             SetConfigurationJSON={this.SetConfigurationJSON}
+            GetCurrentHistoricErrorScript={this.GetCurrentHistoricErrorScript}
           />
           <div id="cover-spin" style={{ display: loading ? '' : 'none' }} />
         </div>
