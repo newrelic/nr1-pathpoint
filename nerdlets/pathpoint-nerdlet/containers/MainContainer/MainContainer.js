@@ -186,6 +186,12 @@ export default class MainContainer extends React.Component {
     this.BoootstrapApplication();
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.updating && !this.state.updating && this.state.pending) {
+      this.ExecuteUpdateData();
+    }
+  }
+
   componentWillUnmount() {
     clearInterval(this.interval);
   }
@@ -212,25 +218,58 @@ export default class MainContainer extends React.Component {
     );
   };
 
-  ExecuteUpdateData = async () => {
-    const { timeRange, city, getOldSessions, stages, banner_kpis } = this.state;
-    const data = await this.DataManager.UpdateData(
-      timeRange,
-      city,
-      getOldSessions,
-      stages,
-      banner_kpis
+  ExecuteUpdateData = () => {
+    console.log('INICIANDO UPDATE')
+    this.setState(
+      {
+        updating: true
+      },
+      async () => {
+        const {
+          timeRange,
+          city,
+          getOldSessions,
+          stages,
+          banner_kpis
+        } = this.state;
+        const data = await this.DataManager.UpdateData(
+          timeRange,
+          city,
+          getOldSessions,
+          stages,
+          banner_kpis
+        );
+        this.setState(
+          {
+            stages: data.stages,
+            banner_kpis: data.banner_kpis,
+            getOldSessions: false,
+            waiting: false,
+            updating: false
+          },
+          () => {
+            console.log('FINALIZANDO UPDATE');
+            if (this.state.pending && this.state.loading) {
+              this.setState({
+                loading: false,
+                pending: false
+              });
+            }
+          }
+        );
+      }
     );
-    this.setState({
-      stages: data.stages,
-      banner_kpis: data.banner_kpis,
-      getOldSessions: false,
-      waiting: false
-    });
   };
 
   updateDataNow() {
-    this.setState({ loading: true });
+    if (this.state.updating) {
+      this.setState({
+        loading: true,
+        pending: true
+      });
+    } else {
+      this.ExecuteUpdateData();
+    }
   }
 
   // ===========================================================
