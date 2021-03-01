@@ -174,16 +174,14 @@ export default class DataManager {
       this.getOldSessions = getOldSessions;
       this.stages = stages;
       this.banner_kpis = banner_kpis;
-      //this.loading = true;
       await this.TouchPointsUpdate();
       await this.UpdateMerchatKpi();
       await this.CalculateUpdates();
       await this.UpdateMaxCapacity();
-      //this.loading = false;
       return {
         stages: this.stages,
         banner_kpis: this.banner_kpis
-      }
+      };
     }
   }
 
