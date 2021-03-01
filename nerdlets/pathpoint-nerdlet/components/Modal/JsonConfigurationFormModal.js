@@ -198,9 +198,7 @@ const UploadIcon = () => {
 };
 
 BodyJsonConfigurationFormModal.propTypes = {
-  handleUploadJSONFile: PropTypes.func.isRequired,
   _onClose: PropTypes.func.isRequired,
-  validateKpiQuery: PropTypes.isRequired,
   GetCurrentConfigurationJSON: PropTypes.func.isRequired,
   SetConfigurationJSON: PropTypes.func.isRequired
 };
