@@ -187,8 +187,13 @@ export default class MainContainer extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.updating && !this.state.updating && this.state.pending) {
-      this.ExecuteUpdateData();
+    if (
+      prevState.updating &&
+      !this.state.updating &&
+      this.state.pending &&
+      this.state.loading
+    ) {
+      this.ExecuteUpdateData(true);
     }
   }
 
@@ -218,8 +223,7 @@ export default class MainContainer extends React.Component {
     );
   };
 
-  ExecuteUpdateData = () => {
-    console.log('INICIANDO UPDATE')
+  ExecuteUpdateData = changeLoading => {
     this.setState(
       {
         updating: true
@@ -244,15 +248,15 @@ export default class MainContainer extends React.Component {
             stages: data.stages,
             banner_kpis: data.banner_kpis,
             getOldSessions: false,
-            waiting: false,
-            updating: false
+            waiting: false
           },
           () => {
-            console.log('FINALIZANDO UPDATE');
-            if (this.state.pending && this.state.loading) {
+            this.setState({
+              updating: false
+            });
+            if (changeLoading) {
               this.setState({
-                loading: false,
-                pending: false
+                loading: false
               });
             }
           }
