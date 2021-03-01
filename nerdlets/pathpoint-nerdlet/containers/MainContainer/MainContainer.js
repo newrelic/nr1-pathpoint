@@ -1,7 +1,9 @@
+/* eslint-disable react/no-deprecated */
+
+// IMPORT LIBRARIES AND DEPENDENCIES
 import React from 'react';
 import { nerdlet } from 'nr1';
 import Setup from '../../config/setup.json';
-import Version from '../../../../package.json';
 import DownloadLink from 'react-download-link';
 import messages from '../../config/messages.json';
 import {
@@ -26,9 +28,6 @@ import Modal from '../../components/Modal';
 import DataManager from '../../services/DataManager';
 import ValidationQuery from '../../services/Validations.js';
 import LogoSetupData from '../../services/LogoSetupData';
-import Configuration from '../../services/Configuration';
-import UpdateData from '../../services/UpdateData';
-import StorageUpdate from '../../services/StorageUpdate';
 import { CreateJiraIssue } from '../../services/JiraConnector';
 import { sendLogsSlack } from '../../services/SlackConnector';
 
@@ -183,71 +182,6 @@ export default class MainContainer extends React.Component {
 
   // =========================================================== UPDATE DATA API
 
-  updateDataNow(){
-    console.log("UPDATE-NOW");
-    this.setState({ loading: true });
-    this.updateDataNowCall();
-  }
-
-  updateDataNowCall() {
-    if (!this.updateData.loading) {
-      let {
-        timeRange,
-        city,
-        getOldSessions,
-        stages,
-        banner_kpis
-      } = this.state;
-      //console.log('goto updater');
-      this.updateData
-        .startUpdate(timeRange, city, getOldSessions, stages, banner_kpis)
-        .then(() => {
-          //console.log('show updates');
-          this.setState({
-            getOldSessions: false,
-            banner_kpis: this.state.banner_kpis,
-            stages: this.state.stages,
-            loading: false
-          })
-        });
-    } else {
-      setTimeout(() => {
-        this.updateDataNowCall();
-      }, 1000);
-    }
-  }
-
-  BoootstrapApplication = async () => {
-    this.DataManager = new DataManager();
-    const data = await this.DataManager.BootstrapInitialData();
-    this.setState({
-      stages: data.stages,
-      banner_kpis: data.banner_kpis,
-      colors: data.colors,
-      version: data.version,
-      accountId: data.accountId,
-      waiting: false
-    }, () => {
-      this.validationQuery = new ValidationQuery(this.state.accountId);
-      this.InitLogoSetupData(this.state.accountId);
-      this.ExecuteUpdateData();
-      setInterval(() => {
-        this.ExecuteUpdateData();
-      }, Setup.time_refresh);
-    });
-  };
-
-  ExecuteUpdateData = () => {
-    this.setState(async function (state) {
-      const { timeRange, city, getOldSessions, stages, banner_kpis } = state;
-      const data = await this.DataManager.UpdateData(timeRange, city, getOldSessions, stages, banner_kpis);
-      return {
-        stages: data.stages,
-        banner_kpis: data.banner_kpis
-      };
-    });
-  }
-
   componentWillMount() {
     this.BoootstrapApplication();
   }
@@ -256,59 +190,120 @@ export default class MainContainer extends React.Component {
     clearInterval(this.interval);
   }
 
-  // ===========================================================
+  BoootstrapApplication = async () => {
+    this.DataManager = new DataManager();
+    const data = await this.DataManager.BootstrapInitialData();
+    this.setState(
+      {
+        stages: data.stages,
+        banner_kpis: data.banner_kpis,
+        colors: data.colors,
+        version: data.version,
+        accountId: data.accountId
+      },
+      async () => {
+        this.validationQuery = new ValidationQuery(this.state.accountId);
+        this.InitLogoSetupData(this.state.accountId);
+        this.ExecuteUpdateData();
+        setInterval(() => {
+          this.ExecuteUpdateData();
+        }, Setup.time_refresh);
+      }
+    );
+  };
 
-  ToggleHeaderButtons = (target) => {
-    const previousIconCanaryStatus = this.state.iconCanaryStatus
-    const previousIconGoutStatus = this.state.iconGoutStatus
-    const previousIconStartStatus = this.state.iconStartStatus
-    const previousIconFireStatus = this.state.iconFireStatus
+  ExecuteUpdateData = async () => {
+    const { timeRange, city, getOldSessions, stages, banner_kpis } = this.state;
+    const data = await this.DataManager.UpdateData(
+      timeRange,
+      city,
+      getOldSessions,
+      stages,
+      banner_kpis
+    );
     this.setState({
-      iconCanaryStatus: false,
-      iconGoutStatus: false,
-      iconStartStatus: false,
-      iconFireStatus: false,
-      [target]: !this.state[target]
-    }, () => {
-      this.ToggleCanaryIcon(previousIconCanaryStatus)
-      this.ToggleGoutIcon(previousIconGoutStatus)
-      this.ToggleStartIcon(previousIconStartStatus)
-      this.ToggleFireIcon(previousIconFireStatus)
-    })
+      stages: data.stages,
+      banner_kpis: data.banner_kpis,
+      getOldSessions: false,
+      waiting: false
+    });
+  };
+
+  updateDataNow() {
+    this.setState({ loading: true });
   }
 
+  // ===========================================================
+
+  ToggleHeaderButtons = target => {
+    let previousIconCanaryStatus = null;
+    let previousIconGoutStatus = null;
+    let previousIconStartStatus = null;
+    let previousIconFireStatus = null;
+    this.setState(
+      state => {
+        previousIconCanaryStatus = state.iconCanaryStatus;
+        previousIconGoutStatus = state.iconGoutStatus;
+        previousIconStartStatus = state.iconStartStatus;
+        previousIconFireStatus = state.iconFireStatus;
+        return {
+          iconCanaryStatus: false,
+          iconGoutStatus: false,
+          iconStartStatus: false,
+          iconFireStatus: false,
+          [target]: !state[target]
+        };
+      },
+      () => {
+        this.ToggleCanaryIcon(previousIconCanaryStatus);
+        this.ToggleGoutIcon(previousIconGoutStatus);
+        this.ToggleStartIcon(previousIconStartStatus);
+        this.ToggleFireIcon(previousIconFireStatus);
+      }
+    );
+  };
+
   updateNewGui = () => {
-    this.setState({ stages: this.state.stages });
+    // this.setState({ stages: this.state.stages });
   };
 
-  onClickStage = (stageIndex) => {
-    //console.log("StageonCLick:",stageIndex);
-    this.state.stages[stageIndex - 1].latencyStatus = !this.state.stages[
-      stageIndex - 1
-    ].latencyStatus;
-    this.setState({ stages: this.state.stages });
+  onClickStage = stageIndex => {
+    this.setState(state => {
+      const { stages } = state;
+      stages[stageIndex - 1].latencyStatus = !stages[stageIndex - 1]
+        .latencyStatus;
+      return {
+        stages
+      };
+    });
   };
 
-  InitLogoSetupData = async (accountId) => {
-    this.LogoSetupData = new LogoSetupData(accountId)
-    const logoSetup = await this.LogoSetupData.GetLogoSetupData()
+  InitLogoSetupData = async accountId => {
+    this.LogoSetupData = new LogoSetupData(accountId);
+    const logoSetup = await this.LogoSetupData.GetLogoSetupData();
     if (logoSetup) {
       this.setState({
         logoSetup
-      })
+      });
     }
-  }
+  };
 
-  onclickStep = (stepEntry) => {
+  onclickStep = stepEntry => {
     this.setState(state => {
-      const { stages, iconFireStatus, city, iconCanaryStatus, canaryData } = state;
+      const {
+        stages,
+        iconFireStatus,
+        city,
+        iconCanaryStatus,
+        canaryData
+      } = state;
       if (iconFireStatus) {
         this.ResetAllStages();
       }
-      let touchpoint = [];
-      let newStages = [];
+      const touchpoint = [];
+      const newStages = [];
       let flag = false;
-      let stage = stages[stepEntry.index_stage - 1];
+      const stage = stages[stepEntry.index_stage - 1];
       for (const step of stage.steps) {
         if (step.value === '') {
           for (const substep of step.sub_steps) {
@@ -318,7 +313,7 @@ export default class MainContainer extends React.Component {
                 this.DataManager.SetCanaryData(stages, city);
                 canaryData[substep.index_stage - 1].states[substep.index - 1] =
                   substep.canary_state;
-                  this.DataManager.UpdateCanaryData(canaryData);
+                this.DataManager.UpdateCanaryData(canaryData);
               } else {
                 flag = substep.highlighted;
                 substep.highlighted = !substep.highlighted;
@@ -330,29 +325,29 @@ export default class MainContainer extends React.Component {
               substep.highlighted = false;
             }
           }
-        } else {
-          if (step.value === stepEntry.value) {
-            if (iconCanaryStatus) {
-              step.canary_state = step.canary_state ? false : true;
-              this.DataManager.SetCanaryData(stages, city);
-              //this.updateDataNow();
-              canaryData[step.index_stage - 1].states[step.index - 1] =
-                step.canary_state;
-                this.DataManager.UpdateCanaryData(canaryData);
-            } else {
-              flag = step.highlighted;
-              step.highlighted = !step.highlighted;
-              for (const id_touchpoint of step.relationship_touchpoints) {
-                touchpoint.push(id_touchpoint);
-              }
-            }
+        } else if (step.value === stepEntry.value) {
+          if (iconCanaryStatus) {
+            step.canary_state = !step.canary_state;
+            this.DataManager.SetCanaryData(stages, city);
+            // this.updateDataNow();
+            canaryData[step.index_stage - 1].states[step.index - 1] =
+              step.canary_state;
+            this.DataManager.UpdateCanaryData(canaryData);
           } else {
-            step.highlighted = false;
+            flag = step.highlighted;
+            step.highlighted = !step.highlighted;
+            for (const id_touchpoint of step.relationship_touchpoints) {
+              touchpoint.push(id_touchpoint);
+            }
           }
+        } else {
+          step.highlighted = false;
         }
       }
       for (const key in stage.touchpoints) {
-        stage.touchpoints[key].highlighted = false;
+        if (key) {
+          stage.touchpoints[key].highlighted = false;
+        }
       }
       if (!flag) {
         if (touchpoint.length !== 0) {
@@ -385,7 +380,7 @@ export default class MainContainer extends React.Component {
       const { stages } = state;
       for (const stage of stages) {
         for (const step of stage.steps) {
-          if (step.value === "") {
+          if (step.value === '') {
             for (const substep of step.sub_steps) {
               substep.history_error = false;
               substep.highlighted = false;
@@ -409,8 +404,8 @@ export default class MainContainer extends React.Component {
   };
 
   checkMoneyBudget = () => {
-    let { checkMoney, stages, iconStartStatus } = this.state;
-    let newData = [];
+    const { checkMoney, stages, iconStartStatus } = this.state;
+    const newData = [];
     for (const stage of stages) {
       stage.money_enabled = !checkMoney;
       stage.icon_visible = iconStartStatus;
@@ -418,49 +413,52 @@ export default class MainContainer extends React.Component {
     }
     this.setState({
       stages: newData,
-      checkMoney: !checkMoney,
+      checkMoney: !checkMoney
     });
   };
 
-  _onClose = (errors) => {
-    let actualValue = this.state.hidden;
+  _onClose = errors => {
+    const actualValue = this.state.hidden;
     this.setState({ hidden: !actualValue });
     this.restoreTouchPoints();
     if (errors) {
       this.setState({
         viewModal: 8,
         hidden: true,
-        errorsList: errors,
+        errorsList: errors
       });
     } else {
       this.setState({
-        errorsList: [],
+        errorsList: []
       });
     }
   };
 
-  PreSelectCanaryData = (canaryData) => {
-    this.setState(state => {
-      const { stages } = state;
-      for (const stage of stages) {
-        for (const step of stage.steps) {
-          if (step.value === '') {
-            for (const substep of step.sub_steps) {
-              substep.canary_state =
-                canaryData[substep.index_stage - 1].states[substep.index - 1];
+  PreSelectCanaryData = canaryData => {
+    this.setState(
+      state => {
+        const { stages } = state;
+        for (const stage of stages) {
+          for (const step of stage.steps) {
+            if (step.value === '') {
+              for (const substep of step.sub_steps) {
+                substep.canary_state =
+                  canaryData[substep.index_stage - 1].states[substep.index - 1];
+              }
+            } else {
+              step.canary_state =
+                canaryData[step.index_stage - 1].states[step.index - 1];
             }
-          } else {
-            step.canary_state =
-              canaryData[step.index_stage - 1].states[step.index - 1];
           }
         }
+        return {
+          stages
+        };
+      },
+      () => {
+        this.ExecuteSetCanaryData();
       }
-      return {
-        stages
-      };
-    }, () => {
-      this.ExecuteSetCanaryData();
-    });
+    );
   };
 
   ExecuteSetCanaryData = () => {
@@ -470,35 +468,40 @@ export default class MainContainer extends React.Component {
       return {
         stages: data.stages
       };
-    })
-  }
+    });
+  };
 
   clearStepsSixthSense() {
-    let { stages } = this.state;
-    stages.forEach((state) => {
-      state.steps.forEach((step) => {
-        step.sub_steps.forEach((sub_step) => {
-          sub_step.sixth_sense = false;
+    this.setState(state => {
+      const { stages } = state;
+      stages.forEach(state => {
+        state.steps.forEach(step => {
+          step.sub_steps.forEach(sub_step => {
+            sub_step.sixth_sense = false;
+          });
         });
       });
     });
   }
 
   setStepsSixthSense(stage_index, relation_steps) {
-    let rsteps = JSON.stringify(relation_steps).replace(/[,\[\]]/g, "-");
-    this.state.stages[stage_index - 1].steps.forEach((step) => {
-      step.sub_steps.forEach((sub_step) => {
-        if (rsteps.indexOf("-" + sub_step.index + "-") != -1) {
-          sub_step.sixth_sense = true;
-        }
+    const rsteps = JSON.stringify(relation_steps).replace(/[,[\]]/g, '-');
+    this.setState(state => {
+      const { stages } = state;
+      stages[stage_index - 1].steps.forEach(step => {
+        step.sub_steps.forEach(sub_step => {
+          if (rsteps.indexOf(`-${sub_step.index}-`) !== -1) {
+            sub_step.sixth_sense = true;
+          }
+        });
       });
     });
   }
 
   updateSixthSenseSteps() {
     this.clearStepsSixthSense();
-    this.state.stages.forEach((stage) => {
-      stage.touchpoints.forEach((touchpoint) => {
+    this.state.stages.forEach(stage => {
+      stage.touchpoints.forEach(touchpoint => {
         if (touchpoint.sixth_sense) {
           this.setStepsSixthSense(stage.index, touchpoint.relation_steps);
         }
@@ -517,26 +520,29 @@ export default class MainContainer extends React.Component {
       iconGoutStatus: false,
       iconCanaryStatus: false,
       iconSixthSenseStatus: iconSixthSenseStatus,
-      iconFireStatus: false,
+      iconFireStatus: false
     });
   };
 
-  ToggleCanaryIcon = (previousIconCanaryStatus) => {
-    let { iconCanaryStatus } = this.state;
+  ToggleCanaryIcon = previousIconCanaryStatus => {
+    const { iconCanaryStatus } = this.state;
     if (iconCanaryStatus && this.state.showCanaryWelcomeMat) {
       this.setState({
         viewModal: 6,
         stageNameSelected: null
-      })
+      });
       this._onClose();
     }
     if (!previousIconCanaryStatus && iconCanaryStatus) {
       const canaryData = this.DataManager.LoadCanaryData();
-      this.setState({
-        canaryData
-      }, () => {
-        this.PreSelectCanaryData(this.state.canaryData);
-      });
+      this.setState(
+        {
+          canaryData
+        },
+        () => {
+          this.PreSelectCanaryData(this.state.canaryData);
+        }
+      );
     } else if (previousIconCanaryStatus && !iconCanaryStatus) {
       this.setState(state => {
         const { stages } = state;
@@ -546,52 +552,60 @@ export default class MainContainer extends React.Component {
         };
       });
     }
-  }
+  };
 
   ToggleStartIcon = () => {
-    let { iconStartStatus, stages } = this.state;
-    let newData = []
-    let checkMoney = false
+    const { iconStartStatus, stages } = this.state;
+    const newData = [];
+    let checkMoney = false;
     for (const stage of stages) {
       stage.money_enabled = iconStartStatus;
       stage.icon_visible = iconStartStatus;
       newData.push(stage);
     }
     if (iconStartStatus) {
-      checkMoney = true
+      checkMoney = true;
     }
     this.setState({
       stages: newData,
-      checkMoney,
+      checkMoney
     });
   };
 
   clearStepsHistoricError() {
-    let { stages } = this.state;
-    stages.forEach((state) => {
-      state.steps.forEach((step) => {
-        step.sub_steps.forEach((sub_step) => {
-          sub_step.history_error = false;
+    this.setState(state => {
+      const { stages } = state;
+      stages.forEach(state => {
+        state.steps.forEach(step => {
+          step.sub_steps.forEach(sub_step => {
+            sub_step.history_error = false;
+          });
         });
       });
+      return {
+        stages
+      };
     });
   }
 
   setStepsHistoricError(stage_index, relation_steps) {
-    let rsteps = JSON.stringify(relation_steps).replace(/[,\[\]]/g, "-");
-    this.state.stages[stage_index - 1].steps.forEach((step) => {
-      step.sub_steps.forEach((sub_step) => {
-        if (rsteps.indexOf("-" + sub_step.index + "-") != -1) {
-          sub_step.history_error = true;
-        }
+    const rsteps = JSON.stringify(relation_steps).replace(/[,[\]]/g, '-');
+    this.setState(state => {
+      const stages = { state };
+      stages[stage_index - 1].steps.forEach(step => {
+        step.sub_steps.forEach(sub_step => {
+          if (rsteps.indexOf(`-${sub_step.index}-`) !== -1) {
+            sub_step.history_error = true;
+          }
+        });
       });
     });
   }
 
   updateHistoricErrors() {
     this.clearStepsHistoricError();
-    this.state.stages.forEach((stage) => {
-      stage.touchpoints.forEach((touchpoint) => {
+    this.state.stages.forEach(stage => {
+      stage.touchpoints.forEach(touchpoint => {
         if (touchpoint.history_error) {
           this.setStepsHistoricError(stage.index, touchpoint.relation_steps);
         }
@@ -599,13 +613,13 @@ export default class MainContainer extends React.Component {
     });
   }
 
-  ToggleFireIcon = (previousIconFireStatus) => {
-    let { iconFireStatus } = this.state;
+  ToggleFireIcon = previousIconFireStatus => {
+    const { iconFireStatus } = this.state;
     if (iconFireStatus && this.state.showFireWelcomeMat) {
       this.setState({
         viewModal: 7,
         stageNameSelected: null
-      })
+      });
       this._onClose();
     }
     if (iconFireStatus) {
@@ -615,35 +629,41 @@ export default class MainContainer extends React.Component {
     } else if (previousIconFireStatus && !iconFireStatus) {
       // TODO
     }
-  }
+  };
 
   ToggleGoutIcon = () => {
-    let { iconGoutStatus, stages } = this.state;
-    for (const stage of stages) {
-      stage.gout_enable = iconGoutStatus
-    }
-    this.setState({ stages })
-  }
+    this.setState(state => {
+      const { iconGoutStatus, stages } = state;
+      for (const stage of stages) {
+        stage.gout_enable = iconGoutStatus;
+      }
+      return {
+        stages
+      };
+    });
+  };
 
   removeDuplicates(originalArray) {
-    var newArray = [];
-    var lookupObject = {};
-
-    for (var i in originalArray) {
-      lookupObject[originalArray[i]] = originalArray[i];
+    const newArray = [];
+    const lookupObject = {};
+    for (const i in originalArray) {
+      if (i) {
+        lookupObject[originalArray[i]] = originalArray[i];
+      }
     }
-
-    for (i in lookupObject) {
-      newArray.push(lookupObject[i]);
+    for (const i in lookupObject) {
+      if (i) {
+        newArray.push(lookupObject[i]);
+      }
     }
     return newArray;
   }
 
-  openModal = (stage) => {
+  openModal = stage => {
     this.setState({
       viewModal: 0,
       stageNameSelected: stage
-    })
+    });
     // this.setState({ viewModal: 0 });
     // this.setState({ stageNameSelected: stage });
     this._onClose();
@@ -651,26 +671,30 @@ export default class MainContainer extends React.Component {
 
   updateTouchpointStageOnOff(touchpoint) {
     touchpoint.status_on_off = !touchpoint.status_on_off;
-    this.setState({ stages: this.state.stages });
+    this.setState(state => {
+      return {
+        stages: state.stages
+      };
+    });
   }
 
-  updateTouchpointOnOff = (touchpoint) => {
+  updateTouchpointOnOff = touchpoint => {
     this.updateTouchpointStageOnOff(touchpoint);
     this.updateData.updateTouchpointOnOff(touchpoint, true);
   };
 
   openModalParent = (touchpoint, view) => {
     let datos = null;
-    if (view == 2) {
+    if (view === 2) {
       datos = this.updateData.getTouchpointTune(touchpoint);
-    } else if (view == 1) {
+    } else if (view === 1) {
       datos = this.updateData.getTouchpointQuerys(touchpoint);
     }
     this.setState({
       viewModal: view,
       stageNameSelected: { touchpoint, datos },
-      querySample: "",
-      testText: "",
+      querySample: '',
+      testText: ''
     });
     this._onClose();
   };
@@ -685,7 +709,7 @@ export default class MainContainer extends React.Component {
   resetIcons = (statusStar, statusFire, statusGot, statusCanary) => {
     if (statusStar) {
       const { stages } = this.state;
-      let newData = [];
+      const newData = [];
       for (const stage of stages) {
         stage.money_enabled = false;
         stage.icon_visible = false;
@@ -693,50 +717,49 @@ export default class MainContainer extends React.Component {
       }
       this.setState({
         stages: newData,
-        iconStartStatus: false,
+        iconStartStatus: false
       });
     }
     if (statusFire) {
-      const { stages } = this.state;
-      //unselect all steps and touchpoints
-      for (const stage of stages) {
-        for (const step of stage.steps) {
-          if (step.value === "") {
-            for (const substep of step.sub_steps) {
-              //substep.history_error = false;
-              substep.highlighted = false;
+      this.setState(state => {
+        const { stages } = state;
+        for (const stage of stages) {
+          for (const step of stage.steps) {
+            if (step.value === '') {
+              for (const substep of step.sub_steps) {
+                substep.highlighted = false;
+              }
+              step.highlighted = false;
+            } else {
+              step.highlighted = false;
             }
-            //step.history_error = false;
-            step.highlighted = false;
-          } else {
-            //step.history_error = false;
-            step.highlighted = false;
+          }
+          for (const touch of stage.touchpoints) {
+            touch.highlighted = false;
           }
         }
-        for (const touch of stage.touchpoints) {
-          touch.highlighted = false;
-          //touch.history_error = false;
-        }
-      }
-      this.setState({
-        stages,
-        iconFireStatus: false,
+        return {
+          stages,
+          iconFireStatus: false
+        };
       });
     }
     if (statusGot) {
-      const { stages } = this.state;
-      for (const stage of stages) {
-        stage.gout_enable = false;
-      }
-      this.setState({
-        stages,
-        iconGoutStatus: false,
+      this.setState(state => {
+        const { stages } = state;
+        for (const stage of stages) {
+          stage.gout_enable = false;
+        }
+        return {
+          stages,
+          iconGoutStatus: false
+        };
       });
     }
     if (statusCanary) {
-      //console.log('aca deberiamos reiniciar todo y guardar data')ta
-      // Data.canary_status = !statusCanary;
-      this.state.iconCanaryStatus = !statusCanary;
+      this.setState({
+        iconCanaryStatus: !statusCanary
+      });
     }
   };
 
@@ -752,22 +775,21 @@ export default class MainContainer extends React.Component {
           >
             {element.icon_visible && (
               <>
-                {element.icon_description === "medal" ? (
+                {element.icon_description === 'medal' ? (
                   <img
                     className="sizeIconMedal"
-                    src={medalIcon}
                     src={element.icon_active ? medalIconOn : medalIcon}
                   />
                 ) : (
-                    <img
-                      className="sizeIconStart"
-                      src={element.icon_active ? startIconOn : startIcon}
-                    />
-                  )}
+                  <img
+                    className="sizeIconStart"
+                    src={element.icon_active ? startIconOn : startIcon}
+                  />
+                )}
               </>
             )}
           </div>
-          <div className="cashStage" style={{ color: "#C59400" }}>
+          <div className="cashStage" style={{ color: '#C59400' }}>
             {element.money}
           </div>
         </div>
@@ -776,11 +798,11 @@ export default class MainContainer extends React.Component {
     if (statusGot) {
       return (
         <div className="moneyStage">
-          <div style={{ alignItems: "center", marginRight: "5%" }}>
+          <div style={{ alignItems: 'center', marginRight: '5%' }}>
             <img src={goutBlack} height="15px" width="11px" />
             <span className="goutTxt">{element.gout_quantity}</span>
           </div>
-          <div className="cashStage" style={{ color: "#333333" }}>
+          <div className="cashStage" style={{ color: '#333333' }}>
             {element.money}
           </div>
         </div>
@@ -789,7 +811,7 @@ export default class MainContainer extends React.Component {
     if (statusFire) {
       return (
         <div className="moneyStageHistoryError">
-          <div className="cashStage" style={{ color: "red" }}>
+          <div className="cashStage" style={{ color: 'red' }}>
             {element.money}
           </div>
         </div>
@@ -799,11 +821,10 @@ export default class MainContainer extends React.Component {
 
   changeTouchpointsView(event) {
     this.setState({ checkAllStatus: event.target.checked });
-    //console.log(event.target.checked);
   }
-  //----------------------------------------------------------
-  handleClick = (event, data) => {
-    console.log(`clicked`, { event, data });
+
+  handleClick = () => {
+    // TODO
   };
 
   /**
@@ -811,18 +832,17 @@ export default class MainContainer extends React.Component {
    *
    * @memberof MainContainer
    */
+
   _onCloseBackdropTouch = () => {
     const { idVisible } = this.state;
     this.setState({
       visible: false,
-      idVisible: idVisible,
+      idVisible: idVisible
     });
     this.restoreTouchPoints();
   };
 
   renderProps = (idVisible, touchActive) => {
-    //console.log(idVisible);
-    // console.table(this.state);
     const { visible } = this.state;
     this.setState({ visible: !visible, idVisible: idVisible });
     this.restoreTouchPoints();
@@ -832,59 +852,59 @@ export default class MainContainer extends React.Component {
   };
 
   restoreTouchPoints = () => {
-    const { stages } = this.state;
-    //unselect all steps and touchpoints
-    for (const stage of stages) {
-      for (const touch of stage.touchpoints) {
-        touch.active = false;
-        //touch.history_error = false;
+    this.setState(state => {
+      const { stages } = state;
+      for (const stage of stages) {
+        for (const touch of stage.touchpoints) {
+          touch.active = false;
+        }
       }
-    }
+      return {
+        stages
+      };
+    });
   };
 
   handleChange(valor1, valor3, this_props) {
-    console.log("valores", valor1, valor3);
-    this_props.renderProps("", null);
+    this_props.renderProps('', null);
   }
 
-  changeMessage = (value) => {
+  changeMessage = value => {
     const { stageNameSelected } = this.state;
     stageNameSelected.selectedCase = value;
     this.setState({
       stageNameSelected,
-      querySample: "",
-      testText: ""
-    })
-    // this.setState(stageNameSelected);
-    // this.setState({ querySample: "", testText: "" });
+      querySample: '',
+      testText: ''
+    });
   };
 
-  chargueSample = (value) => {
-    let querySample = "";
+  chargueSample = value => {
+    let querySample = '';
     const { stageNameSelected } = this.state;
     switch (stageNameSelected.datos[value].label) {
-      case "Count Query":
+      case 'Count Query':
         querySample = messages.sample_querys.count;
         break;
-      case "Apdex Query":
+      case 'Apdex Query':
         querySample = messages.sample_querys.apdex;
         break;
-      case "Session Query":
+      case 'Session Query':
         querySample = messages.sample_querys.session;
         break;
-      case "Session Query Duration":
+      case 'Session Query Duration':
         querySample = messages.sample_querys.sessionDuration;
         break;
-      case "Log Measure Query":
+      case 'Log Measure Query':
         querySample = messages.sample_querys.logMeasure;
         break;
     }
-    this.setState({ querySample, testText: "" });
+    this.setState({ querySample, testText: '' });
   };
 
   testQuery = async (query, value) => {
     const { stageNameSelected } = this.state;
-    let type = stageNameSelected.datos[value].label;
+    const type = stageNameSelected.datos[value].label;
     const { testText, goodQuery } = await this.validationQuery.validateQuery(
       type,
       query
@@ -892,7 +912,7 @@ export default class MainContainer extends React.Component {
     this.setState({ testText, goodQuery });
   };
 
-  handleChangeTexarea = (event) => {
+  handleChangeTexarea = event => {
     const { stageNameSelected } = this.state;
     if (stageNameSelected.selectedCase) {
       stageNameSelected.datos[stageNameSelected.selectedCase.value].query_body =
@@ -902,25 +922,23 @@ export default class MainContainer extends React.Component {
     }
     this.setState({
       stageNameSelected,
-      testText: ""
-    })
-    // this.setState(stageNameSelected);
-    // this.setState({ testText: "" });
+      testText: ''
+    });
   };
-  handleChangeTexareaSupport = (event) => {
+
+  handleChangeTexareaSupport = event => {
     const { supportForm } = this.state;
     supportForm.message = event.target.value;
     this.setState(supportForm);
   };
 
-  handleChangeSubject = (value) => {
+  handleChangeSubject = value => {
     const { supportForm } = this.state;
     supportForm.subject = value.label;
     this.setState(supportForm);
   };
 
   handleSaveUpdateQuery = () => {
-    //console.log(this.state.stageNameSelected)
     this.updateData.updateTouchpointQuerys(
       this.state.stageNameSelected.touchpoint,
       this.state.stageNameSelected.datos
@@ -928,16 +946,16 @@ export default class MainContainer extends React.Component {
     this._onClose();
   };
 
-  handleSaveUpdateTune = (event) => {
+  handleSaveUpdateTune = event => {
     event.preventDefault();
     let datos = {
       error_threshold: event.target.elements.threshold.value,
-      apdex_time: 0,
+      apdex_time: 0
     };
-    if ("apdex" in event.target.elements) {
+    if ('apdex' in event.target.elements) {
       datos = {
         error_threshold: event.target.elements.threshold.value,
-        apdex_time: event.target.elements.apdex.value,
+        apdex_time: event.target.elements.apdex.value
       };
     }
     this.updateData.updateTouchpointTune(
@@ -947,31 +965,33 @@ export default class MainContainer extends React.Component {
     this._onClose();
   };
 
-  handleSaveUpdateCanary = (event) => {
+  handleSaveUpdateCanary = event => {
     event.preventDefault();
-    this.state.showCanaryWelcomeMat = !event.target.elements.checkbox_canary
-      .checked;
+    this.setState({
+      showCanaryWelcomeMat: !event.target.elements.checkbox_canary.checked
+    });
     this._onClose();
   };
 
-  handleSaveUpdateFire = (event) => {
+  handleSaveUpdateFire = event => {
     event.preventDefault();
-    this.state.showFireWelcomeMat = !event.target.elements.checkbox_fire
-      .checked;
+    this.setState({
+      showFireWelcomeMat: !event.target.elements.checkbox_fire.checked
+    });
     this._onClose();
   };
 
   LogoFormSubmit = async (values, _onClose) => {
-    _onClose()
-    this.LogoSetupData.SetLogoSetupData(values)
+    _onClose();
+    this.LogoSetupData.SetLogoSetupData(values);
     this.setState({
       logoSetup: {
         ...values
       }
-    })
-  }
+    });
+  };
 
-  handleSaveUpdateSupport = (values) => {
+  handleSaveUpdateSupport = values => {
     const { subject, name, email, phone, message, account, company } = values;
     const datos = {
       subject: subject,
@@ -980,161 +1000,140 @@ export default class MainContainer extends React.Component {
       phone: phone,
       message: message,
       account: account,
-      company: company,
+      company: company
     };
-    this.sendLogs(datos, this.updateData.accountId);
-    CreateJiraIssue(datos, this.updateData.accountId);
+    this.sendLogs(datos, this.state.accountId);
+    CreateJiraIssue(datos, this.state.accountId);
     this._resetFormSupport();
     this._onClose();
   };
 
   async sendLogs(info, accountId) {
-    console.log("acabo de ingresar", info);
-    await sendLogsSlack([info], accountId, "Form Support");
-    console.log("acabo de salir");
+    await sendLogsSlack([info], accountId, 'Form Support');
   }
 
   _resetFormSupport = () => {
     const { supportForm } = this.state;
-    supportForm.name = "";
-    supportForm.subject = "";
-    supportForm.email = "";
-    supportForm.phone = "";
-    supportForm.message = "";
+    supportForm.name = '';
+    supportForm.subject = '';
+    supportForm.email = '';
+    supportForm.phone = '';
+    supportForm.message = '';
     this.setState({ supportForm });
   };
 
   openLeftMenu = () => {
     const { backdrop, showLeftPanel } = this.state;
-    console.log("opne" + backdrop);
-
     this.setState({
       backdrop: !backdrop,
       showLeftPanel: !showLeftPanel,
-      MenuRightDefault: 0,
+      MenuRightDefault: 0
     });
-    console.log("open");
   };
+
   _onCloseBackdrop = () => {
-    console.log("cerrar");
-    const { backdrop, showLeftPanel, MenuRightDefault } = this.state;
     this.setState({
       backdrop: false,
       showLeftPanel: false,
-      MenuRightDefault: 0,
+      MenuRightDefault: 0
     });
   };
+
   _handleClickSetup = () => {
     this._onCloseBackdrop();
-    this.openModalParent("null", 4);
+    this.openModalParent('null', 4);
   };
 
   _handleClickProcesses = () => {
     this._onCloseBackdrop();
-    this.openModalParent("null", 9);
+    this.openModalParent('null', 9);
   };
 
   _handleClickSupport = () => {
     this._onCloseBackdrop();
-    this.openModalParent("null", 5);
+    this.openModalParent('null', 5);
   };
 
   _handleClickSupport = () => {
     this._onCloseBackdrop();
-    this.openModalParent("null", 5);
+    this.openModalParent('null', 5);
   };
 
   HandleChangeLogo = () => {
     this._onCloseBackdrop();
-    this.openModalParent("null", 10);
-  }
+    this.openModalParent('null', 10);
+  };
 
-  _handleContextMenuGout = (event) => {
-    if (event.button == 2) {
-      console.log("GOUT 1");
+  _handleContextMenuGout = event => {
+    if (event.button === 2) {
       this.setState({
         backdrop: true,
         showRightPanel: true,
-        MenuRightDefault: 1,
+        MenuRightDefault: 1
       });
     }
   };
 
-  _handleContextMenuStar = (event) => {
-    if (event.button == 2) {
-      console.log("STAR 1");
+  _handleContextMenuStar = event => {
+    if (event.button === 2) {
       this.setState({
         backdrop: true,
         showRightPanel: true,
-        MenuRightDefault: 2,
+        MenuRightDefault: 2
       });
     }
   };
 
-  _handleContextMenuFire = (event) => {
-    if (event.button == 2) {
-      console.log("FIRE 1");
+  _handleContextMenuFire = event => {
+    if (event.button === 2) {
       const values = this.updateData.getHistoricParameters();
-      this.setState({ flameForm: values });
-      const { backdrop, showRightPanel } = this.state;
       this.setState({
         backdrop: true,
         showRightPanel: true,
         MenuRightDefault: 3,
+        flameForm: values
       });
     }
   };
 
   _onCloseMenuRight = () => {
-    const { MenuRightDefault, dropForm, starForm, flameForm } = this.state;
+    const { MenuRightDefault, flameForm } = this.state;
     this.setState({
       backdrop: false,
       showRightPanel: false,
       MenuRightDefault: 0,
-      showLeftPanel: false,
+      showLeftPanel: false
     });
-    console.log("cerrar backdrop:" + MenuRightDefault);
-    // mostramos data por formulario
-    if (MenuRightDefault == 3) {
+    if (MenuRightDefault === 3) {
       this.updateData.updateHistoricParameters(
         flameForm.days,
         flameForm.percentage
       );
     }
-
-    if (MenuRightDefault == 2) {
-      console.table(starForm);
+    if (MenuRightDefault === 2) {
+      // TO-DO
     }
-
-    if (MenuRightDefault == 1) {
-      console.table(dropForm);
+    if (MenuRightDefault === 1) {
+      // TO-DO
     }
   };
 
-  _DropHandleChange = (event) => {
-    //this.setState({value: event.target.value});
-    //console.log(event.target.name);
+  _DropHandleChange = event => {
     const key = event.target.name;
-
     const { dropForm } = this.state;
     dropForm[key] = event.target.value;
     this.setState(dropForm);
   };
-  _StarHandleChange = (event) => {
-    //this.setState({value: event.target.value});
-    //console.log(event.target.name);
-    const key = event.target.name;
 
+  _StarHandleChange = event => {
+    const key = event.target.name;
     const { starForm } = this.state;
     starForm[key] = event.target.value;
     this.setState(starForm);
   };
 
-  _FlameHandleChange = (event) => {
-    //this.setState({value: event.target.value});
-    //console.log(event.target.name);
+  _FlameHandleChange = event => {
     const key = event.target.name;
-
     const { flameForm } = this.state;
     flameForm[key] = event.target.value;
     this.setState(flameForm);
@@ -1170,42 +1169,30 @@ export default class MainContainer extends React.Component {
       goodQuery,
       banner_kpis
     } = this.state;
-    //console.log("PRUEBA", this.state.timeRange)
-    // const attributes = {
-    //   className: "custom-root",
-    //   disabledClassName: "custom-disabled",
-    //   dividerClassName: "custom-divider",
-    //   selectedClassName: "custom-selected",
-    // };
-    // const ID1 = "ID1";
-    // console.log(JSON.stringify(countrys))
     if (this.state.waiting) {
       return (
         <div
           style={{
-            width: "100%",
-            height: "100%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column",
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'column'
           }}
         >
           <div className="corazon">
-            <img src={logoNewRelic} height={"76px"} width={"94px"} />
+            <img src={logoNewRelic} height="76px" width="94px" />
           </div>
-          <div style={{ paddingTop: "20px", fontSize: "30px" }}>Pathpoint</div>
-          <div style={{ marginTop: "15px" }}>
+          <div style={{ paddingTop: '20px', fontSize: '30px' }}>Pathpoint</div>
+          <div style={{ marginTop: '15px' }}>
             <img src={loadin} />
           </div>
         </div>
       );
     } else {
       return (
-        <div
-          style={mainContainerStyle()}
-          className="mainContainer"
-        >
+        <div style={mainContainerStyle()} className="mainContainer">
           <div>
             <Header
               iconSixthSenseStatus={iconSixthSenseStatus}
@@ -1238,48 +1225,48 @@ export default class MainContainer extends React.Component {
               onClick={this._onCloseBackdrop}
               className="fade modal-backdrop in"
               style={{
-                display: this.state.backdrop == false ? "none" : "block",
-                marginTop: "50px",
+                display: this.state.backdrop === false ? 'none' : 'block',
+                marginTop: '50px'
               }}
             >
-              {" "}
+              {' '}
             </div>
             <div
               className={
-                this.state.showLeftPanel == false
-                  ? " menuLeftClose "
-                  : "menuLeft fadeInLeft"
+                this.state.showLeftPanel === false
+                  ? 'menuLeftClose'
+                  : 'menuLeft fadeInLeft'
               }
             >
               <ul className="vertical">
                 <div className="setup">
                   <div
                     style={{
-                      display: "flex",
-                      alignItems: "center",
-                      paddingLeft: "20%",
-                      width: "100%",
+                      display: 'flex',
+                      alignItems: 'center',
+                      paddingLeft: '20%',
+                      width: '100%'
                     }}
                   >
                     <img
                       src={setup}
                       height="14"
-                      style={{ marginRight: "5px" }}
+                      style={{ marginRight: '5px' }}
                     />
                     Setup
                   </div>
-                  <div style={{ paddingLeft: "25%", width: "100%" }}>
+                  <div style={{ paddingLeft: '25%', width: '100%' }}>
                     <div
                       className="subItem"
                       onClick={this._handleClickSetup}
-                      style={{ padding: "5px" }}
+                      style={{ padding: '5px' }}
                     >
                       Json configuration
                     </div>
                     <div
                       className="subItem"
                       onClick={this._handleClickProcesses}
-                      style={{ padding: "5px" }}
+                      style={{ padding: '5px' }}
                     >
                       Background processes
                     </div>
@@ -1289,7 +1276,7 @@ export default class MainContainer extends React.Component {
                   <img
                     src={support}
                     height="14"
-                    style={{ marginRight: "5px" }}
+                    style={{ marginRight: '5px' }}
                   />
                   Support
                 </li>
@@ -1297,7 +1284,7 @@ export default class MainContainer extends React.Component {
                   <img
                     src={logo_icon}
                     height="14"
-                    style={{ marginRight: "5px" }}
+                    style={{ marginRight: '5px' }}
                   />
                   Logo
                 </li>
@@ -1307,9 +1294,9 @@ export default class MainContainer extends React.Component {
 
             <div
               className={
-                this.state.MenuRightDefault == 1
-                  ? " menuRight fadeInRight"
-                  : "menuLeftClose"
+                this.state.MenuRightDefault === 1
+                  ? 'menuRight fadeInRight'
+                  : 'menuLeftClose'
               }
             >
               <div className="container_rmenu">
@@ -1319,20 +1306,20 @@ export default class MainContainer extends React.Component {
                       src={gout_icon}
                       height="13px"
                       width="10px"
-                      style={{ paddingBottom: "2px" }}
+                      style={{ paddingBottom: '2px' }}
                     />
                     <span className="title_rmenu">Drop</span>
                     <span className="subtitle_rmenu">Tunning</span>
                   </div>
                   <div className="col2_rmenu">
-                    {" "}
+                    {' '}
                     <img
                       src={right_icon}
                       height="18px"
                       width="18px"
-                      style={{ cursor: "pointer" }}
+                      style={{ cursor: 'pointer' }}
                       onClick={this._onCloseMenuRight}
-                    />{" "}
+                    />{' '}
                   </div>
                 </div>
                 <div className="content_rmenu">
@@ -1346,11 +1333,11 @@ export default class MainContainer extends React.Component {
                         value={dropForm.money}
                         onChange={this._DropHandleChange}
                         className="input_mr"
-                      ></input>
+                      />
                       USD
                     </div>
                     <div className="subTitleRight_container">
-                      average order value{" "}
+                      average order value{' '}
                     </div>
                   </div>
                 </div>
@@ -1363,12 +1350,12 @@ export default class MainContainer extends React.Component {
                         label="All Merchants"
                         filename="All_Merchants.json"
                         className="formDrop"
-                        style={{ cursor: "pointer" }}
+                        style={{ cursor: 'pointer' }}
                         exportFile={() => dropForm.fileContent}
                       />
                     </div>
                   </div>
-                  <div className="col5_rmenu"></div>
+                  <div className="col5_rmenu" />
                 </div>
                 <div className="content_rmenu">
                   <div className="col3_rmenu">
@@ -1384,7 +1371,7 @@ export default class MainContainer extends React.Component {
                       type="file"
                       accept=".json"
                       onChange={this.handleFiles}
-                      style={{ display: "none" }}
+                      style={{ display: 'none' }}
                     />
                   </div>
                 </div>
@@ -1393,9 +1380,9 @@ export default class MainContainer extends React.Component {
 
             <div
               className={
-                this.state.MenuRightDefault == 2
-                  ? " menuRight fadeInRight"
-                  : "menuLeftClose"
+                this.state.MenuRightDefault === 2
+                  ? 'menuRight fadeInRight'
+                  : 'menuLeftClose'
               }
             >
               <div className="container_rmenu">
@@ -1405,20 +1392,20 @@ export default class MainContainer extends React.Component {
                       src={star_icon}
                       height="13px"
                       width="10px"
-                      style={{ paddingBottom: "2px" }}
+                      style={{ paddingBottom: '2px' }}
                     />
                     <span className="title_rmenu">Star</span>
                     <span className="subtitle_rmenu">Tunning</span>
                   </div>
                   <div className="col2_rmenu">
-                    {" "}
+                    {' '}
                     <img
                       src={right_icon}
                       height="18px"
                       width="18px"
-                      style={{ cursor: "pointer" }}
+                      style={{ cursor: 'pointer' }}
                       onClick={this._onCloseMenuRight}
-                    />{" "}
+                    />{' '}
                   </div>
                 </div>
                 <div className="col3_rmenu">
@@ -1433,7 +1420,7 @@ export default class MainContainer extends React.Component {
                       value={starForm.starHours}
                       onChange={this._StarHandleChange}
                       className="input_mr"
-                    ></input>
+                    />
                     Hours
                   </div>
                   <div className="subTitleRight_container add40height">
@@ -1444,7 +1431,7 @@ export default class MainContainer extends React.Component {
                       value={starForm.starTraffic}
                       onChange={this._StarHandleChange}
                       className="input_mr"
-                    ></input>
+                    />
                     Traffic
                   </div>
                   <div className="subTitleRight_container add40height">
@@ -1455,7 +1442,7 @@ export default class MainContainer extends React.Component {
                       value={starForm.starCongestion}
                       onChange={this._StarHandleChange}
                       className="input_mr"
-                    ></input>
+                    />
                     Congestion
                   </div>
                   <div className="subTitleRight_container add40height">
@@ -1466,7 +1453,7 @@ export default class MainContainer extends React.Component {
                       value={starForm.starTransactions}
                       onChange={this._StarHandleChange}
                       className="input_mr"
-                    ></input>
+                    />
                     Transactions
                   </div>
                 </div>
@@ -1475,9 +1462,9 @@ export default class MainContainer extends React.Component {
 
             <div
               className={
-                this.state.MenuRightDefault == 3
-                  ? " menuRight fadeInRight"
-                  : "menuLeftClose"
+                this.state.MenuRightDefault === 3
+                  ? 'menuRight fadeInRight'
+                  : 'menuLeftClose'
               }
             >
               <div className="container_rmenu">
@@ -1487,20 +1474,20 @@ export default class MainContainer extends React.Component {
                       src={flame_icon}
                       height="13px"
                       width="10px"
-                      style={{ paddingBottom: "2px" }}
+                      style={{ paddingBottom: '2px' }}
                     />
                     <span className="title_rmenu">Flame</span>
                     <span className="subtitle_rmenu">Tunning</span>
                   </div>
                   <div className="col2_rmenu">
-                    {" "}
+                    {' '}
                     <img
                       src={right_icon}
                       height="18px"
                       width="18px"
-                      style={{ cursor: "pointer" }}
+                      style={{ cursor: 'pointer' }}
                       onClick={this._onCloseMenuRight}
-                    />{" "}
+                    />{' '}
                   </div>
                 </div>
                 <div className="content_rmenu">
@@ -1514,7 +1501,7 @@ export default class MainContainer extends React.Component {
                         value={flameForm.days}
                         onChange={this._FlameHandleChange}
                         className="input_mr"
-                      ></input>
+                      />
                       Days
                     </div>
 
@@ -1527,11 +1514,11 @@ export default class MainContainer extends React.Component {
                         value={flameForm.percentage}
                         onChange={this._FlameHandleChange}
                         className="input_mr"
-                      ></input>{" "}
-                      %{" "}
+                      />{' '}
+                      %{' '}
                     </div>
                     <div className="subTitleRight_container">
-                      of the most problematic touchpoints{" "}
+                      of the most problematic touchpoints{' '}
                     </div>
                   </div>
                 </div>
@@ -1543,7 +1530,7 @@ export default class MainContainer extends React.Component {
               <TooltipStages />
             </div>
             <div style={contentStyle(stages.length)}>
-              {stages.map((element) => (
+              {stages.map(element => (
                 <div
                   key={element.index}
                   style={mainColumn(
@@ -1565,8 +1552,8 @@ export default class MainContainer extends React.Component {
                     status={element.status_color}
                     tune={tune}
                     url={
-                      element.dashboard_url == false
-                        ? "false"
+                      element.dashboard_url === false
+                        ? 'false'
                         : element.dashboard_url
                     }
                     colors={colors}
@@ -1600,7 +1587,7 @@ export default class MainContainer extends React.Component {
               })}
             </div>
             <div style={contentStyle(stages.length)}>
-              {stages.map((element) => {
+              {stages.map(element => {
                 return (
                   <div key={element.title}>
                     <div
@@ -1610,44 +1597,25 @@ export default class MainContainer extends React.Component {
                       )}
                     >
                       {element.money_enabled |
-                        element.gout_enable |
-                        iconFireStatus ? (
-                          <div
-                            style={{
-                              display: "grid",
-                              gridTemplate: "5% 1fr/ 1fr",
-                              width: "100%",
-                            }}
-                          >
-                            {this.renderContentAboveStep(
-                              element.money_enabled,
-                              element.gout_enable,
-                              iconFireStatus,
-                              element
-                            )}
-                            <div
-                              className="stepColumn"
-                              style={{ width: "100%" }}
-                            >
-                              <StepContainer
-                                steps={element.steps}
-                                latencyStatus={element.latencyStatus}
-                                onclickStep={this.onclickStep}
-                                iconGoutStatus={iconGoutStatus}
-                                iconCanaryStatus={iconCanaryStatus}
-                                colors={colors}
-                                iconFireStatus={iconFireStatus}
-                                iconSixthSenseStatus={iconSixthSenseStatus}
-                                tune={tune}
-                              />
-                            </div>
-                          </div>
-                        ) : (
-                          <div className="stepColumn">
+                      element.gout_enable |
+                      iconFireStatus ? (
+                        <div
+                          style={{
+                            display: 'grid',
+                            gridTemplate: '5% 1fr/ 1fr',
+                            width: '100%'
+                          }}
+                        >
+                          {this.renderContentAboveStep(
+                            element.money_enabled,
+                            element.gout_enable,
+                            iconFireStatus,
+                            element
+                          )}
+                          <div className="stepColumn" style={{ width: '100%' }}>
                             <StepContainer
                               steps={element.steps}
                               latencyStatus={element.latencyStatus}
-                              title={element.title}
                               onclickStep={this.onclickStep}
                               iconGoutStatus={iconGoutStatus}
                               iconCanaryStatus={iconCanaryStatus}
@@ -1657,7 +1625,23 @@ export default class MainContainer extends React.Component {
                               tune={tune}
                             />
                           </div>
-                        )}
+                        </div>
+                      ) : (
+                        <div className="stepColumn">
+                          <StepContainer
+                            steps={element.steps}
+                            latencyStatus={element.latencyStatus}
+                            title={element.title}
+                            onclickStep={this.onclickStep}
+                            iconGoutStatus={iconGoutStatus}
+                            iconCanaryStatus={iconCanaryStatus}
+                            colors={colors}
+                            iconFireStatus={iconFireStatus}
+                            iconSixthSenseStatus={iconSixthSenseStatus}
+                            tune={tune}
+                          />
+                        </div>
+                      )}
                     </div>
                   </div>
                 );
@@ -1674,7 +1658,7 @@ export default class MainContainer extends React.Component {
                 <span className="touchPointCheckbox">
                   <input
                     type="Checkbox"
-                    onChange={(event) => this.changeTouchpointsView(event)}
+                    onChange={event => this.changeTouchpointsView(event)}
                   />
                   <label className="checkboxLabel">view all</label>
                 </span>
@@ -1695,7 +1679,7 @@ export default class MainContainer extends React.Component {
             </div>
 
             <div style={contentStyle(stages.length)}>
-              {stages.map((element, index) => {
+              {stages.map(element => {
                 return (
                   <div key={element.title}>
                     <div
@@ -1751,7 +1735,7 @@ export default class MainContainer extends React.Component {
             LogoFormSubmit={this.LogoFormSubmit}
             validateKpiQuery={this.validationQuery}
           />
-          <div id="cover-spin" style={{ display: loading ? "" : "none" }}></div>
+          <div id="cover-spin" style={{ display: loading ? '' : 'none' }} />
         </div>
       );
     }
