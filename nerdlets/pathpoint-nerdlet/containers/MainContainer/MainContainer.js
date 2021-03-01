@@ -232,99 +232,25 @@ export default class MainContainer extends React.Component {
       this.InitLogoSetupData(this.state.accountId);
       this.ExecuteUpdateData();
       setInterval(() => {
-        console.log('INICIANDO')
         this.ExecuteUpdateData();
       }, Setup.time_refresh);
     });
   };
 
-  ExecuteUpdateData = async () => {
-    this.setState(async state => {
+  ExecuteUpdateData = () => {
+    this.setState(async function (state) {
       const { timeRange, city, getOldSessions, stages, banner_kpis } = state;
       const data = await this.DataManager.UpdateData(timeRange, city, getOldSessions, stages, banner_kpis);
       return {
         stages: data.stages,
         banner_kpis: data.banner_kpis
-      }
+      };
     });
   }
 
   componentWillMount() {
     this.BoootstrapApplication();
-    // const configuration = new Configuration(this.state);
-
-    // const { state } = this.context;
-    // const { stages, colors, banner_kpis } = state;
-    // //this.setState({configuration});
-    // this.state.configuration = configuration;
-    // this.state.stages = stages;
-    // this.state.colors = colors;
-    // this.state.version = Version.version;
-    // this.state.banner_kpis = banner_kpis;
-    // this.updateData = new UpdateData(this.state.stages, this.state.version);
-
-    // //this.setState({updateData: this.updateData});
-    // this.state.updateData = this.updateData;
-
-    // this.state.updateData.loading = true;
-    // configuration.loadInitialData().then(() => {
-    //   console.log("WAITING-FALSE");
-    //   this.updateData.setTouchpointsStatusFromMainContainer(this.state.stages)
-
-    //   this.validationQuery = new ValidationQuery(configuration.accountId);
-    //   this.StorageCanary = new StorageUpdate(configuration.accountId); //activa data canary
-    //   this.InitLogoSetupData(configuration.accountId)
-
-    //   this.state.updateData.loading = false;
-    //   //this.setState({ waiting: true });
-    //   this.setState({ stages: this.state.stages, banner_kpis: this.state.banner_kpis });
-    //   setTimeout(() => {
-    //     let {
-    //       timeRange,
-    //       city,
-    //       getOldSessions,
-    //       stages,
-    //       banner_kpis
-    //     } = this.state;
-    //     this.updateData
-    //       .startUpdate(timeRange, city, getOldSessions, stages, banner_kpis)
-    //       .then(() => {
-    //         //console.log('show updates');
-    //         this.setState({
-    //           waiting: false,
-    //           getOldSessions: false,
-    //           banner_kpis: this.state.banner_kpis,
-    //           stages: this.state.stages
-    //         })
-    //       });
-    //   }, 1500);
-    // });
   }
-
-  // componentDidMount() {
-  //   this.interval = setInterval(() => {
-  //     if (!this.updateData.loading) {
-  //       let {
-  //         timeRange,
-  //         city,
-  //         getOldSessions,
-  //         stages,
-  //         banner_kpis
-  //       } = this.state;
-  //       console.log("goto updater");
-  //       this.updateData
-  //         .startUpdate(timeRange, city, getOldSessions, stages, banner_kpis)
-  //         .then(() => {
-  //           console.log("show updates");
-  //           this.setState({
-  //             getOldSessions: false,
-  //             banner_kpis: this.state.banner_kpis,
-  //             stages: this.state.stages
-  //           })
-  //         });
-  //     }
-  //   }, Setup.time_refresh);
-  // }
 
   componentWillUnmount() {
     clearInterval(this.interval);
@@ -375,11 +301,11 @@ export default class MainContainer extends React.Component {
 
   onclickStep = (stepEntry) => {
     this.setState(state => {
-      const { stages, iconFireStatus, iconCanaryStatus, canaryData } = state;
+      const { stages, iconFireStatus, city, iconCanaryStatus, canaryData } = state;
       if (iconFireStatus) {
-        this.resetAllStages();
+        this.ResetAllStages();
       }
-      let touchpoin = [];
+      let touchpoint = [];
       let newStages = [];
       let flag = false;
       let stage = stages[stepEntry.index_stage - 1];
@@ -388,16 +314,16 @@ export default class MainContainer extends React.Component {
           for (const substep of step.sub_steps) {
             if (substep.value === stepEntry.value) {
               if (iconCanaryStatus) {
-                substep.canary_state = substep.canary_state ? false : true;
+                substep.canary_state = !substep.canary_state;
                 this.DataManager.SetCanaryData(stages, city);
                 canaryData[substep.index_stage - 1].states[substep.index - 1] =
                   substep.canary_state;
-                this.StorageCanary.update(canaryData);
+                  this.DataManager.UpdateCanaryData(canaryData);
               } else {
                 flag = substep.highlighted;
                 substep.highlighted = !substep.highlighted;
                 for (const id_touchpoint of substep.relationship_touchpoints) {
-                  touchpoin.push(id_touchpoint);
+                  touchpoint.push(id_touchpoint);
                 }
               }
             } else {
@@ -409,15 +335,15 @@ export default class MainContainer extends React.Component {
             if (iconCanaryStatus) {
               step.canary_state = step.canary_state ? false : true;
               this.DataManager.SetCanaryData(stages, city);
-              this.updateDataNow();
+              //this.updateDataNow();
               canaryData[step.index_stage - 1].states[step.index - 1] =
                 step.canary_state;
-              this.StorageCanary.update(canaryData);
+                this.DataManager.UpdateCanaryData(canaryData);
             } else {
               flag = step.highlighted;
               step.highlighted = !step.highlighted;
               for (const id_touchpoint of step.relationship_touchpoints) {
-                touchpoin.push(id_touchpoint);
+                touchpoint.push(id_touchpoint);
               }
             }
           } else {
@@ -429,8 +355,8 @@ export default class MainContainer extends React.Component {
         stage.touchpoints[key].highlighted = false;
       }
       if (!flag) {
-        if (touchpoin.length !== 0) {
-          for (const id_to of touchpoin) {
+        if (touchpoint.length !== 0) {
+          for (const id_to of touchpoint) {
             for (const key in stage.touchpoints) {
               if (stage.touchpoints[key].index === id_to) {
                 stage.touchpoints[key].highlighted = !stage.touchpoints[key]
@@ -454,29 +380,32 @@ export default class MainContainer extends React.Component {
     });
   };
 
-  resetAllStages = () => {
-    const { stages } = this.state;
-    //unselect all steps and touchpoints
-    for (const stage of stages) {
-      for (const step of stage.steps) {
-        if (step.value === "") {
-          for (const substep of step.sub_steps) {
-            substep.history_error = false;
-            substep.highlighted = false;
+  ResetAllStages = () => {
+    this.setState(state => {
+      const { stages } = state;
+      for (const stage of stages) {
+        for (const step of stage.steps) {
+          if (step.value === "") {
+            for (const substep of step.sub_steps) {
+              substep.history_error = false;
+              substep.highlighted = false;
+            }
+            step.history_error = false;
+            step.highlighted = false;
+          } else {
+            step.history_error = false;
+            step.highlighted = false;
           }
-          step.history_error = false;
-          step.highlighted = false;
-        } else {
-          step.history_error = false;
-          step.highlighted = false;
+        }
+        for (const touch of stage.touchpoints) {
+          touch.highlighted = false;
+          touch.history_error = false;
         }
       }
-      for (const touch of stage.touchpoints) {
-        touch.highlighted = false;
-        touch.history_error = false;
-      }
-    }
-    this.setState({ stages });
+      return {
+        stages
+      };
+    });
   };
 
   checkMoneyBudget = () => {
