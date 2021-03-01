@@ -2,7 +2,7 @@
 import NerdletData from '../../../nr1.json';
 import TouchPoints from '../config/touchPoints.json';
 import Capacity from '../config/capacity.json';
-import Canary from "../config/canary_states.json";
+import Canary from '../config/canary_states.json';
 import ViewData from '../config/view.json';
 import appPackage from '../../../package.json';
 import { historicErrorScript } from '../../../synthetics/createHistoricErrorScript';
@@ -119,7 +119,7 @@ export default class DataManager {
         document: {
           ViewJSON: this.stages,
           BannerKpis: this.banner_kpis
-        },
+        }
       });
     } catch (error) {
       throw new Error(error);
@@ -192,7 +192,7 @@ export default class DataManager {
         element.touchpoints.forEach(touchpoint => {
           if (touchpoint.status_on_off) {
             touchpoint.measure_points.forEach(measure => {
-                this.FetchMeasure(measure);
+              this.FetchMeasure(measure);
             });
           }
         });
@@ -204,23 +204,41 @@ export default class DataManager {
   }
 
   FetchMeasure(measure) {
-    if (measure.type == 0) {
-      const query = `${measure.query} SINCE ${this.TimeRangeTransform(this.timeRange, false)}`;
+    if (measure.type === 0) {
+      const query = `${measure.query} SINCE ${this.TimeRangeTransform(
+        this.timeRange,
+        false
+      )}`;
       this.graphQlmeasures.push([measure, query]);
-    } else if (measure.type == 1) {
-      const query = `${measure.query} SINCE ${this.TimeRangeTransform(this.timeRange, false)}`;
+    } else if (measure.type === 1) {
+      const query = `${measure.query} SINCE ${this.TimeRangeTransform(
+        this.timeRange,
+        false
+      )}`;
       this.graphQlmeasures.push([measure, query]);
-    } else if (measure.type == 2) {
-      const query = `${measure.query} SINCE ${this.TimeRangeTransform(this.timeRange, false)}`;
+    } else if (measure.type === 2) {
+      const query = `${measure.query} SINCE ${this.TimeRangeTransform(
+        this.timeRange,
+        false
+      )}`;
       this.graphQlmeasures.push([measure, query]);
-    } else if (measure.type == 3 && measure.query != '') {
-      const query = `${measure.query} SINCE ${this.TimeRangeTransform(this.timeRange, false)}`;
+    } else if (measure.type === 3 && measure.query !== '') {
+      const query = `${measure.query} SINCE ${this.TimeRangeTransform(
+        this.timeRange,
+        false
+      )}`;
       this.graphQlmeasures.push([measure, query]);
-    } else if (measure.type == 4 && measure.query != '') {
-      const query = `${measure.query} SINCE ${this.TimeRangeTransform(this.timeRange, true)}`;
+    } else if (measure.type === 4 && measure.query !== '') {
+      const query = `${measure.query} SINCE ${this.TimeRangeTransform(
+        this.timeRange,
+        true
+      )}`;
       this.graphQlmeasures.push([measure, query]);
-    } else if (measure.type == 20) {
-      const query = `${measure.query} SINCE ${this.TimeRangeTransform(this.timeRange, false)}`;
+    } else if (measure.type === 20) {
+      const query = `${measure.query} SINCE ${this.TimeRangeTransform(
+        this.timeRange,
+        false
+      )}`;
       this.graphQlmeasures.push([measure, query]);
     }
   }
@@ -232,7 +250,7 @@ export default class DataManager {
       if (sessionsRange && this.getOldSessions) {
         time_start = Math.floor(Date.now() / 1000) - 10 * 59;
         time_end = Math.floor(Date.now() / 1000) - 5 * 58;
-        return time_start + ' UNTIL ' + time_end;
+        return `${time_start} UNTIL ${time_end}`;
       }
       return timeRange;
     }
@@ -276,13 +294,13 @@ export default class DataManager {
       time_start = time_start - 10 * 59;
       time_end = time_end - 5 * 58;
     }
-    return time_start + ' UNTIL ' + time_end;
+    return `${time_start} UNTIL ${time_end}`;
   }
 
   async NRDBQuery() {
     const { data, errors, n } = await this.EvaluateMeasures();
     if (n === 0) {
-      return 0
+      return 0;
     }
     if (errors && errors.length > 0) {
       // TO DO
@@ -294,7 +312,10 @@ export default class DataManager {
         if (measure.type === 0 && value.nrql !== null) {
           measure.count = value.nrql.results[0].count;
         } else if (measure.type === 1 && value.nrql !== null) {
-          measure.error_percentage = value.nrql.results[0].percentage == null ? 0 : value.nrql.results[0].percentage;
+          measure.error_percentage =
+            value.nrql.results[0].percentage == null
+              ? 0
+              : value.nrql.results[0].percentage;
         } else if (measure.type === 2 && value.nrql !== null) {
           measure.apdex = value.nrql.results[0].score;
         } else if (measure.type === 3 && value.nrql !== null) {
@@ -303,7 +324,7 @@ export default class DataManager {
           this.SetSessions(measure, value.nrql.results);
         } else if (measure.type === 20 && value.nrql !== null) {
           this.SetLogsMeasure(measure, value.nrql.results[0]);
-        } else if (measure.type == 100 && value.nrql != null) {
+        } else if (measure.type === 100 && value.nrql != null) {
           measure.value = value.nrql.results[0].value;
         }
       }
@@ -317,16 +338,19 @@ export default class DataManager {
     let n = 0;
     const itemsByPage = 60;
     if (this.graphQlmeasures.length > itemsByPage) {
-      let dataReturn = {
+      const dataReturn = {
         actor: {}
       };
-      let errorsReturn = [];
+      const errorsReturn = [];
       let control = 0;
       const pages = Math.ceil(this.graphQlmeasures.length / itemsByPage);
       for (let i = 0; i < pages; i++) {
-        let dataSplit = this.graphQlmeasures.slice(control, control + itemsByPage);
+        const dataSplit = this.graphQlmeasures.slice(
+          control,
+          control + itemsByPage
+        );
         dataSplit.forEach(nrql => {
-          alias = 'measure_' + n;
+          alias = `measure_${n}`;
           n += 1;
           gql += `${alias}: account(id: ${this.accountId}) {
               nrql(query: "${nrql[1]}", timeout: 10) {
@@ -363,14 +387,12 @@ export default class DataManager {
   }
 
   SetSessions(measure, sessions) {
-    let new_sessions = [];
+    const new_sessions = [];
     sessions.forEach(session => {
-      new_sessions.push(
-          {
-            "id": session.facet,
-            "time": this.SetSessionTime(measure.sessions, session.facet)
-          }
-      );
+      new_sessions.push({
+        id: session.facet,
+        time: this.SetSessionTime(measure.sessions, session.facet)
+      });
     });
     measure.sessions = new_sessions;
   }
@@ -381,28 +403,33 @@ export default class DataManager {
       session_time = session_time - 5 * 58;
     }
     measure_sessions.some(m_sess => {
+      let found = false;
       if (m_sess.id === sessionID) {
         session_time = m_sess.time;
-        return true;
+        found = true;
       }
+      return found;
     });
     return session_time;
   }
 
   SetLogsMeasure(measure, results) {
-    let total = results.R1 + results.R2;
+    const total = results.R1 + results.R2;
     measure.count = results.R1;
-    if (total == 0) {
+    if (total === 0) {
       measure.error_percentage = 0;
     } else {
-      measure.error_percentage = Math.round(results.R2 / total * 10000) / 100;
+      measure.error_percentage = Math.round((results.R2 / total) * 10000) / 100;
     }
   }
 
   async UpdateMerchatKpi() {
     this.graphQlmeasures.length = 0;
     for (let i = 0; i < this.banner_kpis.length; i++) {
-      this.graphQlmeasures.push([this.banner_kpis[i], this.banner_kpis[i].query]);
+      this.graphQlmeasures.push([
+        this.banner_kpis[i],
+        this.banner_kpis[i].query
+      ]);
     }
     await this.NRDBQuery();
   }
@@ -410,7 +437,7 @@ export default class DataManager {
   CalculateUpdates() {
     this.ClearTouchpointError();
     this.touchPoints.forEach(element => {
-      if (element.index == this.city) {
+      if (element.index === this.city) {
         this.CountryCalculateUpdates(element);
       }
     });
@@ -430,25 +457,35 @@ export default class DataManager {
   }
 
   CountryCalculateUpdates(element) {
-    let values = this.Getmeasures(element);
+    const values = this.Getmeasures(element);
     let totalUse = values.total_count;
-    totalUse = totalUse == 0 ? 1 : totalUse;
+    totalUse = totalUse === 0 ? 1 : totalUse;
     for (let i = 0; i < this.stages.length; i++) {
       this.stages[i].status_color = 'good';
-      this.stages[i].status_color = this.UpdateErrorCondition(this.stages[i].status_color, this.GetStageError(i + 1, element));
+      this.stages[i].status_color = this.UpdateErrorCondition(
+        this.stages[i].status_color,
+        this.GetStageError(i + 1, element)
+      );
       this.stages[i].total_count = values.count_by_stage[i];
-      this.stages[i].congestion.value = Math.round(values.count_by_stage[i] / totalUse * 10000) / 100;
-      this.stages[i].capacity = values.count_by_stage[i] / this.CheckMaxCapacity(values.count_by_stage[i], i) * 100;
-      this.stages[i].congestion.percentage = (1 - values.apdex_by_stage[i]) * 100;
-      if (values.sessions_by_stage[i] != 0) {
-        this.stages[i].trafficIconType = "people";
+      this.stages[i].congestion.value =
+        Math.round((values.count_by_stage[i] / totalUse) * 10000) / 100;
+      this.stages[i].capacity =
+        (values.count_by_stage[i] /
+          this.CheckMaxCapacity(values.count_by_stage[i], i)) *
+        100;
+      this.stages[i].congestion.percentage =
+        (1 - values.apdex_by_stage[i]) * 100;
+      if (values.sessions_by_stage[i] !== 0) {
+        this.stages[i].trafficIconType = 'people';
         this.stages[i].total_count = values.sessions_by_stage[i];
-        this.stages[i].congestion.value = Math.round(values.session_percentage_by_stage[i] * 10000) / 100;
+        this.stages[i].congestion.value =
+          Math.round(values.session_percentage_by_stage[i] * 10000) / 100;
       } else {
-        this.stages[i].trafficIconType = "traffic";
+        this.stages[i].trafficIconType = 'traffic';
       }
-      if (values.logmeasure_by_stage[i] != 0) {
-        this.stages[i].total_count = this.stages[i].total_count + values.logmeasure_by_stage[i];
+      if (values.logmeasure_by_stage[i] !== 0) {
+        this.stages[i].total_count =
+          this.stages[i].total_count + values.logmeasure_by_stage[i];
       }
     }
     this.UpdateMaxLatencySteps(values.min_apdex_touchpoint_index_by_stage);
@@ -465,30 +502,36 @@ export default class DataManager {
     element.touchpoints.forEach(touchpoint => {
       if (touchpoint.status_on_off) {
         touchpoint.measure_points.forEach(measure => {
-          if (measure.type == 0) {
+          if (measure.type === 0) {
             total_count += measure.count;
             count_by_stage[touchpoint.stage_index - 1] += measure.count;
-          } else if (measure.type == 2 && apdex_by_stage[touchpoint.stage_index - 1] > measure.apdex) {
+          } else if (
+            measure.type === 2 &&
+            apdex_by_stage[touchpoint.stage_index - 1] > measure.apdex
+          ) {
             apdex_by_stage[touchpoint.stage_index - 1] = measure.apdex;
-            min_apdex_touchpoint_index_by_stage[touchpoint.stage_index - 1] = touchpoint.touchpoint_index;
-          } else if (measure.type == 3) {
+            min_apdex_touchpoint_index_by_stage[touchpoint.stage_index - 1] =
+              touchpoint.touchpoint_index;
+          } else if (measure.type === 3) {
             sessions_by_stage[touchpoint.stage_index - 1] += measure.count;
-          } else if (measure.type == 4) {
-            session_percentage_by_stage[touchpoint.stage_index - 1] = this.GetSessionsPercentage(measure.sessions);
-          } else if (measure.type == 20) {
+          } else if (measure.type === 4) {
+            session_percentage_by_stage[
+              touchpoint.stage_index - 1
+            ] = this.GetSessionsPercentage(measure.sessions);
+          } else if (measure.type === 20) {
             logmeasure_by_stage[touchpoint.stage_index - 1] += measure.count;
           }
         });
       }
     });
     return {
-      'total_count': total_count,
-      'count_by_stage': count_by_stage,
-      'sessions_by_stage': sessions_by_stage,
-      'session_percentage_by_stage': session_percentage_by_stage,
-      'apdex_by_stage': apdex_by_stage,
-      'min_apdex_touchpoint_index_by_stage': min_apdex_touchpoint_index_by_stage,
-      'logmeasure_by_stage': logmeasure_by_stage
+      total_count: total_count,
+      count_by_stage: count_by_stage,
+      sessions_by_stage: sessions_by_stage,
+      session_percentage_by_stage: session_percentage_by_stage,
+      apdex_by_stage: apdex_by_stage,
+      min_apdex_touchpoint_index_by_stage: min_apdex_touchpoint_index_by_stage,
+      logmeasure_by_stage: logmeasure_by_stage
     };
   }
 
@@ -497,9 +540,9 @@ export default class DataManager {
       return 0;
     }
     let count = 0;
-    let currentTime = Math.floor(Date.now() / 1000);
+    const currentTime = Math.floor(Date.now() / 1000);
     sessions.forEach(session => {
-      if ((currentTime - session.time) > 5 * 60) {
+      if (currentTime - session.time > 5 * 60) {
         count++;
       }
     });
@@ -524,46 +567,57 @@ export default class DataManager {
 
   GetStageError(stage, element) {
     let count_touchpoints = 0;
-    let steps_with_error = [];
+    const steps_with_error = [];
     while (steps_with_error.length < this.stepsByStage[stage - 1]) {
       steps_with_error.push(0);
     }
     element.touchpoints.forEach(touchpoint => {
-      if (touchpoint.stage_index == stage && touchpoint.status_on_off) {
+      if (touchpoint.stage_index === stage && touchpoint.status_on_off) {
         count_touchpoints += 1;
         touchpoint.measure_points.forEach(measure => {
-          if (measure.type == 1) {
+          if (measure.type === 1) {
             if (measure.error_percentage > measure.error_threshold) {
               touchpoint.relation_steps.forEach(rel => {
                 steps_with_error[rel - 1] = 1;
               });
-              this.SetTouchpointError(touchpoint.stage_index, touchpoint.touchpoint_index);
+              this.SetTouchpointError(
+                touchpoint.stage_index,
+                touchpoint.touchpoint_index
+              );
             }
-          } else if (measure.type == 2) {
+          } else if (measure.type === 2) {
             if (measure.apdex < 0.4) {
               touchpoint.relation_steps.forEach(rel => {
-                  steps_with_error[rel - 1] = 1;
+                steps_with_error[rel - 1] = 1;
               });
-              this.SetTouchpointError(touchpoint.stage_index, touchpoint.touchpoint_index);
+              this.SetTouchpointError(
+                touchpoint.stage_index,
+                touchpoint.touchpoint_index
+              );
             }
-          } else if (measure.type == 20) {
+          } else if (measure.type === 20) {
             if (measure.error_percentage > measure.error_threshold) {
               touchpoint.relation_steps.forEach(rel => {
-                  steps_with_error[rel - 1] = 1;
+                steps_with_error[rel - 1] = 1;
               });
-              this.SetTouchpointError(touchpoint.stage_index, touchpoint.touchpoint_index);
+              this.SetTouchpointError(
+                touchpoint.stage_index,
+                touchpoint.touchpoint_index
+              );
             }
           }
         });
       }
     });
     if (count_touchpoints > 0) {
-      let porcentage = this.GetTotalStepsWithError(steps_with_error) / this.stepsByStage[stage - 1];
+      const porcentage =
+        this.GetTotalStepsWithError(steps_with_error) /
+        this.stepsByStage[stage - 1];
       if (porcentage >= 0.5) {
-          return 'danger';
+        return 'danger';
       }
       if (porcentage >= 0.15) {
-          return 'warning';
+        return 'warning';
       }
       return 'good';
     } else {
@@ -573,14 +627,14 @@ export default class DataManager {
 
   SetTouchpointError(stage_index, touchpoint_index) {
     this.stages[stage_index - 1].touchpoints.forEach(touchpoint => {
-      if (touchpoint.index == touchpoint_index) {
+      if (touchpoint.index === touchpoint_index) {
         touchpoint.error = true;
       }
     });
     this.stages[stage_index - 1].steps.forEach(step => {
       step.sub_steps.forEach(sub_step => {
         sub_step.relationship_touchpoints.forEach(value => {
-          if (value == touchpoint_index) {
+          if (value === touchpoint_index) {
             sub_step.error = true;
           }
         });
@@ -599,9 +653,9 @@ export default class DataManager {
   }
 
   CheckMaxCapacity(currentValue, stage) {
-    let timeRange = 'STAGES';
+    const timeRange = 'STAGES';
     for (const [key, value] of Object.entries(this.capacity[this.city])) {
-      if (key == timeRange) {
+      if (key === timeRange) {
         const result = Math.max(value[stage], currentValue);
         if (value[stage] < currentValue) {
           this.capacityUpdatePending = true;
@@ -619,7 +673,7 @@ export default class DataManager {
         step.sub_steps.forEach(sub_step => {
           sub_step.latency = false;
           sub_step.relationship_touchpoints.forEach(touchPointIndex => {
-            if (touchPointIndex == max_duration_touchpoint_index_by_stage[i]) {
+            if (touchPointIndex === max_duration_touchpoint_index_by_stage[i]) {
               sub_step.latency = true;
             }
           });
@@ -645,7 +699,7 @@ export default class DataManager {
         document: {
           Capacity: this.capacity
         }
-    })
+      });
     } catch (error) {
       throw new Error(error);
     }
@@ -668,12 +722,14 @@ export default class DataManager {
 
   OffAllTouchpoints() {
     this.touchPoints.some(element => {
-      if (element.index == this.city) {
+      let found = false;
+      if (element.index === this.city) {
         element.touchpoints.forEach(tp => {
-            tp.status_on_off = false;
+          tp.status_on_off = false;
         });
-        return true;
+        found = true;
       }
+      return found;
     });
   }
 
@@ -681,7 +737,7 @@ export default class DataManager {
     for (let i = 0; i < this.stages.length; i++) {
       this.stages[i].steps.forEach(step => {
         step.sub_steps.forEach(sub_step => {
-          if (sub_step.canary_state == true) {
+          if (sub_step.canary_state === true) {
             sub_step.relationship_touchpoints.forEach(touchPointIndex => {
               this.EnableTouchpoint(i + 1, touchPointIndex);
             });
@@ -693,22 +749,29 @@ export default class DataManager {
 
   EnableTouchpoint(stageIndex, touchPointIndex) {
     this.touchPoints.some(element => {
-      if (element.index == this.city) {
+      let found = false;
+      if (element.index === this.city) {
         element.touchpoints.some(tp => {
-            if (tp.stage_index == stageIndex && tp.touchpoint_index == touchPointIndex) {
-              tp.status_on_off = true;
-              return true;
-            }
+          let foundTp = false;
+          if (
+            tp.stage_index === stageIndex &&
+            tp.touchpoint_index === touchPointIndex
+          ) {
+            tp.status_on_off = true;
+            foundTp = true;
+          }
+          return foundTp;
         });
-        return true;
+        found = true;
       }
+      return found;
     });
   }
 
   SetTouchpointsStatus() {
     if (this.touchPoints != null) {
       this.touchPoints.forEach(element => {
-        if (element.index == this.city) {
+        if (element.index === this.city) {
           element.touchpoints.forEach(touchpoint => {
             this.UpdateTouchpointStatus(touchpoint);
           });
@@ -719,15 +782,19 @@ export default class DataManager {
 
   UpdateTouchpointStatus(touchpoint) {
     this.stages.some(stage => {
+      let found = false;
       if (stage.index === touchpoint.stage_index) {
         stage.touchpoints.some(tp => {
+          let foundTp = false;
           if (tp.index === touchpoint.touchpoint_index) {
             tp.status_on_off = touchpoint.status_on_off;
-            return true;
+            foundTp = true;
           }
+          return foundTp;
         });
-        return true;
+        found = true;
       }
+      return found;
     });
   }
 
@@ -765,15 +832,15 @@ export default class DataManager {
   GetMinPercentageError() {
     this.minPercentageError = 100;
     this.touchPoints.forEach(element => {
-      if (element.index == this.city) {
+      if (element.index === this.city) {
         element.touchpoints.forEach(touchpoint => {
-            touchpoint.measure_points.forEach(measure => {
-              if (measure.type == 0 || measure.type == 20) {
-                if (measure.error_threshold < this.minPercentageError) {
-                  this.minPercentageError = measure.error_threshold;
-                }
+          touchpoint.measure_points.forEach(measure => {
+            if (measure.type === 0 || measure.type === 20) {
+              if (measure.error_threshold < this.minPercentageError) {
+                this.minPercentageError = measure.error_threshold;
               }
-            });
+            }
+          });
         });
       }
     });
@@ -816,6 +883,6 @@ export default class DataManager {
   }
 
   UpdateCanaryData(data) {
-    this.SaveCanaryData(data)
+    this.SaveCanaryData(data);
   }
 }
