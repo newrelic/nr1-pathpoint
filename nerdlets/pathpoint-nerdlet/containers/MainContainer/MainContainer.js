@@ -1144,6 +1144,14 @@ export default class MainContainer extends React.Component {
     return data;
   };
 
+  SetConfigurationJSON = payload => {
+    const data = this.DataManager.SetConfigurationJSON(payload);
+    this.setState({
+      stages: data.stages,
+      banner_kpis: data.banner_kpis
+    });
+  };
+
   render() {
     const {
       stages,
@@ -1740,6 +1748,7 @@ export default class MainContainer extends React.Component {
             LogoFormSubmit={this.LogoFormSubmit}
             validateKpiQuery={this.validationQuery}
             GetCurrentConfigurationJSON={this.GetCurrentConfigurationJSON}
+            SetConfigurationJSON={this.SetConfigurationJSON}
           />
           <div id="cover-spin" style={{ display: loading ? '' : 'none' }} />
         </div>

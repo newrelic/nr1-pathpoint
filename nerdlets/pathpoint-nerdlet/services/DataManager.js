@@ -37,6 +37,7 @@ export default class DataManager {
       banner_kpis: [],
       stages: []
     };
+    this.configurationJSON = {};
     this.measureNames = [
       'STANDARD-APM-COUNT-AND',
       'ERROR-PERCENTAGE-QUERY',
@@ -1034,5 +1035,254 @@ export default class DataManager {
       }
     });
     return queries;
+  }
+
+  SetConfigurationJSON(configuration) {
+    this.configurationJSON = JSON.parse(configuration);
+    this.UpdateNewConfiguration();
+    return {
+      stages: this.stages,
+      banner_kpis: this.banner_kpis
+    };
+  }
+
+  UpdateNewConfiguration() {
+    let stageDef = null;
+    let sub_stepDef = null;
+    let stepDef = null;
+    let tpDef = null;
+    let tpDef2 = null;
+    let measure = null;
+    let tpIndex = 1;
+    let stageIndex = 1;
+    let substepIndex = 1;
+    this.stages.length = 0;
+    this.touchPoints.length = 0;
+    this.banner_kpis.length = 0;
+    this.touchPoints.push({
+      index: 0,
+      country: 'PRODUCTION',
+      touchpoints: []
+    });
+    let kpi = null;
+    this.configurationJSON.banner_kpis.forEach(banner_kpi => {
+      kpi = {
+        description: banner_kpi.description,
+        prefix: banner_kpi.prefix,
+        suffix: banner_kpi.suffix,
+        query: banner_kpi.query,
+        type: 100,
+        value: 0
+      };
+      this.banner_kpis.push(kpi);
+    });
+    this.configurationJSON.stages.forEach(stage => {
+      stageDef = {
+        index: stageIndex,
+        title: stage.title,
+        latencyStatus: false,
+        status_color: 'good',
+        gout_enable: false,
+        gout_quantity: 150,
+        money_enabled: false,
+        trafficIconType: 'traffic',
+        money: '',
+        icon_active: 0,
+        icon_description: 'star',
+        icon_visible: false,
+        congestion: {
+          value: 0,
+          percentage: 0
+        },
+        capacity: 0,
+        total_count: 0,
+        active_dotted: stage.active_dotted,
+        active_dotted_color: '#828282',
+        steps: [],
+        touchpoints: []
+      };
+      substepIndex = 1;
+      stage.steps.forEach(step => {
+        stepDef = {
+          value: '',
+          sub_steps: []
+        };
+        step.values.forEach(sub_step => {
+          sub_stepDef = {
+            index: substepIndex,
+            id: sub_step.id,
+            canary_state: false,
+            latency: true,
+            value: sub_step.title,
+            dark: false,
+            sixth_sense: false,
+            history_error: false,
+            dotted: false,
+            highlighted: false,
+            error: false,
+            index_stage: stageIndex,
+            relationship_touchpoints: []
+          };
+          stepDef.sub_steps.push(sub_stepDef);
+          substepIndex++;
+        });
+        stageDef.steps.push(stepDef);
+      });
+      stage.touchpoints.forEach(tp => {
+        tpDef = {
+          index: tpIndex,
+          stage_index: stageIndex,
+          status_on_off: tp.status_on_off,
+          active: false,
+          value: tp.title,
+          highlighted: false,
+          error: false,
+          history_error: false,
+          sixth_sense: false,
+          sixth_sense_url: [[]],
+          countrys: [0],
+          dashboard_url: tp.dashboard_url,
+          relation_steps: tp.related_steps.split(',')
+        };
+        tpDef2 = {
+          stage_index: stageIndex,
+          value: tp.title,
+          touchpoint_index: tpIndex,
+          status_on_off: tp.status_on_off,
+          relation_steps: tp.related_steps.split(','),
+          measure_points: []
+        };
+        tp.queries.forEach(query => {
+          if (query.type === this.measureNames[0]) {
+            measure = {
+              type: 0,
+              query: query.query,
+              count: 0
+            };
+          } else if (query.type === this.measureNames[1]) {
+            measure = {
+              type: 1,
+              query: query.query,
+              error_threshold: '5',
+              error_percentage: 0
+            };
+          } else if (query.type === this.measureNames[2]) {
+            measure = {
+              type: 2,
+              query: query.query,
+              apdex: 0,
+              apdex_time: '50'
+            };
+          } else if (query.type === this.measureNames[3]) {
+            measure = {
+              type: 3,
+              query: query.query,
+              count: 0
+            };
+          } else if (query.type === this.measureNames[4]) {
+            measure = {
+              type: 4,
+              query: query.query,
+              sessions: []
+            };
+          } else if (query.type === this.measureNames[5]) {
+            measure = {
+              type: 20,
+              query: query.query,
+              error_threshold: query.error_threshold,
+              count: 0,
+              error_percentage: 0
+            };
+          }
+          tpDef2.measure_points.push(measure);
+        });
+        stageDef.touchpoints.push(tpDef);
+        this.touchPoints[0].touchpoints.push(tpDef2);
+        tpIndex++;
+      });
+      this.stages.push(stageDef);
+      stageIndex++;
+      tpIndex = 1;
+    });
+    this.UpdateTouchpointsRelationship();
+    this.SetInitialDataViewToStorage();
+    this.SetInitialDataTouchpointsToStorage();
+    this.UpdateTouchpointCopy();
+  }
+
+  UpdateTouchpointsRelationship() {
+    this.touchPoints[0].touchpoints.forEach(touchpoint => {
+      const indexList = [];
+      touchpoint.relation_steps.forEach(value => {
+        indexList.push(this.GetIndexStep(touchpoint.stage_index, value));
+      });
+      touchpoint.relation_steps = indexList;
+    });
+    this.stages.forEach(stage => {
+      stage.touchpoints.forEach(touchpoint => {
+        const indexList = [];
+        touchpoint.relation_steps.forEach(value => {
+          indexList.push(this.GetIndexStep(touchpoint.stage_index, value));
+        });
+        touchpoint.relation_steps = indexList;
+        this.SetStepsRelationship(
+          touchpoint.stage_index,
+          indexList,
+          touchpoint.index
+        );
+      });
+    });
+  }
+
+  GetIndexStep(stage_index, stepId) {
+    let index = 0;
+    this.stages[stage_index - 1].steps.some(step => {
+      let found = false;
+      step.sub_steps.some(sub_step => {
+        if (sub_step.id === stepId) {
+          index = sub_step.index;
+          found = true;
+        }
+        return found;
+      });
+      return found;
+    });
+    return index;
+  }
+
+  SetStepsRelationship(stage_index, indexList, touchpoint_index) {
+    for (let i = 0; i < indexList.length; i++) {
+      this.stages[stage_index - 1].steps.some(step => {
+        let found = false;
+        step.sub_steps.some(sub_step => {
+          if (sub_step.index === indexList[i]) {
+            sub_step.relationship_touchpoints.push(touchpoint_index);
+            found = true;
+          }
+          return found;
+        });
+        return found;
+      });
+    }
+  }
+
+  SetInitialDataTouchpointsToStorage() {
+    try {
+      AccountStorageMutation.mutate({
+        accountId: this.accountId,
+        actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
+        collection: 'pathpoint',
+        documentId: 'touchpoints',
+        document: {
+          TouchPoints: this.touchPoints
+        }
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  UpdateTouchpointCopy() {
+    this.touchPointsCopy = JSON.parse(JSON.stringify(this.touchPoints));
   }
 }
