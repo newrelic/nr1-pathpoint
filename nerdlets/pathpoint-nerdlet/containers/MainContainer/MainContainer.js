@@ -963,17 +963,21 @@ export default class MainContainer extends React.Component {
     this.setState({ testText, goodQuery });
   };
 
-  handleChangeTexarea = event => {
-    const { stageNameSelected } = this.state;
-    if (stageNameSelected.selectedCase) {
-      stageNameSelected.datos[stageNameSelected.selectedCase.value].query_body =
-        event.target.value;
-    } else {
-      stageNameSelected.datos[0].query_body = event.target.value;
-    }
-    this.setState({
-      stageNameSelected,
-      testText: ''
+  handleChangeTexarea = query => {
+    this.setState(state => {
+      const { stageNameSelected } = state;
+      if (stageNameSelected.selectedCase) {
+        stageNameSelected.datos[
+          stageNameSelected.selectedCase.value
+        ].query_body = query;
+      } else {
+        stageNameSelected.datos[0].query_body = query;
+      }
+      return {
+        stageNameSelected,
+        testText: '',
+        modifiedQuery: true
+      };
     });
   };
 
