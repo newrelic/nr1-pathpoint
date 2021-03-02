@@ -1,9 +1,9 @@
-function historicErrorScript(){
-let data = {
-    header:null,
-    footer:null
-}
-data.header = `
+function historicErrorScript() {
+  const data = {
+    header: null,
+    footer: null
+  };
+  data.header = `
 var myAccountID = $secure.PATHPOINT_HISTORIC_ERROR_ACCOUNTID;
 var myInsertKey = $secure.PATHPOINT_HISTORIC_ERROR_INSERT_KEY;
 var myQueryKey = $secure.PATHPOINT_HISTORIC_ERROR_QUERY_KEY;
@@ -15,7 +15,7 @@ var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(
 var dateTime = date + ' ' + time;
 
 `;
-data.footer =`
+  data.footer = `
 
     var rawN = JSON.stringify(events);
     var options = {
@@ -40,7 +40,7 @@ data.footer =`
 $http.post(graphqlpack1, callback1);
 `;
 
-    return data;
+  return data;
 }
 
 export { historicErrorScript };
