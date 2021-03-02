@@ -50,6 +50,7 @@ export default class DataManager {
 
   async BootstrapInitialData() {
     await this.GetAccountId();
+    await this.GetDBmaxCapacity();
     await this.CheckVersion();
     await this.GetCanaryData();
     await this.GetStorageHistoricErrorsParams();
@@ -193,6 +194,7 @@ export default class DataManager {
   }
 
   async TouchPointsUpdate() {
+    console.log('Updating GraphQL Data...')
     this.graphQlmeasures.length = 0;
     this.touchPoints.forEach(element => {
       if (element.index === this.city) {
@@ -1777,6 +1779,23 @@ for (const [key, value] of Object.entries(return`+ w + `.data.actor)) {
         this.historicErrorsDays = data.historicErrorsDays;
         this.historicErrorsHighLightPercentage =
           data.historicErrorsHighLightPercentage;
+      }
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async GetDBmaxCapacity() {
+    try {
+      const { data } = await AccountStorageQuery.query({
+        accountId: this.accountId,
+        collection: 'pathpoint',
+        documentId: 'maxCapacity'
+      });
+      if (data) {
+        this.capacity = data.Capacity;
+      } else {
+        this.SetDBmaxCapacity();
       }
     } catch (error) {
       throw new Error(error);
