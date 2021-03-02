@@ -318,27 +318,29 @@ export default class DataManager {
     if (errors && errors.length > 0) {
       // TO DO
     }
-    for (const [key, value] of Object.entries(data.actor)) {
-      const c = key.split('_');
-      if (c[0] === 'measure') {
-        const measure = this.graphQlmeasures[Number(c[1])][0];
-        if (measure.type === 0 && value.nrql !== null) {
-          measure.count = value.nrql.results[0].count;
-        } else if (measure.type === 1 && value.nrql !== null) {
-          measure.error_percentage =
-            value.nrql.results[0].percentage == null
-              ? 0
-              : value.nrql.results[0].percentage;
-        } else if (measure.type === 2 && value.nrql !== null) {
-          measure.apdex = value.nrql.results[0].score;
-        } else if (measure.type === 3 && value.nrql !== null) {
-          measure.count = value.nrql.results[0].session;
-        } else if (measure.type === 4 && value.nrql !== null) {
-          this.SetSessions(measure, value.nrql.results);
-        } else if (measure.type === 20 && value.nrql !== null) {
-          this.SetLogsMeasure(measure, value.nrql.results[0]);
-        } else if (measure.type === 100 && value.nrql != null) {
-          measure.value = value.nrql.results[0].value;
+    if (data && data.actor) {
+      for (const [key, value] of Object.entries(data.actor)) {
+        const c = key.split('_');
+        if (c[0] === 'measure') {
+          const measure = this.graphQlmeasures[Number(c[1])][0];
+          if (measure.type === 0 && value.nrql !== null) {
+            measure.count = value.nrql.results[0].count;
+          } else if (measure.type === 1 && value.nrql !== null) {
+            measure.error_percentage =
+              value.nrql.results[0].percentage == null
+                ? 0
+                : value.nrql.results[0].percentage;
+          } else if (measure.type === 2 && value.nrql !== null) {
+            measure.apdex = value.nrql.results[0].score;
+          } else if (measure.type === 3 && value.nrql !== null) {
+            measure.count = value.nrql.results[0].session;
+          } else if (measure.type === 4 && value.nrql !== null) {
+            this.SetSessions(measure, value.nrql.results);
+          } else if (measure.type === 20 && value.nrql !== null) {
+            this.SetLogsMeasure(measure, value.nrql.results[0]);
+          } else if (measure.type === 100 && value.nrql != null) {
+            measure.value = value.nrql.results[0].value;
+          }
         }
       }
     }
@@ -377,7 +379,8 @@ export default class DataManager {
         }).catch(errors => {
           return { errors: [{ errors }] };
         });
-        dataReturn.actor = Object.assign(dataReturn.actor, data.actor);
+        if (data && data.actor)
+          dataReturn.actor = Object.assign(dataReturn.actor, data.actor);
         if (errors && errors.length > 0) errorsReturn.push(errors);
         gql = `{
             actor {`;
@@ -1325,7 +1328,7 @@ export default class DataManager {
     if (error) {
       throw new Error(error);
     }
-    if (data.actor.account.nrql != null) {
+    if (data && data.actor.account.nrql != null) {
       this.CalculateHistoricErrors(data.actor.account.nrql);
     }
     return {
