@@ -80,7 +80,7 @@ export default class StepContainer extends React.Component {
 StepContainer.propTypes = {
   steps: PropTypes.array.isRequired,
   onclickStep: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   iconSixthSenseStatus: PropTypes.bool.isRequired,
   iconGoutStatus: PropTypes.bool.isRequired,
   latencyStatus: PropTypes.bool.isRequired,

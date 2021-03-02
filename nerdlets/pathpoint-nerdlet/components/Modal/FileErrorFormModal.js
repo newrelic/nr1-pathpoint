@@ -58,12 +58,10 @@ function BodyFileErrorFormModal(props) {
 }
 
 BodyFileErrorFormModal.propTypes = {
-  errorsList: PropTypes.isRequired,
-  handleUploadJSONFile: PropTypes.isRequired,
-  _onClose: PropTypes.isRequired,
-  configuration: PropTypes.isRequired,
-  updateNewGui: PropTypes.isRequired,
-  validateKpiQuery: PropTypes.isRequired
+  errorsList: PropTypes.array.isRequired,
+  handleUploadJSONFile: PropTypes.func,
+  _onClose: PropTypes.func.isRequired,
+  validateKpiQuery: PropTypes.object.isRequired
 };
 
 export { HeaderFileErrorFormModal, BodyFileErrorFormModal };
