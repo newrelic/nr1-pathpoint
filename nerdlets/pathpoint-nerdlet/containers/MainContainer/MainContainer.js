@@ -215,7 +215,9 @@ export default class MainContainer extends React.Component {
       async () => {
         this.validationQuery = new ValidationQuery(this.state.accountId);
         this.InitLogoSetupData(this.state.accountId);
-        this.ExecuteUpdateData();
+        setTimeout(() => {
+          this.ExecuteUpdateData();
+        }, 500);
         setInterval(() => {
           this.ExecuteUpdateData();
         }, Setup.time_refresh);
