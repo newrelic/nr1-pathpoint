@@ -52,6 +52,7 @@ export default class DataManager {
     await this.GetAccountId();
     await this.CheckVersion();
     await this.GetCanaryData();
+    await this.GetStorageHistoricErrorsParams();
     this.version = appPackage.version;
     if (this.lastStorageVersion === appPackage.version) {
       this.colors = ViewData.colors;
@@ -1764,20 +1765,20 @@ for (const [key, value] of Object.entries(return`+ w + `.data.actor)) {
     }
   }
 
-  GetStorageHistoricErrorsParams() {
-    AccountStorageQuery.query({
+  async GetStorageHistoricErrorsParams() {
+    try {
+      const { data } = await AccountStorageQuery.query({
         accountId: this.accountId,
         collection: 'pathpoint',
-        documentId: 'HistoricErrorsParams',
-    }).then(({ data }) => {
-        if (data != null) {
-            // IF data Exist
-            console.log('READ HistoricErrorsParams');
-            this.historicErrorsDays = data.historicErrorsDays;
-            this.historicErrorsHighLightPercentage = data.historicErrorsHighLightPercentage;
-        } else {
-            this.setStorageHistoricErrorsParams();
-        }
-    });
+        documentId: 'HistoricErrorsParams'
+      });
+      if (data) {
+        this.historicErrorsDays = data.historicErrorsDays;
+        this.historicErrorsHighLightPercentage =
+          data.historicErrorsHighLightPercentage;
+      }
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 }
