@@ -124,7 +124,8 @@ export default class MainContainer extends React.Component {
       logoSetup: {
         type: 'Default'
       },
-      banner_kpis: null
+      banner_kpis: null,
+      modifiedQuery: false
     };
   }
 
@@ -757,7 +758,9 @@ export default class MainContainer extends React.Component {
       viewModal: view,
       stageNameSelected: { touchpoint, datos },
       querySample: '',
-      testText: ''
+      testText: '',
+      modifiedQuery: false,
+      goodQuery: true
     });
     this._onClose();
   };
@@ -933,13 +936,27 @@ export default class MainContainer extends React.Component {
   }
 
   changeMessage = value => {
-    const { stageNameSelected } = this.state;
-    stageNameSelected.selectedCase = value;
-    this.setState({
-      stageNameSelected,
-      querySample: '',
-      testText: ''
-    });
+    const { stageNameSelected, modifiedQuery } = this.state;
+    if (
+      (stageNameSelected.selectedCase &&
+        stageNameSelected.selectedCase.value === value.value) ||
+      modifiedQuery
+    ) {
+      this.setState({
+        stageNameSelected,
+        querySample: '',
+        testText: ''
+      });
+    } else {
+      stageNameSelected.selectedCase = value;
+      this.setState({
+        stageNameSelected,
+        querySample: '',
+        testText: '',
+        modifiedQuery: false,
+        goodQuery: true
+      });
+    }
   };
 
   chargueSample = value => {
@@ -962,7 +979,18 @@ export default class MainContainer extends React.Component {
         querySample = messages.sample_querys.logMeasure;
         break;
     }
-    this.setState({ querySample, testText: '' });
+    if (stageNameSelected.selectedCase) {
+      stageNameSelected.datos[
+        stageNameSelected.selectedCase.value
+      ].query_body = querySample;
+    } else {
+      stageNameSelected.datos[0].query_body = querySample;
+    }
+    this.setState({
+      querySample,
+      testText: '',
+      stageNameSelected
+    });
   };
 
   testQuery = async (query, value) => {
@@ -972,7 +1000,7 @@ export default class MainContainer extends React.Component {
       type,
       query
     );
-    this.setState({ testText, goodQuery });
+    this.setState({ testText, modifiedQuery: false, goodQuery });
   };
 
   handleChangeTexarea = query => {
@@ -1245,7 +1273,8 @@ export default class MainContainer extends React.Component {
       querySample,
       testText,
       goodQuery,
-      banner_kpis
+      banner_kpis,
+      modifiedQuery
     } = this.state;
     if (this.state.waiting) {
       return (
@@ -1815,6 +1844,7 @@ export default class MainContainer extends React.Component {
             GetCurrentConfigurationJSON={this.GetCurrentConfigurationJSON}
             SetConfigurationJSON={this.SetConfigurationJSON}
             GetCurrentHistoricErrorScript={this.GetCurrentHistoricErrorScript}
+            modifiedQuery={modifiedQuery}
           />
           <div id="cover-spin" style={{ display: loading ? '' : 'none' }} />
         </div>

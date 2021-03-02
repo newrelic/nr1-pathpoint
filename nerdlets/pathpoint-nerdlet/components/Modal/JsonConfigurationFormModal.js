@@ -87,7 +87,7 @@ function BodyJsonConfigurationFormModal(props) {
     textDecoration: 'none',
     color: 'red'
   };
-  const unsafeProps = {
+  const unsafePropsJson = {
     href,
     target: '_blank',
     style: hrefStyle
@@ -105,7 +105,7 @@ function BodyJsonConfigurationFormModal(props) {
       <div className="modal4content" style={{ textAlign: 'justify' }}>
         {ReactHtmlParser(messages.configuration.setup.json)}
         <div>
-          <a {...unsafeProps}>
+          <a {...unsafePropsJson}>
             <YoutubeIcon />
             Demo
           </a>
