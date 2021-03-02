@@ -51,9 +51,9 @@ function BodyLogoFormModal(props) {
             text: ''
           }}
           validationSchema={logoFormSchema}
-          onSubmit={(values, actions) => LogoFormSubmit(values, _onClose)}
+          onSubmit={values => LogoFormSubmit(values, _onClose)}
         >
-          {({ errors, touched, submitForm, values, setFieldValue }) => (
+          {({ errors, touched, values, setFieldValue }) => (
             <Form>
               <Field
                 className="custom-select"

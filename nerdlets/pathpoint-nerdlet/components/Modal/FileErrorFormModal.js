@@ -35,7 +35,7 @@ function BodyFileErrorFormModal(props) {
       })}
       <div style={{ float: 'right', margin: '50px 0px 0px 0px' }}>
         <label htmlFor="file-upload" className="button" color="primary">
-          {'Fix & Upload'}
+          Fix & Upload
         </label>
         <input
           id="file-upload"

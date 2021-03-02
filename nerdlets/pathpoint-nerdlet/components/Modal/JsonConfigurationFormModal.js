@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import DownloadLink from 'react-download-link';
 import ReactHtmlParser from 'react-html-parser';
-import ajv from 'ajv';
+import Ajv from 'ajv';
 
 // IMPORT SCHEMA VALIDATION
 import viewSchema, { CustomSchemaValidation } from '../../schemas/view';
@@ -35,7 +35,7 @@ function handleUploadJSONFile(
   const fileReader = new FileReader();
   fileReader.readAsText(e.target.files[0], 'UTF-8');
   fileReader.onload = async eX => {
-    const validator = new ajv({ allErrors: true, async: true });
+    const validator = new Ajv({ allErrors: true, async: true });
     const validate = validator.compile(viewSchema);
     const valid = await validate(JSON.parse(eX.target.result));
     if (valid) {
@@ -200,7 +200,8 @@ const UploadIcon = () => {
 BodyJsonConfigurationFormModal.propTypes = {
   _onClose: PropTypes.func.isRequired,
   GetCurrentConfigurationJSON: PropTypes.func.isRequired,
-  SetConfigurationJSON: PropTypes.func.isRequired
+  SetConfigurationJSON: PropTypes.func.isRequired,
+  validateKpiQuery: PropTypes.func.isRequired
 };
 
 export { HeaderJsonConfigurationFormModal, BodyJsonConfigurationFormModal };
