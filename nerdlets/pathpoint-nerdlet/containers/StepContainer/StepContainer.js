@@ -1,10 +1,10 @@
 import React from 'react';
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 import Step from '../../components/Step/Step.js';
 
 export default class StepContainer extends React.Component {
     state = {
-        quantityOfContainer: []
+    quantityOfContainer: []
     }
 
     componentWillMount() {

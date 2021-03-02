@@ -75,9 +75,9 @@ function BodySupportFormModal(props) {
             message: ''
           }}
           validationSchema={contactSchema}
-          onSubmit={(values, actions) => handleSaveUpdateSupport(values)}
+          onSubmit={values => handleSaveUpdateSupport(values)}
         >
-          {({ errors, touched, submitForm, values, setFieldValue }) => (
+          {({ errors, touched, values, setFieldValue }) => (
             <Form>
               <Field
                 className="custom-select"
