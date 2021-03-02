@@ -1296,7 +1296,7 @@ export default class DataManager {
   }
 
   async ReadHistoricErrors() {
-    const query = `SELECT count(*) FROM PathpointHistoricErrors WHERE pathpoint_id=${this.pathpointId} percentage>${this.minPercentageError} FACET stage_index,touchpoint_index,percentage LIMIT MAX SINCE ${this.historicErrorsDays} days ago` ;
+    const query = `SELECT count(*) FROM PathpointHistoricErrors WHERE pathpoint_id=${this.pathpointId} percentage>${this.minPercentageError} FACET stage_index,touchpoint_index,percentage LIMIT MAX SINCE ${this.historicErrorsDays} days ago`;
     const gql = `{
         actor { account(id: ${this.accountId}) {
             nrql(query: "${query}", timeout: 10) {
@@ -1520,7 +1520,7 @@ for (const [key, value] of Object.entries(return`+ w + `.data.actor)) {
       if (element.index === this.city) {
         found = true;
         element.touchpoints.some(tp => {
-          let found2 = false
+          let found2 = false;
           if (
             tp.stage_index === touchpoint.stage_index &&
             tp.touchpoint_index === touchpoint.index
@@ -1730,6 +1730,54 @@ for (const [key, value] of Object.entries(return`+ w + `.data.actor)) {
         }
       }
       return found;
+    });
+  }
+
+  GetHistoricParameters() {
+    const values = { days: 0, percentage: 0 };
+    values.days = this.historicErrorsDays;
+    values.percentage = this.historicErrorsHighLightPercentage;
+    return values;
+  }
+
+  UpdateHistoricParameters(days, percentage) {
+    this.historicErrorsDays = days;
+    this.historicErrorsHighLightPercentage = percentage;
+    this.SetStorageHistoricErrorsParams();
+  }
+
+  SetStorageHistoricErrorsParams() {
+    try {
+      AccountStorageMutation.mutate({
+        accountId: this.accountId,
+        actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
+        collection: 'pathpoint',
+        documentId: 'HistoricErrorsParams',
+        document: {
+          historicErrorsDays: this.historicErrorsDays,
+          historicErrorsHighLightPercentage: this
+            .historicErrorsHighLightPercentage
+        }
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  GetStorageHistoricErrorsParams() {
+    AccountStorageQuery.query({
+        accountId: this.accountId,
+        collection: 'pathpoint',
+        documentId: 'HistoricErrorsParams',
+    }).then(({ data }) => {
+        if (data != null) {
+            // IF data Exist
+            console.log('READ HistoricErrorsParams');
+            this.historicErrorsDays = data.historicErrorsDays;
+            this.historicErrorsHighLightPercentage = data.historicErrorsHighLightPercentage;
+        } else {
+            this.setStorageHistoricErrorsParams();
+        }
     });
   }
 }
