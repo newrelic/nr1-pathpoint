@@ -581,6 +581,7 @@ export default class MainContainer extends React.Component {
         },
         () => {
           this.PreSelectCanaryData(this.state.canaryData);
+          this.updateDataNow();
         }
       );
     } else if (previousIconCanaryStatus && !iconCanaryStatus) {
@@ -955,6 +956,9 @@ export default class MainContainer extends React.Component {
       case 'Count Query':
         querySample = messages.sample_querys.count;
         break;
+      case 'Error Percentage Query':
+        querySample = messages.sample_querys.percentage;
+        break;
       case 'Apdex Query':
         querySample = messages.sample_querys.apdex;
         break;
@@ -964,8 +968,8 @@ export default class MainContainer extends React.Component {
       case 'Session Query Duration':
         querySample = messages.sample_querys.sessionDuration;
         break;
-      case 'Log Measure Query':
-        querySample = messages.sample_querys.logMeasure;
+      case 'Full Open Query':
+        querySample = messages.sample_querys.fullOpenQuery;
         break;
     }
     if (stageNameSelected.selectedCase) {

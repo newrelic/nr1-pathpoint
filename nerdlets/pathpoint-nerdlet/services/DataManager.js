@@ -43,11 +43,11 @@ export default class DataManager {
     };
     this.configurationJSON = {};
     this.measureNames = [
-      'STANDARD-APM-COUNT-AND',
+      'COUNT-QUERY',
       'ERROR-PERCENTAGE-QUERY',
       'APDEX-QUERY',
-      'UNIQUE-SESSIONS-COUNT-QUERY',
-      'COUNT-SESSIONS-FACET-QUERY',
+      'SESSIONS-QUERY',
+      'SESSIONS-QUERY-DURATION',
       'FULL-OPEN-QUERY'
     ];
   }
@@ -1692,7 +1692,7 @@ for (const [key, value] of Object.entries(return` +
                 });
               } else if (measure.type === 20) {
                 datos.push({
-                  label: 'Log Measure Query',
+                  label: 'Full Open Query',
                   value: actualValue,
                   type: 20,
                   query_start: '',
