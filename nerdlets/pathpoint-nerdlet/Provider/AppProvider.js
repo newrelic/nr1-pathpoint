@@ -1,5 +1,6 @@
-import React from "react";
-import Data from "../config/view.json";
+import React from 'react';
+import PropTypes from 'prop-types';
+import Data from '../config/view.json';
 
 const AppContext = React.createContext();
 
@@ -14,5 +15,9 @@ export class AppProvider extends React.Component {
     );
   }
 }
+
+AppProvider.propTypes = {
+  children: PropTypes.object.isRequired
+};
 
 export default AppContext;
