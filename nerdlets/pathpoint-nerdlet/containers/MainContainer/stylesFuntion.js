@@ -7,7 +7,7 @@ const STAGEWITH = 250;
  * @return {object} Style
  */
 export function mainContainerStyle() {
-  return { gridTemplate: "60px 1fr / auto" };
+  return { gridTemplate: '60px 1fr / auto' };
 }
 
 /**
@@ -19,13 +19,13 @@ export function mainContainerStyle() {
  */
 export function contentStyle(numStages) {
   const unit = 100 / numStages;
-  let columns = "";
+  let columns = '';
   for (let index = 0; index < numStages; index++) {
-    columns = columns + ` ${unit}%`;
+    columns = `${columns} ${unit}%`;
   }
   return {
-    display: "grid",
-    gridTemplateColumns: columns,
+    display: 'grid',
+    gridTemplateColumns: columns
     // gridTemplateRows: "200px",
   };
 }
@@ -39,11 +39,11 @@ export function contentStyle(numStages) {
  */
 export function contentContainerStyle(numStages) {
   if (numStages <= 5) {
-    return { paddingLeft: "5%", paddingRight: "5%" };
+    return { paddingLeft: '5%', paddingRight: '5%' };
   } else {
     return {
-      paddingLeft: "1%",
-      paddingRight: "1%",
+      paddingLeft: '1%',
+      paddingRight: '1%'
     };
   }
 }
@@ -59,9 +59,9 @@ export function contentContainerStyle(numStages) {
 export function mainColumn(active_dotted, active_dotted_color) {
   return {
     width: `${STAGEWITH}px`,
-    height: "100%",
+    height: '100%',
     borderLeftStyle: active_dotted,
     color: active_dotted_color,
-    borderWidth: "1px",
+    borderWidth: '1px'
   };
 }
