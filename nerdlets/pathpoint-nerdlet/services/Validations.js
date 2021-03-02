@@ -1,8 +1,12 @@
 import { NerdGraphQuery } from 'nr1';
-import { gql } from '@apollo/client';
-import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
-import CONFIG from "../../../.env.json";
+import {
+  gql,
+  setContext,
+  ApolloClient,
+  createHttpLink,
+  InMemoryCache
+} from '@apollo/client';
+import CONFIG from '../../../.env.json';
 import messages from '../config/messages.json';
 
 export default class ValidationQuery {
@@ -22,35 +26,36 @@ export default class ValidationQuery {
      }`;
     let dataReturn = {};
     const { errors, data } = await NerdGraphQuery.query({ query: gql });
-    console.log(data);
     if (data) {
-      dataReturn = data.actor.account.nrql ? data.actor.account.nrql.results : [];
+      dataReturn = data.actor.account.nrql
+        ? data.actor.account.nrql.results
+        : [];
     }
     return { errors, data: dataReturn };
   }
 
   async validatecloudFlareGraphQl(cloudFareApp) {
     const httpLink = createHttpLink({
-      uri: CONFIG.cloudFlareURL,
+      uri: CONFIG.cloudFlareURL
     });
     const authLink = setContext((_, { headers }) => {
       const token = CONFIG.cloudFlareAPITOKEN;
       return {
         headers: {
           ...headers,
-          authorization: token ? `Bearer ${token}` : "",
+          authorization: token ? `Bearer ${token}` : ''
         }
-      }
+      };
     });
     const client = new ApolloClient({
       link: authLink.concat(httpLink),
       cache: new InMemoryCache()
     });
-    let s = Date.now() - 5 * 60000;
-    let startTime = new Date(s).toISOString();
-    let w = Date.now();
-    let endTime = new Date(w).toISOString();
-    let query = `query {
+    const s = Date.now() - 5 * 60000;
+    const startTime = new Date(s).toISOString();
+    const w = Date.now();
+    const endTime = new Date(w).toISOString();
+    const query = `query {
                 viewer {
                   zones(filter: {zoneTag: "${CONFIG.cloudFlareZone}"}) {
                     validation:firewallEventsAdaptiveGroups(limit: 1000, 
@@ -64,14 +69,19 @@ export default class ValidationQuery {
                     }
                   }
               }`;
-    const results = await client.query({ query: gql`${query}` });
+    const results = await client.query({
+      query: gql`
+        ${query}
+      `
+    });
     return results.data.viewer.zones[0];
   }
 
   async validateQuery(type, query) {
     let testText = messages.test_query.good;
     let goodQuery = true;
-    const { data, errors } = type !== 'Cloudflare App' && await this.validateNrqlQuery(query);
+    const { data, errors } =
+      type !== 'Cloudflare App' && (await this.validateNrqlQuery(query));
     switch (type) {
       case 'Count Query':
         goodQuery = this.countQueryValidation(errors, data);
@@ -97,7 +107,7 @@ export default class ValidationQuery {
     if (!goodQuery) {
       testText = messages.test_query.wrong;
     }
-    return { testText, goodQuery }
+    return { testText, goodQuery };
   }
 
   countQueryValidation(errors, data) {
@@ -105,21 +115,18 @@ export default class ValidationQuery {
     let quantity = 0;
     if (errors && errors.length > 0) {
       validate = false;
-    } else {
+    } else if (data instanceof Array && data.length === 1) {
       if (data instanceof Array && data.length === 1) {
-        for (const [key, value] of Object.entries(data[0])) {
-          if (typeof value !== 'number') {
-            validate = false;
-            break;
-          }
-          quantity++;
-        }
-        if (quantity > 2) {
+        if (typeof value !== 'number') {
           validate = false;
         }
-      } else {
+        quantity++;
+      }
+      if (quantity > 2) {
         validate = false;
       }
+    } else {
+      validate = false;
     }
     return validate;
   }
@@ -146,7 +153,6 @@ export default class ValidationQuery {
           validate = false;
         } else if (!containCount || !containScore) {
           validate = false;
-
         }
       } else {
         validate = false;
@@ -160,21 +166,19 @@ export default class ValidationQuery {
     let quantity = 0;
     if (errors && errors.length > 0) {
       validate = false;
-    } else {
-      if (data instanceof Array && data.length === 1) {
-        for (const [key, value] of Object.entries(data[0])) {
-          if (typeof value !== 'number') {
-            validate = false;
-            break;
-          }
-          quantity++;
-        }
-        if (quantity > 1) {
+    } else if (data instanceof Array && data.length === 1) {
+      for (const [value] of Object.entries(data[0])) {
+        if (typeof value !== 'number') {
           validate = false;
+          break;
         }
-      } else {
+        quantity++;
+      }
+      if (quantity > 1) {
         validate = false;
       }
+    } else {
+      validate = false;
     }
     return validate;
   }
@@ -183,10 +187,8 @@ export default class ValidationQuery {
     let validate = true;
     if (errors && errors.length > 0) {
       validate = false;
-    } else {
-      if (!query.includes('FACET') && !query.includes('facet')) {
-        validate = false;
-      }
+    } else if (!query.includes('FACET') && !query.includes('facet')) {
+      validate = false;
     }
     return validate;
   }
@@ -198,26 +200,23 @@ export default class ValidationQuery {
     let containR2 = false;
     if (errors && errors.length > 0) {
       validate = false;
-    } else {
-      if (data instanceof Array && data.length === 1) {
-        for (const [key, value] of Object.entries(data[0])) {
-          if (typeof value !== 'number') {
-            validate = false;
-            break;
-          }
-          if (key === 'R1') containR1 = true;
-          if (key === 'R2') containR2 = true;
-          quantity++;
-        }
-
-        if (quantity > 2) {
+    } else if (data instanceof Array && data.length === 1) {
+      for (const [key, value] of Object.entries(data[0])) {
+        if (typeof value !== 'number') {
           validate = false;
-        } else if (!containR1 || !containR2) {
-          validate = false;
+          break;
         }
-      } else {
+        if (key === 'R1') containR1 = true;
+        if (key === 'R2') containR2 = true;
+        quantity++;
+      }
+      if (quantity > 2) {
+        validate = false;
+      } else if (!containR1 || !containR2) {
         validate = false;
       }
+    } else {
+      validate = false;
     }
     return validate;
   }
@@ -230,5 +229,4 @@ export default class ValidationQuery {
     }
     return validate;
   }
-
 }
