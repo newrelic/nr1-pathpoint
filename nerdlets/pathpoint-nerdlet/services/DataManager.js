@@ -903,6 +903,7 @@ export default class DataManager {
     let line = 0;
     let kpi = null;
     this.configuration.pathpointVersion = this.version;
+    this.configuration.banner_kpis.length = 0;
     for (let i = 0; i < this.banner_kpis.length; i++) {
       kpi = {
         description: this.banner_kpis[i].description,
