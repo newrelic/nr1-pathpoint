@@ -198,7 +198,7 @@ export default class DataManager {
   }
 
   async TouchPointsUpdate() {
-    console.log('Updating GraphQL Data...')
+    console.log('Updating GraphQL Data...');
     this.graphQlmeasures.length = 0;
     this.touchPoints.forEach(element => {
       if (element.index === this.city) {
@@ -372,7 +372,11 @@ export default class DataManager {
           }`;
         });
         gql += `}}`;
-        const { data, errors } = await NerdGraphQuery.query({ query: gql });
+        const { data, errors } = await NerdGraphQuery.query({
+          query: gql
+        }).catch(errors => {
+          return { errors: [{ errors }] };
+        });
         dataReturn.actor = Object.assign(dataReturn.actor, data.actor);
         if (errors && errors.length > 0) errorsReturn.push(errors);
         gql = `{
@@ -396,7 +400,11 @@ export default class DataManager {
         }`;
       });
       gql += `}}`;
-      const { data, errors } = await NerdGraphQuery.query({ query: gql });
+      const { data, errors } = await NerdGraphQuery.query({ query: gql }).catch(
+        errors => {
+          return { errors: [{ errors }] };
+        }
+      );
       return { data, n, errors };
     }
   }
