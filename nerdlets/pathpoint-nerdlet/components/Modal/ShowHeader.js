@@ -89,6 +89,10 @@ export default function ShowHeader(props) {
 
 ShowHeader.propTypes = {
   viewModal: PropTypes.number.isRequired,
-  stageNameSelected: PropTypes.object.isRequired,
+  stageNameSelected: PropTypes.oneOfType([
+    PropTypes.string.isRequired,
+    PropTypes.object.isRequired,
+    PropTypes.number.isRequired
+  ]),
   changeMessage: PropTypes.func.isRequired
 };

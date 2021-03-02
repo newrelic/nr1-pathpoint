@@ -147,8 +147,8 @@ const renderField = ({ onChange, placeholder, type, bsClass, margin }) => {
 };
 
 BodyLogoFormModal.propTypes = {
-  LogoFormSubmit: PropTypes.isRequired,
-  _onClose: PropTypes.isRequired
+  LogoFormSubmit: PropTypes.func.isRequired,
+  _onClose: PropTypes.func.isRequired
 };
 
 export { HeaderLogoFormModal, BodyLogoFormModal };

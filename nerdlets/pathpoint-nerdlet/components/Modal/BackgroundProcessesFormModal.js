@@ -84,7 +84,6 @@ function getFireSyntheticFilter(cb, onClose) {
 
 BodyBackgroundProcessesFormModal.propTypes = {
   _onClose: PropTypes.func.isRequired,
-  configuration: PropTypes.isRequired,
   GetCurrentHistoricErrorScript: PropTypes.func.isRequired
 };
 
