@@ -201,7 +201,7 @@ BodyJsonConfigurationFormModal.propTypes = {
   _onClose: PropTypes.func.isRequired,
   GetCurrentConfigurationJSON: PropTypes.func.isRequired,
   SetConfigurationJSON: PropTypes.func.isRequired,
-  validateKpiQuery: PropTypes.func.isRequired
+  validateKpiQuery: PropTypes.object.isRequired
 };
 
 export { HeaderJsonConfigurationFormModal, BodyJsonConfigurationFormModal };

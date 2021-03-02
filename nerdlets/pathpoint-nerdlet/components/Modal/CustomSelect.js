@@ -49,10 +49,10 @@ const customStyles = {
 };
 
 CustomSelect.propTypes = {
-  placeholder: PropTypes.isRequired,
-  form: PropTypes.isRequired,
-  field: PropTypes.isRequired,
-  options: PropTypes.isRequired
+  placeholder: PropTypes.string.isRequired,
+  form: PropTypes.object.isRequired,
+  field: PropTypes.object.isRequired,
+  options: PropTypes.array.isRequired
 };
 
 export default CustomSelect;

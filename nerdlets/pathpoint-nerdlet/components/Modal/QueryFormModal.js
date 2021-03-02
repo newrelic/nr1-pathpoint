@@ -34,8 +34,12 @@ function HeaderQueryFormModal(props) {
 }
 
 HeaderQueryFormModal.propTypes = {
-  stageNameSelected: PropTypes.isRequired,
-  changeMessage: PropTypes.isRequired
+  stageNameSelected: PropTypes.oneOfType([
+    PropTypes.string.isRequired,
+    PropTypes.object.isRequired,
+    PropTypes.number.isRequired
+  ]),
+  changeMessage: PropTypes.func.isRequired
 };
 
 function BodyQueryFormModal(props) {
@@ -239,7 +243,7 @@ BodyQueryFormModal.propTypes = {
   handleSaveUpdateQuery: PropTypes.func.isRequired,
   testText: PropTypes.string.isRequired,
   goodQuery: PropTypes.bool.isRequired,
-  modifiedQuery: PropTypes.bool.isRequired
+  modifiedQuery: PropTypes.bool
 };
 
 export { HeaderQueryFormModal, BodyQueryFormModal };
