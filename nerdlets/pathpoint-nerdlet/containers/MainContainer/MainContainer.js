@@ -1799,6 +1799,7 @@ export default class MainContainer extends React.Component {
             handleSaveUpdateCanary={this.handleSaveUpdateCanary}
             handleSaveUpdateFire={this.handleSaveUpdateFire}
             LogoFormSubmit={this.LogoFormSubmit}
+            validateKpiQuery={this.validationQuery}
             GetCurrentConfigurationJSON={this.GetCurrentConfigurationJSON}
             SetConfigurationJSON={this.SetConfigurationJSON}
             GetCurrentHistoricErrorScript={this.GetCurrentHistoricErrorScript}
