@@ -1134,12 +1134,12 @@ export default class MainContainer extends React.Component {
 
   _handleContextMenuFire = event => {
     if (event.button === 2) {
-      const values = this.updateData.getHistoricParameters();
+      const values = this.DataManager.GetHistoricParameters();
       this.setState({
+        flameForm: values,
         backdrop: true,
         showRightPanel: true,
-        MenuRightDefault: 3,
-        flameForm: values
+        MenuRightDefault: 3
       });
     }
   };
@@ -1153,7 +1153,7 @@ export default class MainContainer extends React.Component {
       showLeftPanel: false
     });
     if (MenuRightDefault === 3) {
-      this.updateData.updateHistoricParameters(
+      this.DataManager.UpdateHistoricParameters(
         flameForm.days,
         flameForm.percentage
       );
