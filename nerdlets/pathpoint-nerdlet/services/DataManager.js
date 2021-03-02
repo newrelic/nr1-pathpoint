@@ -1,3 +1,7 @@
+/* eslint-disable prefer-template */
+/* eslint-disable no-loop-func */
+/* eslint-disable require-atomic-updates */
+
 // IMPORT LIBRARIES DEPENDENCIES
 import NerdletData from '../../../nr1.json';
 import TouchPoints from '../config/touchPoints.json';
@@ -377,11 +381,13 @@ export default class DataManager {
         control += itemsByPage;
       }
       return {
-        data: dataReturn, n, errors: errorsReturn
-      }
+        data: dataReturn,
+        n,
+        errors: errorsReturn
+      };
     } else {
       this.graphQlmeasures.forEach(nrql => {
-        alias = 'measure_' + n;
+        alias = `measure_${n}`;
         n += 1;
         gql += `${alias}: account(id: ${this.accountId}) {
             nrql(query: "${nrql[1]}", timeout: 10) {
@@ -1453,39 +1459,63 @@ export default class DataManager {
       }
     });
     for (let w = 1; w <= n; w++) {
-        data += `
-var graphqlpack`+ w + ` = {
+      data +=
+        `
+var graphqlpack` +
+        w +
+        ` = {
 headers: {
     "Content-Type": "application/json",
     "API-Key": graphQLKey
 },
 url: 'https://api.newrelic.com/graphql',
-body: raw`+ w + `
+body: raw` +
+        w +
+        `
 };
 
-var return`+ w + ` = null;
+var return` +
+        w +
+        ` = null;
 
 `;
     }
-    for (var w = 1; w < n; w++) {
-        data += `
-function callback`+ w + `(err, response, body) {
-return`+ w + ` = JSON.parse(body);
-$http.post(graphqlpack`+ (w + 1) + `, callback` + (w + 1) + `);
+    for (let w = 1; w < n; w++) {
+      data +=
+        `
+function callback` +
+        w +
+        `(err, response, body) {
+return` +
+        w +
+        ` = JSON.parse(body);
+$http.post(graphqlpack` +
+        (w + 1) +
+        `, callback` +
+        (w + 1) +
+        `);
 } 
 
 `;
     }
-    data += `
-function callback`+ n + `(err, response, body) {
-return`+ n + ` = JSON.parse(body);
+    data +=
+      `
+function callback` +
+      n +
+      `(err, response, body) {
+return` +
+      n +
+      ` = JSON.parse(body);
 var events = [];
 var event = null;
 var c = null;
 `;
-    for (var w = 1; w <= n; w++) {
-        data += `
-for (const [key, value] of Object.entries(return`+ w + `.data.actor)) {
+    for (let w = 1; w <= n; w++) {
+      data +=
+        `
+for (const [key, value] of Object.entries(return` +
+        w +
+        `.data.actor)) {
     c = key.split("_");
     if (value.nrql.results != null) {
         if(c[3]=='0'){
@@ -1707,15 +1737,18 @@ for (const [key, value] of Object.entries(return`+ w + `.data.actor)) {
       if (element.index === this.city) {
         found = true;
         element.touchpoints.some(tp => {
+          let found2 = false;
           if (
             tp.stage_index === touchpoint.stage_index &&
             tp.touchpoint_index === touchpoint.index
           ) {
+            found2 = true;
             datos.forEach(dato => {
               this.UpdateMeasure(dato, tp.measure_points);
             });
             this.SetStorageTouchpoints();
           }
+          return found2;
         });
       }
       return found;
