@@ -465,6 +465,7 @@ export default class Configuration {
         let line = 0;
         let kpi = null;
         this.configuration.pathpointVersion = this.states.version;
+        this.configuration.banner_kpis.length = 0;
         for (let i = 0; i < this.states.banner_kpis.length; i++) {
             kpi = {
                 "description": this.states.banner_kpis[i].description,
