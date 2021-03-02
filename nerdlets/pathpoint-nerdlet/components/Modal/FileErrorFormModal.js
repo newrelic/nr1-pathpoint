@@ -27,15 +27,23 @@ function BodyFileErrorFormModal(props) {
     SetConfigurationJSON
   } = props;
   return (
-    <div style={{ paddingTop: '30px' }}>
-      {errorsList.map((error, i) => {
-        return (
-          <div className="error-alert-modal" key={i}>
-            <p>{`${error.dataPath} - ${error.message}`}</p>
-          </div>
-        );
-      })}
-      <div style={{ float: 'right', margin: '50px 0px 0px 0px' }}>
+    <>
+      <div className="containerError">
+        {errorsList.map((error, i) => {
+          return (
+            <div className="error-alert-modal" key={i}>
+              <p>{`${error.dataPath} - ${error.message}`}</p>
+            </div>
+          );
+        })}
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          alignItems: 'flex-end'
+        }}
+      >
         <label htmlFor="file-upload" className="button" color="primary">
           Fix & Upload
         </label>
@@ -54,7 +62,7 @@ function BodyFileErrorFormModal(props) {
           style={{ display: 'none' }}
         />
       </div>
-    </div>
+    </>
   );
 }
 
