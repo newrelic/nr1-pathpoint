@@ -88,7 +88,7 @@ function BodyCanaryFormModal(props) {
 }
 
 BodyCanaryFormModal.propTypes = {
-  handleSaveUpdateCanary: PropTypes.isRequired
+  handleSaveUpdateCanary: PropTypes.func.isRequired
 };
 
 export { HeaderCanaryFormModal, BodyCanaryFormModal };
