@@ -272,7 +272,14 @@ export default class MainContainer extends React.Component {
         pending: true
       });
     } else {
-      this.ExecuteUpdateData();
+      this.setState(
+        {
+          loading: true
+        },
+        () => {
+          this.ExecuteUpdateData(true);
+        }
+      );
     }
   }
 
@@ -587,13 +594,18 @@ export default class MainContainer extends React.Component {
         }
       );
     } else if (previousIconCanaryStatus && !iconCanaryStatus) {
-      this.setState(state => {
-        const { stages } = state;
-        const data = this.DataManager.ClearCanaryData(stages);
-        return {
-          stages: data.stages
-        };
-      });
+      this.setState(
+        state => {
+          const { stages } = state;
+          const data = this.DataManager.ClearCanaryData(stages);
+          return {
+            stages: data.stages
+          };
+        },
+        () => {
+          this.updateDataNow();
+        }
+      );
     }
   };
 
