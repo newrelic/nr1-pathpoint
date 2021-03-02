@@ -198,7 +198,6 @@ export default class DataManager {
   }
 
   async TouchPointsUpdate() {
-    console.log('Updating GraphQL Data...')
     this.graphQlmeasures.length = 0;
     this.touchPoints.forEach(element => {
       if (element.index === this.city) {

@@ -1,5 +1,3 @@
-/* eslint-disable react/no-deprecated */
-
 // IMPORT LIBRARIES AND DEPENDENCIES
 import React from 'react';
 import { nerdlet } from 'nr1';
@@ -182,7 +180,7 @@ export default class MainContainer extends React.Component {
 
   // =========================================================== UPDATE DATA API
 
-  componentWillMount() {
+  componentDidMount() {
     this.BoootstrapApplication();
   }
 
