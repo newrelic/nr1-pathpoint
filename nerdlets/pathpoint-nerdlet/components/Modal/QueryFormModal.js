@@ -163,11 +163,7 @@ function BodyQueryFormModal(props) {
                     )}
                   </div>
                   <Button
-                    disabled={
-                      modifiedQuery
-                        ? true
-                        : !!(goodQuery === false || goodQuery === null)
-                    }
+                    disabled={modifiedQuery ? true : !goodQuery}
                     variant="contained"
                     color="primary"
                     style={{ background: '#0178bf', color: 'white' }}
@@ -185,14 +181,8 @@ function BodyQueryFormModal(props) {
   );
 }
 
-const renderTextArea = ({ onChange, style, querySample, query_body }) => {
-  return (
-    <textarea
-      onChange={onChange}
-      style={style}
-      value={querySample !== '' ? querySample : query_body}
-    />
-  );
+const renderTextArea = ({ onChange, style, query_body }) => {
+  return <textarea onChange={onChange} style={style} value={query_body} />;
 };
 
 const WrongIcon = () => {
