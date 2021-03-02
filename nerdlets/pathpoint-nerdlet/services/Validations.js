@@ -117,7 +117,7 @@ export default class ValidationQuery {
       validate = false;
     } else if (data instanceof Array && data.length === 1) {
       // eslint-disable-next-line no-unused-vars
-      for (const [key, value] of Object.entries(data[0])) {
+      for (const [, value] of Object.entries(data[0])) {
         if (typeof value !== 'number') {
           validate = false;
           break;
