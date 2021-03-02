@@ -6,7 +6,7 @@ export default class SixthSense extends React.PureComponent {
     super(...arguments);
     this._onClose = this._onClose.bind(this);
     this.state = {
-      hidden: true,
+      hidden: true
     };
   }
 
