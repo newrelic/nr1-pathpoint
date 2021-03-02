@@ -150,7 +150,7 @@ export default class DataManager {
 
   async GetCanaryData() {
     try {
-      const { data } = AccountStorageQuery.query({
+      const { data } = await AccountStorageQuery.query({
         accountId: this.accountId,
         collection: 'pathpoint',
         documentId: 'dataCanary'
