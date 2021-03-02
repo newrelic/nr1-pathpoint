@@ -75,42 +75,53 @@ function handleUploadJSONFile(
   const fileReader = new FileReader();
   fileReader.readAsText(e.target.files[0], 'UTF-8');
   fileReader.onload = async eX => {
-    const validator = new Ajv({ allErrors: true, async: true });
-    const validate = validator.compile(viewSchema);
-    const valid = await validate(JSON.parse(eX.target.result));
-    if (valid) {
-      let parsed = JSON.parse(eX.target.result);
-      parsed = parsed.banner_kpis;
-      const queryErrors = [];
-      for (let i = 0; i < parsed.length; i++) {
-        const tested = await validateKpiQuery.validateQuery(
-          'Count Query',
-          parsed[i].query
-        );
-        if (!tested.goodQuery) {
-          queryErrors.push({
-            dataPath: `banner_kpis/${i}/query`,
-            message: `Bad query structure`
-          });
+    try {
+      const validator = new Ajv({ allErrors: true, async: true });
+      const validate = validator.compile(viewSchema);
+      const valid = await validate(JSON.parse(eX.target.result));
+      if (valid) {
+        let parsed = JSON.parse(eX.target.result);
+        parsed = parsed.banner_kpis;
+        const queryErrors = [];
+        for (let i = 0; i < parsed.length; i++) {
+          const tested = await validateKpiQuery.validateQuery(
+            'Count Query',
+            parsed[i].query
+          );
+          if (!tested.goodQuery) {
+            queryErrors.push({
+              dataPath: `banner_kpis/${i}/query`,
+              message: `Bad query structure`
+            });
+          }
         }
+        const customErrors = CustomSchemaValidation(
+          JSON.parse(eX.target.result)
+        );
+        let totalErrrors = [];
+        if (!customErrors && queryErrors.length === 0) {
+          SetConfigurationJSON(eX.target.result);
+        }
+        if (customErrors) {
+          totalErrrors = [...customErrors];
+        }
+        if (queryErrors.length > 0) {
+          totalErrrors = [...totalErrrors, ...queryErrors];
+        }
+        if (totalErrrors.length === 0) {
+          totalErrrors = false;
+        }
+        onClose(totalErrrors);
+      } else {
+        onClose(validate.errors);
       }
-      const customErrors = CustomSchemaValidation(JSON.parse(eX.target.result));
-      let totalErrrors = [];
-      if (!customErrors && queryErrors.length === 0) {
-        SetConfigurationJSON(eX.target.result);
-      }
-      if (customErrors) {
-        totalErrrors = [...customErrors];
-      }
-      if (queryErrors.length > 0) {
-        totalErrrors = [...totalErrrors, ...queryErrors];
-      }
-      if (totalErrrors.length === 0) {
-        totalErrrors = false;
-      }
-      onClose(totalErrrors);
-    } else {
-      onClose(validate.errors);
+    } catch (error) {
+      onClose([
+        {
+          dataPath: `JSON File`,
+          message: `Bad JSON File Structure`
+        }
+      ]);
     }
   };
 }
