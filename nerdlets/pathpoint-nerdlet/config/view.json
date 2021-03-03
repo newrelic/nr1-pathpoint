@@ -82,7 +82,7 @@
   "stages": [
     {
       "index": 1,
-      "title": "PRE-PROCESSING",
+      "title": "BROWSE",
       "latencyStatus": false,
       "status_color": "good",
       "gout_enable": false,
@@ -110,7 +110,7 @@
               "id": "ST1-LINE1-SS1",
               "canary_state": false,
               "latency": true,
-              "value": "Catalog Processing",
+              "value": "Web",
               "dark": false,
               "sixth_sense": false,
               "history_error": false,
@@ -119,11 +119,7 @@
               "error": false,
               "index_stage": 1,
               "relationship_touchpoints": [
-                1,
-                2,
-                3,
-                4,
-                5
+                1
               ]
             },
             {
@@ -131,7 +127,7 @@
               "id": "ST1-LINE1-SS2",
               "canary_state": false,
               "latency": false,
-              "value": "Ambassador",
+              "value": "Mobile Web",
               "dark": false,
               "sixth_sense": false,
               "history_error": false,
@@ -140,10 +136,7 @@
               "error": false,
               "index_stage": 1,
               "relationship_touchpoints": [
-                1,
-                2,
-                3,
-                5
+                2
               ]
             },
             {
@@ -151,18 +144,15 @@
               "id": "ST1-LINE1-SS3",
               "canary_state": false,
               "latency": false,
-              "value": "Localization",
-              "dark": true,
+              "value": "App",
+              "dark": false,
               "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
               "error": false,
               "index_stage": 1,
-              "relationship_touchpoints": [
-                3,
-                4
-              ]
+              "relationship_touchpoints": []
             }
           ]
         },
@@ -174,7 +164,160 @@
               "id": "ST1-LINE2-SS1",
               "canary_state": false,
               "latency": false,
-              "value": "Duties &Taxes",
+              "value": "Login",
+              "dark": true,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 1,
+              "relationship_touchpoints": [
+                3
+              ]
+            },
+            {
+              "index": 5,
+              "id": "ST1-LINE2-SS2",
+              "canary_state": false,
+              "latency": false,
+              "value": "Signup",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 1,
+              "relationship_touchpoints": [
+                4
+              ]
+            },
+            {
+              "index": 6,
+              "id": "ST1-LINE2-SS3",
+              "canary_state": false,
+              "latency": false,
+              "value": "Guest",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 1,
+              "relationship_touchpoints": []
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 7,
+              "id": "ST1-LINE3-SS1",
+              "canary_state": false,
+              "latency": false,
+              "value": "Search",
+              "dark": true,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 1,
+              "relationship_touchpoints": []
+            },
+            {
+              "index": 8,
+              "id": "ST1-LINE3-SS2",
+              "canary_state": false,
+              "latency": false,
+              "value": "Menu",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 1,
+              "relationship_touchpoints": []
+            },
+            {
+              "index": 9,
+              "id": "ST1-LINE3-SS3",
+              "canary_state": false,
+              "latency": false,
+              "value": "Gift Card",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 1,
+              "relationship_touchpoints": []
+            },
+            {
+              "index": 10,
+              "id": "ST1-LINE3-SS4",
+              "canary_state": false,
+              "latency": false,
+              "value": "Rewards",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 1,
+              "relationship_touchpoints": [
+                5
+              ]
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 11,
+              "id": "ST1-LINE4-SS1",
+              "canary_state": false,
+              "latency": false,
+              "value": "Rewards",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 1,
+              "relationship_touchpoints": [
+                6
+              ]
+            },
+            {
+              "index": 12,
+              "id": "ST1-LINE4-SS2",
+              "canary_state": false,
+              "latency": false,
+              "value": "Pick-Up Item",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 1,
+              "relationship_touchpoints": []
+            },
+            {
+              "index": 13,
+              "id": "ST1-LINE4-SS3",
+              "canary_state": false,
+              "latency": false,
+              "value": "Reward Item",
               "dark": true,
               "sixth_sense": false,
               "history_error": false,
@@ -190,12 +333,12 @@
           "value": "",
           "sub_steps": [
             {
-              "index": 5,
-              "id": "ST1-LINE3-SS1",
+              "index": 14,
+              "id": "ST1-LINE5-SS1",
               "canary_state": false,
               "latency": false,
-              "value": "Consulate",
-              "dark": false,
+              "value": "Add to Bag",
+              "dark": true,
               "sixth_sense": false,
               "history_error": false,
               "dotted": false,
@@ -203,33 +346,7 @@
               "error": false,
               "index_stage": 1,
               "relationship_touchpoints": [
-                2,
-                3,
-                4
-              ]
-            }
-          ]
-        },
-        {
-          "value": "",
-          "sub_steps": [
-            {
-              "index": 6,
-              "id": "ST1-LINE4-SS1",
-              "canary_state": false,
-              "latency": false,
-              "value": "Restrictions",
-              "dark": false,
-              "sixth_sense": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 1,
-              "relationship_touchpoints": [
-                2,
-                3,
-                4
+                7
               ]
             }
           ]
@@ -241,7 +358,7 @@
           "stage_index": 1,
           "status_on_off": true,
           "active": false,
-          "value": "Questionaire-web-access",
+          "value": "Catalog API",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -253,11 +370,10 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNDU"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NDg"
           ],
           "relation_steps": [
-            1,
-            2
+            1
           ]
         },
         {
@@ -265,7 +381,7 @@
           "stage_index": 1,
           "status_on_off": true,
           "active": false,
-          "value": "Shipping Service-health-check",
+          "value": "Master Data API",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -277,13 +393,10 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNDY"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NDk"
           ],
           "relation_steps": [
-            1,
-            2,
-            5,
-            6
+            2
           ]
         },
         {
@@ -291,7 +404,7 @@
           "stage_index": 1,
           "status_on_off": true,
           "active": false,
-          "value": "Catalog Service Health Check",
+          "value": "Pricing API",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -303,14 +416,10 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNDg"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTA"
           ],
           "relation_steps": [
-            1,
-            2,
-            3,
-            5,
-            6
+            4
           ]
         },
         {
@@ -318,7 +427,7 @@
           "stage_index": 1,
           "status_on_off": true,
           "active": false,
-          "value": "Currency Service Check",
+          "value": "Search API",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -330,13 +439,10 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNDk"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTE"
           ],
           "relation_steps": [
-            1,
-            3,
-            5,
-            6
+            5
           ]
         },
         {
@@ -344,7 +450,7 @@
           "stage_index": 1,
           "status_on_off": true,
           "active": false,
-          "value": "Initiate Transaction",
+          "value": "Session Manager API",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -356,18 +462,63 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNTA"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTI"
           ],
           "relation_steps": [
-            1,
-            2
+            10
+          ]
+        },
+        {
+          "index": 6,
+          "stage_index": 1,
+          "status_on_off": true,
+          "active": false,
+          "value": "Subscriptions API",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "sixth_sense": false,
+          "sixth_sense_url": [
+            []
+          ],
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTM"
+          ],
+          "relation_steps": [
+            11
+          ]
+        },
+        {
+          "index": 7,
+          "stage_index": 1,
+          "status_on_off": true,
+          "active": false,
+          "value": "Suggestions API",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "sixth_sense": false,
+          "sixth_sense_url": [
+            []
+          ],
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTQ"
+          ],
+          "relation_steps": [
+            14
           ]
         }
       ]
     },
     {
       "index": 2,
-      "title": "PRE-ORDER",
+      "title": "BAG",
       "latencyStatus": false,
       "status_color": "good",
       "gout_enable": false,
@@ -384,7 +535,7 @@
       },
       "capacity": 0,
       "total_count": 0,
-      "active_dotted": "dashed",
+      "active_dotted": "none",
       "active_dotted_color": "#828282",
       "steps": [
         {
@@ -395,7 +546,7 @@
               "id": "ST2-LINE1-SS1",
               "canary_state": false,
               "latency": true,
-              "value": "Localization",
+              "value": "Pay Items",
               "dark": false,
               "sixth_sense": false,
               "history_error": false,
@@ -404,9 +555,7 @@
               "error": false,
               "index_stage": 2,
               "relationship_touchpoints": [
-                1,
-                2,
-                3
+                1
               ]
             },
             {
@@ -414,31 +563,7 @@
               "id": "ST2-LINE1-SS2",
               "canary_state": false,
               "latency": false,
-              "value": "Welcome Mat",
-              "dark": true,
-              "sixth_sense": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 2,
-              "relationship_touchpoints": [
-                1,
-                2,
-                3
-              ]
-            }
-          ]
-        },
-        {
-          "value": "",
-          "sub_steps": [
-            {
-              "index": 3,
-              "id": "ST2-LINE2-SS1",
-              "canary_state": false,
-              "latency": false,
-              "value": "BFX",
+              "value": "Reward Items",
               "dark": false,
               "sixth_sense": false,
               "history_error": false,
@@ -446,10 +571,22 @@
               "highlighted": false,
               "error": false,
               "index_stage": 2,
-              "relationship_touchpoints": [
-                4,
-                5
-              ]
+              "relationship_touchpoints": []
+            },
+            {
+              "index": 3,
+              "id": "ST2-LINE1-SS3",
+              "canary_state": false,
+              "latency": false,
+              "value": "Saved items",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 2,
+              "relationship_touchpoints": []
             }
           ]
         },
@@ -458,10 +595,116 @@
           "sub_steps": [
             {
               "index": 4,
+              "id": "ST2-LINE2-SS1",
+              "canary_state": false,
+              "latency": false,
+              "value": "Add/Remove Item",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 2,
+              "relationship_touchpoints": [
+                2
+              ]
+            },
+            {
+              "index": 5,
+              "id": "ST2-LINE2-SS2",
+              "canary_state": false,
+              "latency": false,
+              "value": "Promo Code",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 2,
+              "relationship_touchpoints": []
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 6,
               "id": "ST2-LINE3-SS1",
               "canary_state": false,
               "latency": false,
-              "value": "Tagging ",
+              "value": "PAY Calculation",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 2,
+              "relationship_touchpoints": [
+                3
+              ]
+            },
+            {
+              "index": 7,
+              "id": "ST2-LINE3-SS2",
+              "canary_state": false,
+              "latency": false,
+              "value": "POINTS Calculation",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 2,
+              "relationship_touchpoints": []
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 8,
+              "id": "ST2-LINE4-SS1",
+              "canary_state": false,
+              "latency": false,
+              "value": "Checkout",
+              "dark": true,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 2,
+              "relationship_touchpoints": [
+                4
+              ]
+            },
+            {
+              "index": 9,
+              "id": "ST2-LINE4-SS2",
+              "canary_state": false,
+              "latency": false,
+              "value": "Continue Shopping",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 2,
+              "relationship_touchpoints": []
+            },
+            {
+              "index": 10,
+              "id": "ST2-LINE4-SS3",
+              "canary_state": false,
+              "latency": false,
+              "value": "Save For Later",
               "dark": false,
               "sixth_sense": false,
               "history_error": false,
@@ -480,7 +723,7 @@
           "stage_index": 2,
           "status_on_off": true,
           "active": false,
-          "value": "Questionaire-try-login",
+          "value": "Catalog API",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -492,11 +735,10 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNTE"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTU"
           ],
           "relation_steps": [
-            1,
-            2
+            1
           ]
         },
         {
@@ -504,7 +746,7 @@
           "stage_index": 2,
           "status_on_off": true,
           "active": false,
-          "value": "Shipping Get Quote",
+          "value": "Pricing API",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -516,11 +758,10 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNTI"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTY"
           ],
           "relation_steps": [
-            1,
-            2
+            4
           ]
         },
         {
@@ -528,7 +769,7 @@
           "stage_index": 2,
           "status_on_off": true,
           "active": false,
-          "value": "Catalog Get Product",
+          "value": "Master Data API",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -540,11 +781,10 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNTM"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTc"
           ],
           "relation_steps": [
-            1,
-            2
+            6
           ]
         },
         {
@@ -552,7 +792,7 @@
           "stage_index": 2,
           "status_on_off": true,
           "active": false,
-          "value": "Create Cart",
+          "value": "Subscriptions API",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -564,33 +804,10 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNTQ"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTg"
           ],
           "relation_steps": [
-            3
-          ]
-        },
-        {
-          "index": 5,
-          "stage_index": 2,
-          "status_on_off": true,
-          "active": false,
-          "value": "Adding Products to Cart",
-          "highlighted": false,
-          "error": false,
-          "history_error": false,
-          "sixth_sense": false,
-          "sixth_sense_url": [
-            []
-          ],
-          "countrys": [
-            0
-          ],
-          "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNTU"
-          ],
-          "relation_steps": [
-            3
+            8
           ]
         }
       ]
@@ -625,8 +842,8 @@
               "id": "ST3-LINE1-SS1",
               "canary_state": false,
               "latency": true,
-              "value": "Buyer Checkout",
-              "dark": true,
+              "value": "Customer info.",
+              "dark": false,
               "sixth_sense": false,
               "history_error": false,
               "dotted": false,
@@ -634,9 +851,7 @@
               "error": false,
               "index_stage": 3,
               "relationship_touchpoints": [
-                1,
-                2,
-                3
+                1
               ]
             }
           ]
@@ -649,7 +864,7 @@
               "id": "ST3-LINE2-SS1",
               "canary_state": false,
               "latency": false,
-              "value": "Duty & Tax",
+              "value": "Delivery Options",
               "dark": false,
               "sixth_sense": false,
               "history_error": false,
@@ -658,12 +873,41 @@
               "error": false,
               "index_stage": 3,
               "relationship_touchpoints": [
-                4,
-                5,
-                6,
-                7,
-                8,
-                10
+                5
+              ]
+            },
+            {
+              "index": 3,
+              "id": "ST3-LINE2-SS2",
+              "canary_state": false,
+              "latency": false,
+              "value": "Pick-Up Options",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 3,
+              "relationship_touchpoints": [
+                2
+              ]
+            },
+            {
+              "index": 4,
+              "id": "ST3-LINE2-SS3",
+              "canary_state": false,
+              "latency": false,
+              "value": "Gift Option",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 3,
+              "relationship_touchpoints": [
+                6
               ]
             }
           ]
@@ -672,11 +916,11 @@
           "value": "",
           "sub_steps": [
             {
-              "index": 3,
+              "index": 5,
               "id": "ST3-LINE3-SS1",
               "canary_state": false,
               "latency": false,
-              "value": "Payment Processing",
+              "value": "Credit Card",
               "dark": false,
               "sixth_sense": false,
               "history_error": false,
@@ -685,8 +929,74 @@
               "error": false,
               "index_stage": 3,
               "relationship_touchpoints": [
-                3,
-                9
+                3
+              ]
+            },
+            {
+              "index": 6,
+              "id": "ST3-LINE3-SS2",
+              "canary_state": false,
+              "latency": true,
+              "value": "Paypal",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 3,
+              "relationship_touchpoints": []
+            },
+            {
+              "index": 7,
+              "id": "ST3-LINE3-SS3",
+              "canary_state": false,
+              "latency": false,
+              "value": "Afterpay",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 3,
+              "relationship_touchpoints": []
+            },
+            {
+              "index": 8,
+              "id": "ST3-LINE3-SS4",
+              "canary_state": false,
+              "latency": false,
+              "value": "Gift Card ",
+              "dark": true,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 3,
+              "relationship_touchpoints": []
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 9,
+              "id": "ST3-LINE4-SS1",
+              "canary_state": false,
+              "latency": true,
+              "value": "Submit Order",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 3,
+              "relationship_touchpoints": [
+                4
               ]
             }
           ]
@@ -698,7 +1008,7 @@
           "stage_index": 3,
           "status_on_off": true,
           "active": false,
-          "value": "Submit Cart",
+          "value": "Session Manager API",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -710,7 +1020,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNTc"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTk"
           ],
           "relation_steps": [
             1
@@ -721,7 +1031,7 @@
           "stage_index": 3,
           "status_on_off": true,
           "active": false,
-          "value": "Questionaire-home",
+          "value": "Checkout API",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -733,10 +1043,10 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNTk"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjE"
           ],
           "relation_steps": [
-            1
+            3
           ]
         },
         {
@@ -744,7 +1054,7 @@
           "stage_index": 3,
           "status_on_off": true,
           "active": false,
-          "value": "Ship Order",
+          "value": "Customer Credit API",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -756,11 +1066,10 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNjY"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjI"
           ],
           "relation_steps": [
-            1,
-            3
+            5
           ]
         },
         {
@@ -768,7 +1077,7 @@
           "stage_index": 3,
           "status_on_off": true,
           "active": false,
-          "value": "Catalog List Product",
+          "value": "Gift Card API",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -780,10 +1089,10 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNjc"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjM"
           ],
           "relation_steps": [
-            2
+            9
           ]
         },
         {
@@ -791,7 +1100,7 @@
           "stage_index": 3,
           "status_on_off": true,
           "active": false,
-          "value": "Currency Convert",
+          "value": "Gift Card Hub API",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -803,7 +1112,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNjk"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjQ"
           ],
           "relation_steps": [
             2
@@ -814,7 +1123,7 @@
           "stage_index": 3,
           "status_on_off": true,
           "active": false,
-          "value": "Supported Currency",
+          "value": "Catalog API",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -826,109 +1135,17 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNzA"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjU"
           ],
           "relation_steps": [
-            2
-          ]
-        },
-        {
-          "index": 7,
-          "stage_index": 3,
-          "status_on_off": true,
-          "active": false,
-          "value": "Questionaire-logout",
-          "highlighted": false,
-          "error": false,
-          "history_error": false,
-          "sixth_sense": false,
-          "sixth_sense_url": [
-            []
-          ],
-          "countrys": [
-            0
-          ],
-          "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNzE"
-          ],
-          "relation_steps": [
-            2
-          ]
-        },
-        {
-          "index": 8,
-          "stage_index": 3,
-          "status_on_off": true,
-          "active": false,
-          "value": "Checkout Service",
-          "highlighted": false,
-          "error": false,
-          "history_error": false,
-          "sixth_sense": false,
-          "sixth_sense_url": [
-            []
-          ],
-          "countrys": [
-            0
-          ],
-          "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNzI"
-          ],
-          "relation_steps": [
-            2
-          ]
-        },
-        {
-          "index": 9,
-          "stage_index": 3,
-          "status_on_off": true,
-          "active": false,
-          "value": "Redis",
-          "highlighted": false,
-          "error": false,
-          "history_error": false,
-          "sixth_sense": false,
-          "sixth_sense_url": [
-            []
-          ],
-          "countrys": [
-            0
-          ],
-          "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNzQ"
-          ],
-          "relation_steps": [
-            3
-          ]
-        },
-        {
-          "index": 10,
-          "stage_index": 3,
-          "status_on_off": true,
-          "active": false,
-          "value": "DutyCalc",
-          "highlighted": false,
-          "error": false,
-          "history_error": false,
-          "sixth_sense": false,
-          "sixth_sense_url": [
-            []
-          ],
-          "countrys": [
-            0
-          ],
-          "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNzU"
-          ],
-          "relation_steps": [
-            2
+            4
           ]
         }
       ]
     },
     {
       "index": 4,
-      "title": "ORDER MANAGEMENT",
+      "title": "ORDER",
       "latencyStatus": false,
       "status_color": "danger",
       "gout_enable": false,
@@ -956,7 +1173,7 @@
               "id": "ST4-LINE1-SS1",
               "canary_state": false,
               "latency": true,
-              "value": "Purchase Orders",
+              "value": "Delivery Items",
               "dark": false,
               "sixth_sense": false,
               "history_error": false,
@@ -965,12 +1182,38 @@
               "error": false,
               "index_stage": 4,
               "relationship_touchpoints": [
-                1,
-                2,
-                3,
-                4,
-                5
+                1
               ]
+            },
+            {
+              "index": 2,
+              "id": "ST4-LINE1-SS2",
+              "canary_state": false,
+              "latency": false,
+              "value": "Pick-Up Items",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 4,
+              "relationship_touchpoints": []
+            },
+            {
+              "index": 3,
+              "id": "ST4-LINE1-SS3",
+              "canary_state": false,
+              "latency": false,
+              "value": "Item Not Available",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 4,
+              "relationship_touchpoints": []
             }
           ]
         },
@@ -978,11 +1221,11 @@
           "value": "",
           "sub_steps": [
             {
-              "index": 2,
+              "index": 4,
               "id": "ST4-LINE2-SS1",
               "canary_state": false,
               "latency": false,
-              "value": "Order Status",
+              "value": "Order Processing",
               "dark": false,
               "sixth_sense": false,
               "history_error": false,
@@ -991,8 +1234,112 @@
               "error": false,
               "index_stage": 4,
               "relationship_touchpoints": [
-                2,
-                3,
+                2
+              ]
+            },
+            {
+              "index": 5,
+              "id": "ST4-LINE2-SS2",
+              "canary_state": false,
+              "latency": false,
+              "value": "Order Canceled",
+              "dark": true,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 4,
+              "relationship_touchpoints": []
+            },
+            {
+              "index": 6,
+              "id": "ST4-LINE2-SS3",
+              "canary_state": false,
+              "latency": false,
+              "value": "Order Delayed",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 4,
+              "relationship_touchpoints": []
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 7,
+              "id": "ST4-LINE3-SS1",
+              "canary_state": false,
+              "latency": false,
+              "value": "Delivery Label Generated",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 4,
+              "relationship_touchpoints": [
+                3
+              ]
+            },
+            {
+              "index": 8,
+              "id": "ST4-LINE3-SS2",
+              "canary_state": false,
+              "latency": false,
+              "value": "Pick-up Prep",
+              "dark": true,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 4,
+              "relationship_touchpoints": []
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 9,
+              "id": "ST4-LINE4-SS1",
+              "canary_state": false,
+              "latency": false,
+              "value": "Order Tracking #",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 4,
+              "relationship_touchpoints": [
+                4
+              ]
+            },
+            {
+              "index": 10,
+              "id": "ST4-LINE4-SS2",
+              "canary_state": false,
+              "latency": true,
+              "value": "Pick-up Date and Locatioon",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 4,
+              "relationship_touchpoints": [
                 5
               ]
             }
@@ -1005,7 +1352,7 @@
           "stage_index": 4,
           "status_on_off": true,
           "active": false,
-          "value": "Questionaire-login",
+          "value": "Orders API",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1017,7 +1364,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNzY"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjY"
           ],
           "relation_steps": [
             1
@@ -1028,7 +1375,7 @@
           "stage_index": 4,
           "status_on_off": true,
           "active": false,
-          "value": "Checkout Cart",
+          "value": "Customer Credit API",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1040,11 +1387,10 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNzc"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjU"
           ],
           "relation_steps": [
-            1,
-            2
+            4
           ]
         },
         {
@@ -1052,7 +1398,7 @@
           "stage_index": 4,
           "status_on_off": true,
           "active": false,
-          "value": "Set Currency",
+          "value": "Gift Card API",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1064,11 +1410,10 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNzg"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjU"
           ],
           "relation_steps": [
-            1,
-            2
+            7
           ]
         },
         {
@@ -1076,7 +1421,7 @@
           "stage_index": 4,
           "status_on_off": true,
           "active": false,
-          "value": "Recommendations",
+          "value": "Gift Card Hub API",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1088,10 +1433,10 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyNzk"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3Njk"
           ],
           "relation_steps": [
-            1
+            9
           ]
         },
         {
@@ -1099,7 +1444,7 @@
           "stage_index": 4,
           "status_on_off": true,
           "active": false,
-          "value": "Email Service",
+          "value": "Logistics API",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1111,18 +1456,17 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyODA"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NzA"
           ],
           "relation_steps": [
-            1,
-            2
+            10
           ]
         }
       ]
     },
     {
       "index": 5,
-      "title": "DISTRIBUTION & RETURNS",
+      "title": "DISTRIBUTION",
       "latencyStatus": false,
       "status_color": "warning",
       "gout_enable": false,
@@ -1139,7 +1483,7 @@
       },
       "capacity": 0,
       "total_count": 0,
-      "active_dotted": "dashed",
+      "active_dotted": "none",
       "active_dotted_color": "#828282",
       "steps": [
         {
@@ -1150,47 +1494,7 @@
               "id": "ST5-LINE1-SS1",
               "canary_state": false,
               "latency": true,
-              "value": "Distribution",
-              "dark": false,
-              "sixth_sense": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 5,
-              "relationship_touchpoints": []
-            }
-          ]
-        },
-        {
-          "value": "",
-          "sub_steps": [
-            {
-              "index": 2,
-              "id": "ST5-LINE2-SS1",
-              "canary_state": false,
-              "latency": false,
-              "value": "Order  Status Updates",
-              "dark": false,
-              "sixth_sense": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 5,
-              "relationship_touchpoints": []
-            }
-          ]
-        },
-        {
-          "value": "",
-          "sub_steps": [
-            {
-              "index": 3,
-              "id": "ST5-LINE3-SS1",
-              "canary_state": false,
-              "latency": false,
-              "value": "Tracking",
+              "value": "Ready for Store Pick-Up",
               "dark": false,
               "sixth_sense": false,
               "history_error": false,
@@ -1201,18 +1505,13 @@
               "relationship_touchpoints": [
                 1
               ]
-            }
-          ]
-        },
-        {
-          "value": "",
-          "sub_steps": [
+            },
             {
-              "index": 4,
-              "id": "ST5-LINE4-SS1",
+              "index": 2,
+              "id": "ST5-LINE1-SS2",
               "canary_state": false,
               "latency": false,
-              "value": "Returns",
+              "value": "Ready for Carrier",
               "dark": false,
               "sixth_sense": false,
               "history_error": false,
@@ -1221,9 +1520,141 @@
               "error": false,
               "index_stage": 5,
               "relationship_touchpoints": [
-                2,
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 3,
+              "id": "ST5-LINE2-SS1",
+              "canary_state": false,
+              "latency": false,
+              "value": "Carrier Pick-Up",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 5,
+              "relationship_touchpoints": [
                 3
               ]
+            },
+            {
+              "index": 4,
+              "id": "ST5-LINE2-SS2",
+              "canary_state": false,
+              "latency": false,
+              "value": "Customer Pick-Up",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 5,
+              "relationship_touchpoints": []
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 5,
+              "id": "ST5-LINE3-SS1",
+              "canary_state": false,
+              "latency": false,
+              "value": " Carrier Update",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 5,
+              "relationship_touchpoints": [
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 6,
+              "id": "ST5-LINE4-SS1",
+              "canary_state": false,
+              "latency": false,
+              "value": "Delivered",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 5,
+              "relationship_touchpoints": [
+                5
+              ]
+            },
+            {
+              "index": 7,
+              "id": "ST5-LINE4-SS2",
+              "canary_state": false,
+              "latency": false,
+              "value": "Returned",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 5,
+              "relationship_touchpoints": []
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 8,
+              "id": "ST5-LINE5-SS1",
+              "canary_state": false,
+              "latency": true,
+              "value": "Proof of Delivery",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 5,
+              "relationship_touchpoints": [
+                6
+              ]
+            },
+            {
+              "index": 9,
+              "id": "ST5-LINE5-SS2",
+              "canary_state": false,
+              "latency": false,
+              "value": "Proof of Store Pick-up",
+              "dark": false,
+              "sixth_sense": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 5,
+              "relationship_touchpoints": []
             }
           ]
         }
@@ -1234,7 +1665,7 @@
           "stage_index": 5,
           "status_on_off": true,
           "active": false,
-          "value": "Payment Service",
+          "value": "VTEX Do API",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1246,10 +1677,10 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyODE"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NzE"
           ],
           "relation_steps": [
-            3
+            1
           ]
         },
         {
@@ -1257,7 +1688,7 @@
           "stage_index": 5,
           "status_on_off": true,
           "active": false,
-          "value": "Kubernetes Metrics",
+          "value": "Subscriptions API",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1269,10 +1700,10 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyODI"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NzI"
           ],
           "relation_steps": [
-            4
+            2
           ]
         },
         {
@@ -1280,7 +1711,7 @@
           "stage_index": 5,
           "status_on_off": true,
           "active": false,
-          "value": "Servers",
+          "value": "Session Manager API",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1292,10 +1723,79 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE3MDcyODM"
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NzQ"
           ],
           "relation_steps": [
-            4
+            3
+          ]
+        },
+        {
+          "index": 4,
+          "stage_index": 5,
+          "status_on_off": true,
+          "active": false,
+          "value": "Checkout API",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "sixth_sense": false,
+          "sixth_sense_url": [
+            []
+          ],
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NzU"
+          ],
+          "relation_steps": [
+            5
+          ]
+        },
+        {
+          "index": 5,
+          "stage_index": 5,
+          "status_on_off": true,
+          "active": false,
+          "value": "Customer Credit API",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "sixth_sense": false,
+          "sixth_sense_url": [
+            []
+          ],
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjU"
+          ],
+          "relation_steps": [
+            6
+          ]
+        },
+        {
+          "index": 6,
+          "stage_index": 5,
+          "status_on_off": true,
+          "active": false,
+          "value": "Gift Card API",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "sixth_sense": false,
+          "sixth_sense_url": [
+            []
+          ],
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjU"
+          ],
+          "relation_steps": [
+            8
           ]
         }
       ]
