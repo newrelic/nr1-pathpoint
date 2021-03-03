@@ -59,11 +59,11 @@ function BodySupportFormModal(props) {
   const { handleSaveUpdateSupport } = props;
   const defaultOptions = defaultOptionsSelect();
   return (
-    <div style={{ width: '350px', height: '40em' }}>
+    <div style={{ width: '350px' }}>
       <div className="modal4content" style={{ textAlign: 'justify' }}>
         {messages.configuration.support.message_support_01}
       </div>
-      <div className="modal4content space">
+      <div className="modal4content space modalMaxHeightContent">
         <Formik
           initialValues={{
             subject: '',
@@ -159,7 +159,7 @@ function BodySupportFormModal(props) {
                 component={renderAreaField}
                 name="message"
                 placeholder="Details"
-                bsClass="contact"
+                bsClass="contact contact-detail"
                 value={values.content}
                 margin={errors.phone && touched.phone ? '5px' : '15px'}
                 onChange={event => setFieldValue('message', event.target.value)}

@@ -18,9 +18,8 @@ async function sendLogsSlack(logs, accountId, title) {
   data.append('file', fileLog, 'FileTest.json');
   data.append('initial_comment', `${title}: accountId(${accountId})`);
   data.append('channels', '#pathpoint-logs');
-  const proxyUrl = 'https://long-meadow-1713.rsamanez.workers.dev/?';
   const options = {
-    url: `${proxyUrl}https://slack.com/api/files.upload`,
+    url: `${env.proxySlack}https://slack.com/api/files.upload`,
     method: 'POST',
     headers: {
       Authorization: env.SlackAccessToken,

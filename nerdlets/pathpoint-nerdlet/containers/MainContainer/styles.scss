@@ -562,6 +562,12 @@ input[type="file"] {
   padding-right: 15px;
 }
 
+.modalMaxHeightContent {
+  height: auto;
+  max-height: 500px;
+  overflow-y: scroll;
+}
+
 ///////////
 ul.verticalModal {
   list-style-type: none;
@@ -611,6 +617,11 @@ textarea.contact {
   border-radius: 0;
   // margin-top: 15px !important;
 }
+
+.contact-detail {
+  height: 80px;
+}
+
 //spinner
 #cover-spin {
   position: fixed;

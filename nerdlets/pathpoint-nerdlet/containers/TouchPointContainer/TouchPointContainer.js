@@ -20,7 +20,7 @@ export default class TouchPointerContainer extends React.Component {
         }
       }
     }
-    filter.sort(function (a, b) {
+    filter.sort(function(a, b) {
       if (a.error > b.error) {
         return -1;
       }
@@ -90,4 +90,4 @@ TouchPointerContainer.propTypes = {
   renderProps: PropTypes.func.isRequired,
   openModalParent: PropTypes.func.isRequired,
   updateTouchpointOnOff: PropTypes.func.isRequired
-}
+};

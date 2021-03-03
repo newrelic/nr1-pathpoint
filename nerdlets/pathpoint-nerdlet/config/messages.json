@@ -52,12 +52,12 @@
         }
     },
     "sample_querys": {
-        "count": "COUNT QUERY SAMPLE",
-        "apdex": "APDEX QUERY SAMPLE",
-        "session": "SESSION QUERY SAMPLE",
-        "sessionDuration": "SESSION QUERY DURATION SAMPLE",
-        "logMeasure": "LOG MEASURE SAMPLE",
-        "cloudflare": "CLOUD QUERY SAMPLE"
+        "count": "SELECT count(*) from Transaction WHERE appName='QS'",
+        "percentage":"SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='QS'",
+        "apdex": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='QS'",
+        "session": "SELECT uniqueCount(session) as session FROM PageView WHERE appName='QS'",
+        "sessionDuration": "SELECT count(*) FROM PageView WHERE appName='QS' FACET session LIMIT MAX",
+        "fullOpenQuery": "SELECT FILTER(count(*), WHERE container_name='redis') as R1, FILTER(count(*), WHERE container_name='nri-prometheus') as R2 FROM Log"
     },
     "test_query": {
         "wrong": "Incorrect validated",
