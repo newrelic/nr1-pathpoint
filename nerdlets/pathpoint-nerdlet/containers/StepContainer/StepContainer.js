@@ -1,5 +1,3 @@
-/* eslint-disable react/no-deprecated */
-
 // IMPORT LIBRARIES
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -10,7 +8,7 @@ export default class StepContainer extends React.Component {
     quantityOfContainer: []
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const { quantityOfContainer } = this.state;
     let control = 0;
     while (control !== 5) {

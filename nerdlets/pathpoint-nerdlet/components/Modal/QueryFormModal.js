@@ -85,8 +85,7 @@ function BodyQueryFormModal(props) {
                   background: '#333333',
                   height: '180px',
                   border: '1px solid #D0D0D0',
-                  padding: '15px',
-                  textAlign: 'justify'
+                  padding: '15px'
                 }}
                 name="query"
                 querySample={querySample}
