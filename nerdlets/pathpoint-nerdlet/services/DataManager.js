@@ -611,7 +611,7 @@ export default class DataManager {
               );
             }
           } else if (measure.type === 2) {
-            if (measure.apdex < 0.4) {
+            if (measure.apdex < measure.apdex_time / 100) {
               touchpoint.relation_steps.forEach(rel => {
                 steps_with_error[rel - 1] = 1;
               });
@@ -1183,7 +1183,7 @@ export default class DataManager {
             measure = {
               type: 1,
               query: query.query,
-              error_threshold: '5',
+              error_threshold: 5,
               error_percentage: 0
             };
           } else if (query.type === this.measureNames[2]) {
@@ -1191,7 +1191,7 @@ export default class DataManager {
               type: 2,
               query: query.query,
               apdex: 0,
-              apdex_time: '50'
+              apdex_time: 0.4
             };
           } else if (query.type === this.measureNames[3]) {
             measure = {
@@ -1597,8 +1597,8 @@ for (const [key, value] of Object.entries(return` +
             found2 = true;
             if (tp.measure_points.length > 1) {
               datos = {
-                error_threshold: tp.measure_points[0].error_threshold,
-                apdex_time: tp.measure_points[1].apdex_time
+                error_threshold: tp.measure_points[1].error_threshold,
+                apdex_time: tp.measure_points[2].apdex_time
               };
             } else {
               datos = {
@@ -1727,8 +1727,8 @@ for (const [key, value] of Object.entries(return` +
           ) {
             found2 = true;
             if (tp.measure_points.length > 1) {
-              tp.measure_points[0].error_threshold = datos.error_threshold;
-              tp.measure_points[1].apdex_time = datos.apdex_time;
+              tp.measure_points[1].error_threshold = datos.error_threshold;
+              tp.measure_points[2].apdex_time = datos.apdex_time;
             } else {
               tp.measure_points[0].error_threshold = datos.error_threshold;
             }
