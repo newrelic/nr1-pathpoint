@@ -131,29 +131,8 @@ export default class MainContainer extends React.Component {
 
   // =========================================================== EMULATOR
 
-  componentWillMount() {
-    this.emulator = new Emulator(this.state.stages);
-    this.emulator.init();
-
-    // configuration.getAccountID().then(() => {
-    //   this.validationQuery = new ValidationQuery(configuration.accountId);
-    //   this.StorageCanary = new StorageUpdate(configuration.accountId); //activa data canary
-    //   this.InitLogoSetupData(configuration.accountId);
-    //   this.setState({ waiting: false });
-    // });
-
-  }
-
   componentDidMount() {
     this.BoootstrapApplication();
-    setTimeout(() => {
-      this.initialized = true;
-    }, 4000);
-    this.setState({ stages: this.emulator.getDataState() });
-
-    this.interval = setInterval(() => {
-      this.setState({ stages: this.emulator.getDataState() });
-    }, Setup.time_refresh);
   }
 
   componentWillUnmount() {
@@ -173,6 +152,16 @@ export default class MainContainer extends React.Component {
         accountId: data.accountId
       },
       async () => {
+        this.emulator = new Emulator(this.state.stages);
+        this.emulator.init();
+        this.setState({
+          initialized: true,
+          stages: this.emulator.getDataState(),
+          waiting: false
+        });
+        setInterval(() => {
+          this.setState({ stages: this.emulator.getDataState() });
+        }, Setup.time_refresh);
         this.validationQuery = new ValidationQuery(this.state.accountId);
         this.InitLogoSetupData(this.state.accountId);
       }
@@ -180,7 +169,6 @@ export default class MainContainer extends React.Component {
   };
 
   updateDataNow() {
-    console.log("UPDATE-NOW");
     this.setState({ loading: true });
     setTimeout(() => {
       this.setState({ loading: false });
