@@ -1438,7 +1438,7 @@ export default class DataManager {
     this.touchPoints.forEach(element => {
       if (element.index === this.city) {
         element.touchpoints.forEach(touchpoint => {
-          data += ` measure ${touchpoint.stage_index}_${touchpoint.touchpoint_index}_${touchpoint.measure_points[0].type}:account(id: "+myAccountID+") { nrql(query: \\`;
+          data = `${data} measure_${touchpoint.stage_index}_${touchpoint.touchpoint_index}_${touchpoint.measure_points[0].type}: account(id: "+myAccountID+") { nrql(query: \\`;
           let query2 = '';
           if (touchpoint.measure_points[0].type === 20) {
             // TO DO
