@@ -20,14 +20,14 @@
           {
             "type": 1,
             "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='QS' AND name='WebTransaction/Action/'",
-            "error_threshold": "5",
+            "error_threshold": 5,
             "error_percentage": 0
           },
           {
             "type": 2,
             "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='QS' AND name='WebTransaction/Action/'",
             "apdex": 0,
-            "apdex_time": "50"
+            "apdex_time": 40
           },
           {
             "type": 3,
@@ -58,14 +58,14 @@
           {
             "type": 1,
             "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/grpc.health.v1.Health/Check'",
-            "error_threshold": "5",
+            "error_threshold": 5,
             "error_percentage": 0
           },
           {
             "type": 2,
             "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/grpc.health.v1.Health/Check'",
             "apdex": 0,
-            "apdex_time": "50"
+            "apdex_time": 40
           },
           {
             "type": 3,
@@ -96,14 +96,14 @@
           {
             "type": 1,
             "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='productCatalog-service' AND name='WebTransaction/Go/grpc.health.v1.Health/Check'",
-            "error_threshold": "5",
+            "error_threshold": 5,
             "error_percentage": 0
           },
           {
             "type": 2,
             "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='productCatalog-service' AND name='WebTransaction/Go/grpc.health.v1.Health/Check'",
             "apdex": 0,
-            "apdex_time": "50"
+            "apdex_time": 40
           },
           {
             "type": 3,
@@ -134,14 +134,14 @@
           {
             "type": 1,
             "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='currency-service' AND name='WebTransaction/Custom//Check'",
-            "error_threshold": "5",
+            "error_threshold": 5,
             "error_percentage": 0
           },
           {
             "type": 2,
             "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='currency-service' AND name='WebTransaction/Custom//Check'",
             "apdex": 0,
-            "apdex_time": "50"
+            "apdex_time": 40
           },
           {
             "type": 3,
@@ -172,14 +172,14 @@
           {
             "type": 1,
             "query": "SELECT percentage(count(*), WHERE error is true) as percentage FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/GET /'",
-            "error_threshold": "5",
+            "error_threshold": 5,
             "error_percentage": 0
           },
           {
             "type": 2,
             "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/GET /'",
             "apdex": 0,
-            "apdex_time": "50"
+            "apdex_time": 40
           },
           {
             "type": 3,
@@ -210,14 +210,14 @@
           {
             "type": 1,
             "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='QS' AND name LIKE 'WebTransaction/Action/App%'",
-            "error_threshold": "5",
+            "error_threshold": 5,
             "error_percentage": 0
           },
           {
             "type": 2,
             "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='QS' AND name LIKE 'WebTransaction/Action/App%'",
             "apdex": 0,
-            "apdex_time": "50"
+            "apdex_time": 40
           },
           {
             "type": 3,
@@ -248,14 +248,14 @@
           {
             "type": 1,
             "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/GetQuote'",
-            "error_threshold": "5",
+            "error_threshold": 5,
             "error_percentage": 0
           },
           {
             "type": 2,
             "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/GetQuote'",
             "apdex": 0,
-            "apdex_time": "50"
+            "apdex_time": 40
           },
           {
             "type": 3,
@@ -286,14 +286,14 @@
           {
             "type": 1,
             "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='productCatalog-service' AND name='WebTransaction/Go/hipstershop.ProductCatalogService/GetProduct'",
-            "error_threshold": "5",
+            "error_threshold": 5,
             "error_percentage": 0
           },
           {
             "type": 2,
             "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='productCatalog-service' AND name='WebTransaction/Go/hipstershop.ProductCatalogService/GetProduct'",
             "apdex": 0,
-            "apdex_time": "50"
+            "apdex_time": 40
           },
           {
             "type": 3,
@@ -324,14 +324,14 @@
           {
             "type": 1,
             "query": "SELECT percentage(count(*), WHERE error is true) as percentage FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/GET /cart'",
-            "error_threshold": "5",
+            "error_threshold": 5,
             "error_percentage": 0
           },
           {
             "type": 2,
             "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/GET /cart'",
             "apdex": 0,
-            "apdex_time": "50"
+            "apdex_time": 40
           },
           {
             "type": 3,
@@ -362,14 +362,14 @@
           {
             "type": 1,
             "query": "SELECT percentage(count(*), WHERE error is true) as percentage FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/GET /product/{id}'",
-            "error_threshold": "5",
+            "error_threshold": 5,
             "error_percentage": 0
           },
           {
             "type": 2,
             "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/GET /product/{id}'",
             "apdex": 0,
-            "apdex_time": "50"
+            "apdex_time": 40
           },
           {
             "type": 3,
@@ -400,14 +400,14 @@
           {
             "type": 1,
             "query": "SELECT percentage(count(*), WHERE error is true) as percentage FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/POST /cart'",
-            "error_threshold": "5",
+            "error_threshold": 5,
             "error_percentage": 0
           },
           {
             "type": 2,
             "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/POST /cart'",
             "apdex": 0,
-            "apdex_time": "50"
+            "apdex_time": 40
           },
           {
             "type": 3,
@@ -438,14 +438,14 @@
           {
             "type": 1,
             "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='QS' AND name='WebTransaction/Action/home'",
-            "error_threshold": "5",
+            "error_threshold": 5,
             "error_percentage": 0
           },
           {
             "type": 2,
             "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='QS' AND name='WebTransaction/Action/home'",
             "apdex": 0,
-            "apdex_time": "50"
+            "apdex_time": 40
           },
           {
             "type": 3,
@@ -476,14 +476,14 @@
           {
             "type": 1,
             "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'",
-            "error_threshold": "5",
+            "error_threshold": 5,
             "error_percentage": 0
           },
           {
             "type": 2,
             "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'",
             "apdex": 0,
-            "apdex_time": "50"
+            "apdex_time": 40
           },
           {
             "type": 3,
@@ -514,14 +514,14 @@
           {
             "type": 1,
             "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='productCatalog-service' AND name='WebTransaction/Go/hipstershop.ProductCatalogService/ListProducts'",
-            "error_threshold": "5",
+            "error_threshold": 5,
             "error_percentage": 0
           },
           {
             "type": 2,
             "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='productCatalog-service' AND name='WebTransaction/Go/hipstershop.ProductCatalogService/ListProducts'",
             "apdex": 0,
-            "apdex_time": "50"
+            "apdex_time": 40
           },
           {
             "type": 3,
@@ -552,14 +552,14 @@
           {
             "type": 1,
             "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='currency-service' AND name='WebTransaction/Custom//Convert'",
-            "error_threshold": "5",
+            "error_threshold": 5,
             "error_percentage": 0
           },
           {
             "type": 2,
             "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='currency-service' AND name='WebTransaction/Custom//Convert'",
             "apdex": 0,
-            "apdex_time": "50"
+            "apdex_time": 40
           },
           {
             "type": 3,
@@ -590,14 +590,14 @@
           {
             "type": 1,
             "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='currency-service' AND name='WebTransaction/Custom//GetSupportedCurrencies'",
-            "error_threshold": "5",
+            "error_threshold": 5,
             "error_percentage": 0
           },
           {
             "type": 2,
             "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='currency-service' AND name='WebTransaction/Custom//GetSupportedCurrencies'",
             "apdex": 0,
-            "apdex_time": "50"
+            "apdex_time": 40
           },
           {
             "type": 3,
@@ -628,14 +628,14 @@
           {
             "type": 1,
             "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='QS' AND name='WebTransaction/Action/'",
-            "error_threshold": "5",
+            "error_threshold": 5,
             "error_percentage": 0
           },
           {
             "type": 2,
             "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='QS' AND name='WebTransaction/Action/logout'",
             "apdex": 0,
-            "apdex_time": "50"
+            "apdex_time": 40
           },
           {
             "type": 3,
@@ -666,14 +666,14 @@
           {
             "type": 1,
             "query": "SELECT percentage(count(*), WHERE error is true) as percentage FROM Transaction WHERE appName='checkout-service'",
-            "error_threshold": "5",
+            "error_threshold": 5,
             "error_percentage": 0
           },
           {
             "type": 2,
             "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='checkout-service'",
             "apdex": 0,
-            "apdex_time": "50"
+            "apdex_time": 40
           },
           {
             "type": 3,
@@ -704,14 +704,14 @@
           {
             "type": 1,
             "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='QS' AND name='WebTransaction/Action/'",
-            "error_threshold": "5",
+            "error_threshold": 5,
             "error_percentage": 0
           },
           {
             "type": 2,
             "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='QS' AND name='WebTransaction/Action/logout'",
             "apdex": 0,
-            "apdex_time": "50"
+            "apdex_time": 40
           },
           {
             "type": 3,
@@ -742,14 +742,14 @@
           {
             "type": 1,
             "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='QS' AND name='WebTransaction/Action/'",
-            "error_threshold": "5",
+            "error_threshold": 5,
             "error_percentage": 0
           },
           {
             "type": 2,
             "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='QS' AND name='WebTransaction/Action/logout'",
             "apdex": 0,
-            "apdex_time": "50"
+            "apdex_time": 40
           },
           {
             "type": 3,
@@ -780,14 +780,14 @@
           {
             "type": 1,
             "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='QS' AND name='WebTransaction/Action/login'",
-            "error_threshold": "5",
+            "error_threshold": 5,
             "error_percentage": 0
           },
           {
             "type": 2,
             "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='QS' AND name='WebTransaction/Action/login'",
             "apdex": 0,
-            "apdex_time": "50"
+            "apdex_time": 40
           },
           {
             "type": 3,
@@ -818,14 +818,14 @@
           {
             "type": 1,
             "query": "SELECT percentage(count(*), WHERE error is true) as percentage FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/POST /cart/checkout'",
-            "error_threshold": "5",
+            "error_threshold": 5,
             "error_percentage": 0
           },
           {
             "type": 2,
             "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/POST /cart/checkout'",
             "apdex": 0,
-            "apdex_time": "50"
+            "apdex_time": 40
           },
           {
             "type": 3,
@@ -856,14 +856,14 @@
           {
             "type": 1,
             "query": "SELECT percentage(count(*), WHERE error is true) as percentage FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/POST /setCurrency'",
-            "error_threshold": "5",
+            "error_threshold": 5,
             "error_percentage": 0
           },
           {
             "type": 2,
             "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/POST /setCurrency'",
             "apdex": 0,
-            "apdex_time": "50"
+            "apdex_time": 40
           },
           {
             "type": 3,
@@ -894,14 +894,14 @@
           {
             "type": 1,
             "query": "SELECT percentage(count(*), WHERE error is true) as percentage FROM Transaction WHERE appName='recommendation-service' AND name='WebTransaction/Function/ListRecommendations'",
-            "error_threshold": "5",
+            "error_threshold": 5,
             "error_percentage": 0
           },
           {
             "type": 2,
             "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='recommendation-service' AND name='WebTransaction/Function/ListRecommendations'",
             "apdex": 0,
-            "apdex_time": "50"
+            "apdex_time": 40
           },
           {
             "type": 3,
@@ -932,14 +932,14 @@
           {
             "type": 1,
             "query": "SELECT percentage(count(*), WHERE error is true) as percentage FROM Transaction WHERE appName='email-service'",
-            "error_threshold": "5",
+            "error_threshold": 5,
             "error_percentage": 0
           },
           {
             "type": 2,
             "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='email-service'",
             "apdex": 0,
-            "apdex_time": "50"
+            "apdex_time": 40
           },
           {
             "type": 3,
@@ -970,14 +970,14 @@
           {
             "type": 1,
             "query": "SELECT percentage(count(*), WHERE error is true) as percentage FROM Transaction WHERE appName='payment-service'",
-            "error_threshold": "5",
+            "error_threshold": 5,
             "error_percentage": 0
           },
           {
             "type": 2,
             "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='payment-service'",
             "apdex": 0,
-            "apdex_time": "50"
+            "apdex_time": 40
           },
           {
             "type": 3,
@@ -1008,14 +1008,14 @@
           {
             "type": 1,
             "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='QS' AND name='WebTransaction/Action/'",
-            "error_threshold": "5",
+            "error_threshold": 5,
             "error_percentage": 0
           },
           {
             "type": 2,
             "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='QS' AND name='WebTransaction/Action/logout'",
             "apdex": 0,
-            "apdex_time": "50"
+            "apdex_time": 40
           },
           {
             "type": 3,
@@ -1046,14 +1046,14 @@
           {
             "type": 1,
             "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='QS' AND name='WebTransaction/Action/'",
-            "error_threshold": "5",
+            "error_threshold": 5,
             "error_percentage": 0
           },
           {
             "type": 2,
             "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='QS' AND name='WebTransaction/Action/logout'",
             "apdex": 0,
-            "apdex_time": "50"
+            "apdex_time": 40
           },
           {
             "type": 3,
