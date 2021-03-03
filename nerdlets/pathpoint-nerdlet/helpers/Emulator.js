@@ -11,6 +11,7 @@ export default class Emulator {
   init = () => {
     this._fetchLevels();
     this._fetchCapacities();
+    this._fetchErrors();
     this.firstLoad = false;
     this.intervalLevel = setInterval(() => {
       this._fetchLevels();
@@ -18,6 +19,9 @@ export default class Emulator {
     this.intervalCapacity = setInterval(() => {
       this._fetchCapacities();
     }, 3000);
+    this.intervalCapacity = setInterval(() => {
+      this._fetchErrors();
+    }, 10000);
   };
 
   getDataState = () => {
