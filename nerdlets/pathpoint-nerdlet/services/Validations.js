@@ -91,7 +91,6 @@ export default class ValidationQuery {
         break;
       case 'Session Query':
         goodQuery = this.sessionQueryValidation(errors, data);
-
         break;
       case 'Session Query Duration':
         goodQuery = this.sessionDurationValidation(errors, query);
@@ -168,7 +167,7 @@ export default class ValidationQuery {
     if (errors && errors.length > 0) {
       validate = false;
     } else if (data instanceof Array && data.length === 1) {
-      for (const [value] of Object.entries(data[0])) {
+      for (const [, value] of Object.entries(data[0])) {
         if (typeof value !== 'number') {
           validate = false;
           break;

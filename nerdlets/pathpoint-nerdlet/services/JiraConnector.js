@@ -96,9 +96,7 @@ export const CreateJiraIssue = (datos, accountId) => {
       }
     }
   };
-  const url =
-    'https://proxy.rsamanez.workers.dev/?https://hidden-cell-edee.ddelgado-js.workers.dev/';
-  instance.post(url, data, {
+  instance.post(env.proxyJira, data, {
     headers: {
       contentType: 'application/json',
       Authorization: env.JiraAccessToken
