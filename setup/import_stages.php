@@ -29,9 +29,10 @@ function addStage($stage)
     global $view_base;
     $index = count($view_base["stages"]) + 1;
     $ligth="good";
+    $active_dotted="none";
     if($index==4){ $ligth="danger";}
     if($index==5){ $ligth="warning";}
-    if($index==2 || $index==5){ $active_dotted="dashed";}else{$active_dotted="none";} 
+    //if($index==2 || $index==5){ $active_dotted="dashed";}
     $view_base["stages"][] = [
         "index" => $index,
         "title" => $stage,
