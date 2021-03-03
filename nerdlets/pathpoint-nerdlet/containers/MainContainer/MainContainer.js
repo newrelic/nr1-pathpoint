@@ -47,7 +47,7 @@ import star_icon from '../../images/star_icon.svg';
 import down from '../../images/down.svg';
 
 // UNUSED
-// import Emulator from '../../helpers/Emulator.js';
+import Emulator from '../../helpers/Emulator.js';
 
 /**
  *Main container component
@@ -131,56 +131,64 @@ export default class MainContainer extends React.Component {
 
   // =========================================================== EMULATOR
 
-  // componentWillMount() {
-  //   const { state } = this.context;
-  //   const { stages, colors, banner_kpis } = state;
-  //   this.state.stages = stages;
-  //   this.state.colors = colors;
-  //   const configuration = new Configuration(this.state);
-  //   this.state.configuration = configuration;
-  //   this.state.version = Version.version;
-  //   this.state.banner_kpis = banner_kpis;
-  //   this.updateData = new UpdateData(this.state.stages, this.state.version);
-  //   this.state.updateData = this.updateData;
+  componentWillMount() {
+    this.emulator = new Emulator(this.state.stages);
+    this.emulator.init();
 
-  //   this.emulator = new Emulator(this.state.stages);
-  //   this.emulator.init();
+    // configuration.getAccountID().then(() => {
+    //   this.validationQuery = new ValidationQuery(configuration.accountId);
+    //   this.StorageCanary = new StorageUpdate(configuration.accountId); //activa data canary
+    //   this.InitLogoSetupData(configuration.accountId);
+    //   this.setState({ waiting: false });
+    // });
 
-  //   configuration.getAccountID().then(() => {
-  //     this.validationQuery = new ValidationQuery(configuration.accountId);
-  //     this.StorageCanary = new StorageUpdate(configuration.accountId); //activa data canary
-  //     this.InitLogoSetupData(configuration.accountId);
-  //     this.setState({ waiting: false });
-  //   });
+  }
 
-  // }
+  componentDidMount() {
+    this.BoootstrapApplication();
+    setTimeout(() => {
+      this.initialized = true;
+    }, 4000);
+    this.setState({ stages: this.emulator.getDataState() });
 
-  // componentDidMount() {
-  //   setTimeout(() => {
-  //     this.initialized = true;
-  //   }, 4000);
-  //   this.setState({ stages: this.emulator.getDataState() });
+    this.interval = setInterval(() => {
+      this.setState({ stages: this.emulator.getDataState() });
+    }, Setup.time_refresh);
+  }
 
-  //   this.interval = setInterval(() => {
-  //     this.setState({ stages: this.emulator.getDataState() });
-  //   }, Setup.time_refresh);
-  // }
+  componentWillUnmount() {
+    clearInterval(this.interval);
+    this.emulator.closeConnections();
+  }
 
-  // componentWillUnmount() {
-  //   clearInterval(this.interval);
-  //   this.emulator.closeConnections();
-  // }
+  BoootstrapApplication = async () => {
+    this.DataManager = new DataManager();
+    const data = await this.DataManager.BootstrapInitialData();
+    this.setState(
+      {
+        stages: data.stages,
+        banner_kpis: data.banner_kpis,
+        colors: data.colors,
+        version: data.version,
+        accountId: data.accountId
+      },
+      async () => {
+        this.validationQuery = new ValidationQuery(this.state.accountId);
+        this.InitLogoSetupData(this.state.accountId);
+      }
+    );
+  };
 
-  // updateDataNow() {
-  //   console.log("UPDATE-NOW");
-  //   this.setState({ loading: true });
-  //   setTimeout(() => {
-  //     this.setState({ loading: false });
-  //   }, 2000);
-  // }
+  updateDataNow() {
+    console.log("UPDATE-NOW");
+    this.setState({ loading: true });
+    setTimeout(() => {
+      this.setState({ loading: false });
+    }, 2000);
+  }
 
   // =========================================================== UPDATE DATA API
-
+/*
   componentDidMount() {
     this.BoootstrapApplication();
   }
@@ -272,7 +280,7 @@ export default class MainContainer extends React.Component {
       pending: true
     });
   }
-
+*/
   // ===========================================================
 
   ToggleHeaderButtons = target => {
