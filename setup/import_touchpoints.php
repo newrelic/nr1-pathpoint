@@ -187,14 +187,14 @@ function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touc
                 [
                     "type" => 1,
                     "query" => $tp_queryError,
-                    "error_threshold" => $tp_error_threshold,
+                    "error_threshold" => (int) $tp_error_threshold,
                     "error_percentage" => 0
                 ],
                 [
                     "type" => 2,
                     "query" => $tp_apdex_query,
                     "apdex" => 0,
-                    "apdex_time" => $apdex_time,
+                    "apdex_time" => (int) $apdex_time,
                 ]
             ]
         ];
@@ -222,7 +222,7 @@ function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touc
                 [
                     "type" => 20,
                     "query" => $tp_queryCount,
-                    "error_threshold" => $tp_error_threshold,
+                    "error_threshold" => (int) $tp_error_threshold,
                     "count" => 0,
                     "error_percentage" => 0
                 ]

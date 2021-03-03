@@ -89,31 +89,11 @@
         ],
         "measure_points": [
           {
-            "type": 0,
-            "query": "SELECT count(*) from Transaction WHERE appName='productCatalog-service' AND name='WebTransaction/Go/grpc.health.v1.Health/Check'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='productCatalog-service' AND name='WebTransaction/Go/grpc.health.v1.Health/Check'",
+            "type": 20,
+            "query": "SELECT FILTER(count(*), WHERE container_name='server') as R1, FILTER(count(*), WHERE container_name='main') as R2 FROM Log",
             "error_threshold": 5,
+            "count": 0,
             "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='productCatalog-service' AND name='WebTransaction/Go/grpc.health.v1.Health/Check'",
-            "apdex": 0,
-            "apdex_time": 40
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
           }
         ]
       },
