@@ -1,7 +1,7 @@
 {
     "private": true,
     "name": "PathpointCore",
-    "version": "1.0.0",
+    "version": "1.0.80",
     "scripts": {
         "start": "nr1 nerdpack:serve",
         "samanez": "nr1 nerdpack:serve --profile=samanez",
