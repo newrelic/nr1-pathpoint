@@ -1434,98 +1434,72 @@ export default class DataManager {
     let data = 'var raw1 = JSON.stringify({"query":"{ actor {';
     let i = 0;
     let n = 1;
-    const countBreak = 20;
+    let countBreak = 20;
     this.touchPoints.forEach(element => {
-      if (element.index === this.city) {
-        element.touchpoints.forEach(touchpoint => {
-          data = `${data} measure_${touchpoint.stage_index}_${touchpoint.touchpoint_index}_${touchpoint.measure_points[0].type}: account(id: "+myAccountID+") { nrql(query: \\`;
-          let query2 = '';
-          if (touchpoint.measure_points[0].type === 20) {
-            // TO DO
-          } else {
-            const query = touchpoint.measure_points[0].query.split(' ');
-            query2 =
-              'SELECT count(*), percentage(count(*), WHERE error is true) as percentage';
-            for (let wi = 2; wi < query.length; wi++) {
-              query2 += ` ${query[wi]}`;
-            }
-          }
-          data += query2;
-          data += ' SINCE 5 minutes AGO';
-          data += '\\", timeout: 10) {results }}';
-          i++;
-          if (i === countBreak) {
-            i = 0;
+        if (element.index == this.city) {
+            element.touchpoints.forEach(touchpoint => {
+                data += ' measure_' + touchpoint.stage_index + '_' + touchpoint.touchpoint_index + '_' + touchpoint.measure_points[0].type + ': account(id: "+myAccountID+") { nrql(query: \\"';
+                if (touchpoint.measure_points[0].type == 20) {
+                    query2 = touchpoint.measure_points[0].query;
+                } else {
+                    var query = touchpoint.measure_points[0].query.split(" ");
+                    var query2 = "SELECT count(*), percentage(count(*), WHERE error is true) as percentage";
+                    for (var wi = 2; wi < query.length; wi++) {
+                        query2 += " " + query[wi];
+                    }
+                }
+                data += query2;
+                data += ' SINCE 5 minutes AGO';
+                data += '\\", timeout: 10) {results }}';
+                i++;
+                if (i == countBreak) {
+                    i = 0;
+                    data += '}}","variables":""});';
+                    data += `
+`;
+                    n++;
+                    data += 'var raw' + n + ' = JSON.stringify({"query":"{ actor {';
+                }
+            });
             data += '}}","variables":""});';
             data += `
 `;
-            n++;
-            data += `var raw${n} = JSON.stringify({"query":"{ actor {`;
-          }
-        });
-        data += '}}","variables":""});';
-        data += `
-`;
-      }
+        }
     });
-    for (let w = 1; w <= n; w++) {
-      data +=
-        `
-var graphqlpack` +
-        w +
-        ` = {
+    for (var w = 1; w <= n; w++) {
+        data += `
+var graphqlpack`+ w + ` = {
 headers: {
     "Content-Type": "application/json",
     "API-Key": graphQLKey
 },
 url: 'https://api.newrelic.com/graphql',
-body: raw` +
-        w +
-        `
+body: raw`+ w + `
 };
 
-var return` +
-        w +
-        ` = null;
+var return`+ w + ` = null;
 
 `;
     }
-    for (let w = 1; w < n; w++) {
-      data +=
-        `
-function callback` +
-        w +
-        `(err, response, body) {
-return` +
-        w +
-        ` = JSON.parse(body);
-$http.post(graphqlpack` +
-        (w + 1) +
-        `, callback` +
-        (w + 1) +
-        `);
+    for (var w = 1; w < n; w++) {
+        data += `
+function callback`+ w + `(err, response, body) {
+return`+ w + ` = JSON.parse(body);
+$http.post(graphqlpack`+ (w + 1) + `, callback` + (w + 1) + `);
 } 
 
 `;
     }
-    data +=
-      `
-function callback` +
-      n +
-      `(err, response, body) {
-return` +
-      n +
-      ` = JSON.parse(body);
+    data += `
+function callback`+ n + `(err, response, body) {
+return`+ n + ` = JSON.parse(body);
 var events = [];
 var event = null;
 var c = null;
 `;
-    for (let w = 1; w <= n; w++) {
-      data +=
-        `
-for (const [key, value] of Object.entries(return` +
-        w +
-        `.data.actor)) {
+    for (var w = 1; w <= n; w++) {
+        data += `
+for (const [key, value] of Object.entries(return`+ w + `.data.actor)) {
     c = key.split("_");
     if (value.nrql.results != null) {
         if(c[3]=='0'){
@@ -1556,7 +1530,7 @@ for (const [key, value] of Object.entries(return` +
 `;
     }
     return data;
-  }
+}
 
   UpdateTouchpointOnOff(touchpoint, updateStorage) {
     this.touchPoints.some(element => {
