@@ -1308,7 +1308,7 @@ export default class DataManager {
 
   GetCurrentHistoricErrorScript() {
     const data = historicErrorScript();
-    const pathpointId = `var pathpointId = "${this.pathpointId};"`;
+    const pathpointId = `var pathpointId = "${this.pathpointId}"`;
     const response = `${pathpointId}${
       data.header
     }${this.CreateNrqlQueriesForHistoricErrorScript()}${data.footer}`;
