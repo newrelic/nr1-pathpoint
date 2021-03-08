@@ -15,7 +15,6 @@
     "dependencies": {
         "@apollo/client": "^3.2.9",
         "@material-ui/core": "^3.9.2",
-        "@babel/preset-env": "^7.7.1",
         "@babel/preset-react": "^7.7.0",
         "ajv": "^7.0.3",
         "axios": "^0.21.1",
@@ -41,12 +40,13 @@
         "not dead"
     ],
     "devDependencies": {
+        "@babel/preset-env": "^7.13.9",
         "@newrelic/eslint-plugin-newrelic": "^0.3.0",
         "@semantic-release/changelog": "^3.0.5",
         "@semantic-release/git": "^7.0.18",
-        "babel-plugin-transform-class-properties": "^6.24.1",
         "babel-eslint": "^10.1.0",
         "babel-jest": "^20.0.3",
+        "babel-plugin-transform-class-properties": "^6.24.1",
         "babel-preset-es2015": "^6.24.1",
         "babel-preset-react": "^6.24.1",
         "babel-preset-stage-2": "^6.24.1",
@@ -60,6 +60,9 @@
     "jest": {
         "setupFilesAfterEnv": [
             "<rootDir>/nerdlets/pathpoint-nerdlet/__test__/setupTest.js"
-        ]
+        ],
+        "moduleNameMapper": {
+            "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/nerdlets/pathpoint-nerdlet/__mocks__/fileMock.js"
+        }
     }
 }
