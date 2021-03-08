@@ -93,17 +93,6 @@ nr1 nerdpack:subscribe [-c [DEV|BETA|STABLE]] [--profile=your_profile_name]
 
 Visit [https://one.newrelic.com](https://one.newrelic.com), navigate to the Nerdpack, and :sparkles:
 
-## Enabling the Support System
-
-In order for the support system to work you will need to configure a Jira endpoint and an API key that will enable Pathpoint to submit issues to a special Jira project.  You will need to obtain those values from your New Relic account team and then add them to `.env.json` and then re-deploy.
-
-```
-{
-    "JiraAccessToken": "[Pathpoint JIRA Access Token]",
-    "proxyJira":"[Pathpoint Proxy URL]",
-}
-```
-
 # Support
 
 New Relic has open-sourced this project. This project is provided AS-IS WITHOUT WARRANTY OR DEDICATED SUPPORT. Issues and contributions should be reported to the project here on GitHub.
