@@ -30,6 +30,7 @@ export default class TouchPoint extends React.Component {
     document.addEventListener('contextmenu', this.HandleContextMenuPrevent);
   }
 
+  /* istanbul ignore next */
   shouldComponentUpdate(nextProps) {
     if (nextProps === this.props) {
       return false;
@@ -37,14 +38,17 @@ export default class TouchPoint extends React.Component {
     return true;
   }
 
+  /* istanbul ignore next */
   componentWillUnmount() {
     document.removeEventListener('contextmenu', this.HandleContextMenuPrevent);
   }
 
+  /* istanbul ignore next */
   HandleContextMenuPrevent(event) {
     event.preventDefault();
   }
 
+  /* istanbul ignore next */
   HandleContextMenu = event => {
     if (event.button === 2) {
       event.preventDefault();
@@ -69,6 +73,7 @@ export default class TouchPoint extends React.Component {
     }
   };
 
+  /* istanbul ignore next */
   HandleClickonOff = () => {
     const { idVisible } = this.state;
     const { updateTouchpointOnOff, renderProps, touchpoint } = this.props;
@@ -76,6 +81,7 @@ export default class TouchPoint extends React.Component {
     renderProps(idVisible, touchpoint);
   };
 
+  /* istanbul ignore next */
   HandleClickTune = () => {
     const { idVisible } = this.state;
     const { openModalParent, renderProps, touchpoint } = this.props;
@@ -85,6 +91,7 @@ export default class TouchPoint extends React.Component {
     // this.props.touchpoint.active = !active;
   };
 
+  /* istanbul ignore next */
   HandleClickQueries = () => {
     this.props.openModalParent(this.props.touchpoint, 1);
     this.props.renderProps(this.state.idVisible, this.props.touchpoint);
@@ -143,7 +150,7 @@ export default class TouchPoint extends React.Component {
     }
   };
 
-  backgroundTouchPoint = (status_on_off, active) => {
+  BackgroundTouchPoint = (status_on_off, active) => {
     if (active) {
       return '#D7EBF6';
     }
@@ -153,13 +160,14 @@ export default class TouchPoint extends React.Component {
     return '';
   };
 
+  /* istanbul ignore next */
   OnClose() {
     this.setState({ hidden: false });
   }
 
   ActivateCursor = (touchpoint, city) => {
     if (touchpoint.dashboard_url !== false) {
-      if (touchpoint.dashboard_url[city] !== false) {
+      if (touchpoint.dashboard_url[city]) {
         return 'pointer';
       } else return 'default';
     } else return 'default';
@@ -193,7 +201,7 @@ export default class TouchPoint extends React.Component {
                 iconFireStatus
               ),
               cursor: 'pointer',
-              background: this.backgroundTouchPoint(status_on_off, active)
+              background: this.BackgroundTouchPoint(status_on_off, active)
             }}
             onMouseDown={this.HandleContextMenu}
           >
