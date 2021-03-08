@@ -36,8 +36,8 @@ const Step = ({
                     key={`${entry.value}-${index}`}
                     className="textContentSubFirstStep"
                     style={{
-                      border: styleSubStep(entry, colors, iconFireStatus),
-                      background: backgroundSubStep(
+                      border: StyleSubStep(entry, colors, iconFireStatus),
+                      background: BackgroundSubStep(
                         entry,
                         iconGoutStatus,
                         darkColor,
@@ -45,7 +45,7 @@ const Step = ({
                         latencyStatus,
                         iconSixthSenseStatus
                       ),
-                      color: textColorStep(
+                      color: TextColorStep(
                         iconGoutStatus,
                         entry,
                         latencyStatus,
@@ -65,8 +65,8 @@ const Step = ({
                   key={`${entry.value}-${index}`}
                   className="textContentSubSecondStep"
                   style={{
-                    border: styleSubStep(entry, colors, iconFireStatus),
-                    background: backgroundSubStep(
+                    border: StyleSubStep(entry, colors, iconFireStatus),
+                    background: BackgroundSubStep(
                       entry,
                       iconGoutStatus,
                       darkColor,
@@ -74,7 +74,7 @@ const Step = ({
                       latencyStatus,
                       iconSixthSenseStatus
                     ),
-                    color: textColorStep(
+                    color: TextColorStep(
                       iconGoutStatus,
                       entry,
                       latencyStatus,
@@ -102,7 +102,7 @@ const Step = ({
   );
 };
 
-const styleSubStep = (step, colors, iconFireStatus) => {
+const StyleSubStep = (step, colors, iconFireStatus) => {
   const {
     select_color,
     unselect_color,
@@ -121,7 +121,7 @@ const styleSubStep = (step, colors, iconFireStatus) => {
   return `2px solid ${unselectStepColor}`;
 };
 
-const backgroundSubStep = (
+const BackgroundSubStep = (
   step,
   iconGoutStatus,
   darkColor,
@@ -148,7 +148,7 @@ const backgroundSubStep = (
   return 'white';
 };
 
-const textColorStep = (
+const TextColorStep = (
   iconGoutStatus,
   step,
   latencyStatus,
@@ -170,6 +170,7 @@ const textColorStep = (
   return '#333333';
 };
 
+export { TextColorStep, BackgroundSubStep, StyleSubStep };
 export default Step;
 
 Step.propTypes = {
