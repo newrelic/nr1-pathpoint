@@ -3,9 +3,6 @@ import PropTypes from 'prop-types';
 import shortid from 'shortid';
 import { Formik, Form } from 'formik';
 
-// IMPORT COMPONENTS
-import Modal from '../ModalTouchPoint';
-
 // IMPORT IMAGES
 import onOffIcon from '../../images/on-off.svg';
 import onIcon from '../../images/icon-on.svg';
@@ -17,7 +14,6 @@ export default class TouchPoint extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      hidden: false,
       idVisible: shortid.generate(),
       stylesContext: {
         top: '',
@@ -160,11 +156,6 @@ export default class TouchPoint extends React.Component {
     return '';
   };
 
-  /* istanbul ignore next */
-  OnClose() {
-    this.setState({ hidden: false });
-  }
-
   ActivateCursor = (touchpoint, city) => {
     if (touchpoint.dashboard_url !== false) {
       if (touchpoint.dashboard_url[city]) {
@@ -174,7 +165,7 @@ export default class TouchPoint extends React.Component {
   };
 
   render() {
-    const { stylesContext, hidden } = this.state;
+    const { stylesContext } = this.state;
     const {
       touchpoint,
       city,
@@ -186,7 +177,7 @@ export default class TouchPoint extends React.Component {
       idVisible,
       handleChange
     } = this.props;
-    const { status_on_off, sixth_sense_url, active } = touchpoint;
+    const { status_on_off, active } = touchpoint;
     return (
       <div className="divStep">
         <div className="divContentPoint">
@@ -211,9 +202,7 @@ export default class TouchPoint extends React.Component {
             />
             <div
               onClick={() => {
-                if (touchpoint.sixth_sense && iconSixthSenseStatus) {
-                  this.setState({ hidden: true });
-                } else if (touchpoint.dashboard_url !== false) {
+                if (touchpoint.dashboard_url !== false) {
                   if (touchpoint.dashboard_url[city] !== false) {
                     window.open(touchpoint.dashboard_url[city]);
                   }
@@ -225,11 +214,6 @@ export default class TouchPoint extends React.Component {
             >
               {touchpoint.value}
             </div>
-            <Modal
-              hidden={hidden}
-              OnClose={this.OnClose}
-              iframembed={sixth_sense_url}
-            />
           </div>
         </div>
 
