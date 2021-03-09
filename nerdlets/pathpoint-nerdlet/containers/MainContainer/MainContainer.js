@@ -1,6 +1,6 @@
 // IMPORT LIBRARIES AND DEPENDENCIES
 import React from 'react';
-import { nerdlet } from 'nr1';
+import { nerdlet, logger } from 'nr1';
 import Setup from '../../config/setup.json';
 import DownloadLink from 'react-download-link';
 import messages from '../../config/messages.json';
@@ -1234,6 +1234,20 @@ export default class MainContainer extends React.Component {
     return data;
   };
 
+  DisplayConsole = (type, message) => {
+    switch (type) {
+      case 'error':
+        logger.error(`${message}`);
+        break;
+      case 'log':
+        logger.log(`${message}`);
+        break;
+      default:
+        logger.warn(`${message}`);
+        break;
+    }
+  };
+
   render() {
     const {
       stages,
@@ -1310,6 +1324,7 @@ export default class MainContainer extends React.Component {
               logoSetup={this.state.logoSetup}
               banner_kpis={banner_kpis}
               ToggleHeaderButtons={this.ToggleHeaderButtons}
+              DisplayConsole={this.DisplayConsole}
             />
           </div>
           <div
