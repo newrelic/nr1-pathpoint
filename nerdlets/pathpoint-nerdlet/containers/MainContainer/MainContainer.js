@@ -1079,7 +1079,7 @@ export default class MainContainer extends React.Component {
       account: account,
       company: company
     };
-    this.sendLogs(datos, this.state.accountId);
+    // this.sendLogs(datos, this.state.accountId);
     CreateJiraIssue(datos, this.state.accountId);
     this._resetFormSupport();
     this._onClose();
