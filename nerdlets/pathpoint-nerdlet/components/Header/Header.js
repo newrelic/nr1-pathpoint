@@ -2,7 +2,6 @@
 import React from 'react';
 import Select from 'react-select';
 import PropTypes from 'prop-types';
-import { logger } from 'nr1';
 
 // IMPORT IMAGES AND STATIC FILES
 import lines from '../../images/lines.svg';
@@ -28,22 +27,29 @@ const Header = ({
   handleContextMenuFire,
   banner_kpis,
   ToggleHeaderButtons,
-  logoSetup
+  logoSetup,
+  DisplayConsole
 }) => {
   const bannerLeftMessage = banner_kpis[0].description;
   const bannerCenterMessage = banner_kpis[1].description;
   const bannerRightMessage = banner_kpis[2].description;
   const bannerLeftValue =
     banner_kpis[0].prefix === '$'
-      ? `${FormatMoney(banner_kpis[0].value)} ${banner_kpis[0].suffix}`
+      ? `${FormatMoney(banner_kpis[0].value, DisplayConsole)} ${
+          banner_kpis[0].suffix
+        }`
       : `${banner_kpis[0].prefix} ${banner_kpis[0].value} ${banner_kpis[0].suffix}`;
   const bannerCenterValue =
     banner_kpis[1].prefix === '$'
-      ? `${FormatMoney(banner_kpis[1].value)} ${banner_kpis[1].suffix}`
+      ? `${FormatMoney(banner_kpis[1].value, DisplayConsole)} ${
+          banner_kpis[1].suffix
+        }`
       : `${banner_kpis[1].prefix} ${banner_kpis[1].value} ${banner_kpis[1].suffix}`;
   const bannerRightValue =
     banner_kpis[2].prefix === '$'
-      ? `${FormatMoney(banner_kpis[2].value)} ${banner_kpis[2].suffix}`
+      ? `${FormatMoney(banner_kpis[2].value, DisplayConsole)} ${
+          banner_kpis[2].suffix
+        }`
       : `${banner_kpis[2].prefix} ${banner_kpis[2].value} ${banner_kpis[2].suffix}`;
   return (
     <div className="containerHeader">
@@ -155,6 +161,7 @@ const options = [
 
 const FormatMoney = (
   amount,
+  DisplayConsole,
   decimalCount = 2,
   decimal = '.',
   thousands = ','
@@ -177,7 +184,7 @@ const FormatMoney = (
         : ''
     }`;
   } catch (e) {
-    logger.error(`Error in format money ${e}`);
+    DisplayConsole('error', `Error in format money ${e}`);
   }
 };
 
@@ -204,6 +211,7 @@ const RenderLogo = logoSetup => {
   }
 };
 
+export { RenderLogo, FormatMoney };
 export default Header;
 
 Header.propTypes = {
@@ -219,5 +227,6 @@ Header.propTypes = {
   handleContextMenuFire: PropTypes.func.isRequired,
   banner_kpis: PropTypes.array.isRequired,
   ToggleHeaderButtons: PropTypes.func.isRequired,
-  logoSetup: PropTypes.object.isRequired
+  logoSetup: PropTypes.object.isRequired,
+  DisplayConsole: PropTypes.func.isRequired
 };
