@@ -87,4 +87,8 @@ BodyBackgroundProcessesFormModal.propTypes = {
   GetCurrentHistoricErrorScript: PropTypes.func.isRequired
 };
 
-export { HeaderBackgroundProcessesFormModal, BodyBackgroundProcessesFormModal };
+export {
+  HeaderBackgroundProcessesFormModal,
+  BodyBackgroundProcessesFormModal,
+  getFireSyntheticFilter
+};
