@@ -1,5 +1,5 @@
 {
-    "pathpointVersion": "1.0.1",
+    "pathpointVersion": "1.0.0",
     "banner_kpis": [
         {
             "description": "Total Order Count",
@@ -93,22 +93,26 @@
                     "related_steps": "ST1-LINE1-SS2,ST1-LINE2-SS2",
                     "queries": [
                         {
-                            "type": "STANDARD-APM-COUNT-AND",
-                            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name='WebTransaction/Action/'",
+                            "type": "COUNT-QUERY",
+                            "query": "SELECT count(*) from Transaction WHERE appName='QS'",
                             "error_threshold": ""
                         },
                         {
                             "type": "ERROR-PERCENTAGE-QUERY",
-                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='QS' AND name='WebTransaction/Action/'",
+                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='QS'",
                             "apdex_time": ""
                         },
                         {
                             "type": "APDEX-QUERY",
-                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='QS' AND name='WebTransaction/Action/'"
+                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='QS'"
                         },
                         {
-                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
-                            "query": "SELECT uniqueCount(session) as session FROM PageView WHERE appName='QS' AND name='WebTransaction/Action/'"
+                            "type": "SESSIONS-QUERY",
+                            "query": "SELECT uniqueCount(session) as session FROM PageView WHERE appName='QS'"
+                        },
+                        {
+                            "type": "SESSIONS-QUERY-DURATION",
+                            "query": "SELECT count(*) FROM PageView WHERE appName='QS' FACET session LIMIT MAX"
                         }
                     ]
                 },
@@ -121,19 +125,23 @@
                     "related_steps": "ST1-LINE1-SS1,ST1-LINE1-SS2",
                     "queries": [
                         {
-                            "type": "STANDARD-APM-COUNT-AND",
-                            "query": "SELECT count(*) from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/grpc.health.v1.Health/Check'"
+                            "type": "COUNT-QUERY",
+                            "query": "SELECT count(*) from Transaction WHERE appName='shipping-service'"
                         },
                         {
                             "type": "ERROR-PERCENTAGE-QUERY",
-                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/grpc.health.v1.Health/Check'"
+                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='shipping-service'"
                         },
                         {
                             "type": "APDEX-QUERY",
-                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/grpc.health.v1.Health/Check'"
+                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='shipping-service'"
                         },
                         {
-                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
+                            "type": "SESSIONS-QUERY",
+                            "query": ""
+                        },
+                        {
+                            "type": "SESSIONS-QUERY-DURATION",
                             "query": ""
                         }
                     ]
@@ -147,19 +155,23 @@
                     "related_steps": "ST1-LINE2-SS1,ST1-LINE4-SS1",
                     "queries": [
                         {
-                            "type": "STANDARD-APM-COUNT-AND",
-                            "query": "SELECT count(*) from Transaction WHERE appName='productCatalog-service' AND name='WebTransaction/Go/grpc.health.v1.Health/Check'"
+                            "type": "COUNT-QUERY",
+                            "query": "SELECT count(*) from Transaction WHERE appName='productCatalog-service'"
                         },
                         {
                             "type": "ERROR-PERCENTAGE-QUERY",
-                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='productCatalog-service' AND name='WebTransaction/Go/grpc.health.v1.Health/Check'"
+                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='productCatalog-service'"
                         },
                         {
                             "type": "APDEX-QUERY",
-                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='productCatalog-service' AND name='WebTransaction/Go/grpc.health.v1.Health/Check'"
+                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='productCatalog-service'"
                         },
                         {
-                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
+                            "type": "SESSIONS-QUERY",
+                            "query": ""
+                        },
+                        {
+                            "type": "SESSIONS-QUERY-DURATION",
                             "query": ""
                         }
                     ]
@@ -173,19 +185,23 @@
                     "related_steps": "ST1-LINE5-SS1",
                     "queries": [
                         {
-                            "type": "STANDARD-APM-COUNT-AND",
-                            "query": "SELECT count(*) from Transaction WHERE appName='currency-service' AND name='WebTransaction/Custom//Check'"
+                            "type": "COUNT-QUERY",
+                            "query": "SELECT count(*) from Transaction WHERE appName='currency-service'"
                         },
                         {
                             "type": "ERROR-PERCENTAGE-QUERY",
-                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='currency-service' AND name='WebTransaction/Custom//Check'"
+                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='currency-service'"
                         },
                         {
                             "type": "APDEX-QUERY",
-                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='currency-service' AND name='WebTransaction/Custom//Check'"
+                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='currency-service'"
                         },
                         {
-                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
+                            "type": "SESSIONS-QUERY",
+                            "query": ""
+                        },
+                        {
+                            "type": "SESSIONS-QUERY-DURATION",
                             "query": ""
                         }
                     ]
@@ -199,19 +215,23 @@
                     "related_steps": "ST1-LINE5-SS1",
                     "queries": [
                         {
-                            "type": "STANDARD-APM-COUNT-AND",
-                            "query": "SELECT count(*) FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/GET /'"
+                            "type": "COUNT-QUERY",
+                            "query": "SELECT count(*) FROM Transaction WHERE appName='frontend-service'"
                         },
                         {
                             "type": "ERROR-PERCENTAGE-QUERY",
-                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/GET /'"
+                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage FROM Transaction WHERE appName='frontend-service'"
                         },
                         {
                             "type": "APDEX-QUERY",
-                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/GET /'"
+                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='frontend-service'"
                         },
                         {
-                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
+                            "type": "SESSIONS-QUERY",
+                            "query": ""
+                        },
+                        {
+                            "type": "SESSIONS-QUERY-DURATION",
                             "query": ""
                         }
                     ]
@@ -276,19 +296,23 @@
                     "related_steps": "ST2-LINE1-SS2,ST2-LINE3-SS2",
                     "queries": [
                         {
-                            "type": "STANDARD-APM-COUNT-AND",
-                            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name LIKE 'WebTransaction/Action/App%'"
+                            "type": "COUNT-QUERY",
+                            "query": "SELECT count(*) from Transaction WHERE appName='QS'"
                         },
                         {
                             "type": "ERROR-PERCENTAGE-QUERY",
-                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='QS' AND name LIKE 'WebTransaction/Action/App%'"
+                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='QS'"
                         },
                         {
                             "type": "APDEX-QUERY",
-                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='QS' AND name LIKE 'WebTransaction/Action/App%'"
+                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='QS'"
                         },
                         {
-                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
+                            "type": "SESSIONS-QUERY",
+                            "query": ""
+                        },
+                        {
+                            "type": "SESSIONS-QUERY-DURATION",
                             "query": ""
                         }
                     ]
@@ -302,19 +326,23 @@
                     "related_steps": "ST2-LINE1-SS1,ST2-LINE3-SS1",
                     "queries": [
                         {
-                            "type": "STANDARD-APM-COUNT-AND",
-                            "query": "SELECT count(*) from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/GetQuote'"
+                            "type": "COUNT-QUERY",
+                            "query": "SELECT count(*) from Transaction WHERE appName='shipping-service'"
                         },
                         {
                             "type": "ERROR-PERCENTAGE-QUERY",
-                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/GetQuote'"
+                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='shipping-service'"
                         },
                         {
                             "type": "APDEX-QUERY",
-                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/GetQuote'"
+                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='shipping-service'"
                         },
                         {
-                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
+                            "type": "SESSIONS-QUERY",
+                            "query": ""
+                        },
+                        {
+                            "type": "SESSIONS-QUERY-DURATION",
                             "query": ""
                         }
                     ]
@@ -328,19 +356,23 @@
                     "related_steps": "ST2-LINE2-SS1,ST2-LINE2-SS3",
                     "queries": [
                         {
-                            "type": "STANDARD-APM-COUNT-AND",
-                            "query": "SELECT count(*) from Transaction WHERE appName='productCatalog-service' AND name='WebTransaction/Go/hipstershop.ProductCatalogService/GetProduct'"
+                            "type": "COUNT-QUERY",
+                            "query": "SELECT count(*) from Transaction WHERE appName='productCatalog-service'"
                         },
                         {
                             "type": "ERROR-PERCENTAGE-QUERY",
-                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='productCatalog-service' AND name='WebTransaction/Go/hipstershop.ProductCatalogService/GetProduct'"
+                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='productCatalog-service'"
                         },
                         {
                             "type": "APDEX-QUERY",
-                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='productCatalog-service' AND name='WebTransaction/Go/hipstershop.ProductCatalogService/GetProduct'"
+                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='productCatalog-service'"
                         },
                         {
-                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
+                            "type": "SESSIONS-QUERY",
+                            "query": ""
+                        },
+                        {
+                            "type": "SESSIONS-QUERY-DURATION",
                             "query": ""
                         }
                     ]
@@ -354,19 +386,23 @@
                     "related_steps": "ST2-LINE2-SS2",
                     "queries": [
                         {
-                            "type": "STANDARD-APM-COUNT-AND",
-                            "query": "SELECT count(*) FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/GET /cart'"
+                            "type": "COUNT-QUERY",
+                            "query": "SELECT count(*) FROM Transaction WHERE appName='frontend-service'"
                         },
                         {
                             "type": "ERROR-PERCENTAGE-QUERY",
-                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/GET /cart'"
+                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage FROM Transaction WHERE appName='frontend-service'"
                         },
                         {
                             "type": "APDEX-QUERY",
-                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/GET /cart'"
+                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='frontend-service'"
                         },
                         {
-                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
+                            "type": "SESSIONS-QUERY",
+                            "query": ""
+                        },
+                        {
+                            "type": "SESSIONS-QUERY-DURATION",
                             "query": ""
                         }
                     ]
@@ -441,19 +477,23 @@
                     "related_steps": "ST3-LINE1-SS1",
                     "queries": [
                         {
-                            "type": "STANDARD-APM-COUNT-AND",
-                            "query": "SELECT count(*) FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/GET /product/{id}'"
+                            "type": "COUNT-QUERY",
+                            "query": "SELECT count(*) FROM Transaction WHERE appName='frontend-service'"
                         },
                         {
                             "type": "ERROR-PERCENTAGE-QUERY",
-                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/GET /product/{id}'"
+                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage FROM Transaction WHERE appName='frontend-service'"
                         },
                         {
                             "type": "APDEX-QUERY",
-                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/GET /product/{id}'"
+                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='frontend-service'"
                         },
                         {
-                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
+                            "type": "SESSIONS-QUERY",
+                            "query": ""
+                        },
+                        {
+                            "type": "SESSIONS-QUERY-DURATION",
                             "query": ""
                         }
                     ]
@@ -467,19 +507,23 @@
                     "related_steps": "ST3-LINE2-SS1,ST3-LINE3-SS1,ST3-LINE3-SS2,ST3-LINE3-SS3,ST3-LINE4-SS1",
                     "queries": [
                         {
-                            "type": "STANDARD-APM-COUNT-AND",
-                            "query": "SELECT count(*) FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/POST /cart'"
+                            "type": "COUNT-QUERY",
+                            "query": "SELECT count(*) FROM Transaction WHERE appName='frontend-service'"
                         },
                         {
                             "type": "ERROR-PERCENTAGE-QUERY",
-                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/POST /cart'"
+                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage FROM Transaction WHERE appName='frontend-service'"
                         },
                         {
                             "type": "APDEX-QUERY",
-                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/POST /cart'"
+                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='frontend-service'"
                         },
                         {
-                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
+                            "type": "SESSIONS-QUERY",
+                            "query": ""
+                        },
+                        {
+                            "type": "SESSIONS-QUERY-DURATION",
                             "query": ""
                         }
                     ]
@@ -493,20 +537,24 @@
                     "related_steps": "ST3-LINE2-SS1",
                     "queries": [
                         {
-                            "type": "STANDARD-APM-COUNT-AND",
-                            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name='WebTransaction/Action/home'"
+                            "type": "COUNT-QUERY",
+                            "query": "SELECT count(*) from Transaction WHERE appName='QS'"
                         },
                         {
                             "type": "ERROR-PERCENTAGE-QUERY",
-                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='QS' AND name='WebTransaction/Action/home'"
+                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='QS'"
                         },
                         {
                             "type": "APDEX-QUERY",
-                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='QS' AND name='WebTransaction/Action/home'"
+                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='QS'"
                         },
                         {
-                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
-                            "query": "SELECT uniqueCount(session) as session FROM PageView WHERE appName='QS' AND name='WebTransaction/Action/home'"
+                            "type": "SESSIONS-QUERY",
+                            "query": "SELECT uniqueCount(session) as session FROM PageView WHERE appName='QS'"
+                        },
+                        {
+                            "type": "SESSIONS-QUERY-DURATION",
+                            "query": ""
                         }
                     ]
                 },
@@ -519,19 +567,23 @@
                     "related_steps": "ST3-LINE1-SS1",
                     "queries": [
                         {
-                            "type": "STANDARD-APM-COUNT-AND",
-                            "query": "SELECT count(*) from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'"
+                            "type": "COUNT-QUERY",
+                            "query": "SELECT count(*) from Transaction WHERE appName='shipping-service'"
                         },
                         {
                             "type": "ERROR-PERCENTAGE-QUERY",
-                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'"
+                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='shipping-service'"
                         },
                         {
                             "type": "APDEX-QUERY",
-                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'"
+                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='shipping-service'"
                         },
                         {
-                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
+                            "type": "SESSIONS-QUERY",
+                            "query": ""
+                        },
+                        {
+                            "type": "SESSIONS-QUERY-DURATION",
                             "query": ""
                         }
                     ]
@@ -593,19 +645,23 @@
                     "related_steps": "ST4-LINE2-SS1",
                     "queries": [
                         {
-                            "type": "STANDARD-APM-COUNT-AND",
-                            "query": "SELECT count(*) from Transaction WHERE appName='productCatalog-service' AND name='WebTransaction/Go/hipstershop.ProductCatalogService/ListProducts'"
+                            "type": "COUNT-QUERY",
+                            "query": "SELECT count(*) from Transaction WHERE appName='productCatalog-service'"
                         },
                         {
                             "type": "ERROR-PERCENTAGE-QUERY",
-                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='productCatalog-service' AND name='WebTransaction/Go/hipstershop.ProductCatalogService/ListProducts'"
+                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='productCatalog-service'"
                         },
                         {
                             "type": "APDEX-QUERY",
-                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='productCatalog-service' AND name='WebTransaction/Go/hipstershop.ProductCatalogService/ListProducts'"
+                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='productCatalog-service'"
                         },
                         {
-                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
+                            "type": "SESSIONS-QUERY",
+                            "query": ""
+                        },
+                        {
+                            "type": "SESSIONS-QUERY-DURATION",
                             "query": ""
                         }
                     ]
@@ -619,19 +675,23 @@
                     "related_steps": "ST4-LINE2-SS1,ST4-LINE3-SS1",
                     "queries": [
                         {
-                            "type": "STANDARD-APM-COUNT-AND",
-                            "query": "SELECT count(*) from Transaction WHERE appName='currency-service' AND name='WebTransaction/Custom//Convert'"
+                            "type": "COUNT-QUERY",
+                            "query": "SELECT count(*) from Transaction WHERE appName='currency-service'"
                         },
                         {
                             "type": "ERROR-PERCENTAGE-QUERY",
-                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='currency-service' AND name='WebTransaction/Custom//Convert'"
+                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='currency-service'"
                         },
                         {
                             "type": "APDEX-QUERY",
-                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='currency-service' AND name='WebTransaction/Custom//Convert'"
+                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='currency-service'"
                         },
                         {
-                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
+                            "type": "SESSIONS-QUERY",
+                            "query": ""
+                        },
+                        {
+                            "type": "SESSIONS-QUERY-DURATION",
                             "query": ""
                         }
                     ]
@@ -722,19 +782,23 @@
                     "related_steps": "ST5-LINE2-SS1",
                     "queries": [
                         {
-                            "type": "STANDARD-APM-COUNT-AND",
-                            "query": "SELECT count(*) from Transaction WHERE appName='currency-service' AND name='WebTransaction/Custom//GetSupportedCurrencies'"
+                            "type": "COUNT-QUERY",
+                            "query": "SELECT count(*) from Transaction WHERE appName='currency-service'"
                         },
                         {
                             "type": "ERROR-PERCENTAGE-QUERY",
-                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='currency-service' AND name='WebTransaction/Custom//GetSupportedCurrencies'"
+                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='currency-service'"
                         },
                         {
                             "type": "APDEX-QUERY",
-                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='currency-service' AND name='WebTransaction/Custom//GetSupportedCurrencies'"
+                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='currency-service'"
                         },
                         {
-                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
+                            "type": "SESSIONS-QUERY",
+                            "query": ""
+                        },
+                        {
+                            "type": "SESSIONS-QUERY-DURATION",
                             "query": ""
                         }
                     ]
@@ -748,8 +812,8 @@
                     "related_steps": "ST5-LINE2-SS1",
                     "queries": [
                         {
-                            "type": "STANDARD-APM-COUNT-AND",
-                            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name='WebTransaction/Action/logout'"
+                            "type": "COUNT-QUERY",
+                            "query": "SELECT count(*) from Transaction WHERE appName='QS'"
                         },
                         {
                             "type": "ERROR-PERCENTAGE-QUERY",
@@ -757,11 +821,15 @@
                         },
                         {
                             "type": "APDEX-QUERY",
-                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='QS' AND name='WebTransaction/Action/logout'"
+                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='QS'"
                         },
                         {
-                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
-                            "query": "SELECT uniqueCount(session) as session FROM PageView WHERE appName='QS' AND name='WebTransaction/Action/logout'"
+                            "type": "SESSIONS-QUERY",
+                            "query": "SELECT uniqueCount(session) as session FROM PageView WHERE appName='QS'"
+                        },
+                        {
+                            "type": "SESSIONS-QUERY-DURATION",
+                            "query": ""
                         }
                     ]
                 },
@@ -774,7 +842,7 @@
                     "related_steps": "ST5-LINE4-SS1",
                     "queries": [
                         {
-                            "type": "STANDARD-APM-COUNT-AND",
+                            "type": "COUNT-QUERY",
                             "query": "SELECT count(*) FROM Transaction WHERE appName='checkout-service'"
                         },
                         {
@@ -786,7 +854,11 @@
                             "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='checkout-service'"
                         },
                         {
-                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
+                            "type": "SESSIONS-QUERY",
+                            "query": ""
+                        },
+                        {
+                            "type": "SESSIONS-QUERY-DURATION",
                             "query": ""
                         }
                     ]
@@ -800,8 +872,8 @@
                     "related_steps": "ST5-LINE3-SS2",
                     "queries": [
                         {
-                            "type": "STANDARD-APM-COUNT-AND",
-                            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name='WebTransaction/Action/logout'"
+                            "type": "COUNT-QUERY",
+                            "query": "SELECT count(*) from Transaction WHERE appName='QS'"
                         },
                         {
                             "type": "ERROR-PERCENTAGE-QUERY",
@@ -809,11 +881,15 @@
                         },
                         {
                             "type": "APDEX-QUERY",
-                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='QS' AND name='WebTransaction/Action/logout'"
+                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='QS'"
                         },
                         {
-                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
-                            "query": "SELECT uniqueCount(session) as session FROM PageView WHERE appName='QS' AND name='WebTransaction/Action/logout'"
+                            "type": "SESSIONS-QUERY",
+                            "query": "SELECT uniqueCount(session) as session FROM PageView WHERE appName='QS'"
+                        },
+                        {
+                            "type": "SESSIONS-QUERY-DURATION",
+                            "query": ""
                         }
                     ]
                 },
@@ -826,7 +902,7 @@
                     "related_steps": "ST5-LINE5-SS1",
                     "queries": [
                         {
-                            "type": "STANDARD-APM-COUNT-AND",
+                            "type": "COUNT-QUERY",
                             "query": "SELECT count(*) FROM Transaction WHERE appName='checkout-service'"
                         },
                         {
@@ -838,7 +914,11 @@
                             "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='checkout-service'"
                         },
                         {
-                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
+                            "type": "SESSIONS-QUERY",
+                            "query": ""
+                        },
+                        {
+                            "type": "SESSIONS-QUERY-DURATION",
                             "query": ""
                         }
                     ]
