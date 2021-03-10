@@ -66,6 +66,7 @@ function BodyFileErrorFormModal(props) {
   );
 }
 
+/* istanbul ignore next */
 function handleUploadJSONFile(
   e,
   onClose,
