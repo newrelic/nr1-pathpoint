@@ -1,0 +1,736 @@
+{
+    "pathpointVersion": "1.0.2",
+    "banner_kpis": [
+        {
+            "description": "Total Order Count",
+            "prefix": "",
+            "suffix": "Orders",
+            "query": "SELECT count(*) as value FROM Transaction SINCE 1 minute AGO"
+        },
+        {
+            "description": "Total Order Value",
+            "prefix": "$",
+            "suffix": "",
+            "query": "SELECT count(*) as value FROM Transaction SINCE 5 minutes AGO"
+        },
+        {
+            "description": "Max Duration",
+            "prefix": "",
+            "suffix": "",
+            "query": "SELECT max(duration) as value FROM Transaction SINCE 30 minutes AGO"
+        }
+    ],
+    "stages": [
+        {
+            "title": "REQUEST",
+            "active_dotted": "none",
+            "steps": [
+                {
+                    "line": 1,
+                    "values": [
+                        {
+                            "title": "ALIAS/VMS:  WOs",
+                            "id": "ST1-LINE1-SS1"
+                        }
+                    ]
+                },
+                {
+                    "line": 2,
+                    "values": [
+                        {
+                            "title": "Asset/Content File pick up",
+                            "id": "ST1-LINE2-SS1"
+                        }
+                    ]
+                },
+                {
+                    "line": 3,
+                    "values": [
+                        {
+                            "title": "File ingested/stored into ALIAS location",
+                            "id": "ST1-LINE3-SS1"
+                        }
+                    ]
+                }
+            ],
+            "touchpoints": [
+                {
+                    "title": "Alias/VMS Database",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NDg"
+                    ],
+                    "related_steps": "ST1-LINE1-SS1",
+                    "queries": [
+                        {
+                            "type": "STANDARD-APM-COUNT-AND",
+                            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name='WebTransaction/Action/'"
+                        },
+                        {
+                            "type": "ERROR-PERCENTAGE-QUERY",
+                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='QS' AND name='WebTransaction/Action/'"
+                        },
+                        {
+                            "type": "APDEX-QUERY",
+                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='QS' AND name='WebTransaction/Action/'"
+                        },
+                        {
+                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
+                            "query": "SELECT uniqueCount(session) as session FROM PageView WHERE appName='QS' AND name='WebTransaction/Action/'"
+                        }
+                    ]
+                },
+                {
+                    "title": "Catapult Database",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NDk"
+                    ],
+                    "related_steps": "ST1-LINE1-SS1",
+                    "queries": [
+                        {
+                            "type": "STANDARD-APM-COUNT-AND",
+                            "query": "SELECT count(*) from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/grpc.health.v1.Health/Check'"
+                        },
+                        {
+                            "type": "ERROR-PERCENTAGE-QUERY",
+                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/grpc.health.v1.Health/Check'"
+                        },
+                        {
+                            "type": "APDEX-QUERY",
+                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/grpc.health.v1.Health/Check'"
+                        },
+                        {
+                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
+                            "query": ""
+                        }
+                    ]
+                },
+                {
+                    "title": "Catapult device agents",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTA"
+                    ],
+                    "related_steps": "ST1-LINE2-SS1",
+                    "queries": [
+                        {
+                            "type": "STANDARD-APM-COUNT-AND",
+                            "query": "SELECT count(*) from Transaction WHERE appName='productCatalog-service' AND name='WebTransaction/Go/grpc.health.v1.Health/Check'"
+                        },
+                        {
+                            "type": "ERROR-PERCENTAGE-QUERY",
+                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='productCatalog-service' AND name='WebTransaction/Go/grpc.health.v1.Health/Check'"
+                        },
+                        {
+                            "type": "APDEX-QUERY",
+                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='productCatalog-service' AND name='WebTransaction/Go/grpc.health.v1.Health/Check'"
+                        },
+                        {
+                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
+                            "query": ""
+                        }
+                    ]
+                },
+                {
+                    "title": "DIVA health status",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTE"
+                    ],
+                    "related_steps": "ST1-LINE3-SS1",
+                    "queries": [
+                        {
+                            "type": "STANDARD-APM-COUNT-AND",
+                            "query": "SELECT count(*) from Transaction WHERE appName='currency-service' AND name='WebTransaction/Custom//Check'"
+                        },
+                        {
+                            "type": "ERROR-PERCENTAGE-QUERY",
+                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='currency-service' AND name='WebTransaction/Custom//Check'"
+                        },
+                        {
+                            "type": "APDEX-QUERY",
+                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='currency-service' AND name='WebTransaction/Custom//Check'"
+                        },
+                        {
+                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
+                            "query": ""
+                        }
+                    ]
+                },
+                {
+                    "title": "Delivery agents",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTE"
+                    ],
+                    "related_steps": "ST1-LINE2-SS1",
+                    "queries": [
+                        {
+                            "type": "STANDARD-APM-COUNT-AND",
+                            "query": "SELECT count(*) from Transaction WHERE appName='currency-service' AND name='WebTransaction/Custom//Check'"
+                        },
+                        {
+                            "type": "ERROR-PERCENTAGE-QUERY",
+                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='currency-service' AND name='WebTransaction/Custom//Check'"
+                        },
+                        {
+                            "type": "APDEX-QUERY",
+                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='currency-service' AND name='WebTransaction/Custom//Check'"
+                        },
+                        {
+                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
+                            "query": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "PRESERVATION",
+            "active_dotted": "none",
+            "steps": [
+                {
+                    "line": 1,
+                    "values": [
+                        {
+                            "title": "Catapult: Workflow Path ",
+                            "id": "ST2-LINE1-SS1"
+                        }
+                    ]
+                },
+                {
+                    "line": 2,
+                    "values": [
+                        {
+                            "title": "Tasks",
+                            "id": "ST2-LINE2-SS1"
+                        },
+                        {
+                            "title": "Priorities",
+                            "id": "ST2-LINE2-SS2"
+                        },
+                        {
+                            "title": "Users",
+                            "id": "ST2-LINE2-SS3"
+                        }
+                    ]
+                },
+                {
+                    "line": 3,
+                    "values": [
+                        {
+                            "title": "Jobs Queue",
+                            "id": "ST2-LINE3-SS1"
+                        }
+                    ]
+                },
+                {
+                    "line": 4,
+                    "values": [
+                        {
+                            "title": "Archive",
+                            "id": "ST2-LINE4-SS1"
+                        },
+                        {
+                            "title": "Restore",
+                            "id": "ST2-LINE4-SS2"
+                        }
+                    ]
+                },
+                {
+                    "line": 5,
+                    "values": [
+                        {
+                            "title": "Device Type",
+                            "id": "ST2-LINE5-SS1"
+                        }
+                    ]
+                },
+                {
+                    "line": 6,
+                    "values": [
+                        {
+                            "title": "DIVA: File Restored",
+                            "id": "ST2-LINE6-SS1"
+                        },
+                        {
+                            "title": "GCP: File Restored",
+                            "id": "ST2-LINE6-SS2"
+                        }
+                    ]
+                }
+            ],
+            "touchpoints": [
+                {
+                    "title": "Catapult Database",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTI"
+                    ],
+                    "related_steps": "ST2-LINE1-SS1",
+                    "queries": [
+                        {
+                            "type": "STANDARD-APM-COUNT-AND",
+                            "query": "SELECT count(*) FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/GET /'"
+                        },
+                        {
+                            "type": "ERROR-PERCENTAGE-QUERY",
+                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/GET /'"
+                        },
+                        {
+                            "type": "APDEX-QUERY",
+                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/GET /'"
+                        },
+                        {
+                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
+                            "query": ""
+                        }
+                    ]
+                },
+                {
+                    "title": "Catapult device agents",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTM"
+                    ],
+                    "related_steps": "ST2-LINE3-SS1",
+                    "queries": [
+                        {
+                            "type": "STANDARD-APM-COUNT-AND",
+                            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name LIKE 'WebTransaction/Action/App%'"
+                        },
+                        {
+                            "type": "ERROR-PERCENTAGE-QUERY",
+                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='QS' AND name LIKE 'WebTransaction/Action/App%'"
+                        },
+                        {
+                            "type": "APDEX-QUERY",
+                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='QS' AND name LIKE 'WebTransaction/Action/App%'"
+                        },
+                        {
+                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
+                            "query": ""
+                        }
+                    ]
+                },
+                {
+                    "title": "DIVA health status",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTQ"
+                    ],
+                    "related_steps": "",
+                    "queries": [
+                        {
+                            "type": "STANDARD-APM-COUNT-AND",
+                            "query": "SELECT count(*) from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/GetQuote'"
+                        },
+                        {
+                            "type": "ERROR-PERCENTAGE-QUERY",
+                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/GetQuote'"
+                        },
+                        {
+                            "type": "APDEX-QUERY",
+                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/GetQuote'"
+                        },
+                        {
+                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
+                            "query": ""
+                        }
+                    ]
+                },
+                {
+                    "title": "Delivery agents",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTU"
+                    ],
+                    "related_steps": "ST2-LINE2-SS3",
+                    "queries": [
+                        {
+                            "type": "STANDARD-APM-COUNT-AND",
+                            "query": "SELECT count(*) from Transaction WHERE appName='productCatalog-service' AND name='WebTransaction/Go/hipstershop.ProductCatalogService/GetProduct'"
+                        },
+                        {
+                            "type": "ERROR-PERCENTAGE-QUERY",
+                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='productCatalog-service' AND name='WebTransaction/Go/hipstershop.ProductCatalogService/GetProduct'"
+                        },
+                        {
+                            "type": "APDEX-QUERY",
+                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='productCatalog-service' AND name='WebTransaction/Go/hipstershop.ProductCatalogService/GetProduct'"
+                        },
+                        {
+                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
+                            "query": ""
+                        }
+                    ]
+                },
+                {
+                    "title": "GCP",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTY"
+                    ],
+                    "related_steps": "ST2-LINE4-SS1",
+                    "queries": [
+                        {
+                            "type": "STANDARD-APM-COUNT-AND",
+                            "query": "SELECT count(*) FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/GET /cart'"
+                        },
+                        {
+                            "type": "ERROR-PERCENTAGE-QUERY",
+                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/GET /cart'"
+                        },
+                        {
+                            "type": "APDEX-QUERY",
+                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/GET /cart'"
+                        },
+                        {
+                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
+                            "query": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "TRANSCODING",
+            "active_dotted": "none",
+            "steps": [
+                {
+                    "line": 1,
+                    "values": [
+                        {
+                            "title": "Catapult Workflow",
+                            "id": "ST3-LINE1-SS1"
+                        }
+                    ]
+                },
+                {
+                    "line": 2,
+                    "values": [
+                        {
+                            "title": "Task",
+                            "id": "ST3-LINE2-SS1"
+                        },
+                        {
+                            "title": "Priorities",
+                            "id": "ST3-LINE2-SS2"
+                        },
+                        {
+                            "title": "Users",
+                            "id": "ST3-LINE2-SS3"
+                        }
+                    ]
+                },
+                {
+                    "line": 3,
+                    "values": [
+                        {
+                            "title": "Jobs Queue",
+                            "id": "ST3-LINE3-SS1"
+                        }
+                    ]
+                },
+                {
+                    "line": 4,
+                    "values": [
+                        {
+                            "title": "Elemental: File Conv",
+                            "id": "ST3-LINE4-SS1"
+                        },
+                        {
+                            "title": "MediaMate: File Conv.",
+                            "id": "ST3-LINE4-SS2"
+                        }
+                    ]
+                },
+                {
+                    "line": 5,
+                    "values": [
+                        {
+                            "title": "File Conversion Complete",
+                            "id": "ST3-LINE5-SS1"
+                        }
+                    ]
+                }
+            ],
+            "touchpoints": [
+                {
+                    "title": "Catapult Database",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTc"
+                    ],
+                    "related_steps": "ST3-LINE1-SS1",
+                    "queries": [
+                        {
+                            "type": "STANDARD-APM-COUNT-AND",
+                            "query": "SELECT count(*) FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/GET /product/{id}'"
+                        },
+                        {
+                            "type": "ERROR-PERCENTAGE-QUERY",
+                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/GET /product/{id}'"
+                        },
+                        {
+                            "type": "APDEX-QUERY",
+                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/GET /product/{id}'"
+                        },
+                        {
+                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
+                            "query": ""
+                        }
+                    ]
+                },
+                {
+                    "title": "Catapult device agents",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTg"
+                    ],
+                    "related_steps": "ST3-LINE2-SS3",
+                    "queries": [
+                        {
+                            "type": "STANDARD-APM-COUNT-AND",
+                            "query": "SELECT count(*) FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/POST /cart'"
+                        },
+                        {
+                            "type": "ERROR-PERCENTAGE-QUERY",
+                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/POST /cart'"
+                        },
+                        {
+                            "type": "APDEX-QUERY",
+                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/POST /cart'"
+                        },
+                        {
+                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
+                            "query": ""
+                        }
+                    ]
+                },
+                {
+                    "title": "Elemental",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTk"
+                    ],
+                    "related_steps": "ST3-LINE4-SS1",
+                    "queries": [
+                        {
+                            "type": "STANDARD-APM-COUNT-AND",
+                            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name='WebTransaction/Action/home'"
+                        },
+                        {
+                            "type": "ERROR-PERCENTAGE-QUERY",
+                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='QS' AND name='WebTransaction/Action/home'"
+                        },
+                        {
+                            "type": "APDEX-QUERY",
+                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='QS' AND name='WebTransaction/Action/home'"
+                        },
+                        {
+                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
+                            "query": "SELECT uniqueCount(session) as session FROM PageView WHERE appName='QS' AND name='WebTransaction/Action/home'"
+                        }
+                    ]
+                },
+                {
+                    "title": "MediaMate ",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjE"
+                    ],
+                    "related_steps": "ST3-LINE5-SS1,ST3-LINE2-SS3",
+                    "queries": [
+                        {
+                            "type": "STANDARD-APM-COUNT-AND",
+                            "query": "SELECT count(*) from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'"
+                        },
+                        {
+                            "type": "ERROR-PERCENTAGE-QUERY",
+                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'"
+                        },
+                        {
+                            "type": "APDEX-QUERY",
+                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'"
+                        },
+                        {
+                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
+                            "query": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "DELIVERY",
+            "active_dotted": "none",
+            "steps": [
+                {
+                    "line": 1,
+                    "values": [
+                        {
+                            "title": "Catapult Workflow",
+                            "id": "ST4-LINE1-SS1"
+                        }
+                    ]
+                },
+                {
+                    "line": 2,
+                    "values": [
+                        {
+                            "title": "Task",
+                            "id": "ST4-LINE2-SS1"
+                        },
+                        {
+                            "title": "Priorities",
+                            "id": "ST4-LINE2-SS2"
+                        },
+                        {
+                            "title": "Users",
+                            "id": "ST4-LINE2-SS3"
+                        }
+                    ]
+                },
+                {
+                    "line": 3,
+                    "values": [
+                        {
+                            "title": "Jobs Queue",
+                            "id": "ST4-LINE3-SS1"
+                        }
+                    ]
+                },
+                {
+                    "line": 4,
+                    "values": [
+                        {
+                            "title": "Signiant: Asset Delivery",
+                            "id": "ST4-LINE4-SS1"
+                        },
+                        {
+                            "title": "MediaShuttle: Asset Delivery",
+                            "id": "ST4-LINE4-SS2"
+                        }
+                    ]
+                },
+                {
+                    "line": 5,
+                    "values": [
+                        {
+                            "title": "Asset Delivered",
+                            "id": "ST4-LINE5-SS1"
+                        }
+                    ]
+                }
+            ],
+            "touchpoints": [
+                {
+                    "title": "Catapult Database",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjM"
+                    ],
+                    "related_steps": "ST4-LINE1-SS1",
+                    "queries": [
+                        {
+                            "type": "STANDARD-APM-COUNT-AND",
+                            "query": "SELECT count(*) from Transaction WHERE appName='currency-service' AND name='WebTransaction/Custom//Convert'"
+                        },
+                        {
+                            "type": "ERROR-PERCENTAGE-QUERY",
+                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='currency-service' AND name='WebTransaction/Custom//Convert'"
+                        },
+                        {
+                            "type": "APDEX-QUERY",
+                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='currency-service' AND name='WebTransaction/Custom//Convert'"
+                        },
+                        {
+                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
+                            "query": ""
+                        }
+                    ]
+                },
+                {
+                    "title": "Catapult device agents",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjQ"
+                    ],
+                    "related_steps": "ST4-LINE5-SS1,ST4-LINE2-SS3",
+                    "queries": [
+                        {
+                            "type": "STANDARD-APM-COUNT-AND",
+                            "query": "SELECT count(*) from Transaction WHERE appName='currency-service' AND name='WebTransaction/Custom//GetSupportedCurrencies'"
+                        },
+                        {
+                            "type": "ERROR-PERCENTAGE-QUERY",
+                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='currency-service' AND name='WebTransaction/Custom//GetSupportedCurrencies'"
+                        },
+                        {
+                            "type": "APDEX-QUERY",
+                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='currency-service' AND name='WebTransaction/Custom//GetSupportedCurrencies'"
+                        },
+                        {
+                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
+                            "query": ""
+                        }
+                    ]
+                },
+                {
+                    "title": "Signiant health status",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjU"
+                    ],
+                    "related_steps": "ST4-LINE3-SS1",
+                    "queries": [
+                        {
+                            "type": "STANDARD-APM-COUNT-AND",
+                            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name='WebTransaction/Action/logout'"
+                        },
+                        {
+                            "type": "ERROR-PERCENTAGE-QUERY",
+                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='QS' AND name='WebTransaction/Action/'"
+                        },
+                        {
+                            "type": "APDEX-QUERY",
+                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='QS' AND name='WebTransaction/Action/logout'"
+                        },
+                        {
+                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
+                            "query": "SELECT uniqueCount(session) as session FROM PageView WHERE appName='QS' AND name='WebTransaction/Action/logout'"
+                        }
+                    ]
+                },
+                {
+                    "title": "MediaShuttle Delivery agents",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjY"
+                    ],
+                    "related_steps": "ST4-LINE4-SS2",
+                    "queries": [
+                        {
+                            "type": "STANDARD-APM-COUNT-AND",
+                            "query": "SELECT count(*) FROM Transaction WHERE appName='checkout-service'"
+                        },
+                        {
+                            "type": "ERROR-PERCENTAGE-QUERY",
+                            "query": "SELECT percentage(count(*), WHERE error is true) as percentage FROM Transaction WHERE appName='checkout-service'"
+                        },
+                        {
+                            "type": "APDEX-QUERY",
+                            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='checkout-service'"
+                        },
+                        {
+                            "type": "UNIQUE-SESSIONS-COUNT-QUERY",
+                            "query": ""
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
