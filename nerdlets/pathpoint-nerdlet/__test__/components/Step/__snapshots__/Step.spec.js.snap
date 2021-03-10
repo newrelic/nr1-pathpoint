@@ -1,0 +1,145 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Step component Step component with canary state 1`] = `
+<div
+  className="divStep"
+  onClick={[Function]}
+  style={
+    Object {
+      "cursor": null,
+    }
+  }
+>
+  <div
+    className="circleStep"
+  >
+    0
+  </div>
+  <div
+    className="divContentStep"
+  >
+    <div
+      className="textContentSubFirstStep"
+      onClick={[Function]}
+      style={
+        Object {
+          "background": "white",
+          "border": "2px solid rgb(189,189,189)",
+          "color": "#333333",
+        }
+      }
+    >
+      Login
+    </div>
+    <div
+      className="textContentSubSecondStep"
+      onClick={[Function]}
+      style={
+        Object {
+          "background": "white",
+          "border": "2px solid rgb(189,189,189)",
+          "color": "#333333",
+        }
+      }
+    >
+      Login
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Step component Step component with canary state and latency 1`] = `
+<div
+  className="divStep"
+  onClick={[Function]}
+  style={
+    Object {
+      "cursor": null,
+    }
+  }
+>
+  <div
+    className="circleStep"
+  >
+    0
+  </div>
+  <div
+    className="divContentStep"
+  >
+    <div
+      className="textContentSubFirstStep"
+      onClick={[Function]}
+      style={
+        Object {
+          "background": "white",
+          "border": "2px solid rgb(189,189,189)",
+          "color": "#333333",
+        }
+      }
+    >
+      Login
+    </div>
+    <div
+      className="textContentSubSecondStep"
+      onClick={[Function]}
+      style={
+        Object {
+          "background": "white",
+          "border": "2px solid rgb(189,189,189)",
+          "color": "#333333",
+        }
+      }
+    >
+      Login
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Step component Step component with default data 1`] = `
+<div
+  className="divStep"
+  onClick={[Function]}
+  style={
+    Object {
+      "cursor": null,
+    }
+  }
+>
+  <div
+    className="circleStep"
+  >
+    0
+  </div>
+  <div
+    className="divContentStep"
+  >
+    <div
+      className="textContentSubFirstStep"
+      onClick={[Function]}
+      style={
+        Object {
+          "background": "white",
+          "border": "2px solid rgb(189,189,189)",
+          "color": "#333333",
+        }
+      }
+    >
+      Login
+    </div>
+    <div
+      className="textContentSubSecondStep"
+      onClick={[Function]}
+      style={
+        Object {
+          "background": "white",
+          "border": "2px solid rgb(189,189,189)",
+          "color": "#333333",
+        }
+      }
+    >
+      Login
+    </div>
+  </div>
+</div>
+`;
