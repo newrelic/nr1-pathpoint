@@ -26,6 +26,7 @@ function HeaderJsonConfigurationFormModal() {
   );
 }
 
+/* istanbul ignore next */
 function handleUploadJSONFile(
   e,
   onClose,
