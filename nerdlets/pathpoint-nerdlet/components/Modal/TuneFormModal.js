@@ -29,7 +29,9 @@ function BodyTuneFormModal(props) {
           threshold: error_threshold,
           apdex: apdex_time
         }}
-        onSubmit={values => handleSaveUpdateTune(values)}
+        onSubmit={
+          /* istanbul ignore next */ values => handleSaveUpdateTune(values)
+        }
       >
         {({ setFieldValue }) => (
           <Form>
@@ -37,8 +39,9 @@ function BodyTuneFormModal(props) {
               <Field
                 id="threshold"
                 name="threshold"
-                onChange={event =>
-                  setFieldValue('threshold', event.target.value)
+                onChange={
+                  /* istanbul ignore next */ event =>
+                    setFieldValue('threshold', event.target.value)
                 }
                 defaultValue={error_threshold}
                 component={renderField}
@@ -49,7 +52,10 @@ function BodyTuneFormModal(props) {
               <Field
                 id="apdex"
                 name="apdex"
-                onChange={event => setFieldValue('apdex', event.target.value)}
+                onChange={
+                  /* istanbul ignore next */ event =>
+                    setFieldValue('apdex', event.target.value)
+                }
                 defaultValue={apdex_time}
                 component={renderField}
                 label="% Apdex Min. Score"

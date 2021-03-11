@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import Step, {
   StyleSubStep,
   BackgroundSubStep,
@@ -423,6 +423,114 @@ describe('<Step/>', () => {
         />
       );
       expect(step.length).toEqual(1);
+    });
+
+    it('Step simulate click divStep', () => {
+      const clickStep = jest.fn();
+      const step = mount(
+        <Step
+          step={{
+            value: 'step one',
+            dotted: true,
+            sub_steps: [
+              {
+                index: 0,
+                id: 'ST1-LINE2-SS1',
+                canary_state: false,
+                latency: false,
+                value: 'Login',
+                dark: false,
+                sixth_sense: false,
+                history_error: false,
+                dotted: false,
+                highlighted: false,
+                error: false,
+                index_stage: 1,
+                relationship_touchpoints: [3]
+              },
+              {
+                index: 1,
+                id: 'ST1-LINE2-SS1',
+                canary_state: false,
+                latency: false,
+                value: 'Login',
+                dark: false,
+                sixth_sense: false,
+                history_error: false,
+                dotted: false,
+                highlighted: false,
+                error: false,
+                index_stage: 1,
+                relationship_touchpoints: [3]
+              }
+            ]
+          }}
+          onclickStep={clickStep}
+          iconSixthSenseStatus
+          iconGoutStatus
+          latencyStatus
+          iconCanaryStatus
+          iconFireStatus
+          colors={colors}
+        />
+      );
+
+      step.find('div.divStep').simulate('click');
+      expect(clickStep).toHaveBeenCalledTimes(1);
+    });
+
+    it('Step simulate click textContentSubFirstStep', () => {
+      const clickStep = jest.fn();
+      const step = shallow(
+        <Step
+          step={{
+            value: '',
+            dotted: true,
+            sub_steps: [
+              {
+                index: 0,
+                id: 'ST1-LINE2-SS1',
+                canary_state: false,
+                latency: false,
+                value: 'Login',
+                dark: false,
+                sixth_sense: false,
+                history_error: false,
+                dotted: false,
+                highlighted: false,
+                error: false,
+                index_stage: 1,
+                relationship_touchpoints: [3]
+              },
+              {
+                index: 1,
+                id: 'ST1-LINE2-SS1',
+                canary_state: false,
+                latency: false,
+                value: 'Login',
+                dark: false,
+                sixth_sense: false,
+                history_error: false,
+                dotted: false,
+                highlighted: false,
+                error: false,
+                index_stage: 1,
+                relationship_touchpoints: [3]
+              }
+            ]
+          }}
+          onclickStep={clickStep}
+          iconSixthSenseStatus
+          iconGoutStatus
+          latencyStatus
+          iconCanaryStatus
+          iconFireStatus
+          colors={colors}
+        />
+      );
+
+      step.find('.textContentSubFirstStep').simulate('click');
+      expect(clickStep).toHaveBeenCalledTimes(1);
     });
   });
 });

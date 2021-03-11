@@ -51,13 +51,14 @@ function BodyFileErrorFormModal(props) {
           id="file-upload"
           type="file"
           accept=".json"
-          onChange={e =>
-            handleUploadJSONFile(
-              e,
-              _onClose,
-              validateKpiQuery,
-              SetConfigurationJSON
-            )
+          onChange={
+            /* istanbul ignore next */ e =>
+              handleUploadJSONFile(
+                e,
+                _onClose,
+                validateKpiQuery,
+                SetConfigurationJSON
+              )
           }
           style={{ display: 'none' }}
         />
