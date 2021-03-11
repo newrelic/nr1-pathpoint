@@ -1,0 +1,1911 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header component Header component with default data 1`] = `
+<div
+  className="containerHeader"
+>
+  <div
+    className="quantityDinner"
+  >
+    <div
+      className="menuLogo"
+      onClick={[MockFunction]}
+    >
+      <img
+        height="12px"
+        src={Object {}}
+        width="18px"
+      />
+       
+    </div>
+    <div
+      className="logo-container"
+    >
+      <img
+        src={Object {}}
+      />
+    </div>
+  </div>
+  <div
+    className="kpi"
+  >
+    <div
+      className="kpicontent"
+    >
+      <div
+        className="kpicontent--colorgrey kpicontent--size12"
+      >
+        Total Order Count
+      </div>
+      <div
+        className="kpicontent--colorblack  kpicontent--size16"
+      >
+         0 Orders
+      </div>
+    </div>
+    <div
+      className="kpicontent"
+    >
+      <div
+        className="kpicontent--colorgrey kpicontent--size12"
+      >
+        Total Order Value
+      </div>
+      <div
+        className="kpicontent--colorblack  kpicontent--size16"
+      >
+        $0.00 
+      </div>
+    </div>
+    <div
+      className="kpicontent"
+    >
+      <div
+        className="kpicontent--colorgrey kpicontent--size12"
+      >
+        Max Duration
+      </div>
+      <div
+        className="kpicontent--colorblack  kpicontent--size16"
+      >
+         0 
+      </div>
+    </div>
+  </div>
+  <span
+    className="budgetLoss"
+    style={
+      Object {
+        "color": false,
+        "visibility": "hidden",
+      }
+    }
+  />
+  <div
+    className="distributionIcons"
+  >
+    <div
+      className="fireIconContainer"
+      onClick={[Function]}
+      style={
+        Object {
+          "visibility": "hidden",
+        }
+      }
+    >
+      <img
+        src={Object {}}
+        style={
+          Object {
+            "height": "18px",
+          }
+        }
+      />
+    </div>
+    <div
+      className="fireIconContainer"
+      onClick={[Function]}
+    >
+      <img
+        src={Object {}}
+        style={
+          Object {
+            "height": "18px",
+          }
+        }
+      />
+    </div>
+    <div
+      className="fireIconContainer"
+      onClick={[Function]}
+      onMouseDown={[MockFunction]}
+    >
+      <img
+        src={Object {}}
+        style={
+          Object {
+            "height": "18px",
+          }
+        }
+      />
+    </div>
+    <div
+      className=" css-2b097c-container"
+      onKeyDown={[Function]}
+    >
+      <div
+        className="react-select__control css-e56m7-control"
+        onMouseDown={[Function]}
+        onTouchEnd={[Function]}
+      >
+        <div
+          className="react-select__value-container css-g1d714-ValueContainer"
+        >
+          <div
+            className="react-select__placeholder css-1wa3eu0-placeholder"
+          >
+            now
+          </div>
+          <input
+            aria-autocomplete="list"
+            className="css-62g3xt-dummyInput"
+            disabled={false}
+            id="react-select-2-input"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            readOnly={true}
+            tabIndex="0"
+            value=""
+          />
+        </div>
+        <div
+          className="react-select__indicators css-1hb7zxy-IndicatorsContainer"
+        >
+          <span
+            className="react-select__indicator-separator css-1okebmr-indicatorSeparator"
+          />
+          <div
+            aria-hidden="true"
+            className="react-select__indicator react-select__dropdown-indicator css-tlfecz-indicatorContainer"
+            onMouseDown={[Function]}
+            onTouchEnd={[Function]}
+          >
+            <svg
+              aria-hidden="true"
+              className="css-6q0nyr-Svg"
+              focusable="false"
+              height={20}
+              viewBox="0 0 20 20"
+              width={20}
+            >
+              <path
+                d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Header component Header component with emulate activeSixthSenseIcon 1`] = `
+<div
+  className="containerHeader"
+>
+  <div
+    className="quantityDinner"
+  >
+    <div
+      className="menuLogo"
+      onClick={[MockFunction]}
+    >
+      <img
+        height="12px"
+        src={Object {}}
+        width="18px"
+      />
+       
+    </div>
+    <div
+      className="logo-container"
+    >
+      <img
+        src="https://www.howdeniberia.com/wp-content/uploads/2018/05/Disney-logo-png-transparent-download.png"
+      />
+    </div>
+  </div>
+  <div
+    className="kpi"
+  >
+    <div
+      className="kpicontent"
+    >
+      <div
+        className="kpicontent--colorgrey kpicontent--size12"
+      >
+        Total Order Count
+      </div>
+      <div
+        className="kpicontent--colorblack  kpicontent--size16"
+      >
+         0 Orders
+      </div>
+    </div>
+    <div
+      className="kpicontent"
+    >
+      <div
+        className="kpicontent--colorgrey kpicontent--size12"
+      >
+        Total Order Value
+      </div>
+      <div
+        className="kpicontent--colorblack  kpicontent--size16"
+      >
+        $0.00 
+      </div>
+    </div>
+    <div
+      className="kpicontent"
+    >
+      <div
+        className="kpicontent--colorgrey kpicontent--size12"
+      >
+        Max Duration
+      </div>
+      <div
+        className="kpicontent--colorblack  kpicontent--size16"
+      >
+         0 
+      </div>
+    </div>
+  </div>
+  <span
+    className="budgetLoss"
+    style={
+      Object {
+        "color": false,
+        "visibility": "hidden",
+      }
+    }
+  />
+  <div
+    className="distributionIcons"
+  >
+    <div
+      className="fireIconContainer"
+      onClick={[Function]}
+      style={
+        Object {
+          "visibility": "hidden",
+        }
+      }
+    >
+      <img
+        src={Object {}}
+        style={
+          Object {
+            "height": "18px",
+          }
+        }
+      />
+    </div>
+    <div
+      className="fireIconContainer"
+      onClick={[Function]}
+    >
+      <img
+        src={Object {}}
+        style={
+          Object {
+            "height": "18px",
+          }
+        }
+      />
+    </div>
+    <div
+      className="fireIconContainer"
+      onClick={[Function]}
+      onMouseDown={[MockFunction]}
+    >
+      <img
+        src={Object {}}
+        style={
+          Object {
+            "height": "18px",
+          }
+        }
+      />
+    </div>
+    <div
+      className=" css-2b097c-container"
+      onKeyDown={[Function]}
+    >
+      <div
+        className="react-select__control css-e56m7-control"
+        onMouseDown={[Function]}
+        onTouchEnd={[Function]}
+      >
+        <div
+          className="react-select__value-container css-g1d714-ValueContainer"
+        >
+          <div
+            className="react-select__placeholder css-1wa3eu0-placeholder"
+          >
+            now
+          </div>
+          <input
+            aria-autocomplete="list"
+            className="css-62g3xt-dummyInput"
+            disabled={false}
+            id="react-select-11-input"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            readOnly={true}
+            tabIndex="0"
+            value=""
+          />
+        </div>
+        <div
+          className="react-select__indicators css-1hb7zxy-IndicatorsContainer"
+        >
+          <span
+            className="react-select__indicator-separator css-1okebmr-indicatorSeparator"
+          />
+          <div
+            aria-hidden="true"
+            className="react-select__indicator react-select__dropdown-indicator css-tlfecz-indicatorContainer"
+            onMouseDown={[Function]}
+            onTouchEnd={[Function]}
+          >
+            <svg
+              aria-hidden="true"
+              className="css-6q0nyr-Svg"
+              focusable="false"
+              height={20}
+              viewBox="0 0 20 20"
+              width={20}
+            >
+              <path
+                d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Header component Header component with iconCanaryStatus 1`] = `
+<div
+  className="containerHeader"
+>
+  <div
+    className="quantityDinner"
+  >
+    <div
+      className="menuLogo"
+      onClick={[MockFunction]}
+    >
+      <img
+        height="12px"
+        src={Object {}}
+        width="18px"
+      />
+       
+    </div>
+    <div
+      className="logo-container"
+    >
+      <img
+        src={Object {}}
+      />
+    </div>
+  </div>
+  <div
+    className="kpi"
+  >
+    <div
+      className="kpicontent"
+    >
+      <div
+        className="kpicontent--colorgrey kpicontent--size12"
+      >
+        Total Order Count
+      </div>
+      <div
+        className="kpicontent--colorblack  kpicontent--size16"
+      >
+         0 Orders
+      </div>
+    </div>
+    <div
+      className="kpicontent"
+    >
+      <div
+        className="kpicontent--colorgrey kpicontent--size12"
+      >
+        Total Order Value
+      </div>
+      <div
+        className="kpicontent--colorblack  kpicontent--size16"
+      >
+        $0.00 
+      </div>
+    </div>
+    <div
+      className="kpicontent"
+    >
+      <div
+        className="kpicontent--colorgrey kpicontent--size12"
+      >
+        Max Duration
+      </div>
+      <div
+        className="kpicontent--colorblack  kpicontent--size16"
+      >
+         0 
+      </div>
+    </div>
+  </div>
+  <span
+    className="budgetLoss"
+    style={
+      Object {
+        "color": false,
+        "visibility": "hidden",
+      }
+    }
+  />
+  <div
+    className="distributionIcons"
+  >
+    <div
+      className="fireIconContainer"
+      onClick={[Function]}
+      style={
+        Object {
+          "visibility": "hidden",
+        }
+      }
+    >
+      <img
+        src={Object {}}
+        style={
+          Object {
+            "height": "18px",
+          }
+        }
+      />
+    </div>
+    <div
+      className="fireIconContainer"
+      onClick={[Function]}
+    >
+      <img
+        src={Object {}}
+        style={
+          Object {
+            "height": "18px",
+          }
+        }
+      />
+    </div>
+    <div
+      className="fireIconContainer"
+      onClick={[Function]}
+      onMouseDown={[MockFunction]}
+    >
+      <img
+        src={Object {}}
+        style={
+          Object {
+            "height": "18px",
+          }
+        }
+      />
+    </div>
+    <div
+      className=" css-2b097c-container"
+      onKeyDown={[Function]}
+    >
+      <div
+        className="react-select__control css-e56m7-control"
+        onMouseDown={[Function]}
+        onTouchEnd={[Function]}
+      >
+        <div
+          className="react-select__value-container css-g1d714-ValueContainer"
+        >
+          <div
+            className="react-select__placeholder css-1wa3eu0-placeholder"
+          >
+            now
+          </div>
+          <input
+            aria-autocomplete="list"
+            className="css-62g3xt-dummyInput"
+            disabled={false}
+            id="react-select-4-input"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            readOnly={true}
+            tabIndex="0"
+            value=""
+          />
+        </div>
+        <div
+          className="react-select__indicators css-1hb7zxy-IndicatorsContainer"
+        >
+          <span
+            className="react-select__indicator-separator css-1okebmr-indicatorSeparator"
+          />
+          <div
+            aria-hidden="true"
+            className="react-select__indicator react-select__dropdown-indicator css-tlfecz-indicatorContainer"
+            onMouseDown={[Function]}
+            onTouchEnd={[Function]}
+          >
+            <svg
+              aria-hidden="true"
+              className="css-6q0nyr-Svg"
+              focusable="false"
+              height={20}
+              viewBox="0 0 20 20"
+              width={20}
+            >
+              <path
+                d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Header component Header component with iconFireStatus 1`] = `
+<div
+  className="containerHeader"
+>
+  <div
+    className="quantityDinner"
+  >
+    <div
+      className="menuLogo"
+      onClick={[MockFunction]}
+    >
+      <img
+        height="12px"
+        src={Object {}}
+        width="18px"
+      />
+       
+    </div>
+    <div
+      className="logo-container"
+    >
+      <img
+        src={Object {}}
+      />
+    </div>
+  </div>
+  <div
+    className="kpi"
+  >
+    <div
+      className="kpicontent"
+    >
+      <div
+        className="kpicontent--colorgrey kpicontent--size12"
+      >
+        Total Order Count
+      </div>
+      <div
+        className="kpicontent--colorblack  kpicontent--size16"
+      >
+         0 Orders
+      </div>
+    </div>
+    <div
+      className="kpicontent"
+    >
+      <div
+        className="kpicontent--colorgrey kpicontent--size12"
+      >
+        Total Order Value
+      </div>
+      <div
+        className="kpicontent--colorblack  kpicontent--size16"
+      >
+        $0.00 
+      </div>
+    </div>
+    <div
+      className="kpicontent"
+    >
+      <div
+        className="kpicontent--colorgrey kpicontent--size12"
+      >
+        Max Duration
+      </div>
+      <div
+        className="kpicontent--colorblack  kpicontent--size16"
+      >
+         0 
+      </div>
+    </div>
+  </div>
+  <span
+    className="budgetLoss"
+    style={
+      Object {
+        "color": "red",
+        "visibility": "visible",
+      }
+    }
+  />
+  <div
+    className="distributionIcons"
+  >
+    <div
+      className="fireIconContainer"
+      onClick={[Function]}
+      style={
+        Object {
+          "visibility": "hidden",
+        }
+      }
+    >
+      <img
+        src={Object {}}
+        style={
+          Object {
+            "height": "18px",
+          }
+        }
+      />
+    </div>
+    <div
+      className="fireIconContainer"
+      onClick={[Function]}
+    >
+      <img
+        src={Object {}}
+        style={
+          Object {
+            "height": "18px",
+          }
+        }
+      />
+    </div>
+    <div
+      className="fireIconContainer"
+      onClick={[Function]}
+      onMouseDown={[MockFunction]}
+    >
+      <img
+        src={Object {}}
+        style={
+          Object {
+            "height": "18px",
+          }
+        }
+      />
+    </div>
+    <div
+      className=" css-2b097c-container"
+      onKeyDown={[Function]}
+    >
+      <div
+        className="react-select__control css-e56m7-control"
+        onMouseDown={[Function]}
+        onTouchEnd={[Function]}
+      >
+        <div
+          className="react-select__value-container css-g1d714-ValueContainer"
+        >
+          <div
+            className="react-select__placeholder css-1wa3eu0-placeholder"
+          >
+            now
+          </div>
+          <input
+            aria-autocomplete="list"
+            className="css-62g3xt-dummyInput"
+            disabled={false}
+            id="react-select-5-input"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            readOnly={true}
+            tabIndex="0"
+            value=""
+          />
+        </div>
+        <div
+          className="react-select__indicators css-1hb7zxy-IndicatorsContainer"
+        >
+          <span
+            className="react-select__indicator-separator css-1okebmr-indicatorSeparator"
+          />
+          <div
+            aria-hidden="true"
+            className="react-select__indicator react-select__dropdown-indicator css-tlfecz-indicatorContainer"
+            onMouseDown={[Function]}
+            onTouchEnd={[Function]}
+          >
+            <svg
+              aria-hidden="true"
+              className="css-6q0nyr-Svg"
+              focusable="false"
+              height={20}
+              viewBox="0 0 20 20"
+              width={20}
+            >
+              <path
+                d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Header component Header component with iconGoutStatus 1`] = `
+<div
+  className="containerHeader"
+>
+  <div
+    className="quantityDinner"
+  >
+    <div
+      className="menuLogo"
+      onClick={[MockFunction]}
+    >
+      <img
+        height="12px"
+        src={Object {}}
+        width="18px"
+      />
+       
+    </div>
+    <div
+      className="logo-container"
+    >
+      <img
+        src={Object {}}
+      />
+    </div>
+  </div>
+  <div
+    className="kpi"
+  >
+    <div
+      className="kpicontent"
+    >
+      <div
+        className="kpicontent--colorgrey kpicontent--size12"
+      >
+        Total Order Count
+      </div>
+      <div
+        className="kpicontent--colorblack  kpicontent--size16"
+      >
+         0 Orders
+      </div>
+    </div>
+    <div
+      className="kpicontent"
+    >
+      <div
+        className="kpicontent--colorgrey kpicontent--size12"
+      >
+        Total Order Value
+      </div>
+      <div
+        className="kpicontent--colorblack  kpicontent--size16"
+      >
+        $0.00 
+      </div>
+    </div>
+    <div
+      className="kpicontent"
+    >
+      <div
+        className="kpicontent--colorgrey kpicontent--size12"
+      >
+        Max Duration
+      </div>
+      <div
+        className="kpicontent--colorblack  kpicontent--size16"
+      >
+         0 
+      </div>
+    </div>
+  </div>
+  <span
+    className="budgetLoss"
+    style={
+      Object {
+        "color": false,
+        "visibility": "visible",
+      }
+    }
+  />
+  <div
+    className="distributionIcons"
+  >
+    <div
+      className="fireIconContainer"
+      onClick={[Function]}
+      style={
+        Object {
+          "visibility": "hidden",
+        }
+      }
+    >
+      <img
+        src={Object {}}
+        style={
+          Object {
+            "height": "18px",
+          }
+        }
+      />
+    </div>
+    <div
+      className="fireIconContainer"
+      onClick={[Function]}
+    >
+      <img
+        src={Object {}}
+        style={
+          Object {
+            "height": "18px",
+          }
+        }
+      />
+    </div>
+    <div
+      className="fireIconContainer"
+      onClick={[Function]}
+      onMouseDown={[MockFunction]}
+    >
+      <img
+        src={Object {}}
+        style={
+          Object {
+            "height": "18px",
+          }
+        }
+      />
+    </div>
+    <div
+      className=" css-2b097c-container"
+      onKeyDown={[Function]}
+    >
+      <div
+        className="react-select__control css-e56m7-control"
+        onMouseDown={[Function]}
+        onTouchEnd={[Function]}
+      >
+        <div
+          className="react-select__value-container css-g1d714-ValueContainer"
+        >
+          <div
+            className="react-select__placeholder css-1wa3eu0-placeholder"
+          >
+            now
+          </div>
+          <input
+            aria-autocomplete="list"
+            className="css-62g3xt-dummyInput"
+            disabled={false}
+            id="react-select-7-input"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            readOnly={true}
+            tabIndex="0"
+            value=""
+          />
+        </div>
+        <div
+          className="react-select__indicators css-1hb7zxy-IndicatorsContainer"
+        >
+          <span
+            className="react-select__indicator-separator css-1okebmr-indicatorSeparator"
+          />
+          <div
+            aria-hidden="true"
+            className="react-select__indicator react-select__dropdown-indicator css-tlfecz-indicatorContainer"
+            onMouseDown={[Function]}
+            onTouchEnd={[Function]}
+          >
+            <svg
+              aria-hidden="true"
+              className="css-6q0nyr-Svg"
+              focusable="false"
+              height={20}
+              viewBox="0 0 20 20"
+              width={20}
+            >
+              <path
+                d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Header component Header component with iconSixthSenseStatus 1`] = `
+<div
+  className="containerHeader"
+>
+  <div
+    className="quantityDinner"
+  >
+    <div
+      className="menuLogo"
+      onClick={[MockFunction]}
+    >
+      <img
+        height="12px"
+        src={Object {}}
+        width="18px"
+      />
+       
+    </div>
+    <div
+      className="logo-container"
+    >
+      <img
+        src={Object {}}
+      />
+    </div>
+  </div>
+  <div
+    className="kpi"
+  >
+    <div
+      className="kpicontent"
+    >
+      <div
+        className="kpicontent--colorgrey kpicontent--size12"
+      >
+        Total Order Count
+      </div>
+      <div
+        className="kpicontent--colorblack  kpicontent--size16"
+      >
+         0 Orders
+      </div>
+    </div>
+    <div
+      className="kpicontent"
+    >
+      <div
+        className="kpicontent--colorgrey kpicontent--size12"
+      >
+        Total Order Value
+      </div>
+      <div
+        className="kpicontent--colorblack  kpicontent--size16"
+      >
+        $0.00 
+      </div>
+    </div>
+    <div
+      className="kpicontent"
+    >
+      <div
+        className="kpicontent--colorgrey kpicontent--size12"
+      >
+        Max Duration
+      </div>
+      <div
+        className="kpicontent--colorblack  kpicontent--size16"
+      >
+         0 
+      </div>
+    </div>
+  </div>
+  <span
+    className="budgetLoss"
+    style={
+      Object {
+        "color": false,
+        "visibility": "hidden",
+      }
+    }
+  />
+  <div
+    className="distributionIcons"
+  >
+    <div
+      className="fireIconContainer"
+      onClick={[Function]}
+      style={
+        Object {
+          "visibility": "hidden",
+        }
+      }
+    >
+      <img
+        src={Object {}}
+        style={
+          Object {
+            "height": "18px",
+          }
+        }
+      />
+    </div>
+    <div
+      className="fireIconContainer"
+      onClick={[Function]}
+    >
+      <img
+        src={Object {}}
+        style={
+          Object {
+            "height": "18px",
+          }
+        }
+      />
+    </div>
+    <div
+      className="fireIconContainer"
+      onClick={[Function]}
+      onMouseDown={[MockFunction]}
+    >
+      <img
+        src={Object {}}
+        style={
+          Object {
+            "height": "18px",
+          }
+        }
+      />
+    </div>
+    <div
+      className=" css-2b097c-container"
+      onKeyDown={[Function]}
+    >
+      <div
+        className="react-select__control css-e56m7-control"
+        onMouseDown={[Function]}
+        onTouchEnd={[Function]}
+      >
+        <div
+          className="react-select__value-container css-g1d714-ValueContainer"
+        >
+          <div
+            className="react-select__placeholder css-1wa3eu0-placeholder"
+          >
+            now
+          </div>
+          <input
+            aria-autocomplete="list"
+            className="css-62g3xt-dummyInput"
+            disabled={false}
+            id="react-select-3-input"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            readOnly={true}
+            tabIndex="0"
+            value=""
+          />
+        </div>
+        <div
+          className="react-select__indicators css-1hb7zxy-IndicatorsContainer"
+        >
+          <span
+            className="react-select__indicator-separator css-1okebmr-indicatorSeparator"
+          />
+          <div
+            aria-hidden="true"
+            className="react-select__indicator react-select__dropdown-indicator css-tlfecz-indicatorContainer"
+            onMouseDown={[Function]}
+            onTouchEnd={[Function]}
+          >
+            <svg
+              aria-hidden="true"
+              className="css-6q0nyr-Svg"
+              focusable="false"
+              height={20}
+              viewBox="0 0 20 20"
+              width={20}
+            >
+              <path
+                d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Header component Header component with iconStartStatus 1`] = `
+<div
+  className="containerHeader"
+>
+  <div
+    className="quantityDinner"
+  >
+    <div
+      className="menuLogo"
+      onClick={[MockFunction]}
+    >
+      <img
+        height="12px"
+        src={Object {}}
+        width="18px"
+      />
+       
+    </div>
+    <div
+      className="logo-container"
+    >
+      <img
+        src={Object {}}
+      />
+    </div>
+  </div>
+  <div
+    className="kpi"
+  >
+    <div
+      className="kpicontent"
+    >
+      <div
+        className="kpicontent--colorgrey kpicontent--size12"
+      >
+        Total Order Count
+      </div>
+      <div
+        className="kpicontent--colorblack  kpicontent--size16"
+      >
+         0 Orders
+      </div>
+    </div>
+    <div
+      className="kpicontent"
+    >
+      <div
+        className="kpicontent--colorgrey kpicontent--size12"
+      >
+        Total Order Value
+      </div>
+      <div
+        className="kpicontent--colorblack  kpicontent--size16"
+      >
+        $0.00 
+      </div>
+    </div>
+    <div
+      className="kpicontent"
+    >
+      <div
+        className="kpicontent--colorgrey kpicontent--size12"
+      >
+        Max Duration
+      </div>
+      <div
+        className="kpicontent--colorblack  kpicontent--size16"
+      >
+         0 
+      </div>
+    </div>
+  </div>
+  <span
+    className="budgetLoss"
+    style={
+      Object {
+        "color": false,
+        "visibility": "visible",
+      }
+    }
+  />
+  <div
+    className="distributionIcons"
+  >
+    <div
+      className="fireIconContainer"
+      onClick={[Function]}
+      style={
+        Object {
+          "visibility": "hidden",
+        }
+      }
+    >
+      <img
+        src={Object {}}
+        style={
+          Object {
+            "height": "18px",
+          }
+        }
+      />
+    </div>
+    <div
+      className="fireIconContainer"
+      onClick={[Function]}
+    >
+      <img
+        src={Object {}}
+        style={
+          Object {
+            "height": "18px",
+          }
+        }
+      />
+    </div>
+    <div
+      className="fireIconContainer"
+      onClick={[Function]}
+      onMouseDown={[MockFunction]}
+    >
+      <img
+        src={Object {}}
+        style={
+          Object {
+            "height": "18px",
+          }
+        }
+      />
+    </div>
+    <div
+      className=" css-2b097c-container"
+      onKeyDown={[Function]}
+    >
+      <div
+        className="react-select__control css-e56m7-control"
+        onMouseDown={[Function]}
+        onTouchEnd={[Function]}
+      >
+        <div
+          className="react-select__value-container css-g1d714-ValueContainer"
+        >
+          <div
+            className="react-select__placeholder css-1wa3eu0-placeholder"
+          >
+            now
+          </div>
+          <input
+            aria-autocomplete="list"
+            className="css-62g3xt-dummyInput"
+            disabled={false}
+            id="react-select-6-input"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            readOnly={true}
+            tabIndex="0"
+            value=""
+          />
+        </div>
+        <div
+          className="react-select__indicators css-1hb7zxy-IndicatorsContainer"
+        >
+          <span
+            className="react-select__indicator-separator css-1okebmr-indicatorSeparator"
+          />
+          <div
+            aria-hidden="true"
+            className="react-select__indicator react-select__dropdown-indicator css-tlfecz-indicatorContainer"
+            onMouseDown={[Function]}
+            onTouchEnd={[Function]}
+          >
+            <svg
+              aria-hidden="true"
+              className="css-6q0nyr-Svg"
+              focusable="false"
+              height={20}
+              viewBox="0 0 20 20"
+              width={20}
+            >
+              <path
+                d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Header component Header component with logoSetup Text 1`] = `
+<div
+  className="containerHeader"
+>
+  <div
+    className="quantityDinner"
+  >
+    <div
+      className="menuLogo"
+      onClick={[MockFunction]}
+    >
+      <img
+        height="12px"
+        src={Object {}}
+        width="18px"
+      />
+       
+    </div>
+    <div
+      className="logo-text-container"
+    >
+      <p>
+        Logo Text
+      </p>
+    </div>
+  </div>
+  <div
+    className="kpi"
+  >
+    <div
+      className="kpicontent"
+    >
+      <div
+        className="kpicontent--colorgrey kpicontent--size12"
+      >
+        Total Order Count
+      </div>
+      <div
+        className="kpicontent--colorblack  kpicontent--size16"
+      >
+         0 Orders
+      </div>
+    </div>
+    <div
+      className="kpicontent"
+    >
+      <div
+        className="kpicontent--colorgrey kpicontent--size12"
+      >
+        Total Order Value
+      </div>
+      <div
+        className="kpicontent--colorblack  kpicontent--size16"
+      >
+        $0.00 
+      </div>
+    </div>
+    <div
+      className="kpicontent"
+    >
+      <div
+        className="kpicontent--colorgrey kpicontent--size12"
+      >
+        Max Duration
+      </div>
+      <div
+        className="kpicontent--colorblack  kpicontent--size16"
+      >
+         0 
+      </div>
+    </div>
+  </div>
+  <span
+    className="budgetLoss"
+    style={
+      Object {
+        "color": false,
+        "visibility": "hidden",
+      }
+    }
+  />
+  <div
+    className="distributionIcons"
+  >
+    <div
+      className="fireIconContainer"
+      onClick={[Function]}
+      style={
+        Object {
+          "visibility": "hidden",
+        }
+      }
+    >
+      <img
+        src={Object {}}
+        style={
+          Object {
+            "height": "18px",
+          }
+        }
+      />
+    </div>
+    <div
+      className="fireIconContainer"
+      onClick={[Function]}
+    >
+      <img
+        src={Object {}}
+        style={
+          Object {
+            "height": "18px",
+          }
+        }
+      />
+    </div>
+    <div
+      className="fireIconContainer"
+      onClick={[Function]}
+      onMouseDown={[MockFunction]}
+    >
+      <img
+        src={Object {}}
+        style={
+          Object {
+            "height": "18px",
+          }
+        }
+      />
+    </div>
+    <div
+      className=" css-2b097c-container"
+      onKeyDown={[Function]}
+    >
+      <div
+        className="react-select__control css-e56m7-control"
+        onMouseDown={[Function]}
+        onTouchEnd={[Function]}
+      >
+        <div
+          className="react-select__value-container css-g1d714-ValueContainer"
+        >
+          <div
+            className="react-select__placeholder css-1wa3eu0-placeholder"
+          >
+            now
+          </div>
+          <input
+            aria-autocomplete="list"
+            className="css-62g3xt-dummyInput"
+            disabled={false}
+            id="react-select-9-input"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            readOnly={true}
+            tabIndex="0"
+            value=""
+          />
+        </div>
+        <div
+          className="react-select__indicators css-1hb7zxy-IndicatorsContainer"
+        >
+          <span
+            className="react-select__indicator-separator css-1okebmr-indicatorSeparator"
+          />
+          <div
+            aria-hidden="true"
+            className="react-select__indicator react-select__dropdown-indicator css-tlfecz-indicatorContainer"
+            onMouseDown={[Function]}
+            onTouchEnd={[Function]}
+          >
+            <svg
+              aria-hidden="true"
+              className="css-6q0nyr-Svg"
+              focusable="false"
+              height={20}
+              viewBox="0 0 20 20"
+              width={20}
+            >
+              <path
+                d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Header component Header component with logoSetup URL 1`] = `
+<div
+  className="containerHeader"
+>
+  <div
+    className="quantityDinner"
+  >
+    <div
+      className="menuLogo"
+      onClick={[MockFunction]}
+    >
+      <img
+        height="12px"
+        src={Object {}}
+        width="18px"
+      />
+       
+    </div>
+    <div
+      className="logo-container"
+    >
+      <img
+        src="https://www.howdeniberia.com/wp-content/uploads/2018/05/Disney-logo-png-transparent-download.png"
+      />
+    </div>
+  </div>
+  <div
+    className="kpi"
+  >
+    <div
+      className="kpicontent"
+    >
+      <div
+        className="kpicontent--colorgrey kpicontent--size12"
+      >
+        Total Order Count
+      </div>
+      <div
+        className="kpicontent--colorblack  kpicontent--size16"
+      >
+         0 Orders
+      </div>
+    </div>
+    <div
+      className="kpicontent"
+    >
+      <div
+        className="kpicontent--colorgrey kpicontent--size12"
+      >
+        Total Order Value
+      </div>
+      <div
+        className="kpicontent--colorblack  kpicontent--size16"
+      >
+        $0.00 
+      </div>
+    </div>
+    <div
+      className="kpicontent"
+    >
+      <div
+        className="kpicontent--colorgrey kpicontent--size12"
+      >
+        Max Duration
+      </div>
+      <div
+        className="kpicontent--colorblack  kpicontent--size16"
+      >
+         0 
+      </div>
+    </div>
+  </div>
+  <span
+    className="budgetLoss"
+    style={
+      Object {
+        "color": false,
+        "visibility": "hidden",
+      }
+    }
+  />
+  <div
+    className="distributionIcons"
+  >
+    <div
+      className="fireIconContainer"
+      onClick={[Function]}
+      style={
+        Object {
+          "visibility": "hidden",
+        }
+      }
+    >
+      <img
+        src={Object {}}
+        style={
+          Object {
+            "height": "18px",
+          }
+        }
+      />
+    </div>
+    <div
+      className="fireIconContainer"
+      onClick={[Function]}
+    >
+      <img
+        src={Object {}}
+        style={
+          Object {
+            "height": "18px",
+          }
+        }
+      />
+    </div>
+    <div
+      className="fireIconContainer"
+      onClick={[Function]}
+      onMouseDown={[MockFunction]}
+    >
+      <img
+        src={Object {}}
+        style={
+          Object {
+            "height": "18px",
+          }
+        }
+      />
+    </div>
+    <div
+      className=" css-2b097c-container"
+      onKeyDown={[Function]}
+    >
+      <div
+        className="react-select__control css-e56m7-control"
+        onMouseDown={[Function]}
+        onTouchEnd={[Function]}
+      >
+        <div
+          className="react-select__value-container css-g1d714-ValueContainer"
+        >
+          <div
+            className="react-select__placeholder css-1wa3eu0-placeholder"
+          >
+            now
+          </div>
+          <input
+            aria-autocomplete="list"
+            className="css-62g3xt-dummyInput"
+            disabled={false}
+            id="react-select-10-input"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            readOnly={true}
+            tabIndex="0"
+            value=""
+          />
+        </div>
+        <div
+          className="react-select__indicators css-1hb7zxy-IndicatorsContainer"
+        >
+          <span
+            className="react-select__indicator-separator css-1okebmr-indicatorSeparator"
+          />
+          <div
+            aria-hidden="true"
+            className="react-select__indicator react-select__dropdown-indicator css-tlfecz-indicatorContainer"
+            onMouseDown={[Function]}
+            onTouchEnd={[Function]}
+          >
+            <svg
+              aria-hidden="true"
+              className="css-6q0nyr-Svg"
+              focusable="false"
+              height={20}
+              viewBox="0 0 20 20"
+              width={20}
+            >
+              <path
+                d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Header component Header component with showLeftPanel 1`] = `
+<div
+  className="containerHeader"
+>
+  <div
+    className="quantityDinner"
+  >
+    <div
+      className="menuLogo"
+      onClick={[MockFunction]}
+    >
+      <img
+        height="12px"
+        src={Object {}}
+        width="18px"
+      />
+       
+    </div>
+    <div
+      className="logo-container"
+    >
+      <img
+        src={Object {}}
+      />
+    </div>
+  </div>
+  <div
+    className="kpi"
+  >
+    <div
+      className="kpicontent"
+    >
+      <div
+        className="kpicontent--colorgrey kpicontent--size12"
+      >
+        Total Order Count
+      </div>
+      <div
+        className="kpicontent--colorblack  kpicontent--size16"
+      >
+         0 Orders
+      </div>
+    </div>
+    <div
+      className="kpicontent"
+    >
+      <div
+        className="kpicontent--colorgrey kpicontent--size12"
+      >
+        Total Order Value
+      </div>
+      <div
+        className="kpicontent--colorblack  kpicontent--size16"
+      >
+        $0.00 
+      </div>
+    </div>
+    <div
+      className="kpicontent"
+    >
+      <div
+        className="kpicontent--colorgrey kpicontent--size12"
+      >
+        Max Duration
+      </div>
+      <div
+        className="kpicontent--colorblack  kpicontent--size16"
+      >
+         0 
+      </div>
+    </div>
+  </div>
+  <span
+    className="budgetLoss"
+    style={
+      Object {
+        "color": false,
+        "visibility": "hidden",
+      }
+    }
+  />
+  <div
+    className="distributionIcons"
+  >
+    <div
+      className="fireIconContainer"
+      onClick={[Function]}
+      style={
+        Object {
+          "visibility": "hidden",
+        }
+      }
+    >
+      <img
+        src={Object {}}
+        style={
+          Object {
+            "height": "18px",
+          }
+        }
+      />
+    </div>
+    <div
+      className="fireIconContainer"
+      onClick={[Function]}
+    >
+      <img
+        src={Object {}}
+        style={
+          Object {
+            "height": "18px",
+          }
+        }
+      />
+    </div>
+    <div
+      className="fireIconContainer"
+      onClick={[Function]}
+      onMouseDown={[MockFunction]}
+    >
+      <img
+        src={Object {}}
+        style={
+          Object {
+            "height": "18px",
+          }
+        }
+      />
+    </div>
+    <div
+      className=" css-2b097c-container"
+      onKeyDown={[Function]}
+    >
+      <div
+        className="react-select__control css-e56m7-control"
+        onMouseDown={[Function]}
+        onTouchEnd={[Function]}
+      >
+        <div
+          className="react-select__value-container css-g1d714-ValueContainer"
+        >
+          <div
+            className="react-select__placeholder css-1wa3eu0-placeholder"
+          >
+            now
+          </div>
+          <input
+            aria-autocomplete="list"
+            className="css-62g3xt-dummyInput"
+            disabled={false}
+            id="react-select-8-input"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            readOnly={true}
+            tabIndex="0"
+            value=""
+          />
+        </div>
+        <div
+          className="react-select__indicators css-1hb7zxy-IndicatorsContainer"
+        >
+          <span
+            className="react-select__indicator-separator css-1okebmr-indicatorSeparator"
+          />
+          <div
+            aria-hidden="true"
+            className="react-select__indicator react-select__dropdown-indicator css-tlfecz-indicatorContainer"
+            onMouseDown={[Function]}
+            onTouchEnd={[Function]}
+          >
+            <svg
+              aria-hidden="true"
+              className="css-6q0nyr-Svg"
+              focusable="false"
+              height={20}
+              viewBox="0 0 20 20"
+              width={20}
+            >
+              <path
+                d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
