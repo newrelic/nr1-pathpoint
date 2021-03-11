@@ -220,9 +220,11 @@ export default class TouchPoint extends React.Component {
         <div>
           {visible && idVisible === this.state.idVisible ? (
             <div
-              ref={ref => {
-                this.root = ref;
-              }}
+              ref={
+                /* istanbul ignore next */ ref => {
+                  this.root = ref;
+                }
+              }
               style={{
                 left: stylesContext.left,
                 top: stylesContext.top,
@@ -236,8 +238,9 @@ export default class TouchPoint extends React.Component {
                     contextError: touchpoint.index,
                     contextApdex: '0.5'
                   }}
-                  onSubmit={values =>
-                    handleChange(values, touchpoint.index, this.props)
+                  onSubmit={
+                    /* istanbul ignore next */ values =>
+                      handleChange(values, touchpoint.index, this.props)
                   }
                   render={() => (
                     <Form>

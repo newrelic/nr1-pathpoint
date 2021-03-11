@@ -140,7 +140,9 @@ function BodyJsonConfigurationFormModal(props) {
                 filename="Pathpoint_Json_v1.1.json"
                 className="downloadLink"
                 style={{ cursor: 'pointer' }}
-                exportFile={() => GetCurrentConfigurationJSON()}
+                exportFile={
+                  /* istanbul ignore next */ () => GetCurrentConfigurationJSON()
+                }
               />
             </div>
           </div>
@@ -154,13 +156,14 @@ function BodyJsonConfigurationFormModal(props) {
             id="file-upload"
             type="file"
             accept=".json"
-            onChange={e =>
-              handleUploadJSONFile(
-                e,
-                _onClose,
-                validateKpiQuery,
-                SetConfigurationJSON
-              )
+            onChange={
+              /* istanbul ignore next */ e =>
+                handleUploadJSONFile(
+                  e,
+                  _onClose,
+                  validateKpiQuery,
+                  SetConfigurationJSON
+                )
             }
             style={{ display: 'none' }}
           />

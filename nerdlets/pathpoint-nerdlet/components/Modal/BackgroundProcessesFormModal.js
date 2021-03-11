@@ -67,8 +67,9 @@ function BodyBackgroundProcessesFormModal(props) {
             filename="FireSyntheticFilter.js"
             className="downloadLink"
             style={{ cursor: 'pointer' }}
-            exportFile={() =>
-              getFireSyntheticFilter(GetCurrentHistoricErrorScript, _onClose)
+            exportFile={
+              /* istanbul ignore next */ () =>
+                getFireSyntheticFilter(GetCurrentHistoricErrorScript, _onClose)
             }
           />
         </div>
