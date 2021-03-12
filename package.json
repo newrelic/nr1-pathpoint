@@ -1,7 +1,7 @@
 {
     "private": true,
     "name": "PathpointCore",
-    "version": "1.0.0",
+    "version": "1.0.40",
     "scripts": {
         "start": "nr1 nerdpack:serve",
         "samanez": "nr1 nerdpack:serve --profile=samanez",
@@ -19,7 +19,7 @@
         "@babel/preset-react": "^7.7.0",
         "ajv": "^7.0.3",
         "axios": "^0.21.1",
-        "formik": "^1.5.7",
+        "formik": "^1.5.8",
         "graphql": "^15.4.0",
         "prop-types": "^15.6.2",
         "react": "^16.6.3",
