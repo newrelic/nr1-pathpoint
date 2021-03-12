@@ -76,10 +76,12 @@ function BodyQueryFormModal(props) {
             <Form>
               <Field
                 component={renderTextArea}
-                onChange={event => {
-                  setFieldValue('query', event.target.value);
-                  handleChangeTexarea(event.target.value);
-                }}
+                onChange={
+                  /* istanbul ignore next */ event => {
+                    setFieldValue('query', event.target.value);
+                    handleChangeTexarea(event.target.value);
+                  }
+                }
                 style={{
                   color: '#00EC64',
                   background: '#333333',
@@ -130,9 +132,11 @@ function BodyQueryFormModal(props) {
                         boxSizing: 'border-box',
                         marginRight: '15px'
                       }}
-                      onClick={() => {
-                        testQuery(query_body, value);
-                      }}
+                      onClick={
+                        /* istanbul ignore next */ () => {
+                          testQuery(query_body, value);
+                        }
+                      }
                     >
                       Test
                     </Button>

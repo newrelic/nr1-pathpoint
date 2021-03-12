@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Select from 'react-select';
 
 const CustomSelect = ({ placeholder, field, form, options }) => {
+  /* istanbul ignore next */
   const onChange = option => {
     form.setFieldValue(field.name, option.label);
   };
