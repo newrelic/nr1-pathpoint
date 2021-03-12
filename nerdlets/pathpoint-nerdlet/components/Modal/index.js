@@ -15,7 +15,7 @@ const Modal = props => {
     <BootstrapModal
       dialogClassName="mainModal"
       show={hidden}
-      onHide={() => _onClose()}
+      onHide={/* istanbul ignore next */ () => _onClose()}
     >
       <BootstrapModal.Header>
         <div className="headerModal">
