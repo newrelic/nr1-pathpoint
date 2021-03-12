@@ -20,5 +20,4 @@ describe('Tooltips', () => {
     const tooltip = mount(<TooltipTouchPoints />);
     expect(tooltip.length).toEqual(1);
   });
-
 });
