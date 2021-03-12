@@ -4,6 +4,7 @@
 /node_modules
 /dist
 /tmp
+/setup
 /.pnp
 .pnp.js
 

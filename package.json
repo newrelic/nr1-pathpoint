@@ -19,7 +19,7 @@
         "@babel/preset-react": "^7.7.0",
         "ajv": "^7.0.3",
         "axios": "^0.21.1",
-        "formik": "^1.5.7",
+        "formik": "^1.5.8",
         "graphql": "^15.4.0",
         "prop-types": "^15.6.2",
         "react": "^16.6.3",

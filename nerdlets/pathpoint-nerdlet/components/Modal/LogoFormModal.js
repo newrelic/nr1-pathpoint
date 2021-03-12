@@ -51,7 +51,10 @@ function BodyLogoFormModal(props) {
             text: ''
           }}
           validationSchema={logoFormSchema}
-          onSubmit={values => LogoFormSubmit(values, _onClose)}
+          onSubmit={
+            /* istanbul ignore next */ values =>
+              LogoFormSubmit(values, _onClose)
+          }
         >
           {({ errors, touched, values, setFieldValue }) => (
             <Form>
@@ -75,8 +78,9 @@ function BodyLogoFormModal(props) {
                     component={renderField}
                     type="text"
                     name="name"
-                    onChange={event =>
-                      setFieldValue('text', event.target.value)
+                    onChange={
+                      /* istanbul ignore next */ event =>
+                        setFieldValue('text', event.target.value)
                     }
                     placeholder="Enter Text"
                     bsClass="contact"
@@ -97,7 +101,10 @@ function BodyLogoFormModal(props) {
                     component={renderField}
                     type="text"
                     name="name"
-                    onChange={event => setFieldValue('url', event.target.value)}
+                    onChange={
+                      /* istanbul ignore next */ event =>
+                        setFieldValue('url', event.target.value)
+                    }
                     placeholder="Enter URL"
                     bsClass="contact"
                     margin={errors.name && touched.name ? '5px' : '15px'}
