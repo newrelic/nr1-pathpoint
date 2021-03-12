@@ -1,0 +1,92 @@
+version: 2.1
+executors:
+  docker-publisher:
+    environment:
+      IMAGE_NAME: jimcardenas/dockerhub
+    docker:
+      - image: circleci_auto:stretch
+general:
+  branches:
+    only:
+      - develop
+
+# Define the jobs we want to run for this project
+jobs:
+    build:
+      docker:
+        - image: cimg/node:12.14.1 # the primary container, where your job's commands are run
+          auth:
+            username: mydockerhub-user
+            password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+      steps:
+        - checkout # check out the code in the project directory
+        - restore_cache:
+            key: v2-{{ checksum "./dev.txt"}}
+        - run: npm install
+        - save_cache:
+            key: v2-{{ checksum "./dev.txt"}}
+            paths:
+              - "env"
+    build2:
+      docker:
+        - image: jimcardenas/dockerhub:circleci_auto # the primary container, where your job's commands are run
+          auth:
+            username: mydockerhub-user
+            password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+      steps:
+        - checkout
+        - setup_remote_docker
+        - run:
+            name: Build Docker image
+            command: |
+              docker build -t $IMAGE_NAME .
+        - run: docker run --rm -v ${pwd}:/workspace:cached -w /workspace gcrobot:qa python3 -m robot *.robot
+    test:
+      docker:
+        - image: cimg/node:12.14.1 # the primary container, where your job's commands are run
+          auth:
+            username: mydockerhub-user
+            password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+      steps:
+        - checkout # check out the code in the project directory
+        - restore_cache:
+            key: v2-{{ checksum "./dev.txt"}}
+        - run: npm install
+        - run: npm test
+        - save_cache:
+            key: v2-{{ checksum "./dev.txt"}}
+            paths:
+              - "env"
+    deploy:
+      docker:
+        - image: cimg/node:12.14.1 # the primary container, where your job's commands are run
+          auth:
+            username: mydockerhub-user
+            password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+      steps:
+        - checkout # check out the code in the project directory
+        - restore_cache:
+            key: v2-{{ checksum "./dev.txt"}}
+        - run: npm install
+        - run: sudo sh -c "curl -s https://cli.nr-ext.net/installer.sh | bash"
+        - run: nr1 --version
+        - run: nr1 profiles:add --name ${NR_PROFILE_NAME} --api-key ${NR_API_KEY} --region us
+        - run: nr1 nerdpack:publish --channel DEV --force
+        - run: nr1 nerdpack:subscribe -c DEV
+        - save_cache:
+            key: v2-{{ checksum "./dev.txt"}}
+            paths:
+              - "env"
+
+# Orchestrate our job run sequence
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+      - deploy:
+          requires:
+            - test
