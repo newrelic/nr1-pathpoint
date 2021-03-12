@@ -58,7 +58,6 @@ function addSteps($stage,$steps){
                     "latency"=> $latency,
                     "value"=> $steps[$s],
                     "dark"=> $dark,
-                    "sixth_sense"=>false,
                     "history_error"=> false,
                     "dotted"=> false,
                     "highlighted"=> false,

@@ -112,7 +112,6 @@
               "latency": true,
               "value": "Web",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -129,7 +128,6 @@
               "latency": false,
               "value": "Mobile Web",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -146,7 +144,6 @@
               "latency": false,
               "value": "App",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -166,7 +163,6 @@
               "latency": false,
               "value": "Login",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -183,7 +179,6 @@
               "latency": false,
               "value": "Signup",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -200,7 +195,6 @@
               "latency": false,
               "value": "Guest",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -220,7 +214,6 @@
               "latency": false,
               "value": "Search",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -232,10 +225,9 @@
               "index": 8,
               "id": "ST1-LINE3-SS2",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Menu",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -249,8 +241,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Gift Card",
-              "dark": true,
-              "sixth_sense": false,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -262,10 +253,9 @@
               "index": 10,
               "id": "ST1-LINE3-SS4",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Rewards",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -287,7 +277,6 @@
               "latency": false,
               "value": "Rewards",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -304,7 +293,6 @@
               "latency": false,
               "value": "Pick-Up Item",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -319,7 +307,6 @@
               "latency": false,
               "value": "Reward Item",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -338,8 +325,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Add to Bag",
-              "dark": false,
-              "sixth_sense": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -362,10 +348,6 @@
           "highlighted": false,
           "error": false,
           "history_error": false,
-          "sixth_sense": false,
-          "sixth_sense_url": [
-            []
-          ],
           "countrys": [
             0
           ],
@@ -385,10 +367,6 @@
           "highlighted": false,
           "error": false,
           "history_error": false,
-          "sixth_sense": false,
-          "sixth_sense_url": [
-            []
-          ],
           "countrys": [
             0
           ],
@@ -408,10 +386,6 @@
           "highlighted": false,
           "error": false,
           "history_error": false,
-          "sixth_sense": false,
-          "sixth_sense_url": [
-            []
-          ],
           "countrys": [
             0
           ],
@@ -431,10 +405,6 @@
           "highlighted": false,
           "error": false,
           "history_error": false,
-          "sixth_sense": false,
-          "sixth_sense_url": [
-            []
-          ],
           "countrys": [
             0
           ],
@@ -454,10 +424,6 @@
           "highlighted": false,
           "error": false,
           "history_error": false,
-          "sixth_sense": false,
-          "sixth_sense_url": [
-            []
-          ],
           "countrys": [
             0
           ],
@@ -477,10 +443,6 @@
           "highlighted": false,
           "error": false,
           "history_error": false,
-          "sixth_sense": false,
-          "sixth_sense_url": [
-            []
-          ],
           "countrys": [
             0
           ],
@@ -500,10 +462,6 @@
           "highlighted": false,
           "error": false,
           "history_error": false,
-          "sixth_sense": false,
-          "sixth_sense_url": [
-            []
-          ],
           "countrys": [
             0
           ],
@@ -548,7 +506,6 @@
               "latency": true,
               "value": "Pay Items",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -564,8 +521,7 @@
               "canary_state": false,
               "latency": true,
               "value": "Reward Items",
-              "dark": true,
-              "sixth_sense": false,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -577,10 +533,9 @@
               "index": 3,
               "id": "ST2-LINE1-SS3",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Saved items",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -597,10 +552,9 @@
               "index": 4,
               "id": "ST2-LINE2-SS1",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Add/Remove Item",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -616,8 +570,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Promo Code",
-              "dark": true,
-              "sixth_sense": false,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -634,10 +587,9 @@
               "index": 6,
               "id": "ST2-LINE3-SS1",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "PAY Calculation",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -654,7 +606,6 @@
               "latency": false,
               "value": "POINTS Calculation",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -671,10 +622,9 @@
               "index": 8,
               "id": "ST2-LINE4-SS1",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Checkout",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -691,7 +641,6 @@
               "latency": false,
               "value": "Continue Shopping",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -706,7 +655,6 @@
               "latency": false,
               "value": "Save For Later",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -727,10 +675,6 @@
           "highlighted": false,
           "error": false,
           "history_error": false,
-          "sixth_sense": false,
-          "sixth_sense_url": [
-            []
-          ],
           "countrys": [
             0
           ],
@@ -750,10 +694,6 @@
           "highlighted": false,
           "error": false,
           "history_error": false,
-          "sixth_sense": false,
-          "sixth_sense_url": [
-            []
-          ],
           "countrys": [
             0
           ],
@@ -773,10 +713,6 @@
           "highlighted": false,
           "error": false,
           "history_error": false,
-          "sixth_sense": false,
-          "sixth_sense_url": [
-            []
-          ],
           "countrys": [
             0
           ],
@@ -796,10 +732,6 @@
           "highlighted": false,
           "error": false,
           "history_error": false,
-          "sixth_sense": false,
-          "sixth_sense_url": [
-            []
-          ],
           "countrys": [
             0
           ],
@@ -844,7 +776,6 @@
               "latency": true,
               "value": "Customer info.",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -865,8 +796,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Delivery Options",
-              "dark": false,
-              "sixth_sense": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -882,8 +812,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Pick-Up Options",
-              "dark": true,
-              "sixth_sense": false,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -900,7 +829,6 @@
               "latency": false,
               "value": "Gift Option",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -922,7 +850,6 @@
               "latency": false,
               "value": "Credit Card",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -939,7 +866,6 @@
               "latency": false,
               "value": "Paypal",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -951,10 +877,9 @@
               "index": 7,
               "id": "ST3-LINE3-SS3",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Afterpay",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -969,7 +894,6 @@
               "latency": false,
               "value": "Gift Card ",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -986,10 +910,9 @@
               "index": 9,
               "id": "ST3-LINE4-SS1",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Submit Order",
-              "dark": true,
-              "sixth_sense": false,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1012,10 +935,6 @@
           "highlighted": false,
           "error": false,
           "history_error": false,
-          "sixth_sense": false,
-          "sixth_sense_url": [
-            []
-          ],
           "countrys": [
             0
           ],
@@ -1035,10 +954,6 @@
           "highlighted": false,
           "error": false,
           "history_error": false,
-          "sixth_sense": false,
-          "sixth_sense_url": [
-            []
-          ],
           "countrys": [
             0
           ],
@@ -1058,10 +973,6 @@
           "highlighted": false,
           "error": false,
           "history_error": false,
-          "sixth_sense": false,
-          "sixth_sense_url": [
-            []
-          ],
           "countrys": [
             0
           ],
@@ -1081,10 +992,6 @@
           "highlighted": false,
           "error": false,
           "history_error": false,
-          "sixth_sense": false,
-          "sixth_sense_url": [
-            []
-          ],
           "countrys": [
             0
           ],
@@ -1104,10 +1011,6 @@
           "highlighted": false,
           "error": false,
           "history_error": false,
-          "sixth_sense": false,
-          "sixth_sense_url": [
-            []
-          ],
           "countrys": [
             0
           ],
@@ -1127,10 +1030,6 @@
           "highlighted": false,
           "error": false,
           "history_error": false,
-          "sixth_sense": false,
-          "sixth_sense_url": [
-            []
-          ],
           "countrys": [
             0
           ],
@@ -1175,7 +1074,6 @@
               "latency": true,
               "value": "Delivery Items",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1192,7 +1090,6 @@
               "latency": false,
               "value": "Pick-Up Items",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1207,7 +1104,6 @@
               "latency": false,
               "value": "Item Not Available",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1227,7 +1123,6 @@
               "latency": false,
               "value": "Order Processing",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1244,7 +1139,6 @@
               "latency": false,
               "value": "Order Canceled",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1256,10 +1150,9 @@
               "index": 6,
               "id": "ST4-LINE2-SS3",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Order Delayed",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1279,7 +1172,6 @@
               "latency": false,
               "value": "Delivery Label Generated",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1296,7 +1188,6 @@
               "latency": false,
               "value": "Pick-up Prep",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1316,7 +1207,6 @@
               "latency": false,
               "value": "Order Tracking #",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1332,8 +1222,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Pick-up Date and Locatioon",
-              "dark": true,
-              "sixth_sense": false,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1356,10 +1245,6 @@
           "highlighted": false,
           "error": false,
           "history_error": false,
-          "sixth_sense": false,
-          "sixth_sense_url": [
-            []
-          ],
           "countrys": [
             0
           ],
@@ -1379,10 +1264,6 @@
           "highlighted": false,
           "error": false,
           "history_error": false,
-          "sixth_sense": false,
-          "sixth_sense_url": [
-            []
-          ],
           "countrys": [
             0
           ],
@@ -1402,10 +1283,6 @@
           "highlighted": false,
           "error": false,
           "history_error": false,
-          "sixth_sense": false,
-          "sixth_sense_url": [
-            []
-          ],
           "countrys": [
             0
           ],
@@ -1425,10 +1302,6 @@
           "highlighted": false,
           "error": false,
           "history_error": false,
-          "sixth_sense": false,
-          "sixth_sense_url": [
-            []
-          ],
           "countrys": [
             0
           ],
@@ -1448,10 +1321,6 @@
           "highlighted": false,
           "error": false,
           "history_error": false,
-          "sixth_sense": false,
-          "sixth_sense_url": [
-            []
-          ],
           "countrys": [
             0
           ],
@@ -1496,7 +1365,6 @@
               "latency": true,
               "value": "Ready for Store Pick-Up",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1513,7 +1381,6 @@
               "latency": false,
               "value": "Ready for Carrier",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1535,7 +1402,6 @@
               "latency": false,
               "value": "Carrier Pick-Up",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1549,10 +1415,9 @@
               "index": 4,
               "id": "ST5-LINE2-SS2",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Customer Pick-Up",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1572,7 +1437,6 @@
               "latency": false,
               "value": " Carrier Update",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1591,10 +1455,9 @@
               "index": 6,
               "id": "ST5-LINE4-SS1",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Delivered",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1611,7 +1474,6 @@
               "latency": false,
               "value": "Returned",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1631,7 +1493,6 @@
               "latency": false,
               "value": "Proof of Delivery",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1648,7 +1509,6 @@
               "latency": false,
               "value": "Proof of Store Pick-up",
               "dark": false,
-              "sixth_sense": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1669,10 +1529,6 @@
           "highlighted": false,
           "error": false,
           "history_error": false,
-          "sixth_sense": false,
-          "sixth_sense_url": [
-            []
-          ],
           "countrys": [
             0
           ],
@@ -1692,10 +1548,6 @@
           "highlighted": false,
           "error": false,
           "history_error": false,
-          "sixth_sense": false,
-          "sixth_sense_url": [
-            []
-          ],
           "countrys": [
             0
           ],
@@ -1715,10 +1567,6 @@
           "highlighted": false,
           "error": false,
           "history_error": false,
-          "sixth_sense": false,
-          "sixth_sense_url": [
-            []
-          ],
           "countrys": [
             0
           ],
@@ -1738,10 +1586,6 @@
           "highlighted": false,
           "error": false,
           "history_error": false,
-          "sixth_sense": false,
-          "sixth_sense_url": [
-            []
-          ],
           "countrys": [
             0
           ],
@@ -1761,10 +1605,6 @@
           "highlighted": false,
           "error": false,
           "history_error": false,
-          "sixth_sense": false,
-          "sixth_sense_url": [
-            []
-          ],
           "countrys": [
             0
           ],
@@ -1784,10 +1624,6 @@
           "highlighted": false,
           "error": false,
           "history_error": false,
-          "sixth_sense": false,
-          "sixth_sense_url": [
-            []
-          ],
           "countrys": [
             0
           ],

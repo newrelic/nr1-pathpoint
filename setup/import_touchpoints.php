@@ -3,8 +3,8 @@
 //------------------------------------------------------------------------------------
 $st = file_get_contents("../.env.json");
 $config = json_decode($st, true);
-$APIKEY = $config["API_KEY"];
-$accountID = $config["accountID"];
+$APIKEY = "API_KEY";//$config["API_KEY"];
+$accountID = "ACCOUNT_ID";//$config["accountID"];
 require("newrelicFunctions.php");
 //------------------------------------------------------------------------------------
 
@@ -230,7 +230,6 @@ function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touc
         ];
     }
     //$n = rand(1, 100);
-    $sixthSense = false; //($n < 20) ? true : false;
     $view["stages"][$stage_index]["touchpoints"][] = [
         "index" => $tpIndex,
         "stage_index" => $stage_index + 1,
@@ -240,10 +239,6 @@ function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touc
         "highlighted" => false,
         "error" => false,
         "history_error" => $historicError,
-        "sixth_sense" => $sixthSense,
-        "sixth_sense_url" => [
-            [],
-        ],
         "countrys" => [
             0
         ],
