@@ -16,7 +16,7 @@ jobs:
       - checkout # check out the code in the project directory
       - run: npm install
     environment:
-      NODE_OPTIONS: --max_old_space_size=8192
+      NODE_OPTIONS: --max_old_space_size=4096
   test:
     docker:
       - image: cimg/node:12.14.1 # the primary container, where your job's commands are run
