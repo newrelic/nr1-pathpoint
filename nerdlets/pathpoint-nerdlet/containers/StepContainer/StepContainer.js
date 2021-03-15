@@ -15,6 +15,7 @@ export default class StepContainer extends React.Component {
       quantityOfContainer.push({ name: control });
       control += 1;
     }
+    this.setState({ quantityOfContainer: quantityOfContainer });
   }
 
   calculateIndex = () => {
