@@ -15,6 +15,8 @@ jobs:
     steps:
       - checkout # check out the code in the project directory
       - run: npm install
+    environment:
+      NODE_OPTIONS: --max_old_space_size=4096
   test:
     docker:
       - image: cimg/node:12.14.1 # the primary container, where your job's commands are run
@@ -39,8 +41,8 @@ jobs:
       - run: sudo sh -c "curl -s https://cli.nr-ext.net/installer.sh | bash"
       - run: nr1 --version
       - run: nr1 profiles:add --name ${NR_PROFILE_NAME} --api-key ${NR_API_KEY} --region us
-      - run: nr1 nerdpack:publish --channel DEV --force
-      - run: nr1 nerdpack:subscribe -c DEV
+      - run: nr1 nerdpack:publish
+      - run: nr1 nerdpack:subscribe
 
 # Orchestrate our job run sequence
 workflows:
