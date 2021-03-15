@@ -216,7 +216,7 @@ export default Header;
 
 Header.propTypes = {
   iconSixthSenseStatus: PropTypes.bool.isRequired,
-  activeSixthSenseIcon: PropTypes.func.isRequired,
+  activeSixthSenseIcon: PropTypes.func,
   iconCanaryStatus: PropTypes.bool.isRequired,
   iconFireStatus: PropTypes.bool.isRequired,
   iconStartStatus: PropTypes.bool.isRequired,
