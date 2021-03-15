@@ -41,7 +41,7 @@ jobs:
       - run: sudo sh -c "curl -s https://cli.nr-ext.net/installer.sh | bash"
       - run: nr1 --version
       - run: nr1 profiles:add --name ${NR_PROFILE_NAME} --api-key ${NR_API_KEY} --region us
-      - run: nr1 nerdpack:publish --channel=DEV --force
+      - run: nr1 nerdpack:publish --channel=DEV
       - run: nr1 nerdpack:subscribe -c DEV
 
 # Orchestrate our job run sequence
