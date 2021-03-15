@@ -73,7 +73,7 @@ describe('Step component', () => {
     const step = create(
       <Step
         step={stepObj}
-        onclickStep
+        onclickStep={jest.fn()}
         iconSixthSenseStatus={false}
         iconGoutStatus={false}
         latencyStatus={false}
@@ -90,7 +90,7 @@ describe('Step component', () => {
     const step = create(
       <Step
         step={stepObj}
-        onclickStep
+        onclickStep={jest.fn()}
         iconSixthSenseStatus={false}
         iconGoutStatus={false}
         latencyStatus={false}
@@ -108,7 +108,7 @@ describe('Step component', () => {
     const step = create(
       <Step
         step={stepObj}
-        onclickStep
+        onclickStep={jest.fn()}
         iconSixthSenseStatus={false}
         iconGoutStatus={false}
         latencyStatus={false}
