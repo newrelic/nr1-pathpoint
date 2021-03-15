@@ -25,7 +25,6 @@ jobs:
       - checkout # check out the code in the project directory
       - run: npm install --save
       - run: npm audit fix
-      - run: npm ls
       - run: npm test
 
   deploy:
