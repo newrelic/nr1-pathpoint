@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 import StepContainer from '../../../containers/StepContainer/StepContainer';
 
 describe('<StepContainer/>', () => {
@@ -88,7 +88,7 @@ describe('<StepContainer/>', () => {
         }
       ]
     };
-    const wrapper = mount(
+    const wrapper = shallow(
       <StepContainer
         steps={steps}
         onclickStep={jest.fn()}
