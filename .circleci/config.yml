@@ -24,7 +24,10 @@ jobs:
     steps:
       - checkout # check out the code in the project directory
       - run: npm install
+      - run: npm audit fix
+      - run: npm ls
       - run: npm test
+
   deploy:
     docker:
       - image: cimg/node:12.14.1 # the primary container, where your job's commands are run
