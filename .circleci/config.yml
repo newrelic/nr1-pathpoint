@@ -27,7 +27,7 @@ jobs:
       - checkout # check out the code in the project directory
       - run: npm install --save
       - run: npm audit fix --force
-      - run: npm test
+      - run: npm test -w 1
 
   deploy:
     docker:
