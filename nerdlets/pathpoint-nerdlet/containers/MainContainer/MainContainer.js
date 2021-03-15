@@ -292,15 +292,9 @@ export default class MainContainer extends React.Component {
       },
       () => {
         this.ToggleCanaryIcon(previousIconCanaryStatus);
-        this.ToggleGoutIcon(previousIconGoutStatus);
-        this.ToggleStartIcon(previousIconStartStatus);
         this.ToggleFireIcon(previousIconFireStatus);
       }
     );
-  };
-
-  updateNewGui = () => {
-    // this.setState({ stages: this.state.stages });
   };
 
   onClickStage = stageIndex => {
@@ -365,7 +359,6 @@ export default class MainContainer extends React.Component {
           if (iconCanaryStatus) {
             step.canary_state = !step.canary_state;
             this.DataManager.SetCanaryData(stages, city);
-            // this.updateDataNow();
             canaryData[step.index_stage - 1].states[step.index - 1] =
               step.canary_state;
             this.DataManager.UpdateCanaryData(canaryData);
@@ -439,20 +432,6 @@ export default class MainContainer extends React.Component {
     });
   };
 
-  checkMoneyBudget = () => {
-    const { checkMoney, stages, iconStartStatus } = this.state;
-    const newData = [];
-    for (const stage of stages) {
-      stage.money_enabled = !checkMoney;
-      stage.icon_visible = iconStartStatus;
-      newData.push(stage);
-    }
-    this.setState({
-      stages: newData,
-      checkMoney: !checkMoney
-    });
-  };
-
   _onClose = errors => {
     const actualValue = this.state.hidden;
     this.setState({ hidden: !actualValue });
@@ -520,46 +499,6 @@ export default class MainContainer extends React.Component {
     });
   }
 
-  setStepsSixthSense(stage_index, relation_steps) {
-    const rsteps = JSON.stringify(relation_steps).replace(/[,[\]]/g, '-');
-    this.setState(state => {
-      const { stages } = state;
-      stages[stage_index - 1].steps.forEach(step => {
-        step.sub_steps.forEach(sub_step => {
-          if (rsteps.indexOf(`-${sub_step.index}-`) !== -1) {
-            sub_step.sixth_sense = true;
-          }
-        });
-      });
-    });
-  }
-
-  updateSixthSenseSteps() {
-    this.clearStepsSixthSense();
-    this.state.stages.forEach(stage => {
-      stage.touchpoints.forEach(touchpoint => {
-        if (touchpoint.sixth_sense) {
-          this.setStepsSixthSense(stage.index, touchpoint.relation_steps);
-        }
-      });
-    });
-  }
-
-  activeSixthSenseIcon = () => {
-    let { iconSixthSenseStatus } = this.state;
-    iconSixthSenseStatus = !iconSixthSenseStatus;
-    if (iconSixthSenseStatus) {
-      this.updateSixthSenseSteps();
-    }
-    this.setState({
-      iconStartStatus: false,
-      iconGoutStatus: false,
-      iconCanaryStatus: false,
-      iconSixthSenseStatus: iconSixthSenseStatus,
-      iconFireStatus: false
-    });
-  };
-
   ToggleCanaryIcon = previousIconCanaryStatus => {
     const { iconCanaryStatus } = this.state;
     if (iconCanaryStatus && this.state.showCanaryWelcomeMat) {
@@ -594,24 +533,6 @@ export default class MainContainer extends React.Component {
         }
       );
     }
-  };
-
-  ToggleStartIcon = () => {
-    const { iconStartStatus, stages } = this.state;
-    const newData = [];
-    let checkMoney = false;
-    for (const stage of stages) {
-      stage.money_enabled = iconStartStatus;
-      stage.icon_visible = iconStartStatus;
-      newData.push(stage);
-    }
-    if (iconStartStatus) {
-      checkMoney = true;
-    }
-    this.setState({
-      stages: newData,
-      checkMoney
-    });
   };
 
   clearStepsHistoricError() {
@@ -677,18 +598,6 @@ export default class MainContainer extends React.Component {
     } else if (previousIconFireStatus && !iconFireStatus) {
       // TODO
     }
-  };
-
-  ToggleGoutIcon = () => {
-    this.setState(state => {
-      const { iconGoutStatus, stages } = state;
-      for (const stage of stages) {
-        stage.gout_enable = iconGoutStatus;
-      }
-      return {
-        stages
-      };
-    });
   };
 
   removeDuplicates(originalArray) {
@@ -874,10 +783,6 @@ export default class MainContainer extends React.Component {
   changeTouchpointsView(event) {
     this.setState({ checkAllStatus: event.target.checked });
   }
-
-  handleClick = () => {
-    // TODO
-  };
 
   /**
    * Function to close the TouchPoint
@@ -1306,8 +1211,6 @@ export default class MainContainer extends React.Component {
           <div>
             <Header
               iconSixthSenseStatus={iconSixthSenseStatus}
-              activeSixthSenseIcon={this.activeSixthSenseIcon}
-              checkBudget={this.checkMoneyBudget}
               changeTimeRange={this.changeTimeRange}
               checkMoney={checkMoney}
               iconStartStatus={iconStartStatus}
@@ -1821,7 +1724,6 @@ export default class MainContainer extends React.Component {
             </div>
           </div>
           <Modal
-            updateNewGui={this.updateNewGui}
             errorsList={this.state.errorsList}
             configuration={this.state.configuration}
             hidden={hidden}
