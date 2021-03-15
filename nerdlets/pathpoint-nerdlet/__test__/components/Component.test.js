@@ -28,9 +28,9 @@ describe('ShowInfo', () => {
     expect(result).toEqual(4);
   });
 
-  it('Function in accountid', async () => {
+  it('Function in accountid', () => {
     const wrapper = mount(<Component />);
-    const result = await wrapper.instance().recoveId();
+    const result = wrapper.instance().recoveId();
     expect(result).toEqual(123);
   });
 });
