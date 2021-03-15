@@ -34,7 +34,9 @@ jobs:
           username: mydockerhub-user
           password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
     steps:
-      - checkout # check out the code in the project directory
+      environment:
+        NODE_OPTIONS: --max_old_space_size=8192
+        - checkout # check out the code in the project directory
       - run: npm install
       - run: sudo sh -c "curl -s https://cli.nr-ext.net/installer.sh | bash"
       - run: nr1 --version
