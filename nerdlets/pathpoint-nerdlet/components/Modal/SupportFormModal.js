@@ -142,7 +142,7 @@ function BodySupportFormModal(props) {
           <FormGroup controlId="formMobile">
             <FormControl
               required
-              pattern="[+0-9]{10}"
+              pattern="(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{3,4})"
               type="phone"
               placeholder="Mobile"
               bsClass="support-modal-input-text"
