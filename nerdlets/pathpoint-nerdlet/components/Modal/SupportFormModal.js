@@ -1,7 +1,7 @@
 import React from 'react';
+import Select from 'react-select';
 import PropTypes from 'prop-types';
 import { Button, FormControl, Form, FormGroup } from 'react-bootstrap';
-import Select from 'react-select';
 
 // IMPORT ICONS
 import support from '../../images/support.svg';

@@ -14,13 +14,16 @@ import { BodySupportFormModal } from './SupportFormModal';
 import { BodyFileErrorFormModal } from './FileErrorFormModal';
 import { BodyJsonConfigurationFormModal } from './JsonConfigurationFormModal';
 import { BodyBackgroundProcessesFormModal } from './BackgroundProcessesFormModal';
+
 export default class ShowBody extends Component {
   constructor(props) {
     super(props);
     this.state = {
       url: '',
       text: '',
-      type: ''
+      type: '',
+      threshold: '',
+      apdex: ''
     };
   }
 
@@ -36,8 +39,14 @@ export default class ShowBody extends Component {
     event.preventDefault();
     const { url, text, type } = this.state;
     const { LogoFormSubmit, _onClose } = this.props;
-    console.log('url', url, 'text', text, 'type', type);
     LogoFormSubmit({ url, text, type }, _onClose);
+  };
+
+  handleSubmitTune = event => {
+    event.preventDefault();
+    const { threshold, apdex } = this.state;
+    const { handleSaveUpdateTune } = this.props;
+    handleSaveUpdateTune({ threshold, apdex });
   };
 
   showBodyRender = () => {
@@ -49,7 +58,13 @@ export default class ShowBody extends Component {
       case 1:
         return <BodyQueryFormModal {...this.props} />;
       case 2:
-        return <BodyTuneFormModal {...this.props} />;
+        return (
+          <BodyTuneFormModal
+            {...this.props}
+            handleOnChange={this.handleOnChange}
+            handleSubmitTune={this.handleSubmitTune}
+          />
+        );
       case 3:
         return <div />;
       case 4:
@@ -83,5 +98,6 @@ export default class ShowBody extends Component {
 ShowBody.propTypes = {
   viewModal: PropTypes.number.isRequired,
   LogoFormSubmit: PropTypes.func.isRequired,
-  _onClose: PropTypes.func.isRequired
+  _onClose: PropTypes.func.isRequired,
+  handleSaveUpdateTune: PropTypes.func.isRequired
 };
