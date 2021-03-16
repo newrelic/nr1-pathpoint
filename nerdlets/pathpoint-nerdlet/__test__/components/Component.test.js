@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import Component from '../../components/Component';
 
 jest.mock(
@@ -28,9 +28,9 @@ describe('ShowInfo', () => {
     expect(result).toEqual(4);
   });
 
-  it('Function in accountid', () => {
+  it('Function in accountid', async () => {
     const wrapper = mount(<Component />);
-    const result = wrapper.instance().recoveId();
+    const result = await wrapper.instance().recoveId();
     expect(result).toEqual(123);
   });
 });
