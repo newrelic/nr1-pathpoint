@@ -322,22 +322,61 @@ export default class DataManager {
         const c = key.split('_');
         if (c[0] === 'measure') {
           const measure = this.graphQlmeasures[Number(c[1])][0];
-          if (measure.type === 0 && value.nrql !== null) {
+          if (
+            measure.type === 0 &&
+            value.nrql !== null &&
+            value.nrql.results &&
+            value.nrql.results[0] &&
+            value.nrql.results[0].count
+          ) {
             measure.count = value.nrql.results[0].count;
-          } else if (measure.type === 1 && value.nrql !== null) {
+          } else if (
+            measure.type === 1 &&
+            value.nrql !== null &&
+            value.nrql.results &&
+            value.nrql.results[0] &&
+            value.nrql.results[0].percentage
+          ) {
             measure.error_percentage =
               value.nrql.results[0].percentage == null
                 ? 0
                 : value.nrql.results[0].percentage;
-          } else if (measure.type === 2 && value.nrql !== null) {
+          } else if (
+            measure.type === 2 &&
+            value.nrql !== null &&
+            value.nrql.results &&
+            value.nrql.results[0] &&
+            value.nrql.results[0].score
+          ) {
             measure.apdex = value.nrql.results[0].score;
-          } else if (measure.type === 3 && value.nrql !== null) {
+          } else if (
+            measure.type === 3 &&
+            value.nrql !== null &&
+            value.nrql.results &&
+            value.nrql.results[0] &&
+            value.nrql.results[0].session
+          ) {
             measure.count = value.nrql.results[0].session;
-          } else if (measure.type === 4 && value.nrql !== null) {
+          } else if (
+            measure.type === 4 &&
+            value.nrql !== null &&
+            value.nrql.results
+          ) {
             this.SetSessions(measure, value.nrql.results);
-          } else if (measure.type === 20 && value.nrql !== null) {
+          } else if (
+            measure.type === 20 &&
+            value.nrql !== null &&
+            value.nrql.results &&
+            value.nrql.results[0]
+          ) {
             this.SetLogsMeasure(measure, value.nrql.results[0]);
-          } else if (measure.type === 100 && value.nrql != null) {
+          } else if (
+            measure.type === 100 &&
+            value.nrql != null &&
+            value.nrql.results &&
+            value.nrql.results[0] &&
+            value.nrql.results[0].value
+          ) {
             measure.value = value.nrql.results[0].value;
           }
         }
