@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'react-bootstrap';
-import { Formik, Form, Field } from 'formik';
+import { Button, Form } from 'react-bootstrap';
 
 function HeaderTuneFormModal(props) {
   const { stageNameSelected } = props;
@@ -19,73 +18,54 @@ HeaderTuneFormModal.propTypes = {
 };
 
 function BodyTuneFormModal(props) {
-  const { stageNameSelected, handleSaveUpdateTune } = props;
+  const { stageNameSelected, handleOnChange, handleSubmitTune } = props;
   const error_threshold = stageNameSelected.datos.error_threshold;
   const apdex_time = stageNameSelected.datos.apdex_time;
   return (
     <div style={{ width: '250px' }}>
-      <Formik
-        initialValues={{
-          threshold: error_threshold,
-          apdex: apdex_time
-        }}
-        onSubmit={
-          /* istanbul ignore next */ values => handleSaveUpdateTune(values)
-        }
-      >
-        {({ setFieldValue }) => (
-          <Form>
-            <div style={{ height: '40px' }}>
-              <Field
-                id="threshold"
-                name="threshold"
-                onChange={
-                  /* istanbul ignore next */ event =>
-                    setFieldValue('threshold', event.target.value)
-                }
-                defaultValue={error_threshold}
-                component={renderField}
-                label="% Error threshold"
-              />
-            </div>
-            <div style={{ height: '40px' }}>
-              <Field
-                id="apdex"
-                name="apdex"
-                onChange={
-                  /* istanbul ignore next */ event =>
-                    setFieldValue('apdex', event.target.value)
-                }
-                defaultValue={apdex_time}
-                component={renderField}
-                label="% Apdex Min. Score"
-              />
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                style={{ background: '#0178bf', color: 'white' }}
-              >
-                Save / Update
-              </Button>
-            </div>
-          </Form>
-        )}
-      </Formik>
+      <Form onSubmit={e => handleSubmitTune(e)}>
+        <div style={{ height: '40px' }}>
+          {renderField({
+            label: '% Error threshold',
+            defaultValue: error_threshold,
+            id: 'threshold',
+            onChange: handleOnChange,
+            name: 'threshold'
+          })}
+        </div>
+        <div style={{ height: '40px' }}>
+          {renderField({
+            label: '% Apdex Min. Score',
+            defaultValue: apdex_time,
+            id: 'apdex',
+            onChange: handleOnChange,
+            name: 'apdex'
+          })}
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            style={{ background: '#0178bf', color: 'white' }}
+          >
+            Save / Update
+          </Button>
+        </div>
+      </Form>
     </div>
   );
 }
 
-const renderField = ({ label, defaultValue, id, onChange }) => {
+const renderField = ({ name, label, defaultValue, id, onChange }) => {
   return (
     <>
       <input
         id={id}
+        name={name}
         type="text"
         defaultValue={defaultValue}
-        onChange={onChange}
+        onChange={e => onChange('input', e)}
         className="inputText"
         style={{
           width: '60px',
@@ -104,7 +84,8 @@ const renderField = ({ label, defaultValue, id, onChange }) => {
 };
 BodyTuneFormModal.propTypes = {
   stageNameSelected: PropTypes.object.isRequired,
-  handleSaveUpdateTune: PropTypes.func.isRequired
+  handleOnChange: PropTypes.func.isRequired,
+  handleSubmitTune: PropTypes.func.isRequired
 };
 
 export { HeaderTuneFormModal, BodyTuneFormModal };
