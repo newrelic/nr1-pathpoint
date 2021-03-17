@@ -95,6 +95,7 @@ function BodySupportFormModal(props) {
               name="Subject"
               onChange={e => (subject = e)}
               placeholder="Subject"
+              defaultValue={defaultOptions[0]}
               options={defaultOptions}
               styles={customStyles}
               theme={theme => ({
