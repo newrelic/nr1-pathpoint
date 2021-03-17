@@ -21,6 +21,7 @@ import TooltipStages from '../../components/Tooltip/TooltipStages';
 import TooltipSteps from '../../components/Tooltip/TooltipSteps';
 import TooltipTouchPoints from '../../components/Tooltip/TooltipTouchPoints';
 import Modal from '../../components/Modal';
+import Tooltip from '../../components/Tooltip/Tooltip';
 
 // IMPORT SERVICES
 import DataManager from '../../services/DataManager';
@@ -1532,7 +1533,10 @@ export default class MainContainer extends React.Component {
 
             <div className="title">
               Stages
-              <TooltipStages />
+              {/* <TooltipStages /> */}
+              <Tooltip width="900">
+                <TooltipStages />
+              </Tooltip>
             </div>
             <div style={contentStyle(stages.length)}>
               {stages.map(element => (
