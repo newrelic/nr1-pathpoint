@@ -689,3 +689,17 @@ textarea.contact {
     font-size: 14px;
   }
 }
+
+.tooltip-icon {
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.tooltip-wrapper {
+  position: fixed;
+  transform: translateY(-50%);
+  margin-left: 10px;
+  border-radius: 3px;
+  z-index: 99999;
+  background-color: white;
+}
