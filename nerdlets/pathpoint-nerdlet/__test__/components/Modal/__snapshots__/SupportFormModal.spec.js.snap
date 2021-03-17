@@ -1,0 +1,261 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SupportFormModal component Render body with default data 1`] = `
+<div
+  style={
+    Object {
+      "width": "350px",
+    }
+  }
+>
+  <div
+    className="modal4content"
+    style={
+      Object {
+        "textAlign": "justify",
+      }
+    }
+  >
+    Use this form to submit an issue to the Pathpoint development team. We will evaluate your issue and get back to you as soon as possible. Please make sure to provide as much context as possible in your message so we can properly evaluate the root cause and a level of an estimate to resolve it.
+  </div>
+  <div
+    className="modal4content space"
+  >
+    <form
+      className=""
+      onSubmit={[Function]}
+    >
+      <div
+        className="form-group"
+      >
+        <div
+          className=" css-dyr6gj-container"
+          onKeyDown={[Function]}
+        >
+          <div
+            className=" css-1g85jyj-control"
+            onMouseDown={[Function]}
+            onTouchEnd={[Function]}
+          >
+            <div
+              className=" css-g1d714-ValueContainer"
+            >
+              <div
+                className=" css-1wa3eu0-placeholder"
+              >
+                Subject
+              </div>
+              <div
+                className="css-b8ldur-Input"
+              >
+                <div
+                  className=""
+                  style={
+                    Object {
+                      "display": "inline-block",
+                    }
+                  }
+                >
+                  <input
+                    aria-autocomplete="list"
+                    autoCapitalize="none"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    disabled={false}
+                    id="react-select-2-input"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    spellCheck="false"
+                    style={
+                      Object {
+                        "background": 0,
+                        "border": 0,
+                        "boxSizing": "content-box",
+                        "color": "inherit",
+                        "fontSize": "inherit",
+                        "label": "input",
+                        "opacity": 1,
+                        "outline": 0,
+                        "padding": 0,
+                        "width": "1px",
+                      }
+                    }
+                    tabIndex="0"
+                    type="text"
+                    value=""
+                  />
+                  <div
+                    style={
+                      Object {
+                        "height": 0,
+                        "left": 0,
+                        "overflow": "scroll",
+                        "position": "absolute",
+                        "top": 0,
+                        "visibility": "hidden",
+                        "whiteSpace": "pre",
+                      }
+                    }
+                  >
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className=" css-1bnhd7t-IndicatorsContainer"
+            >
+              <span
+                className=" css-1okebmr-indicatorSeparator"
+              />
+              <div
+                aria-hidden="true"
+                className=" css-tlfecz-indicatorContainer"
+                onMouseDown={[Function]}
+                onTouchEnd={[Function]}
+              >
+                <svg
+                  aria-hidden="true"
+                  className="css-6q0nyr-Svg"
+                  focusable="false"
+                  height={20}
+                  viewBox="0 0 20 20"
+                  width={20}
+                >
+                  <path
+                    d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+          <input
+            name="Subject"
+            type="hidden"
+            value=""
+          />
+        </div>
+      </div>
+      <div
+        className="form-group"
+      >
+        <input
+          className="support-modal-input-text"
+          id="formName"
+          onChange={[Function]}
+          placeholder="Name"
+          required={true}
+          type="text"
+        />
+      </div>
+      <div
+        className="form-group"
+      >
+        <input
+          className="support-modal-input-text"
+          id="formCompany"
+          onChange={[Function]}
+          placeholder="Company"
+          required={true}
+          type="text"
+        />
+      </div>
+      <div
+        className="form-group"
+      >
+        <input
+          className="support-modal-input-text"
+          id="formAccount"
+          onChange={[Function]}
+          placeholder="Account Name"
+          required={true}
+          type="text"
+        />
+      </div>
+      <div
+        className="form-group"
+      >
+        <input
+          className="support-modal-input-text"
+          id="FormEmail"
+          onChange={[Function]}
+          placeholder="Email"
+          required={true}
+          type="email"
+        />
+      </div>
+      <div
+        className="form-group"
+      >
+        <input
+          className="support-modal-input-text"
+          id="formMobile"
+          onChange={[Function]}
+          pattern="(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{4}[)]?))\\\\s*[)]?[-\\\\s\\\\.]?[(]?[0-9]{1,3}[)]?([-\\\\s\\\\.]?[0-9]{3})([-\\\\s\\\\.]?[0-9]{3,4})"
+          placeholder="Mobile"
+          required={true}
+          type="phone"
+        />
+      </div>
+      <div
+        className="form-group"
+      >
+        <textarea
+          className="support-modal-input-text"
+          id="formDetails"
+          onChange={[Function]}
+          placeholder="Details"
+          required={true}
+          rows={5}
+        />
+      </div>
+      <div
+        style={
+          Object {
+            "display": "flex",
+            "justifyContent": "flex-end",
+          }
+        }
+      >
+        <button
+          className="btn btn-default"
+          color="primary"
+          disabled={false}
+          style={
+            Object {
+              "background": "#0178bf",
+              "color": "white",
+              "width": "45%",
+            }
+          }
+          type="submit"
+          variant="contained"
+        >
+          Submit
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+`;
+
+exports[`SupportFormModal component Render header with default data 1`] = `
+<div
+  style={
+    Object {
+      "display": "flex",
+    }
+  }
+>
+  <div
+    className="titleModal"
+  >
+    <img
+      height="18"
+      src={Object {}}
+    />
+     Support
+  </div>
+</div>
+`;

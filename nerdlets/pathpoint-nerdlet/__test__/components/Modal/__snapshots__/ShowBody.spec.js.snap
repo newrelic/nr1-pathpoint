@@ -1,0 +1,144 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ShowBody component ShowBody with default data in 0 view 1`] = `
+<div
+  style={
+    Object {
+      "width": "600px",
+    }
+  }
+>
+  <div>
+    <form
+      onReset={[Function]}
+      onSubmit={[Function]}
+    >
+      <textarea
+        onChange={[Function]}
+        style={
+          Object {
+            "background": "#333333",
+            "border": "1px solid #D0D0D0",
+            "color": "#00EC64",
+            "height": "180px",
+            "padding": "15px",
+          }
+        }
+        value="SELECT FILTER(count(*) FROM Log"
+      />
+      <strong>
+        SINCE 5 MINUTES AGO
+      </strong>
+      <div
+        style={
+          Object {
+            "alignItems": "center",
+            "display": "flex",
+            "justifyContent": "space-between",
+            "paddingTop": "30px",
+          }
+        }
+      >
+        <div
+          style={
+            Object {
+              "alignItems": "center",
+              "display": "flex",
+              "justifyContent": "flex-start",
+              "width": "40%",
+            }
+          }
+        >
+          <a
+            onClick={[Function]}
+            style={
+              Object {
+                "color": "#767B7F",
+                "paddingRight": "20px",
+                "textDecoration": "underline",
+              }
+            }
+          >
+            Sample Query
+          </a>
+          <div>
+            <button
+              className="btn btn-default"
+              color="primary"
+              disabled={false}
+              onClick={[Function]}
+              style={
+                Object {
+                  "background": "white",
+                  "border": "1px solid #767B7F",
+                  "boxSizing": "border-box",
+                  "marginRight": "15px",
+                }
+              }
+              type="button"
+              variant="contained"
+            >
+              Test
+            </button>
+          </div>
+        </div>
+        <div
+          style={
+            Object {
+              "alignItems": "center",
+              "display": "flex",
+              "justifyContent": "space-between",
+              "width": "60%",
+            }
+          }
+        >
+          <div>
+            <span
+              style={
+                Object {
+                  "alignItems": "center",
+                  "color": "red",
+                  "display": "flex",
+                }
+              }
+            >
+              <svg
+                fill="none"
+                height="16"
+                viewBox="0 0 16 16"
+                width="16"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M15.4839 7.74194C15.4839 12.0213 12.0207 15.4839 7.74194 15.4839C3.46258 15.4839 0 12.0207 0 7.74194C0 3.46258 3.46317 0 7.74194 0C12.0213 0 15.4839 3.46317 15.4839 7.74194ZM14.2742 7.74194C14.2742 4.13121 11.3522 1.20968 7.74194 1.20968C4.13121 1.20968 1.20968 4.13169 1.20968 7.74194C1.20968 11.3527 4.13169 14.2742 7.74194 14.2742C11.3527 14.2742 14.2742 11.3522 14.2742 7.74194Z"
+                  fill="#FF4C4C"
+                />
+                <path
+                  d="M10.7806 9.7212L8.55942 7.50001L10.7806 5.27882C11.0731 4.98629 11.0732 4.51199 10.7806 4.21942C10.488 3.92686 10.0137 3.9269 9.72125 4.21942L7.50003 6.44061L5.2788 4.21942C4.98631 3.92686 4.51193 3.92686 4.21941 4.21942C3.92688 4.51199 3.92688 4.98629 4.21944 5.27882L6.44063 7.50001L4.21944 9.7212C3.92688 10.0138 3.92684 10.4881 4.21941 10.7806C4.51205 11.0732 4.98635 11.0731 5.2788 10.7806L7.50003 8.5594L9.72125 10.7806C10.0137 11.0731 10.4881 11.0732 10.7806 10.7806C11.0732 10.488 11.0732 10.0137 10.7806 9.7212Z"
+                  fill="#FF4C4C"
+                />
+              </svg>
+              Bad query
+            </span>
+          </div>
+          <button
+            className="btn btn-default"
+            color="primary"
+            disabled={true}
+            style={
+              Object {
+                "background": "#0178bf",
+                "color": "white",
+              }
+            }
+            type="submit"
+            variant="contained"
+          >
+            Save / Update
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+`;

@@ -1,0 +1,112 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BackgroundProcessesFormModal component Render body with default data 1`] = `
+<div
+  style={
+    Object {
+      "display": "grid",
+      "gridTemplate": "55% 30% / 1fr",
+      "height": "500px",
+      "paddingTop": "20px",
+      "width": "400px",
+    }
+  }
+>
+  <div
+    className="modal4content"
+    style={
+      Object {
+        "textAlign": "justify",
+      }
+    }
+  >
+    <p>
+      Pathpoint is a powerful interactive tool that pulls most of its telemetry from real-time NRQL queries.  However for some views like the “Fire Filter”, Pathpoint relies on historical data that is maintained through a background job.
+    </p>
+    <ol
+      style={
+        Object {
+          "paddingLeft": "15px",
+        }
+      }
+      type="1"
+    >
+      <li>
+        Use the download link to download a pre-generated Node script.
+      </li>
+      <li>
+        Install this script as a synthetics check and the data will be collected continuously.
+      </li>
+    </ol>
+    <p>
+      You will need to update the script to contain your key information. You may also make customizations to the script as needed, but remember any updates will not be maintained by Pathpoint.   (See our main documentation for a detailed reference on these background jobs.)
+    </p>
+    <div>
+      <a
+        href="https://www.youtube.com/watch?v=sp9r6hSWH_o"
+        style={
+          Object {
+            "color": "red",
+            "textDecoration": "none",
+          }
+        }
+        target="_blank"
+      >
+        Click here
+      </a>
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "alignItems": "flex-start",
+        "display": "flex",
+        "flexDirection": "column",
+        "justifyContent": "space-evenly",
+        "paddingLeft": "15px",
+        "paddingRight": "15px",
+      }
+    }
+  >
+    <div>
+      <img
+        height="15"
+        src={Object {}}
+        width="24"
+      />
+      <a
+        className="downloadLink"
+        href="#"
+        onClick={[Function]}
+        style={
+          Object {
+            "cursor": "pointer",
+          }
+        }
+      >
+        Fire filter
+      </a>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`BackgroundProcessesFormModal component Render header with default data 1`] = `
+<div
+  style={
+    Object {
+      "display": "flex",
+    }
+  }
+>
+  <div
+    className="titleModal"
+  >
+    <img
+      src={Object {}}
+      width="18"
+    />
+     Setup: Background Processes
+  </div>
+</div>
+`;
