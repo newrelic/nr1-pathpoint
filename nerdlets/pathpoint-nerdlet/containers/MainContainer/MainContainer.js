@@ -118,7 +118,6 @@ export default class MainContainer extends React.Component {
       logoSetupData: null,
       configuration: null,
       updateData: null,
-      querySample: '',
       testText: '',
       goodQuery: true,
       logoSetup: {
@@ -652,7 +651,6 @@ export default class MainContainer extends React.Component {
     this.setState({
       viewModal: view,
       stageNameSelected: { touchpoint, datos },
-      querySample: '',
       testText: '',
       modifiedQuery: false,
       goodQuery: true
@@ -822,10 +820,6 @@ export default class MainContainer extends React.Component {
     });
   };
 
-  handleChange(valor1, valor3, this_props) {
-    this_props.renderProps('', null);
-  }
-
   changeMessage = value => {
     const { stageNameSelected, modifiedQuery } = this.state;
     if (
@@ -835,14 +829,12 @@ export default class MainContainer extends React.Component {
     ) {
       this.setState({
         stageNameSelected,
-        querySample: '',
         testText: ''
       });
     } else {
       stageNameSelected.selectedCase = value;
       this.setState({
         stageNameSelected,
-        querySample: '',
         testText: '',
         modifiedQuery: false,
         goodQuery: true
@@ -881,7 +873,6 @@ export default class MainContainer extends React.Component {
       stageNameSelected.datos[0].query_body = querySample;
     }
     this.setState({
-      querySample,
       testText: '',
       stageNameSelected
     });
@@ -927,7 +918,8 @@ export default class MainContainer extends React.Component {
     this.setState(supportForm);
   };
 
-  handleSaveUpdateQuery = async () => {
+  handleSaveUpdateQuery = async event => {
+    event.preventDefault();
     await this.DataManager.UpdateTouchpointQuerys(
       this.state.stageNameSelected.touchpoint,
       this.state.stageNameSelected.datos
@@ -1178,7 +1170,6 @@ export default class MainContainer extends React.Component {
       dropForm,
       starForm,
       flameForm,
-      querySample,
       testText,
       goodQuery,
       banner_kpis,
@@ -1703,7 +1694,6 @@ export default class MainContainer extends React.Component {
                       )}
                     >
                       <TouchPointContainer
-                        handleChange={this.handleChange}
                         visible={visible}
                         idVisible={idVisible}
                         renderProps={this.renderProps}
@@ -1730,7 +1720,6 @@ export default class MainContainer extends React.Component {
             _onClose={this._onClose}
             stageNameSelected={stageNameSelected}
             viewModal={viewModal}
-            querySample={querySample}
             testText={testText}
             goodQuery={goodQuery}
             changeMessage={this.changeMessage}
