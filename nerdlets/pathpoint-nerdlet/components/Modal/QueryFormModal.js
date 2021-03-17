@@ -1,9 +1,7 @@
 import React from 'react';
 import Select from 'react-select';
 import PropTypes from 'prop-types';
-import { Button } from 'react-bootstrap';
-import { Formik, Form, Field } from 'formik';
-// import ReactHtmlParser from 'react-html-parser';
+import { Button, Form } from 'react-bootstrap';
 
 function HeaderQueryFormModal(props) {
   const { stageNameSelected, changeMessage } = props;
@@ -45,7 +43,6 @@ HeaderQueryFormModal.propTypes = {
 function BodyQueryFormModal(props) {
   const {
     stageNameSelected,
-    querySample,
     handleChangeTexarea,
     chargueSample,
     testQuery,
@@ -66,126 +63,114 @@ function BodyQueryFormModal(props) {
       }}
     >
       <div>
-        <Formik
-          initialValues={{
-            query: query_body
-          }}
-          onSubmit={() => handleSaveUpdateQuery()}
-        >
-          {({ setFieldValue }) => (
-            <Form>
-              <Field
-                component={renderTextArea}
-                onChange={
-                  /* istanbul ignore next */ event => {
-                    setFieldValue('query', event.target.value);
-                    handleChangeTexarea(event.target.value);
-                  }
-                }
+        <Form onSubmit={event => handleSaveUpdateQuery(event)}>
+          {renderTextArea({
+            onChange: handleChangeTexarea,
+            query_body: query_body
+          })}
+          <strong>{query_footer}</strong>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              paddingTop: '30px'
+            }}
+          >
+            <div
+              style={{
+                width: '40%',
+                display: 'flex',
+                justifyContent: 'flex-start',
+                alignItems: 'center'
+              }}
+            >
+              <a
                 style={{
-                  color: '#00EC64',
-                  background: '#333333',
-                  height: '180px',
-                  border: '1px solid #D0D0D0',
-                  padding: '15px'
+                  paddingRight: '20px',
+                  color: '#767B7F',
+                  textDecoration: 'underline'
                 }}
-                name="query"
-                querySample={querySample}
-                query_body={query_body}
-              />
-              <strong>{query_footer}</strong>
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  paddingTop: '30px'
+                onClick={() => {
+                  chargueSample(value);
                 }}
               >
-                <div
+                Sample Query
+              </a>
+              <div>
+                <Button
+                  variant="contained"
+                  color="primary"
                   style={{
-                    width: '40%',
-                    display: 'flex',
-                    justifyContent: 'flex-start',
-                    alignItems: 'center'
+                    background: 'white',
+                    border: '1px solid #767B7F',
+                    boxSizing: 'border-box',
+                    marginRight: '15px'
                   }}
+                  onClick={
+                    /* istanbul ignore next */ () => {
+                      testQuery(query_body, value);
+                    }
+                  }
                 >
-                  <a
-                    style={{
-                      paddingRight: '20px',
-                      color: '#767B7F',
-                      textDecoration: 'underline'
-                    }}
-                    onClick={() => {
-                      chargueSample(value);
-                    }}
-                  >
-                    Sample Query
-                  </a>
-                  <div>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      style={{
-                        background: 'white',
-                        border: '1px solid #767B7F',
-                        boxSizing: 'border-box',
-                        marginRight: '15px'
-                      }}
-                      onClick={
-                        /* istanbul ignore next */ () => {
-                          testQuery(query_body, value);
-                        }
-                      }
-                    >
-                      Test
-                    </Button>
-                  </div>
-                </div>
-
-                <div
-                  style={{
-                    width: '60%',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center'
-                  }}
-                >
-                  <div>
-                    {testText !== '' && (
-                      <span
-                        style={{
-                          color: goodQuery ? 'green' : 'red',
-                          display: 'flex',
-                          alignItems: 'center'
-                        }}
-                      >
-                        {goodQuery ? <SuccessfullIcon /> : <WrongIcon />}
-                        {testText}
-                      </span>
-                    )}
-                  </div>
-                  <Button
-                    disabled={modifiedQuery ? true : !goodQuery}
-                    variant="contained"
-                    color="primary"
-                    style={{ background: '#0178bf', color: 'white' }}
-                    type="submit"
-                  >
-                    Save / Update
-                  </Button>
-                </div>
+                  Test
+                </Button>
               </div>
-            </Form>
-          )}
-        </Formik>
+            </div>
+
+            <div
+              style={{
+                width: '60%',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center'
+              }}
+            >
+              <div>
+                {testText !== '' && (
+                  <span
+                    style={{
+                      color: goodQuery ? 'green' : 'red',
+                      display: 'flex',
+                      alignItems: 'center'
+                    }}
+                  >
+                    {goodQuery ? <SuccessfullIcon /> : <WrongIcon />}
+                    {testText}
+                  </span>
+                )}
+              </div>
+              <Button
+                disabled={modifiedQuery ? true : !goodQuery}
+                variant="contained"
+                color="primary"
+                style={{ background: '#0178bf', color: 'white' }}
+                type="submit"
+              >
+                Save / Update
+              </Button>
+            </div>
+          </div>
+        </Form>
       </div>
     </div>
   );
 }
 
-const renderTextArea = ({ onChange, style, query_body }) => {
-  return <textarea onChange={onChange} style={style} value={query_body} />;
+const renderTextArea = ({ onChange, query_body }) => {
+  return (
+    <textarea
+      onChange={event => onChange(event.target.value)}
+      style={{
+        color: '#00EC64',
+        background: '#333333',
+        height: '180px',
+        border: '1px solid #D0D0D0',
+        padding: '15px'
+      }}
+      value={query_body}
+    />
+  );
 };
 
 const WrongIcon = () => {
@@ -228,7 +213,6 @@ const SuccessfullIcon = () => {
 };
 
 BodyQueryFormModal.propTypes = {
-  querySample: PropTypes.string.isRequired,
   stageNameSelected: PropTypes.object.isRequired,
   handleChangeTexarea: PropTypes.func.isRequired,
   chargueSample: PropTypes.func.isRequired,

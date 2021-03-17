@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import shortid from 'shortid';
-import { Formik, Form } from 'formik';
+import { Form } from 'react-bootstrap';
 
 // IMPORT IMAGES
 import onOffIcon from '../../images/on-off.svg';
@@ -174,8 +174,7 @@ export default class TouchPoint extends React.Component {
       checkAllStatus,
       iconSixthSenseStatus,
       visible,
-      idVisible,
-      handleChange
+      idVisible
     } = this.props;
     const { status_on_off, active } = touchpoint;
     return (
@@ -233,56 +232,44 @@ export default class TouchPoint extends React.Component {
               className="contextMenu"
             >
               <div>
-                <Formik
-                  initialValues={{
-                    contextError: touchpoint.index,
-                    contextApdex: '0.5'
-                  }}
-                  onSubmit={
-                    /* istanbul ignore next */ values =>
-                      handleChange(values, touchpoint.index, this.props)
-                  }
-                  render={() => (
-                    <Form>
-                      <div
-                        className="contextMenuItem"
-                        onClick={this.HandleClickonOff}
-                      >
-                        <span className="functionIcon">
-                          <img style={{ height: '15px' }} src={onOffIcon} />
-                        </span>
-                        <span className="onoffIcon">
-                          <img
-                            style={{ height: '20px' }}
-                            src={status_on_off ? onIcon : offIcon}
-                          />
-                        </span>
-                      </div>
-                      <div className="contextMenuItem">
-                        <div
-                          onClick={this.HandleClickTune}
-                          className="contextMenu--option"
-                        >
-                          <span className="functionIcon">
-                            <img style={{ height: '15px' }} src={tuneIcon} />
-                          </span>
-                          Tune
-                        </div>
-                      </div>
-                      <div className="contextMenuItem">
-                        <div
-                          onClick={this.HandleClickQueries}
-                          className="contextMenu--option"
-                        >
-                          <span className="functionIcon">
-                            <img style={{ height: '15px' }} src={queriesIcon} />
-                          </span>
-                          Queries
-                        </div>
-                      </div>
-                    </Form>
-                  )}
-                />
+                <Form>
+                  <div
+                    className="contextMenuItem"
+                    onClick={this.HandleClickonOff}
+                  >
+                    <span className="functionIcon">
+                      <img style={{ height: '15px' }} src={onOffIcon} />
+                    </span>
+                    <span className="onoffIcon">
+                      <img
+                        style={{ height: '20px' }}
+                        src={status_on_off ? onIcon : offIcon}
+                      />
+                    </span>
+                  </div>
+                  <div className="contextMenuItem">
+                    <div
+                      onClick={this.HandleClickTune}
+                      className="contextMenu--option"
+                    >
+                      <span className="functionIcon">
+                        <img style={{ height: '15px' }} src={tuneIcon} />
+                      </span>
+                      Tune
+                    </div>
+                  </div>
+                  <div className="contextMenuItem">
+                    <div
+                      onClick={this.HandleClickQueries}
+                      className="contextMenu--option"
+                    >
+                      <span className="functionIcon">
+                        <img style={{ height: '15px' }} src={queriesIcon} />
+                      </span>
+                      Queries
+                    </div>
+                  </div>
+                </Form>
               </div>
             </div>
           ) : (
@@ -303,7 +290,6 @@ TouchPoint.propTypes = {
   iconSixthSenseStatus: PropTypes.bool.isRequired,
   visible: PropTypes.bool.isRequired,
   idVisible: PropTypes.string.isRequired,
-  handleChange: PropTypes.func.isRequired,
   renderProps: PropTypes.func.isRequired,
   updateTouchpointOnOff: PropTypes.func.isRequired,
   openModalParent: PropTypes.func.isRequired
