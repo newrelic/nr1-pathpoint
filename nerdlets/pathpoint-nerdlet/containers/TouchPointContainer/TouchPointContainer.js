@@ -41,7 +41,6 @@ export default class TouchPointerContainer extends React.Component {
       checkAllStatus,
       iconSixthSenseStatus,
       element,
-      handleChange,
       visible,
       idVisible,
       renderProps,
@@ -54,7 +53,6 @@ export default class TouchPointerContainer extends React.Component {
         {touchpointsFilter.map(touchpoint => {
           return (
             <TouchPoint
-              handleChange={handleChange}
               idVisible={idVisible}
               visible={visible}
               renderProps={renderProps}
@@ -84,7 +82,6 @@ TouchPointerContainer.propTypes = {
   checkAllStatus: PropTypes.bool.isRequired,
   iconSixthSenseStatus: PropTypes.bool.isRequired,
   element: PropTypes.object,
-  handleChange: PropTypes.func.isRequired,
   visible: PropTypes.bool.isRequired,
   idVisible: PropTypes.string.isRequired,
   renderProps: PropTypes.func.isRequired,
