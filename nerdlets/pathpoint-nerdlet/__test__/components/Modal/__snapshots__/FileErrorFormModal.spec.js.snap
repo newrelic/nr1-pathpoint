@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FileErrorFormModal component Render body with default data 1`] = `
+Array [
+  <div
+    className="containerError"
+  >
+    <div
+      className="error-alert-modal"
+    >
+      <p>
+        /data/0 - message error 1
+      </p>
+    </div>
+    <div
+      className="error-alert-modal"
+    >
+      <p>
+        /data/1 - message error 2
+      </p>
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "alignItems": "flex-end",
+        "display": "flex",
+        "justifyContent": "flex-end",
+      }
+    }
+  >
+    <label
+      className="button"
+      color="primary"
+      htmlFor="file-upload"
+    >
+      Fix & Upload
+    </label>
+    <input
+      accept=".json"
+      id="file-upload"
+      onChange={[Function]}
+      style={
+        Object {
+          "display": "none",
+        }
+      }
+      type="file"
+    />
+  </div>,
+]
+`;
+
+exports[`FileErrorFormModal component Render header with default data 1`] = `
+<div
+  style={
+    Object {
+      "display": "flex",
+    }
+  }
+>
+  <div
+    className="titleModal"
+  >
+    <p
+      className="error-modal-title"
+    >
+      Your view configuration file has some errors, please try again
+    </p>
+  </div>
+</div>
+`;

@@ -1,0 +1,123 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TuneFormModal component Render body with default data 1`] = `
+<div
+  style={
+    Object {
+      "width": "250px",
+    }
+  }
+>
+  <form
+    className=""
+    onSubmit={[Function]}
+  >
+    <div
+      style={
+        Object {
+          "height": "40px",
+        }
+      }
+    >
+      <input
+        className="inputText"
+        id="threshold"
+        name="threshold"
+        onChange={[Function]}
+        style={
+          Object {
+            "border": "1px solid gray",
+            "padding": "5px",
+            "width": "60px",
+          }
+        }
+        type="text"
+      />
+      <label
+        className="bodySubTitle"
+        style={
+          Object {
+            "fontSize": "14px",
+            "marginLeft": "10px",
+          }
+        }
+      >
+        % Error threshold
+      </label>
+    </div>
+    <div
+      style={
+        Object {
+          "height": "40px",
+        }
+      }
+    >
+      <input
+        className="inputText"
+        id="apdex"
+        name="apdex"
+        onChange={[Function]}
+        style={
+          Object {
+            "border": "1px solid gray",
+            "padding": "5px",
+            "width": "60px",
+          }
+        }
+        type="text"
+      />
+      <label
+        className="bodySubTitle"
+        style={
+          Object {
+            "fontSize": "14px",
+            "marginLeft": "10px",
+          }
+        }
+      >
+        % Apdex Min. Score
+      </label>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "justifyContent": "flex-end",
+        }
+      }
+    >
+      <button
+        className="btn btn-default"
+        color="primary"
+        disabled={false}
+        style={
+          Object {
+            "background": "#0178bf",
+            "color": "white",
+          }
+        }
+        type="submit"
+        variant="contained"
+      >
+        Save / Update
+      </button>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`TuneFormModal component Render header with default data 1`] = `
+<div
+  style={
+    Object {
+      "display": "flex",
+    }
+  }
+>
+  <div
+    className="titleModal"
+  >
+    touchpoint one
+  </div>
+</div>
+`;
