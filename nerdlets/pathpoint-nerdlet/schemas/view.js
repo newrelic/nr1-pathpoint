@@ -118,7 +118,7 @@ export default {
                       minItems: 1,
                       maxItems: 1,
                       items: {
-                        type: 'string'
+                        type: ['string', 'boolean']
                       }
                     },
                     related_steps: {
@@ -191,7 +191,11 @@ export const CustomSchemaValidation = target => {
   });
   target.stages.forEach((stage, i) => {
     stage.touchpoints.forEach((touchpoint, c) => {
-      if (!touchpoint.dashboard_url[0].includes('https://one.newrelic.com')) {
+      if (
+        touchpoint.dashboard_url[0] !== false &&
+        !touchpoint.dashboard_url[0].includes('https://one.newrelic.com') &&
+        !touchpoint.dashboard_url[0].includes('https://one.nr')
+      ) {
         errors.push({
           dataPath: `stages/${i}/touchpoints/${c}/dashboard_url/0`,
           message: `URL must match with new relic domain`
