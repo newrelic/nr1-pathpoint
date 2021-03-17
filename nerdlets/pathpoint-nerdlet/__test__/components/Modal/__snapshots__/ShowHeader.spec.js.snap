@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ShowHeader component ShowHeader with default data in 0 view 1`] = `
+<div
+  style={
+    Object {
+      "display": "flex",
+    }
+  }
+>
+  <img
+    src={Object {}}
+    style={
+      Object {
+        "height": "26px",
+        "marginLeft": "5px",
+        "width": "26px",
+      }
+    }
+  />
+  <div
+    className="titleModal"
+  >
+    touchpoint one
+  </div>
+</div>
+`;
