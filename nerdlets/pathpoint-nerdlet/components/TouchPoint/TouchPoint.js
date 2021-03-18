@@ -196,21 +196,21 @@ export default class TouchPoint extends React.Component {
               background: this.backgroundTouchPoint(status_on_off, active)
             }}
             onMouseDown={this.HandleContextMenu}
+            onClick={() => {
+              if (touchpoint.sixth_sense && iconSixthSenseStatus) {
+                this.setState({ hidden: true });
+              } else if (touchpoint.dashboard_url !== false) {
+                if (touchpoint.dashboard_url[city] !== false) {
+                  window.open(touchpoint.dashboard_url[city]);
+                }
+              }
+            }}
           >
             <div
               className="squareState"
               style={{ background: this.ColorSquare(touchpoint, colors) }}
             />
             <div
-              onClick={() => {
-                if (touchpoint.sixth_sense && iconSixthSenseStatus) {
-                  this.setState({ hidden: true });
-                } else if (touchpoint.dashboard_url !== false) {
-                  if (touchpoint.dashboard_url[city] !== false) {
-                    window.open(touchpoint.dashboard_url[city]);
-                  }
-                }
-              }}
               style={{
                 cursor: this.ActivateCursor(touchpoint, city)
               }}
