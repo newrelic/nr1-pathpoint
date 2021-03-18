@@ -1533,7 +1533,6 @@ export default class MainContainer extends React.Component {
 
             <div className="title">
               Stages
-              {/* <TooltipStages /> */}
               <Tooltip width="900" bottom>
                 <TooltipStages />
               </Tooltip>
