@@ -8,7 +8,11 @@ import {
 describe('LogoFormModal', () => {
   it('Render body', () => {
     const bodyLogoForm = mount(
-      <BodyLogoFormModal LogoFormSubmit={jest.fn()} _onClose={jest.fn()} />
+      <BodyLogoFormModal
+        type=""
+        handleSubmitLogo={jest.fn()}
+        handleOnChange={jest.fn()}
+      />
     );
     expect(bodyLogoForm.length).toEqual(1);
   });

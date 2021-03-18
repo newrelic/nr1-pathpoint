@@ -4,13 +4,23 @@ import ShowBody from '../../../components/Modal/ShowBody';
 
 describe('<ShowBody/>', () => {
   it('Render view modal 0 ', () => {
-    const bodyRender = mount(<ShowBody viewModal={0} />);
+    const bodyRender = mount(
+      <ShowBody
+        _onClose={jest.fn()}
+        LogoFormSubmit={jest.fn()}
+        handleSaveUpdateTune={jest.fn()}
+        viewModal={0}
+      />
+    );
     expect(bodyRender.length).toEqual(1);
   });
 
   it('Render view modal 1 ', () => {
     const bodyRender = mount(
       <ShowBody
+        _onClose={jest.fn()}
+        LogoFormSubmit={jest.fn()}
+        handleSaveUpdateTune={jest.fn()}
         querySample="simple query"
         stageNameSelected={{
           selectedCase: {
@@ -43,6 +53,8 @@ describe('<ShowBody/>', () => {
   it('Render view modal 2', () => {
     const bodyRender = mount(
       <ShowBody
+        _onClose={jest.fn()}
+        LogoFormSubmit={jest.fn()}
         stageNameSelected={{
           selectedCase: {
             value: 0
@@ -66,7 +78,14 @@ describe('<ShowBody/>', () => {
   });
 
   it('Render view modal 3', () => {
-    const bodyRender = mount(<ShowBody viewModal={3} />);
+    const bodyRender = mount(
+      <ShowBody
+        _onClose={jest.fn()}
+        LogoFormSubmit={jest.fn()}
+        handleSaveUpdateTune={jest.fn()}
+        viewModal={3}
+      />
+    );
     expect(bodyRender.length).toEqual(1);
   });
 
@@ -78,6 +97,8 @@ describe('<ShowBody/>', () => {
         SetConfigurationJSON={jest.fn()}
         validateKpiQuery={{}}
         viewModal={4}
+        LogoFormSubmit={jest.fn()}
+        handleSaveUpdateTune={jest.fn()}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -85,21 +106,39 @@ describe('<ShowBody/>', () => {
 
   it('Render view modal 5', () => {
     const bodyRender = mount(
-      <ShowBody handleSaveUpdateSupport={jest.fn()} viewModal={5} />
+      <ShowBody
+        _onClose={jest.fn()}
+        LogoFormSubmit={jest.fn()}
+        handleSaveUpdateTune={jest.fn()}
+        handleSaveUpdateSupport={jest.fn()}
+        viewModal={5}
+      />
     );
     expect(bodyRender.length).toEqual(1);
   });
 
   it('Render view modal 6', () => {
     const bodyRender = mount(
-      <ShowBody handleSaveUpdateCanary={jest.fn()} viewModal={6} />
+      <ShowBody
+        _onClose={jest.fn()}
+        LogoFormSubmit={jest.fn()}
+        handleSaveUpdateTune={jest.fn()}
+        handleSaveUpdateCanary={jest.fn()}
+        viewModal={6}
+      />
     );
     expect(bodyRender.length).toEqual(1);
   });
 
   it('Render view modal 7', () => {
     const bodyRender = mount(
-      <ShowBody handleSaveUpdateFire={jest.fn()} viewModal={7} />
+      <ShowBody
+        _onClose={jest.fn()}
+        LogoFormSubmit={jest.fn()}
+        handleSaveUpdateTune={jest.fn()}
+        handleSaveUpdateFire={jest.fn()}
+        viewModal={7}
+      />
     );
     expect(bodyRender.length).toEqual(1);
   });
@@ -107,6 +146,8 @@ describe('<ShowBody/>', () => {
   it('Render view modal 8', () => {
     const bodyRender = mount(
       <ShowBody
+        LogoFormSubmit={jest.fn()}
+        handleSaveUpdateTune={jest.fn()}
         SetConfigurationJSON={jest.fn()}
         validateKpiQuery={{}}
         _onClose={jest.fn()}
@@ -123,6 +164,8 @@ describe('<ShowBody/>', () => {
   it('Render view modal 9', () => {
     const bodyRender = mount(
       <ShowBody
+        LogoFormSubmit={jest.fn()}
+        handleSaveUpdateTune={jest.fn()}
         _onClose={jest.fn()}
         GetCurrentHistoricErrorScript={jest.fn()}
         viewModal={9}
@@ -134,8 +177,10 @@ describe('<ShowBody/>', () => {
   it('Render view modal 10', () => {
     const bodyRender = mount(
       <ShowBody
-        LogoFormSubmit={jest.fn()}
         _onClose={jest.fn()}
+        handleSaveUpdateTune={jest.fn()}
+        LogoFormSubmit={jest.fn()}
+        handleOnChange={jest.fn()}
         viewModal={10}
       />
     );
