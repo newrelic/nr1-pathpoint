@@ -1,6 +1,5 @@
 import React from 'react';
-import { mount, shallow } from 'enzyme';
-import { Formik } from 'formik';
+import { mount } from 'enzyme';
 import {
   BodyLogoFormModal,
   HeaderLogoFormModal
