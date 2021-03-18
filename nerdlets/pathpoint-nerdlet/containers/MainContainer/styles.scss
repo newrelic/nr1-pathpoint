@@ -697,9 +697,44 @@ textarea.contact {
 
 .tooltip-wrapper {
   position: fixed;
-  transform: translateY(-50%);
   margin-left: 10px;
   border-radius: 3px;
   z-index: 99999;
   background-color: white;
+  height: auto;
+  padding: 30px 20px;
+  opacity: 0;
+}
+
+.fade-in {
+	opacity: 1;
+	animation-name: fadeInOpacity;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+	animation-duration: 0.2s;
+}
+
+.fade-out {
+	animation-name: fadeOutOpacity;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+	animation-duration: 0.2s;
+}
+
+@keyframes fadeInOpacity {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+@keyframes fadeOutOpacity {
+	0% {
+		opacity: 100;
+	}
+	100% {
+		opacity: 0;
+	}
 }
