@@ -1,12 +1,4 @@
 import { NerdGraphQuery } from 'nr1';
-import {
-  gql,
-  setContext,
-  ApolloClient,
-  createHttpLink,
-  InMemoryCache
-} from '@apollo/client';
-import CONFIG from '../../../.env.json';
 import messages from '../config/messages.json';
 
 export default class ValidationQuery {
@@ -34,49 +26,6 @@ export default class ValidationQuery {
     return { errors, data: dataReturn };
   }
 
-  async validatecloudFlareGraphQl(cloudFareApp) {
-    const httpLink = createHttpLink({
-      uri: CONFIG.cloudFlareURL
-    });
-    const authLink = setContext((_, { headers }) => {
-      const token = CONFIG.cloudFlareAPITOKEN;
-      return {
-        headers: {
-          ...headers,
-          authorization: token ? `Bearer ${token}` : ''
-        }
-      };
-    });
-    const client = new ApolloClient({
-      link: authLink.concat(httpLink),
-      cache: new InMemoryCache()
-    });
-    const s = Date.now() - 5 * 60000;
-    const startTime = new Date(s).toISOString();
-    const w = Date.now();
-    const endTime = new Date(w).toISOString();
-    const query = `query {
-                viewer {
-                  zones(filter: {zoneTag: "${CONFIG.cloudFlareZone}"}) {
-                    validation:firewallEventsAdaptiveGroups(limit: 1000, 
-                      filter: { clientRequestHTTPHost:"${cloudFareApp}",datetime_gt: "${startTime}", 
-                      datetime_lt: "${endTime}"}) {
-                      count
-                          dimensions {      
-                              clientIP
-                          }
-                      }
-                    }
-                  }
-              }`;
-    const results = await client.query({
-      query: gql`
-        ${query}
-      `
-    });
-    return results.data.viewer.zones[0];
-  }
-
   async validateQuery(type, query) {
     let testText = messages.test_query.good;
     let goodQuery = true;
@@ -98,9 +47,6 @@ export default class ValidationQuery {
         break;
       case 'Log Measure Query':
         goodQuery = this.logMeasureValidation(errors, data);
-        break;
-      case 'Cloudflare App':
-        goodQuery = await this.cloudFareValidation(query);
         break;
     }
     if (!goodQuery) {
@@ -216,15 +162,6 @@ export default class ValidationQuery {
         validate = false;
       }
     } else {
-      validate = false;
-    }
-    return validate;
-  }
-
-  async cloudFareValidation(cloudApp) {
-    let validate = true;
-    const response = await this.validatecloudFlareGraphQl(cloudApp);
-    if (response && response.validation.length === 0) {
       validate = false;
     }
     return validate;
