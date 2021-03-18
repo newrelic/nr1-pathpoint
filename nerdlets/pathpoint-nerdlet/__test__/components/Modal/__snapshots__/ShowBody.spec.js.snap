@@ -10,7 +10,7 @@ exports[`ShowBody component ShowBody with default data in 0 view 1`] = `
 >
   <div>
     <form
-      onReset={[Function]}
+      className=""
       onSubmit={[Function]}
     >
       <textarea

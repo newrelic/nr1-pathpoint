@@ -9,6 +9,8 @@ describe('<QueryFormModal/>', () => {
   it('Render body', () => {
     const bodyTuneForm = mount(
       <BodyTuneFormModal
+        handleOnChange={jest.fn()}
+        handleSubmitTune={jest.fn()}
         stageNameSelected={{
           selectedCase: {
             value: 0
@@ -33,6 +35,7 @@ describe('<QueryFormModal/>', () => {
   it('Render header', () => {
     const headerTuneForm = mount(
       <HeaderTuneFormModal
+        handleSubmitTune={jest.fn()}
         stageNameSelected={{
           touchpoint: {
             value: 'touchpoint one'

@@ -1,4 +1,5 @@
 import DataManager from '../../services/DataManager';
+import appPackage from '../../../../package.json';
 
 jest.mock(
   'nr1',
@@ -16,7 +17,7 @@ jest.mock(
             case 'pathpoint': {
               switch (documentId) {
                 case 'version':
-                  return { data: { Version: '1.0.0' } };
+                  return { data: { Version: '9.9.9' } };
                 case 'newViewJSON':
                   return { data: { ViewJSON: [{}, {}], BannerKpis: [{}, {}] } };
                 case 'dataCanary':
@@ -44,6 +45,23 @@ jest.mock(
                               ]
                             }
                           ]
+                        }
+                      ]
+                    }
+                  };
+                case 'HistoricErrorsParams':
+                  return {
+                    data: {
+                      historicErrorsDays: 0,
+                      historicErrorsHighLightPercentage: 0
+                    }
+                  };
+                case 'maxCapacity':
+                  return {
+                    data: {
+                      Capacity: [
+                        {
+                          STAGES: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
                         }
                       ]
                     }
@@ -148,6 +166,26 @@ jest.mock(
             return resolve();
           });
           return dataReturn;
+        } else if (query.includes('PathpointHistoricErrors')) {
+          let dataReturn = {};
+          await new Promise(resolve => {
+            dataReturn = {
+              data: {
+                actor: {
+                  account: {
+                    nrql: {
+                      results: [
+                        { count: 2, facet: [1, 1, 4] },
+                        { count: 0.3, facet: [1, 1, 4] }
+                      ]
+                    }
+                  }
+                }
+              }
+            };
+            return resolve();
+          });
+          return dataReturn;
         }
       })
     };
@@ -179,6 +217,14 @@ describe('DataManager class', () => {
     dataManager = new DataManager();
   });
 
+  it('Function BootstrapInitialData()', async () => {
+    const result = await dataManager.BootstrapInitialData();
+    expect(result.stages.length).toEqual(5);
+    expect(result.banner_kpis.length).toEqual(3);
+    expect(result.accountId).toEqual(123);
+    expect(result.version).toMatch(appPackage.version);
+  });
+
   it('Function GetAccountId()', async () => {
     await dataManager.GetAccountId();
     expect(dataManager.accountId).toEqual(123);
@@ -186,7 +232,7 @@ describe('DataManager class', () => {
 
   it('Function CheckVersion()', async () => {
     await dataManager.CheckVersion();
-    expect(dataManager.lastStorageVersion).toMatch('1.0.0');
+    expect(dataManager.lastStorageVersion).toMatch('9.9.9');
   });
 
   it('Function GetInitialDataFromStorage()', async () => {
@@ -2247,6 +2293,10 @@ describe('DataManager class', () => {
     ]);
   });
 
+  it('Function UpdateCanaryData', () => {
+    dataManager.UpdateCanaryData({});
+  });
+
   it('Function GetCurrentConfigurationJSON()', () => {
     const bannerKpi = [
       {
@@ -2443,7 +2493,13 @@ describe('DataManager class', () => {
                 index: 1,
                 canary_state: true,
                 id: 'ST1-LINE1-SS1',
-                relationship_touchpoints: [1]
+                relationship_touchpoints: [1, 2]
+              },
+              {
+                index: 2,
+                canary_state: true,
+                id: 'ST1-LINE1-SS2',
+                relationship_touchpoints: [1, 2]
               }
             ]
           }
@@ -2451,8 +2507,8 @@ describe('DataManager class', () => {
         touchpoints: [{ index: 1, error: true, stage_index: 1 }]
       }
     ];
-    const result = dataManager.GetStepsIds(1, [1]);
-    expect(result).toMatch('ST1-LINE1-SS1');
+    const result = dataManager.GetStepsIds(1, [1, 2]);
+    expect(result).toMatch('ST1-LINE1-SS1,ST1-LINE1-SS2');
   });
 
   it('Function GetTouchpointQueryes()', () => {
@@ -2794,7 +2850,7 @@ describe('DataManager class', () => {
     ]);
   });
 
-  it('UpdateTouchpointCopy', () => {
+  it('Function UpdateTouchpointCopy', () => {
     dataManager.touchPoints = [
       {
         index: 0,
@@ -2810,5 +2866,1037 @@ describe('DataManager class', () => {
         touchpoints: []
       }
     ]);
+  });
+
+  it('Function GetCurrentHistoricErrorScript()', () => {
+    dataManager.pathpointId = '123abc-defg';
+    const result = dataManager.GetCurrentHistoricErrorScript();
+    const strExp =
+      'varpathpointId="123abc-defg"varmyAccountID=$secure.PATHPOINT_HISTORIC_ERROR_ACCOUNTID;varmyInsertKey=$secure.PATHPOINT_HISTORIC_ERROR_INSERT_KEY;varmyQueryKey=$secure.PATHPOINT_HISTORIC_ERROR_QUERY_KEY;vargraphQLKey=$secure.PATHPOINT_HISTORIC_ERROR_GRAPHQL_KEY;vartoday=newDate();vardate=today.getFullYear()+\'-\'+(today.getMonth()+1)+\'-\'+today.getDate();vartime=today.getHours()+":"+today.getMinutes()+":"+today.getSeconds();vardateTime=date+\'\'+time;varraw1=JSON.stringify({"query":"{actor{measure_1_1_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageSINCE5minutesAGO\\",timeout:10){results}}}}","variables":""});vargraphqlpack1={headers:{"Content-Type":"application/json","API-Key":graphQLKey},url:\'https://api.newrelic.com/graphql\',body:raw1};varreturn1=null;functioncallback1(err,response,body){return1=JSON.parse(body);varevents=[];varevent=null;varc=null;for(const[key,value]ofObject.entries(return1.data.actor)){c=key.split("_");if(value.nrql.results!=null){if(c[3]==\'0\'){event={"eventType":"PathpointHistoricErrors","pathpointId":pathpointId,"stage_index":parseInt(c[1]),"touchpoint_index":parseInt(c[2]),"count":value.nrql.results[0].count,"percentage":value.nrql.results[0].percentage}}else{event={"eventType":"PathpointHistoricErrors","pathpointId":pathpointId,"stage_index":parseInt(c[1]),"touchpoint_index":parseInt(c[2]),"count":value.nrql.results[0].R1,"percentage":value.nrql.results[0].R2}}console.log(event);events.push(event);}}varrawN=JSON.stringify(events);varoptions={//DefineendpointURL.url:"https://insights-collector.newrelic.com/v1/accounts/"+myAccountID+"/events",//DefinebodyofPOSTrequest.body:rawN,//Defineinsertkeyandexpecteddatatype.headers:{\'X-Insert-Key\':myInsertKey,\'Content-Type\':\'application/json\'}};console.log(options);$http.post(options,function(error,response,body){console.log(response.statusCode+"statuscodeFUNCIONO");varinfo=JSON.parse(body);console.log(info);});}//MakeGETrequest,passinginoptionsandcallback.$http.post(graphqlpack1,callback1);';
+    expect(result.replace(/\s+/g, '')).toMatch(strExp);
+  });
+
+  it('Function ReadHistoricErrors()', async () => {
+    dataManager.touchPoints = [
+      {
+        index: 0,
+        country: 'PRODUCTION',
+        touchpoints: [
+          {
+            stage_index: 1,
+            value: 'Catalog API',
+            touchpoint_index: 1,
+            status_on_off: true,
+            relation_steps: ['ST1-LINE1-SS1'],
+            measure_points: [
+              {
+                type: 0,
+                error_threshold: 0.2
+              }
+            ]
+          }
+        ]
+      }
+    ];
+    dataManager.stages = [
+      {
+        index: 1,
+        title: 'BROWSE',
+        congestion: {
+          value: 0,
+          percentage: 15
+        },
+        steps: [
+          {
+            value: '',
+            sub_steps: [
+              {
+                index: 1,
+                id: 'ST1-LINE1-SS1',
+                relationship_touchpoints: []
+              }
+            ]
+          }
+        ],
+        touchpoints: [
+          {
+            stage_index: 1,
+            index: 1,
+            history_error: false
+          }
+        ]
+      }
+    ];
+    dataManager.historicErrorsHighLightPercentage = 50;
+    await dataManager.ReadHistoricErrors();
+    expect(dataManager.stages).toEqual([
+      {
+        index: 1,
+        title: 'BROWSE',
+        congestion: {
+          value: 0,
+          percentage: 15
+        },
+        steps: [
+          {
+            value: '',
+            sub_steps: [
+              {
+                index: 1,
+                id: 'ST1-LINE1-SS1',
+                relationship_touchpoints: []
+              }
+            ]
+          }
+        ],
+        touchpoints: [
+          {
+            stage_index: 1,
+            index: 1,
+            history_error: true
+          }
+        ]
+      }
+    ]);
+  });
+
+  it('Function CalculateHistoricErrors()', () => {
+    dataManager.historicErrorsHighLightPercentage = 75;
+    const nrql = {
+      results: [
+        { count: 2, facet: [1, 1, 4] },
+        { count: 0.3, facet: [1, 2, 4] }
+      ]
+    };
+    dataManager.touchPoints = [
+      {
+        index: 0,
+        country: 'PRODUCTION',
+        touchpoints: [
+          {
+            stage_index: 1,
+            touchpoint_index: 1,
+            measure_points: [
+              {
+                type: 0,
+                error_threshold: 0.2
+              }
+            ]
+          },
+          {
+            stage_index: 1,
+            touchpoint_index: 2,
+            measure_points: [
+              {
+                type: 0,
+                error_threshold: 0.2
+              }
+            ]
+          }
+        ]
+      }
+    ];
+    dataManager.stages = [
+      {
+        index: 1,
+        touchpoints: [
+          {
+            stage_index: 1,
+            index: 1,
+            history_error: false
+          },
+          {
+            stage_index: 1,
+            index: 2,
+            history_error: false
+          }
+        ]
+      }
+    ];
+    dataManager.CalculateHistoricErrors(nrql);
+    expect(dataManager.stages).toEqual([
+      {
+        index: 1,
+        touchpoints: [
+          {
+            stage_index: 1,
+            index: 1,
+            history_error: true
+          },
+          {
+            stage_index: 1,
+            index: 2,
+            history_error: true
+          }
+        ]
+      }
+    ]);
+  });
+
+  it('Function SetTouchpointHistoricError()', () => {
+    dataManager.stages = [
+      {
+        index: 1,
+        touchpoints: [
+          {
+            stage_index: 1,
+            index: 1,
+            history_error: false
+          }
+        ]
+      }
+    ];
+    dataManager.SetTouchpointHistoricError(1, 1);
+    expect(dataManager.stages).toEqual([
+      {
+        index: 1,
+        touchpoints: [
+          {
+            stage_index: 1,
+            index: 1,
+            history_error: true
+          }
+        ]
+      }
+    ]);
+  });
+
+  it('Function ClearTouchpointHistoricError()', () => {
+    dataManager.stages = [
+      {
+        index: 1,
+        touchpoints: [
+          {
+            stage_index: 1,
+            index: 1,
+            history_error: true
+          }
+        ]
+      }
+    ];
+    dataManager.ClearTouchpointHistoricError();
+    expect(dataManager.stages).toEqual([
+      {
+        index: 1,
+        touchpoints: [
+          {
+            stage_index: 1,
+            index: 1,
+            history_error: false
+          }
+        ]
+      }
+    ]);
+  });
+
+  it('Function GetTouchpointErrorThreshold() with type measure 0', () => {
+    dataManager.touchPoints = [
+      {
+        index: 0,
+        country: 'PRODUCTION',
+        touchpoints: [
+          {
+            stage_index: 1,
+            touchpoint_index: 1,
+            status_on_off: false,
+            measure_points: [
+              {
+                type: 0,
+                error_threshold: 0.2
+              }
+            ]
+          }
+        ]
+      }
+    ];
+    const result = dataManager.GetTouchpointErrorThreshold(1, 1);
+    expect(result).toEqual(0.2);
+  });
+
+  it('Function GetTouchpointErrorThreshold() with type measure 20', () => {
+    dataManager.touchPoints = [
+      {
+        index: 0,
+        country: 'PRODUCTION',
+        touchpoints: [
+          {
+            stage_index: 1,
+            touchpoint_index: 1,
+            status_on_off: false,
+            measure_points: [
+              {
+                type: 20,
+                error_threshold: 0.9
+              }
+            ]
+          }
+        ]
+      }
+    ];
+    const result = dataManager.GetTouchpointErrorThreshold(1, 1);
+    expect(result).toEqual(0.9);
+  });
+
+  describe('Function CreateNrqlQueriesForHistoricErrorScript()', () => {
+    it('type query 20', () => {
+      dataManager.touchPoints = [
+        {
+          index: 0,
+          country: 'PRODUCTION',
+          touchpoints: [
+            {
+              stage_index: 1,
+              touchpoint_index: 1,
+              measure_points: [
+                {
+                  type: 20,
+                  query: 'SIMPLE QUERY OF TYPE 20'
+                }
+              ]
+            }
+          ]
+        }
+      ];
+      const strExpect =
+        'varraw1=JSON.stringify({"query":"{actor{measure_1_1_20:account(id:"+myAccountID+"){nrql(query:\\"SIMPLEQUERYOFTYPE20SINCE5minutesAGO\\",timeout:10){results}}}}","variables":""});vargraphqlpack1={headers:{"Content-Type":"application/json","API-Key":graphQLKey},url:\'https://api.newrelic.com/graphql\',body:raw1};varreturn1=null;functioncallback1(err,response,body){return1=JSON.parse(body);varevents=[];varevent=null;varc=null;for(const[key,value]ofObject.entries(return1.data.actor)){c=key.split("_");if(value.nrql.results!=null){if(c[3]==\'0\'){event={"eventType":"PathpointHistoricErrors","pathpointId":pathpointId,"stage_index":parseInt(c[1]),"touchpoint_index":parseInt(c[2]),"count":value.nrql.results[0].count,"percentage":value.nrql.results[0].percentage}}else{event={"eventType":"PathpointHistoricErrors","pathpointId":pathpointId,"stage_index":parseInt(c[1]),"touchpoint_index":parseInt(c[2]),"count":value.nrql.results[0].R1,"percentage":value.nrql.results[0].R2}}console.log(event);events.push(event);}}';
+      const result = dataManager.CreateNrqlQueriesForHistoricErrorScript();
+      expect(result.replace(/\s+/g, '')).toMatch(strExpect);
+    });
+
+    it('type query 0', () => {
+      dataManager.touchPoints = [
+        {
+          index: 0,
+          country: 'PRODUCTION',
+          touchpoints: [
+            {
+              stage_index: 1,
+              touchpoint_index: 1,
+              measure_points: [
+                {
+                  type: 0,
+                  query: 'SIMPLE QUERY OF TYPE 0'
+                }
+              ]
+            }
+          ]
+        }
+      ];
+      const strExpect =
+        'varraw1=JSON.stringify({"query":"{actor{measure_1_1_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}}}","variables":""});vargraphqlpack1={headers:{"Content-Type":"application/json","API-Key":graphQLKey},url:\'https://api.newrelic.com/graphql\',body:raw1};varreturn1=null;functioncallback1(err,response,body){return1=JSON.parse(body);varevents=[];varevent=null;varc=null;for(const[key,value]ofObject.entries(return1.data.actor)){c=key.split("_");if(value.nrql.results!=null){if(c[3]==\'0\'){event={"eventType":"PathpointHistoricErrors","pathpointId":pathpointId,"stage_index":parseInt(c[1]),"touchpoint_index":parseInt(c[2]),"count":value.nrql.results[0].count,"percentage":value.nrql.results[0].percentage}}else{event={"eventType":"PathpointHistoricErrors","pathpointId":pathpointId,"stage_index":parseInt(c[1]),"touchpoint_index":parseInt(c[2]),"count":value.nrql.results[0].R1,"percentage":value.nrql.results[0].R2}}console.log(event);events.push(event);}}';
+      const result = dataManager.CreateNrqlQueriesForHistoricErrorScript();
+      expect(result.replace(/\s+/g, '')).toMatch(strExpect);
+    });
+
+    it('with 20 touchpoints', () => {
+      dataManager.touchPoints = [
+        {
+          index: 0,
+          country: 'PRODUCTION',
+          touchpoints: [
+            {
+              stage_index: 1,
+              touchpoint_index: 1,
+              measure_points: [
+                {
+                  type: 0,
+                  query: 'SIMPLE QUERY OF TYPE 0'
+                }
+              ]
+            },
+            {
+              stage_index: 1,
+              touchpoint_index: 2,
+              measure_points: [
+                {
+                  type: 0,
+                  query: 'SIMPLE QUERY OF TYPE 0'
+                }
+              ]
+            },
+            {
+              stage_index: 1,
+              touchpoint_index: 3,
+              measure_points: [
+                {
+                  type: 0,
+                  query: 'SIMPLE QUERY OF TYPE 0'
+                }
+              ]
+            },
+            {
+              stage_index: 1,
+              touchpoint_index: 4,
+              measure_points: [
+                {
+                  type: 0,
+                  query: 'SIMPLE QUERY OF TYPE 0'
+                }
+              ]
+            },
+            {
+              stage_index: 1,
+              touchpoint_index: 5,
+              measure_points: [
+                {
+                  type: 0,
+                  query: 'SIMPLE QUERY OF TYPE 0'
+                }
+              ]
+            },
+            {
+              stage_index: 1,
+              touchpoint_index: 6,
+              measure_points: [
+                {
+                  type: 0,
+                  query: 'SIMPLE QUERY OF TYPE 0'
+                }
+              ]
+            },
+            {
+              stage_index: 1,
+              touchpoint_index: 7,
+              measure_points: [
+                {
+                  type: 0,
+                  query: 'SIMPLE QUERY OF TYPE 0'
+                }
+              ]
+            },
+            {
+              stage_index: 1,
+              touchpoint_index: 8,
+              measure_points: [
+                {
+                  type: 0,
+                  query: 'SIMPLE QUERY OF TYPE 0'
+                }
+              ]
+            },
+            {
+              stage_index: 1,
+              touchpoint_index: 9,
+              measure_points: [
+                {
+                  type: 0,
+                  query: 'SIMPLE QUERY OF TYPE 0'
+                }
+              ]
+            },
+            {
+              stage_index: 1,
+              touchpoint_index: 10,
+              measure_points: [
+                {
+                  type: 0,
+                  query: 'SIMPLE QUERY OF TYPE 0'
+                }
+              ]
+            },
+            {
+              stage_index: 1,
+              touchpoint_index: 11,
+              measure_points: [
+                {
+                  type: 0,
+                  query: 'SIMPLE QUERY OF TYPE 0'
+                }
+              ]
+            },
+            {
+              stage_index: 1,
+              touchpoint_index: 12,
+              measure_points: [
+                {
+                  type: 0,
+                  query: 'SIMPLE QUERY OF TYPE 0'
+                }
+              ]
+            },
+            {
+              stage_index: 1,
+              touchpoint_index: 13,
+              measure_points: [
+                {
+                  type: 0,
+                  query: 'SIMPLE QUERY OF TYPE 0'
+                }
+              ]
+            },
+            {
+              stage_index: 1,
+              touchpoint_index: 14,
+              measure_points: [
+                {
+                  type: 0,
+                  query: 'SIMPLE QUERY OF TYPE 0'
+                }
+              ]
+            },
+            {
+              stage_index: 1,
+              touchpoint_index: 15,
+              measure_points: [
+                {
+                  type: 0,
+                  query: 'SIMPLE QUERY OF TYPE 0'
+                }
+              ]
+            },
+            {
+              stage_index: 1,
+              touchpoint_index: 16,
+              measure_points: [
+                {
+                  type: 0,
+                  query: 'SIMPLE QUERY OF TYPE 0'
+                }
+              ]
+            },
+            {
+              stage_index: 1,
+              touchpoint_index: 17,
+              measure_points: [
+                {
+                  type: 0,
+                  query: 'SIMPLE QUERY OF TYPE 0'
+                }
+              ]
+            },
+            {
+              stage_index: 1,
+              touchpoint_index: 18,
+              measure_points: [
+                {
+                  type: 0,
+                  query: 'SIMPLE QUERY OF TYPE 0'
+                }
+              ]
+            },
+            {
+              stage_index: 1,
+              touchpoint_index: 19,
+              measure_points: [
+                {
+                  type: 0,
+                  query: 'SIMPLE QUERY OF TYPE 0'
+                }
+              ]
+            },
+            {
+              stage_index: 1,
+              touchpoint_index: 20,
+              measure_points: [
+                {
+                  type: 0,
+                  query: 'SIMPLE QUERY OF TYPE 0'
+                }
+              ]
+            },
+            {
+              stage_index: 1,
+              touchpoint_index: 21,
+              measure_points: [
+                {
+                  type: 0,
+                  query: 'SIMPLE QUERY OF TYPE 0'
+                }
+              ]
+            }
+          ]
+        }
+      ];
+      const strExpect =
+        'varraw1=JSON.stringify({"query":"{actor{measure_1_1_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_2_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_3_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_4_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_5_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_6_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_7_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_8_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_9_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_10_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_11_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_12_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_13_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_14_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_15_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_16_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_17_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_18_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_19_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_20_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}}}","variables":""});varraw2=JSON.stringify({"query":"{actor{measure_1_21_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}}}","variables":""});vargraphqlpack1={headers:{"Content-Type":"application/json","API-Key":graphQLKey},url:\'https://api.newrelic.com/graphql\',body:raw1};varreturn1=null;vargraphqlpack2={headers:{"Content-Type":"application/json","API-Key":graphQLKey},url:\'https://api.newrelic.com/graphql\',body:raw2};varreturn2=null;functioncallback1(err,response,body){return1=JSON.parse(body);$http.post(graphqlpack2,callback2);}functioncallback2(err,response,body){return2=JSON.parse(body);varevents=[];varevent=null;varc=null;for(const[key,value]ofObject.entries(return1.data.actor)){c=key.split("_");if(value.nrql.results!=null){if(c[3]==\'0\'){event={"eventType":"PathpointHistoricErrors","pathpointId":pathpointId,"stage_index":parseInt(c[1]),"touchpoint_index":parseInt(c[2]),"count":value.nrql.results[0].count,"percentage":value.nrql.results[0].percentage}}else{event={"eventType":"PathpointHistoricErrors","pathpointId":pathpointId,"stage_index":parseInt(c[1]),"touchpoint_index":parseInt(c[2]),"count":value.nrql.results[0].R1,"percentage":value.nrql.results[0].R2}}console.log(event);events.push(event);}}for(const[key,value]ofObject.entries(return2.data.actor)){c=key.split("_");if(value.nrql.results!=null){if(c[3]==\'0\'){event={"eventType":"PathpointHistoricErrors","pathpointId":pathpointId,"stage_index":parseInt(c[1]),"touchpoint_index":parseInt(c[2]),"count":value.nrql.results[0].count,"percentage":value.nrql.results[0].percentage}}else{event={"eventType":"PathpointHistoricErrors","pathpointId":pathpointId,"stage_index":parseInt(c[1]),"touchpoint_index":parseInt(c[2]),"count":value.nrql.results[0].R1,"percentage":value.nrql.results[0].R2}}console.log(event);events.push(event);}}';
+      const result = dataManager.CreateNrqlQueriesForHistoricErrorScript();
+      expect(result.replace(/\s+/g, '')).toMatch(strExpect);
+    });
+  });
+
+  it('Function UpdateTouchpointOnOff()', () => {
+    dataManager.touchPoints = [
+      {
+        index: 0,
+        country: 'PRODUCTION',
+        touchpoints: [
+          {
+            stage_index: 1,
+            touchpoint_index: 1,
+            status_on_off: false
+          }
+        ]
+      }
+    ];
+    const touchpoint = {
+      stage_index: 1,
+      index: 1,
+      status_on_off: true
+    };
+    dataManager.UpdateTouchpointOnOff(touchpoint, true);
+    expect(dataManager.touchPoints).toEqual([
+      {
+        index: 0,
+        country: 'PRODUCTION',
+        touchpoints: [
+          {
+            stage_index: 1,
+            touchpoint_index: 1,
+            status_on_off: true
+          }
+        ]
+      }
+    ]);
+  });
+
+  describe('Function GetTouchpointTune()', () => {
+    it('Only measure point', () => {
+      dataManager.touchPoints = [
+        {
+          index: 0,
+          country: 'PRODUCTION',
+          touchpoints: [
+            {
+              stage_index: 1,
+              touchpoint_index: 1,
+              measure_points: [
+                {
+                  error_threshold: 0.3
+                }
+              ]
+            }
+          ]
+        }
+      ];
+      const touchpoint = {
+        stage_index: 1,
+        index: 1,
+        status_on_off: true
+      };
+      const result = dataManager.GetTouchpointTune(touchpoint);
+      expect(result).toEqual({
+        error_threshold: 0.3,
+        apdex_time: 0
+      });
+    });
+
+    it('Three measure point', () => {
+      dataManager.touchPoints = [
+        {
+          index: 0,
+          country: 'PRODUCTION',
+          touchpoints: [
+            {
+              stage_index: 1,
+              touchpoint_index: 1,
+              measure_points: [
+                {
+                  error_threshold: 0.3
+                },
+                {
+                  error_threshold: 0.2
+                },
+                {
+                  apdex_time: 0.5
+                }
+              ]
+            }
+          ]
+        }
+      ];
+      const touchpoint = {
+        stage_index: 1,
+        index: 1
+      };
+      const result = dataManager.GetTouchpointTune(touchpoint);
+      expect(result).toEqual({
+        error_threshold: 0.2,
+        apdex_time: 0.5
+      });
+    });
+  });
+
+  it('Function GetTouchpointQuerys()', () => {
+    dataManager.touchPoints = [
+      {
+        index: 0,
+        country: 'PRODUCTION',
+        touchpoints: [
+          {
+            stage_index: 1,
+            touchpoint_index: 1,
+            measure_points: [
+              { type: 0, query: 'SIMPLE QUERY OF TYPE 0' },
+              { type: 1, query: 'SIMPLE QUERY OF TYPE 1' },
+              { type: 2, query: 'SIMPLE QUERY OF TYPE 2' },
+              { type: 3, query: 'SIMPLE QUERY OF TYPE 3' },
+              { type: 4, query: 'SIMPLE QUERY OF TYPE 4' },
+              { type: 20, query: 'SIMPLE QUERY OF TYPE 20' }
+            ]
+          }
+        ]
+      }
+    ];
+    const touchpoint = {
+      stage_index: 1,
+      index: 1
+    };
+    dataManager.timeRange = '5 MINUTES AGO';
+    const result = dataManager.GetTouchpointQuerys(touchpoint);
+    expect(result).toEqual([
+      {
+        label: 'Count Query',
+        value: 0,
+        type: 0,
+        query_start: '',
+        query_body: 'SIMPLE QUERY OF TYPE 0',
+        query_footer: `SINCE 5 MINUTES AGO`
+      },
+      {
+        label: 'Error Percentage Query',
+        value: 1,
+        type: 1,
+        query_start: '',
+        query_body: 'SIMPLE QUERY OF TYPE 1',
+        query_footer: `SINCE 5 MINUTES AGO`
+      },
+      {
+        label: 'Apdex Query',
+        value: 2,
+        type: 2,
+        query_start: '',
+        query_body: 'SIMPLE QUERY OF TYPE 2',
+        query_footer: `SINCE 5 MINUTES AGO`
+      },
+      {
+        label: 'Session Query',
+        value: 3,
+        type: 3,
+        query_start: '',
+        query_body: 'SIMPLE QUERY OF TYPE 3',
+        query_footer: `SINCE 5 MINUTES AGO`
+      },
+      {
+        label: 'Session Query Duration',
+        value: 4,
+        type: 4,
+        query_start: '',
+        query_body: 'SIMPLE QUERY OF TYPE 4',
+        query_footer: `SINCE 5 MINUTES AGO`
+      },
+      {
+        label: 'Full Open Query',
+        value: 5,
+        type: 20,
+        query_start: '',
+        query_body: 'SIMPLE QUERY OF TYPE 20',
+        query_footer: `SINCE 5 MINUTES AGO`
+      }
+    ]);
+  });
+
+  describe('Function UpdateTouchpointTune()', () => {
+    it('Only measure', () => {
+      dataManager.touchPoints = [
+        {
+          index: 0,
+          country: 'PRODUCTION',
+          touchpoints: [
+            {
+              stage_index: 1,
+              touchpoint_index: 1,
+              measure_points: [
+                {
+                  type: 0,
+                  query: 'SIMPLE QUERY OF TYPE 0',
+                  error_threshold: 0.8
+                }
+              ]
+            }
+          ]
+        }
+      ];
+      const touchpoint = {
+        stage_index: 1,
+        index: 1
+      };
+      const datos = { error_threshold: 0.3 };
+      dataManager.UpdateTouchpointTune(touchpoint, datos);
+      expect(dataManager.touchPoints).toEqual([
+        {
+          index: 0,
+          country: 'PRODUCTION',
+          touchpoints: [
+            {
+              stage_index: 1,
+              touchpoint_index: 1,
+              measure_points: [
+                {
+                  type: 0,
+                  query: 'SIMPLE QUERY OF TYPE 0',
+                  error_threshold: 0.3
+                }
+              ]
+            }
+          ]
+        }
+      ]);
+    });
+
+    it('Three measure point', () => {
+      dataManager.touchPoints = [
+        {
+          index: 0,
+          country: 'PRODUCTION',
+          touchpoints: [
+            {
+              stage_index: 1,
+              touchpoint_index: 1,
+              measure_points: [
+                {
+                  error_threshold: 0
+                },
+                {
+                  error_threshold: 0
+                },
+                {
+                  apdex_time: 0
+                }
+              ]
+            }
+          ]
+        }
+      ];
+      const touchpoint = {
+        stage_index: 1,
+        index: 1
+      };
+      const datos = { error_threshold: 0.3, apdex_time: 0.1 };
+      dataManager.UpdateTouchpointTune(touchpoint, datos);
+      expect(dataManager.touchPoints).toEqual([
+        {
+          index: 0,
+          country: 'PRODUCTION',
+          touchpoints: [
+            {
+              stage_index: 1,
+              touchpoint_index: 1,
+              measure_points: [
+                {
+                  error_threshold: 0
+                },
+                {
+                  error_threshold: 0.3
+                },
+                {
+                  apdex_time: 0.1
+                }
+              ]
+            }
+          ]
+        }
+      ]);
+    });
+  });
+
+  it('Function UpdateTouchpointQuerys()', () => {
+    dataManager.touchPoints = [
+      {
+        index: 0,
+        country: 'PRODUCTION',
+        touchpoints: [
+          {
+            stage_index: 1,
+            touchpoint_index: 1,
+            measure_points: [
+              {
+                type: 0,
+                query: 'SIMPLE QUERY OF TYPE 0',
+                error_threshold: 0.8
+              },
+              {
+                type: 4,
+                appName: 'SIMPLE QUERY OF TYPE 4',
+                error_threshold: 0.8
+              }
+            ]
+          }
+        ]
+      }
+    ];
+    const touchpoint = {
+      stage_index: 1,
+      index: 1
+    };
+    const datos = [
+      {
+        query_body: 'NEW SIMPLE QUERY OF TYPE 0',
+        type: 0
+      },
+      {
+        query_body: 'NEW SIMPLE QUERY OF TYPE 4',
+        type: 4
+      }
+    ];
+    dataManager.UpdateTouchpointQuerys(touchpoint, datos);
+    expect(dataManager.touchPoints).toEqual([
+      {
+        index: 0,
+        country: 'PRODUCTION',
+        touchpoints: [
+          {
+            stage_index: 1,
+            touchpoint_index: 1,
+            measure_points: [
+              {
+                type: 0,
+                query: 'NEW SIMPLE QUERY OF TYPE 0',
+                error_threshold: 0.8
+              },
+              {
+                type: 4,
+                appName: 'NEW SIMPLE QUERY OF TYPE 4',
+                error_threshold: 0.8
+              }
+            ]
+          }
+        ]
+      }
+    ]);
+  });
+
+  it('Function GetHistoricParameters()', () => {
+    const result = dataManager.GetHistoricParameters();
+    expect(result).toEqual({ days: 8, percentage: 26 });
+  });
+
+  it('Function UpdateHistoricParameters()', () => {
+    dataManager.UpdateHistoricParameters(7, 30);
+    expect(dataManager.historicErrorsDays).toEqual(7);
+    expect(dataManager.historicErrorsHighLightPercentage).toEqual(30);
+  });
+
+  it('Function GetStorageHistoricErrorsParams()', async () => {
+    await dataManager.GetStorageHistoricErrorsParams();
+    expect(dataManager.historicErrorsDays).toEqual(0);
+    expect(dataManager.historicErrorsHighLightPercentage).toEqual(0);
+  });
+
+  it('Function GetDBmaxCapacity()', async () => {
+    await dataManager.GetDBmaxCapacity();
+    expect(dataManager.capacity).toEqual([
+      {
+        STAGES: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      }
+    ]);
+  });
+
+  it('Function UpdateData()', async () => {
+    dataManager.accountId = 123;
+    dataManager.touchPoints = [
+      {
+        index: 0,
+        country: 'PRODUCTION',
+        touchpoints: [
+          {
+            stage_index: 1,
+            value: 'Catalog API',
+            touchpoint_index: 1,
+            status_on_off: true,
+            relation_steps: [1],
+            measure_points: [
+              {
+                type: 0,
+                query: 'SIMPLE QUERY OF TYPE 0',
+                count: 0
+              },
+              {
+                type: 1,
+                query: 'SIMPLE QUERY OF TYPE 1',
+                error_threshold: 5,
+                error_percentage: 0
+              },
+              {
+                type: 2,
+                query: 'SIMPLE QUERY OF TYPE 2',
+                apdex: 0,
+                apdex_time: 40
+              },
+              {
+                type: 3,
+                query: 'SIMPLE QUERY OF TYPE 3',
+                count: 0
+              },
+              {
+                type: 4,
+                query: 'SIMPLE QUERY OF TYPE 4',
+                sessions: []
+              },
+              {
+                type: 5,
+                query: 'SIMPLE QUERY OF TYPE 5',
+                sessions: []
+              },
+              {
+                type: 20,
+                query: 'SIMPLE QUERY OF TYPE 20',
+                sessions: []
+              }
+            ]
+          }
+        ]
+      }
+    ];
+    const stages = [
+      {
+        index: 1,
+        title: 'BROWSE',
+        congestion: {
+          value: 0,
+          percentage: 15
+        },
+        steps: [
+          {
+            value: '',
+            sub_steps: [
+              {
+                index: 1,
+                id: 'ST1-LINE1-SS1',
+                relationship_touchpoints: [1]
+              }
+            ]
+          }
+        ],
+        touchpoints: [
+          {
+            error: true,
+            stage_index: 1
+          }
+        ]
+      }
+    ];
+    const bannerKpis = [
+      {
+        description: 'Total Order Count',
+        prefix: '',
+        suffix: 'Orders',
+        query: 'SIMPLE QUERY KPI'
+      },
+      {
+        description: 'Total Order Count',
+        prefix: '',
+        suffix: 'Orders',
+        query: 'SIMPLE QUERY KPI'
+      }
+    ];
+    const result = await dataManager.UpdateData(
+      '30 MINUTES AGO',
+      0,
+      false,
+      stages,
+      bannerKpis
+    );
+    expect(result.stages).toEqual(stages);
+    expect(result.banner_kpis).toEqual(bannerKpis);
   });
 });
