@@ -1,7 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import ShowHeader from '../../../components/Modal/ShowHeader';
-import TouchRipple from '@material-ui/core/ButtonBase/TouchRipple';
 
 describe('<ShowHeader/>', () => {
   describe('render view modal 0 ', () => {
@@ -42,7 +41,7 @@ describe('<ShowHeader/>', () => {
           changeMessage={jest.fn()}
           stageNameSelected={{
             icon_description: 'start',
-            icon_active: TouchRipple,
+            icon_active: false,
             title: 'touchpoint one'
           }}
         />

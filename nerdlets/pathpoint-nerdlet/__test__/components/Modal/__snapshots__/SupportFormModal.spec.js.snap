@@ -41,9 +41,9 @@ exports[`SupportFormModal component Render body with default data 1`] = `
               className=" css-g1d714-ValueContainer"
             >
               <div
-                className=" css-1wa3eu0-placeholder"
+                className=" css-1uccc91-singleValue"
               >
-                Subject
+                Data Error - It appears as though the data shown by Pathpoint is not consistent with the telemetry based on other NR1 visualizations.
               </div>
               <div
                 className="css-b8ldur-Input"
@@ -133,7 +133,7 @@ exports[`SupportFormModal component Render body with default data 1`] = `
           <input
             name="Subject"
             type="hidden"
-            value=""
+            value="Data Error - It appears as though the data shown by Pathpoint is not consistent with the telemetry based on other NR1 visualizations."
           />
         </div>
       </div>

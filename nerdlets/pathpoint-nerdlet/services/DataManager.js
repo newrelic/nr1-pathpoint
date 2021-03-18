@@ -59,6 +59,7 @@ export default class DataManager {
     await this.GetCanaryData();
     await this.GetStorageHistoricErrorsParams();
     this.version = appPackage.version;
+    /* istanbul ignore next */
     if (this.lastStorageVersion === appPackage.version) {
       this.colors = ViewData.colors;
       await this.GetInitialDataFromStorage();
@@ -1421,10 +1422,16 @@ export default class DataManager {
   SetTouchpointHistoricError(stage_index, touchpoint_index) {
     this.stages.some(stage => {
       let found1 = false;
-      if (stage.index === stage_index) {
+      if (
+        !isNaN(parseInt(stage_index)) &&
+        stage.index === parseInt(stage_index)
+      ) {
         stage.touchpoints.some(touchpoint => {
           let found2 = false;
-          if (touchpoint.index === touchpoint_index) {
+          if (
+            !isNaN(parseInt(touchpoint_index)) &&
+            touchpoint.index === parseInt(touchpoint_index)
+          ) {
             touchpoint.history_error = true;
             found2 = true;
           }
