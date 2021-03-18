@@ -1,7 +1,5 @@
 import React from 'react';
-import { Tooltip } from '@material-ui/core';
 
-import iconInformation from '../../images/information.svg';
 import imagen1 from '../../images/imagesTouchpoints/imagen1.svg';
 import imagen2 from '../../images/imagesTouchpoints/imagen2.svg';
 import imagen3 from '../../images/imagesTouchpoints/imagen3.svg';
