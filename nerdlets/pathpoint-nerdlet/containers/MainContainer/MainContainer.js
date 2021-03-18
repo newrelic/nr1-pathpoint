@@ -28,7 +28,6 @@ import DataManager from '../../services/DataManager';
 import ValidationQuery from '../../services/Validations.js';
 import LogoSetupData from '../../services/LogoSetupData';
 import { CreateJiraIssue } from '../../services/JiraConnector';
-import { sendLogsSlack } from '../../services/SlackConnector';
 
 // IMPORT STATIC FILES AND IMAGES
 import logoNewRelic from '../../images/logoNewRelic.png';
