@@ -1534,7 +1534,7 @@ export default class MainContainer extends React.Component {
             <div className="title">
               Stages
               {/* <TooltipStages /> */}
-              <Tooltip width="900">
+              <Tooltip width="900" bottom>
                 <TooltipStages />
               </Tooltip>
             </div>
@@ -1578,7 +1578,9 @@ export default class MainContainer extends React.Component {
             >
               <div className="mainContainerSteps__title">
                 Steps
-                <TooltipSteps />
+                <Tooltip width="800" bottom>
+                  <TooltipSteps />
+                </Tooltip>
               </div>
               {stages.map((element, key) => {
                 return (
@@ -1663,7 +1665,9 @@ export default class MainContainer extends React.Component {
             >
               <div className="mainContainerTouchPoints__title">
                 TouchPoints
-                <TooltipTouchPoints />
+                <Tooltip width="800" top>
+                  <TooltipTouchPoints />
+                </Tooltip>
                 <span className="touchPointCheckbox">
                   <input
                     type="Checkbox"

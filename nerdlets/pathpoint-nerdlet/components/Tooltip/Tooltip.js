@@ -1,6 +1,7 @@
 // IMPORT LIBRARIES
 import React, { Component } from 'react';
 import iconInformation from '../../images/information.svg';
+import PropTypes from 'prop-types';
 
 // DEFINE COMPONENT
 export default class Tooltip extends Component {
@@ -16,22 +17,61 @@ export default class Tooltip extends Component {
 
   // COMPONENT METHODS
   handleOnMouseEnter = e => {
-    this.setState({
-      show: true,
-      clientX: e.clientX,
-      clientY: e.clientY
-    });
+    if (this.props.bottom) {
+      this.setState(
+        {
+          show: true,
+          clientX: 0,
+          clientY: `${parseInt(e.clientY) + 30}px`
+        },
+        () => {
+          const wrapper = document.getElementsByClassName('tooltip-wrapper')[0];
+          wrapper.classList.add('fade-in');
+        }
+      );
+    } else if (this.props.top) {
+      this.setState(
+        {
+          show: true
+        },
+        () => {
+          const wrapper = document.getElementsByClassName('tooltip-wrapper')[0];
+          const clientY = parseInt(e.clientY) - wrapper.clientHeight - 30;
+          this.setState(
+            {
+              clientX: 0,
+              clientY: `${clientY}px`
+            },
+            () => {
+              wrapper.classList.add('fade-in');
+            }
+          );
+        }
+      );
+    }
   };
 
   handleOnMouseLeave = () => {
-    this.setState({
-      show: false
-    });
+    const wrapper = document.getElementsByClassName('tooltip-wrapper')[0];
+    wrapper.classList.add('fade-out');
+    setTimeout(() => {
+      wrapper.style.opacity = 0;
+      this.setState(
+        {
+          show: false
+        },
+        () => {
+          wrapper.classList.remove('fade-in');
+          wrapper.classList.remove('fade-out');
+        }
+      );
+    }, 200);
   };
 
   // COMPONENT RENDERS
   render() {
-    const { show, clientX, clientY, width } = this.state;
+    const { show, clientX, clientY } = this.state;
+    const { width, children } = this.props;
     return (
       <div>
         <div className="tooltip-icon">
@@ -45,12 +85,19 @@ export default class Tooltip extends Component {
         {show && (
           <div
             className="tooltip-wrapper"
-            style={{ left: clientX, top: clientY, width }}
+            style={{ left: clientX, top: clientY, width: `${width}px` }}
           >
-            {this.props.children}
+            {children}
           </div>
         )}
       </div>
     );
   }
 }
+
+Tooltip.propTypes = {
+  width: PropTypes.string.isRequired,
+  top: PropTypes.bool,
+  bottom: PropTypes.bool,
+  children: PropTypes.object
+};
