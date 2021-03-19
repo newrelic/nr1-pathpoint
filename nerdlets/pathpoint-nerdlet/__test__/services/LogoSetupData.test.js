@@ -29,8 +29,15 @@ jest.mock(
 
     const AccountStorageMutation = {
       ACTION_TYPE: { WRITE_DOCUMENT: 'WRITE_DATA' },
-      mutate: jest.fn().mockImplementation(() => {
-        return { data: {} };
+      mutate: jest.fn().mockImplementation(async ({ document }) => {
+        let dataReturn = {};
+        await new Promise(resolve => {
+          dataReturn = {
+            data: { document }
+          };
+          return resolve();
+        });
+        return dataReturn;
       })
     };
 
@@ -49,8 +56,16 @@ describe('LogoSetupData class', () => {
     logoSetupData = new LogoSetupData();
   });
 
-  it('GetLogoSetupData', async () => {
+  it('Function GetLogoSetupData()', async () => {
     const logoDefault = await logoSetupData.GetLogoSetupData();
     expect(logoDefault).toEqual({ text: '', type: 'Default', url: '' });
+  });
+
+  it('Function SetLogoSetupData()', () => {
+    logoSetupData.SetLogoSetupData({
+      text: 'MILOGOTEST',
+      type: 'Text',
+      url: 'MILOGO'
+    });
   });
 });
