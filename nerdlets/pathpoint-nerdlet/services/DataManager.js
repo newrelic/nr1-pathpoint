@@ -317,7 +317,6 @@ export default class DataManager {
     }
     if (errors && errors.length > 0) {
       // TO DO
-      console.log("ERROR",errors);
     }
     if (data && data.actor) {
       for (const [key, value] of Object.entries(data.actor)) {
