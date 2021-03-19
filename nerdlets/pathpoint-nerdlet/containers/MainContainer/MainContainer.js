@@ -1711,6 +1711,7 @@ export default class MainContainer extends React.Component {
                         iconSixthSenseStatus={iconSixthSenseStatus}
                         openModalParent={this.openModalParent}
                         updateTouchpointOnOff={this.updateTouchpointOnOff}
+                        iconCanaryStatus={iconCanaryStatus}
                         tune={tune}
                       />
                     </div>

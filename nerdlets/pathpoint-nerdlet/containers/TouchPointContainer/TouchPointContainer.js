@@ -45,7 +45,8 @@ export default class TouchPointerContainer extends React.Component {
       idVisible,
       renderProps,
       openModalParent,
-      updateTouchpointOnOff
+      updateTouchpointOnOff,
+      iconCanaryStatus
     } = this.props;
     const touchpointsFilter = this.filterTouchpoints(touchpoints, city);
     return (
@@ -66,6 +67,7 @@ export default class TouchPointerContainer extends React.Component {
               element={element}
               openModalParent={openModalParent}
               updateTouchpointOnOff={updateTouchpointOnOff}
+              iconCanaryStatus={iconCanaryStatus}
             />
           );
         })}

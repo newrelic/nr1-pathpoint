@@ -46,7 +46,7 @@ export default class TouchPoint extends React.Component {
 
   /* istanbul ignore next */
   HandleContextMenu = event => {
-    if (event.button === 2) {
+    if (event.button === 2 && !this.props.iconCanaryStatus) {
       event.preventDefault();
       const clickX = event.clientX;
       const clickY = event.clientY;
@@ -294,5 +294,6 @@ TouchPoint.propTypes = {
   idVisible: PropTypes.string.isRequired,
   renderProps: PropTypes.func.isRequired,
   updateTouchpointOnOff: PropTypes.func.isRequired,
-  openModalParent: PropTypes.func.isRequired
+  openModalParent: PropTypes.func.isRequired,
+  iconCanaryStatus: PropTypes.bool.isRequired
 };
