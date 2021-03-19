@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import shortid from 'shortid';
-import { Form } from 'react-bootstrap';
+import { Formik, Form } from 'formik';
+
+// IMPORT COMPONENTS
+import Modal from '../ModalTouchPoint';
 
 // IMPORT IMAGES
 import onOffIcon from '../../images/on-off.svg';
@@ -14,6 +17,7 @@ export default class TouchPoint extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      hidden: false,
       idVisible: shortid.generate(),
       stylesContext: {
         top: '',
@@ -26,7 +30,6 @@ export default class TouchPoint extends React.Component {
     document.addEventListener('contextmenu', this.HandleContextMenuPrevent);
   }
 
-  /* istanbul ignore next */
   shouldComponentUpdate(nextProps) {
     if (nextProps === this.props) {
       return false;
@@ -34,17 +37,14 @@ export default class TouchPoint extends React.Component {
     return true;
   }
 
-  /* istanbul ignore next */
   componentWillUnmount() {
     document.removeEventListener('contextmenu', this.HandleContextMenuPrevent);
   }
 
-  /* istanbul ignore next */
   HandleContextMenuPrevent(event) {
     event.preventDefault();
   }
 
-  /* istanbul ignore next */
   HandleContextMenu = event => {
     if (event.button === 2) {
       event.preventDefault();
@@ -69,7 +69,6 @@ export default class TouchPoint extends React.Component {
     }
   };
 
-  /* istanbul ignore next */
   HandleClickonOff = () => {
     const { idVisible } = this.state;
     const { updateTouchpointOnOff, renderProps, touchpoint } = this.props;
@@ -77,7 +76,6 @@ export default class TouchPoint extends React.Component {
     renderProps(idVisible, touchpoint);
   };
 
-  /* istanbul ignore next */
   HandleClickTune = () => {
     const { idVisible } = this.state;
     const { openModalParent, renderProps, touchpoint } = this.props;
@@ -87,7 +85,6 @@ export default class TouchPoint extends React.Component {
     // this.props.touchpoint.active = !active;
   };
 
-  /* istanbul ignore next */
   HandleClickQueries = () => {
     this.props.openModalParent(this.props.touchpoint, 1);
     this.props.renderProps(this.state.idVisible, this.props.touchpoint);
@@ -146,7 +143,7 @@ export default class TouchPoint extends React.Component {
     }
   };
 
-  BackgroundTouchPoint = (status_on_off, active) => {
+  backgroundTouchPoint = (status_on_off, active) => {
     if (active) {
       return '#D7EBF6';
     }
@@ -156,16 +153,20 @@ export default class TouchPoint extends React.Component {
     return '';
   };
 
+  OnClose() {
+    this.setState({ hidden: false });
+  }
+
   ActivateCursor = (touchpoint, city) => {
     if (touchpoint.dashboard_url !== false) {
-      if (touchpoint.dashboard_url[city]) {
+      if (touchpoint.dashboard_url[city] !== false) {
         return 'pointer';
       } else return 'default';
     } else return 'default';
   };
 
   render() {
-    const { stylesContext } = this.state;
+    const { stylesContext, hidden } = this.state;
     const {
       touchpoint,
       city,
@@ -174,9 +175,10 @@ export default class TouchPoint extends React.Component {
       checkAllStatus,
       iconSixthSenseStatus,
       visible,
-      idVisible
+      idVisible,
+      handleChange
     } = this.props;
-    const { status_on_off, active } = touchpoint;
+    const { status_on_off, sixth_sense_url, active } = touchpoint;
     return (
       <div className="divStep">
         <div className="divContentPoint">
@@ -191,39 +193,44 @@ export default class TouchPoint extends React.Component {
                 iconFireStatus
               ),
               cursor: 'pointer',
-              background: this.BackgroundTouchPoint(status_on_off, active)
+              background: this.backgroundTouchPoint(status_on_off, active)
             }}
             onMouseDown={this.HandleContextMenu}
+            onClick={() => {
+              if (touchpoint.sixth_sense && iconSixthSenseStatus) {
+                this.setState({ hidden: true });
+              } else if (touchpoint.dashboard_url !== false) {
+                if (touchpoint.dashboard_url[city] !== false) {
+                  window.open(touchpoint.dashboard_url[city]);
+                }
+              }
+            }}
           >
             <div
               className="squareState"
               style={{ background: this.ColorSquare(touchpoint, colors) }}
             />
             <div
-              onClick={() => {
-                if (touchpoint.dashboard_url !== false) {
-                  if (touchpoint.dashboard_url[city] !== false) {
-                    window.open(touchpoint.dashboard_url[city]);
-                  }
-                }
-              }}
               style={{
                 cursor: this.ActivateCursor(touchpoint, city)
               }}
             >
               {touchpoint.value}
             </div>
+            <Modal
+              hidden={hidden}
+              OnClose={this.OnClose}
+              iframembed={sixth_sense_url}
+            />
           </div>
         </div>
 
         <div>
           {visible && idVisible === this.state.idVisible ? (
             <div
-              ref={
-                /* istanbul ignore next */ ref => {
-                  this.root = ref;
-                }
-              }
+              ref={ref => {
+                this.root = ref;
+              }}
               style={{
                 left: stylesContext.left,
                 top: stylesContext.top,
@@ -232,44 +239,55 @@ export default class TouchPoint extends React.Component {
               className="contextMenu"
             >
               <div>
-                <Form>
-                  <div
-                    className="contextMenuItem"
-                    onClick={this.HandleClickonOff}
-                  >
-                    <span className="functionIcon">
-                      <img style={{ height: '15px' }} src={onOffIcon} />
-                    </span>
-                    <span className="onoffIcon">
-                      <img
-                        style={{ height: '20px' }}
-                        src={status_on_off ? onIcon : offIcon}
-                      />
-                    </span>
-                  </div>
-                  <div className="contextMenuItem">
-                    <div
-                      onClick={this.HandleClickTune}
-                      className="contextMenu--option"
-                    >
-                      <span className="functionIcon">
-                        <img style={{ height: '15px' }} src={tuneIcon} />
-                      </span>
-                      Tune
-                    </div>
-                  </div>
-                  <div className="contextMenuItem">
-                    <div
-                      onClick={this.HandleClickQueries}
-                      className="contextMenu--option"
-                    >
-                      <span className="functionIcon">
-                        <img style={{ height: '15px' }} src={queriesIcon} />
-                      </span>
-                      Queries
-                    </div>
-                  </div>
-                </Form>
+                <Formik
+                  initialValues={{
+                    contextError: touchpoint.index,
+                    contextApdex: '0.5'
+                  }}
+                  onSubmit={values =>
+                    handleChange(values, touchpoint.index, this.props)
+                  }
+                  render={() => (
+                    <Form>
+                      <div
+                        className="contextMenuItem"
+                        onClick={this.HandleClickonOff}
+                      >
+                        <span className="functionIcon">
+                          <img style={{ height: '15px' }} src={onOffIcon} />
+                        </span>
+                        <span className="onoffIcon">
+                          <img
+                            style={{ height: '20px' }}
+                            src={status_on_off ? onIcon : offIcon}
+                          />
+                        </span>
+                      </div>
+                      <div className="contextMenuItem">
+                        <div
+                          onClick={this.HandleClickTune}
+                          className="contextMenu--option"
+                        >
+                          <span className="functionIcon">
+                            <img style={{ height: '15px' }} src={tuneIcon} />
+                          </span>
+                          Tune
+                        </div>
+                      </div>
+                      <div className="contextMenuItem">
+                        <div
+                          onClick={this.HandleClickQueries}
+                          className="contextMenu--option"
+                        >
+                          <span className="functionIcon">
+                            <img style={{ height: '15px' }} src={queriesIcon} />
+                          </span>
+                          Queries
+                        </div>
+                      </div>
+                    </Form>
+                  )}
+                />
               </div>
             </div>
           ) : (
@@ -290,6 +308,7 @@ TouchPoint.propTypes = {
   iconSixthSenseStatus: PropTypes.bool.isRequired,
   visible: PropTypes.bool.isRequired,
   idVisible: PropTypes.string.isRequired,
+  handleChange: PropTypes.func.isRequired,
   renderProps: PropTypes.func.isRequired,
   updateTouchpointOnOff: PropTypes.func.isRequired,
   openModalParent: PropTypes.func.isRequired
