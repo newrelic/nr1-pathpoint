@@ -216,38 +216,34 @@ export default class DataManager {
     }
   }
 
+  ClearMeasure(measure) {
+    switch (measure.type) {
+      case 0:
+      case 3:
+        measure.count = 0;
+        break;
+      case 1:
+        measure.error_percentage = 0;
+        break;
+      case 2:
+        measure.apdex = 1;
+        break;
+      case 4:
+        measure.sessions = [];
+        break;
+      case 20:
+        measure.count = 0;
+        measure.error_percentage = 0;
+        break;
+      case 100:
+        measure.value = 0;
+        break;
+    }
+  }
+
   FetchMeasure(measure) {
-    if (measure.type === 0) {
-      const query = `${measure.query} SINCE ${this.TimeRangeTransform(
-        this.timeRange,
-        false
-      )}`;
-      this.graphQlmeasures.push([measure, query]);
-    } else if (measure.type === 1) {
-      const query = `${measure.query} SINCE ${this.TimeRangeTransform(
-        this.timeRange,
-        false
-      )}`;
-      this.graphQlmeasures.push([measure, query]);
-    } else if (measure.type === 2) {
-      const query = `${measure.query} SINCE ${this.TimeRangeTransform(
-        this.timeRange,
-        false
-      )}`;
-      this.graphQlmeasures.push([measure, query]);
-    } else if (measure.type === 3 && measure.query !== '') {
-      const query = `${measure.query} SINCE ${this.TimeRangeTransform(
-        this.timeRange,
-        false
-      )}`;
-      this.graphQlmeasures.push([measure, query]);
-    } else if (measure.type === 4 && measure.query !== '') {
-      const query = `${measure.query} SINCE ${this.TimeRangeTransform(
-        this.timeRange,
-        true
-      )}`;
-      this.graphQlmeasures.push([measure, query]);
-    } else if (measure.type === 20) {
+    this.ClearMeasure(measure);
+    if (measure.query !== '') {
       const query = `${measure.query} SINCE ${this.TimeRangeTransform(
         this.timeRange,
         false

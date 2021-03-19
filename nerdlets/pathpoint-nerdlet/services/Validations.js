@@ -29,6 +29,9 @@ export default class ValidationQuery {
   async validateQuery(type, query) {
     let testText = messages.test_query.good;
     let goodQuery = true;
+    if (query === '') {
+      return { testText, goodQuery };
+    }
     const { data, errors } =
       type !== 'Cloudflare App' && (await this.validateNrqlQuery(query));
     switch (type) {
