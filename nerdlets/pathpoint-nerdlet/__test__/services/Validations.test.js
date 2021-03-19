@@ -79,6 +79,29 @@ jest.mock(
             return resolve();
           });
           return dataReturn;
+        } else if (query.includes('Session Query Duration facet')) {
+          let dataReturn = {};
+          await new Promise(resolve => {
+            dataReturn = {
+              data: {
+                actor: {
+                  account: {
+                    nrql: {
+                      results: [
+                        {
+                          count: 1,
+                          facet: '11b19437c360e5e',
+                          session: '11b19437c360e5e'
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            };
+            return resolve();
+          });
+          return dataReturn;
         } else if (query.includes('Full Open Query')) {
           let dataReturn = {};
           await new Promise(resolve => {
@@ -458,6 +481,17 @@ describe('Validations class', () => {
       expect(validateQuery).toEqual({
         goodQuery: false,
         testText: 'Incorrect validated'
+      });
+    });
+
+    it('validate session query duration correct', async () => {
+      const validateQuery = await validations.validateQuery(
+        'Session Query Duration',
+        'Session Query Duration facet'
+      );
+      expect(validateQuery).toEqual({
+        goodQuery: true,
+        testText: 'Successfully validated'
       });
     });
 
