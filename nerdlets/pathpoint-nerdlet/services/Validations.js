@@ -45,8 +45,8 @@ export default class ValidationQuery {
         goodQuery = this.sessionDurationValidation(errors, query);
 
         break;
-      case 'Log Measure Query':
-        goodQuery = this.logMeasureValidation(errors, data);
+      case 'Full Open Query':
+        goodQuery = this.fullOpenValidation(errors, data);
         break;
     }
     if (!goodQuery) {
@@ -139,7 +139,7 @@ export default class ValidationQuery {
     return validate;
   }
 
-  logMeasureValidation(errors, data) {
+  fullOpenValidation(errors, data) {
     let validate = true;
     let quantity = 0;
     let containR1 = false;
