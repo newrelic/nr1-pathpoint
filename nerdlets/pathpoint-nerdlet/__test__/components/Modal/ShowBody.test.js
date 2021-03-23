@@ -1,6 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import ShowBody from '../../../components/Modal/ShowBody';
+import { it, jest } from '@jest/globals';
 
 describe('<ShowBody/>', () => {
   it('Render view modal 0 ', () => {
@@ -185,5 +186,74 @@ describe('<ShowBody/>', () => {
       />
     );
     expect(bodyRender.length).toEqual(1);
+  });
+
+  it('Function handleOnChange ', () => {
+    const bodyRender = mount(
+      <ShowBody
+        _onClose={jest.fn()}
+        handleSaveUpdateTune={jest.fn()}
+        LogoFormSubmit={jest.fn()}
+        handleOnChange={jest.fn()}
+        viewModal={10}
+      />
+    );
+    bodyRender.instance().handleOnChange('input', {
+      target: {
+        value: 'sometext',
+        name: 'url'
+      }
+    });
+    expect(bodyRender.state('url')).toMatch('sometext');
+  });
+
+  it('Function handleOnChange with select ', () => {
+    const bodyRender = mount(
+      <ShowBody
+        _onClose={jest.fn()}
+        handleSaveUpdateTune={jest.fn()}
+        LogoFormSubmit={jest.fn()}
+        handleOnChange={jest.fn()}
+        viewModal={10}
+      />
+    );
+    bodyRender.instance().handleOnChange('select', {
+      label: 'sometext'
+    });
+    expect(bodyRender.state('type')).toMatch('sometext');
+  });
+
+  it('Function handleSubmitLogo', () => {
+    const LogoFormSubmit = jest.fn();
+    const bodyRender = mount(
+      <ShowBody
+        _onClose={jest.fn()}
+        handleSaveUpdateTune={jest.fn()}
+        LogoFormSubmit={LogoFormSubmit}
+        handleOnChange={jest.fn()}
+        viewModal={10}
+      />
+    );
+    bodyRender.instance().handleSubmitLogo({
+      preventDefault: jest.fn()
+    });
+    expect(LogoFormSubmit).toHaveBeenCalledTimes(1);
+  });
+
+  it('Function handleSubmitTune', () => {
+    const handleSaveUpdateTune = jest.fn();
+    const bodyRender = mount(
+      <ShowBody
+        _onClose={jest.fn()}
+        handleSaveUpdateTune={handleSaveUpdateTune}
+        LogoFormSubmit={jest.fn()}
+        handleOnChange={jest.fn()}
+        viewModal={10}
+      />
+    );
+    bodyRender.instance().handleSubmitTune({
+      preventDefault: jest.fn()
+    });
+    expect(handleSaveUpdateTune).toHaveBeenCalledTimes(1);
   });
 });
