@@ -65,6 +65,7 @@ function BodyLogoFormModal(props) {
               name="type"
               onChange={e => handleOnChange('select', e)}
               placeholder=""
+              classNamePrefix="react-selectLogoOption"
               defaultValue={logoTypeOptions[0]}
               options={logoTypeOptions}
               styles={customStyles}
