@@ -130,6 +130,9 @@ function getStepIndex($stage_index, $steps)
     $s = explode(",", $steps);
 
     $result = [];
+    if($steps == ''){
+        return $result;
+    }
     foreach ($s as $code) {
         $code = trim($code);
         //print("stage-".$stage_index." code:".$code."\n");
