@@ -4,6 +4,7 @@ import {
   BodySupportFormModal,
   HeaderSupportFormModal
 } from '../../../components/Modal/SupportFormModal';
+import { jest } from '@jest/globals';
 
 describe('<SupportFormModal/>', () => {
   it('Render body', () => {
@@ -16,145 +17,90 @@ describe('<SupportFormModal/>', () => {
     const headerSupport = mount(<HeaderSupportFormModal />);
     expect(headerSupport.length).toEqual(1);
   });
-  // it('should return error for invalid name', () => {
-  //   const headerSupport = shallow(
-  //     <BodySupportFormModal handleSaveUpdateSupport={jest.fn()} />
-  //   );
-  //   const signupForm = (props = { errors: {} }) =>
-  //     headerSupport.find(Formik).renderProp('children')(props);
 
-  //   const formWithInvalidEmailErrors = signupForm({
-  //     errors: {
-  //       name: 'Invalid name Address'
-  //     },
-  //     values: {
-  //       content: 'details'
-  //     },
-  //     touched: { name: true },
-  //     isSubmitting: false
-  //   });
-  //   expect(formWithInvalidEmailErrors.html()).toMatch(/Invalid name/);
-  // });
+  it('Simulate onSubmit', () => {
+    const handleSaveUpdateSupport = jest.fn();
+    const bodySupport = mount(
+      <BodySupportFormModal handleSaveUpdateSupport={handleSaveUpdateSupport} />
+    );
+    const button = bodySupport.find('button');
+    button.simulate('submit');
+    expect(handleSaveUpdateSupport).toHaveBeenCalledTimes(1);
+  });
 
-  // it('should return error for invalid company', () => {
-  //   const headerSupport = shallow(
-  //     <BodySupportFormModal handleSaveUpdateSupport={jest.fn()} />
-  //   );
-  //   const signupForm = (props = { errors: {} }) =>
-  //     headerSupport.find(Formik).renderProp('children')(props);
+  it('Simulate onChange dropwdown', () => {
+    const bodySupport = mount(
+      <BodySupportFormModal handleSaveUpdateSupport={jest.fn()} />
+    );
+    bodySupport
+      .find('.react-support__control')
+      .first()
+      .simulate('keyDown', { key: 'ArrowDown', keyCode: 40 });
+    bodySupport
+      .find('.react-support__control')
+      .first()
+      .simulate('keyDown', { key: 'Enter', keyCode: 13 });
+    expect(
+      bodySupport
+        .find('.react-support__single-value')
+        .first()
+        .text()
+    ).toEqual(
+      'Data Error - It appears as though the data shown by Pathpoint is not consistent with the telemetry based on other NR1 visualizations.'
+    );
+  });
 
-  //   const formWithInvalidEmailErrors = signupForm({
-  //     errors: {
-  //       company: 'Invalid company'
-  //     },
-  //     values: {
-  //       content: 'details'
-  //     },
-  //     touched: { company: true },
-  //     isSubmitting: false
-  //   });
-  //   expect(formWithInvalidEmailErrors.html()).toMatch(/Invalid company/);
-  // });
+  it('Simulate onChange name input', () => {
+    const bodySupport = mount(
+      <BodySupportFormModal handleSaveUpdateSupport={jest.fn()} />
+    );
+    const textArea = bodySupport.find('input').at(2);
+    const event = { target: { value: 'sometext' } };
+    textArea.simulate('change', event);
+  });
 
-  // it('should return error for invalid subject', () => {
-  //   const headerSupport = shallow(
-  //     <BodySupportFormModal handleSaveUpdateSupport={jest.fn()} />
-  //   );
-  //   const signupForm = (props = { errors: {} }) =>
-  //     headerSupport.find(Formik).renderProp('children')(props);
+  it('Simulate onChange company input', () => {
+    const bodySupport = mount(
+      <BodySupportFormModal handleSaveUpdateSupport={jest.fn()} />
+    );
+    const textArea = bodySupport.find('input').at(3);
+    const event = { target: { value: 'sometext' } };
+    textArea.simulate('change', event);
+  });
 
-  //   const formWithInvalidEmailErrors = signupForm({
-  //     errors: {
-  //       subject: 'Required subject'
-  //     },
-  //     values: {
-  //       content: 'details'
-  //     },
-  //     touched: { subject: true },
-  //     isSubmitting: false
-  //   });
-  //   expect(formWithInvalidEmailErrors.html()).toMatch(/Required subject/);
-  // });
+  it('Simulate onChange Account name input', () => {
+    const bodySupport = mount(
+      <BodySupportFormModal handleSaveUpdateSupport={jest.fn()} />
+    );
+    const textArea = bodySupport.find('input').at(4);
+    const event = { target: { value: 'sometext' } };
+    textArea.simulate('change', event);
+  });
 
-  // it('should return error for invalid account', () => {
-  //   const headerSupport = shallow(
-  //     <BodySupportFormModal handleSaveUpdateSupport={jest.fn()} />
-  //   );
-  //   const signupForm = (props = { errors: {} }) =>
-  //     headerSupport.find(Formik).renderProp('children')(props);
+  it('Simulate onChange email input', () => {
+    const bodySupport = mount(
+      <BodySupportFormModal handleSaveUpdateSupport={jest.fn()} />
+    );
+    const textArea = bodySupport.find('input').at(5);
+    const event = { target: { value: 'sometext' } };
+    textArea.simulate('change', event);
+  });
 
-  //   const formWithInvalidEmailErrors = signupForm({
-  //     errors: {
-  //       account: 'Invalid account'
-  //     },
-  //     values: {
-  //       content: 'details'
-  //     },
-  //     touched: { account: true },
-  //     isSubmitting: false
-  //   });
-  //   expect(formWithInvalidEmailErrors.html()).toMatch(/Invalid account/);
-  // });
+  it('Simulate onChange mobile input', () => {
+    const bodySupport = mount(
+      <BodySupportFormModal handleSaveUpdateSupport={jest.fn()} />
+    );
+    const textArea = bodySupport.find('input').at(6);
+    const event = { target: { value: 'sometext' } };
+    textArea.simulate('change', event);
+  });
 
-  // it('should return error for invalid email', () => {
-  //   const headerSupport = shallow(
-  //     <BodySupportFormModal handleSaveUpdateSupport={jest.fn()} />
-  //   );
-  //   const signupForm = (props = { errors: {} }) =>
-  //     headerSupport.find(Formik).renderProp('children')(props);
-
-  //   const formWithInvalidEmailErrors = signupForm({
-  //     errors: {
-  //       email: 'Invalid format email'
-  //     },
-  //     values: {
-  //       content: 'details'
-  //     },
-  //     touched: { email: true },
-  //     isSubmitting: false
-  //   });
-  //   expect(formWithInvalidEmailErrors.html()).toMatch(/Invalid format email/);
-  // });
-
-  // it('should return error for invalid phone ', () => {
-  //   const headerSupport = shallow(
-  //     <BodySupportFormModal handleSaveUpdateSupport={jest.fn()} />
-  //   );
-  //   const signupForm = (props = { errors: {} }) =>
-  //     headerSupport.find(Formik).renderProp('children')(props);
-
-  //   const formWithInvalidEmailErrors = signupForm({
-  //     errors: {
-  //       phone: 'Invalid format phone '
-  //     },
-  //     values: {
-  //       content: 'details'
-  //     },
-  //     touched: { phone: true },
-  //     isSubmitting: false
-  //   });
-  //   expect(formWithInvalidEmailErrors.html()).toMatch(/Invalid format phone /);
-  // });
-
-  // it('should return error for invalid message ', () => {
-  //   const headerSupport = shallow(
-  //     <BodySupportFormModal handleSaveUpdateSupport={jest.fn()} />
-  //   );
-  //   const signupForm = (props = { errors: {} }) =>
-  //     headerSupport.find(Formik).renderProp('children')(props);
-
-  //   const formWithInvalidEmailErrors = signupForm({
-  //     errors: {
-  //       message: 'Invalid format message '
-  //     },
-  //     values: {
-  //       content: 'details'
-  //     },
-  //     touched: { message: true },
-  //     isSubmitting: false
-  //   });
-  //   expect(formWithInvalidEmailErrors.html()).toMatch(
-  //     /Invalid format message /
-  //   );
-  // });
+  it('Simulate onChange details input', () => {
+    const bodySupport = mount(
+      <BodySupportFormModal handleSaveUpdateSupport={jest.fn()} />
+    );
+    const textArea = bodySupport.find('textarea');
+    const event = { target: { value: 'sometext' } };
+    textArea.simulate('change', event);
+  });
 });
