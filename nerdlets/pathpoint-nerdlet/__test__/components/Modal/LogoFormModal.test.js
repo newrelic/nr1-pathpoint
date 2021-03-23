@@ -22,41 +22,73 @@ describe('LogoFormModal', () => {
     expect(headerLogoForm.length).toEqual(1);
   });
 
-  // it('should return error for name type text', () => {
-  //   const headerSupport = shallow(
-  //     <BodyLogoFormModal LogoFormSubmit={jest.fn()} _onClose={jest.fn()} />
-  //   );
-  //   const signupForm = (props = { errors: {} }) =>
-  //     headerSupport.find(Formik).renderProp('children')(props);
+  it('Simulate onsubmit', () => {
+    const handleSubmitLogo = jest.fn();
+    const bodySupport = mount(
+      <BodyLogoFormModal
+        handleSubmitLogo={handleSubmitLogo}
+        handleOnChange={jest.fn()}
+        type="Text"
+      />
+    );
+    const button = bodySupport.find('button');
+    button.simulate('submit');
+    expect(handleSubmitLogo).toHaveBeenCalledTimes(1);
+  });
 
-  //   const formWithInvalidNameErrors = signupForm({
-  //     errors: {
-  //       name: 'Invalid name'
-  //     },
-  //     values: {
-  //       type: 'Text'
-  //     },
-  //     touched: { name: true }
-  //   });
-  //   expect(formWithInvalidNameErrors).toBeDefined();
-  // });
+  it('Simulate onChange dropwdown', () => {
+    const handleSubmitLogo = jest.fn();
+    const bodySupport = mount(
+      <BodyLogoFormModal
+        handleSubmitLogo={handleSubmitLogo}
+        handleOnChange={jest.fn()}
+        type="Text"
+      />
+    );
+    bodySupport
+      .find('.react-selectLogoOption__control')
+      .first()
+      .simulate('keyDown', { key: 'ArrowDown', keyCode: 40 });
+    bodySupport
+      .find('.react-selectLogoOption__control')
+      .first()
+      .simulate('keyDown', { key: 'Enter', keyCode: 13 });
+    expect(
+      bodySupport
+        .find('.react-selectLogoOption__single-value')
+        .first()
+        .text()
+    ).toEqual('By URL');
+  });
 
-  // it('should return error for name type url', () => {
-  //   const headerSupport = shallow(
-  //     <BodyLogoFormModal LogoFormSubmit={jest.fn()} _onClose={jest.fn()} />
-  //   );
-  //   const signupForm = (props = { errors: {} }) =>
-  //     headerSupport.find(Formik).renderProp('children')(props);
+  it('Simulate onChange type text input', () => {
+    const handleOnChange = jest.fn();
+    const bodySupport = mount(
+      <BodyLogoFormModal
+        handleSubmitLogo={jest.fn()}
+        handleOnChange={handleOnChange}
+        type="Text"
+      />
+    );
+    const textArea = bodySupport.find('input').at(2);
+    const event = { target: { value: 'sometext' } };
+    textArea.simulate('change', event);
+    expect(handleOnChange).toHaveBeenCalledTimes(1);
+  });
 
-  //   const formWithInvalidNameErrors = signupForm({
-  //     errors: {
-  //       name: 'Invalid name'
-  //     },
-  //     values: {
-  //       type: 'Url'
-  //     },
-  //     touched: { name: true }
-  //   });
-  //   expect(formWithInvalidNameErrors).toBeDefined();
-  // });
+  it('Simulate onChange type url input', () => {
+    const handleOnChange = jest.fn();
+    const bodySupport = mount(
+      <BodyLogoFormModal
+        handleSubmitLogo={jest.fn()}
+        handleOnChange={handleOnChange}
+        type="Url"
+      />
+    );
+    const textArea = bodySupport.find('input').at(2);
+    const event = { target: { value: 'sometext' } };
+    textArea.simulate('change', event);
+    expect(handleOnChange).toHaveBeenCalledTimes(1);
+  });
+
 });
