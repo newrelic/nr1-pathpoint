@@ -532,5 +532,59 @@ describe('<Step/>', () => {
       step.find('.textContentSubFirstStep').simulate('click');
       expect(clickStep).toHaveBeenCalledTimes(1);
     });
+
+    it('Step simulate click textContentSubSecondStep', () => {
+      const clickStep = jest.fn();
+      const step = shallow(
+        <Step
+          step={{
+            value: '',
+            dotted: true,
+            sub_steps: [
+              {
+                index: 0,
+                id: 'ST1-LINE2-SS1',
+                canary_state: false,
+                latency: false,
+                value: 'Login',
+                dark: false,
+                sixth_sense: false,
+                history_error: false,
+                dotted: false,
+                highlighted: false,
+                error: false,
+                index_stage: 1,
+                relationship_touchpoints: [3]
+              },
+              {
+                index: 1,
+                id: 'ST1-LINE2-SS1',
+                canary_state: false,
+                latency: false,
+                value: 'Login',
+                dark: false,
+                sixth_sense: false,
+                history_error: false,
+                dotted: false,
+                highlighted: false,
+                error: false,
+                index_stage: 1,
+                relationship_touchpoints: [3]
+              }
+            ]
+          }}
+          onclickStep={clickStep}
+          iconSixthSenseStatus
+          iconGoutStatus
+          latencyStatus
+          iconCanaryStatus
+          iconFireStatus
+          colors={colors}
+        />
+      );
+
+      step.find('.textContentSubSecondStep').simulate('click');
+      expect(clickStep).toHaveBeenCalledTimes(1);
+    });
   });
 });
