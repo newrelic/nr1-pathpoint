@@ -33,7 +33,7 @@ describe('<TouchPointContainer/>', () => {
         {
           city: 1,
           index: 3,
-          error: false,
+          error: true,
           countrys: [0, 1],
           dashboard_url: ['www.google.com'],
           sixth_sense_url: [[]]
@@ -64,6 +64,7 @@ describe('<TouchPointContainer/>', () => {
           iconFireStatus={false}
           checkAllStatus={false}
           iconSixthSenseStatus={false}
+          iconCanaryStatus={false}
           element={{}}
           handleChange={jest.fn()}
           visible={false}
@@ -136,6 +137,7 @@ describe('<TouchPointContainer/>', () => {
           colors={colors}
           iconFireStatus={false}
           checkAllStatus={false}
+          iconCanaryStatus={false}
           iconSixthSenseStatus={false}
           element={{}}
           handleChange={jest.fn()}
@@ -210,6 +212,7 @@ describe('<TouchPointContainer/>', () => {
           colors={colors}
           iconFireStatus={false}
           checkAllStatus={false}
+          iconCanaryStatus={false}
           iconSixthSenseStatus={false}
           element={{}}
           handleChange={jest.fn()}
