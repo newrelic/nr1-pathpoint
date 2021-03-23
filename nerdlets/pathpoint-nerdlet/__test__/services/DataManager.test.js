@@ -378,6 +378,18 @@ describe('DataManager class', () => {
     });
   });
 
+  it('Function ClearMeasure()', () => {
+    const measure = {
+      type: 100,
+      value: 1
+    };
+    dataManager.ClearMeasure(measure);
+    expect(measure).toEqual({
+      type: 100,
+      value: 0
+    });
+  });
+
   it('Function FetchMeasure', () => {
     const measures = [
       {
@@ -1141,6 +1153,12 @@ describe('DataManager class', () => {
         }
       }
     });
+  });
+
+  it('Function SetSessionTime()', () => {
+    const measureSession = [{ id: 'abcd123', time: 123456789 }];
+    const result = dataManager.SetSessionTime(measureSession, 'abcd123');
+    expect(result).toEqual(123456789);
   });
 
   it('Function NRDBQuery()', async () => {

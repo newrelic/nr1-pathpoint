@@ -33,7 +33,7 @@ describe('<TouchPointContainer/>', () => {
         {
           city: 1,
           index: 3,
-          error: false,
+          error: true,
           countrys: [0, 1],
           dashboard_url: ['www.google.com'],
           sixth_sense_url: [[]]
