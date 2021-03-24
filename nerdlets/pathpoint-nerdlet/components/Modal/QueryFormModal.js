@@ -1,7 +1,7 @@
 import React from 'react';
-import Select from 'react-select';
 import PropTypes from 'prop-types';
 import { Button, Form } from 'react-bootstrap';
+import Select from '../Select/Select';
 
 function HeaderQueryFormModal(props) {
   const { stageNameSelected, changeMessage } = props;
@@ -13,16 +13,8 @@ function HeaderQueryFormModal(props) {
         </div>
         <div>
           <Select
-            onChange={e => {
-              changeMessage(e, stageNameSelected);
-            }}
-            placeholder={stageNameSelected.datos[0].label}
-            isSearchable={false}
-            classNamePrefix="react-selectQuery"
-            theme={theme => ({
-              ...theme,
-              borderRadius: 0
-            })}
+            name="query"
+            handleOnChange={changeMessage}
             options={stageNameSelected.datos}
           />
         </div>
@@ -52,7 +44,7 @@ function BodyQueryFormModal(props) {
     modifiedQuery
   } = props;
   const value = stageNameSelected.selectedCase
-    ? stageNameSelected.selectedCase.value
+    ? stageNameSelected.selectedCase
     : 0;
   const query_body = stageNameSelected.datos[value].query_body;
   const query_footer = stageNameSelected.datos[value].query_footer;

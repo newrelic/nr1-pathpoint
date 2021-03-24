@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 // IMPORT ICONS
 import graphImage from '../../images/graph.png';
 
+// IMPORT MESSAGES
+import messages from '../../config/messages.json';
+
 // IMPORT COMPONENTS
 import { BodyTuneFormModal } from './TuneFormModal';
 import { BodyLogoFormModal } from './LogoFormModal';
@@ -23,16 +26,51 @@ export default class ShowBody extends Component {
       text: '',
       type: '',
       threshold: '',
-      apdex: ''
+      apdex: '',
+      subject: '',
+      name: '',
+      company: '',
+      account: '',
+      email: '',
+      phone: '',
+      message: ''
     };
   }
 
-  handleOnChange = (type, event) => {
-    if (type === 'select') {
-      this.setState({ type: event.label });
-    } else {
-      this.setState({ [event.target.name]: event.target.value });
+  componentDidMount() {
+    if (messages.configuration.support.options_select_support_02.service_1) {
+      this.setState({
+        subject:
+          messages.configuration.support.options_select_support_02.service_1
+      });
     }
+  }
+
+  handleOnChange = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
+  handleSubmitSupport = event => {
+    event.preventDefault();
+    const {
+      subject,
+      name,
+      company,
+      account,
+      email,
+      phone,
+      message
+    } = this.state;
+    const { handleSaveUpdateSupport } = this.props;
+    handleSaveUpdateSupport({
+      subject,
+      name,
+      company,
+      account,
+      email,
+      phone,
+      message
+    });
   };
 
   handleSubmitLogo = event => {
@@ -70,7 +108,13 @@ export default class ShowBody extends Component {
       case 4:
         return <BodyJsonConfigurationFormModal {...this.props} />;
       case 5:
-        return <BodySupportFormModal {...this.props} />;
+        return (
+          <BodySupportFormModal
+            {...this.props}
+            handleOnChange={this.handleOnChange}
+            handleSubmitSupport={this.handleSubmitSupport}
+          />
+        );
       case 6:
         return <BodyCanaryFormModal {...this.props} />;
       case 7:
@@ -99,5 +143,6 @@ ShowBody.propTypes = {
   viewModal: PropTypes.number.isRequired,
   LogoFormSubmit: PropTypes.func.isRequired,
   _onClose: PropTypes.func.isRequired,
-  handleSaveUpdateTune: PropTypes.func.isRequired
+  handleSaveUpdateTune: PropTypes.func.isRequired,
+  handleSaveUpdateSupport: PropTypes.func.isRequired
 };
