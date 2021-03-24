@@ -23,6 +23,8 @@ jest.mock(
 
 describe('<MainContainer/>', () => {
   it('Render initial', () => {
-    const wrapper = shallow(<MainContainer />);
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.BoootstrapApplication();
   });
 });
