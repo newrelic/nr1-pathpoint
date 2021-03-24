@@ -1,7 +1,7 @@
 // IMPORT LIBRARIES AND DEPENDENCIES
 import React from 'react';
-import Select from 'react-select';
 import PropTypes from 'prop-types';
+import Select from '../Select/Select';
 
 // IMPORT IMAGES AND STATIC FILES
 import lines from '../../images/lines.svg';
@@ -132,6 +132,11 @@ const Header = ({
           />
         </div>
         <Select
+          name="header"
+          handleOnChange={changeTimeRange}
+          options={options}
+        />
+        {/* <Select
           onChange={changeTimeRange}
           placeholder="now"
           isSearchable={false}
@@ -141,7 +146,7 @@ const Header = ({
             ...theme,
             borderRadius: 0
           })}
-        />
+        /> */}
       </div>
     </div>
   );
