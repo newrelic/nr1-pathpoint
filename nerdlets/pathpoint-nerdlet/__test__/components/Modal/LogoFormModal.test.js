@@ -37,10 +37,9 @@ describe('LogoFormModal', () => {
   });
 
   it('Simulate onChange dropwdown', () => {
-    const handleSubmitLogo = jest.fn();
     const bodySupport = mount(
       <BodyLogoFormModal
-        handleSubmitLogo={handleSubmitLogo}
+        handleSubmitLogo={jest.fn()}
         handleOnChange={jest.fn()}
         type="Text"
       />
@@ -90,5 +89,4 @@ describe('LogoFormModal', () => {
     textArea.simulate('change', event);
     expect(handleOnChange).toHaveBeenCalledTimes(1);
   });
-
 });
