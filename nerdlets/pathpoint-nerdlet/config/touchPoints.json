@@ -11,31 +11,10 @@
         "relation_steps": [],
         "measure_points": [
           {
-            "type": 0,
-            "query": "SELECT count(*) FROM Log WHERE record_type='WORK_ORDER'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "",
-            "apdex": 0,
-            "apdex_time": 50
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
+            "type": 22,
+            "query": "SELECT count(*) as R1, FILTER(count(*), WHERE work_order_status='Completed' or work_order_status='Completed With Warnings' or work_order_status='Completed With Errors') as R2 FROM Log WHERE record_type='WORK_ORDER'",
+            "R1": 0,
+            "R2": 0
           }
         ]
       },
@@ -53,7 +32,7 @@
             "query": "SELECT count(*) FROM Log WHERE record_type='WORK_ORDER' AND priority='SuperRush'",
             "measure_period": 60,
             "count": 0,
-            "limit_number": 50
+            "limit_number": 10
           }
         ]
       },
@@ -103,31 +82,10 @@
         "relation_steps": [],
         "measure_points": [
           {
-            "type": 0,
-            "query": "SELECT count(*) FROM Log WHERE record_type='CTP' WHERE job_type_description='RestoreJob' or job_type_description='ArchiveJob'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "",
-            "apdex": 0,
-            "apdex_time": 50
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
+            "type": 22,
+            "query": "SELECT count(*) as R1, FILTER(count(*), WHERE job_state='CompletedSuccessfully' or job_state='CompletedWithFailure') as R2 FROM Log WHERE record_type='CTP' AND (job_type_description='RestoreJob' or job_type_description='ArchiveJob')",
+            "R1": 0,
+            "R2": 0
           }
         ]
       },
@@ -145,7 +103,7 @@
             "query": "",
             "measure_period": 60,
             "count": 0,
-            "limit_number": 50
+            "limit_number": 10
           }
         ]
       },
@@ -387,31 +345,10 @@
         "relation_steps": [],
         "measure_points": [
           {
-            "type": 0,
-            "query": "SELECT count(*) FROM Log WHERE record_type='CTP' WHERE job_type_description='ChecksumJob' or job_type_description='Md5SumJob'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "",
-            "error_threshold": 0,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "",
-            "apdex": 0,
-            "apdex_time": 0
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
+            "type": 22,
+            "query": "SELECT count(*) as R1, FILTER(count(*), WHERE job_state='CompletedSuccessfully' or job_state='CompletedWithFailure') as R2 FROM Log WHERE record_type='CTP' AND (job_type_description='ChecksumJob' or job_type_description='Md5SumJob')",
+            "R1": 0,
+            "R2": 0
           }
         ]
       },
@@ -423,31 +360,10 @@
         "relation_steps": [],
         "measure_points": [
           {
-            "type": 0,
-            "query": "SELECT count(*) FROM Log WHERE record_type='CTP' WHERE job_type_description='RenameJob' or job_type_description='DirectoryListingJob' or job_type_description='RetryingDeleteFileJob'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "",
-            "error_threshold": 0,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "",
-            "apdex": 0,
-            "apdex_time": 0
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
+            "type": 22,
+            "query": "SELECT count(*) as R1, FILTER(count(*), WHERE job_state='CompletedSuccessfully' or job_state='CompletedWithFailure') as R2 FROM Log WHERE record_type='CTP' AND (job_type_description='RenameJob' or job_type_description='DirectoryListingJob' or job_type_description='RetryingDeleteFileJob')",
+            "R1": 0,
+            "R2": 0
           }
         ]
       },
@@ -459,31 +375,10 @@
         "relation_steps": [],
         "measure_points": [
           {
-            "type": 0,
-            "query": "SELECT count(*) FROM Log WHERE record_type='CTP' WHERE job_type_description='TransformJob' or job_type_description='MetadataExtractionJob' or job_type_description='ThumbnailExtractionJob' or job_type_description='TicEncodeJob'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "",
-            "apdex": 0,
-            "apdex_time": 50
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
+            "type": 22,
+            "query": "SELECT count(*) as R1, FILTER(count(*), WHERE job_state='CompletedSuccessfully' or job_state='CompletedWithFailure') as R2 FROM Log WHERE record_type='CTP' and (job_type_description='TransformJob' or job_type_description='MetadataExtractionJob' or job_type_description='ThumbnailExtractionJob' or job_type_description='TicEncodeJob')",
+            "R1": 0,
+            "R2": 0
           }
         ]
       },
@@ -501,7 +396,7 @@
             "query": "",
             "measure_period": 60,
             "count": 0,
-            "limit_number": 50
+            "limit_number": 10
           }
         ]
       },
@@ -627,31 +522,10 @@
         "relation_steps": [],
         "measure_points": [
           {
-            "type": 0,
-            "query": "SELECT count(*) FROM Log WHERE record_type='CTP' WHERE job_type_description='DeliverJob' or job_type_description='WaitForFileJob' or job_type_description='MediaShuttleJob'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "",
-            "apdex": 0,
-            "apdex_time": 50
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
+            "type": 22,
+            "query": "SELECT count(*) as R1, FILTER(count(*), WHERE job_state='CompletedSuccessfully' or job_state='CompletedWithFailure') as R2 FROM Log WHERE record_type='CTP' and (job_type_description='DeliverJob' or job_type_description='WaitForFileJob' or job_type_description='MediaShuttleJob')",
+            "R1": 0,
+            "R2": 0
           }
         ]
       },
@@ -669,7 +543,7 @@
             "query": "",
             "measure_period": 60,
             "count": 0,
-            "limit_number": 50
+            "limit_number": 10
           }
         ]
       },

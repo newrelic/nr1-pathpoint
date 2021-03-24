@@ -46,7 +46,7 @@ function handleUploadJSONFile(
         const queryErrors = [];
         for (let i = 0; i < parsed.length; i++) {
           const tested = await validateKpiQuery.validateQuery(
-            'Count Query',
+            'KPI Query',
             parsed[i].query
           );
           if (!tested.goodQuery) {

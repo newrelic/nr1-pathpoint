@@ -1,8 +1,8 @@
 Stage Name,Touchpoint Type,Touchpoint Name,Step relationship,Touchpoint Count,Touchpoint Error Percentage,Error threshold,Apdex Query,Apdex threshold,Session Query,Session Query Duration,Touchpoint Dashboard link
-REQUEST,0,WO Count,,SELECT count(*) FROM Log WHERE record_type='WORK_ORDER',,5,,50,,,https://one.nr/0Zyw4G2GmQ3
+REQUEST,3,WO Count,,"SELECT count(*) as R1, FILTER(count(*), WHERE work_order_status='Completed' or work_order_status='Completed With Warnings' or work_order_status='Completed With Errors') as R2 FROM Log WHERE record_type='WORK_ORDER'",,5,,50,,,https://one.nr/0Zyw4G2GmQ3
 REQUEST,2,Super Rush Volume,2B,SELECT count(*) FROM Log WHERE record_type='WORK_ORDER' AND priority='SuperRush',,5,,50,,,https://one.nr/0Zyw4G2GmQ3
 REQUEST,0,Bulk User Submissions,2C,,,5,,50,,,https://one.nr/0Zyw4G2GmQ3
-PRESERVATION,0,Preservation Job Count,,SELECT count(*) FROM Log WHERE record_type='CTP' WHERE job_type_description='RestoreJob' or job_type_description='ArchiveJob',,5,,50,,,https://one.nr/0Zyw4G2GmQ3
+PRESERVATION,3,Preservation Job Count,,"SELECT count(*) as R1, FILTER(count(*), WHERE job_state='CompletedSuccessfully' or job_state='CompletedWithFailure') as R2 FROM Log WHERE record_type='CTP' AND (job_type_description='RestoreJob' or job_type_description='ArchiveJob')",,5,,50,,,https://one.nr/0Zyw4G2GmQ3
 PRESERVATION,2,Super Rush Volume,2B,,,5,,50,,,https://one.nr/0Zyw4G2GmQ3
 PRESERVATION,0,Bulk User Submissions,2C,,,5,,50,,,https://one.nr/0Zyw4G2GmQ3
 PRESERVATION,0,Preservation-Restore Queue Backlog,3A,,,5,,50,,,https://one.nr/0Zyw4G2GmQ3
@@ -10,14 +10,14 @@ PRESERVATION,0,Preservation-Restore Low Throughput,6A,,,5,,50,,,https://one.nr/0
 PRESERVATION,0,"In Progress Jobs ""Stuck""","4A,4B",,,5,,50,,,https://one.nr/0Zyw4G2GmQ3
 PRESERVATION,0,"In Progress  ""Taking Too Long""","4A,4B",,,5,,50,,,https://one.nr/0Zyw4G2GmQ3
 PRESERVATION,0,Failed Jobs by Specific Errors,6E,,,5,,50,,,https://one.nr/0Zyw4G2GmQ3
-FILE PROPERTY,0,File Property Count,,SELECT count(*) FROM Log WHERE record_type='CTP' WHERE job_type_description='ChecksumJob' or job_type_description='Md5SumJob',,,,,,,
-MISCELLANEOUS,0,Miscellaneous Count,,SELECT count(*) FROM Log WHERE record_type='CTP' WHERE job_type_description='RenameJob' or job_type_description='DirectoryListingJob' or job_type_description='RetryingDeleteFileJob',,,,,,,
-TRANSFORMATION,0,Transformation Job Count,,SELECT count(*) FROM Log WHERE record_type='CTP' WHERE job_type_description='TransformJob' or job_type_description='MetadataExtractionJob' or job_type_description='ThumbnailExtractionJob' or job_type_description='TicEncodeJob',,5,,50,,,https://one.nr/0Zyw4G2GmQ3
+FILE PROPERTY,3,File Property Count,,"SELECT count(*) as R1, FILTER(count(*), WHERE job_state='CompletedSuccessfully' or job_state='CompletedWithFailure') as R2 FROM Log WHERE record_type='CTP' AND (job_type_description='ChecksumJob' or job_type_description='Md5SumJob')",,,,,,,
+MISCELLANEOUS,3,Miscellaneous Count,,"SELECT count(*) as R1, FILTER(count(*), WHERE job_state='CompletedSuccessfully' or job_state='CompletedWithFailure') as R2 FROM Log WHERE record_type='CTP' AND (job_type_description='RenameJob' or job_type_description='DirectoryListingJob' or job_type_description='RetryingDeleteFileJob')",,,,,,,
+TRANSFORMATION,3,Transformation Job Count,,"SELECT count(*) as R1, FILTER(count(*), WHERE job_state='CompletedSuccessfully' or job_state='CompletedWithFailure') as R2 FROM Log WHERE record_type='CTP' and (job_type_description='TransformJob' or job_type_description='MetadataExtractionJob' or job_type_description='ThumbnailExtractionJob' or job_type_description='TicEncodeJob')",,5,,50,,,https://one.nr/0Zyw4G2GmQ3
 TRANSFORMATION,2,Super Rush Volume,2B,,,5,,50,,,https://one.nr/0Zyw4G2GmQ3
 TRANSFORMATION,0,"In Progress Jobs ""Stuck""",4A,,,5,,50,,,https://one.nr/0Zyw4G2GmQ3
 TRANSFORMATION,0,"In Progress  ""Taking Too Long""",4A,,,5,,50,,,https://one.nr/0Zyw4G2GmQ3
 TRANSFORMATION,0,Failed Jobs by Specific Errors,5B,,,5,,50,,,https://one.nr/0Zyw4G2GmQ3
-DELIVERY,0,Delivery Job Count,,SELECT count(*) FROM Log WHERE record_type='CTP' WHERE job_type_description='DeliverJob' or job_type_description='WaitForFileJob' or job_type_description='MediaShuttleJob',,5,,50,,,https://one.nr/0Zyw4G2GmQ3
+DELIVERY,3,Delivery Job Count,,"SELECT count(*) as R1, FILTER(count(*), WHERE job_state='CompletedSuccessfully' or job_state='CompletedWithFailure') as R2 FROM Log WHERE record_type='CTP' and (job_type_description='DeliverJob' or job_type_description='WaitForFileJob' or job_type_description='MediaShuttleJob')",,5,,50,,,https://one.nr/0Zyw4G2GmQ3
 DELIVERY,2,Super Rush Volume,2B,,,5,,50,,,https://one.nr/0Zyw4G2GmQ3
 DELIVERY,0,"In Progress Jobs ""Stuck""",4A,,,5,,50,,,https://one.nr/0Zyw4G2GmQ3
 DELIVERY,0,"In Progress  ""Taking Too Long""",4A,,,5,,50,,,https://one.nr/0Zyw4G2GmQ3

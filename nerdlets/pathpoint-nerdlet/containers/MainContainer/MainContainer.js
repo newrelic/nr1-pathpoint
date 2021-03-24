@@ -864,6 +864,12 @@ export default class MainContainer extends React.Component {
       case 'Full Open Query':
         querySample = messages.sample_querys.fullOpenQuery;
         break;
+      case 'Health Check Query':
+        querySample = messages.sample_querys.healthCheckQuery;
+        break;
+      case 'Jobs Measure Query':
+        querySample = messages.sample_querys.jobsMeasureQuery;
+        break;
     }
     if (stageNameSelected.selectedCase) {
       stageNameSelected.datos[

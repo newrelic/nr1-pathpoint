@@ -32,9 +32,11 @@ export default class ValidationQuery {
     if (query === '') {
       return { testText, goodQuery };
     }
-    const { data, errors } =
-      type !== 'Cloudflare App' && (await this.validateNrqlQuery(query));
+    const { data, errors } = await this.validateNrqlQuery(query);
     switch (type) {
+      case 'KPI Query':
+        goodQuery = this.kpiValidation(errors, data);
+        break;
       case 'Count Query':
         goodQuery = this.countQueryValidation(errors, data);
         break;
@@ -46,16 +48,43 @@ export default class ValidationQuery {
         break;
       case 'Session Query Duration':
         goodQuery = this.sessionDurationValidation(errors, query);
-
         break;
       case 'Full Open Query':
         goodQuery = this.fullOpenValidation(errors, data);
+        break;
+      case 'Health Check Query':
+        goodQuery = this.countQueryValidation(errors, data);
+        break;
+      case 'Jobs Measure Query':
+        goodQuery = this.JonsMeasureValidation(errors, data);
         break;
     }
     if (!goodQuery) {
       testText = messages.test_query.wrong;
     }
     return { testText, goodQuery };
+  }
+
+  kpiValidation(errors, data) {
+    let validate = true;
+    let quantity = 0;
+    if (errors && errors.length > 0) {
+      validate = false;
+    } else if (data instanceof Array && data.length === 1) {
+      for (const [, value] of Object.entries(data[0])) {
+        if (typeof value !== 'number') {
+          validate = false;
+          break;
+        }
+        quantity++;
+      }
+      if (quantity > 2) {
+        validate = false;
+      }
+    } else {
+      validate = false;
+    }
+    return validate;
   }
 
   countQueryValidation(errors, data) {
@@ -143,6 +172,34 @@ export default class ValidationQuery {
   }
 
   fullOpenValidation(errors, data) {
+    let validate = true;
+    let quantity = 0;
+    let containR1 = false;
+    let containR2 = false;
+    if (errors && errors.length > 0) {
+      validate = false;
+    } else if (data instanceof Array && data.length === 1) {
+      for (const [key, value] of Object.entries(data[0])) {
+        if (typeof value !== 'number') {
+          validate = false;
+          break;
+        }
+        if (key === 'R1') containR1 = true;
+        if (key === 'R2') containR2 = true;
+        quantity++;
+      }
+      if (quantity > 2) {
+        validate = false;
+      } else if (!containR1 || !containR2) {
+        validate = false;
+      }
+    } else {
+      validate = false;
+    }
+    return validate;
+  }
+
+  JonsMeasureValidation(errors, data) {
     let validate = true;
     let quantity = 0;
     let containR1 = false;

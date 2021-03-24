@@ -244,7 +244,23 @@ function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touc
                     "query" => $tp_queryCount,
                     "measure_period" => 60,
                     "count" => 0,
-                    "limit_number" => 50
+                    "limit_number" => 10
+                ]
+            ]
+        ];
+    }else if($touchpointType==3){ // touchpoint_type="Jobs Measure"
+        $touchPoints[0]["touchpoints"][] = [
+            "stage_index" => ($stage_index + 1),
+            "value" => $touchpoint,
+            "touchpoint_index" => $tpIndex,
+            "status_on_off" => true,
+            "relation_steps" => getStepIndex($stage_index, $steps),
+            "measure_points" => [
+                [
+                    "type" => 22,
+                    "query" => $tp_queryCount,
+                    "R1" => 0,
+                    "R2" => 0,
                 ]
             ]
         ];

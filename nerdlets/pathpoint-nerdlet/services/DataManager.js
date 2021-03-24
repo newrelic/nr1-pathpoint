@@ -49,7 +49,8 @@ export default class DataManager {
       'SESSIONS-QUERY',
       'SESSIONS-QUERY-DURATION',
       'FULL-OPEN-QUERY',
-      'HEALTH-CHECK'
+      'HEALTH-CHECK',
+      'JOBS-MEASURE'
     ];
   }
 
@@ -380,6 +381,16 @@ export default class DataManager {
           ) {
             measure.count = value.nrql.results[0].count;
           } else if (
+            measure.type === 22 &&
+            value.nrql !== null &&
+            value.nrql.results &&
+            value.nrql.results[0] &&
+            value.nrql.results[0].R1 &&
+            value.nrql.results[0].R2
+          ) {
+            measure.R1 = value.nrql.results[0].R1;
+            measure.R2 = value.nrql.results[0].R2;
+          } else if (
             measure.type === 100 &&
             value.nrql != null &&
             value.nrql.results &&
@@ -539,9 +550,18 @@ export default class DataManager {
         this.stages[i].status_color,
         this.GetStageError(i + 1, element)
       );
-      this.stages[i].total_count = values.count_by_stage[i];
-      this.stages[i].congestion.value =
-        Math.round((values.count_by_stage[i] / totalUse) * 10000) / 100;
+      if (values.jobs_count_by_stage[i][0] === 1) {
+        this.stages[i].total_count = values.jobs_count_by_stage[i][1];
+        this.stages[i].congestion.value =
+          Math.round(
+            (10000 * values.jobs_count_by_stage[i][2]) /
+              values.jobs_count_by_stage[i][1]
+          ) / 100;
+      } else {
+        this.stages[i].total_count = values.count_by_stage[i];
+        this.stages[i].congestion.value =
+          Math.round((values.count_by_stage[i] / totalUse) * 10000) / 100;
+      }
       this.stages[i].capacity =
         (values.count_by_stage[i] /
           this.CheckMaxCapacity(values.count_by_stage[i], i)) *
@@ -567,6 +587,18 @@ export default class DataManager {
   Getmeasures(element) {
     let total_count = 0;
     const count_by_stage = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    const jobs_count_by_stage = [
+      [0, 0, 0],
+      [0, 0, 0],
+      [0, 0, 0],
+      [0, 0, 0],
+      [0, 0, 0],
+      [0, 0, 0],
+      [0, 0, 0],
+      [0, 0, 0],
+      [0, 0, 0],
+      [0, 0, 0]
+    ];
     const sessions_by_stage = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     const session_percentage_by_stage = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     const apdex_by_stage = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
@@ -593,6 +625,10 @@ export default class DataManager {
             ] = this.GetSessionsPercentage(measure.sessions);
           } else if (measure.type === 20) {
             logmeasure_by_stage[touchpoint.stage_index - 1] += measure.count;
+          } else if (measure.type === 22) {
+            jobs_count_by_stage[touchpoint.stage_index - 1][0] = 1;
+            jobs_count_by_stage[touchpoint.stage_index - 1][1] += measure.R1;
+            jobs_count_by_stage[touchpoint.stage_index - 1][2] += measure.R2;
           }
         });
       }
@@ -604,7 +640,8 @@ export default class DataManager {
       session_percentage_by_stage: session_percentage_by_stage,
       apdex_by_stage: apdex_by_stage,
       min_apdex_touchpoint_index_by_stage: min_apdex_touchpoint_index_by_stage,
-      logmeasure_by_stage: logmeasure_by_stage
+      logmeasure_by_stage: logmeasure_by_stage,
+      jobs_count_by_stage: jobs_count_by_stage
     };
   }
 
@@ -1117,6 +1154,11 @@ export default class DataManager {
                   measure_period: measure.measure_period,
                   limit_number: measure.limit_number
                 });
+              } else if (measure.type === 22) {
+                queries.push({
+                  type: this.measureNames[7],
+                  query: measure.query
+                });
               }
             });
           }
@@ -1290,6 +1332,13 @@ export default class DataManager {
               measure_period: query.measure_period,
               count: 0,
               limit_number: query.limit_number
+            };
+          } else if (query.type === this.measureNames[7]) {
+            measure = {
+              type: 22,
+              query: query.query,
+              R1: 0,
+              R2: 0
             };
           }
           tpDef2.measure_points.push(measure);
@@ -1804,6 +1853,18 @@ for (const [key, value] of Object.entries(return` +
                   query_start: '',
                   query_body: measure.query,
                   query_footer: `SINCE ${measure.measure_period} MINUTES AGO`
+                });
+              } else if (measure.type === 22) {
+                datos.push({
+                  label: 'Jobs Measure Query',
+                  value: actualValue,
+                  type: 22,
+                  query_start: '',
+                  query_body: measure.query,
+                  query_footer: `SINCE ${this.TimeRangeTransform(
+                    this.timeRange,
+                    false
+                  )}`
                 });
               }
               actualValue++;
