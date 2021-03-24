@@ -48,7 +48,8 @@ export default class DataManager {
       'APDEX-QUERY',
       'SESSIONS-QUERY',
       'SESSIONS-QUERY-DURATION',
-      'FULL-OPEN-QUERY'
+      'FULL-OPEN-QUERY',
+      'HEALTH-CHECK'
     ];
   }
 
@@ -243,7 +244,10 @@ export default class DataManager {
 
   FetchMeasure(measure) {
     this.ClearMeasure(measure);
-    if (measure.query !== '') {
+    if (measure.type === 21) {
+      const query = `${measure.query} SINCE ${measure.measure_period} MINUTES AGO`;
+      this.graphQlmeasures.push([measure, query]);
+    } else if (measure.query !== '') {
       const query = `${measure.query} SINCE ${this.TimeRangeTransform(
         this.timeRange,
         false
@@ -367,6 +371,14 @@ export default class DataManager {
             value.nrql.results[0]
           ) {
             this.SetLogsMeasure(measure, value.nrql.results[0]);
+          } else if (
+            measure.type === 21 &&
+            value.nrql !== null &&
+            value.nrql.results &&
+            value.nrql.results[0] &&
+            value.nrql.results[0].count
+          ) {
+            measure.count = value.nrql.results[0].count;
           } else if (
             measure.type === 100 &&
             value.nrql != null &&
@@ -658,6 +670,16 @@ export default class DataManager {
             }
           } else if (measure.type === 20) {
             if (measure.error_percentage > measure.error_threshold) {
+              touchpoint.relation_steps.forEach(rel => {
+                steps_with_error[rel - 1] = 1;
+              });
+              this.SetTouchpointError(
+                touchpoint.stage_index,
+                touchpoint.touchpoint_index
+              );
+            }
+          } else if (measure.type === 21) {
+            if (measure.count > measure.limit_number) {
               touchpoint.relation_steps.forEach(rel => {
                 steps_with_error[rel - 1] = 1;
               });
@@ -1088,6 +1110,13 @@ export default class DataManager {
                   query: measure.query,
                   error_threshold: measure.error_threshold
                 });
+              } else if (measure.type === 21) {
+                queries.push({
+                  type: this.measureNames[6],
+                  query: measure.query,
+                  measure_period: measure.measure_period,
+                  limit_number: measure.limit_number
+                });
               }
             });
           }
@@ -1253,6 +1282,14 @@ export default class DataManager {
               error_threshold: query.error_threshold,
               count: 0,
               error_percentage: 0
+            };
+          } else if (query.type === this.measureNames[6]) {
+            measure = {
+              type: 21,
+              query: query.query,
+              measure_period: query.measure_period,
+              count: 0,
+              limit_number: query.limit_number
             };
           }
           tpDef2.measure_points.push(measure);
@@ -1487,35 +1524,37 @@ export default class DataManager {
     this.touchPoints.forEach(element => {
       if (element.index === this.city) {
         element.touchpoints.forEach(touchpoint => {
-          data +=
-            ' measure_' +
-            touchpoint.stage_index +
-            '_' +
-            touchpoint.touchpoint_index +
-            '_' +
-            touchpoint.measure_points[0].type +
-            ': account(id: "+myAccountID+") { nrql(query: \\"';
-          if (touchpoint.measure_points[0].type === 20) {
-            query2 = touchpoint.measure_points[0].query;
-          } else {
-            query = touchpoint.measure_points[0].query.split(' ');
-            query2 =
-              'SELECT count(*), percentage(count(*), WHERE error is true) as percentage';
-            for (let wi = 2; wi < query.length; wi++) {
-              query2 += ' ' + query[wi];
+          if (touchpoint.measure_points[0].type in [1, 20]) {
+            data +=
+              ' measure_' +
+              touchpoint.stage_index +
+              '_' +
+              touchpoint.touchpoint_index +
+              '_' +
+              touchpoint.measure_points[0].type +
+              ': account(id: "+myAccountID+") { nrql(query: \\"';
+            if (touchpoint.measure_points[0].type === 20) {
+              query2 = touchpoint.measure_points[0].query;
+            } else {
+              query = touchpoint.measure_points[0].query.split(' ');
+              query2 =
+                'SELECT count(*), percentage(count(*), WHERE error is true) as percentage';
+              for (let wi = 2; wi < query.length; wi++) {
+                query2 += ' ' + query[wi];
+              }
             }
-          }
-          data += query2;
-          data += ' SINCE 5 minutes AGO';
-          data += '\\", timeout: 10) {results }}';
-          i++;
-          if (i === countBreak) {
-            i = 0;
-            data += '}}","variables":""});';
-            data += `
+            data += query2;
+            data += ' SINCE 5 minutes AGO';
+            data += '\\", timeout: 10) {results }}';
+            i++;
+            if (i === countBreak) {
+              i = 0;
+              data += '}}","variables":""});';
+              data += `
 `;
-            n++;
-            data += 'var raw' + n + ' = JSON.stringify({"query":"{ actor {';
+              n++;
+              data += 'var raw' + n + ' = JSON.stringify({"query":"{ actor {';
+            }
           }
         });
         data += '}}","variables":""});';
@@ -1756,6 +1795,15 @@ for (const [key, value] of Object.entries(return` +
                     this.timeRange,
                     false
                   )}`
+                });
+              } else if (measure.type === 21) {
+                datos.push({
+                  label: 'Health Check Query',
+                  value: actualValue,
+                  type: 21,
+                  query_start: '',
+                  query_body: measure.query,
+                  query_footer: `SINCE ${measure.measure_period} MINUTES AGO`
                 });
               }
               actualValue++;

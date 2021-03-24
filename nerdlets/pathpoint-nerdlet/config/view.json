@@ -144,7 +144,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Priorities",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -160,7 +160,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Users",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -195,7 +195,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Disapproved",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -328,7 +328,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Priorities",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -344,7 +344,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Users",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -363,7 +363,7 @@
               "index": 5,
               "id": "ST2-LINE3-SS1",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Jobs Queue",
               "dark": true,
               "history_error": false,
@@ -474,7 +474,7 @@
               "canary_state": false,
               "latency": false,
               "value": "DIVA: Arch.",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -672,7 +672,7 @@
     },
     {
       "index": 3,
-      "title": "TRANSFORMATION",
+      "title": "FILE PROPERTY",
       "latencyStatus": false,
       "status_color": "good",
       "gout_enable": false,
@@ -719,7 +719,7 @@
               "id": "ST3-LINE2-SS1",
               "canary_state": false,
               "latency": false,
-              "value": "Task",
+              "value": "Tasks",
               "dark": false,
               "history_error": false,
               "dotted": false,
@@ -740,9 +740,7 @@
               "highlighted": false,
               "error": false,
               "index_stage": 3,
-              "relationship_touchpoints": [
-                2
-              ]
+              "relationship_touchpoints": []
             },
             {
               "index": 4,
@@ -787,25 +785,22 @@
               "id": "ST3-LINE4-SS1",
               "canary_state": false,
               "latency": false,
-              "value": "Elemental: File Conv",
-              "dark": false,
+              "value": " CheckSum",
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
               "error": false,
               "index_stage": 3,
-              "relationship_touchpoints": [
-                3,
-                4
-              ]
+              "relationship_touchpoints": []
             },
             {
               "index": 7,
               "id": "ST3-LINE4-SS2",
               "canary_state": false,
               "latency": false,
-              "value": "MediaMate: File Conv.",
-              "dark": true,
+              "value": "Md5Sum",
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -823,7 +818,7 @@
               "id": "ST3-LINE5-SS1",
               "canary_state": false,
               "latency": false,
-              "value": "File Conversion Complete",
+              "value": "Completed",
               "dark": false,
               "history_error": false,
               "dotted": false,
@@ -837,16 +832,14 @@
               "id": "ST3-LINE5-SS2",
               "canary_state": false,
               "latency": false,
-              "value": "Failed Conversion",
+              "value": "Failed",
               "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
               "error": false,
               "index_stage": 3,
-              "relationship_touchpoints": [
-                5
-              ]
+              "relationship_touchpoints": []
             }
           ]
         }
@@ -857,7 +850,7 @@
           "stage_index": 3,
           "status_on_off": true,
           "active": false,
-          "value": "Transformation Job Count",
+          "value": "File Property Count",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -865,91 +858,15 @@
             0
           ],
           "dashboard_url": [
-            "https://one.nr/0Zyw4G2GmQ3"
+            false
           ],
           "relation_steps": []
-        },
-        {
-          "index": 2,
-          "stage_index": 3,
-          "status_on_off": true,
-          "active": false,
-          "value": "Super Rush Volume",
-          "highlighted": false,
-          "error": false,
-          "history_error": false,
-          "countrys": [
-            0
-          ],
-          "dashboard_url": [
-            "https://one.nr/0Zyw4G2GmQ3"
-          ],
-          "relation_steps": [
-            3
-          ]
-        },
-        {
-          "index": 3,
-          "stage_index": 3,
-          "status_on_off": true,
-          "active": false,
-          "value": "In Progress Jobs \"Stuck\"",
-          "highlighted": false,
-          "error": false,
-          "history_error": false,
-          "countrys": [
-            0
-          ],
-          "dashboard_url": [
-            "https://one.nr/0Zyw4G2GmQ3"
-          ],
-          "relation_steps": [
-            6
-          ]
-        },
-        {
-          "index": 4,
-          "stage_index": 3,
-          "status_on_off": true,
-          "active": false,
-          "value": "In Progress  \"Taking Too Long\"",
-          "highlighted": false,
-          "error": false,
-          "history_error": false,
-          "countrys": [
-            0
-          ],
-          "dashboard_url": [
-            "https://one.nr/0Zyw4G2GmQ3"
-          ],
-          "relation_steps": [
-            6
-          ]
-        },
-        {
-          "index": 5,
-          "stage_index": 3,
-          "status_on_off": true,
-          "active": false,
-          "value": "Failed Jobs by Specific Errors",
-          "highlighted": false,
-          "error": false,
-          "history_error": false,
-          "countrys": [
-            0
-          ],
-          "dashboard_url": [
-            "https://one.nr/0Zyw4G2GmQ3"
-          ],
-          "relation_steps": [
-            9
-          ]
         }
       ]
     },
     {
       "index": 4,
-      "title": "DELIVERY",
+      "title": "MISCELLANEOUS",
       "latencyStatus": false,
       "status_color": "danger",
       "gout_enable": false,
@@ -996,7 +913,7 @@
               "id": "ST4-LINE2-SS1",
               "canary_state": false,
               "latency": false,
-              "value": "Task",
+              "value": "Tasks",
               "dark": false,
               "history_error": false,
               "dotted": false,
@@ -1017,9 +934,7 @@
               "highlighted": false,
               "error": false,
               "index_stage": 4,
-              "relationship_touchpoints": [
-                2
-              ]
+              "relationship_touchpoints": []
             },
             {
               "index": 4,
@@ -1064,25 +979,36 @@
               "id": "ST4-LINE4-SS1",
               "canary_state": false,
               "latency": false,
-              "value": "Signiant: Asset Delivery",
-              "dark": true,
+              "value": "Rename",
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
               "error": false,
               "index_stage": 4,
-              "relationship_touchpoints": [
-                3,
-                4
-              ]
+              "relationship_touchpoints": []
             },
             {
               "index": 7,
               "id": "ST4-LINE4-SS2",
               "canary_state": false,
               "latency": false,
-              "value": "MediaShuttle: Asset Delivery",
-              "dark": false,
+              "value": "DirListing",
+              "dark": true,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 4,
+              "relationship_touchpoints": []
+            },
+            {
+              "index": 8,
+              "id": "ST4-LINE4-SS3",
+              "canary_state": false,
+              "latency": false,
+              "value": "RetryDelete",
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1096,11 +1022,11 @@
           "value": "",
           "sub_steps": [
             {
-              "index": 8,
+              "index": 9,
               "id": "ST4-LINE5-SS1",
               "canary_state": false,
               "latency": false,
-              "value": "Asset Delivered",
+              "value": "Completed",
               "dark": false,
               "history_error": false,
               "dotted": false,
@@ -1110,20 +1036,18 @@
               "relationship_touchpoints": []
             },
             {
-              "index": 9,
+              "index": 10,
               "id": "ST4-LINE5-SS2",
               "canary_state": false,
               "latency": false,
-              "value": "Failed Delivery",
+              "value": "Failed",
               "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
               "error": false,
               "index_stage": 4,
-              "relationship_touchpoints": [
-                5
-              ]
+              "relationship_touchpoints": []
             }
           ]
         }
@@ -1134,7 +1058,208 @@
           "stage_index": 4,
           "status_on_off": true,
           "active": false,
-          "value": "Delivery Job Count",
+          "value": "Miscellaneous Count",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            false
+          ],
+          "relation_steps": []
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "title": "TRANSFORMATION",
+      "latencyStatus": false,
+      "status_color": "warning",
+      "gout_enable": false,
+      "gout_quantity": 150,
+      "money_enabled": false,
+      "trafficIconType": "traffic",
+      "money": "",
+      "icon_active": false,
+      "icon_description": "star",
+      "icon_visible": false,
+      "congestion": {
+        "value": 0,
+        "percentage": 15
+      },
+      "capacity": 0,
+      "total_count": 0,
+      "active_dotted": "none",
+      "active_dotted_color": "#828282",
+      "steps": [
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 1,
+              "id": "ST5-LINE1-SS1",
+              "canary_state": false,
+              "latency": true,
+              "value": "Catapult Workflow",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 5,
+              "relationship_touchpoints": []
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 2,
+              "id": "ST5-LINE2-SS1",
+              "canary_state": false,
+              "latency": false,
+              "value": "Task",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 5,
+              "relationship_touchpoints": []
+            },
+            {
+              "index": 3,
+              "id": "ST5-LINE2-SS2",
+              "canary_state": false,
+              "latency": false,
+              "value": "Priorities",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 5,
+              "relationship_touchpoints": [
+                2
+              ]
+            },
+            {
+              "index": 4,
+              "id": "ST5-LINE2-SS3",
+              "canary_state": false,
+              "latency": false,
+              "value": "Users",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 5,
+              "relationship_touchpoints": []
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 5,
+              "id": "ST5-LINE3-SS1",
+              "canary_state": false,
+              "latency": true,
+              "value": "Jobs Queue",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 5,
+              "relationship_touchpoints": []
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 6,
+              "id": "ST5-LINE4-SS1",
+              "canary_state": false,
+              "latency": false,
+              "value": "Elemental: File Conv",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 5,
+              "relationship_touchpoints": [
+                3,
+                4
+              ]
+            },
+            {
+              "index": 7,
+              "id": "ST5-LINE4-SS2",
+              "canary_state": false,
+              "latency": false,
+              "value": "MediaMate: File Conv.",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 5,
+              "relationship_touchpoints": []
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 8,
+              "id": "ST5-LINE5-SS1",
+              "canary_state": false,
+              "latency": false,
+              "value": "File Conversion Complete",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 5,
+              "relationship_touchpoints": []
+            },
+            {
+              "index": 9,
+              "id": "ST5-LINE5-SS2",
+              "canary_state": false,
+              "latency": false,
+              "value": "Failed Conversion",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 5,
+              "relationship_touchpoints": [
+                5
+              ]
+            }
+          ]
+        }
+      ],
+      "touchpoints": [
+        {
+          "index": 1,
+          "stage_index": 5,
+          "status_on_off": true,
+          "active": false,
+          "value": "Transformation Job Count",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1148,7 +1273,7 @@
         },
         {
           "index": 2,
-          "stage_index": 4,
+          "stage_index": 5,
           "status_on_off": true,
           "active": false,
           "value": "Super Rush Volume",
@@ -1167,7 +1292,7 @@
         },
         {
           "index": 3,
-          "stage_index": 4,
+          "stage_index": 5,
           "status_on_off": true,
           "active": false,
           "value": "In Progress Jobs \"Stuck\"",
@@ -1186,7 +1311,7 @@
         },
         {
           "index": 4,
-          "stage_index": 4,
+          "stage_index": 5,
           "status_on_off": true,
           "active": false,
           "value": "In Progress  \"Taking Too Long\"",
@@ -1205,7 +1330,284 @@
         },
         {
           "index": 5,
-          "stage_index": 4,
+          "stage_index": 5,
+          "status_on_off": true,
+          "active": false,
+          "value": "Failed Jobs by Specific Errors",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.nr/0Zyw4G2GmQ3"
+          ],
+          "relation_steps": [
+            9
+          ]
+        }
+      ]
+    },
+    {
+      "index": 6,
+      "title": "DELIVERY",
+      "latencyStatus": false,
+      "status_color": "good",
+      "gout_enable": false,
+      "gout_quantity": 150,
+      "money_enabled": false,
+      "trafficIconType": "traffic",
+      "money": "",
+      "icon_active": true,
+      "icon_description": "star",
+      "icon_visible": false,
+      "congestion": {
+        "value": 0,
+        "percentage": 15
+      },
+      "capacity": 0,
+      "total_count": 0,
+      "active_dotted": "none",
+      "active_dotted_color": "#828282",
+      "steps": [
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 1,
+              "id": "ST6-LINE1-SS1",
+              "canary_state": false,
+              "latency": true,
+              "value": "Catapult Workflow",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 6,
+              "relationship_touchpoints": []
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 2,
+              "id": "ST6-LINE2-SS1",
+              "canary_state": false,
+              "latency": true,
+              "value": "Task",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 6,
+              "relationship_touchpoints": []
+            },
+            {
+              "index": 3,
+              "id": "ST6-LINE2-SS2",
+              "canary_state": false,
+              "latency": false,
+              "value": "Priorities",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 6,
+              "relationship_touchpoints": [
+                2
+              ]
+            },
+            {
+              "index": 4,
+              "id": "ST6-LINE2-SS3",
+              "canary_state": false,
+              "latency": false,
+              "value": "Users",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 6,
+              "relationship_touchpoints": []
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 5,
+              "id": "ST6-LINE3-SS1",
+              "canary_state": false,
+              "latency": false,
+              "value": "Jobs Queue",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 6,
+              "relationship_touchpoints": []
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 6,
+              "id": "ST6-LINE4-SS1",
+              "canary_state": false,
+              "latency": false,
+              "value": "Signiant: Asset Delivery",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 6,
+              "relationship_touchpoints": [
+                3,
+                4
+              ]
+            },
+            {
+              "index": 7,
+              "id": "ST6-LINE4-SS2",
+              "canary_state": false,
+              "latency": false,
+              "value": "MediaShuttle: Asset Delivery",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 6,
+              "relationship_touchpoints": []
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 8,
+              "id": "ST6-LINE5-SS1",
+              "canary_state": false,
+              "latency": false,
+              "value": "Asset Delivered",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 6,
+              "relationship_touchpoints": []
+            },
+            {
+              "index": 9,
+              "id": "ST6-LINE5-SS2",
+              "canary_state": false,
+              "latency": false,
+              "value": "Failed Delivery",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 6,
+              "relationship_touchpoints": [
+                5
+              ]
+            }
+          ]
+        }
+      ],
+      "touchpoints": [
+        {
+          "index": 1,
+          "stage_index": 6,
+          "status_on_off": true,
+          "active": false,
+          "value": "Delivery Job Count",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.nr/0Zyw4G2GmQ3"
+          ],
+          "relation_steps": []
+        },
+        {
+          "index": 2,
+          "stage_index": 6,
+          "status_on_off": true,
+          "active": false,
+          "value": "Super Rush Volume",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.nr/0Zyw4G2GmQ3"
+          ],
+          "relation_steps": [
+            3
+          ]
+        },
+        {
+          "index": 3,
+          "stage_index": 6,
+          "status_on_off": true,
+          "active": false,
+          "value": "In Progress Jobs \"Stuck\"",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.nr/0Zyw4G2GmQ3"
+          ],
+          "relation_steps": [
+            6
+          ]
+        },
+        {
+          "index": 4,
+          "stage_index": 6,
+          "status_on_off": true,
+          "active": false,
+          "value": "In Progress  \"Taking Too Long\"",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.nr/0Zyw4G2GmQ3"
+          ],
+          "relation_steps": [
+            6
+          ]
+        },
+        {
+          "index": 5,
+          "stage_index": 6,
           "status_on_off": true,
           "active": false,
           "value": "Failed Jobs by Specific Errors",

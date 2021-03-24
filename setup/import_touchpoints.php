@@ -231,6 +231,23 @@ function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touc
                 ]
             ]
         ];
+    }else if($touchpointType==2){ // touchpoint_type="Health Check"
+        $touchPoints[0]["touchpoints"][] = [
+            "stage_index" => ($stage_index + 1),
+            "value" => $touchpoint,
+            "touchpoint_index" => $tpIndex,
+            "status_on_off" => true,
+            "relation_steps" => getStepIndex($stage_index, $steps),
+            "measure_points" => [
+                [
+                    "type" => 21,
+                    "query" => $tp_queryCount,
+                    "measure_period" => 60,
+                    "count" => 0,
+                    "limit_number" => 50
+                ]
+            ]
+        ];
     }
     //$n = rand(1, 100);
     $view["stages"][$stage_index]["touchpoints"][] = [
