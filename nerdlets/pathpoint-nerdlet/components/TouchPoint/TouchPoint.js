@@ -39,12 +39,10 @@ export default class TouchPoint extends React.Component {
     document.removeEventListener('contextmenu', this.HandleContextMenuPrevent);
   }
 
-  /* istanbul ignore next */
   HandleContextMenuPrevent(event) {
     event.preventDefault();
   }
 
-  /* istanbul ignore next */
   HandleContextMenu = event => {
     if (event.button === 2 && !this.props.iconCanaryStatus) {
       event.preventDefault();
@@ -69,7 +67,6 @@ export default class TouchPoint extends React.Component {
     }
   };
 
-  /* istanbul ignore next */
   HandleClickonOff = () => {
     const { idVisible } = this.state;
     const { updateTouchpointOnOff, renderProps, touchpoint } = this.props;
@@ -77,7 +74,6 @@ export default class TouchPoint extends React.Component {
     renderProps(idVisible, touchpoint);
   };
 
-  /* istanbul ignore next */
   HandleClickTune = () => {
     const { idVisible } = this.state;
     const { openModalParent, renderProps, touchpoint } = this.props;
@@ -87,7 +83,6 @@ export default class TouchPoint extends React.Component {
     // this.props.touchpoint.active = !active;
   };
 
-  /* istanbul ignore next */
   HandleClickQueries = () => {
     this.props.openModalParent(this.props.touchpoint, 1);
     this.props.renderProps(this.state.idVisible, this.props.touchpoint);
@@ -195,9 +190,7 @@ export default class TouchPoint extends React.Component {
             }}
             onMouseDown={this.HandleContextMenu}
             onClick={() => {
-              if (touchpoint.sixth_sense && iconSixthSenseStatus) {
-                this.setState({ hidden: true });
-              } else if (touchpoint.dashboard_url !== false) {
+              if (touchpoint.dashboard_url !== false) {
                 if (touchpoint.dashboard_url[city] !== false) {
                   window.open(touchpoint.dashboard_url[city]);
                 }
@@ -219,7 +212,7 @@ export default class TouchPoint extends React.Component {
         </div>
 
         <div>
-          {visible && idVisible === this.state.idVisible ? (
+          {visible && idVisible === this.state.idVisible && (
             <div
               ref={
                 /* istanbul ignore next */ ref => {
@@ -274,8 +267,6 @@ export default class TouchPoint extends React.Component {
                 </Form>
               </div>
             </div>
-          ) : (
-            ''
           )}
         </div>
       </div>
