@@ -162,64 +162,17 @@ exports[`QueryFormModal component Render header with default data 1`] = `
     Test API
   </div>
   <div>
-    <div
-      className=" css-2b097c-container"
-      onKeyDown={[Function]}
+    <select
+      className="custom-select"
+      id="query"
+      name="query"
+      onChange={[MockFunction]}
     >
-      <div
-        className="react-selectQuery__control css-e56m7-control"
-        onMouseDown={[Function]}
-        onTouchEnd={[Function]}
-      >
-        <div
-          className="react-selectQuery__value-container css-g1d714-ValueContainer"
-        >
-          <div
-            className="react-selectQuery__placeholder css-1wa3eu0-placeholder"
-          >
-            Full Open Query
-          </div>
-          <input
-            aria-autocomplete="list"
-            className="css-62g3xt-dummyInput"
-            disabled={false}
-            id="react-select-2-input"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            readOnly={true}
-            tabIndex="0"
-            value=""
-          />
-        </div>
-        <div
-          className="react-selectQuery__indicators css-1hb7zxy-IndicatorsContainer"
-        >
-          <span
-            className="react-selectQuery__indicator-separator css-1okebmr-indicatorSeparator"
-          />
-          <div
-            aria-hidden="true"
-            className="react-selectQuery__indicator react-selectQuery__dropdown-indicator css-tlfecz-indicatorContainer"
-            onMouseDown={[Function]}
-            onTouchEnd={[Function]}
-          >
-            <svg
-              aria-hidden="true"
-              className="css-6q0nyr-Svg"
-              focusable="false"
-              height={20}
-              viewBox="0 0 20 20"
-              width={20}
-            >
-              <path
-                d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
-              />
-            </svg>
-          </div>
-        </div>
-      </div>
-    </div>
+      <option
+        label="Full Open Query"
+        value={0}
+      />
+    </select>
   </div>
 </div>
 `;

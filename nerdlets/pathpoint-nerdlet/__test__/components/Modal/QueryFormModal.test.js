@@ -11,9 +11,7 @@ describe('<QueryFormModal/>', () => {
       <BodyQueryFormModal
         querySample="simple query"
         stageNameSelected={{
-          selectedCase: {
-            value: 0
-          },
+          selectedCase: 0,
           datos: [
             {
               label: 'Full Open Query',
@@ -150,43 +148,6 @@ describe('<QueryFormModal/>', () => {
       />
     );
     expect(headerQueryForm.length).toEqual(1);
-  });
-
-  it('Render Header simulate change in dropwdown', () => {
-    const headerQueryForm = mount(
-      <HeaderQueryFormModal
-        stageNameSelected={{
-          touchpoint: {
-            value: 'Test API'
-          },
-          datos: [
-            {
-              label: 'Full Open Query',
-              query_body: 'SELECT FILTER(count(*) FROM Log',
-              query_footer: 'SINCE 5 MINUTES AGO',
-              query_start: '',
-              type: 20,
-              value: 0
-            }
-          ]
-        }}
-        changeMessage={jest.fn()}
-      />
-    );
-    headerQueryForm
-      .find('.react-selectQuery__control')
-      .first()
-      .simulate('keyDown', { key: 'ArrowDown', keyCode: 40 });
-    headerQueryForm
-      .find('.react-selectQuery__control')
-      .first()
-      .simulate('keyDown', { key: 'Enter', keyCode: 13 });
-    expect(
-      headerQueryForm
-        .find('.react-selectQuery__single-value')
-        .first()
-        .text()
-    ).toEqual('Full Open Query');
   });
 
   it('Simulate onsubmit', () => {
