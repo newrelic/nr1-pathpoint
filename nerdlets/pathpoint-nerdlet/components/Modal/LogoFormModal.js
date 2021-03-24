@@ -1,31 +1,10 @@
 import React from 'react';
-import Select from 'react-select';
+import Select from '../Select/Select';
 import PropTypes from 'prop-types';
 import { Button, FormControl, Form, FormGroup } from 'react-bootstrap';
 
 // IMPORT ICONS
 import logo_icon_modal from '../../images/logo_icon_modal.svg';
-
-const customStyles = {
-  container: provided => ({
-    ...provided,
-    width: '100%'
-  }),
-  control: styles => ({
-    ...styles,
-    width: '100%',
-    height: '30px !important',
-    minHeight: '30px !important'
-  }),
-  menu: provided => ({
-    ...provided,
-    width: '100%'
-  }),
-  indicatorsContainer: styles => ({
-    ...styles,
-    height: '30px !important'
-  })
-};
 
 const logoTypeOptions = [
   {
@@ -34,11 +13,11 @@ const logoTypeOptions = [
   },
   {
     label: 'Text',
-    value: 'text'
+    value: 'Text'
   },
   {
     label: 'Default',
-    value: 'default'
+    value: 'Default'
   }
 ];
 
@@ -60,19 +39,11 @@ function BodyLogoFormModal(props) {
     <div style={{ width: '350px' }}>
       <div className="modal4content space form-parent-container">
         <Form onSubmit={e => handleSubmitLogo(e)}>
-          <FormGroup controlId="formSubject">
+          <FormGroup controlId="formType">
             <Select
               name="type"
-              onChange={e => handleOnChange('select', e)}
-              placeholder=""
-              classNamePrefix="react-selectLogoOption"
-              defaultValue={logoTypeOptions[0]}
+              handleOnChange={handleOnChange}
               options={logoTypeOptions}
-              styles={customStyles}
-              theme={theme => ({
-                ...theme,
-                borderRadius: 0
-              })}
             />
           </FormGroup>
           {type === 'Text' && (
@@ -91,7 +62,7 @@ function BodyLogoFormModal(props) {
                   type="text"
                   placeholder="Enter Text"
                   bsClass="support-modal-input-text"
-                  onChange={e => handleOnChange('input', e)}
+                  onChange={e => handleOnChange(e)}
                 />
               </FormGroup>
             </div>
@@ -112,7 +83,7 @@ function BodyLogoFormModal(props) {
                   type="text"
                   placeholder="Enter URL"
                   bsClass="support-modal-input-text"
-                  onChange={e => handleOnChange('input', e)}
+                  onChange={e => handleOnChange(e)}
                 />
               </FormGroup>
             </div>

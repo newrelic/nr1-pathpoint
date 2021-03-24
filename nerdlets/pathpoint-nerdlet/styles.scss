@@ -1,19 +1,19 @@
-@import "./containers/MainContainer/styles.scss";
-@import "./containers/StepContainer/styles.scss";
-@import "./components/Header/styles.scss";
-@import "./components/Stage/style.scss";
-@import "./components/Step/style.scss";
-@import "./components/TouchPoint/styles.scss";
-@import "./components/Arrow/styless.scss";
-@import "./components/Tooltip/styles.scss";
-@import "./components//Modal/styles.scss";
-@import url("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css");
+@import './containers/MainContainer/styles.scss';
+@import './containers/StepContainer/styles.scss';
+@import './components/Header/styles.scss';
+@import './components/Stage/style.scss';
+@import './components/Step/style.scss';
+@import './components/TouchPoint/styles.scss';
+@import './components/Arrow/styless.scss';
+@import './components/Tooltip/styles.scss';
+@import './components//Modal/styles.scss';
+@import url('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css');
 
 #root {
   background-color: #fafafa !important;
 }
 
-a[target="_blank"]:after {
+a[target='_blank']:after {
   background-image: none !important;
   margin-left: 0px !important;
   position: unset !important;
@@ -27,6 +27,25 @@ a[target="_blank"]:after {
   justify-content: center;
   position: relative;
 }
+
 .modal-backdrop {
   background: rgba(51, 51, 51, 0.6);
+}
+
+.custom-select {
+  position: inherit;
+  border-radius: 0px;
+  background-color: #fff;
+  border: 1px solid rgb(189, 189, 189);
+  min-height: 30px;
+  min-width: 150px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.custom-select:active {
+  background-color: #fff !important;
+}
+
+.custom-select:hover {
+  background-color: #fff !important;
 }
