@@ -7,6 +7,7 @@ describe('<ShowBody/>', () => {
   it('Render view modal 0 ', () => {
     const bodyRender = mount(
       <ShowBody
+        handleSaveUpdateSupport={jest.fn()}
         _onClose={jest.fn()}
         LogoFormSubmit={jest.fn()}
         handleSaveUpdateTune={jest.fn()}
@@ -19,14 +20,13 @@ describe('<ShowBody/>', () => {
   it('Render view modal 1 ', () => {
     const bodyRender = mount(
       <ShowBody
+        handleSaveUpdateSupport={jest.fn()}
         _onClose={jest.fn()}
         LogoFormSubmit={jest.fn()}
         handleSaveUpdateTune={jest.fn()}
         querySample="simple query"
         stageNameSelected={{
-          selectedCase: {
-            value: 0
-          },
+          selectedCase: 0,
           datos: [
             {
               label: 'Full Open Query',
@@ -54,6 +54,7 @@ describe('<ShowBody/>', () => {
   it('Render view modal 2', () => {
     const bodyRender = mount(
       <ShowBody
+        handleSaveUpdateSupport={jest.fn()}
         _onClose={jest.fn()}
         LogoFormSubmit={jest.fn()}
         stageNameSelected={{
@@ -81,6 +82,7 @@ describe('<ShowBody/>', () => {
   it('Render view modal 3', () => {
     const bodyRender = mount(
       <ShowBody
+        handleSaveUpdateSupport={jest.fn()}
         _onClose={jest.fn()}
         LogoFormSubmit={jest.fn()}
         handleSaveUpdateTune={jest.fn()}
@@ -93,6 +95,7 @@ describe('<ShowBody/>', () => {
   it('Render view modal 4', () => {
     const bodyRender = mount(
       <ShowBody
+        handleSaveUpdateSupport={jest.fn()}
         _onClose={jest.fn()}
         GetCurrentConfigurationJSON={jest.fn()}
         SetConfigurationJSON={jest.fn()}
@@ -121,6 +124,7 @@ describe('<ShowBody/>', () => {
   it('Render view modal 6', () => {
     const bodyRender = mount(
       <ShowBody
+        handleSaveUpdateSupport={jest.fn()}
         _onClose={jest.fn()}
         LogoFormSubmit={jest.fn()}
         handleSaveUpdateTune={jest.fn()}
@@ -134,6 +138,7 @@ describe('<ShowBody/>', () => {
   it('Render view modal 7', () => {
     const bodyRender = mount(
       <ShowBody
+        handleSaveUpdateSupport={jest.fn()}
         _onClose={jest.fn()}
         LogoFormSubmit={jest.fn()}
         handleSaveUpdateTune={jest.fn()}
@@ -147,6 +152,7 @@ describe('<ShowBody/>', () => {
   it('Render view modal 8', () => {
     const bodyRender = mount(
       <ShowBody
+        handleSaveUpdateSupport={jest.fn()}
         LogoFormSubmit={jest.fn()}
         handleSaveUpdateTune={jest.fn()}
         SetConfigurationJSON={jest.fn()}
@@ -165,6 +171,7 @@ describe('<ShowBody/>', () => {
   it('Render view modal 9', () => {
     const bodyRender = mount(
       <ShowBody
+        handleSaveUpdateSupport={jest.fn()}
         LogoFormSubmit={jest.fn()}
         handleSaveUpdateTune={jest.fn()}
         _onClose={jest.fn()}
@@ -178,6 +185,7 @@ describe('<ShowBody/>', () => {
   it('Render view modal 10', () => {
     const bodyRender = mount(
       <ShowBody
+        handleSaveUpdateSupport={jest.fn()}
         _onClose={jest.fn()}
         handleSaveUpdateTune={jest.fn()}
         LogoFormSubmit={jest.fn()}
@@ -191,6 +199,7 @@ describe('<ShowBody/>', () => {
   it('Function handleOnChange ', () => {
     const bodyRender = mount(
       <ShowBody
+        handleSaveUpdateSupport={jest.fn()}
         _onClose={jest.fn()}
         handleSaveUpdateTune={jest.fn()}
         LogoFormSubmit={jest.fn()}
@@ -198,7 +207,7 @@ describe('<ShowBody/>', () => {
         viewModal={10}
       />
     );
-    bodyRender.instance().handleOnChange('input', {
+    bodyRender.instance().handleOnChange({
       target: {
         value: 'sometext',
         name: 'url'
@@ -207,26 +216,11 @@ describe('<ShowBody/>', () => {
     expect(bodyRender.state('url')).toMatch('sometext');
   });
 
-  it('Function handleOnChange with select ', () => {
-    const bodyRender = mount(
-      <ShowBody
-        _onClose={jest.fn()}
-        handleSaveUpdateTune={jest.fn()}
-        LogoFormSubmit={jest.fn()}
-        handleOnChange={jest.fn()}
-        viewModal={10}
-      />
-    );
-    bodyRender.instance().handleOnChange('select', {
-      label: 'sometext'
-    });
-    expect(bodyRender.state('type')).toMatch('sometext');
-  });
-
   it('Function handleSubmitLogo', () => {
     const LogoFormSubmit = jest.fn();
     const bodyRender = mount(
       <ShowBody
+        handleSaveUpdateSupport={jest.fn()}
         _onClose={jest.fn()}
         handleSaveUpdateTune={jest.fn()}
         LogoFormSubmit={LogoFormSubmit}
@@ -244,6 +238,7 @@ describe('<ShowBody/>', () => {
     const handleSaveUpdateTune = jest.fn();
     const bodyRender = mount(
       <ShowBody
+        handleSaveUpdateSupport={jest.fn()}
         _onClose={jest.fn()}
         handleSaveUpdateTune={handleSaveUpdateTune}
         LogoFormSubmit={jest.fn()}
@@ -255,5 +250,23 @@ describe('<ShowBody/>', () => {
       preventDefault: jest.fn()
     });
     expect(handleSaveUpdateTune).toHaveBeenCalledTimes(1);
+  });
+
+  it('Function handleSubmitSupport', () => {
+    const handleSaveUpdateSupport = jest.fn();
+    const bodyRender = mount(
+      <ShowBody
+        handleSaveUpdateSupport={handleSaveUpdateSupport}
+        _onClose={jest.fn()}
+        handleSaveUpdateTune={jest.fn()}
+        LogoFormSubmit={jest.fn()}
+        handleOnChange={jest.fn()}
+        viewModal={10}
+      />
+    );
+    bodyRender.instance().handleSubmitSupport({
+      preventDefault: jest.fn()
+    });
+    expect(handleSaveUpdateSupport).toHaveBeenCalledTimes(1);
   });
 });
