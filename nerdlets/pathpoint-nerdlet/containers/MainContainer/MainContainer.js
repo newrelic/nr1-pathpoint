@@ -658,9 +658,9 @@ export default class MainContainer extends React.Component {
     this._onClose();
   };
 
-  changeTimeRange = ({ value }) => {
+  changeTimeRange = event => {
     this.setState(
-      { timeRange: value, getOldSessions: true },
+      { timeRange: event.target.value, getOldSessions: true },
       this.updateDataNow
     );
   };
@@ -820,11 +820,11 @@ export default class MainContainer extends React.Component {
     });
   };
 
-  changeMessage = value => {
+  changeMessage = event => {
     const { stageNameSelected, modifiedQuery } = this.state;
     if (
       (stageNameSelected.selectedCase &&
-        stageNameSelected.selectedCase.value === value.value) ||
+        stageNameSelected.selectedCase === parseInt(event.target.value)) ||
       modifiedQuery
     ) {
       this.setState({
@@ -832,7 +832,7 @@ export default class MainContainer extends React.Component {
         testText: ''
       });
     } else {
-      stageNameSelected.selectedCase = value;
+      stageNameSelected.selectedCase = parseInt(event.target.value);
       this.setState({
         stageNameSelected,
         testText: '',
@@ -867,7 +867,7 @@ export default class MainContainer extends React.Component {
     }
     if (stageNameSelected.selectedCase) {
       stageNameSelected.datos[
-        stageNameSelected.selectedCase.value
+        stageNameSelected.selectedCase
       ].query_body = querySample;
     } else {
       stageNameSelected.datos[0].query_body = querySample;
@@ -893,7 +893,7 @@ export default class MainContainer extends React.Component {
       const { stageNameSelected } = state;
       if (stageNameSelected.selectedCase) {
         stageNameSelected.datos[
-          stageNameSelected.selectedCase.value
+          stageNameSelected.selectedCase
         ].query_body = query;
       } else {
         stageNameSelected.datos[0].query_body = query;
