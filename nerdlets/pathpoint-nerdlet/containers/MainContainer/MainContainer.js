@@ -272,14 +272,10 @@ export default class MainContainer extends React.Component {
 
   ToggleHeaderButtons = target => {
     let previousIconCanaryStatus = null;
-    let previousIconGoutStatus = null;
-    let previousIconStartStatus = null;
     let previousIconFireStatus = null;
     this.setState(
       state => {
         previousIconCanaryStatus = state.iconCanaryStatus;
-        previousIconGoutStatus = state.iconGoutStatus;
-        previousIconStartStatus = state.iconStartStatus;
         previousIconFireStatus = state.iconFireStatus;
         return {
           iconCanaryStatus: false,
