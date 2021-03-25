@@ -200,12 +200,18 @@ jest.mock(
     const nerdlet = {
       setConfig: jest.fn()
     };
+    const logger = {
+      error: jest.fn(),
+      log: jest.fn(),
+      warn: jest.fn()
+    };
     return {
       AccountsQuery: AccountsQuery,
       AccountStorageQuery: AccountStorageQuery,
       AccountStorageMutation: AccountStorageMutation,
       NerdGraphQuery: NerdGraphQuery,
-      nerdlet: nerdlet
+      nerdlet: nerdlet,
+      logger
     };
   },
   { virtual: true }
@@ -636,5 +642,386 @@ describe('<MainContainer/>', () => {
     instance.state.stages = stages;
     instance.restoreTouchPoints = jest.fn();
     instance._onCloseBackdropTouch();
+  });
+
+  it('renderProps', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.restoreTouchPoints = jest.fn();
+    instance.renderProps(1, {
+      active: false
+    });
+  });
+
+  it('restoreTouchPoints', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.restoreTouchPoints();
+  });
+
+  it('changeMessage', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stageNameSelected = {
+      selectedCase: 'wrapper'
+    };
+    instance.state.stages = stages;
+    instance.changeMessage({
+      target: {
+        value: 'wrapper'
+      }
+    });
+  });
+
+  it('chargueSample', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.state.stageNameSelected = {
+      datos: [
+        {
+          wrapper: {
+            label: 'test label'
+          }
+        }
+      ]
+    };
+    instance.chargueSample(0);
+  });
+
+  it('testQuery', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.state.stageNameSelected = {
+      datos: [
+        {
+          wrapper: {
+            label: 'test label'
+          }
+        }
+      ]
+    };
+    instance.testQuery('SELECT * FROM', 0);
+  });
+
+  it('handleChangeTexarea', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.state.stageNameSelected = {
+      datos: [
+        {
+          wrapper: {
+            label: 'test label'
+          }
+        }
+      ]
+    };
+    instance.handleChangeTexarea('SELECT * FROM');
+  });
+
+  it('handleChangeTexareaSupport', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.handleChangeTexareaSupport({
+      target: {
+        value: 'This is test message'
+      }
+    });
+  });
+
+  it('handleChangeSubject', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.handleChangeSubject({
+      value: {
+        label: 'This is test label'
+      }
+    });
+  });
+
+  it('handleSaveUpdateQuery', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.DataManager = {
+      UpdateTouchpointQuerys: jest.fn()
+    };
+    instance.handleSaveUpdateQuery({
+      preventDefault: jest.fn(),
+      target: {
+        value: 'SELECT * FROM'
+      }
+    });
+  });
+
+  it('handleSaveUpdateTune', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance._onClose = jest.fn();
+    instance.DataManager = {
+      UpdateTouchpointTune: jest.fn()
+    };
+    instance.handleSaveUpdateTune({
+      threshold: 1,
+      apdex: 1
+    });
+  });
+
+  it('handleSaveUpdateCanary', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance._onClose = jest.fn();
+    instance.handleSaveUpdateCanary({
+      preventDefault: jest.fn(),
+      target: {
+        elements: {
+          checkbox_canary: true
+        }
+      }
+    });
+  });
+
+  it('handleSaveUpdateFire', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance._onClose = jest.fn();
+    instance.handleSaveUpdateFire({
+      preventDefault: jest.fn(),
+      target: {
+        elements: {
+          checkbox_fire: {
+            checked: true
+          }
+        }
+      }
+    });
+  });
+
+  it('LogoFormSubmit', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance._onClose = jest.fn();
+    instance.LogoSetupData = {
+      SetLogoSetupData: jest.fn()
+    };
+    instance.LogoFormSubmit({ type: 'default' }, jest.fn());
+  });
+
+  it('handleSaveUpdateSupport', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance._resetFormSupport = jest.fn();
+    instance._onClose = jest.fn();
+    instance.handleSaveUpdateSupport({
+      subject: 'Subject',
+      name: 'Name',
+      email: 'Email',
+      phone: 'Phone',
+      message: 'Message',
+      account: 'Account',
+      company: 'Company'
+    });
+  });
+
+  it('_resetFormSupport', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance._resetFormSupport();
+  });
+
+  it('openLeftMenu', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.openLeftMenu();
+  });
+
+  it('_onCloseBackdrop', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance._onCloseBackdrop();
+  });
+
+  it('_handleClickSetup', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance._handleClickSetup();
+  });
+
+  it('_handleClickProcesses', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance._handleClickProcesses();
+  });
+
+  it('_handleClickSupport', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance._handleClickSupport();
+  });
+
+  it('HandleChangeLogo', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.HandleChangeLogo();
+  });
+
+  it('_handleContextMenuGout', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance._handleContextMenuGout({
+      button: 2
+    });
+  });
+
+  it('_handleContextMenuStar', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance._handleContextMenuStar({
+      button: 2
+    });
+  });
+
+  it('_handleContextMenuFire', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance._handleContextMenuFire({
+      button: 2
+    });
+  });
+
+  it('_onCloseMenuRight', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.DataManager = {
+      UpdateHistoricParameters: jest.fn()
+    };
+    instance._onCloseMenuRight();
+  });
+
+  it('_onCloseMenuRight with MenuRightDefault = 3', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.MenuRightDefault = 3;
+    instance.state.stages = stages;
+    instance.DataManager = {
+      UpdateHistoricParameters: jest.fn()
+    };
+    instance._onCloseMenuRight();
+  });
+
+  it('_DropHandleChange', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance._DropHandleChange({
+      target: {
+        value: true
+      }
+    });
+  });
+
+  it('_StarHandleChange', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance._StarHandleChange({
+      target: {
+        value: true
+      }
+    });
+  });
+
+  it('_FlameHandleChange', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance._FlameHandleChange({
+      target: {
+        value: true
+      }
+    });
+  });
+
+  it('GetCurrentConfigurationJSON', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.DataManager = {
+      GetCurrentConfigurationJSON: jest.fn()
+    };
+    instance.GetCurrentConfigurationJSON();
+  });
+
+  // it('SetConfigurationJSON', () => {
+  //   const mainContainer = shallow(<MainContainer />);
+  //   const instance = mainContainer.instance();
+  //   instance.state.stages = stages;
+  //   instance.DataManager = {
+  //     SetConfigurationJSON: jest.fn()
+  //   };
+  //   const banner_kpis = [
+  //     {
+  //       type: 100,
+  //       description: 'Total Order Count',
+  //       prefix: '',
+  //       suffix: 'Orders',
+  //       query: 'SELECT count(*) as value FROM Transaction SINCE 1 minute AGO',
+  //       value: 0
+  //     }
+  //   ];
+  //   instance.SetConfigurationJSON({
+  //     stages,
+  //     banner_kpis
+  //   });
+  // });
+
+  it('GetCurrentHistoricErrorScript', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.DataManager = {
+      GetCurrentHistoricErrorScript: jest.fn()
+    };
+    instance.GetCurrentHistoricErrorScript();
+  });
+
+  it('DisplayConsole with error', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.DisplayConsole('error', 'Error Message');
+  });
+
+  it('DisplayConsole with log', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.DisplayConsole('log', 'Log Message');
+  });
+
+  it('DisplayConsole with warning', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.DisplayConsole('warning', 'Warning Message');
   });
 });

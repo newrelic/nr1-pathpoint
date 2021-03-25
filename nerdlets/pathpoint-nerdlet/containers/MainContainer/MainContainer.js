@@ -978,10 +978,6 @@ export default class MainContainer extends React.Component {
     this._onClose();
   };
 
-  async sendLogs(info, accountId) {
-    await sendLogsSlack([info], accountId, 'Form Support');
-  }
-
   _resetFormSupport = () => {
     const { supportForm } = this.state;
     supportForm.name = '';
