@@ -30,12 +30,12 @@ function BodySupportFormModal(props) {
         {messages.configuration.support.message_support_01}
       </div>
       <div className="modal4content space">
-        <Form onSubmit={e => handleSubmitSupport(e)}>
+        <Form onSubmit={handleSubmitSupport}>
           <FormGroup controlId="formSubject">
             <Select
               name="subject"
-              handleOnChange={handleOnChange}
               options={defaultOptions}
+              handleOnChange={handleOnChange}
             />
           </FormGroup>
           <FormGroup controlId="formName">
@@ -45,7 +45,7 @@ function BodySupportFormModal(props) {
               type="text"
               placeholder="Name"
               bsClass="support-modal-input-text"
-              onChange={e => handleOnChange(e)}
+              onChange={handleOnChange}
             />
           </FormGroup>
           <FormGroup controlId="formCompany">
@@ -55,7 +55,7 @@ function BodySupportFormModal(props) {
               type="text"
               placeholder="Company"
               bsClass="support-modal-input-text"
-              onChange={e => handleOnChange(e)}
+              onChange={handleOnChange}
             />
           </FormGroup>
           <FormGroup controlId="formAccount">
@@ -65,7 +65,7 @@ function BodySupportFormModal(props) {
               type="text"
               placeholder="Account Name"
               bsClass="support-modal-input-text"
-              onChange={e => handleOnChange(e)}
+              onChange={handleOnChange}
             />
           </FormGroup>
           <FormGroup controlId="FormEmail">
@@ -75,7 +75,7 @@ function BodySupportFormModal(props) {
               type="email"
               placeholder="Email"
               bsClass="support-modal-input-text"
-              onChange={e => handleOnChange(e)}
+              onChange={handleOnChange}
             />
           </FormGroup>
           <FormGroup controlId="formMobile">
@@ -86,7 +86,7 @@ function BodySupportFormModal(props) {
               type="phone"
               placeholder="Mobile"
               bsClass="support-modal-input-text"
-              onChange={e => handleOnChange(e)}
+              onChange={handleOnChange}
             />
           </FormGroup>
           <FormGroup controlId="formDetails">
@@ -97,7 +97,7 @@ function BodySupportFormModal(props) {
               rows={5}
               placeholder="Details"
               bsClass="support-modal-input-text"
-              onChange={e => handleOnChange(e)}
+              onChange={handleOnChange}
             />
           </FormGroup>
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
