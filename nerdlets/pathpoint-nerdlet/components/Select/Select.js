@@ -1,34 +1,102 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-const Select = ({ name, handleOnChange, options }) => {
-  return (
-    <select
-      className="custom-select"
-      name={name}
-      id={name}
-      onChange={handleOnChange}
-    >
-      {options.map((item, index) => (
-        <option key={index} label={item.label} value={item.value} />
-      ))}
-    </select>
-  );
-};
+export default class Select extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false,
+      selected: 0
+    };
+  }
 
-// const customStyles = {
-//   position: 'revert',
-//   borderRadius: '0px',
-//   backgroundColor: '#fff',
-//   border: '1px solid rgb(189, 189, 189)',
-//   minHeight: '30px',
-//   minWidth: '150px'
-// };
+  componentDidMount() {
+    document.addEventListener('mousedown', this.handleClickOutside);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClickOutside);
+  }
+
+  myRef = React.createRef();
+
+  handleClickOutside = e => {
+    if (!this.myRef.current.contains(e.target)) {
+      this.setState({ open: false });
+    }
+  };
+
+  clickAction = () => {
+    this.setState(prevState => ({ open: !prevState.open }));
+  };
+
+  clickSelected = (optionSelected, obj) => {
+    const { name, handleOnChange } = this.props;
+    const event = { target: { value: obj.value, name } };
+    this.setState({ selected: parseInt(optionSelected) });
+    handleOnChange(event);
+  };
+
+  render() {
+    const { options } = this.props;
+    const { selected, open } = this.state;
+    return (
+      <div
+        className="custom-select-wrapper"
+        onClick={this.clickAction}
+        ref={this.myRef}
+      >
+        <div
+          className="custom-select"
+          style={
+            open
+              ? { visibility: 'visible', pointerEvents: 'all', opacity: 1 }
+              : {}
+          }
+        >
+          <div className="custom-select__trigger">
+            <span
+              style={{
+                width: '230px',
+                whiteSpace: 'nowrap',
+                textOverflow: 'ellipsis',
+                overflow: 'hidden'
+              }}
+            >
+              {options[selected].label}
+            </span>
+            <div className="arrow" />
+          </div>
+          <div
+            className="custom-options"
+            style={
+              open
+                ? { visibility: 'visible', pointerEvents: 'all', opacity: 1 }
+                : {}
+            }
+          >
+            {options.map((obj, index) => (
+              <span
+                key={index}
+                onClick={() => this.clickSelected(index, obj)}
+                className={
+                  selected === index
+                    ? 'custom-option selected'
+                    : 'custom-option'
+                }
+              >
+                {obj.label}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
 
 Select.propTypes = {
+  options: PropTypes.array.isRequired,
   name: PropTypes.string.isRequired,
-  handleOnChange: PropTypes.func.isRequired,
-  options: PropTypes.array.isRequired
+  handleOnChange: PropTypes.func.isRequired
 };
-
-export default Select;
