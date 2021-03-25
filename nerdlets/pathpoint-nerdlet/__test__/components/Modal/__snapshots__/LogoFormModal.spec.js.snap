@@ -13,30 +13,63 @@ exports[`LogoFormModal component Render body with default data 1`] = `
   >
     <form
       className=""
-      onSubmit={[Function]}
+      onSubmit={[MockFunction]}
     >
       <div
         className="form-group"
       >
-        <select
-          className="custom-select"
-          id="type"
-          name="type"
-          onChange={[MockFunction]}
+        <div
+          className="custom-select-wrapper"
+          onClick={[Function]}
         >
-          <option
-            label="By URL"
-            value="url"
-          />
-          <option
-            label="Text"
-            value="Text"
-          />
-          <option
-            label="Default"
-            value="Default"
-          />
-        </select>
+          <div
+            className="custom-select"
+            style={Object {}}
+          >
+            <div
+              className="custom-select__trigger"
+            >
+              <span
+                style={
+                  Object {
+                    "overflow": "hidden",
+                    "textOverflow": "ellipsis",
+                    "whiteSpace": "nowrap",
+                    "width": "230px",
+                  }
+                }
+              >
+                By URL
+              </span>
+              <div
+                className="arrow"
+              />
+            </div>
+            <div
+              className="custom-options"
+              style={Object {}}
+            >
+              <span
+                className="custom-option selected"
+                onClick={[Function]}
+              >
+                By URL
+              </span>
+              <span
+                className="custom-option"
+                onClick={[Function]}
+              >
+                Text
+              </span>
+              <span
+                className="custom-option"
+                onClick={[Function]}
+              >
+                Default
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
       <div
         style={
@@ -61,7 +94,7 @@ exports[`LogoFormModal component Render body with default data 1`] = `
             className="support-modal-input-text"
             id="formUrl"
             name="url"
-            onChange={[Function]}
+            onChange={[MockFunction]}
             placeholder="Enter URL"
             required={true}
             type="text"

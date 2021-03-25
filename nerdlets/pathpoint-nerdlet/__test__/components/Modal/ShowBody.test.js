@@ -12,6 +12,12 @@ describe('<ShowBody/>', () => {
         LogoFormSubmit={jest.fn()}
         handleSaveUpdateTune={jest.fn()}
         viewModal={0}
+        stageNameSelected={{
+          datos: {
+            error_threshold: 1,
+            apdex_time: 2
+          }
+        }}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -87,6 +93,12 @@ describe('<ShowBody/>', () => {
         LogoFormSubmit={jest.fn()}
         handleSaveUpdateTune={jest.fn()}
         viewModal={3}
+        stageNameSelected={{
+          datos: {
+            error_threshold: 0,
+            apdex_time: 0
+          }
+        }}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -103,6 +115,12 @@ describe('<ShowBody/>', () => {
         viewModal={4}
         LogoFormSubmit={jest.fn()}
         handleSaveUpdateTune={jest.fn()}
+        stageNameSelected={{
+          datos: {
+            error_threshold: 0,
+            apdex_time: 0
+          }
+        }}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -116,6 +134,12 @@ describe('<ShowBody/>', () => {
         handleSaveUpdateTune={jest.fn()}
         handleSaveUpdateSupport={jest.fn()}
         viewModal={5}
+        stageNameSelected={{
+          datos: {
+            error_threshold: 0,
+            apdex_time: 0
+          }
+        }}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -130,6 +154,12 @@ describe('<ShowBody/>', () => {
         handleSaveUpdateTune={jest.fn()}
         handleSaveUpdateCanary={jest.fn()}
         viewModal={6}
+        stageNameSelected={{
+          datos: {
+            error_threshold: 0,
+            apdex_time: 0
+          }
+        }}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -144,6 +174,12 @@ describe('<ShowBody/>', () => {
         handleSaveUpdateTune={jest.fn()}
         handleSaveUpdateFire={jest.fn()}
         viewModal={7}
+        stageNameSelected={{
+          datos: {
+            error_threshold: 0,
+            apdex_time: 0
+          }
+        }}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -163,6 +199,12 @@ describe('<ShowBody/>', () => {
           { dataPath: '/data/1', message: 'message error 2' }
         ]}
         viewModal={8}
+        stageNameSelected={{
+          datos: {
+            error_threshold: 0,
+            apdex_time: 0
+          }
+        }}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -177,6 +219,12 @@ describe('<ShowBody/>', () => {
         _onClose={jest.fn()}
         GetCurrentHistoricErrorScript={jest.fn()}
         viewModal={9}
+        stageNameSelected={{
+          datos: {
+            error_threshold: 0,
+            apdex_time: 0
+          }
+        }}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -191,6 +239,12 @@ describe('<ShowBody/>', () => {
         LogoFormSubmit={jest.fn()}
         handleOnChange={jest.fn()}
         viewModal={10}
+        stageNameSelected={{
+          datos: {
+            error_threshold: 0,
+            apdex_time: 0
+          }
+        }}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -204,6 +258,12 @@ describe('<ShowBody/>', () => {
         handleSaveUpdateTune={jest.fn()}
         LogoFormSubmit={jest.fn()}
         handleOnChange={jest.fn()}
+        stageNameSelected={{
+          datos: {
+            error_threshold: 0,
+            apdex_time: 0
+          }
+        }}
         viewModal={10}
       />
     );
@@ -226,6 +286,12 @@ describe('<ShowBody/>', () => {
         LogoFormSubmit={LogoFormSubmit}
         handleOnChange={jest.fn()}
         viewModal={10}
+        stageNameSelected={{
+          datos: {
+            error_threshold: 0,
+            apdex_time: 0
+          }
+        }}
       />
     );
     bodyRender.instance().handleSubmitLogo({
@@ -244,6 +310,12 @@ describe('<ShowBody/>', () => {
         LogoFormSubmit={jest.fn()}
         handleOnChange={jest.fn()}
         viewModal={10}
+        stageNameSelected={{
+          datos: {
+            error_threshold: 0,
+            apdex_time: 0
+          }
+        }}
       />
     );
     bodyRender.instance().handleSubmitTune({
@@ -262,6 +334,12 @@ describe('<ShowBody/>', () => {
         LogoFormSubmit={jest.fn()}
         handleOnChange={jest.fn()}
         viewModal={10}
+        stageNameSelected={{
+          datos: {
+            error_threshold: 0,
+            apdex_time: 0
+          }
+        }}
       />
     );
     bodyRender.instance().handleSubmitSupport({
