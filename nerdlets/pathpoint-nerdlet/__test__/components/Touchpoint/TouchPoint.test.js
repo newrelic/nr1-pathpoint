@@ -751,5 +751,4 @@ describe('<Touchpoint/>', () => {
     expect(renderProps).toHaveBeenCalledTimes(1);
     expect(openModalParent).toHaveBeenCalledTimes(1);
   });
-  
 });
