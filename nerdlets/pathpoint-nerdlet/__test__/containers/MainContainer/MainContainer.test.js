@@ -253,6 +253,7 @@ const stages = [
     steps: [
       {
         value: '',
+        index_stage: 1,
         sub_steps: [
           {
             index: 1,
