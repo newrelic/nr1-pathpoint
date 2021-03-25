@@ -613,8 +613,6 @@ export default class MainContainer extends React.Component {
       viewModal: 0,
       stageNameSelected: stage
     });
-    // this.setState({ viewModal: 0 });
-    // this.setState({ stageNameSelected: stage });
     this._onClose();
   };
 
