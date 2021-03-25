@@ -495,7 +495,7 @@ describe('<MainContainer/>', () => {
         type: 'default'
       })
     };
-    instance.InitLogoSetupData();
+    instance.InitLogoSetupData(1234);
   });
 
   it('onclickStep', () => {
@@ -549,6 +549,64 @@ describe('<MainContainer/>', () => {
     instance.state.iconCanaryStatus = true;
     instance.state.canaryData = canaryData;
     instance.state.stages = stages;
+    const stepEntry = {
+      canary_state: false,
+      dark: false,
+      dotted: false,
+      error: false,
+      highlighted: true,
+      history_error: false,
+      id: 'ST1-LINE1-SS1',
+      index: 1,
+      index_stage: 1,
+      latency: false,
+      relationship_touchpoints: [1],
+      value: 'Web'
+    };
+    instance.DataManager = {
+      SetCanaryData: jest.fn(),
+      UpdateCanaryData: jest.fn()
+    };
+    instance.ResetAllStages = jest.fn();
+    instance.onclickStep(stepEntry);
+  });
+
+  it('onclickStep with step.value', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.iconCanaryStatus = true;
+    instance.state.canaryData = canaryData;
+    instance.state.stages = stages;
+    instance.state.stages[0].steps[0].value = 'test';
+    const stepEntry = {
+      canary_state: false,
+      dark: false,
+      dotted: false,
+      error: false,
+      highlighted: true,
+      history_error: false,
+      id: 'ST1-LINE1-SS1',
+      index: 1,
+      index_stage: 1,
+      latency: false,
+      relationship_touchpoints: [1],
+      value: 'Web'
+    };
+    instance.DataManager = {
+      SetCanaryData: jest.fn(),
+      UpdateCanaryData: jest.fn()
+    };
+    instance.ResetAllStages = jest.fn();
+    instance.onclickStep(stepEntry);
+  });
+
+  it('onclickStep with step.value and stepEntry', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.iconCanaryStatus = true;
+    instance.state.canaryData = canaryData;
+    instance.state.stages = stages;
+    instance.state.stages[0].steps[0].value = 'Web';
     const stepEntry = {
       canary_state: false,
       dark: false,
@@ -680,13 +738,22 @@ describe('<MainContainer/>', () => {
   //   instance.setStepsHistoricError(1, 'ST1-LINE1-SS1, ST2-LINE2-SS2');
   // });
 
-  it('updateHistoricErrors', () => {
-    const mainContainer = shallow(<MainContainer />);
-    const instance = mainContainer.instance();
-    instance.state.stages = stages;
-    instance.clearStepsHistoricError = jest.fn();
-    instance.updateHistoricErrors();
-  });
+  // it('updateHistoricErrors', () => {
+  //   const mainContainer = shallow(<MainContainer />);
+  //   const instance = mainContainer.instance();
+  //   instance.state.stages = stages;
+  //   instance.clearStepsHistoricError = jest.fn();
+  //   instance.updateHistoricErrors();
+  // });
+
+  // it('updateHistoricErrors with touchpoint error', () => {
+  //   const mainContainer = shallow(<MainContainer />);
+  //   const instance = mainContainer.instance();
+  //   instance.state.stages = stages;
+  //   instance.state.stages[0].touchpoints[0].history_error = true;
+  //   instance.clearStepsHistoricError = jest.fn();
+  //   instance.updateHistoricErrors();
+  // });
 
   it('ToggleFireIcon', () => {
     const mainContainer = shallow(<MainContainer />);
@@ -734,7 +801,7 @@ describe('<MainContainer/>', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
     instance.state.stages = stages;
-    instance.removeDuplicates([]);
+    instance.removeDuplicates([1, 2, 3, 1, 2]);
   });
 
   it('openModal', () => {
@@ -1324,28 +1391,31 @@ describe('<MainContainer/>', () => {
     instance.GetCurrentConfigurationJSON();
   });
 
-  // it('SetConfigurationJSON', () => {
-  //   const mainContainer = shallow(<MainContainer />);
-  //   const instance = mainContainer.instance();
-  //   instance.state.stages = stages;
-  //   instance.DataManager = {
-  //     SetConfigurationJSON: jest.fn()
-  //   };
-  //   const banner_kpis = [
-  //     {
-  //       type: 100,
-  //       description: 'Total Order Count',
-  //       prefix: '',
-  //       suffix: 'Orders',
-  //       query: 'SELECT count(*) as value FROM Transaction SINCE 1 minute AGO',
-  //       value: 0
-  //     }
-  //   ];
-  //   instance.SetConfigurationJSON({
-  //     stages,
-  //     banner_kpis
-  //   });
-  // });
+  it('SetConfigurationJSON', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.DataManager = {
+      SetConfigurationJSON: jest.fn().mockReturnValue({
+        stages,
+        banner_kpis
+      })
+    };
+    const banner_kpis = [
+      {
+        type: 100,
+        description: 'Total Order Count',
+        prefix: '',
+        suffix: 'Orders',
+        query: 'SELECT count(*) as value FROM Transaction SINCE 1 minute AGO',
+        value: 0
+      }
+    ];
+    instance.SetConfigurationJSON({
+      stages,
+      banner_kpis
+    });
+  });
 
   it('GetCurrentHistoricErrorScript', () => {
     const mainContainer = shallow(<MainContainer />);
