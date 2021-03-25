@@ -36,30 +36,6 @@ describe('LogoFormModal', () => {
     expect(handleSubmitLogo).toHaveBeenCalledTimes(1);
   });
 
-  it('Simulate onChange dropwdown', () => {
-    const bodySupport = mount(
-      <BodyLogoFormModal
-        handleSubmitLogo={jest.fn()}
-        handleOnChange={jest.fn()}
-        type="Text"
-      />
-    );
-    bodySupport
-      .find('.react-selectLogoOption__control')
-      .first()
-      .simulate('keyDown', { key: 'ArrowDown', keyCode: 40 });
-    bodySupport
-      .find('.react-selectLogoOption__control')
-      .first()
-      .simulate('keyDown', { key: 'Enter', keyCode: 13 });
-    expect(
-      bodySupport
-        .find('.react-selectLogoOption__single-value')
-        .first()
-        .text()
-    ).toEqual('By URL');
-  });
-
   it('Simulate onChange type text input', () => {
     const handleOnChange = jest.fn();
     const bodySupport = mount(
@@ -69,7 +45,7 @@ describe('LogoFormModal', () => {
         type="Text"
       />
     );
-    const textArea = bodySupport.find('input').at(2);
+    const textArea = bodySupport.find('input');
     const event = { target: { value: 'sometext' } };
     textArea.simulate('change', event);
     expect(handleOnChange).toHaveBeenCalledTimes(1);
@@ -84,7 +60,7 @@ describe('LogoFormModal', () => {
         type="Url"
       />
     );
-    const textArea = bodySupport.find('input').at(2);
+    const textArea = bodySupport.find('input');
     const event = { target: { value: 'sometext' } };
     textArea.simulate('change', event);
     expect(handleOnChange).toHaveBeenCalledTimes(1);
