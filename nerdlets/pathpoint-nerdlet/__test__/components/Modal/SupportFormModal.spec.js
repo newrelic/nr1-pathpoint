@@ -9,6 +9,7 @@ describe('SupportFormModal component', () => {
   test('Render body with default data', () => {
     const body = create(
       <BodySupportFormModal
+        handleSubmitSupport={jest.fn()}
         handleOnChange={jest.fn()}
         handleSaveUpdateSupport={jest.fn()}
       />
