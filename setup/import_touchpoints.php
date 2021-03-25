@@ -244,7 +244,7 @@ function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touc
                     "query" => $tp_queryCount,
                     "measure_period" => 60,
                     "count" => 0,
-                    "limit_number" => 10
+                    "limit_number" => 50
                 ]
             ]
         ];
