@@ -279,8 +279,6 @@ export default class MainContainer extends React.Component {
         previousIconFireStatus = state.iconFireStatus;
         return {
           iconCanaryStatus: false,
-          iconGoutStatus: false,
-          iconStartStatus: false,
           iconFireStatus: false,
           [target]: !state[target]
         };
@@ -546,19 +544,19 @@ export default class MainContainer extends React.Component {
     });
   }
 
-  setStepsHistoricError(stage_index, relation_steps) {
-    const rsteps = JSON.stringify(relation_steps).replace(/[,[\]]/g, '-');
-    this.setState(state => {
-      const stages = { state };
-      stages[stage_index - 1].steps.forEach(step => {
-        step.sub_steps.forEach(sub_step => {
-          if (rsteps.indexOf(`-${sub_step.index}-`) !== -1) {
-            sub_step.history_error = true;
-          }
-        });
-      });
-    });
-  }
+  // setStepsHistoricError(stage_index, relation_steps) {
+  //   const rsteps = JSON.stringify(relation_steps).replace(/[,[\]]/g, '-');
+  //   this.setState(state => {
+  //     const stages = { state };
+  //     stages[stage_index - 1].steps.forEach(step => {
+  //       step.sub_steps.forEach(sub_step => {
+  //         if (rsteps.indexOf(`-${sub_step.index}-`) !== -1) {
+  //           sub_step.history_error = true;
+  //         }
+  //       });
+  //     });
+  //   });
+  // }
 
   updateHistoricErrors() {
     this.clearStepsHistoricError();
