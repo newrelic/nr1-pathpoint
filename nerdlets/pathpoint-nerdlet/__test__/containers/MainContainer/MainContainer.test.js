@@ -389,7 +389,22 @@ describe('<MainContainer/>', () => {
     const instance = mainContainer.instance();
     const prevState = {
       updating: true,
-      pending: false,
+      pending: true,
+      loading: true
+    };
+    instance.ExecuteUpdateData = jest.fn();
+    instance.componentDidUpdate(null, prevState);
+  });
+
+  it('componentDidUpdate with all updating, pending, loading', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.loading = true;
+    instance.state.pending = true;
+    instance.state.updating = false;
+    const prevState = {
+      updating: true,
+      pending: true,
       loading: true
     };
     instance.ExecuteUpdateData = jest.fn();
@@ -677,12 +692,42 @@ describe('<MainContainer/>', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
     instance.state.stages = stages;
+    instance.state.iconFireStatus = true;
+    instance._onClose = jest.fn();
+    instance.updateHistoricErrors = jest.fn();
+    instance.showFireWelcomeMat = true;
+    instance.DataManager = {
+      ReadHistoricErrors: jest.fn()
+    };
+    instance.ToggleFireIcon(false);
+  });
+
+  it('ToggleFireIcon with value true', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.state.iconFireStatus = false;
+    instance.showFireWelcomeMat = true;
     instance._onClose = jest.fn();
     instance.updateHistoricErrors = jest.fn();
     instance.DataManager = {
       ReadHistoricErrors: jest.fn()
     };
-    instance.ToggleFireIcon(false);
+    instance.ToggleFireIcon(true);
+  });
+
+  it('ToggleFireIcon with value true and no showFireWelcomeMat', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.state.iconFireStatus = false;
+    instance.showFireWelcomeMat = false;
+    instance._onClose = jest.fn();
+    instance.updateHistoricErrors = jest.fn();
+    instance.DataManager = {
+      ReadHistoricErrors: jest.fn()
+    };
+    instance.ToggleFireIcon(true);
   });
 
   it('removeDuplicates', () => {
@@ -706,7 +751,7 @@ describe('<MainContainer/>', () => {
     instance.updateTouchpointStageOnOff(stages[0].touchpoints[0]);
   });
 
-  it('updateTouchpointOnOff', () => {
+  it('updateTouchpointOnOff with no iconCanaryStatus', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
     instance.updateTouchpointStageOnOff = jest.fn();
@@ -714,10 +759,23 @@ describe('<MainContainer/>', () => {
       UpdateTouchpointOnOff: jest.fn()
     };
     instance.state.stages = stages;
+    instance.state.iconCanaryStatus = false;
     instance.updateTouchpointOnOff(stages[0].touchpoints[0]);
   });
 
-  it('openModalParent', () => {
+  it('updateTouchpointOnOff with iconCanaryStatus', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.updateTouchpointStageOnOff = jest.fn();
+    instance.DataManager = {
+      UpdateTouchpointOnOff: jest.fn()
+    };
+    instance.state.stages = stages;
+    instance.state.iconCanaryStatus = true;
+    instance.updateTouchpointOnOff(stages[0].touchpoints[0]);
+  });
+
+  it('openModalParent with view 1', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
     instance._onClose = jest.fn();
@@ -727,6 +785,18 @@ describe('<MainContainer/>', () => {
     };
     instance.state.stages = stages;
     instance.openModalParent(stages[0].touchpoints[0], 1);
+  });
+
+  it('openModalParent with view 2', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance._onClose = jest.fn();
+    instance.DataManager = {
+      GetTouchpointTune: jest.fn(),
+      GetTouchpointQuerys: jest.fn()
+    };
+    instance.state.stages = stages;
+    instance.openModalParent(stages[0].touchpoints[0], 2);
   });
 
   it('changeTimeRange', () => {
@@ -813,10 +883,21 @@ describe('<MainContainer/>', () => {
     instance._onCloseBackdropTouch();
   });
 
-  it('renderProps', () => {
+  it('renderProps with no visible', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
     instance.state.stages = stages;
+    instance.restoreTouchPoints = jest.fn();
+    instance.renderProps(1, {
+      active: false
+    });
+  });
+
+  it('renderProps with visible', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.state.visible = true;
     instance.restoreTouchPoints = jest.fn();
     instance.renderProps(1, {
       active: false
@@ -830,7 +911,7 @@ describe('<MainContainer/>', () => {
     instance.restoreTouchPoints();
   });
 
-  it('changeMessage', () => {
+  it('changeMessage with watch', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
     instance.state.stageNameSelected = {
@@ -844,16 +925,98 @@ describe('<MainContainer/>', () => {
     });
   });
 
-  it('chargueSample', () => {
+  it('changeMessage with no match', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stageNameSelected = {
+      selectedCase: 'wrapper'
+    };
+    instance.state.stages = stages;
+    instance.changeMessage({
+      target: {
+        value: 'test'
+      }
+    });
+  });
+
+  it('chargueSample with Count Query', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
     instance.state.stages = stages;
     instance.state.stageNameSelected = {
       datos: [
         {
-          wrapper: {
-            label: 'test label'
-          }
+          label: 'Count Query'
+        }
+      ]
+    };
+    instance.chargueSample(0);
+  });
+
+  it('chargueSample with Error Percentage Query', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.state.stageNameSelected = {
+      datos: [
+        {
+          label: 'Error Percentage Query'
+        }
+      ]
+    };
+    instance.chargueSample(0);
+  });
+
+  it('chargueSample with Apdex Query', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.state.stageNameSelected = {
+      datos: [
+        {
+          label: 'Apdex Query'
+        }
+      ]
+    };
+    instance.chargueSample(0);
+  });
+
+  it('chargueSample with Session Query', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.state.stageNameSelected = {
+      datos: [
+        {
+          label: 'Session Query'
+        }
+      ]
+    };
+    instance.chargueSample(0);
+  });
+
+  it('chargueSample with Session Query Duration', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.state.stageNameSelected = {
+      datos: [
+        {
+          label: 'Session Query Duration'
+        }
+      ]
+    };
+    instance.chargueSample(0);
+  });
+
+  it('chargueSample with Session Full Open Query', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.state.stageNameSelected = {
+      datos: [
+        {
+          label: 'Full Open Query'
         }
       ]
     };
@@ -867,13 +1030,14 @@ describe('<MainContainer/>', () => {
     instance.state.stageNameSelected = {
       datos: [
         {
-          wrapper: {
-            label: 'test label'
-          }
+          label: 'Count Query'
         }
       ]
     };
-    instance.testQuery('SELECT * FROM', 0);
+    instance.testQuery(
+      'SELECT count(*) as value FROM Transaction SINCE 1 minute AGO',
+      0
+    );
   });
 
   it('handleChangeTexarea', () => {
@@ -881,15 +1045,32 @@ describe('<MainContainer/>', () => {
     const instance = mainContainer.instance();
     instance.state.stages = stages;
     instance.state.stageNameSelected = {
+      selectedCase: 0,
       datos: [
         {
-          wrapper: {
-            label: 'test label'
-          }
+          label: 'Count Query'
         }
       ]
     };
-    instance.handleChangeTexarea('SELECT * FROM');
+    instance.handleChangeTexarea(
+      'SELECT count(*) as value FROM Transaction SINCE 1 minute AGO'
+    );
+  });
+
+  it('handleChangeTexarea with no watch', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.state.stageNameSelected = {
+      datos: [
+        {
+          label: 'Count Query'
+        }
+      ]
+    };
+    instance.handleChangeTexarea(
+      'SELECT count(*) as value FROM Transaction SINCE 1 minute AGO'
+    );
   });
 
   it('handleChangeTexareaSupport', () => {
