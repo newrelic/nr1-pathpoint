@@ -23,6 +23,7 @@ describe('ShowBody component', () => {
         chargueSample={jest.fn()}
         testQuery={jest.fn()}
         handleSaveUpdateQuery={jest.fn()}
+        handleSaveUpdateSupport={jest.fn()}
         testText="Bad query"
         goodQuery={false}
         modifiedQuery

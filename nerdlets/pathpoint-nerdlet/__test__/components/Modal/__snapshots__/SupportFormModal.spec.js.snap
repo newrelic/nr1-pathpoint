@@ -23,6 +23,7 @@ exports[`SupportFormModal component Render body with default data 1`] = `
   >
     <form
       className=""
+      onSubmit={[MockFunction]}
     >
       <div
         className="form-group"
