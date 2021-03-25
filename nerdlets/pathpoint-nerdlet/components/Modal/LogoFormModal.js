@@ -38,7 +38,7 @@ function BodyLogoFormModal(props) {
   return (
     <div style={{ width: '350px' }}>
       <div className="modal4content space form-parent-container">
-        <Form onSubmit={e => handleSubmitLogo(e)}>
+        <Form onSubmit={handleSubmitLogo}>
           <FormGroup controlId="formType">
             <Select
               name="type"
@@ -62,7 +62,7 @@ function BodyLogoFormModal(props) {
                   type="text"
                   placeholder="Enter Text"
                   bsClass="support-modal-input-text"
-                  onChange={e => handleOnChange(e)}
+                  onChange={handleOnChange}
                 />
               </FormGroup>
             </div>
@@ -83,7 +83,7 @@ function BodyLogoFormModal(props) {
                   type="text"
                   placeholder="Enter URL"
                   bsClass="support-modal-input-text"
-                  onChange={e => handleOnChange(e)}
+                  onChange={handleOnChange}
                 />
               </FormGroup>
             </div>
