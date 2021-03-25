@@ -162,17 +162,46 @@ exports[`QueryFormModal component Render header with default data 1`] = `
     Test API
   </div>
   <div>
-    <select
-      className="custom-select"
-      id="query"
-      name="query"
-      onChange={[MockFunction]}
+    <div
+      className="custom-select-wrapper"
+      onClick={[Function]}
     >
-      <option
-        label="Full Open Query"
-        value={0}
-      />
-    </select>
+      <div
+        className="custom-select"
+        style={Object {}}
+      >
+        <div
+          className="custom-select__trigger"
+        >
+          <span
+            style={
+              Object {
+                "overflow": "hidden",
+                "textOverflow": "ellipsis",
+                "whiteSpace": "nowrap",
+                "width": "230px",
+              }
+            }
+          >
+            Full Open Query
+          </span>
+          <div
+            className="arrow"
+          />
+        </div>
+        <div
+          className="custom-options"
+          style={Object {}}
+        >
+          <span
+            className="custom-option selected"
+            onClick={[Function]}
+          >
+            Full Open Query
+          </span>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 `;
