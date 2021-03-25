@@ -38,10 +38,23 @@ export default class ShowBody extends Component {
   }
 
   componentDidMount() {
+    const { stageNameSelected } = this.props;
+    const error_threshold = stageNameSelected.datos.error_threshold;
+    const apdex_time = stageNameSelected.datos.apdex_time;
     if (messages.configuration.support.options_select_support_02.service_1) {
       this.setState({
         subject:
           messages.configuration.support.options_select_support_02.service_1
+      });
+    }
+    if (apdex_time) {
+      this.setState({
+        apdex: apdex_time
+      });
+    }
+    if (error_threshold) {
+      this.setState({
+        threshold: error_threshold
       });
     }
   }
@@ -144,5 +157,6 @@ ShowBody.propTypes = {
   LogoFormSubmit: PropTypes.func.isRequired,
   _onClose: PropTypes.func.isRequired,
   handleSaveUpdateTune: PropTypes.func.isRequired,
-  handleSaveUpdateSupport: PropTypes.func.isRequired
+  handleSaveUpdateSupport: PropTypes.func.isRequired,
+  stageNameSelected: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
 };
