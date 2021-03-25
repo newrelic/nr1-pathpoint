@@ -11,9 +11,10 @@ on:
 
 jobs:
   build:
-    runs-on: ${{matrix.os}}
+
+    runs-on: ubuntu-latest
+
     strategy:
-      max-parallel: 24
       matrix:
         node-version: [10.x, 12.x, 14.x, 15.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
@@ -24,6 +25,6 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm run prettier
-    - run: npm run linter
+    - run: npm ci
+    - run: npm run build --if-present
     - run: npm test
