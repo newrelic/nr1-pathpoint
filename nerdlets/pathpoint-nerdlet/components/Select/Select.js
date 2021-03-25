@@ -20,6 +20,7 @@ export default class Select extends PureComponent {
 
   myRef = React.createRef();
 
+  /* istanbul ignore next */
   handleClickOutside = e => {
     if (!this.myRef.current.contains(e.target)) {
       this.setState({ open: false });
