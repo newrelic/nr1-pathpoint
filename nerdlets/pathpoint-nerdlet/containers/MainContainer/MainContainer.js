@@ -12,7 +12,6 @@ import {
 } from './stylesFuntion';
 
 // IMPORT CONTAINERS AND COMPONENTS
-import AppContext from '../../Provider/AppProvider';
 import TouchPointContainer from '../TouchPointContainer/TouchPointContainer.js';
 import StepContainer from '../StepContainer/StepContainer.js';
 import Stage from '../../components/Stage/Stage.js';
@@ -1744,5 +1743,3 @@ export default class MainContainer extends React.Component {
     }
   }
 }
-
-MainContainer.contextType = AppContext;
