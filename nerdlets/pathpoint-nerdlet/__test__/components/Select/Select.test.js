@@ -49,7 +49,10 @@ describe('<Select/>', () => {
         handleOnChange={jest.fn()}
       />
     );
-    wrapper.find('span').at(1).simulate('click');
+    wrapper
+      .find('span')
+      .at(1)
+      .simulate('click');
     expect(wrapper.state('selected')).toEqual(0);
   });
 });
