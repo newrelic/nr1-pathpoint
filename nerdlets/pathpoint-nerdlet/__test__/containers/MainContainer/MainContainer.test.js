@@ -217,6 +217,17 @@ jest.mock(
   { virtual: true }
 );
 
+const banner_kpis = [
+  {
+    type: 100,
+    description: 'Total Order Count',
+    prefix: '',
+    suffix: 'Orders',
+    query: 'SELECT count(*) as value FROM Transaction SINCE 1 minute AGO',
+    value: 0
+  }
+];
+
 const stages = [
   {
     index: 1,
@@ -279,6 +290,24 @@ const stages = [
     ]
   }
 ];
+
+const colors = {
+  background_capacity: [19, 72, 104],
+  stage_capacity: [255, 255, 255],
+  status_color: {
+    danger: [255, 76, 76],
+    warning: [242, 201, 76],
+    good: [39, 174, 96]
+  },
+  steps_touchpoints: [
+    {
+      select_color: [18, 167, 255],
+      unselect_color: [189, 189, 189],
+      error_color: [255, 76, 76],
+      dark: [51, 51, 51]
+    }
+  ]
+};
 
 const canaryData = [
   {
@@ -376,13 +405,42 @@ describe('<MainContainer/>', () => {
   it('BoootstrapApplication', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
+    instance.DataManager = {
+      BootstrapInitialData: jest.fn().mockReturnValue({
+        stages,
+        banner_kpis,
+        colors,
+        version: '1.0.0',
+        accountId: 1234
+      })
+    };
+    instance.InitLogoSetupData = jest.fn();
+    instance.ExecuteUpdateData = jest.fn();
     instance.BoootstrapApplication();
   });
 
   it('ExecuteUpdateData', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
+    instance.DataManager = {
+      UpdateData: jest.fn().mockReturnValue({
+        stages,
+        banner_kpis
+      })
+    };
     instance.ExecuteUpdateData();
+  });
+
+  it('ExecuteUpdateData with change loading', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.DataManager = {
+      UpdateData: jest.fn().mockReturnValue({
+        stages,
+        banner_kpis
+      })
+    };
+    instance.ExecuteUpdateData(true);
   });
 
   it('updateDataNow', () => {
@@ -391,12 +449,20 @@ describe('<MainContainer/>', () => {
     instance.updateDataNow();
   });
 
-  it('ToggleHeaderButtons', () => {
+  it('ToggleHeaderButtons with iconCanaryStatus', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
     instance.ToggleCanaryIcon = jest.fn();
     instance.ToggleFireIcon = jest.fn();
     instance.ToggleHeaderButtons('iconCanaryStatus');
+  });
+
+  it('ToggleHeaderButtons with iconFireStatus', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.ToggleCanaryIcon = jest.fn();
+    instance.ToggleFireIcon = jest.fn();
+    instance.ToggleHeaderButtons('iconFireStatus');
   });
 
   it('onClickStage', () => {
@@ -410,32 +476,85 @@ describe('<MainContainer/>', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
     instance.LogoSetupData = {
-      GetLogoSetupData: jest.fn()
+      GetLogoSetupData: jest.fn().mockReturnValue({
+        type: 'default'
+      })
     };
     instance.InitLogoSetupData();
   });
 
-  // it('onclickStep', () => {
-  //   const mainContainer = shallow(<MainContainer />);
-  //   const instance = mainContainer.instance();
-  //   instance.state.stages = stages;
-  //   const stepEntry = {
-  //     canary_state: false,
-  //     dark: false,
-  //     dotted: false,
-  //     error: false,
-  //     highlighted: true,
-  //     history_error: false,
-  //     id: 'ST1-LINE1-SS1',
-  //     index: 1,
-  //     index_stage: 0,
-  //     latency: false,
-  //     relationship_touchpoints: [1],
-  //     value: 'Web'
-  //   };
-  //   instance.ResetAllStages = jest.fn();
-  //   instance.onclickStep(stepEntry);
-  // });
+  it('onclickStep', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    const stepEntry = {
+      canary_state: false,
+      dark: false,
+      dotted: false,
+      error: false,
+      highlighted: true,
+      history_error: false,
+      id: 'ST1-LINE1-SS1',
+      index: 1,
+      index_stage: 1,
+      latency: false,
+      relationship_touchpoints: [1],
+      value: 'Web'
+    };
+    instance.ResetAllStages = jest.fn();
+    instance.onclickStep(stepEntry);
+  });
+
+  it('onclickStep with iconFireStatus', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.iconFireStatus = true;
+    instance.state.stages = stages;
+    const stepEntry = {
+      canary_state: false,
+      dark: false,
+      dotted: false,
+      error: false,
+      highlighted: true,
+      history_error: false,
+      id: 'ST1-LINE1-SS1',
+      index: 1,
+      index_stage: 1,
+      latency: false,
+      relationship_touchpoints: [1],
+      value: 'Web'
+    };
+    instance.ResetAllStages = jest.fn();
+    instance.onclickStep(stepEntry);
+  });
+
+  it('onclickStep with iconCanaryStatus', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.iconCanaryStatus = true;
+    instance.state.canaryData = canaryData;
+    instance.state.stages = stages;
+    const stepEntry = {
+      canary_state: false,
+      dark: false,
+      dotted: false,
+      error: false,
+      highlighted: true,
+      history_error: false,
+      id: 'ST1-LINE1-SS1',
+      index: 1,
+      index_stage: 1,
+      latency: false,
+      relationship_touchpoints: [1],
+      value: 'Web'
+    };
+    instance.DataManager = {
+      SetCanaryData: jest.fn(),
+      UpdateCanaryData: jest.fn()
+    };
+    instance.ResetAllStages = jest.fn();
+    instance.onclickStep(stepEntry);
+  });
 
   it('ResetAllStages', () => {
     const mainContainer = shallow(<MainContainer />);
@@ -451,6 +570,18 @@ describe('<MainContainer/>', () => {
     instance._onClose();
   });
 
+  it('_onClose with errors', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.restoreTouchPoints = jest.fn();
+    instance._onClose([
+      {
+        dataPath: '/stages/0',
+        message: 'Bad JSON File Structure'
+      }
+    ]);
+  });
+
   it('PreSelectCanaryData', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
@@ -459,14 +590,16 @@ describe('<MainContainer/>', () => {
     instance.PreSelectCanaryData(canaryData);
   });
 
-  // it('ExecuteSetCanaryData', () => {
-  //   const mainContainer = shallow(<MainContainer />);
-  //   const instance = mainContainer.instance();
-  //   instance.DataManager = {
-  //     SetCanaryData: jest.fn()
-  //   };
-  //   instance.ExecuteSetCanaryData();
-  // });
+  it('ExecuteSetCanaryData', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.DataManager = {
+      SetCanaryData: jest.fn().mockReturnValue({
+        stages
+      })
+    };
+    instance.ExecuteSetCanaryData();
+  });
 
   it('clearStepsSixthSense', () => {
     const mainContainer = shallow(<MainContainer />);
@@ -475,10 +608,46 @@ describe('<MainContainer/>', () => {
     instance.clearStepsSixthSense();
   });
 
-  it('ToggleCanaryIcon', () => {
+  it('ToggleCanaryIcon with no iconCanaryStatus and showCanaryWelcomeMat', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
     instance.state.stages = stages;
+    instance._onClose = jest.fn();
+    instance.state.showCanaryWelcomeMat = true;
+    instance.ToggleCanaryIcon(true);
+  });
+
+  it('ToggleCanaryIcon with iconCanaryStatus and showCanaryWelcomeMat', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.state.iconCanaryStatus = true;
+    instance._onClose = jest.fn();
+    instance.state.showCanaryWelcomeMat = true;
+    instance.ToggleCanaryIcon(false);
+  });
+
+  it('ToggleCanaryIcon with iconCanaryStatus and no showCanaryWelcomeMat', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.state.iconCanaryStatus = true;
+    instance._onClose = jest.fn();
+    instance.state.showCanaryWelcomeMat = false;
+    instance.PreSelectCanaryData = jest.fn();
+    instance.updateDataNow = jest.fn();
+    instance.ToggleCanaryIcon(false);
+  });
+
+  it('ToggleCanaryIcon with no iconCanaryStatus', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.state.iconCanaryStatus = false;
+    instance._onClose = jest.fn();
+    instance.state.showCanaryWelcomeMat = false;
+    instance.PreSelectCanaryData = jest.fn();
+    instance.updateDataNow = jest.fn();
     instance.ToggleCanaryIcon(true);
   });
 
@@ -493,7 +662,7 @@ describe('<MainContainer/>', () => {
   //   const mainContainer = shallow(<MainContainer />);
   //   const instance = mainContainer.instance();
   //   instance.state.stages = stages;
-  //   instance.setStepsHistoricError(1, 'ST1-LINE1-SS1');
+  //   instance.setStepsHistoricError(1, 'ST1-LINE1-SS1, ST2-LINE2-SS2');
   // });
 
   it('updateHistoricErrors', () => {
