@@ -46,7 +46,9 @@ export default class ValidationQuery {
         break;
       case 'Session Query Duration':
         goodQuery = this.sessionDurationValidation(errors, query);
-
+        break;
+      case 'Error Percentage Query':
+        goodQuery = this.errorPercentageQuery(errors, query, data);
         break;
       case 'Full Open Query':
         goodQuery = this.fullOpenValidation(errors, data);
@@ -56,6 +58,28 @@ export default class ValidationQuery {
       testText = messages.test_query.wrong;
     }
     return { testText, goodQuery };
+  }
+
+  errorPercentageQuery(errors, query, data) {
+    let validate = true;
+    let quantity = 0;
+    if (errors && errors.length > 0) {
+      validate = false;
+    } else if (!`${query}`.toLowerCase().includes('percentage')) {
+      validate = false;
+    } else {
+      for (const [, value] of Object.entries(data[0])) {
+        if (typeof value === 'string') {
+          validate = false;
+          break;
+        }
+        quantity++;
+      }
+      if (quantity > 1) {
+        validate = false;
+      }
+    }
+    return validate;
   }
 
   countQueryValidation(errors, data) {
