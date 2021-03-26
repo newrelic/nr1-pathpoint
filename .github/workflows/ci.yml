@@ -101,7 +101,7 @@ jobs:
       - name: Temporarily disable "required_pull_request_reviews" branch protection
         id: disable-branch-protection
         if: always()
-        uses: actions/github-script@v1
+        uses: actions/github-script@v3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           previews: luke-cage-preview
@@ -126,7 +126,7 @@ jobs:
       - name: Re-enable "required_pull_request_reviews" branch protection
         id: enable-branch-protection
         if: always()
-        uses: actions/github-script@v1
+        uses: actions/github-script@v3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           previews: luke-cage-preview
@@ -175,7 +175,7 @@ jobs:
       - name: Temporarily disable "required_pull_request_reviews" branch protection
         id: disable-branch-protection
         if: always()
-        uses: actions/github-script@v1
+        uses: actions/github-script@v3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           previews: luke-cage-preview
@@ -204,7 +204,7 @@ jobs:
       - name: Re-enable "required_pull_request_reviews" branch protection
         id: enable-branch-protection
         if: always()
-        uses: actions/github-script@v1
+        uses: actions/github-script@v3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           previews: luke-cage-preview
