@@ -16,6 +16,7 @@ export default class Tooltip extends Component {
   }
 
   // COMPONENT METHODS
+  /* istanbul ignore next */
   handleOnMouseEnter = e => {
     if (this.props.bottom) {
       this.setState(
@@ -51,6 +52,7 @@ export default class Tooltip extends Component {
     }
   };
 
+  /* istanbul ignore next */
   handleOnMouseLeave = () => {
     const wrapper = document.getElementsByClassName('tooltip-wrapper')[0];
     wrapper.classList.add('fade-out');

@@ -201,21 +201,23 @@ export const CustomSchemaValidation = target => {
           message: `URL must match with new relic domain`
         });
       }
-      const related_steps = touchpoint.related_steps.split(',');
-      related_steps.forEach(related => {
-        let finded = false;
-        ids.forEach(id => {
-          if (id === related.trim()) {
-            finded = true;
+      if (touchpoint.related_steps !== '') {
+        const related_steps = touchpoint.related_steps.split(',');
+        related_steps.forEach(related => {
+          let finded = false;
+          ids.forEach(id => {
+            if (id === related.trim()) {
+              finded = true;
+            }
+          });
+          if (!finded) {
+            errors.push({
+              dataPath: `stages/${i}/touchpoints/${c}/related_steps`,
+              message: `ID doesn't exist`
+            });
           }
         });
-        if (!finded) {
-          errors.push({
-            dataPath: `stages/${i}/touchpoints/${c}/related_steps`,
-            message: `ID doesn't exist`
-          });
-        }
-      });
+      }
       const regex = new RegExp('^[A-Za-z0-9_-]*$');
       touchpoint.queries.forEach((query, x) => {
         if (!regex.test(query.type)) {

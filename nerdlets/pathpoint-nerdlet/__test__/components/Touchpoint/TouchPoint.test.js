@@ -39,6 +39,7 @@ describe('<Touchpoint/>', () => {
           colors={colors}
           iconFireStatus={false}
           checkAllStatus={false}
+          iconCanaryStatus={false}
           iconSixthSenseStatus={false}
           visible={false}
           idVisible=""
@@ -72,6 +73,7 @@ describe('<Touchpoint/>', () => {
           colors={colors}
           iconFireStatus={false}
           checkAllStatus={false}
+          iconCanaryStatus={false}
           iconSixthSenseStatus={false}
           visible={false}
           idVisible=""
@@ -106,6 +108,7 @@ describe('<Touchpoint/>', () => {
           colors={colors}
           iconFireStatus={false}
           checkAllStatus={false}
+          iconCanaryStatus={false}
           iconSixthSenseStatus={false}
           visible={false}
           idVisible=""
@@ -141,6 +144,7 @@ describe('<Touchpoint/>', () => {
           colors={colors}
           iconFireStatus={false}
           checkAllStatus={false}
+          iconCanaryStatus={false}
           iconSixthSenseStatus={false}
           visible={false}
           idVisible=""
@@ -177,6 +181,7 @@ describe('<Touchpoint/>', () => {
           colors={colors}
           iconFireStatus={false}
           checkAllStatus={false}
+          iconCanaryStatus={false}
           iconSixthSenseStatus={false}
           visible={false}
           idVisible=""
@@ -213,6 +218,7 @@ describe('<Touchpoint/>', () => {
           colors={colors}
           iconFireStatus={false}
           checkAllStatus={false}
+          iconCanaryStatus={false}
           iconSixthSenseStatus={false}
           visible={false}
           idVisible=""
@@ -250,6 +256,7 @@ describe('<Touchpoint/>', () => {
           iconFireStatus={false}
           checkAllStatus={false}
           iconSixthSenseStatus={false}
+          iconCanaryStatus={false}
           visible={false}
           idVisible=""
           handleChange={jest.fn()}
@@ -283,6 +290,7 @@ describe('<Touchpoint/>', () => {
           iconFireStatus={false}
           checkAllStatus={false}
           iconSixthSenseStatus={false}
+          iconCanaryStatus={false}
           visible={false}
           idVisible=""
           handleChange={jest.fn()}
@@ -316,6 +324,7 @@ describe('<Touchpoint/>', () => {
           iconFireStatus={false}
           checkAllStatus={false}
           iconSixthSenseStatus={false}
+          iconCanaryStatus={false}
           visible={false}
           idVisible=""
           handleChange={jest.fn()}
@@ -351,6 +360,7 @@ describe('<Touchpoint/>', () => {
         iconFireStatus={false}
         checkAllStatus={false}
         iconSixthSenseStatus={false}
+        iconCanaryStatus={false}
         visible={false}
         idVisible=""
         handleChange={jest.fn()}
@@ -397,6 +407,7 @@ describe('<Touchpoint/>', () => {
           colors={colors}
           iconFireStatus={false}
           checkAllStatus={false}
+          iconCanaryStatus={false}
           iconSixthSenseStatus={false}
           visible={false}
           idVisible=""
@@ -431,6 +442,7 @@ describe('<Touchpoint/>', () => {
           iconFireStatus={false}
           checkAllStatus={false}
           iconSixthSenseStatus={false}
+          iconCanaryStatus={false}
           visible={false}
           idVisible=""
           handleChange={jest.fn()}
@@ -464,6 +476,7 @@ describe('<Touchpoint/>', () => {
           iconFireStatus={false}
           checkAllStatus={false}
           iconSixthSenseStatus={false}
+          iconCanaryStatus={false}
           visible={false}
           idVisible=""
           handleChange={jest.fn()}
@@ -475,5 +488,267 @@ describe('<Touchpoint/>', () => {
       const result = wrapper.instance().ActivateCursor(touchPoint, 6);
       expect(result).toMatch('default');
     });
+  });
+
+  it('Simulate click', () => {
+    window.open = jest.fn();
+    const touchPoint = {
+      status_on_off: false,
+      city: 0,
+      index: 0,
+      error: false,
+      highlighted: false,
+      countrys: [0, 1],
+      dashboard_url: ['www.google.com'],
+      history_error: false,
+      sixth_sense_url: [[]]
+    };
+
+    const wrapper = mount(
+      <TouchPoint
+        touchpoint={touchPoint}
+        city={0}
+        colors={colors}
+        iconFireStatus={false}
+        checkAllStatus={false}
+        iconSixthSenseStatus={false}
+        iconCanaryStatus={false}
+        visible={false}
+        idVisible=""
+        handleChange={jest.fn()}
+        renderProps={jest.fn()}
+        updateTouchpointOnOff={jest.fn()}
+        openModalParent={jest.fn()}
+      />
+    );
+    wrapper
+      .find('.textContentPoint')
+      .at(0)
+      .simulate('click');
+    window.open.mockClear();
+  });
+
+  it('Change idVisible', () => {
+    const touchPoint = {
+      status_on_off: false,
+      city: 0,
+      index: 0,
+      error: false,
+      highlighted: false,
+      countrys: [0, 1],
+      dashboard_url: ['www.google.com'],
+      history_error: false,
+      sixth_sense_url: [[]]
+    };
+
+    const wrapper = mount(
+      <TouchPoint
+        touchpoint={touchPoint}
+        city={0}
+        colors={colors}
+        iconFireStatus={false}
+        checkAllStatus={false}
+        iconSixthSenseStatus={false}
+        iconCanaryStatus={false}
+        visible
+        idVisible="123ABC"
+        handleChange={jest.fn()}
+        renderProps={jest.fn()}
+        updateTouchpointOnOff={jest.fn()}
+        openModalParent={jest.fn()}
+      />
+    );
+    wrapper.setState({ idVisible: '123ABC' });
+    expect(wrapper.state('idVisible')).toMatch('123ABC');
+  });
+
+  it('Function HandleContextMenuPrevent', () => {
+    const touchPoint = {
+      status_on_off: false,
+      city: 0,
+      index: 0,
+      error: false,
+      highlighted: false,
+      countrys: [0, 1],
+      dashboard_url: ['www.google.com'],
+      history_error: false,
+      sixth_sense_url: [[]]
+    };
+
+    const wrapper = mount(
+      <TouchPoint
+        touchpoint={touchPoint}
+        city={0}
+        colors={colors}
+        iconFireStatus={false}
+        checkAllStatus={false}
+        iconSixthSenseStatus={false}
+        iconCanaryStatus={false}
+        visible
+        idVisible="123ABC"
+        handleChange={jest.fn()}
+        renderProps={jest.fn()}
+        updateTouchpointOnOff={jest.fn()}
+        openModalParent={jest.fn()}
+      />
+    );
+    const preven = jest.fn();
+    wrapper.instance().HandleContextMenuPrevent({
+      preventDefault: preven
+    });
+    expect(preven).toHaveBeenCalledTimes(1);
+  });
+
+  it('Function HandleContextMenu', () => {
+    window.innerWidth = 200;
+    window.innerHeight = 200;
+    const touchPoint = {
+      status_on_off: false,
+      city: 0,
+      index: 0,
+      error: false,
+      highlighted: false,
+      countrys: [0, 1],
+      dashboard_url: ['www.google.com'],
+      history_error: false,
+      sixth_sense_url: [[]]
+    };
+
+    const wrapper = mount(
+      <TouchPoint
+        touchpoint={touchPoint}
+        city={0}
+        colors={colors}
+        iconFireStatus={false}
+        checkAllStatus={false}
+        iconSixthSenseStatus={false}
+        iconCanaryStatus={false}
+        visible
+        idVisible="123ABC"
+        handleChange={jest.fn()}
+        renderProps={jest.fn()}
+        updateTouchpointOnOff={jest.fn()}
+        openModalParent={jest.fn()}
+      />
+    );
+
+    wrapper.instance().HandleContextMenu({
+      preventDefault: jest.fn(),
+      button: 2,
+      clientX: 160,
+      clientY: 180
+    });
+    expect(wrapper.state('stylesContext')).toEqual({
+      left: '5px',
+      top: '5px'
+    });
+  });
+
+  it('Function HandleClickonOff', () => {
+    const touchPoint = {
+      status_on_off: false,
+      city: 0,
+      index: 0,
+      error: false,
+      highlighted: false,
+      countrys: [0, 1],
+      dashboard_url: ['www.google.com'],
+      history_error: false,
+      sixth_sense_url: [[]]
+    };
+    const renderProps = jest.fn();
+    const updateTouchpointOnOff = jest.fn();
+    const wrapper = mount(
+      <TouchPoint
+        touchpoint={touchPoint}
+        city={0}
+        colors={colors}
+        iconFireStatus={false}
+        checkAllStatus={false}
+        iconSixthSenseStatus={false}
+        iconCanaryStatus={false}
+        visible
+        idVisible="123ABC"
+        handleChange={jest.fn()}
+        renderProps={renderProps}
+        updateTouchpointOnOff={updateTouchpointOnOff}
+        openModalParent={jest.fn()}
+      />
+    );
+    wrapper.instance().HandleClickonOff();
+    expect(renderProps).toHaveBeenCalledTimes(1);
+    expect(updateTouchpointOnOff).toHaveBeenCalledTimes(1);
+  });
+
+  it('Function HandleClickTune', () => {
+    const touchPoint = {
+      status_on_off: false,
+      city: 0,
+      index: 0,
+      error: false,
+      highlighted: false,
+      countrys: [0, 1],
+      dashboard_url: ['www.google.com'],
+      history_error: false,
+      sixth_sense_url: [[]]
+    };
+    const renderProps = jest.fn();
+    const openModalParent = jest.fn();
+    const wrapper = mount(
+      <TouchPoint
+        touchpoint={touchPoint}
+        city={0}
+        colors={colors}
+        iconFireStatus={false}
+        checkAllStatus={false}
+        iconSixthSenseStatus={false}
+        iconCanaryStatus={false}
+        visible
+        idVisible="123ABC"
+        handleChange={jest.fn()}
+        renderProps={renderProps}
+        updateTouchpointOnOff={jest.fn()}
+        openModalParent={openModalParent}
+      />
+    );
+    wrapper.instance().HandleClickTune();
+    expect(renderProps).toHaveBeenCalledTimes(1);
+    expect(openModalParent).toHaveBeenCalledTimes(1);
+  });
+
+  it('Function HandleClickQueries', () => {
+    const touchPoint = {
+      status_on_off: false,
+      city: 0,
+      index: 0,
+      error: false,
+      highlighted: false,
+      countrys: [0, 1],
+      dashboard_url: ['www.google.com'],
+      history_error: false,
+      sixth_sense_url: [[]]
+    };
+    const renderProps = jest.fn();
+    const openModalParent = jest.fn();
+    const wrapper = mount(
+      <TouchPoint
+        touchpoint={touchPoint}
+        city={0}
+        colors={colors}
+        iconFireStatus={false}
+        checkAllStatus={false}
+        iconSixthSenseStatus={false}
+        iconCanaryStatus={false}
+        visible
+        idVisible="123ABC"
+        handleChange={jest.fn()}
+        renderProps={renderProps}
+        updateTouchpointOnOff={jest.fn()}
+        openModalParent={openModalParent}
+      />
+    );
+    wrapper.instance().HandleClickQueries();
+    expect(renderProps).toHaveBeenCalledTimes(1);
+    expect(openModalParent).toHaveBeenCalledTimes(1);
   });
 });
