@@ -27,7 +27,7 @@ export default class ValidationQuery {
   }
 
   async validateQuery(type, query) {
-    let testText = messages.test_query.good;
+    let testText = messages.test_query.wrong;
     let goodQuery = false;
     if (query === '') {
       return { testText, goodQuery };
