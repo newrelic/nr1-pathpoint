@@ -498,7 +498,7 @@ describe('Validations class', () => {
       const validateQuery = await validations.validateQuery('type', '');
       expect(validateQuery).toEqual({
         goodQuery: false,
-        testText: 'Successfully validated'
+        testText: 'Incorrect validated'
       });
     });
 
