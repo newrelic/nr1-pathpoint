@@ -103,7 +103,7 @@ jobs:
         if: always()
         uses: actions/github-script@v1
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           previews: luke-cage-preview
           script: |
             const result = await github.repos.updateBranchProtection({
@@ -120,7 +120,7 @@ jobs:
         if: steps.generate-notices.outputs.commit == 'true'
         uses: ad-m/github-push-action@v0.6.0
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           branch: master
 
       - name: Re-enable "required_pull_request_reviews" branch protection
@@ -128,7 +128,7 @@ jobs:
         if: always()
         uses: actions/github-script@v1
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           previews: luke-cage-preview
           script: |
             const result = await github.repos.updateBranchProtection({
@@ -177,7 +177,7 @@ jobs:
         if: always()
         uses: actions/github-script@v1
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           previews: luke-cage-preview
           script: |
             const result = await github.repos.updateBranchProtection({
@@ -206,7 +206,7 @@ jobs:
         if: always()
         uses: actions/github-script@v1
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           previews: luke-cage-preview
           script: |
             const result = await github.repos.updateBranchProtection({
