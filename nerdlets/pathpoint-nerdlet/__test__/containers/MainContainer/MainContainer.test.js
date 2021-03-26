@@ -11,16 +11,17 @@ jest.mock(
       })
     };
     const AccountStorageQuery = {
-      query: jest
-        .fn()
-        .mockImplementation(({ accountId, collection, documentId }) => {
+      query: jest.fn().mockImplementation(({ collection, documentId }) => {
+        return new Promise(resolve => {
           switch (collection) {
             case 'pathpoint': {
               switch (documentId) {
                 case 'version':
                   return { data: { Version: '9.9.9' } };
                 case 'newViewJSON':
-                  return { data: { ViewJSON: [{}, {}], BannerKpis: [{}, {}] } };
+                  return {
+                    data: { ViewJSON: [{}, {}], BannerKpis: [{}, {}] }
+                  };
                 case 'dataCanary':
                   return { data: { dataCanary: [{}, {}] } };
                 case 'touchpoints':
@@ -71,8 +72,9 @@ jest.mock(
               break;
             }
           }
-          return accountId;
-        })
+          return resolve();
+        });
+      })
     };
     const NerdGraphQuery = {
       query: jest.fn().mockImplementation(async ({ query }) => {

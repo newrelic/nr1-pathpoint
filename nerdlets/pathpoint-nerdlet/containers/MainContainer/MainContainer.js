@@ -79,7 +79,7 @@ export default class MainContainer extends React.Component {
       getOldSessions: true,
       loading: false,
       canaryData: null,
-      colors: null,
+      colors: {},
 
       tuneOptions: null,
       checkAllStatus: false,
