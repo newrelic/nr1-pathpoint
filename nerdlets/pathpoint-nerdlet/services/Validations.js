@@ -54,8 +54,8 @@ export default class ValidationQuery {
         goodQuery = this.fullOpenValidation(errors, data);
         break;
     }
-    if (!goodQuery) {
-      testText = messages.test_query.wrong;
+    if (goodQuery) {
+      testText = messages.test_query.good;
     }
     return { testText, goodQuery };
   }
