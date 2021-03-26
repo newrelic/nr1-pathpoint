@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-      - main
+      - master
   repository_dispatch:
     types: [semantic-release]
 
@@ -212,7 +212,7 @@ jobs:
             const result = await github.repos.updateBranchProtection({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              branch: 'main',
+              branch: 'master',
               required_status_checks: null,
               restrictions: null,
               enforce_admins: null,
