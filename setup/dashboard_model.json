@@ -1,0 +1,130 @@
+{
+  "dashboard": {
+    "title": "wigilabs-pathpoint-model",
+    "description": "",
+    "icon": "line-chart",
+    "visibility": "all",
+    "editable": "editable_by_all",
+    "metadata": {
+      "version": 1
+    },
+    "widgets": [
+      {
+        "visualization": "markdown",
+        "layout": {
+          "width": 1,
+          "height": 1,
+          "row": 1,
+          "column": 1
+        },
+        "account_id": 0,
+        "data": [
+          {
+            "source": "[Go to APM Dashboard]()"
+          }
+        ],
+        "presentation": {
+          "title": "Links to APM Dashboard",
+          "notes": null
+        }
+      },
+      {
+        "visualization": "attribute_sheet",
+        "layout": {
+          "width": 1,
+          "height": 1,
+          "row": 1,
+          "column": 2
+        },
+        "account_id": 0,
+        "data": [
+          {
+            "nrql": "SELECT count(*),max(duration) as max,min(duration) as min,average(duration) as average,median(duration),percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='dr-magento-website-prod-new' AND request.uri = '/' since 5 minutes ago"
+          }
+        ],
+        "presentation": {
+          "title": "web-home Statistics",
+          "notes": null
+        }
+      },
+      {
+        "visualization": "faceted_area_chart",
+        "layout": {
+          "width": 1,
+          "height": 1,
+          "row": 1,
+          "column": 3
+        },
+        "account_id": 0,
+        "data": [
+          {
+            "nrql": "SELECT count(*) as count FROM Transaction WHERE appName='br-magento-website-prod-new' AND request.uri = '/' TIMESERIES auto  SINCE 5 minutes ago"
+          }
+        ],
+        "presentation": {
+          "title": "Use",
+          "notes": null
+        }
+      },
+      {
+        "visualization": "line_chart",
+        "layout": {
+          "width": 1,
+          "height": 1,
+          "row": 2,
+          "column": 1
+        },
+        "account_id": 0,
+        "data": [
+          {
+            "nrql": "SELECT average(duration),median(duration),max(duration),min(duration)  FROM Transaction WHERE appName='br-magento-website-prod-new' AND request.uri='/' TIMESERIES AUTO SINCE 5 minutes ago"
+          }
+        ],
+        "presentation": {
+          "title": "Response Time",
+          "notes": null
+        }
+      },
+      {
+        "visualization": "faceted_area_chart",
+        "layout": {
+          "width": 1,
+          "height": 1,
+          "row": 2,
+          "column": 2
+        },
+        "account_id": 0,
+        "data": [
+          {
+            "nrql": "SELECT count(*) FROM Transaction WHERE appName='br-magento-website-prod-new' AND request.uri='/' TIMESERIES AUTO FACET request.headers.userAgent SINCE 5 minutes ago"
+          }
+        ],
+        "presentation": {
+          "title": "Use by Agent",
+          "notes": null
+        }
+      },
+      {
+        "visualization": "facet_bar_chart",
+        "layout": {
+          "width": 1,
+          "height": 1,
+          "row": 2,
+          "column": 3
+        },
+        "account_id": 0,
+        "data": [
+          {
+            "nrql": "SELECT count(*) FROM Transaction WHERE appName='br-magento-website-prod-new' AND request.uri='/' FACET request.headers.host  SINCE 5 minutes ago"
+          }
+        ],
+        "presentation": {
+          "title": "Use by Host",
+          "notes": null,
+          "drilldown_dashboard_id": null
+        }
+      }
+    ],
+    "filter": null
+  }
+}
