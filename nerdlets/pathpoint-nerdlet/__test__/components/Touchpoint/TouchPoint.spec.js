@@ -34,6 +34,7 @@ describe('Touchpoint component', () => {
   test('Touchpoint component with default data', () => {
     const touchpoint = create(
       <TouchPoint
+        iconCanaryStatus
         touchpoint={touchPoint}
         city={0}
         colors={colors}

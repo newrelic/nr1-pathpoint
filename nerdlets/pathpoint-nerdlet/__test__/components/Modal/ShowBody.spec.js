@@ -8,9 +8,7 @@ describe('ShowBody component', () => {
       <ShowBody
         querySample="simple query"
         stageNameSelected={{
-          selectedCase: {
-            value: 0
-          },
+          selectedCase: 0,
           datos: [
             {
               label: 'Full Open Query',
@@ -25,6 +23,7 @@ describe('ShowBody component', () => {
         chargueSample={jest.fn()}
         testQuery={jest.fn()}
         handleSaveUpdateQuery={jest.fn()}
+        handleSaveUpdateSupport={jest.fn()}
         testText="Bad query"
         goodQuery={false}
         modifiedQuery

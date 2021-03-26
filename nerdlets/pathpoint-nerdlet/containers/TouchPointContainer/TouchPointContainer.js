@@ -88,5 +88,6 @@ TouchPointerContainer.propTypes = {
   idVisible: PropTypes.string.isRequired,
   renderProps: PropTypes.func.isRequired,
   openModalParent: PropTypes.func.isRequired,
-  updateTouchpointOnOff: PropTypes.func.isRequired
+  updateTouchpointOnOff: PropTypes.func.isRequired,
+  iconCanaryStatus: PropTypes.bool.isRequired
 };

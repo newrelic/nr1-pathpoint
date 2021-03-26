@@ -1,6 +1,6 @@
 import React from 'react';
-import Select from 'react-select';
 import PropTypes from 'prop-types';
+import Select from '../Select/Select';
 import { Button, FormControl, Form, FormGroup } from 'react-bootstrap';
 
 // IMPORT ICONS
@@ -8,41 +8,6 @@ import support from '../../images/support.svg';
 
 // IMPORT MESSAGES
 import messages from '../../config/messages.json';
-
-let subject = '';
-
-let name = '';
-
-let company = '';
-
-let account = '';
-
-let email = '';
-
-let phone = '';
-
-let message = '';
-
-const customStyles = {
-  container: provided => ({
-    ...provided,
-    width: '100%'
-  }),
-  control: styles => ({
-    ...styles,
-    width: '100%',
-    height: '30px !important',
-    minHeight: '30px !important'
-  }),
-  menu: provided => ({
-    ...provided,
-    width: '100%'
-  }),
-  indicatorsContainer: styles => ({
-    ...styles,
-    height: '30px !important'
-  })
-};
 
 const defaultOptions = defaultOptionsSelect();
 
@@ -57,107 +22,82 @@ function HeaderSupportFormModal() {
     </>
   );
 }
-
-function handleSubmit(event, values, handleSaveUpdateSupport) {
-  event.preventDefault();
-  const subject = values.subject;
-  values.subject = subject.label;
-  handleSaveUpdateSupport(values);
-}
-
 function BodySupportFormModal(props) {
-  const { handleSaveUpdateSupport } = props;
+  const { handleOnChange, handleSubmitSupport } = props;
   return (
     <div style={{ width: '350px' }}>
       <div className="modal4content" style={{ textAlign: 'justify' }}>
         {messages.configuration.support.message_support_01}
       </div>
       <div className="modal4content space">
-        <Form
-          onSubmit={e =>
-            handleSubmit(
-              e,
-              {
-                subject,
-                name,
-                company,
-                account,
-                email,
-                phone,
-                message
-              },
-              handleSaveUpdateSupport
-            )
-          }
-        >
+        <Form onSubmit={handleSubmitSupport}>
           <FormGroup controlId="formSubject">
             <Select
-              name="Subject"
-              onChange={e => (subject = e)}
-              placeholder="Subject"
-              defaultValue={defaultOptions[0]}
+              name="subject"
               options={defaultOptions}
-              styles={customStyles}
-              theme={theme => ({
-                ...theme,
-                borderRadius: 0
-              })}
+              handleOnChange={handleOnChange}
             />
           </FormGroup>
           <FormGroup controlId="formName">
             <FormControl
+              name="name"
               required
               type="text"
               placeholder="Name"
               bsClass="support-modal-input-text"
-              onChange={e => (name = e.target.value)}
+              onChange={handleOnChange}
             />
           </FormGroup>
           <FormGroup controlId="formCompany">
             <FormControl
+              name="company"
               required
               type="text"
               placeholder="Company"
               bsClass="support-modal-input-text"
-              onChange={e => (company = e.target.value)}
+              onChange={handleOnChange}
             />
           </FormGroup>
           <FormGroup controlId="formAccount">
             <FormControl
+              name="account"
               required
               type="text"
               placeholder="Account Name"
               bsClass="support-modal-input-text"
-              onChange={e => (account = e.target.value)}
+              onChange={handleOnChange}
             />
           </FormGroup>
           <FormGroup controlId="FormEmail">
             <FormControl
+              name="email"
               required
               type="email"
               placeholder="Email"
               bsClass="support-modal-input-text"
-              onChange={e => (email = e.target.value)}
+              onChange={handleOnChange}
             />
           </FormGroup>
           <FormGroup controlId="formMobile">
             <FormControl
+              name="phone"
               required
               pattern="(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{3,4})"
               type="phone"
               placeholder="Mobile"
               bsClass="support-modal-input-text"
-              onChange={e => (phone = e.target.value)}
+              onChange={handleOnChange}
             />
           </FormGroup>
           <FormGroup controlId="formDetails">
             <FormControl
+              name="message"
               required
               componentClass="textarea"
               rows={5}
               placeholder="Details"
               bsClass="support-modal-input-text"
-              onChange={e => (message = e.target.value)}
+              onChange={handleOnChange}
             />
           </FormGroup>
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -201,7 +141,8 @@ function defaultOptionsSelect() {
 }
 
 BodySupportFormModal.propTypes = {
-  handleSaveUpdateSupport: PropTypes.func.isRequired
+  handleOnChange: PropTypes.func.isRequired,
+  handleSubmitSupport: PropTypes.func.isRequired
 };
 
 export { HeaderSupportFormModal, BodySupportFormModal };

@@ -65,7 +65,7 @@ const renderField = ({ name, label, defaultValue, id, onChange }) => {
         name={name}
         type="text"
         defaultValue={defaultValue}
-        onChange={e => onChange('input', e)}
+        onChange={e => onChange(e)}
         className="inputText"
         style={{
           width: '60px',

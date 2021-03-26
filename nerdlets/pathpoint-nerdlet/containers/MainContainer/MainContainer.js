@@ -12,7 +12,6 @@ import {
 } from './stylesFuntion';
 
 // IMPORT CONTAINERS AND COMPONENTS
-import AppContext from '../../Provider/AppProvider';
 import TouchPointContainer from '../TouchPointContainer/TouchPointContainer.js';
 import StepContainer from '../StepContainer/StepContainer.js';
 import Stage from '../../components/Stage/Stage.js';
@@ -80,7 +79,7 @@ export default class MainContainer extends React.Component {
       getOldSessions: true,
       loading: false,
       canaryData: null,
-      colors: null,
+      colors: {},
 
       tuneOptions: null,
       checkAllStatus: false,
@@ -272,19 +271,13 @@ export default class MainContainer extends React.Component {
 
   ToggleHeaderButtons = target => {
     let previousIconCanaryStatus = null;
-    let previousIconGoutStatus = null;
-    let previousIconStartStatus = null;
     let previousIconFireStatus = null;
     this.setState(
       state => {
         previousIconCanaryStatus = state.iconCanaryStatus;
-        previousIconGoutStatus = state.iconGoutStatus;
-        previousIconStartStatus = state.iconStartStatus;
         previousIconFireStatus = state.iconFireStatus;
         return {
           iconCanaryStatus: false,
-          iconGoutStatus: false,
-          iconStartStatus: false,
           iconFireStatus: false,
           [target]: !state[target]
         };
@@ -550,19 +543,19 @@ export default class MainContainer extends React.Component {
     });
   }
 
-  setStepsHistoricError(stage_index, relation_steps) {
-    const rsteps = JSON.stringify(relation_steps).replace(/[,[\]]/g, '-');
-    this.setState(state => {
-      const stages = { state };
-      stages[stage_index - 1].steps.forEach(step => {
-        step.sub_steps.forEach(sub_step => {
-          if (rsteps.indexOf(`-${sub_step.index}-`) !== -1) {
-            sub_step.history_error = true;
-          }
-        });
-      });
-    });
-  }
+  // setStepsHistoricError(stage_index, relation_steps) {
+  //   const rsteps = JSON.stringify(relation_steps).replace(/[,[\]]/g, '-');
+  //   this.setState(state => {
+  //     const stages = { state };
+  //     stages[stage_index - 1].steps.forEach(step => {
+  //       step.sub_steps.forEach(sub_step => {
+  //         if (rsteps.indexOf(`-${sub_step.index}-`) !== -1) {
+  //           sub_step.history_error = true;
+  //         }
+  //       });
+  //     });
+  //   });
+  // }
 
   updateHistoricErrors() {
     this.clearStepsHistoricError();
@@ -620,8 +613,6 @@ export default class MainContainer extends React.Component {
       viewModal: 0,
       stageNameSelected: stage
     });
-    // this.setState({ viewModal: 0 });
-    // this.setState({ stageNameSelected: stage });
     this._onClose();
   };
 
@@ -658,9 +649,9 @@ export default class MainContainer extends React.Component {
     this._onClose();
   };
 
-  changeTimeRange = ({ value }) => {
+  changeTimeRange = event => {
     this.setState(
-      { timeRange: value, getOldSessions: true },
+      { timeRange: event.target.value, getOldSessions: true },
       this.updateDataNow
     );
   };
@@ -820,11 +811,11 @@ export default class MainContainer extends React.Component {
     });
   };
 
-  changeMessage = value => {
+  changeMessage = event => {
     const { stageNameSelected, modifiedQuery } = this.state;
     if (
       (stageNameSelected.selectedCase &&
-        stageNameSelected.selectedCase.value === value.value) ||
+        stageNameSelected.selectedCase === parseInt(event.target.value)) ||
       modifiedQuery
     ) {
       this.setState({
@@ -832,7 +823,7 @@ export default class MainContainer extends React.Component {
         testText: ''
       });
     } else {
-      stageNameSelected.selectedCase = value;
+      stageNameSelected.selectedCase = parseInt(event.target.value);
       this.setState({
         stageNameSelected,
         testText: '',
@@ -867,7 +858,7 @@ export default class MainContainer extends React.Component {
     }
     if (stageNameSelected.selectedCase) {
       stageNameSelected.datos[
-        stageNameSelected.selectedCase.value
+        stageNameSelected.selectedCase
       ].query_body = querySample;
     } else {
       stageNameSelected.datos[0].query_body = querySample;
@@ -893,7 +884,7 @@ export default class MainContainer extends React.Component {
       const { stageNameSelected } = state;
       if (stageNameSelected.selectedCase) {
         stageNameSelected.datos[
-          stageNameSelected.selectedCase.value
+          stageNameSelected.selectedCase
         ].query_body = query;
       } else {
         stageNameSelected.datos[0].query_body = query;
@@ -981,10 +972,6 @@ export default class MainContainer extends React.Component {
     this._resetFormSupport();
     this._onClose();
   };
-
-  async sendLogs(info, accountId) {
-    await sendLogsSlack([info], accountId, 'Form Support');
-  }
 
   _resetFormSupport = () => {
     const { supportForm } = this.state;
@@ -1754,5 +1741,3 @@ export default class MainContainer extends React.Component {
     }
   }
 }
-
-MainContainer.contextType = AppContext;

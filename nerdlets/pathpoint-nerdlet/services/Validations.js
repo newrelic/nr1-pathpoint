@@ -27,8 +27,8 @@ export default class ValidationQuery {
   }
 
   async validateQuery(type, query) {
-    let testText = messages.test_query.good;
-    let goodQuery = true;
+    let testText = messages.test_query.wrong;
+    let goodQuery = false;
     if (query === '') {
       return { testText, goodQuery };
     }
@@ -46,16 +46,40 @@ export default class ValidationQuery {
         break;
       case 'Session Query Duration':
         goodQuery = this.sessionDurationValidation(errors, query);
-
+        break;
+      case 'Error Percentage Query':
+        goodQuery = this.errorPercentageQuery(errors, query, data);
         break;
       case 'Full Open Query':
         goodQuery = this.fullOpenValidation(errors, data);
         break;
     }
-    if (!goodQuery) {
-      testText = messages.test_query.wrong;
+    if (goodQuery) {
+      testText = messages.test_query.good;
     }
     return { testText, goodQuery };
+  }
+
+  errorPercentageQuery(errors, query, data) {
+    let validate = true;
+    let quantity = 0;
+    if (errors && errors.length > 0) {
+      validate = false;
+    } else if (!`${query}`.toLowerCase().includes('percentage')) {
+      validate = false;
+    } else {
+      for (const [, value] of Object.entries(data[0])) {
+        if (typeof value === 'string') {
+          validate = false;
+          break;
+        }
+        quantity++;
+      }
+      if (quantity > 1) {
+        validate = false;
+      }
+    }
+    return validate;
   }
 
   countQueryValidation(errors, data) {

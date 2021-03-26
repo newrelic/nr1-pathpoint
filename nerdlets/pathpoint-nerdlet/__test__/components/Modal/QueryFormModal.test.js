@@ -11,9 +11,7 @@ describe('<QueryFormModal/>', () => {
       <BodyQueryFormModal
         querySample="simple query"
         stageNameSelected={{
-          selectedCase: {
-            value: 0
-          },
+          selectedCase: 0,
           datos: [
             {
               label: 'Full Open Query',
@@ -150,5 +148,68 @@ describe('<QueryFormModal/>', () => {
       />
     );
     expect(headerQueryForm.length).toEqual(1);
+  });
+
+  it('Simulate onsubmit', () => {
+    const handleSaveUpdateQuery = jest.fn();
+    const bodyQueryForm = mount(
+      <BodyQueryFormModal
+        querySample="simple query"
+        stageNameSelected={{
+          datos: [
+            {
+              label: 'Full Open Query',
+              query_body: 'SELECT FILTER(count(*) FROM Log',
+              query_footer: 'SINCE 5 MINUTES AGO',
+              query_start: '',
+              type: 20,
+              value: 0
+            }
+          ]
+        }}
+        chargueSample={jest.fn()}
+        testQuery={jest.fn()}
+        handleSaveUpdateQuery={handleSaveUpdateQuery}
+        testText="good query"
+        goodQuery
+        modifiedQuery={false}
+        handleChangeTexarea={jest.fn()}
+      />
+    );
+    const button = bodyQueryForm.find('button').at(1);
+    button.simulate('submit');
+    expect(handleSaveUpdateQuery).toHaveBeenCalledTimes(1);
+  });
+
+  it('Simulate onChange textArea', () => {
+    const handleChangeTexarea = jest.fn();
+    const bodyQueryForm = mount(
+      <BodyQueryFormModal
+        querySample="simple query"
+        stageNameSelected={{
+          datos: [
+            {
+              label: 'Full Open Query',
+              query_body: 'SELECT FILTER(count(*) FROM Log',
+              query_footer: 'SINCE 5 MINUTES AGO',
+              query_start: '',
+              type: 20,
+              value: 0
+            }
+          ]
+        }}
+        chargueSample={jest.fn()}
+        testQuery={jest.fn()}
+        handleSaveUpdateQuery={jest.fn()}
+        testText="good query"
+        goodQuery
+        modifiedQuery={false}
+        handleChangeTexarea={handleChangeTexarea}
+      />
+    );
+    const textArea = bodyQueryForm.find('textarea');
+    const event = { target: { value: 'sometext' } };
+    textArea.simulate('change', event);
+    expect(handleChangeTexarea).toHaveBeenCalledTimes(1);
   });
 });
