@@ -6,6 +6,7 @@ describe('ShowHeader component', () => {
   test('ShowHeader with default data in 0 view', () => {
     const header = create(
       <ShowHeader
+        handleSaveUpdateSupport={jest.fn()}
         viewModal={0}
         changeMessage={jest.fn()}
         stageNameSelected={{

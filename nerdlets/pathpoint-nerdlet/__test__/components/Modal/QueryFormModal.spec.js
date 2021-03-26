@@ -11,9 +11,7 @@ describe('QueryFormModal component', () => {
       <BodyQueryFormModal
         querySample="simple query"
         stageNameSelected={{
-          selectedCase: {
-            value: 0
-          },
+          selectedCase: 0,
           datos: [
             {
               label: 'Full Open Query',

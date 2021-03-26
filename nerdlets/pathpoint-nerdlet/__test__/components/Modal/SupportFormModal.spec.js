@@ -8,7 +8,11 @@ import {
 describe('SupportFormModal component', () => {
   test('Render body with default data', () => {
     const body = create(
-      <BodySupportFormModal handleSaveUpdateSupport={jest.fn()} />
+      <BodySupportFormModal
+        handleSubmitSupport={jest.fn()}
+        handleOnChange={jest.fn()}
+        handleSaveUpdateSupport={jest.fn()}
+      />
     );
     expect(body.toJSON()).toMatchSnapshot();
   });
