@@ -103,7 +103,7 @@ jobs:
         if: always()
         uses: actions/github-script@v3
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GH_PAT }}
           previews: luke-cage-preview
           script: |
             const result = await github.repos.updateBranchProtection({
@@ -120,7 +120,7 @@ jobs:
         if: steps.generate-notices.outputs.commit == 'true'
         uses: ad-m/github-push-action@v0.6.0
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GH_PAT }}
           branch: master
 
       - name: Re-enable "required_pull_request_reviews" branch protection
@@ -128,7 +128,7 @@ jobs:
         if: always()
         uses: actions/github-script@v3
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GH_PAT }}
           previews: luke-cage-preview
           script: |
             const result = await github.repos.updateBranchProtection({
@@ -177,7 +177,7 @@ jobs:
         if: always()
         uses: actions/github-script@v3
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GH_PAT }}
           previews: luke-cage-preview
           script: |
             const result = await github.repos.updateBranchProtection({
@@ -198,7 +198,7 @@ jobs:
           GIT_AUTHOR_EMAIL: "opensource+bot@newrelic.com"
           GIT_COMMITTER_NAME: "nr-opensource-bot"
           GIT_COMMITTER_EMAIL: "opensource+bot@newrelic.com"
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
         run: npx semantic-release
 
       - name: Re-enable "required_pull_request_reviews" branch protection
@@ -206,7 +206,7 @@ jobs:
         if: always()
         uses: actions/github-script@v3
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GH_PAT }}
           previews: luke-cage-preview
           script: |
             const result = await github.repos.updateBranchProtection({
