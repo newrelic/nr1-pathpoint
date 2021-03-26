@@ -124,6 +124,27 @@ jest.mock(
             return resolve();
           });
           return dataReturn;
+        } else if (query.includes('Error Percentage Query')) {
+          let dataReturn = {};
+          await new Promise(resolve => {
+            dataReturn = {
+              data: {
+                actor: {
+                  account: {
+                    nrql: {
+                      results: [
+                        {
+                          percentage: 72190
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            };
+            return resolve();
+          });
+          return dataReturn;
         }
       })
     };
@@ -431,6 +452,47 @@ describe('Validations class', () => {
     });
   });
 
+  describe('Function errorPercentageQuery', () => {
+    it('validate errors', async () => {
+      const errors = [{ locations: '', message: '' }];
+      const validateQuery = await validations.errorPercentageQuery(
+        errors,
+        '',
+        []
+      );
+      expect(validateQuery).toBeFalsy();
+    });
+
+    it('validate query sintaxis', async () => {
+      const validateQuery = await validations.errorPercentageQuery(
+        undefined,
+        'any query sample',
+        []
+      );
+      expect(validateQuery).toBeFalsy();
+    });
+
+    it('validate results type', async () => {
+      const data = [{ session: 'session' }];
+      const validateQuery = await validations.errorPercentageQuery(
+        undefined,
+        'percentage',
+        data
+      );
+      expect(validateQuery).toBeFalsy();
+    });
+
+    it('validate results quantity', async () => {
+      const data = [{ percentage: 1, results: 1 }];
+      const validateQuery = await validations.errorPercentageQuery(
+        undefined,
+        'percentage',
+        data
+      );
+      expect(validateQuery).toBeFalsy();
+    });
+  });
+
   describe('Function validateQuery', () => {
     it('validate error', async () => {
       const validateQuery = await validations.validateQuery('type', '');
@@ -466,6 +528,17 @@ describe('Validations class', () => {
       const validateQuery = await validations.validateQuery(
         'Session Query',
         'Session Query'
+      );
+      expect(validateQuery).toEqual({
+        goodQuery: true,
+        testText: 'Successfully validated'
+      });
+    });
+
+    it('validate error percentage query', async () => {
+      const validateQuery = await validations.validateQuery(
+        'Error Percentage Query',
+        'Error Percentage Query'
       );
       expect(validateQuery).toEqual({
         goodQuery: true,
