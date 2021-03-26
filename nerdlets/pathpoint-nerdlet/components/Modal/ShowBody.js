@@ -39,8 +39,12 @@ export default class ShowBody extends Component {
 
   componentDidMount() {
     const { stageNameSelected } = this.props;
-    const error_threshold = stageNameSelected.datos.error_threshold;
-    const apdex_time = stageNameSelected.datos.apdex_time;
+    let error_threshold = '';
+    let apdex_time = '';
+    if (stageNameSelected && stageNameSelected.datos) {
+      error_threshold = stageNameSelected.datos.error_threshold;
+      apdex_time = stageNameSelected.datos.apdex_time;
+    }
     if (messages.configuration.support.options_select_support_02.service_1) {
       this.setState({
         subject:
