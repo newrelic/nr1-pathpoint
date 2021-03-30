@@ -3,7 +3,7 @@
 [![Node.js CI](https://github.com/newrelic/nr1-pathpoint/actions/workflows/node.js.yml/badge.svg)](https://github.com/newrelic/nr1-pathpoint/actions/workflows/node.js.yml)
 [![Repolinter Action](https://github.com/newrelic/nr1-pathpoint/actions/workflows/repolinter.yml/badge.svg?branch=main)](https://github.com/newrelic/nr1-pathpoint/actions/workflows/repolinter.yml)
 [![NR1 Library Deprecation Checks](https://github.com/newrelic/nr1-pathpoint/actions/workflows/nr1_library_deprecation_check.yml/badge.svg)](https://github.com/newrelic/nr1-pathpoint/actions/workflows/nr1_library_deprecation_check.yml)
-[![CI](https://github.com/newrelic/nr1-pathpoint/actions/workflows/release.yml/badge.svg)](https://github.com/newrelic/nr1-pathpoint/actions/workflows/release.yml)
+[![Release](https://github.com/newrelic/nr1-pathpoint/actions/workflows/release.yml/badge.svg)](https://github.com/newrelic/nr1-pathpoint/actions/workflows/release.yml)
 
 # Pathpoint
 
