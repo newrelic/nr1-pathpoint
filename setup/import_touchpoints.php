@@ -65,10 +65,12 @@ while (($datos = fgetcsv($f, 1000, ",")) !== FALSE) {
             $touchpointLink = $datos[11];
         }
 
+        $limit_type = $datos[12];
+
         //----------------------------------
         foreach ($stages as $stage) {
             if (valida_stage($stage)) {
-                addTouchpoint(stage_index($stage), $touchpointType, $touchpoint, $steps, $touchpointLink, $tp_queryCount, $tp_queryError, $tp_error_threshold, $tp_apdex_query, $apdex_time, $tp_session_query,$tp_session_duration);
+                addTouchpoint(stage_index($stage), $touchpointType, $touchpoint, $steps, $touchpointLink, $tp_queryCount, $tp_queryError, $tp_error_threshold, $tp_apdex_query, $apdex_time, $tp_session_query,$tp_session_duration,$limit_type);
             }
         }
     }
@@ -168,7 +170,7 @@ function getDashboardLink($link)
     }
 }
 
-function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touchpointLink, $tp_queryCount, $tp_queryError, $tp_error_threshold, $tp_apdex_query, $apdex_time, $tp_session_query, $tp_session_duration)
+function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touchpointLink, $tp_queryCount, $tp_queryError, $tp_error_threshold, $tp_apdex_query, $apdex_time, $tp_session_query, $tp_session_duration,$limit_type)
 {
     global $view;
     global $touchPoints;
@@ -244,7 +246,8 @@ function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touc
                     "query" => $tp_queryCount,
                     "measure_period" => 60,
                     "count" => 0,
-                    "limit_number" => 50
+                    "limit_number" => (int) $apdex_time,
+                    "type_limit" => $limit_type
                 ]
             ]
         ];

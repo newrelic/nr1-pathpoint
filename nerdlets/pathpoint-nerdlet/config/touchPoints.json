@@ -32,7 +32,8 @@
             "query": "SELECT count(*) FROM Log WHERE record_type='WORK_ORDER' AND priority='SuperRush'",
             "measure_period": 60,
             "count": 0,
-            "limit_number": 50
+            "limit_number": 50,
+            "type_limit": "OVER"
           }
         ]
       },
@@ -46,31 +47,12 @@
         ],
         "measure_points": [
           {
-            "type": 0,
+            "type": 21,
             "query": "",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "",
-            "apdex": 0,
-            "apdex_time": 50
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
+            "measure_period": 60,
+            "count": 0,
+            "limit_number": 50,
+            "type_limit": ""
           }
         ]
       },
@@ -100,10 +82,11 @@
         "measure_points": [
           {
             "type": 21,
-            "query": "",
+            "query": "SELECT count(*) FROM Log WHERE record_type='CTP' AND job_type_description in ('RestoreJob','ArchiveJob') and priority='SuperRush'",
             "measure_period": 60,
             "count": 0,
-            "limit_number": 50
+            "limit_number": 50,
+            "type_limit": "OVER"
           }
         ]
       },
@@ -155,31 +138,12 @@
         ],
         "measure_points": [
           {
-            "type": 0,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "",
-            "apdex": 0,
-            "apdex_time": 50
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
+            "type": 21,
+            "query": "SELECT count(*) FROM Log WHERE record_type='TASK' AND task_type_desc='Restore' AND status in ('Queued at Catapult', 'Queued') AND priority='High'",
+            "measure_period": 60,
+            "count": 0,
+            "limit_number": 500,
+            "type_limit": "OVER"
           }
         ]
       },
@@ -193,31 +157,12 @@
         ],
         "measure_points": [
           {
-            "type": 0,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "",
-            "apdex": 0,
-            "apdex_time": 50
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
+            "type": 21,
+            "query": "select count(*) FROM Log WHERE record_type='TASK' AND task_type_desc='Restore' AND status='Completed'",
+            "measure_period": 60,
+            "count": 0,
+            "limit_number": 100,
+            "type_limit": "BELOW"
           }
         ]
       },
@@ -353,6 +298,25 @@
         ]
       },
       {
+        "stage_index": 3,
+        "value": "Super Rush Volume",
+        "touchpoint_index": 2,
+        "status_on_off": true,
+        "relation_steps": [
+          3
+        ],
+        "measure_points": [
+          {
+            "type": 21,
+            "query": "SELECT count(*) FROM Log WHERE record_type='CTP' AND job_type_description in ('ChecksumJob','Md5SumJob') and priority='SuperRush'",
+            "measure_period": 60,
+            "count": 0,
+            "limit_number": 50,
+            "type_limit": "OVER"
+          }
+        ]
+      },
+      {
         "stage_index": 4,
         "value": "Miscellaneous Count",
         "touchpoint_index": 1,
@@ -364,6 +328,25 @@
             "query": "SELECT count(*) as R1, FILTER(count(*), WHERE job_state='CompletedSuccessfully' or job_state='CompletedWithFailure') as R2 FROM Log WHERE record_type='CTP' AND (job_type_description='RenameJob' or job_type_description='DirectoryListingJob' or job_type_description='RetryingDeleteFileJob')",
             "R1": 0,
             "R2": 0
+          }
+        ]
+      },
+      {
+        "stage_index": 4,
+        "value": "Super Rush Volume",
+        "touchpoint_index": 2,
+        "status_on_off": true,
+        "relation_steps": [
+          3
+        ],
+        "measure_points": [
+          {
+            "type": 21,
+            "query": "SELECT count(*) FROM Log WHERE record_type='CTP' AND job_type_description in ('RenameJob','DirectoryListingJob','RetryingDeleteFileJob') and priority='SuperRush'",
+            "measure_period": 60,
+            "count": 0,
+            "limit_number": 50,
+            "type_limit": "OVER"
           }
         ]
       },
@@ -393,10 +376,11 @@
         "measure_points": [
           {
             "type": 21,
-            "query": "",
+            "query": "SELECT count(*) FROM Log WHERE record_type='CTP' AND job_type_description in ('TransformJob','MetadataExtractionJob','ThumbnailExtractionJob','TicEncodeJob') and priority='SuperRush'",
             "measure_period": 60,
             "count": 0,
-            "limit_number": 50
+            "limit_number": 50,
+            "type_limit": ""
           }
         ]
       },
@@ -540,10 +524,11 @@
         "measure_points": [
           {
             "type": 21,
-            "query": "",
+            "query": "SELECT count(*) FROM Log WHERE record_type='CTP' AND job_type_description in ('DeliverJob','WaitForFileJob','MediaShuttleJob') and priority='SuperRush'",
             "measure_period": 60,
             "count": 0,
-            "limit_number": 50
+            "limit_number": 50,
+            "type_limit": ""
           }
         ]
       },

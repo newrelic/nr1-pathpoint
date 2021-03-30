@@ -716,7 +716,11 @@ export default class DataManager {
               );
             }
           } else if (measure.type === 21) {
-            if (measure.count > measure.limit_number) {
+            const evaluation_result =
+              measure.type_limit === 'OVER'
+                ? measure.count > measure.limit_number
+                : measure.count < measure.limit_number;
+            if (evaluation_result) {
               touchpoint.relation_steps.forEach(rel => {
                 steps_with_error[rel - 1] = 1;
               });
@@ -1152,7 +1156,8 @@ export default class DataManager {
                   type: this.measureNames[6],
                   query: measure.query,
                   measure_period: measure.measure_period,
-                  limit_number: measure.limit_number
+                  limit_number: measure.limit_number,
+                  type_limit: measure.type_limit
                 });
               } else if (measure.type === 22) {
                 queries.push({
@@ -1331,7 +1336,8 @@ export default class DataManager {
               query: query.query,
               measure_period: query.measure_period,
               count: 0,
-              limit_number: query.limit_number
+              limit_number: query.limit_number,
+              type_limit: query.type_limit
             };
           } else if (query.type === this.measureNames[7]) {
             measure = {
