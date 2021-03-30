@@ -109,7 +109,7 @@ jobs:
             const result = await github.repos.updateBranchProtection({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              branch: 'master',
+              branch: 'main',
               required_status_checks: null,
               restrictions: null,
               enforce_admins: null,
@@ -121,7 +121,7 @@ jobs:
         uses: ad-m/github-push-action@v0.6.0
         with:
           github-token: ${{ secrets.GH_PAT }}
-          branch: master
+          branch: main
 
       - name: Re-enable "required_pull_request_reviews" branch protection
         id: enable-branch-protection
@@ -134,7 +134,7 @@ jobs:
             const result = await github.repos.updateBranchProtection({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              branch: 'master',
+              branch: 'main',
               required_status_checks: null,
               restrictions: null,
               enforce_admins: null,
@@ -147,12 +147,12 @@ jobs:
     runs-on: ubuntu-latest
     needs: [job-checkout-and-build, job-generate-third-party-notices]
     steps:
-      # Checkout ref: master because previous job committed third_party_notices and
-      # we need to checkout master to pick up that commit
+      # Checkout ref: main because previous job committed third_party_notices and
+      # we need to checkout main to pick up that commit
       - name: Checkout repo
         uses: actions/checkout@v2
         with:
-          ref: master
+          ref: main
 
       - name: Setup Node.js
         uses: actions/setup-node@v1
@@ -183,7 +183,7 @@ jobs:
             const result = await github.repos.updateBranchProtection({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              branch: 'master',
+              branch: 'main',
               required_status_checks: null,
               restrictions: null,
               enforce_admins: null,
@@ -212,7 +212,7 @@ jobs:
             const result = await github.repos.updateBranchProtection({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              branch: 'master',
+              branch: 'main',
               required_status_checks: null,
               restrictions: null,
               enforce_admins: null,
