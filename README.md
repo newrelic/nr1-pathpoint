@@ -1,4 +1,4 @@
-[![New Relic Community Plus](https://github.com/newrelic/opensource-website/raw/master/src/images/categories/Community_Plus.png)](https://opensource.newrelic.com/oss-category/#community-plus)
+[![Community Plus header](https://github.com/newrelic/opensource-website/raw/master/src/images/categories/Community_Plus.png)](https://opensource.newrelic.com/oss-category/#community-plus)
 
 [![Node.js CI](https://github.com/newrelic/nr1-pathpoint/actions/workflows/node.js.yml/badge.svg)](https://github.com/newrelic/nr1-pathpoint/actions/workflows/node.js.yml)
 [![Repolinter Action](https://github.com/newrelic/nr1-pathpoint/actions/workflows/repolinter.yml/badge.svg?branch=main)](https://github.com/newrelic/nr1-pathpoint/actions/workflows/repolinter.yml)
