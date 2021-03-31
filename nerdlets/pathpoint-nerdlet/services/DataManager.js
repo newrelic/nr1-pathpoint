@@ -245,7 +245,7 @@ export default class DataManager {
 
   FetchMeasure(measure) {
     this.ClearMeasure(measure);
-    if (measure.type === 21) {
+    if (measure.type === 21 && measure.query !== '') {
       const query = `${measure.query} SINCE ${measure.measure_period} MINUTES AGO`;
       this.graphQlmeasures.push([measure, query]);
     } else if (measure.query !== '') {
@@ -375,11 +375,13 @@ export default class DataManager {
           } else if (
             measure.type === 21 &&
             value.nrql !== null &&
-            value.nrql.results &&
-            value.nrql.results[0] &&
-            value.nrql.results[0].count
+            value.nrql.results
           ) {
-            measure.count = value.nrql.results[0].count;
+            if (measure.operation_mode === 'STANDARD') {
+              measure.count = value.nrql.results[0].count;
+            } else if (measure.operation_mode === 'MULTI') {
+              this.SetMultiValues(measure, value.nrql.results);
+            }
           } else if (
             measure.type === 22 &&
             value.nrql !== null &&
@@ -468,6 +470,22 @@ export default class DataManager {
       );
       return { data, n, errors };
     }
+  }
+
+  SetMultiValues(measure, results) {
+    const exception_names = [
+      'Carlos F Martinez',
+      'Steven Santoro',
+      'Jennifer Zebro'
+    ];
+    measure.count = 0;
+    results.forEach(result => {
+      if (!(result.facet in exception_names)) {
+        if (result.count > measure.count) {
+          measure.count = result.count;
+        }
+      }
+    });
   }
 
   SetSessions(measure, sessions) {
@@ -1157,7 +1175,8 @@ export default class DataManager {
                   query: measure.query,
                   measure_period: measure.measure_period,
                   limit_number: measure.limit_number,
-                  type_limit: measure.type_limit
+                  type_limit: measure.type_limit,
+                  operation_mode: measure.operation_mode
                 });
               } else if (measure.type === 22) {
                 queries.push({
@@ -1337,7 +1356,8 @@ export default class DataManager {
               measure_period: query.measure_period,
               count: 0,
               limit_number: query.limit_number,
-              type_limit: query.type_limit
+              type_limit: query.type_limit,
+              operation_mode: query.operation_mode
             };
           } else if (query.type === this.measureNames[7]) {
             measure = {
