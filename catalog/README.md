@@ -5,8 +5,6 @@
 [![NR1 Library Deprecation Checks](https://github.com/newrelic/nr1-pathpoint/actions/workflows/nr1_library_deprecation_check.yml/badge.svg)](https://github.com/newrelic/nr1-pathpoint/actions/workflows/nr1_library_deprecation_check.yml)
 [![MAIN_CI](https://github.com/newrelic/nr1-pathpoint/actions/workflows/ci.yml/badge.svg)](https://github.com/newrelic/nr1-pathpoint/actions/workflows/ci.yml)
 
-[![New Relic Community Plus](https://github.com/newrelic/opensource-website/raw/master/src/images/categories/Community_Plus.png)](https://opensource.newrelic.com/oss-category/#new-relic-experimental)
-
 # Pathpoint
 
 ![UI Overview](screenshots/Pathpoint-Core.gif)
