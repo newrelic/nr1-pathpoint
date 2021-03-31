@@ -199,8 +199,7 @@ jobs:
           GIT_COMMITTER_NAME: "nr-opensource-bot"
           GIT_COMMITTER_EMAIL: "opensource+bot@newrelic.com"
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
-        run: npx semantic-release
-
+        run: npx semantic-release --branches main
       - name: Re-enable "required_pull_request_reviews" branch protection
         id: enable-branch-protection
         if: always()
