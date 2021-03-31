@@ -1,6 +1,6 @@
 # Introduction
 
-This service has been created to connect the support form with the jira tickets using the Jira REST API (https://developer.atlassian.com/server/jira/platform/jira-rest-api-examples/) and proxy to preserve security parameters
+This service has been created to connect the support form with the Jira tickets using the Jira REST API (https://developer.atlassian.com/server/jira/platform/jira-rest-api-examples/) and proxy to preserve security parameters
 
 ## Use Cases
 
@@ -17,7 +17,7 @@ All API requests require the use of a generated Access Token. You can generate y
 POST https://proxy.pathpoint-support.workers.dev/?https://jira.wigilabs.workers.dev/
 ```
 | Header | Value |
-| :--- | :--- | :--- |
+| :--- | :--- |
 | `contentType` | **Required**. application/json |
 | `Authorization` | **Required**. Jira Access Token |
 
