@@ -1,4 +1,9 @@
-![CI](https://github.com/newrelic/nr1-pathpoint/workflows/CI/badge.svg) ![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/newrelic/nr1-pathpoint?include_prereleases&sort=semver)
+[![New Relic One Catalog Project header](https://github.com/newrelic/opensource-website/raw/master/src/images/categories/New_Relic_One_Catalog_Project.png)](https://opensource.newrelic.com/oss-category/#new-relic-one-catalog-project)
+
+[![Node.js CI](https://github.com/newrelic/nr1-pathpoint/actions/workflows/node.js.yml/badge.svg)](https://github.com/newrelic/nr1-pathpoint/actions/workflows/node.js.yml)
+[![Repolinter Action](https://github.com/newrelic/nr1-pathpoint/actions/workflows/repolinter.yml/badge.svg?branch=main)](https://github.com/newrelic/nr1-pathpoint/actions/workflows/repolinter.yml)
+[![NR1 Library Deprecation Checks](https://github.com/newrelic/nr1-pathpoint/actions/workflows/nr1_library_deprecation_check.yml/badge.svg)](https://github.com/newrelic/nr1-pathpoint/actions/workflows/nr1_library_deprecation_check.yml)
+[![MAIN_CI](https://github.com/newrelic/nr1-pathpoint/actions/workflows/ci.yml/badge.svg)](https://github.com/newrelic/nr1-pathpoint/actions/workflows/ci.yml)
 
 [![New Relic Community Plus](https://github.com/newrelic/opensource-website/raw/master/src/images/categories/Community_Plus.png)](https://opensource.newrelic.com/oss-category/#new-relic-experimental)
 
