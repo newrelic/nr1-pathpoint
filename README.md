@@ -9,7 +9,7 @@
 
 ![UI Overview](screenshots/Pathpoint-Core.gif)
 
-## About this Nerdpack
+## Description
 
 Pathpoint is an enterprise platform tracker that models system health in relation to actual user-impacting business stages.  
 
