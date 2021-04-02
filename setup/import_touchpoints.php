@@ -67,11 +67,13 @@ while (($datos = fgetcsv($f, 1000, ",")) !== FALSE) {
         // Type=2 additional info
         $limit_type = $datos[12];
         $operation_mode = $datos[13];
+        $progress_time = $datos[14];
+        $measure_period = $datos[15];
 
         //----------------------------------
         foreach ($stages as $stage) {
             if (valida_stage($stage)) {
-                addTouchpoint(stage_index($stage), $touchpointType, $touchpoint, $steps, $touchpointLink, $tp_queryCount, $tp_queryError, $tp_error_threshold, $tp_apdex_query, $apdex_time, $tp_session_query,$tp_session_duration,$limit_type,$operation_mode);
+                addTouchpoint(stage_index($stage), $touchpointType, $touchpoint, $steps, $touchpointLink, $tp_queryCount, $tp_queryError, $tp_error_threshold, $tp_apdex_query, $apdex_time, $tp_session_query,$tp_session_duration,$limit_type,$operation_mode,$progress_time,$measure_period);
             }
         }
     }
@@ -171,7 +173,7 @@ function getDashboardLink($link)
     }
 }
 
-function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touchpointLink, $tp_queryCount, $tp_queryError, $tp_error_threshold, $tp_apdex_query, $apdex_time, $tp_session_query, $tp_session_duration,$limit_type,$operation_mode)
+function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touchpointLink, $tp_queryCount, $tp_queryError, $tp_error_threshold, $tp_apdex_query, $apdex_time, $tp_session_query, $tp_session_duration,$limit_type,$operation_mode,$progress_time,$measure_period)
 {
     global $view;
     global $touchPoints;
@@ -245,12 +247,13 @@ function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touc
                 [
                     "type" => 21,
                     "query" => $tp_queryCount,
-                    "measure_period" => 60,
+                    "measure_period" => (int) $measure_period,
                     "count" => 0,
                     "multi_value" => [],
                     "limit_number" => (int) $apdex_time,
                     "type_limit" => $limit_type,
-                    "operation_mode" => $operation_mode
+                    "operation_mode" => $operation_mode,
+                    "progress_time" => $progress_time
                 ]
             ]
         ];

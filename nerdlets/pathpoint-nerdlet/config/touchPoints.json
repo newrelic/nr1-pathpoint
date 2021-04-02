@@ -35,7 +35,8 @@
             "multi_value": [],
             "limit_number": 50,
             "type_limit": "OVER",
-            "operation_mode": "STANDARD"
+            "operation_mode": "STANDARD",
+            "progress_time": "0"
           }
         ]
       },
@@ -56,7 +57,8 @@
             "multi_value": [],
             "limit_number": 75,
             "type_limit": "OVER",
-            "operation_mode": "MULTI"
+            "operation_mode": "MULTI",
+            "progress_time": "0"
           }
         ]
       },
@@ -92,7 +94,8 @@
             "multi_value": [],
             "limit_number": 50,
             "type_limit": "OVER",
-            "operation_mode": "STANDARD"
+            "operation_mode": "STANDARD",
+            "progress_time": "0"
           }
         ]
       },
@@ -113,7 +116,8 @@
             "multi_value": [],
             "limit_number": 75,
             "type_limit": "OVER",
-            "operation_mode": "MULTI"
+            "operation_mode": "MULTI",
+            "progress_time": "0"
           }
         ]
       },
@@ -134,7 +138,8 @@
             "multi_value": [],
             "limit_number": 500,
             "type_limit": "OVER",
-            "operation_mode": "STANDARD"
+            "operation_mode": "STANDARD",
+            "progress_time": "0"
           }
         ]
       },
@@ -155,7 +160,8 @@
             "multi_value": [],
             "limit_number": 100,
             "type_limit": "BELOW",
-            "operation_mode": "STANDARD"
+            "operation_mode": "STANDARD",
+            "progress_time": "0"
           }
         ]
       },
@@ -172,12 +178,13 @@
           {
             "type": 21,
             "query": "SELECT count(*) FROM Log WHERE record_type='TASK' AND task_type_desc in ('Restore','Archive') AND status='InProgress' AND percentage_complete != 0",
-            "measure_period": 60,
+            "measure_period": 1440,
             "count": 0,
             "multi_value": [],
             "limit_number": 100,
             "type_limit": "OVER",
-            "operation_mode": "STANDARD"
+            "operation_mode": "PROGRESS",
+            "progress_time": "30"
           }
         ]
       },
@@ -194,12 +201,13 @@
           {
             "type": 21,
             "query": "SELECT count(*) FROM Log WHERE record_type='TASK' AND task_type_desc in ('Restore','Archive') AND status='InProgress' AND percentage_complete != 0",
-            "measure_period": 60,
+            "measure_period": 1440,
             "count": 0,
             "multi_value": [],
             "limit_number": 50,
             "type_limit": "OVER",
-            "operation_mode": "STANDARD"
+            "operation_mode": "PROGRESS",
+            "progress_time": "20"
           }
         ]
       },
@@ -213,31 +221,15 @@
         ],
         "measure_points": [
           {
-            "type": 0,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "",
-            "apdex": 0,
-            "apdex_time": 50
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
+            "type": 21,
+            "query": "SELECT count(*) FROM Log WHERE record_type='TASK' AND task_type_desc IN ('Restore','Archive') AND status_description not in ('NULL','') AND (status_description LIKE '%FfMpeg reported%' OR status_description LIKE '%Error while sending next job to device in PreservationJobHandle%' OR status_description LIKE '%Workorder Submit Validation Failure%' OR status_description LIKE '%JobWorker encountered an %Exception%' OR status_description LIKE '%Failed to perform a requested operation%')",
+            "measure_period": 120,
+            "count": 0,
+            "multi_value": [],
+            "limit_number": 1,
+            "type_limit": "OVER",
+            "operation_mode": "STANDARD",
+            "progress_time": "0"
           }
         ]
       },
@@ -273,7 +265,8 @@
             "multi_value": [],
             "limit_number": 50,
             "type_limit": "OVER",
-            "operation_mode": "STANDARD"
+            "operation_mode": "STANDARD",
+            "progress_time": "0"
           }
         ]
       },
@@ -309,7 +302,8 @@
             "multi_value": [],
             "limit_number": 50,
             "type_limit": "OVER",
-            "operation_mode": "STANDARD"
+            "operation_mode": "STANDARD",
+            "progress_time": "0"
           }
         ]
       },
@@ -345,7 +339,8 @@
             "multi_value": [],
             "limit_number": 50,
             "type_limit": "OVER",
-            "operation_mode": "STANDARD"
+            "operation_mode": "STANDARD",
+            "progress_time": "0"
           }
         ]
       },
@@ -361,12 +356,13 @@
           {
             "type": 21,
             "query": "SELECT count(*) FROM Log WHERE record_type='TASK' AND task_type_desc in ('Transcode','Tic Encode','Metadata Extraction','Thumbnail Extraction') AND status='InProgress' AND percentage_complete != 0",
-            "measure_period": 60,
+            "measure_period": 1440,
             "count": 0,
             "multi_value": [],
             "limit_number": 100,
             "type_limit": "OVER",
-            "operation_mode": "STANDARD"
+            "operation_mode": "PROGRESS",
+            "progress_time": "30"
           }
         ]
       },
@@ -382,12 +378,13 @@
           {
             "type": 21,
             "query": "SELECT count(*) FROM Log WHERE record_type='TASK' AND task_type_desc in ('Transcode','Tic Encode','Metadata Extraction','Thumbnail Extraction') AND status='InProgress' AND percentage_complete != 0",
-            "measure_period": 60,
+            "measure_period": 1440,
             "count": 0,
             "multi_value": [],
             "limit_number": 50,
             "type_limit": "OVER",
-            "operation_mode": "STANDARD"
+            "operation_mode": "PROGRESS",
+            "progress_time": "60"
           }
         ]
       },
@@ -401,31 +398,15 @@
         ],
         "measure_points": [
           {
-            "type": 0,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "",
-            "apdex": 0,
-            "apdex_time": 50
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
+            "type": 21,
+            "query": "SELECT count(*) FROM Log WHERE record_type='TASK' AND task_type_desc IN ('Transcode','Tic Encode','Metadata Extraction','Thumbnail Extraction') AND status_description not in ('NULL','') AND (status_description LIKE '%FfMpeg reported%' OR status_description LIKE '%Error while sending next job to device in PreservationJobHandle%' OR status_description LIKE '%Workorder Submit Validation Failure%' OR status_description LIKE '%JobWorker encountered an %Exception%' OR status_description LIKE '%Failed to perform a requested operation%')",
+            "measure_period": 120,
+            "count": 0,
+            "multi_value": [],
+            "limit_number": 1,
+            "type_limit": "OVER",
+            "operation_mode": "STANDARD",
+            "progress_time": "0"
           }
         ]
       },
@@ -461,7 +442,8 @@
             "multi_value": [],
             "limit_number": 50,
             "type_limit": "OVER",
-            "operation_mode": "STANDARD"
+            "operation_mode": "STANDARD",
+            "progress_time": "0"
           }
         ]
       },
@@ -477,12 +459,13 @@
           {
             "type": 21,
             "query": "SELECT count(*) FROM Log WHERE record_type='TASK' AND task_type_desc in ('Deliver','Awaiting Approval','Deliver to Media Shuttle') AND status='InProgress' AND percentage_complete != 0",
-            "measure_period": 60,
+            "measure_period": 1440,
             "count": 0,
             "multi_value": [],
             "limit_number": 100,
             "type_limit": "OVER",
-            "operation_mode": "STANDARD"
+            "operation_mode": "PROGRESS",
+            "progress_time": "30"
           }
         ]
       },
@@ -498,12 +481,13 @@
           {
             "type": 21,
             "query": "SELECT count(*) FROM Log WHERE record_type='TASK' AND task_type_desc in ('Deliver','Awaiting Approval','Deliver to Media Shuttle') AND status='InProgress' AND percentage_complete != 0",
-            "measure_period": 60,
+            "measure_period": 1440,
             "count": 0,
             "multi_value": [],
-            "limit_number": 50,
+            "limit_number": 100,
             "type_limit": "OVER",
-            "operation_mode": "STANDARD"
+            "operation_mode": "PROGRESS",
+            "progress_time": "240"
           }
         ]
       },
@@ -517,31 +501,15 @@
         ],
         "measure_points": [
           {
-            "type": 0,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "",
-            "apdex": 0,
-            "apdex_time": 50
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
+            "type": 21,
+            "query": "SELECT count(*) FROM Log WHERE record_type='TASK' AND task_type_desc IN ('Deliver','Awaiting Approval','Deliver to Media Shuttle') AND status_description not in ('NULL','') AND (status_description LIKE '%FfMpeg reported%' OR status_description LIKE '%Error while sending next job to device in PreservationJobHandle%' OR status_description LIKE '%Workorder Submit Validation Failure%' OR status_description LIKE '%JobWorker encountered an %Exception%' OR status_description LIKE '%Failed to perform a requested operation%')",
+            "measure_period": 120,
+            "count": 0,
+            "multi_value": [],
+            "limit_number": 1,
+            "type_limit": "OVER",
+            "operation_mode": "STANDARD",
+            "progress_time": "0"
           }
         ]
       }

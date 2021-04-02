@@ -181,7 +181,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Awaiting Approval",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -328,7 +328,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Priorities",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -442,7 +442,7 @@
               "index": 9,
               "id": "ST2-LINE6-SS1",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "DIVA:Rest.",
               "dark": false,
               "history_error": false,
@@ -460,7 +460,7 @@
               "canary_state": false,
               "latency": false,
               "value": "GCP:Rest.",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -500,7 +500,7 @@
               "index": 13,
               "id": "ST2-LINE6-SS5",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Failed",
               "dark": false,
               "history_error": false,
@@ -622,7 +622,7 @@
             0
           ],
           "dashboard_url": [
-            false
+            "https://one.nr/0znQxZ0GpRV"
           ],
           "relation_steps": [
             6,
@@ -642,7 +642,7 @@
             0
           ],
           "dashboard_url": [
-            false
+            "https://one.nr/0kLwGap08j6"
           ],
           "relation_steps": [
             6,
@@ -662,7 +662,7 @@
             0
           ],
           "dashboard_url": [
-            false
+            "https://one.nr/0JBQrmBoNjZ"
           ],
           "relation_steps": [
             13
@@ -718,7 +718,7 @@
               "index": 2,
               "id": "ST3-LINE2-SS1",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Tasks",
               "dark": false,
               "history_error": false,
@@ -767,7 +767,7 @@
               "index": 5,
               "id": "ST3-LINE3-SS1",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Jobs Queue",
               "dark": false,
               "history_error": false,
@@ -1062,7 +1062,7 @@
               "index": 10,
               "id": "ST4-LINE5-SS2",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Failed",
               "dark": false,
               "history_error": false,
@@ -1192,7 +1192,7 @@
               "index": 4,
               "id": "ST5-LINE2-SS3",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Users",
               "dark": false,
               "history_error": false,
@@ -1345,7 +1345,7 @@
             0
           ],
           "dashboard_url": [
-            false
+            "https://one.nr/0Lkjn0Vl0wo"
           ],
           "relation_steps": [
             6
@@ -1364,7 +1364,7 @@
             0
           ],
           "dashboard_url": [
-            false
+            "https://one.nr/0xVwgDE68RJ"
           ],
           "relation_steps": [
             6
@@ -1383,7 +1383,7 @@
             0
           ],
           "dashboard_url": [
-            false
+            "https://one.nr/09MR26mXGRY"
           ],
           "relation_steps": [
             9
@@ -1524,7 +1524,7 @@
               "index": 7,
               "id": "ST6-LINE4-SS2",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "MediaShuttle: Asset Delivery",
               "dark": false,
               "history_error": false,
@@ -1622,7 +1622,7 @@
             0
           ],
           "dashboard_url": [
-            false
+            "https://one.nr/0Z2R517VgRb"
           ],
           "relation_steps": [
             6
@@ -1641,7 +1641,7 @@
             0
           ],
           "dashboard_url": [
-            false
+            "https://one.nr/0kLwGapdAj6"
           ],
           "relation_steps": [
             6
@@ -1660,7 +1660,7 @@
             0
           ],
           "dashboard_url": [
-            false
+            "https://one.nr/0BoQDMxL1wy"
           ],
           "relation_steps": [
             9

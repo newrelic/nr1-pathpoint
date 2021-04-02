@@ -246,7 +246,14 @@ export default class DataManager {
   FetchMeasure(measure) {
     this.ClearMeasure(measure);
     if (measure.type === 21 && measure.query !== '') {
-      const query = `${measure.query} SINCE ${measure.measure_period} MINUTES AGO`;
+      let query;
+      if (measure.operation_mode === 'PROGRESS') {
+        const delay_time =
+          Math.floor(Date.now() / 1000) - measure.progress_time * 60;
+        query = `${measure.query} AND task_completed_or_last_updated_time < ${delay_time} SINCE ${measure.measure_period} MINUTES AGO`;
+      } else {
+        query = `${measure.query} SINCE ${measure.measure_period} MINUTES AGO`;
+      }
       this.graphQlmeasures.push([measure, query]);
     } else if (measure.query !== '') {
       const query = `${measure.query} SINCE ${this.TimeRangeTransform(
@@ -381,6 +388,8 @@ export default class DataManager {
               measure.count = value.nrql.results[0].count;
             } else if (measure.operation_mode === 'MULTI') {
               this.SetMultiValues(measure, value.nrql.results);
+            } else if (measure.operation_mode === 'PROGRESS') {
+              measure.count = value.nrql.results[0].count;
             }
           } else if (
             measure.type === 22 &&
@@ -480,7 +489,11 @@ export default class DataManager {
     ];
     measure.count = 0;
     results.forEach(result => {
-      if (!(result.facet in exception_names)) {
+      if (
+        result.facet !== exception_names[0] &&
+        result.facet !== exception_names[1] &&
+        result.facet !== exception_names[2]
+      ) {
         if (result.count > measure.count) {
           measure.count = result.count;
         }
@@ -1872,14 +1885,27 @@ for (const [key, value] of Object.entries(return` +
                   )}`
                 });
               } else if (measure.type === 21) {
-                datos.push({
-                  label: 'Health Check Query',
-                  value: actualValue,
-                  type: 21,
-                  query_start: '',
-                  query_body: measure.query,
-                  query_footer: `SINCE ${measure.measure_period} MINUTES AGO`
-                });
+                if (measure.operation_mode === 'PROGRESS') {
+                  const delay_time =
+                    Math.floor(Date.now() / 1000) - measure.progress_time * 60;
+                  datos.push({
+                    label: 'Health Check Query',
+                    value: actualValue,
+                    type: 21,
+                    query_start: '',
+                    query_body: measure.query,
+                    query_footer: `AND task_completed_or_last_updated_time < ${delay_time} SINCE ${measure.measure_period} MINUTES AGO`
+                  });
+                } else {
+                  datos.push({
+                    label: 'Health Check Query',
+                    value: actualValue,
+                    type: 21,
+                    query_start: '',
+                    query_body: measure.query,
+                    query_footer: `SINCE ${measure.measure_period} MINUTES AGO`
+                  });
+                }
               } else if (measure.type === 22) {
                 datos.push({
                   label: 'Jobs Measure Query',
