@@ -49,14 +49,9 @@ Pathpoint will work in nearly any New Relic account.  To get started you'll need
 
 When you are ready to make some edits you can simply download the current version of the JSON config, edit and re-upload it.  You can also use "right click" to adjust touchpoint configurations.
 
-![JSON Configuration](screenshots/config.png)
-
-
 ## Support
 
 In the Pathpoint UI it is possible to submit a support issue which will be triaged by the Pathpoint team.   They will respond within a few days to update you on our overall assesment and if we are able to resolve the issue we'll provide an ETA.
-
-![JSON Configuration](screenshots/support.png)
 
 ## Getting started
 
