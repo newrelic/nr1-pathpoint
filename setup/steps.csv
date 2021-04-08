@@ -10,8 +10,9 @@ PRESERVATION,DIVA:Rest.|GCP:Rest.|DIVA: Arch.|GCP: Arch.|Failed
 FILE ACTIVITY,Catapult Workflow
 FILE ACTIVITY,Tasks|Priorities|Users
 FILE ACTIVITY,Jobs Queue
-FILE ACTIVITY," Check Sum|Md5 Sum|Rename|Dir Listing|Retry Delete"
-FILE ACTIVITY,Completed|Failed
+FILE ACTIVITY,ChS|MD5S|RN|DirL|ReD
+FILE ACTIVITY,C: ChS|C: MD5S|C: RN|C: DirL|C: ReD
+FILE ACTIVITY,F: ChS|F: MD5S|F: RN|F: DirL|F: ReD
 TRANSFORMATION,Catapult Workflow
 TRANSFORMATION,Task|Priorities|Users
 TRANSFORMATION,Jobs Queue

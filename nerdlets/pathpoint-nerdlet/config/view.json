@@ -128,9 +128,9 @@
               "index": 2,
               "id": "ST1-LINE2-SS1",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Tasks",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -160,7 +160,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Users",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -326,7 +326,7 @@
               "index": 3,
               "id": "ST2-LINE2-SS2",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Priorities",
               "dark": false,
               "history_error": false,
@@ -344,7 +344,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Users",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -458,7 +458,7 @@
               "index": 10,
               "id": "ST2-LINE6-SS2",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "GCP:Rest.",
               "dark": false,
               "history_error": false,
@@ -472,9 +472,9 @@
               "index": 11,
               "id": "ST2-LINE6-SS3",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "DIVA: Arch.",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -500,9 +500,9 @@
               "index": 13,
               "id": "ST2-LINE6-SS5",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Failed",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -732,7 +732,7 @@
               "index": 3,
               "id": "ST3-LINE2-SS2",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Priorities",
               "dark": false,
               "history_error": false,
@@ -769,7 +769,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Jobs Queue",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -787,85 +787,70 @@
               "id": "ST3-LINE4-SS1",
               "canary_state": false,
               "latency": false,
-              "value": " Check Sum",
+              "value": "ChS",
               "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
               "error": false,
               "index_stage": 3,
-              "relationship_touchpoints": [
-                3,
-                8
-              ]
+              "relationship_touchpoints": []
             },
             {
               "index": 7,
               "id": "ST3-LINE4-SS2",
               "canary_state": false,
-              "latency": true,
-              "value": "Md5 Sum",
+              "latency": false,
+              "value": "MD5S",
               "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
               "error": false,
               "index_stage": 3,
-              "relationship_touchpoints": [
-                4,
-                9
-              ]
+              "relationship_touchpoints": []
             },
             {
               "index": 8,
               "id": "ST3-LINE4-SS3",
               "canary_state": false,
               "latency": false,
-              "value": "Rename",
-              "dark": true,
+              "value": "RN",
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
               "error": false,
               "index_stage": 3,
-              "relationship_touchpoints": [
-                5,
-                10
-              ]
+              "relationship_touchpoints": []
             },
             {
               "index": 9,
               "id": "ST3-LINE4-SS4",
               "canary_state": false,
               "latency": false,
-              "value": "Dir Listing",
+              "value": "DirL",
               "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
               "error": false,
               "index_stage": 3,
-              "relationship_touchpoints": [
-                6,
-                11
-              ]
+              "relationship_touchpoints": []
             },
             {
               "index": 10,
               "id": "ST3-LINE4-SS5",
               "canary_state": false,
               "latency": false,
-              "value": "Retry Delete",
+              "value": "ReD",
               "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
               "error": false,
               "index_stage": 3,
-              "relationship_touchpoints": [
-                7,
-                12
-              ]
+              "relationship_touchpoints": []
             }
           ]
         },
@@ -876,8 +861,8 @@
               "index": 11,
               "id": "ST3-LINE5-SS1",
               "canary_state": false,
-              "latency": true,
-              "value": "Completed",
+              "latency": false,
+              "value": "C: ChS",
               "dark": false,
               "history_error": false,
               "dotted": false,
@@ -885,11 +870,7 @@
               "error": false,
               "index_stage": 3,
               "relationship_touchpoints": [
-                3,
-                4,
-                5,
-                6,
-                7
+                3
               ]
             },
             {
@@ -897,7 +878,7 @@
               "id": "ST3-LINE5-SS2",
               "canary_state": false,
               "latency": false,
-              "value": "Failed",
+              "value": "C: MD5S",
               "dark": false,
               "history_error": false,
               "dotted": false,
@@ -905,10 +886,139 @@
               "error": false,
               "index_stage": 3,
               "relationship_touchpoints": [
-                8,
-                9,
-                10,
-                11,
+                4
+              ]
+            },
+            {
+              "index": 13,
+              "id": "ST3-LINE5-SS3",
+              "canary_state": false,
+              "latency": false,
+              "value": "C: RN",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 3,
+              "relationship_touchpoints": [
+                5
+              ]
+            },
+            {
+              "index": 14,
+              "id": "ST3-LINE5-SS4",
+              "canary_state": false,
+              "latency": false,
+              "value": "C: DirL",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 3,
+              "relationship_touchpoints": [
+                6
+              ]
+            },
+            {
+              "index": 15,
+              "id": "ST3-LINE5-SS5",
+              "canary_state": false,
+              "latency": false,
+              "value": "C: ReD",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 3,
+              "relationship_touchpoints": [
+                7
+              ]
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 16,
+              "id": "ST3-LINE6-SS1",
+              "canary_state": false,
+              "latency": false,
+              "value": "F: ChS",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 3,
+              "relationship_touchpoints": [
+                8
+              ]
+            },
+            {
+              "index": 17,
+              "id": "ST3-LINE6-SS2",
+              "canary_state": false,
+              "latency": false,
+              "value": "F: MD5S",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 3,
+              "relationship_touchpoints": [
+                9
+              ]
+            },
+            {
+              "index": 18,
+              "id": "ST3-LINE6-SS3",
+              "canary_state": false,
+              "latency": false,
+              "value": "F: RN",
+              "dark": true,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 3,
+              "relationship_touchpoints": [
+                10
+              ]
+            },
+            {
+              "index": 19,
+              "id": "ST3-LINE6-SS4",
+              "canary_state": false,
+              "latency": false,
+              "value": "F: DirL",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 3,
+              "relationship_touchpoints": [
+                11
+              ]
+            },
+            {
+              "index": 20,
+              "id": "ST3-LINE6-SS5",
+              "canary_state": false,
+              "latency": false,
+              "value": "F: ReD",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 3,
+              "relationship_touchpoints": [
                 12
               ]
             }
@@ -968,7 +1078,6 @@
             "https://one.nr/0Y8wpN7MnjO"
           ],
           "relation_steps": [
-            6,
             11
           ]
         },
@@ -988,8 +1097,7 @@
             "https://one.nr/08dQeK3noRe"
           ],
           "relation_steps": [
-            7,
-            11
+            12
           ]
         },
         {
@@ -1008,8 +1116,7 @@
             false
           ],
           "relation_steps": [
-            8,
-            11
+            13
           ]
         },
         {
@@ -1028,8 +1135,7 @@
             false
           ],
           "relation_steps": [
-            9,
-            11
+            14
           ]
         },
         {
@@ -1048,8 +1154,7 @@
             false
           ],
           "relation_steps": [
-            10,
-            11
+            15
           ]
         },
         {
@@ -1068,8 +1173,7 @@
             false
           ],
           "relation_steps": [
-            6,
-            12
+            16
           ]
         },
         {
@@ -1088,8 +1192,7 @@
             false
           ],
           "relation_steps": [
-            7,
-            12
+            17
           ]
         },
         {
@@ -1108,8 +1211,7 @@
             false
           ],
           "relation_steps": [
-            8,
-            12
+            18
           ]
         },
         {
@@ -1128,8 +1230,7 @@
             false
           ],
           "relation_steps": [
-            9,
-            12
+            19
           ]
         },
         {
@@ -1148,8 +1249,7 @@
             false
           ],
           "relation_steps": [
-            10,
-            12
+            20
           ]
         }
       ]
@@ -1204,7 +1304,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Task",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1251,7 +1351,7 @@
               "index": 5,
               "id": "ST4-LINE3-SS1",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Jobs Queue",
               "dark": false,
               "history_error": false,
