@@ -7,16 +7,11 @@ PRESERVATION,Jobs Queue
 PRESERVATION,Archive|Restore
 PRESERVATION,Device Type
 PRESERVATION,DIVA:Rest.|GCP:Rest.|DIVA: Arch.|GCP: Arch.|Failed
-FILE PROPERTY,Catapult Workflow
-FILE PROPERTY,Tasks|Priorities|Users
-FILE PROPERTY,Jobs Queue
-FILE PROPERTY, CheckSum|Md5Sum
-FILE PROPERTY,Completed|Failed
-MISCELLANEOUS,Catapult Workflow
-MISCELLANEOUS,Tasks|Priorities|Users
-MISCELLANEOUS,Jobs Queue
-MISCELLANEOUS,Rename|DirListing|RetryDelete
-MISCELLANEOUS,Completed|Failed
+FILE ACTIVITY,Catapult Workflow
+FILE ACTIVITY,Tasks|Priorities|Users
+FILE ACTIVITY,Jobs Queue
+FILE ACTIVITY," Check Sum|Md5 Sum|Rename|Dir Listing|Retry Delete"
+FILE ACTIVITY,Completed|Failed
 TRANSFORMATION,Catapult Workflow
 TRANSFORMATION,Task|Priorities|Users
 TRANSFORMATION,Jobs Queue
