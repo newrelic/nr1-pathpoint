@@ -49,7 +49,7 @@ Pathpoint will work in nearly any New Relic account.  To get started you'll need
 
 When you are ready to make some edits you can simply download the current version of the JSON config, edit and re-upload it.  You can also use "right click" to adjust touchpoint configurations.
 
-## Support
+## In-Product Support
 
 In the Pathpoint UI it is possible to submit a support issue which will be triaged by the Pathpoint team.   They will respond within a few days to update you on our overall assesment and if we are able to resolve the issue we'll provide an ETA.
 
@@ -96,41 +96,37 @@ Visit [https://one.newrelic.com](https://one.newrelic.com), navigate to the Nerd
 
 In order for the support system to work you will need to configure a Jira endpoint to submit issues to a special Jira project.  The variable that governs this is `proxyJira`.  This value may be pre-populated in the NR1 catalog repository, but if not you will need to get the valid URL from your New Relic account team.
 
-```
+```bash
 {
     "proxyJira":"[Pathpoint Proxy URL]"
 }
 ```
 
-# Support
+## Support
 
 New Relic has open-sourced this project. This project is provided AS-IS WITHOUT WARRANTY OR DEDICATED SUPPORT. Issues and contributions should be reported to the project here on GitHub.
 
 We encourage you to bring your experiences and questions to the [Explorers Hub](https://discuss.newrelic.com) where our community members collaborate on solutions and new ideas.
 
-## Community
-
-> Work with the Explorer's Hub team to create a tag for your app, then update the link below.
+### Community
 
 New Relic hosts and moderates an online forum where customers can interact with New Relic employees as well as other customers to get help and share best practices. Like all official New Relic open source projects, there's a related Community topic in the New Relic Explorers Hub. You can find this project's topic/threads here:
 
 https://discuss.newrelic.com/t/{{ APP_NAME }}
 *(Note: This URL is subject to change before GA)*
 
-## Issues / enhancement requests
+### Issues / enhancement requests
 
 Issues and enhancement requests can be submitted in the [Issues tab of this repository](../../issues). Please search for and review the existing open issues before submitting a new issue.
 
-## Security
+### Security
 
-As noted in our [security policy](https://github.com/newrelic/{{ NERDPACK_NAME }}/security/policy), New Relic is committed to the privacy and security of our customers and their data. We believe that providing coordinated disclosure by security researchers and engaging with the security community are important means to achieve our security goals.
+As noted in our [security policy](https://github.com/newrelic/nr1-pathponit/security/policy), New Relic is committed to the privacy and security of our customers and their data. We believe that providing coordinated disclosure by security researchers and engaging with the security community are important means to achieve our security goals.
 
 If you believe you have found a security vulnerability in this project or any of New Relic's products or websites, we welcome and greatly appreciate you reporting it to New Relic through [HackerOne](https://hackerone.com/newrelic).
 
-# Contributing
-
-> Work with the Open Source Office to update the email alias below.
+## Contributing
 
 Contributions are encouraged! If you submit an enhancement request, we'll invite you to contribute the change yourself. Please review our [Contributors Guide](CONTRIBUTING.md).
 
-Keep in mind that when you submit your pull request, you'll need to sign the CLA via the click-through using CLA-Assistant. If you'd like to execute our corporate CLA, or if you have any questions, please drop us an email at opensource+{{ APP_NAME }}@newrelic.com.
+Keep in mind that when you submit your pull request, you'll need to sign the CLA via the click-through using CLA-Assistant. If you'd like to execute our corporate CLA, or if you have any questions, please drop us an email at opensource+nr1-pathpoint@newrelic.com.
