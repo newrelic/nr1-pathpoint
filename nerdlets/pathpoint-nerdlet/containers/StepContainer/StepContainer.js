@@ -5,7 +5,13 @@ import Step from '../../components/Step/Step.js';
 
 export default class StepContainer extends React.Component {
   state = {
-    quantityOfContainer: []
+    quantityOfContainer: [],
+    stylesContext: {
+      top: '',
+      left: '',
+      show: false,
+      step: {}
+    }
   };
 
   componentDidMount() {
@@ -39,6 +45,43 @@ export default class StepContainer extends React.Component {
     return stepsNew;
   };
 
+  handleContextStep = (event, step) => {
+    console.log(step, 'mmm');
+    if (event.button === 2) {
+      event.preventDefault();
+      const clickX = event.clientX;
+      const clickY = event.clientY;
+      const screenW = window.innerWidth;
+      const screenH = window.innerHeight;
+      const stylesContext = {
+        left: '',
+        top: '',
+        show: true,
+        step
+      };
+      stylesContext.left = `${clickX + 5}px`;
+      stylesContext.top = `${clickY + 5}px`;
+      if (clickX + 160 > screenW) {
+        stylesContext.left = `${clickX - 160 + 5}px`;
+      }
+      if (clickY + 180 > screenH) {
+        stylesContext.top = `${clickY - 180 + 5}px`;
+      }
+      this.setState({ stylesContext });
+    }
+  };
+
+  closeContext = () => {
+    this.setState({
+      stylesContext: {
+        top: '',
+        left: '',
+        show: false,
+        step: {}
+      }
+    });
+  };
+
   render() {
     const {
       onclickStep,
@@ -68,9 +111,43 @@ export default class StepContainer extends React.Component {
               iconCanaryStatus={iconCanaryStatus}
               colors={colors}
               iconFireStatus={iconFireStatus}
+              handleContextStep={this.handleContextStep}
             />
           );
         })}
+        {this.state.stylesContext.show && (
+          <div>
+            <div
+              onClick={this.closeContext}
+              style={{
+                position: 'fixed',
+                top: '0',
+                bottom: '0',
+                left: '0',
+                right: '0',
+                zIndex: '8888'
+              }}
+            />
+            <div
+              style={{
+                position: 'fixed',
+                top: this.state.stylesContext.top,
+                left: this.state.stylesContext.left,
+                backgroundColor: 'white',
+                borderWidth: '1px',
+                borderStyle: 'solid',
+                borderColor: 'lightgrey',
+                zIndex: '999999',
+                padding: '15px',
+                borderRadius: '3px'
+              }}
+            >
+              <p style={{ margin: '0px' }}>
+                Count: {this.state.stylesContext.step.sub_steps[0].count}
+              </p>
+            </div>
+          </div>
+        )}
       </>
     );
   }

@@ -10,7 +10,8 @@ const Step = ({
   latencyStatus,
   iconCanaryStatus,
   colors,
-  iconFireStatus
+  iconFireStatus,
+  handleContextStep
 }) => {
   const { dark } = colors.steps_touchpoints[0];
   const darkColor = `rgb(${dark[0]},${dark[1]},${dark[2]})`;
@@ -20,6 +21,7 @@ const Step = ({
       {step ? (
         <div
           className="divStep"
+          onMouseDown={event => handleContextStep(event, step)}
           onClick={() => {
             if (step.value !== '') {
               onclickStep(step);
@@ -181,5 +183,6 @@ Step.propTypes = {
   latencyStatus: PropTypes.bool.isRequired,
   iconCanaryStatus: PropTypes.bool.isRequired,
   colors: PropTypes.object.isRequired,
-  iconFireStatus: PropTypes.bool.isRequired
+  iconFireStatus: PropTypes.bool.isRequired,
+  handleContextStep: PropTypes.func.isRequired
 };
