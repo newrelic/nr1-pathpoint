@@ -70,7 +70,7 @@ export default class StepContainer extends React.Component {
     }
   };
 
-  closeContext = (event) => {
+  closeContext = event => {
     event.preventDefault();
     this.setState({
       stylesContext: {
@@ -144,7 +144,10 @@ export default class StepContainer extends React.Component {
               }}
             >
               <p style={{ margin: '0px' }}>
-                Count: {this.state.stylesContext.step.sub_steps[0].count}
+                Jobs: {this.state.stylesContext.step.sub_steps[0].jobs_count}
+              </p>
+              <p style={{ margin: '5px 0px 0px 0px' }}>
+                Tasks: {this.state.stylesContext.step.sub_steps[0].tasks_count}
               </p>
             </div>
           </div>
