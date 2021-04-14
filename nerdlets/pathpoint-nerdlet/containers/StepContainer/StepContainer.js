@@ -46,7 +46,6 @@ export default class StepContainer extends React.Component {
   };
 
   handleContextStep = (event, step) => {
-    console.log(step, 'mmm');
     if (event.button === 2) {
       event.preventDefault();
       const clickX = event.clientX;
@@ -71,7 +70,8 @@ export default class StepContainer extends React.Component {
     }
   };
 
-  closeContext = () => {
+  closeContext = (event) => {
+    event.preventDefault();
     this.setState({
       stylesContext: {
         top: '',
@@ -118,7 +118,8 @@ export default class StepContainer extends React.Component {
         {this.state.stylesContext.show && (
           <div>
             <div
-              onClick={this.closeContext}
+              onClick={event => this.closeContext(event)}
+              onMouseDown={event => this.closeContext(event)}
               style={{
                 position: 'fixed',
                 top: '0',
