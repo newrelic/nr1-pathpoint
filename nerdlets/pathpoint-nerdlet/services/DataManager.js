@@ -50,7 +50,8 @@ export default class DataManager {
       'SESSIONS-QUERY-DURATION',
       'FULL-OPEN-QUERY',
       'HEALTH-CHECK',
-      'JOBS-MEASURE'
+      'JOBS-MEASURE',
+      'STEP-MEASURE'
     ];
   }
 
@@ -255,6 +256,9 @@ export default class DataManager {
         query = `${measure.query} SINCE ${measure.measure_period} MINUTES AGO`;
       }
       this.graphQlmeasures.push([measure, query]);
+    } else if (measure.type === 23 && measure.query !== '') {
+      const query = `${measure.query} SINCE ${measure.measure_period} MINUTES AGO`;
+      this.graphQlmeasures.push([measure, query]);
     } else if (measure.query !== '') {
       const query = `${measure.query} SINCE ${this.TimeRangeTransform(
         this.timeRange,
@@ -401,6 +405,14 @@ export default class DataManager {
           ) {
             measure.R1 = value.nrql.results[0].R1;
             measure.R2 = value.nrql.results[0].R2;
+          } else if (
+            measure.type === 23 &&
+            value.nrql !== null &&
+            value.nrql.results &&
+            value.nrql.results[0] &&
+            value.nrql.results[0].count
+          ) {
+            measure.count = value.nrql.results[0].count;
           } else if (
             measure.type === 100 &&
             value.nrql != null &&
@@ -613,6 +625,39 @@ export default class DataManager {
       }
     }
     this.UpdateMaxLatencySteps(values.min_apdex_touchpoint_index_by_stage);
+    this.UpdateStepsCount(element);
+  }
+
+  UpdateStepsCount(element) {
+    element.touchpoints.forEach(touchpoint => {
+      if (touchpoint.status_on_off) {
+        touchpoint.measure_points.forEach(measure => {
+          if (measure.type === 23) {
+            this.SetStepCountValue(
+              touchpoint.stage_index,
+              touchpoint.relation_steps[0],
+              measure.count
+            );
+          }
+        });
+      }
+    });
+  }
+
+  SetStepCountValue(stageIndex, stepIndex, count) {
+    this.stages[stageIndex - 1].steps.some(step => {
+      let found = false;
+      step.sub_steps.some(sub_step => {
+        let found2 = false;
+        if (sub_step.index === stepIndex) {
+          sub_step.count = count;
+          found = true;
+          found2 = true;
+        }
+        return found2;
+      });
+      return found;
+    });
   }
 
   Getmeasures(element) {
@@ -1917,6 +1962,15 @@ for (const [key, value] of Object.entries(return` +
                     this.timeRange,
                     false
                   )}`
+                });
+              } else if (measure.type === 23) {
+                datos.push({
+                  label: 'Step Measure Query',
+                  value: actualValue,
+                  type: 23,
+                  query_start: '',
+                  query_body: measure.query,
+                  query_footer: `SINCE ${measure.measure_period} MINUTES AGO`
                 });
               }
               actualValue++;

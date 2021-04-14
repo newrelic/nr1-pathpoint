@@ -269,7 +269,23 @@ function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touc
                     "type" => 22,
                     "query" => $tp_queryCount,
                     "R1" => 0,
-                    "R2" => 0,
+                    "R2" => 0
+                ]
+            ]
+        ];
+    }else if($touchpointType==4){ // touchpoint_type="Step Measure Count"
+        $touchPoints[0]["touchpoints"][] = [
+            "stage_index" => ($stage_index + 1),
+            "value" => $touchpoint,
+            "touchpoint_index" => $tpIndex,
+            "status_on_off" => true,
+            "relation_steps" => getStepIndex($stage_index, $steps),
+            "measure_points" => [
+                [
+                    "type" => 23,
+                    "query" => $tp_queryCount,
+                    "count" => 0,
+                    "measure_period" => (int) $measure_period,
                 ]
             ]
         ];

@@ -234,6 +234,23 @@
         ]
       },
       {
+        "stage_index": 2,
+        "value": "Jobs Queue Count",
+        "touchpoint_index": 9,
+        "status_on_off": true,
+        "relation_steps": [
+          5
+        ],
+        "measure_points": [
+          {
+            "type": 23,
+            "query": "SELECT count(*) FROM Log WHERE record_type='TASK' AND status='Queued' AND task_type_desc IN ('Restore','Archive')",
+            "count": 0,
+            "measure_period": 60
+          }
+        ]
+      },
+      {
         "stage_index": 3,
         "value": "File Activity Count",
         "touchpoint_index": 1,

@@ -107,6 +107,7 @@
           "sub_steps": [
             {
               "index": 1,
+              "count": 0,
               "id": "ST1-LINE1-SS1",
               "canary_state": false,
               "latency": true,
@@ -126,11 +127,12 @@
           "sub_steps": [
             {
               "index": 2,
+              "count": 0,
               "id": "ST1-LINE2-SS1",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Tasks",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -140,9 +142,10 @@
             },
             {
               "index": 3,
+              "count": 0,
               "id": "ST1-LINE2-SS2",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Priorities",
               "dark": false,
               "history_error": false,
@@ -156,11 +159,12 @@
             },
             {
               "index": 4,
+              "count": 0,
               "id": "ST1-LINE2-SS3",
               "canary_state": false,
               "latency": false,
               "value": "Users",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -177,6 +181,7 @@
           "sub_steps": [
             {
               "index": 5,
+              "count": 0,
               "id": "ST1-LINE3-SS1",
               "canary_state": false,
               "latency": false,
@@ -191,6 +196,7 @@
             },
             {
               "index": 6,
+              "count": 0,
               "id": "ST1-LINE3-SS2",
               "canary_state": false,
               "latency": false,
@@ -291,11 +297,12 @@
           "sub_steps": [
             {
               "index": 1,
+              "count": 0,
               "id": "ST2-LINE1-SS1",
               "canary_state": false,
               "latency": true,
               "value": "Catapult Workflow",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -310,6 +317,7 @@
           "sub_steps": [
             {
               "index": 2,
+              "count": 0,
               "id": "ST2-LINE2-SS1",
               "canary_state": false,
               "latency": false,
@@ -324,6 +332,7 @@
             },
             {
               "index": 3,
+              "count": 0,
               "id": "ST2-LINE2-SS2",
               "canary_state": false,
               "latency": false,
@@ -340,6 +349,7 @@
             },
             {
               "index": 4,
+              "count": 0,
               "id": "ST2-LINE2-SS3",
               "canary_state": false,
               "latency": false,
@@ -361,6 +371,7 @@
           "sub_steps": [
             {
               "index": 5,
+              "count": 0,
               "id": "ST2-LINE3-SS1",
               "canary_state": false,
               "latency": false,
@@ -372,7 +383,8 @@
               "error": false,
               "index_stage": 2,
               "relationship_touchpoints": [
-                4
+                4,
+                9
               ]
             }
           ]
@@ -382,6 +394,7 @@
           "sub_steps": [
             {
               "index": 6,
+              "count": 0,
               "id": "ST2-LINE4-SS1",
               "canary_state": false,
               "latency": false,
@@ -399,9 +412,10 @@
             },
             {
               "index": 7,
+              "count": 0,
               "id": "ST2-LINE4-SS2",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Restore",
               "dark": false,
               "history_error": false,
@@ -421,9 +435,10 @@
           "sub_steps": [
             {
               "index": 8,
+              "count": 0,
               "id": "ST2-LINE5-SS1",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Device Type",
               "dark": false,
               "history_error": false,
@@ -440,6 +455,7 @@
           "sub_steps": [
             {
               "index": 9,
+              "count": 0,
               "id": "ST2-LINE6-SS1",
               "canary_state": false,
               "latency": false,
@@ -456,6 +472,7 @@
             },
             {
               "index": 10,
+              "count": 0,
               "id": "ST2-LINE6-SS2",
               "canary_state": false,
               "latency": false,
@@ -470,6 +487,7 @@
             },
             {
               "index": 11,
+              "count": 0,
               "id": "ST2-LINE6-SS3",
               "canary_state": false,
               "latency": false,
@@ -484,6 +502,7 @@
             },
             {
               "index": 12,
+              "count": 0,
               "id": "ST2-LINE6-SS4",
               "canary_state": false,
               "latency": false,
@@ -498,11 +517,12 @@
             },
             {
               "index": 13,
+              "count": 0,
               "id": "ST2-LINE6-SS5",
               "canary_state": false,
               "latency": false,
               "value": "Failed",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -667,6 +687,25 @@
           "relation_steps": [
             13
           ]
+        },
+        {
+          "index": 9,
+          "stage_index": 2,
+          "status_on_off": true,
+          "active": false,
+          "value": "Jobs Queue Count",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            false
+          ],
+          "relation_steps": [
+            5
+          ]
         }
       ]
     },
@@ -697,6 +736,7 @@
           "sub_steps": [
             {
               "index": 1,
+              "count": 0,
               "id": "ST3-LINE1-SS1",
               "canary_state": false,
               "latency": true,
@@ -716,6 +756,7 @@
           "sub_steps": [
             {
               "index": 2,
+              "count": 0,
               "id": "ST3-LINE2-SS1",
               "canary_state": false,
               "latency": false,
@@ -730,11 +771,12 @@
             },
             {
               "index": 3,
+              "count": 0,
               "id": "ST3-LINE2-SS2",
               "canary_state": false,
               "latency": false,
               "value": "Priorities",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -746,6 +788,7 @@
             },
             {
               "index": 4,
+              "count": 0,
               "id": "ST3-LINE2-SS3",
               "canary_state": false,
               "latency": false,
@@ -765,11 +808,12 @@
           "sub_steps": [
             {
               "index": 5,
+              "count": 0,
               "id": "ST3-LINE3-SS1",
               "canary_state": false,
               "latency": false,
               "value": "Jobs Queue",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -784,6 +828,7 @@
           "sub_steps": [
             {
               "index": 6,
+              "count": 0,
               "id": "ST3-LINE4-SS1",
               "canary_state": false,
               "latency": false,
@@ -798,6 +843,7 @@
             },
             {
               "index": 7,
+              "count": 0,
               "id": "ST3-LINE4-SS2",
               "canary_state": false,
               "latency": false,
@@ -812,11 +858,12 @@
             },
             {
               "index": 8,
+              "count": 0,
               "id": "ST3-LINE4-SS3",
               "canary_state": false,
               "latency": false,
               "value": "RN",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -826,6 +873,7 @@
             },
             {
               "index": 9,
+              "count": 0,
               "id": "ST3-LINE4-SS4",
               "canary_state": false,
               "latency": false,
@@ -840,6 +888,7 @@
             },
             {
               "index": 10,
+              "count": 0,
               "id": "ST3-LINE4-SS5",
               "canary_state": false,
               "latency": false,
@@ -859,6 +908,7 @@
           "sub_steps": [
             {
               "index": 11,
+              "count": 0,
               "id": "ST3-LINE5-SS1",
               "canary_state": false,
               "latency": false,
@@ -875,6 +925,7 @@
             },
             {
               "index": 12,
+              "count": 0,
               "id": "ST3-LINE5-SS2",
               "canary_state": false,
               "latency": false,
@@ -891,6 +942,7 @@
             },
             {
               "index": 13,
+              "count": 0,
               "id": "ST3-LINE5-SS3",
               "canary_state": false,
               "latency": false,
@@ -907,6 +959,7 @@
             },
             {
               "index": 14,
+              "count": 0,
               "id": "ST3-LINE5-SS4",
               "canary_state": false,
               "latency": false,
@@ -923,6 +976,7 @@
             },
             {
               "index": 15,
+              "count": 0,
               "id": "ST3-LINE5-SS5",
               "canary_state": false,
               "latency": false,
@@ -944,6 +998,7 @@
           "sub_steps": [
             {
               "index": 16,
+              "count": 0,
               "id": "ST3-LINE6-SS1",
               "canary_state": false,
               "latency": false,
@@ -960,6 +1015,7 @@
             },
             {
               "index": 17,
+              "count": 0,
               "id": "ST3-LINE6-SS2",
               "canary_state": false,
               "latency": false,
@@ -976,11 +1032,12 @@
             },
             {
               "index": 18,
+              "count": 0,
               "id": "ST3-LINE6-SS3",
               "canary_state": false,
               "latency": false,
               "value": "F: RN",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -992,6 +1049,7 @@
             },
             {
               "index": 19,
+              "count": 0,
               "id": "ST3-LINE6-SS4",
               "canary_state": false,
               "latency": false,
@@ -1008,6 +1066,7 @@
             },
             {
               "index": 20,
+              "count": 0,
               "id": "ST3-LINE6-SS5",
               "canary_state": false,
               "latency": false,
@@ -1281,6 +1340,7 @@
           "sub_steps": [
             {
               "index": 1,
+              "count": 0,
               "id": "ST4-LINE1-SS1",
               "canary_state": false,
               "latency": true,
@@ -1300,9 +1360,10 @@
           "sub_steps": [
             {
               "index": 2,
+              "count": 0,
               "id": "ST4-LINE2-SS1",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Task",
               "dark": false,
               "history_error": false,
@@ -1314,6 +1375,7 @@
             },
             {
               "index": 3,
+              "count": 0,
               "id": "ST4-LINE2-SS2",
               "canary_state": false,
               "latency": false,
@@ -1330,6 +1392,7 @@
             },
             {
               "index": 4,
+              "count": 0,
               "id": "ST4-LINE2-SS3",
               "canary_state": false,
               "latency": false,
@@ -1349,6 +1412,7 @@
           "sub_steps": [
             {
               "index": 5,
+              "count": 0,
               "id": "ST4-LINE3-SS1",
               "canary_state": false,
               "latency": false,
@@ -1368,9 +1432,10 @@
           "sub_steps": [
             {
               "index": 6,
+              "count": 0,
               "id": "ST4-LINE4-SS1",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Elemental: File Conv",
               "dark": false,
               "history_error": false,
@@ -1385,6 +1450,7 @@
             },
             {
               "index": 7,
+              "count": 0,
               "id": "ST4-LINE4-SS2",
               "canary_state": false,
               "latency": false,
@@ -1404,9 +1470,10 @@
           "sub_steps": [
             {
               "index": 8,
+              "count": 0,
               "id": "ST4-LINE5-SS1",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "File Conversion Complete",
               "dark": false,
               "history_error": false,
@@ -1418,6 +1485,7 @@
             },
             {
               "index": 9,
+              "count": 0,
               "id": "ST4-LINE5-SS2",
               "canary_state": false,
               "latency": false,
@@ -1558,6 +1626,7 @@
           "sub_steps": [
             {
               "index": 1,
+              "count": 0,
               "id": "ST5-LINE1-SS1",
               "canary_state": false,
               "latency": true,
@@ -1577,6 +1646,7 @@
           "sub_steps": [
             {
               "index": 2,
+              "count": 0,
               "id": "ST5-LINE2-SS1",
               "canary_state": false,
               "latency": false,
@@ -1591,6 +1661,7 @@
             },
             {
               "index": 3,
+              "count": 0,
               "id": "ST5-LINE2-SS2",
               "canary_state": false,
               "latency": false,
@@ -1607,6 +1678,7 @@
             },
             {
               "index": 4,
+              "count": 0,
               "id": "ST5-LINE2-SS3",
               "canary_state": false,
               "latency": false,
@@ -1626,6 +1698,7 @@
           "sub_steps": [
             {
               "index": 5,
+              "count": 0,
               "id": "ST5-LINE3-SS1",
               "canary_state": false,
               "latency": false,
@@ -1645,6 +1718,7 @@
           "sub_steps": [
             {
               "index": 6,
+              "count": 0,
               "id": "ST5-LINE4-SS1",
               "canary_state": false,
               "latency": false,
@@ -1662,9 +1736,10 @@
             },
             {
               "index": 7,
+              "count": 0,
               "id": "ST5-LINE4-SS2",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "MediaShuttle: Asset Delivery",
               "dark": false,
               "history_error": false,
@@ -1681,6 +1756,7 @@
           "sub_steps": [
             {
               "index": 8,
+              "count": 0,
               "id": "ST5-LINE5-SS1",
               "canary_state": false,
               "latency": false,
@@ -1695,6 +1771,7 @@
             },
             {
               "index": 9,
+              "count": 0,
               "id": "ST5-LINE5-SS2",
               "canary_state": false,
               "latency": false,

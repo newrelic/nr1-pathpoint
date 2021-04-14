@@ -53,6 +53,7 @@ function addSteps($stage,$steps){
                 $dark = (($n<15)&&($i<4))? true : false;
                 $view_base["stages"][$i]["steps"][$last]["sub_steps"][] = [
                     "index"=> $stepIndex,
+                    "count" => 0,
                     "id" => $stepId,
                     "canary_state"=> false,
                     "latency"=> $latency,
