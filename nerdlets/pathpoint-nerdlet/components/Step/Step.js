@@ -21,7 +21,6 @@ const Step = ({
       {step ? (
         <div
           className="divStep"
-          onMouseDown={event => handleContextStep(event, step)}
           onClick={() => {
             if (step.value !== '') {
               onclickStep(step);
@@ -37,6 +36,7 @@ const Step = ({
                   <div
                     key={`${entry.value}-${index}`}
                     className="textContentSubFirstStep"
+                    onMouseDown={event => handleContextStep(event, entry)}
                     style={{
                       border: StyleSubStep(entry, colors, iconFireStatus),
                       background: BackgroundSubStep(
@@ -66,6 +66,7 @@ const Step = ({
                 <div
                   key={`${entry.value}-${index}`}
                   className="textContentSubSecondStep"
+                  onMouseDown={event => handleContextStep(event, entry)}
                   style={{
                     border: StyleSubStep(entry, colors, iconFireStatus),
                     background: BackgroundSubStep(

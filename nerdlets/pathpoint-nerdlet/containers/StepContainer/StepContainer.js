@@ -144,10 +144,10 @@ export default class StepContainer extends React.Component {
               }}
             >
               <p style={{ margin: '0px' }}>
-                Jobs: {this.state.stylesContext.step.sub_steps[0].jobs_count}
+                Jobs: {this.state.stylesContext.step.jobs_count}
               </p>
               <p style={{ margin: '5px 0px 0px 0px' }}>
-                Tasks: {this.state.stylesContext.step.sub_steps[0].tasks_count}
+                Tasks: {this.state.stylesContext.step.tasks_count}
               </p>
             </div>
           </div>
