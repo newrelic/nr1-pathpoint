@@ -235,8 +235,30 @@
       },
       {
         "stage_index": 2,
-        "value": "Jobs Queue Count",
+        "value": "Failed Non Specific Errors",
         "touchpoint_index": 9,
+        "status_on_off": true,
+        "relation_steps": [
+          13
+        ],
+        "measure_points": [
+          {
+            "type": 21,
+            "query": "SELECT count(*) FROM Log WHERE record_type='TASK' AND task_type_desc IN ('Restore','Archive') AND status_description not in ('NULL','') AND status_description LIKE '%error%' AND not (status_description LIKE '%FfMpeg reported%' OR status_description LIKE '%Error while sending next job to device in PreservationJobHandle%' OR status_description LIKE '%Workorder Submit Validation Failure%' OR status_description LIKE '%JobWorker encountered an %Exception%' OR status_description LIKE '%Failed to perform a requested operation%') FACET status_description LIMIT MAX",
+            "measure_period": 120,
+            "count": 0,
+            "multi_value": [],
+            "limit_number": 20,
+            "type_limit": "OVER",
+            "operation_mode": "MULTI",
+            "progress_time": "0"
+          }
+        ]
+      },
+      {
+        "stage_index": 2,
+        "value": "Jobs Queue Count",
+        "touchpoint_index": 10,
         "status_on_off": true,
         "relation_steps": [
           5
@@ -254,7 +276,7 @@
       {
         "stage_index": 2,
         "value": "Archive Count",
-        "touchpoint_index": 10,
+        "touchpoint_index": 11,
         "status_on_off": true,
         "relation_steps": [
           6
@@ -272,7 +294,7 @@
       {
         "stage_index": 2,
         "value": "Restore Count",
-        "touchpoint_index": 11,
+        "touchpoint_index": 12,
         "status_on_off": true,
         "relation_steps": [
           7
@@ -290,7 +312,7 @@
       {
         "stage_index": 2,
         "value": "Restore Completed Count",
-        "touchpoint_index": 12,
+        "touchpoint_index": 13,
         "status_on_off": true,
         "relation_steps": [
           9
@@ -308,7 +330,7 @@
       {
         "stage_index": 2,
         "value": "Archive Completed Count",
-        "touchpoint_index": 13,
+        "touchpoint_index": 14,
         "status_on_off": true,
         "relation_steps": [
           11
@@ -326,7 +348,7 @@
       {
         "stage_index": 2,
         "value": "Failed Count",
-        "touchpoint_index": 14,
+        "touchpoint_index": 15,
         "status_on_off": true,
         "relation_steps": [
           13
@@ -702,6 +724,28 @@
         ]
       },
       {
+        "stage_index": 4,
+        "value": "Failed Non Specific Errors",
+        "touchpoint_index": 6,
+        "status_on_off": true,
+        "relation_steps": [
+          9
+        ],
+        "measure_points": [
+          {
+            "type": 21,
+            "query": "SELECT count(*) FROM Log WHERE record_type='TASK' AND task_type_desc IN ('Transcode','Tic Encode','Metadata Extraction','Thumbnail Extraction') AND status_description not in ('NULL','') AND status_description LIKE '%error%' AND NOT (status_description LIKE '%FfMpeg reported%' OR status_description LIKE '%Error while sending next job to device in PreservationJobHandle%' OR status_description LIKE '%Workorder Submit Validation Failure%' OR status_description LIKE '%JobWorker encountered an %Exception%' OR status_description LIKE '%Failed to perform a requested operation%') FACET status_description LIMIT MAX",
+            "measure_period": 120,
+            "count": 0,
+            "multi_value": [],
+            "limit_number": 20,
+            "type_limit": "OVER",
+            "operation_mode": "MULTI",
+            "progress_time": "0"
+          }
+        ]
+      },
+      {
         "stage_index": 5,
         "value": "Delivery Job Count",
         "touchpoint_index": 1,
@@ -800,6 +844,28 @@
             "limit_number": 1,
             "type_limit": "OVER",
             "operation_mode": "STANDARD",
+            "progress_time": "0"
+          }
+        ]
+      },
+      {
+        "stage_index": 5,
+        "value": "Failed Non Specific Errors",
+        "touchpoint_index": 6,
+        "status_on_off": true,
+        "relation_steps": [
+          9
+        ],
+        "measure_points": [
+          {
+            "type": 21,
+            "query": "SELECT count(*) FROM Log WHERE record_type='TASK' AND task_type_desc IN ('Deliver','Awaiting Approval','Deliver to Media Shuttle') AND status_description not in ('NULL','') AND status_description LIKE '%error%' AND NOT (status_description LIKE '%FfMpeg reported%' OR status_description LIKE '%Error while sending next job to device in PreservationJobHandle%' OR status_description LIKE '%Workorder Submit Validation Failure%' OR status_description LIKE '%JobWorker encountered an %Exception%' OR status_description LIKE '%Failed to perform a requested operation%') FACET status_description LIMIT MAX",
+            "measure_period": 120,
+            "count": 0,
+            "multi_value": [],
+            "limit_number": 20,
+            "type_limit": "OVER",
+            "operation_mode": "MULTI",
             "progress_time": "0"
           }
         ]

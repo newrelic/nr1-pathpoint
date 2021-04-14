@@ -513,6 +513,7 @@ export default class DataManager {
         }
       }
     });
+    console.log("Maxvalue:",measure.count);
   }
 
   SetSessions(measure, sessions) {
