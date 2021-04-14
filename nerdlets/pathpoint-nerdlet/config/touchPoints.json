@@ -251,6 +251,91 @@
         ]
       },
       {
+        "stage_index": 2,
+        "value": "Archive Count",
+        "touchpoint_index": 10,
+        "status_on_off": true,
+        "relation_steps": [
+          6
+        ],
+        "measure_points": [
+          {
+            "type": 23,
+            "query": "SELECT count(*) FROM Log WHERE record_type='TASK' AND task_type_desc='Archive'",
+            "count": 0,
+            "measure_period": 60
+          }
+        ]
+      },
+      {
+        "stage_index": 2,
+        "value": "Restore Count",
+        "touchpoint_index": 11,
+        "status_on_off": true,
+        "relation_steps": [
+          7
+        ],
+        "measure_points": [
+          {
+            "type": 23,
+            "query": "SELECT count(*) FROM Log WHERE record_type='TASK' AND task_type_desc='Restore'",
+            "count": 0,
+            "measure_period": 60
+          }
+        ]
+      },
+      {
+        "stage_index": 2,
+        "value": "Restore Completed Count",
+        "touchpoint_index": 12,
+        "status_on_off": true,
+        "relation_steps": [
+          9
+        ],
+        "measure_points": [
+          {
+            "type": 23,
+            "query": "select count(*) FROM Log WHERE record_type='TASK' AND task_type_desc='Restore' AND status='Completed'",
+            "count": 0,
+            "measure_period": 60
+          }
+        ]
+      },
+      {
+        "stage_index": 2,
+        "value": "Archive Completed Count",
+        "touchpoint_index": 13,
+        "status_on_off": true,
+        "relation_steps": [
+          11
+        ],
+        "measure_points": [
+          {
+            "type": 23,
+            "query": "select count(*) FROM Log WHERE record_type='TASK' AND task_type_desc='Archive' AND status='Completed'",
+            "count": 0,
+            "measure_period": 60
+          }
+        ]
+      },
+      {
+        "stage_index": 2,
+        "value": "Failed Count",
+        "touchpoint_index": 14,
+        "status_on_off": true,
+        "relation_steps": [
+          13
+        ],
+        "measure_points": [
+          {
+            "type": 23,
+            "query": "select count(*) FROM Log WHERE record_type='TASK' AND task_type_desc in ('Archive','Restore') AND status='Failed'",
+            "count": 0,
+            "measure_period": 60
+          }
+        ]
+      },
+      {
         "stage_index": 3,
         "value": "File Activity Count",
         "touchpoint_index": 1,
