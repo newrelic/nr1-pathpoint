@@ -410,9 +410,11 @@ export default class DataManager {
             value.nrql !== null &&
             value.nrql.results &&
             value.nrql.results[0] &&
-            value.nrql.results[0].count
+            value.nrql.results[0].tasks_count &&
+            value.nrql.results[0].jobs_count
           ) {
-            measure.count = value.nrql.results[0].count;
+            measure.jobs_count = value.nrql.results[0].jobs_count;
+            measure.tasks_count = value.nrql.results[0].tasks_count;
           } else if (
             measure.type === 100 &&
             value.nrql != null &&
@@ -636,7 +638,7 @@ export default class DataManager {
             this.SetStepCountValue(
               touchpoint.stage_index,
               touchpoint.relation_steps[0],
-              measure.count
+              measure
             );
           }
         });
@@ -644,13 +646,14 @@ export default class DataManager {
     });
   }
 
-  SetStepCountValue(stageIndex, stepIndex, count) {
+  SetStepCountValue(stageIndex, stepIndex, measure) {
     this.stages[stageIndex - 1].steps.some(step => {
       let found = false;
       step.sub_steps.some(sub_step => {
         let found2 = false;
         if (sub_step.index === stepIndex) {
-          sub_step.count = count;
+          sub_step.jobs_count = measure.jobs_count;
+          sub_step.tasks_count = measure.tasks_count;
           found = true;
           found2 = true;
         }

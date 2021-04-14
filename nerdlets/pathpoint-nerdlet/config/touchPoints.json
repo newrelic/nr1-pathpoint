@@ -244,8 +244,9 @@
         "measure_points": [
           {
             "type": 23,
-            "query": "SELECT count(*) FROM Log WHERE record_type='TASK' AND status='Queued' AND task_type_desc IN ('Restore','Archive')",
-            "count": 0,
+            "query": "SELECT FILTER(count(*), WHERE record_type='TASK' AND status='Queued' AND task_type_desc IN ('Restore','Archive')) as tasks_count,FILTER(count(*), WHERE record_type='CTP' AND job_type_description IN ('ArchiveJob','RestoreJob')) as jobs_count FROM Log ",
+            "jobs_count": 0,
+            "tasks_count": 0,
             "measure_period": 60
           }
         ]
@@ -261,8 +262,9 @@
         "measure_points": [
           {
             "type": 23,
-            "query": "SELECT count(*) FROM Log WHERE record_type='TASK' AND task_type_desc='Archive'",
-            "count": 0,
+            "query": "SELECT FILTER(count(*), WHERE record_type='TASK' AND task_type_desc='Archive' AND status='InProgress') as tasks_count,FILTER(count(*), WHERE record_type='CTP' AND job_type_description='ArchiveJob' AND job_state='InProgressAtJobHandler') as jobs_count FROM Log",
+            "jobs_count": 0,
+            "tasks_count": 0,
             "measure_period": 60
           }
         ]
@@ -278,8 +280,9 @@
         "measure_points": [
           {
             "type": 23,
-            "query": "SELECT count(*) FROM Log WHERE record_type='TASK' AND task_type_desc='Restore'",
-            "count": 0,
+            "query": "SELECT FILTER(count(*), WHERE record_type='TASK' AND task_type_desc='Restore' AND status='InProgress') as tasks_count,FILTER(count(*), WHERE record_type='CTP' AND job_type_description='RestoreJob' AND job_state='InProgressAtJobHandler') as jobs_count FROM Log",
+            "jobs_count": 0,
+            "tasks_count": 0,
             "measure_period": 60
           }
         ]
@@ -295,8 +298,9 @@
         "measure_points": [
           {
             "type": 23,
-            "query": "select count(*) FROM Log WHERE record_type='TASK' AND task_type_desc='Restore' AND status='Completed'",
-            "count": 0,
+            "query": "SELECT FILTER(count(*), WHERE record_type='TASK' AND task_type_desc='Restore' AND status='Completed') as tasks_count,FILTER(count(*), WHERE record_type='CTP' AND job_type_description='RestoreJob' AND job_state='CompletedSuccessfully') as jobs_count FROM Log",
+            "jobs_count": 0,
+            "tasks_count": 0,
             "measure_period": 60
           }
         ]
@@ -312,8 +316,9 @@
         "measure_points": [
           {
             "type": 23,
-            "query": "select count(*) FROM Log WHERE record_type='TASK' AND task_type_desc='Archive' AND status='Completed'",
-            "count": 0,
+            "query": "SELECT FILTER(count(*), WHERE record_type='TASK' AND task_type_desc='Archive' AND status='Completed') as tasks_count,FILTER(count(*), WHERE record_type='CTP' AND job_type_description='ArchiveJob' AND job_state='CompletedSuccessfully') as jobs_count FROM Log",
+            "jobs_count": 0,
+            "tasks_count": 0,
             "measure_period": 60
           }
         ]
@@ -329,8 +334,9 @@
         "measure_points": [
           {
             "type": 23,
-            "query": "select count(*) FROM Log WHERE record_type='TASK' AND task_type_desc in ('Archive','Restore') AND status='Failed'",
-            "count": 0,
+            "query": "SELECT FILTER(count(*), WHERE record_type='TASK' AND task_type_desc in ('Archive','Restore') AND status='Failed') as tasks_count,FILTER(count(*), WHERE record_type='CTP' AND job_type_description in ('ArchiveJob','RestoreJob') AND job_state='CompletedWithFailure') as jobs_count FROM Log",
+            "jobs_count": 0,
+            "tasks_count": 0,
             "measure_period": 60
           }
         ]
