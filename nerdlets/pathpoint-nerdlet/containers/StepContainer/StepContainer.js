@@ -84,7 +84,7 @@ export default class StepContainer extends React.Component {
 
   transformK = value => {
     if (value > 1000000) {
-      return ` ${Math.round(value / 1000000)}M`;
+      return ` ${Math.round(value / 100000) / 10}M`;
     }
     if (value > 1000) {
       return ` ${Math.round(value / 100) / 10}K`;
