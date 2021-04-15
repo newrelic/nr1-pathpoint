@@ -82,6 +82,16 @@ export default class StepContainer extends React.Component {
     });
   };
 
+  transformK = value => {
+    if (value > 1000000) {
+      return ` ${Math.round(value / 1000000)}M`;
+    }
+    if (value > 1000) {
+      return ` ${Math.round(value / 100) / 10}K`;
+    }
+    return ` ${value}`;
+  };
+
   render() {
     const {
       onclickStep,
@@ -144,10 +154,12 @@ export default class StepContainer extends React.Component {
               }}
             >
               <p style={{ margin: '0px' }}>
-                Jobs: {this.state.stylesContext.step.jobs_count}
+                Jobs:
+                {this.transformK(this.state.stylesContext.step.jobs_count)}
               </p>
               <p style={{ margin: '5px 0px 0px 0px' }}>
-                Tasks: {this.state.stylesContext.step.tasks_count}
+                Tasks:
+                {this.transformK(this.state.stylesContext.step.tasks_count)}
               </p>
             </div>
           </div>

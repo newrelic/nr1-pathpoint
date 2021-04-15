@@ -122,7 +122,7 @@ const transformK = value => {
     return `${Math.round(value / 1000000)} M`;
   }
   if (value > 1000) {
-    return `${Math.round(value / 1000)} K`;
+    return `${Math.round(value / 100) / 10} K`;
   }
   return value;
 };
