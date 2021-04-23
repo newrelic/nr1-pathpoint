@@ -32,7 +32,7 @@
             "message_steps_03": "A step is highlighted when clicked by the user to view the related touchpoints, and when a filter is applied."
         },
         "touchpoints": {
-            "message_touchpoints_01": "These are the most granular entities in the PathPoint model.  With this version of PathPoint TouchPoints are usually a specific APM or Browser application.  The health status of a TouchPoint will be tied to error rate and latency.",
+            "message_touchpoints_01": "These are the most granular entities in the PathPoint model.  PathPoint TouchPoints are often a specific APM or Browser application.  However you can use any NRQL query to create a touchpoint.  The health status of a TouchPoint will be tied to error rate and latency.",
             "message_touchpoints_02": "In this mode, all touchpoints will be shown.  In some cases, there will be hundreds of touchpoints feeding your Pathpoint and the view can get cluttered.  In some cases, you may wish to view only struggling touchpoints.  Uncheck “view all” to see that view.",
             "message_touchpoints_03": "When you select a step Pathpoint will highlight the related touchpoints.  If healthy they will show with a blue outline.  If struggling they will be outlined in red."
         }
