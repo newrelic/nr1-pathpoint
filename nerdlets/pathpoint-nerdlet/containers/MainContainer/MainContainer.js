@@ -46,7 +46,7 @@ import star_icon from '../../images/star_icon.svg';
 import down from '../../images/down.svg';
 
 // UNUSED
-// import Emulator from '../../helpers/Emulator.js';
+import Emulator from '../../helpers/Emulator.js';
 
 /**
  *Main container component
@@ -129,52 +129,52 @@ export default class MainContainer extends React.Component {
 
   // =========================================================== EMULATOR
 
-  // componentDidMount() {
-  //   this.BoootstrapApplication();
-  // }
+  componentDidMount() {
+    this.BoootstrapApplication();
+  }
 
-  // componentWillUnmount() {
-  //   clearInterval(this.interval);
-  //   this.emulator.closeConnections();
-  // }
+  componentWillUnmount() {
+    clearInterval(this.interval);
+    this.emulator.closeConnections();
+  }
 
-  // BoootstrapApplication = async () => {
-  //   this.DataManager = new DataManager();
-  //   const data = await this.DataManager.BootstrapInitialData();
-  //   this.setState(
-  //     {
-  //       stages: data.stages,
-  //       banner_kpis: data.banner_kpis,
-  //       colors: data.colors,
-  //       version: data.version,
-  //       accountId: data.accountId
-  //     },
-  //     async () => {
-  //       this.emulator = new Emulator(this.state.stages);
-  //       this.emulator.init();
-  //       this.setState({
-  //         initialized: true,
-  //         stages: this.emulator.getDataState(),
-  //         waiting: false
-  //       });
-  //       setInterval(() => {
-  //         this.setState({ stages: this.emulator.getDataState() });
-  //       }, Setup.time_refresh);
-  //       this.validationQuery = new ValidationQuery(this.state.accountId);
-  //       this.InitLogoSetupData(this.state.accountId);
-  //     }
-  //   );
-  // };
+  BoootstrapApplication = async () => {
+    this.DataManager = new DataManager();
+    const data = await this.DataManager.BootstrapInitialData();
+    this.setState(
+      {
+        stages: data.stages,
+        banner_kpis: data.banner_kpis,
+        colors: data.colors,
+        version: data.version,
+        accountId: data.accountId
+      },
+      async () => {
+        this.emulator = new Emulator(this.state.stages);
+        this.emulator.init();
+        this.setState({
+          initialized: true,
+          stages: this.emulator.getDataState(),
+          waiting: false
+        });
+        setInterval(() => {
+          this.setState({ stages: this.emulator.getDataState() });
+        }, Setup.time_refresh);
+        this.validationQuery = new ValidationQuery(this.state.accountId);
+        this.InitLogoSetupData(this.state.accountId);
+      }
+    );
+  };
 
-  // updateDataNow() {
-  //   this.setState({ loading: true });
-  //   setTimeout(() => {
-  //     this.setState({ loading: false });
-  //   }, 2000);
-  // }
+  updateDataNow() {
+    this.setState({ loading: true });
+    setTimeout(() => {
+      this.setState({ loading: false });
+    }, 2000);
+  }
 
   // =========================================================== UPDATE DATA API
-
+/*
   componentDidMount() {
     this.BoootstrapApplication();
   }
@@ -266,7 +266,7 @@ export default class MainContainer extends React.Component {
       pending: true
     });
   }
-
+*/
   // ===========================================================
 
   ToggleHeaderButtons = target => {

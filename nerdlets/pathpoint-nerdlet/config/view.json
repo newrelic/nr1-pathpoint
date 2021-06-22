@@ -141,7 +141,7 @@
               "index": 3,
               "id": "ST1-LINE1-SS3",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "App",
               "dark": false,
               "history_error": false,
@@ -149,7 +149,9 @@
               "highlighted": false,
               "error": false,
               "index_stage": 1,
-              "relationship_touchpoints": []
+              "relationship_touchpoints": [
+                7
+              ]
             }
           ]
         },
@@ -169,7 +171,7 @@
               "error": false,
               "index_stage": 1,
               "relationship_touchpoints": [
-                3
+                6
               ]
             },
             {
@@ -178,7 +180,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Signup",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -200,7 +202,9 @@
               "highlighted": false,
               "error": false,
               "index_stage": 1,
-              "relationship_touchpoints": []
+              "relationship_touchpoints": [
+                1
+              ]
             }
           ]
         },
@@ -219,13 +223,15 @@
               "highlighted": false,
               "error": false,
               "index_stage": 1,
-              "relationship_touchpoints": []
+              "relationship_touchpoints": [
+                2
+              ]
             },
             {
               "index": 8,
               "id": "ST1-LINE3-SS2",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Menu",
               "dark": false,
               "history_error": false,
@@ -241,13 +247,15 @@
               "canary_state": false,
               "latency": false,
               "value": "Gift Card",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
               "error": false,
               "index_stage": 1,
-              "relationship_touchpoints": []
+              "relationship_touchpoints": [
+                7
+              ]
             },
             {
               "index": 10,
@@ -262,6 +270,7 @@
               "error": false,
               "index_stage": 1,
               "relationship_touchpoints": [
+                3,
                 5
               ]
             }
@@ -283,7 +292,7 @@
               "error": false,
               "index_stage": 1,
               "relationship_touchpoints": [
-                6
+                4
               ]
             },
             {
@@ -298,7 +307,9 @@
               "highlighted": false,
               "error": false,
               "index_stage": 1,
-              "relationship_touchpoints": []
+              "relationship_touchpoints": [
+                1
+              ]
             },
             {
               "index": 13,
@@ -306,13 +317,15 @@
               "canary_state": false,
               "latency": false,
               "value": "Reward Item",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
               "error": false,
               "index_stage": 1,
-              "relationship_touchpoints": []
+              "relationship_touchpoints": [
+                5
+              ]
             }
           ]
         },
@@ -323,8 +336,8 @@
               "index": 14,
               "id": "ST1-LINE5-SS1",
               "canary_state": false,
-              "latency": false,
-              "value": "Add to Bag",
+              "latency": true,
+              "value": "Add to Cart",
               "dark": true,
               "history_error": false,
               "dotted": false,
@@ -332,7 +345,7 @@
               "error": false,
               "index_stage": 1,
               "relationship_touchpoints": [
-                7
+                3
               ]
             }
           ]
@@ -352,10 +365,12 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NDg"
+            "https://one.newrelic.com/-/0X8woePNpjx"
           ],
           "relation_steps": [
-            1
+            1,
+            6,
+            12
           ]
         },
         {
@@ -371,9 +386,10 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NDk"
+            "https://one.newrelic.com/-/0X8woePNpjx"
           ],
           "relation_steps": [
+            7,
             2
           ]
         },
@@ -390,10 +406,11 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTA"
+            "https://one.newrelic.com/-/0X8woePNpjx"
           ],
           "relation_steps": [
-            4
+            10,
+            14
           ]
         },
         {
@@ -409,9 +426,10 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTE"
+            "https://one.newrelic.com/-/0X8woePNpjx"
           ],
           "relation_steps": [
+            11,
             5
           ]
         },
@@ -428,10 +446,11 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTI"
+            "https://one.newrelic.com/-/0X8woePNpjx"
           ],
           "relation_steps": [
-            10
+            10,
+            13
           ]
         },
         {
@@ -447,10 +466,10 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTM"
+            "https://one.newrelic.com/-/0X8woePNpjx"
           ],
           "relation_steps": [
-            11
+            4
           ]
         },
         {
@@ -466,17 +485,18 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTQ"
+            "https://one.newrelic.com/-/0X8woePNpjx"
           ],
           "relation_steps": [
-            14
+            9,
+            3
           ]
         }
       ]
     },
     {
       "index": 2,
-      "title": "BAG",
+      "title": "CART",
       "latencyStatus": false,
       "status_color": "good",
       "gout_enable": false,
@@ -519,7 +539,7 @@
               "index": 2,
               "id": "ST2-LINE1-SS2",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Reward Items",
               "dark": false,
               "history_error": false,
@@ -527,13 +547,15 @@
               "highlighted": false,
               "error": false,
               "index_stage": 2,
-              "relationship_touchpoints": []
+              "relationship_touchpoints": [
+                2
+              ]
             },
             {
               "index": 3,
               "id": "ST2-LINE1-SS3",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Saved items",
               "dark": false,
               "history_error": false,
@@ -541,7 +563,9 @@
               "highlighted": false,
               "error": false,
               "index_stage": 2,
-              "relationship_touchpoints": []
+              "relationship_touchpoints": [
+                4
+              ]
             }
           ]
         },
@@ -552,7 +576,7 @@
               "index": 4,
               "id": "ST2-LINE2-SS1",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Add/Remove Item",
               "dark": false,
               "history_error": false,
@@ -561,7 +585,7 @@
               "error": false,
               "index_stage": 2,
               "relationship_touchpoints": [
-                2
+                3
               ]
             },
             {
@@ -576,7 +600,9 @@
               "highlighted": false,
               "error": false,
               "index_stage": 2,
-              "relationship_touchpoints": []
+              "relationship_touchpoints": [
+                1
+              ]
             }
           ]
         },
@@ -589,14 +615,14 @@
               "canary_state": false,
               "latency": false,
               "value": "PAY Calculation",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
               "error": false,
               "index_stage": 2,
               "relationship_touchpoints": [
-                3
+                4
               ]
             },
             {
@@ -611,7 +637,9 @@
               "highlighted": false,
               "error": false,
               "index_stage": 2,
-              "relationship_touchpoints": []
+              "relationship_touchpoints": [
+                2
+              ]
             }
           ]
         },
@@ -631,7 +659,7 @@
               "error": false,
               "index_stage": 2,
               "relationship_touchpoints": [
-                4
+                2
               ]
             },
             {
@@ -640,13 +668,15 @@
               "canary_state": false,
               "latency": false,
               "value": "Continue Shopping",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
               "error": false,
               "index_stage": 2,
-              "relationship_touchpoints": []
+              "relationship_touchpoints": [
+                3
+              ]
             },
             {
               "index": 10,
@@ -660,7 +690,9 @@
               "highlighted": false,
               "error": false,
               "index_stage": 2,
-              "relationship_touchpoints": []
+              "relationship_touchpoints": [
+                1
+              ]
             }
           ]
         }
@@ -679,10 +711,12 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTU"
+            "https://one.newrelic.com/-/0X8woePNpjx"
           ],
           "relation_steps": [
-            1
+            1,
+            10,
+            5
           ]
         },
         {
@@ -698,10 +732,12 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTY"
+            "https://one.newrelic.com/-/0X8woePNpjx"
           ],
           "relation_steps": [
-            4
+            7,
+            8,
+            2
           ]
         },
         {
@@ -717,10 +753,11 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTc"
+            "https://one.newrelic.com/-/0X8woePNpjx"
           ],
           "relation_steps": [
-            6
+            4,
+            9
           ]
         },
         {
@@ -736,10 +773,11 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTg"
+            "https://one.newrelic.com/-/0X8woePNpjx"
           ],
           "relation_steps": [
-            8
+            6,
+            3
           ]
         }
       ]
@@ -782,7 +820,7 @@
               "error": false,
               "index_stage": 3,
               "relationship_touchpoints": [
-                1
+                2
               ]
             }
           ]
@@ -794,9 +832,9 @@
               "index": 2,
               "id": "ST3-LINE2-SS1",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Delivery Options",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -835,7 +873,7 @@
               "error": false,
               "index_stage": 3,
               "relationship_touchpoints": [
-                6
+                3
               ]
             }
           ]
@@ -856,7 +894,7 @@
               "error": false,
               "index_stage": 3,
               "relationship_touchpoints": [
-                3
+                4
               ]
             },
             {
@@ -871,13 +909,15 @@
               "highlighted": false,
               "error": false,
               "index_stage": 3,
-              "relationship_touchpoints": []
+              "relationship_touchpoints": [
+                6
+              ]
             },
             {
               "index": 7,
               "id": "ST3-LINE3-SS3",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Afterpay",
               "dark": false,
               "history_error": false,
@@ -885,7 +925,9 @@
               "highlighted": false,
               "error": false,
               "index_stage": 3,
-              "relationship_touchpoints": []
+              "relationship_touchpoints": [
+                1
+              ]
             },
             {
               "index": 8,
@@ -899,7 +941,9 @@
               "highlighted": false,
               "error": false,
               "index_stage": 3,
-              "relationship_touchpoints": []
+              "relationship_touchpoints": [
+                3
+              ]
             }
           ]
         },
@@ -910,7 +954,7 @@
               "index": 9,
               "id": "ST3-LINE4-SS1",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Submit Order",
               "dark": false,
               "history_error": false,
@@ -919,7 +963,7 @@
               "error": false,
               "index_stage": 3,
               "relationship_touchpoints": [
-                4
+                1
               ]
             }
           ]
@@ -939,10 +983,11 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTk"
+            "https://one.newrelic.com/-/0X8woePNpjx"
           ],
           "relation_steps": [
-            1
+            9,
+            7
           ]
         },
         {
@@ -958,9 +1003,10 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjE"
+            "https://one.newrelic.com/-/0X8woePNpjx"
           ],
           "relation_steps": [
+            1,
             3
           ]
         },
@@ -977,10 +1023,11 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjI"
+            "https://one.newrelic.com/-/0X8woePNpjx"
           ],
           "relation_steps": [
-            5
+            4,
+            8
           ]
         },
         {
@@ -996,10 +1043,10 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjM"
+            "https://one.newrelic.com/-/0X8woePNpjx"
           ],
           "relation_steps": [
-            9
+            5
           ]
         },
         {
@@ -1015,7 +1062,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjQ"
+            "https://one.newrelic.com/-/0X8woePNpjx"
           ],
           "relation_steps": [
             2
@@ -1034,10 +1081,10 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjU"
+            "https://one.newrelic.com/-/0X8woePNpjx"
           ],
           "relation_steps": [
-            4
+            6
           ]
         }
       ]
@@ -1080,7 +1127,7 @@
               "error": false,
               "index_stage": 4,
               "relationship_touchpoints": [
-                1
+                5
               ]
             },
             {
@@ -1095,7 +1142,9 @@
               "highlighted": false,
               "error": false,
               "index_stage": 4,
-              "relationship_touchpoints": []
+              "relationship_touchpoints": [
+                3
+              ]
             },
             {
               "index": 3,
@@ -1109,7 +1158,9 @@
               "highlighted": false,
               "error": false,
               "index_stage": 4,
-              "relationship_touchpoints": []
+              "relationship_touchpoints": [
+                1
+              ]
             }
           ]
         },
@@ -1144,7 +1195,9 @@
               "highlighted": false,
               "error": false,
               "index_stage": 4,
-              "relationship_touchpoints": []
+              "relationship_touchpoints": [
+                1
+              ]
             },
             {
               "index": 6,
@@ -1158,7 +1211,9 @@
               "highlighted": false,
               "error": false,
               "index_stage": 4,
-              "relationship_touchpoints": []
+              "relationship_touchpoints": [
+                4
+              ]
             }
           ]
         },
@@ -1178,14 +1233,14 @@
               "error": false,
               "index_stage": 4,
               "relationship_touchpoints": [
-                3
+                1
               ]
             },
             {
               "index": 8,
               "id": "ST4-LINE3-SS2",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Pick-up Prep",
               "dark": false,
               "history_error": false,
@@ -1193,7 +1248,9 @@
               "highlighted": false,
               "error": false,
               "index_stage": 4,
-              "relationship_touchpoints": []
+              "relationship_touchpoints": [
+                4
+              ]
             }
           ]
         },
@@ -1213,7 +1270,7 @@
               "error": false,
               "index_stage": 4,
               "relationship_touchpoints": [
-                4
+                3
               ]
             },
             {
@@ -1249,10 +1306,12 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjY"
+            "https://one.newrelic.com/-/0X8woePNpjx"
           ],
           "relation_steps": [
-            1
+            3,
+            5,
+            7
           ]
         },
         {
@@ -1268,7 +1327,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjU"
+            "https://one.newrelic.com/-/0X8woePNpjx"
           ],
           "relation_steps": [
             4
@@ -1287,10 +1346,11 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjU"
+            "https://one.newrelic.com/-/0X8woePNpjx"
           ],
           "relation_steps": [
-            7
+            9,
+            2
           ]
         },
         {
@@ -1306,10 +1366,11 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3Njk"
+            "https://one.newrelic.com/-/0X8woePNpjx"
           ],
           "relation_steps": [
-            9
+            6,
+            8
           ]
         },
         {
@@ -1325,10 +1386,11 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NzA"
+            "https://one.newrelic.com/-/0X8woePNpjx"
           ],
           "relation_steps": [
-            10
+            10,
+            1
           ]
         }
       ]
@@ -1387,7 +1449,7 @@
               "error": false,
               "index_stage": 5,
               "relationship_touchpoints": [
-                2
+                3
               ]
             }
           ]
@@ -1408,7 +1470,7 @@
               "error": false,
               "index_stage": 5,
               "relationship_touchpoints": [
-                3
+                6
               ]
             },
             {
@@ -1423,7 +1485,9 @@
               "highlighted": false,
               "error": false,
               "index_stage": 5,
-              "relationship_touchpoints": []
+              "relationship_touchpoints": [
+                4
+              ]
             }
           ]
         },
@@ -1435,7 +1499,7 @@
               "id": "ST5-LINE3-SS1",
               "canary_state": false,
               "latency": false,
-              "value": " Carrier Update",
+              "value": "Carrier Update",
               "dark": false,
               "history_error": false,
               "dotted": false,
@@ -1443,7 +1507,7 @@
               "error": false,
               "index_stage": 5,
               "relationship_touchpoints": [
-                4
+                2
               ]
             }
           ]
@@ -1479,7 +1543,9 @@
               "highlighted": false,
               "error": false,
               "index_stage": 5,
-              "relationship_touchpoints": []
+              "relationship_touchpoints": [
+                2
+              ]
             }
           ]
         },
@@ -1499,7 +1565,7 @@
               "error": false,
               "index_stage": 5,
               "relationship_touchpoints": [
-                6
+                3
               ]
             },
             {
@@ -1514,7 +1580,9 @@
               "highlighted": false,
               "error": false,
               "index_stage": 5,
-              "relationship_touchpoints": []
+              "relationship_touchpoints": [
+                6
+              ]
             }
           ]
         }
@@ -1533,7 +1601,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NzE"
+            "https://one.newrelic.com/-/0X8woePNpjx"
           ],
           "relation_steps": [
             1
@@ -1552,10 +1620,11 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NzI"
+            "https://one.newrelic.com/-/0X8woePNpjx"
           ],
           "relation_steps": [
-            2
+            5,
+            7
           ]
         },
         {
@@ -1571,10 +1640,11 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NzQ"
+            "https://one.newrelic.com/-/0X8woePNpjx"
           ],
           "relation_steps": [
-            3
+            2,
+            8
           ]
         },
         {
@@ -1590,10 +1660,10 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NzU"
+            "https://one.newrelic.com/-/0X8woePNpjx"
           ],
           "relation_steps": [
-            5
+            4
           ]
         },
         {
@@ -1609,7 +1679,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjU"
+            "https://one.newrelic.com/-/0X8woePNpjx"
           ],
           "relation_steps": [
             6
@@ -1628,10 +1698,11 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjU"
+            "https://one.newrelic.com/-/0X8woePNpjx"
           ],
           "relation_steps": [
-            8
+            3,
+            9
           ]
         }
       ]
