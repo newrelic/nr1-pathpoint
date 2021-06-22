@@ -2,11 +2,11 @@ BROWSE,Web|Mobile Web|App
 BROWSE,Login|Signup|Guest
 BROWSE,Search|Menu|Gift Card|Rewards
 BROWSE,Rewards|Pick-Up Item|Reward Item
-BROWSE,Add to Bag
-BAG,Pay Items|Reward Items|Saved items
-BAG,Add/Remove Item|Promo Code
-BAG,PAY Calculation|POINTS Calculation
-BAG,Checkout|Continue Shopping|Save For Later
+BROWSE,Add to Cart
+CART,Pay Items|Reward Items|Saved items
+CART,Add/Remove Item|Promo Code
+CART,PAY Calculation|POINTS Calculation
+CART,Checkout|Continue Shopping|Save For Later
 CHECKOUT,Customer info.
 CHECKOUT,Delivery Options|Pick-Up Options|Gift Option
 CHECKOUT,Credit Card|Paypal|Afterpay|Gift Card 
@@ -17,6 +17,6 @@ ORDER,Delivery Label Generated|Pick-up Prep
 ORDER,Order Tracking #|Pick-up Date and Locatioon
 DISTRIBUTION,Ready for Store Pick-Up|Ready for Carrier
 DISTRIBUTION,Carrier Pick-Up|Customer Pick-Up
-DISTRIBUTION, Carrier Update
+DISTRIBUTION,Carrier Update
 DISTRIBUTION,Delivered|Returned
 DISTRIBUTION,Proof of Delivery|Proof of Store Pick-up
