@@ -1,22 +1,23 @@
-BROWSE,Web|Mobile Web|App
-BROWSE,Login|Signup|Guest
-BROWSE,Search|Menu|Gift Card|Rewards
-BROWSE,Rewards|Pick-Up Item|Reward Item
-BROWSE,Add to Cart
-CART,Pay Items|Reward Items|Saved items
-CART,Add/Remove Item|Promo Code
-CART,PAY Calculation|POINTS Calculation
-CART,Checkout|Continue Shopping|Save For Later
-CHECKOUT,Customer info.
-CHECKOUT,Delivery Options|Pick-Up Options|Gift Option
-CHECKOUT,Credit Card|Paypal|Afterpay|Gift Card 
-CHECKOUT,Submit Order
-ORDER,Delivery Items|Pick-Up Items|Item Not Available
-ORDER,Order Processing|Order Canceled|Order Delayed
-ORDER,Delivery Label Generated|Pick-up Prep
-ORDER,Order Tracking #|Pick-up Date and Locatioon
-DISTRIBUTION,Ready for Store Pick-Up|Ready for Carrier
-DISTRIBUTION,Carrier Pick-Up|Customer Pick-Up
-DISTRIBUTION,Carrier Update
-DISTRIBUTION,Delivered|Returned
-DISTRIBUTION,Proof of Delivery|Proof of Store Pick-up
+CARRINHO,Item Details|Sub-Total Calc 
+CARRINHO,(+/-) Unidades|Excluir 
+CARRINHO,(+) Garantia Estendida|Calcular frete e prazo
+CARRINHO,Cupom de Desconto
+CARRINHO,Código do Carrinho|Código do Vendedor| Chat
+CARRINHO,Total Calc|Continuar
+CONTA MADEIRA,Member|Guest
+CONTA MADEIRA,E-mail|Esqueci e-mail|Facebook
+CONTA MADEIRA,Continuar|Facebook Signed-In
+CONTA MADEIRA,Member Signed-In|Cadastro Form
+CONTA MADEIRA,Login Complete
+ENTREGA,Endereço de Entrega|Alterar Endereço
+ENTREGA,Excluir 
+ENTREGA,Cupom de Desconto
+ENTREGA,Código do Carrinho|Código do Vendedor|Chat
+ENTREGA,Continuar 
+PAGAMENTO,Standard Payment Options|Alternative Payments
+PAGAMENTO,Endereço de Entrega|Alterar Endereço
+PAGAMENTO,Produtos| Alterar Produtos
+PAGAMENTO,Cupom de Desconto
+PAGAMENTO,Código do Carrinho|Código do Vendedor|Chat
+PAGAMENTO,Total Calc|Finalizar
+PAGAMENTO,Payment Page

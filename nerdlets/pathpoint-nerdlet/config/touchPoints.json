@@ -5,13 +5,13 @@
     "touchpoints": [
       {
         "stage_index": 1,
-        "value": "Catalog API",
+        "value": "Touchpoint ",
         "touchpoint_index": 1,
         "status_on_off": true,
         "relation_steps": [
           1,
-          6,
-          12
+          5,
+          11
         ],
         "measure_points": [
           {
@@ -45,12 +45,12 @@
       },
       {
         "stage_index": 1,
-        "value": "Master Data API",
+        "value": "Touchpoint ",
         "touchpoint_index": 2,
         "status_on_off": true,
         "relation_steps": [
-          7,
-          2
+          3,
+          10
         ],
         "measure_points": [
           {
@@ -84,12 +84,14 @@
       },
       {
         "stage_index": 1,
-        "value": "Pricing API",
+        "value": "Touchpoint ",
         "touchpoint_index": 3,
         "status_on_off": true,
         "relation_steps": [
-          10,
-          14
+          2,
+          6,
+          7,
+          8
         ],
         "measure_points": [
           {
@@ -123,12 +125,12 @@
       },
       {
         "stage_index": 1,
-        "value": "Search API",
+        "value": "Touchpoint ",
         "touchpoint_index": 4,
         "status_on_off": true,
         "relation_steps": [
-          11,
-          5
+          4,
+          9
         ],
         "measure_points": [
           {
@@ -162,12 +164,11 @@
       },
       {
         "stage_index": 1,
-        "value": "Session Manager API",
+        "value": "Touchpoint ",
         "touchpoint_index": 5,
         "status_on_off": true,
         "relation_steps": [
-          10,
-          13
+          12
         ],
         "measure_points": [
           {
@@ -200,12 +201,13 @@
         ]
       },
       {
-        "stage_index": 1,
-        "value": "Subscriptions API",
-        "touchpoint_index": 6,
+        "stage_index": 2,
+        "value": "Touchpoint ",
+        "touchpoint_index": 1,
         "status_on_off": true,
         "relation_steps": [
-          4
+          1,
+          3
         ],
         "measure_points": [
           {
@@ -238,13 +240,12 @@
         ]
       },
       {
-        "stage_index": 1,
-        "value": "Suggestions API",
-        "touchpoint_index": 7,
+        "stage_index": 2,
+        "value": "Touchpoint ",
+        "touchpoint_index": 2,
         "status_on_off": true,
         "relation_steps": [
-          9,
-          3
+          6
         ],
         "measure_points": [
           {
@@ -278,13 +279,12 @@
       },
       {
         "stage_index": 2,
-        "value": "Catalog API",
-        "touchpoint_index": 1,
+        "value": "Touchpoint ",
+        "touchpoint_index": 3,
         "status_on_off": true,
         "relation_steps": [
-          1,
-          10,
-          5
+          2,
+          9
         ],
         "measure_points": [
           {
@@ -318,13 +318,13 @@
       },
       {
         "stage_index": 2,
-        "value": "Pricing API",
-        "touchpoint_index": 2,
+        "value": "Touchpoint ",
+        "touchpoint_index": 4,
         "status_on_off": true,
         "relation_steps": [
+          5,
           7,
-          8,
-          2
+          8
         ],
         "measure_points": [
           {
@@ -358,12 +358,11 @@
       },
       {
         "stage_index": 2,
-        "value": "Master Data API",
-        "touchpoint_index": 3,
+        "value": "Touchpoint ",
+        "touchpoint_index": 5,
         "status_on_off": true,
         "relation_steps": [
-          4,
-          9
+          4
         ],
         "measure_points": [
           {
@@ -397,12 +396,11 @@
       },
       {
         "stage_index": 2,
-        "value": "Subscriptions API",
-        "touchpoint_index": 4,
+        "value": "Touchpoint ",
+        "touchpoint_index": 6,
         "status_on_off": true,
         "relation_steps": [
-          6,
-          3
+          10
         ],
         "measure_points": [
           {
@@ -436,127 +434,12 @@
       },
       {
         "stage_index": 3,
-        "value": "Session Manager API",
+        "value": "Touchpoint ",
         "touchpoint_index": 1,
         "status_on_off": true,
         "relation_steps": [
-          9,
-          7
-        ],
-        "measure_points": [
-          {
-            "type": 0,
-            "query": "SELECT count(*) from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'",
-            "apdex": 0,
-            "apdex_time": 50
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
-          }
-        ]
-      },
-      {
-        "stage_index": 3,
-        "value": "Checkout API",
-        "touchpoint_index": 2,
-        "status_on_off": true,
-        "relation_steps": [
           1,
-          3
-        ],
-        "measure_points": [
-          {
-            "type": 0,
-            "query": "SELECT count(*) from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'",
-            "apdex": 0,
-            "apdex_time": 50
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
-          }
-        ]
-      },
-      {
-        "stage_index": 3,
-        "value": "Customer Credit API",
-        "touchpoint_index": 3,
-        "status_on_off": true,
-        "relation_steps": [
           4,
-          8
-        ],
-        "measure_points": [
-          {
-            "type": 0,
-            "query": "SELECT count(*) from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'",
-            "apdex": 0,
-            "apdex_time": 50
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
-          }
-        ]
-      },
-      {
-        "stage_index": 3,
-        "value": "Gift Card API",
-        "touchpoint_index": 4,
-        "status_on_off": true,
-        "relation_steps": [
           5
         ],
         "measure_points": [
@@ -591,88 +474,11 @@
       },
       {
         "stage_index": 3,
-        "value": "Gift Card Hub API",
-        "touchpoint_index": 5,
-        "status_on_off": true,
-        "relation_steps": [
-          2
-        ],
-        "measure_points": [
-          {
-            "type": 0,
-            "query": "SELECT count(*) from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'",
-            "apdex": 0,
-            "apdex_time": 50
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
-          }
-        ]
-      },
-      {
-        "stage_index": 3,
-        "value": "Catalog API",
-        "touchpoint_index": 6,
-        "status_on_off": true,
-        "relation_steps": [
-          6
-        ],
-        "measure_points": [
-          {
-            "type": 0,
-            "query": "SELECT count(*) from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'",
-            "apdex": 0,
-            "apdex_time": 50
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
-          }
-        ]
-      },
-      {
-        "stage_index": 4,
-        "value": "Orders API",
-        "touchpoint_index": 1,
+        "value": "Touchpoint ",
+        "touchpoint_index": 2,
         "status_on_off": true,
         "relation_steps": [
           3,
-          5,
           7
         ],
         "measure_points": [
@@ -706,88 +512,12 @@
         ]
       },
       {
-        "stage_index": 4,
-        "value": "Customer Credit API",
-        "touchpoint_index": 2,
-        "status_on_off": true,
-        "relation_steps": [
-          4
-        ],
-        "measure_points": [
-          {
-            "type": 0,
-            "query": "SELECT count(*) from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'",
-            "apdex": 0,
-            "apdex_time": 50
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
-          }
-        ]
-      },
-      {
-        "stage_index": 4,
-        "value": "Gift Card API",
+        "stage_index": 3,
+        "value": "Touchpoint ",
         "touchpoint_index": 3,
         "status_on_off": true,
         "relation_steps": [
-          9,
-          2
-        ],
-        "measure_points": [
-          {
-            "type": 0,
-            "query": "SELECT count(*) from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'",
-            "apdex": 0,
-            "apdex_time": 50
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
-          }
-        ]
-      },
-      {
-        "stage_index": 4,
-        "value": "Gift Card Hub API",
-        "touchpoint_index": 4,
-        "status_on_off": true,
-        "relation_steps": [
+          2,
           6,
           8
         ],
@@ -823,50 +553,14 @@
       },
       {
         "stage_index": 4,
-        "value": "Logistics API",
-        "touchpoint_index": 5,
-        "status_on_off": true,
-        "relation_steps": [
-          10,
-          1
-        ],
-        "measure_points": [
-          {
-            "type": 0,
-            "query": "SELECT count(*) from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'",
-            "apdex": 0,
-            "apdex_time": 50
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
-          }
-        ]
-      },
-      {
-        "stage_index": 5,
-        "value": "VTEX Do API",
+        "value": "Adyen Gateway API",
         "touchpoint_index": 1,
         "status_on_off": true,
         "relation_steps": [
-          1
+          1,
+          2,
+          3,
+          10
         ],
         "measure_points": [
           {
@@ -899,13 +593,14 @@
         ]
       },
       {
-        "stage_index": 5,
-        "value": "Subscriptions API",
+        "stage_index": 4,
+        "value": "Adyen Acquirer API",
         "touchpoint_index": 2,
         "status_on_off": true,
         "relation_steps": [
           5,
-          7
+          11,
+          12
         ],
         "measure_points": [
           {
@@ -938,13 +633,14 @@
         ]
       },
       {
-        "stage_index": 5,
-        "value": "Session Manager API",
+        "stage_index": 4,
+        "value": "Adyen Alternative Payments API",
         "touchpoint_index": 3,
         "status_on_off": true,
         "relation_steps": [
-          2,
-          8
+          4,
+          6,
+          13
         ],
         "measure_points": [
           {
@@ -977,88 +673,13 @@
         ]
       },
       {
-        "stage_index": 5,
-        "value": "Checkout API",
+        "stage_index": 4,
+        "value": "Fraud Check API",
         "touchpoint_index": 4,
         "status_on_off": true,
         "relation_steps": [
-          4
-        ],
-        "measure_points": [
-          {
-            "type": 0,
-            "query": "SELECT count(*) from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'",
-            "apdex": 0,
-            "apdex_time": 50
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
-          }
-        ]
-      },
-      {
-        "stage_index": 5,
-        "value": "Customer Credit API",
-        "touchpoint_index": 5,
-        "status_on_off": true,
-        "relation_steps": [
-          6
-        ],
-        "measure_points": [
-          {
-            "type": 0,
-            "query": "SELECT count(*) from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'",
-            "apdex": 0,
-            "apdex_time": 50
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
-          }
-        ]
-      },
-      {
-        "stage_index": 5,
-        "value": "Gift Card API",
-        "touchpoint_index": 6,
-        "status_on_off": true,
-        "relation_steps": [
-          3,
+          7,
+          8,
           9
         ],
         "measure_points": [
