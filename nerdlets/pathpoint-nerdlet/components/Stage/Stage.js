@@ -25,7 +25,7 @@ const Stage = ({
 }) => {
   const textLevelBar = index === 1 ? `APDEX` : ``;
   const showHealth = index === 1;
-  const showTrafficIcon = trafficIconType === 'traffic';
+  const showTrafficIcon = false; //trafficIconType === 'traffic';
   const colorCircle = calcCircleColor(status, colors);
   const indicators = calculate(capacityPercentage);
   return (
