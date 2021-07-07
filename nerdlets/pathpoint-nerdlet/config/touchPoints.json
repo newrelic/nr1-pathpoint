@@ -9,9 +9,7 @@
         "touchpoint_index": 1,
         "status_on_off": true,
         "relation_steps": [
-          1,
-          5,
-          11
+          2
         ],
         "measure_points": [
           {
@@ -50,7 +48,7 @@
         "status_on_off": true,
         "relation_steps": [
           3,
-          10
+          6
         ],
         "measure_points": [
           {
@@ -88,10 +86,8 @@
         "touchpoint_index": 3,
         "status_on_off": true,
         "relation_steps": [
-          2,
-          6,
-          7,
-          8
+          5,
+          7
         ],
         "measure_points": [
           {
@@ -129,8 +125,7 @@
         "touchpoint_index": 4,
         "status_on_off": true,
         "relation_steps": [
-          4,
-          9
+          4
         ],
         "measure_points": [
           {
@@ -168,7 +163,7 @@
         "touchpoint_index": 5,
         "status_on_off": true,
         "relation_steps": [
-          12
+          1
         ],
         "measure_points": [
           {
@@ -206,7 +201,7 @@
         "touchpoint_index": 1,
         "status_on_off": true,
         "relation_steps": [
-          1,
+          2,
           3
         ],
         "measure_points": [
@@ -245,7 +240,7 @@
         "touchpoint_index": 2,
         "status_on_off": true,
         "relation_steps": [
-          6
+          4
         ],
         "measure_points": [
           {
@@ -283,8 +278,7 @@
         "touchpoint_index": 3,
         "status_on_off": true,
         "relation_steps": [
-          2,
-          9
+          1
         ],
         "measure_points": [
           {
@@ -323,8 +317,7 @@
         "status_on_off": true,
         "relation_steps": [
           5,
-          7,
-          8
+          7
         ],
         "measure_points": [
           {
@@ -362,7 +355,7 @@
         "touchpoint_index": 5,
         "status_on_off": true,
         "relation_steps": [
-          4
+          6
         ],
         "measure_points": [
           {
@@ -400,7 +393,7 @@
         "touchpoint_index": 6,
         "status_on_off": true,
         "relation_steps": [
-          10
+          8
         ],
         "measure_points": [
           {
@@ -439,7 +432,6 @@
         "status_on_off": true,
         "relation_steps": [
           1,
-          4,
           5
         ],
         "measure_points": [
@@ -478,8 +470,8 @@
         "touchpoint_index": 2,
         "status_on_off": true,
         "relation_steps": [
-          3,
-          7
+          2,
+          4
         ],
         "measure_points": [
           {
@@ -517,9 +509,7 @@
         "touchpoint_index": 3,
         "status_on_off": true,
         "relation_steps": [
-          2,
-          6,
-          8
+          3
         ],
         "measure_points": [
           {
@@ -553,14 +543,12 @@
       },
       {
         "stage_index": 4,
-        "value": "Adyen Gateway API",
+        "value": "Payment API",
         "touchpoint_index": 1,
         "status_on_off": true,
         "relation_steps": [
-          1,
-          2,
           3,
-          10
+          7
         ],
         "measure_points": [
           {
@@ -594,13 +582,12 @@
       },
       {
         "stage_index": 4,
-        "value": "Adyen Acquirer API",
+        "value": "Freight quotation API",
         "touchpoint_index": 2,
         "status_on_off": true,
         "relation_steps": [
-          5,
-          11,
-          12
+          1,
+          5
         ],
         "measure_points": [
           {
@@ -634,13 +621,11 @@
       },
       {
         "stage_index": 4,
-        "value": "Adyen Alternative Payments API",
+        "value": "Product Hub API",
         "touchpoint_index": 3,
         "status_on_off": true,
         "relation_steps": [
-          4,
-          6,
-          13
+          4
         ],
         "measure_points": [
           {
@@ -674,13 +659,12 @@
       },
       {
         "stage_index": 4,
-        "value": "Fraud Check API",
+        "value": "Touchpoint ",
         "touchpoint_index": 4,
         "status_on_off": true,
         "relation_steps": [
-          7,
-          8,
-          9
+          2,
+          6
         ],
         "measure_points": [
           {

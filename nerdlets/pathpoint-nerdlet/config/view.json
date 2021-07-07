@@ -110,7 +110,7 @@
               "id": "ST1-LINE1-SS1",
               "canary_state": false,
               "latency": true,
-              "value": "Item Details",
+              "value": "Calcular frete e prazo",
               "dark": false,
               "history_error": false,
               "dotted": false,
@@ -118,7 +118,7 @@
               "error": false,
               "index_stage": 1,
               "relationship_touchpoints": [
-                1
+                5
               ]
             },
             {
@@ -126,15 +126,15 @@
               "id": "ST1-LINE1-SS2",
               "canary_state": false,
               "latency": false,
-              "value": "Sub-Total Calc ",
-              "dark": false,
+              "value": "+ Garantia Estendida",
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
               "error": false,
               "index_stage": 1,
               "relationship_touchpoints": [
-                3
+                1
               ]
             }
           ]
@@ -184,23 +184,7 @@
               "id": "ST1-LINE3-SS1",
               "canary_state": false,
               "latency": false,
-              "value": "(+) Garantia Estendida",
-              "dark": true,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 1,
-              "relationship_touchpoints": [
-                1
-              ]
-            },
-            {
-              "index": 6,
-              "id": "ST1-LINE3-SS2",
-              "canary_state": false,
-              "latency": false,
-              "value": "Calcular frete e prazo",
+              "value": "Cupom de Desconto",
               "dark": false,
               "history_error": false,
               "dotted": false,
@@ -217,64 +201,11 @@
           "value": "",
           "sub_steps": [
             {
-              "index": 7,
+              "index": 6,
               "id": "ST1-LINE4-SS1",
               "canary_state": false,
               "latency": false,
-              "value": "Cupom de Desconto",
-              "dark": true,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 1,
-              "relationship_touchpoints": [
-                3
-              ]
-            }
-          ]
-        },
-        {
-          "value": "",
-          "sub_steps": [
-            {
-              "index": 8,
-              "id": "ST1-LINE5-SS1",
-              "canary_state": false,
-              "latency": false,
-              "value": "Código do Carrinho",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 1,
-              "relationship_touchpoints": [
-                3
-              ]
-            },
-            {
-              "index": 9,
-              "id": "ST1-LINE5-SS2",
-              "canary_state": false,
-              "latency": false,
-              "value": "Código do Vendedor",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 1,
-              "relationship_touchpoints": [
-                4
-              ]
-            },
-            {
-              "index": 10,
-              "id": "ST1-LINE5-SS3",
-              "canary_state": false,
-              "latency": false,
-              "value": " Chat",
+              "value": "Total Calc.",
               "dark": false,
               "history_error": false,
               "dotted": false,
@@ -291,11 +222,11 @@
           "value": "",
           "sub_steps": [
             {
-              "index": 11,
-              "id": "ST1-LINE6-SS1",
+              "index": 7,
+              "id": "ST1-LINE5-SS1",
               "canary_state": false,
               "latency": false,
-              "value": "Total Calc",
+              "value": "Continuar",
               "dark": true,
               "history_error": false,
               "dotted": false,
@@ -303,23 +234,7 @@
               "error": false,
               "index_stage": 1,
               "relationship_touchpoints": [
-                1
-              ]
-            },
-            {
-              "index": 12,
-              "id": "ST1-LINE6-SS2",
-              "canary_state": false,
-              "latency": false,
-              "value": "Continuar",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 1,
-              "relationship_touchpoints": [
-                5
+                3
               ]
             }
           ]
@@ -342,9 +257,7 @@
             "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NDg"
           ],
           "relation_steps": [
-            1,
-            5,
-            11
+            2
           ]
         },
         {
@@ -364,7 +277,7 @@
           ],
           "relation_steps": [
             3,
-            10
+            6
           ]
         },
         {
@@ -383,10 +296,8 @@
             "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTA"
           ],
           "relation_steps": [
-            2,
-            6,
-            7,
-            8
+            5,
+            7
           ]
         },
         {
@@ -405,8 +316,7 @@
             "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTE"
           ],
           "relation_steps": [
-            4,
-            9
+            4
           ]
         },
         {
@@ -425,14 +335,14 @@
             "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTI"
           ],
           "relation_steps": [
-            12
+            1
           ]
         }
       ]
     },
     {
       "index": 2,
-      "title": "CONTA MADEIRA",
+      "title": "LOGIN",
       "latencyStatus": false,
       "status_color": "good",
       "gout_enable": false,
@@ -460,23 +370,7 @@
               "id": "ST2-LINE1-SS1",
               "canary_state": false,
               "latency": true,
-              "value": "Member",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 2,
-              "relationship_touchpoints": [
-                1
-              ]
-            },
-            {
-              "index": 2,
-              "id": "ST2-LINE1-SS2",
-              "canary_state": false,
-              "latency": false,
-              "value": "Guest",
+              "value": "E-mail",
               "dark": false,
               "history_error": false,
               "dotted": false,
@@ -485,6 +379,22 @@
               "index_stage": 2,
               "relationship_touchpoints": [
                 3
+              ]
+            },
+            {
+              "index": 2,
+              "id": "ST2-LINE1-SS2",
+              "canary_state": false,
+              "latency": false,
+              "value": "Facebook",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 2,
+              "relationship_touchpoints": [
+                1
               ]
             }
           ]
@@ -497,7 +407,7 @@
               "id": "ST2-LINE2-SS1",
               "canary_state": false,
               "latency": false,
-              "value": "E-mail",
+              "value": "Esqueci e-mail  ",
               "dark": false,
               "history_error": false,
               "dotted": false,
@@ -507,38 +417,6 @@
               "relationship_touchpoints": [
                 1
               ]
-            },
-            {
-              "index": 4,
-              "id": "ST2-LINE2-SS2",
-              "canary_state": false,
-              "latency": false,
-              "value": "Esqueci e-mail",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 2,
-              "relationship_touchpoints": [
-                5
-              ]
-            },
-            {
-              "index": 5,
-              "id": "ST2-LINE2-SS3",
-              "canary_state": false,
-              "latency": false,
-              "value": "Facebook",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 2,
-              "relationship_touchpoints": [
-                4
-              ]
             }
           ]
         },
@@ -546,10 +424,10 @@
           "value": "",
           "sub_steps": [
             {
-              "index": 6,
+              "index": 4,
               "id": "ST2-LINE3-SS1",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Continuar",
               "dark": false,
               "history_error": false,
@@ -562,7 +440,7 @@
               ]
             },
             {
-              "index": 7,
+              "index": 5,
               "id": "ST2-LINE3-SS2",
               "canary_state": false,
               "latency": false,
@@ -583,7 +461,7 @@
           "value": "",
           "sub_steps": [
             {
-              "index": 8,
+              "index": 6,
               "id": "ST2-LINE4-SS1",
               "canary_state": false,
               "latency": false,
@@ -595,23 +473,7 @@
               "error": false,
               "index_stage": 2,
               "relationship_touchpoints": [
-                4
-              ]
-            },
-            {
-              "index": 9,
-              "id": "ST2-LINE4-SS2",
-              "canary_state": false,
-              "latency": false,
-              "value": "Cadastro Form",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 2,
-              "relationship_touchpoints": [
-                3
+                5
               ]
             }
           ]
@@ -620,11 +482,32 @@
           "value": "",
           "sub_steps": [
             {
-              "index": 10,
+              "index": 7,
               "id": "ST2-LINE5-SS1",
               "canary_state": false,
               "latency": false,
               "value": "Login Complete",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 2,
+              "relationship_touchpoints": [
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 8,
+              "id": "ST2-LINE6-SS1",
+              "canary_state": false,
+              "latency": false,
+              "value": "Cadastro Form",
               "dark": false,
               "history_error": false,
               "dotted": false,
@@ -655,7 +538,7 @@
             "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTM"
           ],
           "relation_steps": [
-            1,
+            2,
             3
           ]
         },
@@ -675,7 +558,7 @@
             "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTQ"
           ],
           "relation_steps": [
-            6
+            4
           ]
         },
         {
@@ -694,8 +577,7 @@
             "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTU"
           ],
           "relation_steps": [
-            2,
-            9
+            1
           ]
         },
         {
@@ -715,8 +597,7 @@
           ],
           "relation_steps": [
             5,
-            7,
-            8
+            7
           ]
         },
         {
@@ -735,7 +616,7 @@
             "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTc"
           ],
           "relation_steps": [
-            4
+            6
           ]
         },
         {
@@ -754,7 +635,7 @@
             "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjE"
           ],
           "relation_steps": [
-            10
+            8
           ]
         }
       ]
@@ -789,7 +670,7 @@
               "id": "ST3-LINE1-SS1",
               "canary_state": false,
               "latency": true,
-              "value": "Endereço de Entrega",
+              "value": "Calcular frete e prazo",
               "dark": false,
               "history_error": false,
               "dotted": false,
@@ -813,7 +694,7 @@
               "error": false,
               "index_stage": 3,
               "relationship_touchpoints": [
-                3
+                2
               ]
             }
           ]
@@ -834,7 +715,7 @@
               "error": false,
               "index_stage": 3,
               "relationship_touchpoints": [
-                2
+                3
               ]
             }
           ]
@@ -855,7 +736,7 @@
               "error": false,
               "index_stage": 3,
               "relationship_touchpoints": [
-                1
+                2
               ]
             }
           ]
@@ -868,59 +749,6 @@
               "id": "ST3-LINE4-SS1",
               "canary_state": false,
               "latency": false,
-              "value": "Código do Carrinho",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 3,
-              "relationship_touchpoints": [
-                1
-              ]
-            },
-            {
-              "index": 6,
-              "id": "ST3-LINE4-SS2",
-              "canary_state": false,
-              "latency": false,
-              "value": "Código do Vendedor",
-              "dark": true,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 3,
-              "relationship_touchpoints": [
-                3
-              ]
-            },
-            {
-              "index": 7,
-              "id": "ST3-LINE4-SS3",
-              "canary_state": false,
-              "latency": false,
-              "value": "Chat",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 3,
-              "relationship_touchpoints": [
-                2
-              ]
-            }
-          ]
-        },
-        {
-          "value": "",
-          "sub_steps": [
-            {
-              "index": 8,
-              "id": "ST3-LINE5-SS1",
-              "canary_state": false,
-              "latency": false,
               "value": "Continuar ",
               "dark": false,
               "history_error": false,
@@ -929,7 +757,7 @@
               "error": false,
               "index_stage": 3,
               "relationship_touchpoints": [
-                3
+                1
               ]
             }
           ]
@@ -953,7 +781,6 @@
           ],
           "relation_steps": [
             1,
-            4,
             5
           ]
         },
@@ -973,8 +800,8 @@
             "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjE"
           ],
           "relation_steps": [
-            3,
-            7
+            2,
+            4
           ]
         },
         {
@@ -993,9 +820,7 @@
             "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjE"
           ],
           "relation_steps": [
-            2,
-            6,
-            8
+            3
           ]
         }
       ]
@@ -1030,7 +855,28 @@
               "id": "ST4-LINE1-SS1",
               "canary_state": false,
               "latency": true,
-              "value": "Standard Payment Options",
+              "value": "Payment Option",
+              "dark": true,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 4,
+              "relationship_touchpoints": [
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 2,
+              "id": "ST4-LINE2-SS1",
+              "canary_state": false,
+              "latency": false,
+              "value": "Payment return (If we got some issue in payment process after “Finalizar”)",
               "dark": false,
               "history_error": false,
               "dotted": false,
@@ -1038,16 +884,21 @@
               "error": false,
               "index_stage": 4,
               "relationship_touchpoints": [
-                1
+                4
               ]
-            },
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
             {
-              "index": 2,
-              "id": "ST4-LINE1-SS2",
+              "index": 3,
+              "id": "ST4-LINE3-SS1",
               "canary_state": false,
               "latency": false,
-              "value": "Alternative Payments",
-              "dark": false,
+              "value": "Endereço de Entrega",
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1063,28 +914,12 @@
           "value": "",
           "sub_steps": [
             {
-              "index": 3,
-              "id": "ST4-LINE2-SS1",
-              "canary_state": false,
-              "latency": false,
-              "value": "Endereço de Entrega",
-              "dark": true,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 4,
-              "relationship_touchpoints": [
-                1
-              ]
-            },
-            {
               "index": 4,
-              "id": "ST4-LINE2-SS2",
+              "id": "ST4-LINE4-SS1",
               "canary_state": false,
               "latency": false,
-              "value": "Alterar Endereço",
-              "dark": false,
+              "value": "Alterar Produtos",
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1101,44 +936,7 @@
           "sub_steps": [
             {
               "index": 5,
-              "id": "ST4-LINE3-SS1",
-              "canary_state": false,
-              "latency": false,
-              "value": "Produtos",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 4,
-              "relationship_touchpoints": [
-                2
-              ]
-            },
-            {
-              "index": 6,
-              "id": "ST4-LINE3-SS2",
-              "canary_state": false,
-              "latency": false,
-              "value": " Alterar Produtos",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 4,
-              "relationship_touchpoints": [
-                3
-              ]
-            }
-          ]
-        },
-        {
-          "value": "",
-          "sub_steps": [
-            {
-              "index": 7,
-              "id": "ST4-LINE4-SS1",
+              "id": "ST4-LINE5-SS1",
               "canary_state": false,
               "latency": false,
               "value": "Cupom de Desconto",
@@ -1149,7 +947,7 @@
               "error": false,
               "index_stage": 4,
               "relationship_touchpoints": [
-                4
+                2
               ]
             }
           ]
@@ -1158,27 +956,11 @@
           "value": "",
           "sub_steps": [
             {
-              "index": 8,
-              "id": "ST4-LINE5-SS1",
+              "index": 6,
+              "id": "ST4-LINE6-SS1",
               "canary_state": false,
               "latency": false,
-              "value": "Código do Carrinho",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 4,
-              "relationship_touchpoints": [
-                4
-              ]
-            },
-            {
-              "index": 9,
-              "id": "ST4-LINE5-SS2",
-              "canary_state": false,
-              "latency": false,
-              "value": "Código do Vendedor",
+              "value": "Total Calc",
               "dark": true,
               "history_error": false,
               "dotted": false,
@@ -1188,14 +970,19 @@
               "relationship_touchpoints": [
                 4
               ]
-            },
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
             {
-              "index": 10,
-              "id": "ST4-LINE5-SS3",
+              "index": 7,
+              "id": "ST4-LINE7-SS1",
               "canary_state": false,
               "latency": false,
-              "value": "Chat",
-              "dark": false,
+              "value": "Finalizar",
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1203,64 +990,6 @@
               "index_stage": 4,
               "relationship_touchpoints": [
                 1
-              ]
-            }
-          ]
-        },
-        {
-          "value": "",
-          "sub_steps": [
-            {
-              "index": 11,
-              "id": "ST4-LINE6-SS1",
-              "canary_state": false,
-              "latency": false,
-              "value": "Total Calc",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 4,
-              "relationship_touchpoints": [
-                2
-              ]
-            },
-            {
-              "index": 12,
-              "id": "ST4-LINE6-SS2",
-              "canary_state": false,
-              "latency": false,
-              "value": "Finalizar",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 4,
-              "relationship_touchpoints": [
-                2
-              ]
-            }
-          ]
-        },
-        {
-          "value": "",
-          "sub_steps": [
-            {
-              "index": 13,
-              "id": "ST4-LINE7-SS1",
-              "canary_state": false,
-              "latency": false,
-              "value": "Payment Page",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 4,
-              "relationship_touchpoints": [
-                3
               ]
             }
           ]
@@ -1272,7 +1001,27 @@
           "stage_index": 4,
           "status_on_off": true,
           "active": false,
-          "value": "Adyen Gateway API",
+          "value": "Payment API",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjE"
+          ],
+          "relation_steps": [
+            3,
+            7
+          ]
+        },
+        {
+          "index": 2,
+          "stage_index": 4,
+          "status_on_off": true,
+          "active": false,
+          "value": "Freight quotation API",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1284,30 +1033,7 @@
           ],
           "relation_steps": [
             1,
-            2,
-            3,
-            10
-          ]
-        },
-        {
-          "index": 2,
-          "stage_index": 4,
-          "status_on_off": true,
-          "active": false,
-          "value": "Adyen Acquirer API",
-          "highlighted": false,
-          "error": false,
-          "history_error": false,
-          "countrys": [
-            0
-          ],
-          "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjE"
-          ],
-          "relation_steps": [
-            5,
-            11,
-            12
+            5
           ]
         },
         {
@@ -1315,7 +1041,7 @@
           "stage_index": 4,
           "status_on_off": true,
           "active": false,
-          "value": "Adyen Alternative Payments API",
+          "value": "Product Hub API",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1326,9 +1052,7 @@
             "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjE"
           ],
           "relation_steps": [
-            4,
-            6,
-            13
+            4
           ]
         },
         {
@@ -1336,7 +1060,7 @@
           "stage_index": 4,
           "status_on_off": true,
           "active": false,
-          "value": "Fraud Check API",
+          "value": "Touchpoint ",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1347,9 +1071,8 @@
             "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjE"
           ],
           "relation_steps": [
-            7,
-            8,
-            9
+            2,
+            6
           ]
         }
       ]
