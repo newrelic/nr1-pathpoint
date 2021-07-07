@@ -1,23 +1,22 @@
-CARRINHO,Item Details|Sub-Total Calc 
+CARRINHO,Calcular frete e prazo|+ Garantia Estendida
 CARRINHO,(+/-) Unidades|Excluir 
-CARRINHO,(+) Garantia Estendida|Calcular frete e prazo
 CARRINHO,Cupom de Desconto
-CARRINHO,Código do Carrinho|Código do Vendedor| Chat
-CARRINHO,Total Calc|Continuar
-CONTA MADEIRA,Member|Guest
-CONTA MADEIRA,E-mail|Esqueci e-mail|Facebook
-CONTA MADEIRA,Continuar|Facebook Signed-In
-CONTA MADEIRA,Member Signed-In|Cadastro Form
-CONTA MADEIRA,Login Complete
-ENTREGA,Endereço de Entrega|Alterar Endereço
+CARRINHO,Total Calc.
+CARRINHO,Continuar
+LOGIN,E-mail|Facebook
+LOGIN,Esqueci e-mail  
+LOGIN,Continuar|Facebook Signed-In
+LOGIN,Member Signed-In
+LOGIN,Login Complete
+LOGIN,Cadastro Form
+ENTREGA,Calcular frete e prazo|Alterar Endereço
 ENTREGA,Excluir 
 ENTREGA,Cupom de Desconto
-ENTREGA,Código do Carrinho|Código do Vendedor|Chat
 ENTREGA,Continuar 
-PAGAMENTO,Standard Payment Options|Alternative Payments
-PAGAMENTO,Endereço de Entrega|Alterar Endereço
-PAGAMENTO,Produtos| Alterar Produtos
+PAGAMENTO,Payment Option
+PAGAMENTO,Payment return (If we got some issue in payment process after “Finalizar”)
+PAGAMENTO,Endereço de Entrega
+PAGAMENTO,Alterar Produtos
 PAGAMENTO,Cupom de Desconto
-PAGAMENTO,Código do Carrinho|Código do Vendedor|Chat
-PAGAMENTO,Total Calc|Finalizar
-PAGAMENTO,Payment Page
+PAGAMENTO,Total Calc
+PAGAMENTO,Finalizar

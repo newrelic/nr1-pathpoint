@@ -13,6 +13,8 @@ import canaryIcon from '../../images/CanaryIcon.svg';
 import canaryIconOn from '../../images/CanaryIconOn.svg';
 import sixthSenseIcon from '../../images/SixthSense.svg';
 import sixthSenseIconOn from '../../images/SixthSenseOn.svg';
+import goutIcon from '../../images/GoutIcon.svg';
+import goutIconOn from '../../images/goutBlack.svg';
 
 const Header = ({
   iconSixthSenseStatus,
@@ -25,6 +27,7 @@ const Header = ({
   showLeftPanel,
   openLeftMenu,
   handleContextMenuFire,
+  handleContextMenuGout,
   banner_kpis,
   ToggleHeaderButtons,
   logoSetup,
@@ -35,21 +38,18 @@ const Header = ({
   const bannerRightMessage = banner_kpis[2].description;
   const bannerLeftValue =
     banner_kpis[0].prefix === '$'
-      ? `${FormatMoney(banner_kpis[0].value, DisplayConsole)} ${
-          banner_kpis[0].suffix
-        }`
+      ? `${FormatMoney(banner_kpis[0].value, DisplayConsole)} ${banner_kpis[0].suffix
+      }`
       : `${banner_kpis[0].prefix} ${banner_kpis[0].value} ${banner_kpis[0].suffix}`;
   const bannerCenterValue =
     banner_kpis[1].prefix === '$'
-      ? `${FormatMoney(banner_kpis[1].value, DisplayConsole)} ${
-          banner_kpis[1].suffix
-        }`
+      ? `${FormatMoney(banner_kpis[1].value, DisplayConsole)} ${banner_kpis[1].suffix
+      }`
       : `${banner_kpis[1].prefix} ${banner_kpis[1].value} ${banner_kpis[1].suffix}`;
   const bannerRightValue =
     banner_kpis[2].prefix === '$'
-      ? `${FormatMoney(banner_kpis[2].value, DisplayConsole)} ${
-          banner_kpis[2].suffix
-        }`
+      ? `${FormatMoney(banner_kpis[2].value, DisplayConsole)} ${banner_kpis[2].suffix
+      }`
       : `${banner_kpis[2].prefix} ${banner_kpis[2].value} ${banner_kpis[2].suffix}`;
   return (
     <div className="containerHeader">
@@ -131,22 +131,25 @@ const Header = ({
             src={iconFireStatus ? fireIconOn : fireIcon}
           />
         </div>
+        <div
+          className="fireIconContainer"
+          onClick={() => {
+            ToggleHeaderButtons('iconGoutStatus');
+          }}
+          onMouseDown={handleContextMenuGout}
+        >
+          <img
+            style={{ height: '18px' }}
+            src={iconGoutStatus ? goutIconOn : goutIcon}
+          />
+        </div>
+        
+
         <Select
           name="header"
           handleOnChange={changeTimeRange}
           options={options}
         />
-        {/* <Select
-          onChange={changeTimeRange}
-          placeholder="now"
-          isSearchable={false}
-          classNamePrefix="react-select"
-          options={options}
-          theme={theme => ({
-            ...theme,
-            borderRadius: 0
-          })}
-        /> */}
       </div>
     </div>
   );
@@ -178,16 +181,14 @@ const FormatMoney = (
       (amount = Math.abs(Number(amount) || 0).toFixed(decimalCount))
     ).toString();
     const j = i.length > 3 ? i.length % 3 : 0;
-    return `${amount < 0 ? '-' : ''}$${
-      j ? i.substr(0, j) + thousands : ''
-    }${i.substr(j).replace(/(\d{3})(?=\d)/g, `$1${thousands}`)}${
-      decimalCount
+    return `${amount < 0 ? '-' : ''}$${j ? i.substr(0, j) + thousands : ''
+      }${i.substr(j).replace(/(\d{3})(?=\d)/g, `$1${thousands}`)}${decimalCount
         ? decimal +
-          Math.abs(amount - i)
-            .toFixed(decimalCount)
-            .slice(2)
+        Math.abs(amount - i)
+          .toFixed(decimalCount)
+          .slice(2)
         : ''
-    }`;
+      }`;
   } catch (e) {
     DisplayConsole('error', `Error in format money ${e}`);
   }
@@ -230,6 +231,7 @@ Header.propTypes = {
   showLeftPanel: PropTypes.bool.isRequired,
   openLeftMenu: PropTypes.func.isRequired,
   handleContextMenuFire: PropTypes.func.isRequired,
+  handleContextMenuGout: PropTypes.func.isRequired,
   banner_kpis: PropTypes.array.isRequired,
   ToggleHeaderButtons: PropTypes.func.isRequired,
   logoSetup: PropTypes.object.isRequired,
