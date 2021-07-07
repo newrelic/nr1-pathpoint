@@ -1593,7 +1593,7 @@ export default class MainContainer extends React.Component {
                       )}
                     >
                       {element.money_enabled |
-                      element.gout_enable |
+                      iconGoutStatus |
                       iconFireStatus ? (
                         <div
                           style={{
@@ -1604,7 +1604,7 @@ export default class MainContainer extends React.Component {
                         >
                           {this.renderContentAboveStep(
                             element.money_enabled,
-                            element.gout_enable,
+                            iconGoutStatus,
                             iconFireStatus,
                             element
                           )}

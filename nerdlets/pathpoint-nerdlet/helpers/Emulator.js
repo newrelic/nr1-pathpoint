@@ -121,7 +121,7 @@ export default class Emulator {
         ? true
         : this._randomIntFromInterval(1, 25, 50) < 80;
       if (update) {
-        stage.level = this._randomIntFromInterval(1, 15, stage.level);
+        stage.gout_quantity = this._randomIntFromInterval(1, 15, stage.gout_quantity);
       }
     }
   };
