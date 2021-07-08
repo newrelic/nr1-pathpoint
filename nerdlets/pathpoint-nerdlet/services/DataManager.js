@@ -21,7 +21,7 @@ import {
 export default class DataManager {
   constructor() {
     this.minPercentageError = 100;
-    this.historicErrorsDays = 8;
+    this.historicErrorsHours = 192;
     this.historicErrorsHighLightPercentage = 26;
     this.version = null;
     this.accountId = null;
@@ -1357,7 +1357,7 @@ export default class DataManager {
   }
 
   async ReadHistoricErrors() {
-    const query = `SELECT count(*) FROM PathpointHistoricErrors WHERE pathpoint_id=${this.pathpointId} percentage>${this.minPercentageError} FACET stage_index,touchpoint_index,percentage LIMIT MAX SINCE ${this.historicErrorsDays} days ago`;
+    const query = `SELECT count(*) FROM PathpointHistoricErrors WHERE pathpoint_id=${this.pathpointId} percentage>${this.minPercentageError} FACET stage_index,touchpoint_index,percentage LIMIT MAX SINCE ${this.historicErrorsHours} hours ago`;
     const gql = `{
         actor { account(id: ${this.accountId}) {
             nrql(query: "${query}", timeout: 10) {
@@ -1836,14 +1836,14 @@ for (const [key, value] of Object.entries(return` +
   }
 
   GetHistoricParameters() {
-    const values = { days: 0, percentage: 0 };
-    values.days = this.historicErrorsDays;
+    const values = { hours: 0, percentage: 0 };
+    values.hours = this.historicErrorsHours;
     values.percentage = this.historicErrorsHighLightPercentage;
     return values;
   }
 
-  UpdateHistoricParameters(days, percentage) {
-    this.historicErrorsDays = days;
+  UpdateHistoricParameters(hours, percentage) {
+    this.historicErrorsHours = hours;
     this.historicErrorsHighLightPercentage = percentage;
     this.SetStorageHistoricErrorsParams();
   }
@@ -1856,7 +1856,7 @@ for (const [key, value] of Object.entries(return` +
         collection: 'pathpoint',
         documentId: 'HistoricErrorsParams',
         document: {
-          historicErrorsDays: this.historicErrorsDays,
+          historicErrorsHours: this.historicErrorsHours,
           historicErrorsHighLightPercentage: this
             .historicErrorsHighLightPercentage
         }
@@ -1874,7 +1874,7 @@ for (const [key, value] of Object.entries(return` +
         documentId: 'HistoricErrorsParams'
       });
       if (data) {
-        this.historicErrorsDays = data.historicErrorsDays;
+        this.historicErrorsHours = data.historicErrorsHours;
         this.historicErrorsHighLightPercentage =
           data.historicErrorsHighLightPercentage;
       }
