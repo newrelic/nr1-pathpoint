@@ -122,6 +122,7 @@ export default class Emulator {
         : this._randomIntFromInterval(1, 25, 50) < 80;
       if (update) {
         stage.gout_quantity = this._randomIntFromInterval(1, 15, stage.gout_quantity);
+        stage.gout_money = stage.gout_quantity*125;
       }
     }
   };
