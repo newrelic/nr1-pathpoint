@@ -774,7 +774,7 @@ export default class MainContainer extends React.Component {
             <span className="goutTxt">{element.gout_quantity}</span>
           </div>
           <div className="cashStage" >
-            ${element.gout_money}
+            {this.FormatMoney(element.gout_money, this.DisplayConsole) }
           </div>
         </div>
       );
@@ -1043,10 +1043,12 @@ export default class MainContainer extends React.Component {
 
   _handleContextMenuGout = event => {
     if (event.button === 2) {
+      const values = this.DataManager.GetGoutParameters();
       this.setState({
         backdrop: true,
         showRightPanel: true,
-        MenuRightDefault: 1
+        MenuRightDefault: 1,
+        dropForm: values
       });
     }
   };
@@ -1074,7 +1076,7 @@ export default class MainContainer extends React.Component {
   };
 
   _onCloseMenuRight = () => {
-    const { MenuRightDefault, flameForm } = this.state;
+    const { MenuRightDefault, flameForm, dropForm } = this.state;
     this.setState({
       backdrop: false,
       showRightPanel: false,
@@ -1091,7 +1093,9 @@ export default class MainContainer extends React.Component {
       // TO-DO
     }
     if (MenuRightDefault === 1) {
-      // TO-DO
+      this.DataManager.UpdateGoutParameters(
+        dropForm
+      );
     }
   };
 
@@ -1132,6 +1136,33 @@ export default class MainContainer extends React.Component {
   GetCurrentHistoricErrorScript = () => {
     const data = this.DataManager.GetCurrentHistoricErrorScript();
     return data;
+  };
+
+  FormatMoney = (
+    amount,
+    DisplayConsole,
+    decimalCount = 2,
+    decimal = '.',
+    thousands = ','
+  ) => {
+    try {
+      decimalCount = Math.abs(decimalCount);
+      decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
+      const i = parseInt(
+        (amount = Math.abs(Number(amount) || 0).toFixed(decimalCount))
+      ).toString();
+      const j = i.length > 3 ? i.length % 3 : 0;
+      return `${amount < 0 ? '-' : ''}$${j ? i.substr(0, j) + thousands : ''
+        }${i.substr(j).replace(/(\d{3})(?=\d)/g, `$1${thousands}`)}${decimalCount
+          ? decimal +
+          Math.abs(amount - i)
+            .toFixed(decimalCount)
+            .slice(2)
+          : ''
+        }`;
+    } catch (e) {
+      DisplayConsole('error', `Error in format money ${e}`);
+    }
   };
 
   DisplayConsole = (type, message) => {

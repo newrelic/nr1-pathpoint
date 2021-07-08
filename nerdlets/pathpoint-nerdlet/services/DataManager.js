@@ -23,6 +23,7 @@ export default class DataManager {
     this.minPercentageError = 100;
     this.historicErrorsHours = 192;
     this.historicErrorsHighLightPercentage = 26;
+    this.dropParams = null;
     this.version = null;
     this.accountId = null;
     this.graphQlmeasures = [];
@@ -58,6 +59,7 @@ export default class DataManager {
     await this.CheckVersion();
     await this.GetCanaryData();
     await this.GetStorageHistoricErrorsParams();
+    await this.GetStorageDropParams();
     this.version = appPackage.version;
     /* istanbul ignore next */
     if (this.lastStorageVersion === appPackage.version) {
@@ -1833,6 +1835,52 @@ for (const [key, value] of Object.entries(return` +
       }
       return found;
     });
+  }
+
+  UpdateGoutParameters(dropForm) {
+    this.dropParams = dropForm;
+    this.setStorageDropParams();
+  }
+
+  GetGoutParameters(){
+    return this.dropParams;
+  }
+
+  setStorageDropParams() {
+    try {
+      AccountStorageMutation.mutate({
+        accountId: this.accountId,
+        actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
+        collection: 'pathpoint',
+        documentId: 'DropParams',
+        document: {
+          dropParams: this.dropParams
+        }
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async GetStorageDropParams() {
+    try {
+      const { data } = await AccountStorageQuery.query({
+        accountId: this.accountId,
+        collection: 'pathpoint',
+        documentId: 'DropParams'
+      });
+      if (data) {
+        this.dropParams = data.dropParams;
+      }else {
+        this.dropParams = {
+          dropmoney: 100,
+          hours:48,
+          percentage: 30
+        }
+      }
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
   GetHistoricParameters() {
