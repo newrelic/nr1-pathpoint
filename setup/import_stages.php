@@ -40,6 +40,7 @@ function addStage($stage)
         "status_color" => $ligth,
         "gout_enable" => false,
         "gout_quantity" => 150,
+        "gout_money" => 250,
         "money_enabled" => false,
         "trafficIconType" => "traffic", 
         "money" => "",
