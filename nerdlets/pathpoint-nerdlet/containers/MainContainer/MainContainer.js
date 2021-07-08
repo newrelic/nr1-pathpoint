@@ -100,7 +100,7 @@ export default class MainContainer extends React.Component {
       showRightPanel: false,
       MenuRightDefault: 0,
       flameForm: {
-        days: 0,
+        hours: 0,
         percentage: 0
       },
       errorsList: [],
@@ -111,8 +111,9 @@ export default class MainContainer extends React.Component {
         starTransactions: 400
       },
       dropForm: {
-        money: 0,
-        fileContent: 'demo file json ....'
+        dropmoney: 0,
+        hours:0,
+        percentage: 0
       },
       logoSetupData: null,
       configuration: null,
@@ -272,19 +273,23 @@ export default class MainContainer extends React.Component {
   ToggleHeaderButtons = target => {
     let previousIconCanaryStatus = null;
     let previousIconFireStatus = null;
+    let previousIconGoutStatus = null;
     this.setState(
       state => {
         previousIconCanaryStatus = state.iconCanaryStatus;
         previousIconFireStatus = state.iconFireStatus;
+        previousIconGoutStatus = state.iconGoutStatus;
         return {
           iconCanaryStatus: false,
           iconFireStatus: false,
+          iconGoutStatus: false,
           [target]: !state[target]
         };
       },
       () => {
         this.ToggleCanaryIcon(previousIconCanaryStatus);
         this.ToggleFireIcon(previousIconFireStatus);
+        this.ToggleGoutIcon(previousIconGoutStatus);
       }
     );
   };
@@ -592,6 +597,22 @@ export default class MainContainer extends React.Component {
     }
   };
 
+  ToggleGoutIcon = async previousIconGoutStatus => {
+    const { iconGoutStatus } = this.state;
+    // if (iconGoutStatus && this.state.showFireWelcomeMat) {
+    //   this.setState({
+    //     viewModal: 7,
+    //     stageNameSelected: null
+    //   });
+    //   this._onClose();
+    // }
+    if (iconGoutStatus) {
+      // TODO
+    } else if (previousIconGoutStatus && !iconGoutStatus) {
+      // TODO
+    }
+  };
+
   removeDuplicates(originalArray) {
     const newArray = [];
     const lookupObject = {};
@@ -740,7 +761,7 @@ export default class MainContainer extends React.Component {
             )}
           </div>
           <div className="cashStage" style={{ color: '#C59400' }}>
-            {element.money}
+            ${element.money}
           </div>
         </div>
       );
@@ -752,8 +773,8 @@ export default class MainContainer extends React.Component {
             <img src={goutBlack} height="15px" width="11px" />
             <span className="goutTxt">{element.gout_quantity}</span>
           </div>
-          <div className="cashStage" style={{ color: '#333333' }}>
-            {element.money}
+          <div className="cashStage" >
+            ${element.gout_money}
           </div>
         </div>
       );
@@ -762,7 +783,7 @@ export default class MainContainer extends React.Component {
       return (
         <div className="moneyStageHistoryError">
           <div className="cashStage" style={{ color: 'red' }}>
-            {element.money}
+            ${element.money}
           </div>
         </div>
       );
@@ -1015,11 +1036,6 @@ export default class MainContainer extends React.Component {
     this.openModalParent('null', 5);
   };
 
-  _handleClickSupport = () => {
-    this._onCloseBackdrop();
-    this.openModalParent('null', 5);
-  };
-
   HandleChangeLogo = () => {
     this._onCloseBackdrop();
     this.openModalParent('null', 10);
@@ -1067,7 +1083,7 @@ export default class MainContainer extends React.Component {
     });
     if (MenuRightDefault === 3) {
       this.DataManager.UpdateHistoricParameters(
-        flameForm.days,
+        flameForm.hours,
         flameForm.percentage
       );
     }
@@ -1316,55 +1332,48 @@ export default class MainContainer extends React.Component {
                 </div>
                 <div className="content_rmenu">
                   <div className="col3_rmenu">
-                    <div className="subTitleBlack_container">XXX-XXX</div>
                     <div className="subTitleRight_container">
                       <input
                         id="dropmoney"
                         name="dropmoney"
                         type="text"
-                        value={dropForm.money}
+                        value={dropForm.dropmoney}
                         onChange={this._DropHandleChange}
-                        className="input_mr"
+                        className="input_mrw"
                       />
                       USD
                     </div>
                     <div className="subTitleRight_container">
-                      average order value{' '}
+                      average order value
                     </div>
-                  </div>
-                </div>
-
-                <div className="content_rmenu">
-                  <div className="col4_rmenu">
-                    <div className="subTitle_container">
-                      <img src={down} height="14" />
-                      <DownloadLink
-                        label="All Merchants"
-                        filename="All_Merchants.json"
-                        className="formDrop"
-                        style={{ cursor: 'pointer' }}
-                        exportFile={() => dropForm.fileContent}
+                    <div className="subTitle_container">In the last </div>
+                    <div className="subTitleRight_container add50height">
+                      <input
+                        id="hours"
+                        name="hours"
+                        type="text"
+                        value={dropForm.hours}
+                        onChange={this._DropHandleChange}
+                        className="input_mr"
                       />
+                      Hours
                     </div>
-                  </div>
-                  <div className="col5_rmenu" />
-                </div>
-                <div className="content_rmenu">
-                  <div className="col3_rmenu">
-                    <label
-                      htmlFor="file-upload2"
-                      className="button"
-                      color="primary"
-                    >
-                      Update
-                    </label>
-                    <input
-                      id="file-upload2"
-                      type="file"
-                      accept=".json"
-                      onChange={this.handleFiles}
-                      style={{ display: 'none' }}
-                    />
+
+                    <div className="subTitle_container">Highlight </div>
+                    <div className="subTitleRight_container">
+                      <input
+                        id="percentage"
+                        name="percentage"
+                        type="text"
+                        value={dropForm.percentage}
+                        onChange={this._DropHandleChange}
+                        className="input_mr"
+                      />{' '}
+                      %{' '}
+                    </div>
+                    <div className="subTitleRight_container">
+                    of the Steps with most Drops
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1487,14 +1496,14 @@ export default class MainContainer extends React.Component {
                     <div className="subTitle_container">In the last </div>
                     <div className="subTitleRight_container add50height">
                       <input
-                        id="days"
-                        name="days"
+                        id="hours"
+                        name="hours"
                         type="text"
-                        value={flameForm.days}
+                        value={flameForm.hours}
                         onChange={this._FlameHandleChange}
                         className="input_mr"
                       />
-                      Days
+                      Hours
                     </div>
 
                     <div className="subTitle_container">Highlight </div>
