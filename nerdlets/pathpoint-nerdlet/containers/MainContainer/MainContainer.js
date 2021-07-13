@@ -1152,7 +1152,7 @@ export default class MainContainer extends React.Component {
         (amount = Math.abs(Number(amount) || 0).toFixed(decimalCount))
       ).toString();
       const j = i.length > 3 ? i.length % 3 : 0;
-      return `${amount < 0 ? '-' : ''}$${j ? i.substr(0, j) + thousands : ''
+      return `${amount < 0 ? '-' : ''}R$${j ? i.substr(0, j) + thousands : ''
         }${i.substr(j).replace(/(\d{3})(?=\d)/g, `$1${thousands}`)}${decimalCount
           ? decimal +
           Math.abs(amount - i)
@@ -1372,7 +1372,7 @@ export default class MainContainer extends React.Component {
                         onChange={this._DropHandleChange}
                         className="input_mrw"
                       />
-                      USD
+                      R$
                     </div>
                     <div className="subTitleRight_container">
                       average order value
