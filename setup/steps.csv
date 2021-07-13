@@ -10,11 +10,11 @@ LOGIN,Member Signed-In
 LOGIN,Login Complete
 LOGIN,Cadastro Form
 ENTREGA,Calcular frete e prazo|Alterar Endereço
-ENTREGA,Excluir 
+ENTREGA,Retirar
 ENTREGA,Cupom de Desconto
 ENTREGA,Continuar 
 PAGAMENTO,Payment Option
-PAGAMENTO,Payment return (If we got some issue in payment process after “Finalizar”)
+PAGAMENTO,Payment Return
 PAGAMENTO,Endereço de Entrega
 PAGAMENTO,Alterar Produtos
 PAGAMENTO,Cupom de Desconto
