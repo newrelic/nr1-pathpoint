@@ -16,6 +16,10 @@ import sixthSenseIconOn from '../../images/SixthSenseOn.svg';
 import goutIcon from '../../images/GoutIcon.svg';
 import goutIconOn from '../../images/goutBlack.svg';
 
+// New KPI Tool Components
+import RangeDateSelector from '../RangeTime';
+import SelectorKpis from '../SelectorKpis';
+
 const Header = ({
   iconSixthSenseStatus,
   activeSixthSenseIcon,
@@ -28,29 +32,20 @@ const Header = ({
   openLeftMenu,
   handleContextMenuFire,
   handleContextMenuGout,
-  banner_kpis,
   ToggleHeaderButtons,
   logoSetup,
-  DisplayConsole
+  DisplayConsole,
+  // KPI PROPS
+  timeRangeKpi,
+  changeTimeRangeKpi,
+  kpis,
+  updateDataKpisChecked,
+  saveKpis,
 }) => {
-  const bannerLeftMessage = banner_kpis[0].description;
-  const bannerCenterMessage = banner_kpis[1].description;
-  const bannerRightMessage = banner_kpis[2].description;
-  const bannerLeftValue =
-    banner_kpis[0].prefix === '$'
-      ? `${FormatMoney(banner_kpis[0].value, DisplayConsole)} ${banner_kpis[0].suffix
-      }`
-      : `${banner_kpis[0].prefix} ${banner_kpis[0].value} ${banner_kpis[0].suffix}`;
-  const bannerCenterValue =
-    banner_kpis[1].prefix === '$'
-      ? `${FormatMoney(banner_kpis[1].value, DisplayConsole)} ${banner_kpis[1].suffix
-      }`
-      : `${banner_kpis[1].prefix} ${banner_kpis[1].value} ${banner_kpis[1].suffix}`;
-  const bannerRightValue =
-    banner_kpis[2].prefix === '$'
-      ? `${FormatMoney(banner_kpis[2].value, DisplayConsole)} ${banner_kpis[2].suffix
-      }`
-      : `${banner_kpis[2].prefix} ${banner_kpis[2].value} ${banner_kpis[2].suffix}`;
+
+  const merchant = 0;
+  const filterKpis = kpis.filter(kpi=>kpi.query!==''&&kpi.check);
+
   return (
     <div className="containerHeader">
       <div className="quantityDinner">
@@ -60,30 +55,64 @@ const Header = ({
         {RenderLogo(logoSetup)}
       </div>
       <div className="kpi">
-        <div className="kpicontent">
-          <div className="kpicontent--colorgrey kpicontent--size12">
-            {bannerLeftMessage}
+        <RangeDateSelector
+          timeRangeKpi={timeRangeKpi}
+          additionalAction={changeTimeRangeKpi}
+          options={[
+            {
+              label: 'DAY',
+              value: '24 HOURS AGO'
+            },
+            {
+              label: 'WEEK',
+              value: '7 DAYS AGO'
+            },
+            {
+              label: 'MONTH',
+              value: '30 DAYS AGO'
+            },
+            {
+              label: 'YDT',
+              value: '365 DAYS AGO'
+            }
+          ]}
+        />
+        {merchant === 0 ? <>{filterKpis.map((kpi, index) =>
+          <div key={index} style={{ cursor: kpi.link !== '' ? 'pointer' : 'default' }} onClick={() => { kpi.link !== '' && window.open(kpi.link) }} className="kpicontent">
+            <div className="kpicontent--colorgrey kpicontent--size10">
+              {kpi.shortName}
+            </div>
+            <div className="kpicontent--colorblack kpicontent--size12">
+              {kpi.value}
+            </div>
           </div>
-          <div className="kpicontent--colorblack  kpicontent--size16">
-            {bannerLeftValue}
+        )}</> : <>
+          <div className="kpicontent" style={{ cursor: kpisMerchant[1].link !== '' ? 'pointer' : 'default' }} onClick={() => { kpisMerchant[0].link !== '' && window.open(kpisMerchant[0].link) }}>
+            <div className="kpicontent--colorgrey kpicontent--size10">
+              {kpisMerchant[0].shortName}
+            </div>
+            <div className="kpicontent--colorblack kpicontent--size12">
+              {kpisMerchant[0].value}
+            </div>
           </div>
-        </div>
-        <div className="kpicontent">
-          <div className="kpicontent--colorgrey kpicontent--size12">
-            {bannerCenterMessage}
+          <div className="kpicontent" style={{ cursor: kpisMerchant[1].link !== '' ? 'pointer' : 'default' }} onClick={() => { kpisMerchant[1].link !== '' && window.open(kpisMerchant[1].link) }}>
+            <div className="kpicontent--colorgrey kpicontent--size10">
+              {kpisMerchant[1].shortName}
+            </div>
+            <div className="kpicontent--colorblack kpicontent--size12">
+              {fkpiUSD}
+            </div>
           </div>
-          <div className="kpicontent--colorblack  kpicontent--size16">
-            {bannerCenterValue}
+          <div className="kpicontent" style={{ cursor: kpisMerchant[1].link !== '' ? 'pointer' : 'default' }} onClick={() => { kpisMerchant[2].link !== '' && window.open(kpisMerchant[2].link) }}>
+            <div className="kpicontent--colorgrey kpicontent--size10">
+              {kpisMerchant[2].shortName}
+            </div>
+            <div className="kpicontent--colorblack kpicontent--size12">
+              {kpiAVG}
+            </div>
           </div>
-        </div>
-        <div className="kpicontent">
-          <div className="kpicontent--colorgrey kpicontent--size12">
-            {bannerRightMessage}
-          </div>
-          <div className="kpicontent--colorblack  kpicontent--size16">
-            {bannerRightValue}
-          </div>
-        </div>
+        </>}
+        {merchant === 0 && <SelectorKpis listKpis={kpis} updateDataKpisChecked={updateDataKpisChecked} saveKpis={saveKpis} />}
       </div>
       <span
         className="budgetLoss"
@@ -143,7 +172,7 @@ const Header = ({
             src={iconGoutStatus ? goutIconOn : goutIcon}
           />
         </div>
-        
+
 
         <Select
           name="header"
@@ -232,7 +261,6 @@ Header.propTypes = {
   openLeftMenu: PropTypes.func.isRequired,
   handleContextMenuFire: PropTypes.func.isRequired,
   handleContextMenuGout: PropTypes.func.isRequired,
-  banner_kpis: PropTypes.array.isRequired,
   ToggleHeaderButtons: PropTypes.func.isRequired,
   logoSetup: PropTypes.object.isRequired,
   DisplayConsole: PropTypes.func.isRequired

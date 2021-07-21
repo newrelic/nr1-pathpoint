@@ -1,7 +1,7 @@
 {
     "schemaType": "LAUNCHER",
     "id": "pathpoint-launcher",
-    "displayName": "Madeira Pathpoint",
+    "displayName": "StarkIndustries Pathpoint",
     "description": "Describe me",
     "rootNerdletId": "pathpoint-nerdlet"
 }

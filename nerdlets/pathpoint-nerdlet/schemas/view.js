@@ -4,32 +4,46 @@ import appPackage from '../../../package.json';
 // EXPORT SCHEMA
 export default {
   type: 'object',
-  required: ['stages', 'pathpointVersion', 'banner_kpis'],
+  required: ['stages', 'pathpointVersion', 'kpis'],
   properties: {
     pathpointVersion: {
       type: 'string'
     },
-    banner_kpis: {
+    kpis: {
       type: 'array',
-      minItems: 3,
-      maxItems: 3,
+      minItems: 2,
+      maxItems: 50,
       additionalItems: true,
       items: [
         {
           type: 'object',
-          required: ['description', 'prefix', 'suffix', 'query'],
+          required: ['index', 'type', 'name', 'shortName', 'link', 'query', 'value', 'check'],
           properties: {
-            description: {
+            index: {
+              type: 'number'
+            },
+            type: {
+              type: 'number',
+              minimum: 100,
+              maximum: 100
+            },
+            name: {
               type: 'string'
             },
-            prefix: {
+            shortName: {
               type: 'string'
             },
-            suffix: {
+            link: {
               type: 'string'
             },
             query: {
               type: 'string'
+            },
+            value: {
+              type: 'number'
+            },
+            check: {
+              type: 'boolean'
             }
           }
         }
