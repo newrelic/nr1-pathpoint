@@ -123,13 +123,17 @@ export default class MainContainer extends React.Component {
       logoSetup: {
         type: 'Default'
       },
-      banner_kpis: null,
-      modifiedQuery: false
+      modifiedQuery: false,
+      timeRangeKpi: {
+        index: 0,
+        range: '24 HOURS AGO'
+      },
+      kpis: null
     };
   }
 
   // =========================================================== EMULATOR
-
+/*
   componentDidMount() {
     this.BoootstrapApplication();
   }
@@ -145,10 +149,10 @@ export default class MainContainer extends React.Component {
     this.setState(
       {
         stages: data.stages,
-        banner_kpis: data.banner_kpis,
         colors: data.colors,
         version: data.version,
-        accountId: data.accountId
+        accountId: data.accountId,
+        kpis: data.kpis
       },
       async () => {
         this.emulator = new Emulator(this.state.stages);
@@ -173,9 +177,9 @@ export default class MainContainer extends React.Component {
       this.setState({ loading: false });
     }, 2000);
   }
-
+*/
   // =========================================================== UPDATE DATA API
-/*
+
   componentDidMount() {
     this.BoootstrapApplication();
   }
@@ -201,10 +205,10 @@ export default class MainContainer extends React.Component {
     this.setState(
       {
         stages: data.stages,
-        banner_kpis: data.banner_kpis,
         colors: data.colors,
         version: data.version,
-        accountId: data.accountId
+        accountId: data.accountId,
+        kpis: data.kpis
       },
       async () => {
         this.validationQuery = new ValidationQuery(this.state.accountId);
@@ -230,19 +234,21 @@ export default class MainContainer extends React.Component {
           city,
           getOldSessions,
           stages,
-          banner_kpis
+          kpis,
+          timeRangeKpi
         } = this.state;
         const data = await this.DataManager.UpdateData(
           timeRange,
           city,
           getOldSessions,
           stages,
-          banner_kpis
+          kpis,
+          timeRangeKpi
         );
         this.setState(
           {
             stages: data.stages,
-            banner_kpis: data.banner_kpis,
+            kpis: data.kpis,
             getOldSessions: false,
             waiting: false
           },
@@ -267,7 +273,7 @@ export default class MainContainer extends React.Component {
       pending: true
     });
   }
-*/
+
   // ===========================================================
 
   ToggleHeaderButtons = target => {
@@ -1129,7 +1135,7 @@ export default class MainContainer extends React.Component {
     const data = this.DataManager.SetConfigurationJSON(payload);
     this.setState({
       stages: data.stages,
-      banner_kpis: data.banner_kpis
+      kpis: data.kpis
     });
   };
 
@@ -1152,7 +1158,7 @@ export default class MainContainer extends React.Component {
         (amount = Math.abs(Number(amount) || 0).toFixed(decimalCount))
       ).toString();
       const j = i.length > 3 ? i.length % 3 : 0;
-      return `${amount < 0 ? '-' : ''}R$${j ? i.substr(0, j) + thousands : ''
+      return `${amount < 0 ? '-' : ''}$${j ? i.substr(0, j) + thousands : ''
         }${i.substr(j).replace(/(\d{3})(?=\d)/g, `$1${thousands}`)}${decimalCount
           ? decimal +
           Math.abs(amount - i)
@@ -1178,6 +1184,18 @@ export default class MainContainer extends React.Component {
         break;
     }
   };
+
+  changeTimeRangeKpi = ({ value }, index) => {
+    this.setState(
+      { timeRangeKpi: { index:index, range: value }, getOldSessions: true },
+      this.updateDataNow
+    );
+  };
+
+  updateDataKpisChecked = (kpis) => {
+    this.DataManager.SaveKpisSelection(kpis);
+    this.setState({ kpis });
+  }
 
   render() {
     const {
@@ -1206,8 +1224,10 @@ export default class MainContainer extends React.Component {
       flameForm,
       testText,
       goodQuery,
-      banner_kpis,
-      modifiedQuery
+      modifiedQuery,
+      // KPI Properties
+      timeRangeKpi,
+      kpis
     } = this.state;
     if (this.state.waiting) {
       return (
@@ -1250,9 +1270,14 @@ export default class MainContainer extends React.Component {
               handleContextMenuStar={this._handleContextMenuStar}
               handleContextMenuFire={this._handleContextMenuFire}
               logoSetup={this.state.logoSetup}
-              banner_kpis={banner_kpis}
               ToggleHeaderButtons={this.ToggleHeaderButtons}
               DisplayConsole={this.DisplayConsole}
+              // KPI properties
+              changeTimeRangeKpi={this.changeTimeRangeKpi}
+              timeRangeKpi={timeRangeKpi}
+              kpis={kpis}
+              updateDataKpisChecked={this.updateDataKpisChecked}
+              saveKpis={this.saveKpis}
             />
           </div>
           <div
@@ -1372,7 +1397,7 @@ export default class MainContainer extends React.Component {
                         onChange={this._DropHandleChange}
                         className="input_mrw"
                       />
-                      R$
+                      $
                     </div>
                     <div className="subTitleRight_container">
                       average order value

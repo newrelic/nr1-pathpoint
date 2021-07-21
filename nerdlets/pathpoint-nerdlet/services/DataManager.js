@@ -39,7 +39,7 @@ export default class DataManager {
     this.dataCanary = Canary;
     this.configuration = {
       pathpointVersion: null,
-      banner_kpis: [],
+      kpis: [],
       stages: []
     };
     this.configurationJSON = {};
@@ -68,8 +68,8 @@ export default class DataManager {
       this.GetStorageTouchpoints();
     } else {
       this.stages = ViewData.stages;
-      this.banner_kpis = ViewData.banner_kpis;
       this.colors = ViewData.colors;
+      this.kpis = ViewData.kpis;
       this.SetInitialDataViewToStorage();
       this.SetStorageTouchpoints();
       this.SetVersion();
@@ -77,11 +77,30 @@ export default class DataManager {
     this.stepsByStage = this.GetStepsByStage();
     return {
       stages: [...this.stages],
-      banner_kpis: [...this.banner_kpis],
+      kpis: [...this.kpis],
       colors: this.colors,
       accountId: this.accountId,
       version: this.version
     };
+  }
+
+  async UpdateData(timeRange, city, getOldSessions, stages, kpis, timeRangeKpi) {
+    if (this.accountId !== null) {
+      this.timeRange = timeRange;
+      this.city = city;
+      this.getOldSessions = getOldSessions;
+      this.stages = stages;
+      this.kpis = kpis;
+      this.timeRangeKpi = timeRangeKpi;
+      await this.TouchPointsUpdate();
+      await this.UpdateMerchatKpi();
+      await this.CalculateUpdates();
+      await this.UpdateMaxCapacity();
+      return {
+        stages: this.stages,
+        kpis: this.kpis
+      };
+    }
   }
 
   async GetAccountId() {
@@ -117,7 +136,7 @@ export default class DataManager {
       });
       if (data) {
         this.stages = data.ViewJSON;
-        this.banner_kpis = data.BannerKpis;
+        this.kpis = data.Kpis;
       }
     } catch (error) {
       throw new Error(error);
@@ -133,12 +152,17 @@ export default class DataManager {
         documentId: 'newViewJSON',
         document: {
           ViewJSON: this.stages,
-          BannerKpis: this.banner_kpis
+          Kpis: this.kpis
         }
       });
     } catch (error) {
       throw new Error(error);
     }
+  }
+
+  SaveKpisSelection(kpis){
+    this.kpis = kpis;
+    this.SetInitialDataViewToStorage();
   }
 
   GetStepsByStage() {
@@ -179,24 +203,6 @@ export default class DataManager {
       });
     } catch (error) {
       throw new Error(error);
-    }
-  }
-
-  async UpdateData(timeRange, city, getOldSessions, stages, banner_kpis) {
-    if (this.accountId !== null) {
-      this.timeRange = timeRange;
-      this.city = city;
-      this.getOldSessions = getOldSessions;
-      this.stages = stages;
-      this.banner_kpis = banner_kpis;
-      await this.TouchPointsUpdate();
-      await this.UpdateMerchatKpi();
-      await this.CalculateUpdates();
-      await this.UpdateMaxCapacity();
-      return {
-        stages: this.stages,
-        banner_kpis: this.banner_kpis
-      };
     }
   }
 
@@ -488,11 +494,13 @@ export default class DataManager {
 
   async UpdateMerchatKpi() {
     this.graphQlmeasures.length = 0;
-    for (let i = 0; i < this.banner_kpis.length; i++) {
-      this.graphQlmeasures.push([
-        this.banner_kpis[i],
-        this.banner_kpis[i].query
-      ]);
+    for (let i = 0; i < this.kpis.length; i++) {
+      if(this.kpis[i].check){
+        this.graphQlmeasures.push([
+          this.kpis[i],
+          this.kpis[i].query + ' SINCE ' + this.timeRangeKpi.range
+        ]);
+      }
     }
     await this.NRDBQuery();
   }
@@ -958,16 +966,22 @@ export default class DataManager {
     let i = 0;
     let line = 0;
     let kpi = null;
+    console.log('KPIS',this.kpis);
     this.configuration.pathpointVersion = this.version;
-    this.configuration.banner_kpis.length = 0;
-    for (let i = 0; i < this.banner_kpis.length; i++) {
+    this.configuration.kpis.length = 0;
+    for (let i = 0; i < this.kpis.length; i++) {
       kpi = {
-        description: this.banner_kpis[i].description,
-        prefix: this.banner_kpis[i].prefix,
-        suffix: this.banner_kpis[i].suffix,
-        query: this.banner_kpis[i].query
+        index: this.kpis[i].index,
+        type: 100,
+        name: this.kpis[i].name,
+        shortName: this.kpis[i].shortName,
+        link: this.kpis[i].link,
+        query: this.kpis[i].query,
+        value: this.kpis[i].value,
+        check: this.kpis[i].check
+
       };
-      this.configuration.banner_kpis.push(kpi);
+      this.configuration.kpis.push(kpi);
     }
     this.configuration.stages.length = 0;
     this.stages.forEach(stage => {
@@ -1105,7 +1119,7 @@ export default class DataManager {
     this.UpdateNewConfiguration();
     return {
       stages: this.stages,
-      banner_kpis: this.banner_kpis
+      kpis: this.kpis
     };
   }
 
@@ -1121,23 +1135,25 @@ export default class DataManager {
     let substepIndex = 1;
     this.stages.length = 0;
     this.touchPoints.length = 0;
-    this.banner_kpis.length = 0;
+    this.kpis.length = 0;
     this.touchPoints.push({
       index: 0,
       country: 'PRODUCTION',
       touchpoints: []
     });
-    let kpi = null;
-    this.configurationJSON.banner_kpis.forEach(banner_kpi => {
-      kpi = {
-        description: banner_kpi.description,
-        prefix: banner_kpi.prefix,
-        suffix: banner_kpi.suffix,
-        query: banner_kpi.query,
+    let ikpi = null;
+    this.configurationJSON.kpis.forEach(kpi => {
+      ikpi = {
+        index: kpi.index,
         type: 100,
-        value: 0
+        name: kpi.name,
+        shortName: kpi.shortName,
+        link:  kpi.link,
+        query: kpi.query,
+        value: kpi.value,
+        check: kpi.check
       };
-      this.banner_kpis.push(kpi);
+      this.kpis.push(ikpi);
     });
     this.configurationJSON.stages.forEach(stage => {
       stageDef = {

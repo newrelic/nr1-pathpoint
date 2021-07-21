@@ -42,7 +42,7 @@ function handleUploadJSONFile(
       const valid = await validate(JSON.parse(eX.target.result));
       if (valid) {
         let parsed = JSON.parse(eX.target.result);
-        parsed = parsed.banner_kpis;
+        parsed = parsed.kpis;
         const queryErrors = [];
         for (let i = 0; i < parsed.length; i++) {
           const tested = await validateKpiQuery.validateQuery(
@@ -51,7 +51,7 @@ function handleUploadJSONFile(
           );
           if (!tested.goodQuery) {
             queryErrors.push({
-              dataPath: `banner_kpis/${i}/query`,
+              dataPath: `kpis/${i}/query`,
               message: `Bad query structure`
             });
           }
@@ -80,7 +80,7 @@ function handleUploadJSONFile(
       onClose([
         {
           dataPath: `JSON File`,
-          message: `Bad JSON File Structure`
+          message: `Bad JSON File Structure` + error
         }
       ]);
     }
