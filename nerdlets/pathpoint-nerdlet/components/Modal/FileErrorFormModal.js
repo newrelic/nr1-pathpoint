@@ -85,11 +85,19 @@ function handleUploadJSONFile(
         let parsed = JSON.parse(eX.target.result);
         parsed = parsed.kpis;
         const queryErrors = [];
+        let tested = false;
         for (let i = 0; i < parsed.length; i++) {
-          const tested = await validateKpiQuery.validateQuery(
-            'Count Query',
-            parsed[i].query
-          );
+          if(parsed[i].type === 100){
+            tested = await validateKpiQuery.validateQuery(
+              'Count Query',
+              parsed[i].query
+            );
+          }else if(parsed[i].type === 101){
+            tested = await validateKpiQuery.validateQuery(
+              'KPI-101',
+              parsed[i].query
+            );
+          }
           if (!tested.goodQuery) {
             queryErrors.push({
               dataPath: `kpis/${i}/query`,
