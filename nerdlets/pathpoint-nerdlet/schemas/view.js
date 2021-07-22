@@ -25,7 +25,7 @@ export default {
             type: {
               type: 'number',
               minimum: 100,
-              maximum: 100
+              maximum: 101
             },
             name: {
               type: 'string'
@@ -40,7 +40,7 @@ export default {
               type: 'string'
             },
             value: {
-              type: 'number'
+              type: ['number','object']
             },
             check: {
               type: 'boolean'

@@ -155,7 +155,7 @@ export default class MainContainer extends React.Component {
         kpis: data.kpis
       },
       async () => {
-        this.emulator = new Emulator(this.state.stages);
+        this.emulator = new Emulator(this.state.stages, data.kpis);
         this.emulator.init();
         this.setState({
           initialized: true,
@@ -163,7 +163,10 @@ export default class MainContainer extends React.Component {
           waiting: false
         });
         setInterval(() => {
-          this.setState({ stages: this.emulator.getDataState() });
+          this.setState({ 
+            stages: this.emulator.getDataState(), 
+            kpis: this.emulator.getKpis() 
+          });
         }, Setup.time_refresh);
         this.validationQuery = new ValidationQuery(this.state.accountId);
         this.InitLogoSetupData(this.state.accountId);

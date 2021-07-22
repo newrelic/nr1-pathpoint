@@ -160,7 +160,7 @@ export default class DataManager {
     }
   }
 
-  SaveKpisSelection(kpis){
+  SaveKpisSelection(kpis) {
     this.kpis = kpis;
     this.SetInitialDataViewToStorage();
   }
@@ -383,6 +383,24 @@ export default class DataManager {
             value.nrql.results[0].value
           ) {
             measure.value = value.nrql.results[0].value;
+          } else if (
+            measure.type === 101 &&
+            value.nrql != null &&
+            value.nrql.results &&
+            value.nrql.results.length == 2 &&
+            value.nrql.results[0].value &&
+            value.nrql.results[0].comparison
+          ) {
+            console.log("RESULTS:", value.nrql.results);
+            if (value.nrql.results[0].comparison == 'current') {
+              measure.value.current = value.nrql.results[0].value;
+              measure.value.previous = value.nrql.results[1].value;
+            } else {
+              measure.value.current = value.nrql.results[1].value;
+              measure.value.previous = value.nrql.results[0].value;
+            }
+            console.log('measure.value.current', measure.value.current);
+            console.log('measure.value.previous', measure.value.previous);
           }
         }
       }
@@ -495,7 +513,7 @@ export default class DataManager {
   async UpdateMerchatKpi() {
     this.graphQlmeasures.length = 0;
     for (let i = 0; i < this.kpis.length; i++) {
-      if(this.kpis[i].check){
+      if (this.kpis[i].check) {
         this.graphQlmeasures.push([
           this.kpis[i],
           this.kpis[i].query + ' SINCE ' + this.timeRangeKpi.range
@@ -966,13 +984,13 @@ export default class DataManager {
     let i = 0;
     let line = 0;
     let kpi = null;
-    console.log('KPIS',this.kpis);
+    console.log('KPIS', this.kpis);
     this.configuration.pathpointVersion = this.version;
     this.configuration.kpis.length = 0;
     for (let i = 0; i < this.kpis.length; i++) {
       kpi = {
         index: this.kpis[i].index,
-        type: 100,
+        type: this.kpis[i].type,
         name: this.kpis[i].name,
         shortName: this.kpis[i].shortName,
         link: this.kpis[i].link,
@@ -1145,10 +1163,10 @@ export default class DataManager {
     this.configurationJSON.kpis.forEach(kpi => {
       ikpi = {
         index: kpi.index,
-        type: 100,
+        type: kpi.type,
         name: kpi.name,
         shortName: kpi.shortName,
-        link:  kpi.link,
+        link: kpi.link,
         query: kpi.query,
         value: kpi.value,
         check: kpi.check
@@ -1368,9 +1386,8 @@ export default class DataManager {
   GetCurrentHistoricErrorScript() {
     const data = historicErrorScript();
     const pathpointId = `var pathpointId = "${this.pathpointId}"`;
-    const response = `${pathpointId}${
-      data.header
-    }${this.CreateNrqlQueriesForHistoricErrorScript()}${data.footer}`;
+    const response = `${pathpointId}${data.header
+      }${this.CreateNrqlQueriesForHistoricErrorScript()}${data.footer}`;
     return response;
   }
 
@@ -1858,7 +1875,7 @@ for (const [key, value] of Object.entries(return` +
     this.setStorageDropParams();
   }
 
-  GetGoutParameters(){
+  GetGoutParameters() {
     return this.dropParams;
   }
 
@@ -1887,10 +1904,10 @@ for (const [key, value] of Object.entries(return` +
       });
       if (data) {
         this.dropParams = data.dropParams;
-      }else {
+      } else {
         this.dropParams = {
           dropmoney: 100,
-          hours:48,
+          hours: 48,
           percentage: 30
         }
       }

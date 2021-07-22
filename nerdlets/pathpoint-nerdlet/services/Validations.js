@@ -53,6 +53,9 @@ export default class ValidationQuery {
       case 'Full Open Query':
         goodQuery = this.fullOpenValidation(errors, data);
         break;
+      case 'KPI-101':
+        goodQuery = this.kpi101Validation(errors, query, data);
+        break;
     }
     if (goodQuery) {
       testText = messages.test_query.good;
@@ -100,6 +103,22 @@ export default class ValidationQuery {
       }
     } else {
       validate = false;
+    }
+    return validate;
+  }
+
+  kpi101Validation(errors, query, data) {
+    let validate = false;
+    if (errors && errors.length > 0) {
+      validate = false;
+    } else if (
+      data instanceof Array && 
+      data.length === 2 &&
+      data[0].value &&
+      data[0].comparison &&
+      query.toLowerCase().includes('compare with')
+      ) {
+      validate = true;
     }
     return validate;
   }

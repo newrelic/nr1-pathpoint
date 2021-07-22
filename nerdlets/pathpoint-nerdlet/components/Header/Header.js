@@ -19,6 +19,9 @@ import goutIconOn from '../../images/goutBlack.svg';
 // New KPI Tool Components
 import RangeDateSelector from '../RangeTime';
 import SelectorKpis from '../SelectorKpis';
+import kpiStatusEqual from '../../images/kpiStatusEqual.svg';
+import kpiStatusUpper from '../../images/kpiStatusUpper.svg';
+import kpiStatusLower from '../../images/kpiStatusLower.svg';
 
 const Header = ({
   iconSixthSenseStatus,
@@ -83,7 +86,11 @@ const Header = ({
               {kpi.shortName}
             </div>
             <div className="kpicontent--colorblack kpicontent--size12">
+            {kpi.type==100 ? <>
               {kpi.value}
+              </>:<>
+              {CurrentAndPreviousStatus(kpi.value)}
+            </>}
             </div>
           </div>
         )}</> : <>
@@ -246,7 +253,24 @@ const RenderLogo = logoSetup => {
   }
 };
 
-export { RenderLogo, FormatMoney };
+const CurrentAndPreviousStatus = kpi => {
+  return(
+    <div className="kpi">
+      {kpi.current}<span>{PrintStatus(kpi.current-kpi.previous)}</span>
+    </div>
+  );
+};
+
+const PrintStatus = value => {
+  const printStatus = value === 0 ? kpiStatusEqual : value > 0 ? kpiStatusUpper : kpiStatusLower;
+  return(
+    <div className="kpi-status">
+        <img src={printStatus} />
+    </div>
+  );
+};
+
+export { CurrentAndPreviousStatus, RenderLogo, FormatMoney };
 export default Header;
 
 Header.propTypes = {

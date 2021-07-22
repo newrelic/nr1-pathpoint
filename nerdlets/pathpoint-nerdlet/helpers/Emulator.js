@@ -2,10 +2,12 @@
  * Clase helper para actualizar los datos al nerdlet
  */
 export default class Emulator {
-  constructor(data) {
+  constructor(data, kpis) {
     this.data = data;
+    this.kpis = kpis;
     this.firstLoad = true;
     this.accountId = 1211212;
+    console.log('KPIS',kpis);
   }
 
   init = () => {
@@ -27,6 +29,13 @@ export default class Emulator {
   getDataState = () => {
     return this.data;
   };
+
+  getKpis() {
+    for(let i=0;i<this.kpis.length;i++){
+      this.kpis[i].value = Math.floor(Math.random() * (10000));
+    }
+    return this.kpis;
+  }
 
   closeConnections() {
     clearInterval(this.intervalLevel);
