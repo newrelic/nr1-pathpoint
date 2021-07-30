@@ -32,7 +32,14 @@ export default class Emulator {
 
   getKpis() {
     for(let i=0;i<this.kpis.length;i++){
-      this.kpis[i].value = Math.floor(Math.random() * (10000));
+      if(this.kpis[i].type === 101){
+        this.kpis[i].value ={
+          current: Math.floor(Math.random() * (10000)),
+          previous: Math.floor(Math.random() * (10000))
+        };
+      }else{
+        this.kpis[i].value = Math.floor(Math.random() * (10000));
+      }
     }
     return this.kpis;
   }
