@@ -2,7 +2,6 @@
 import React from 'react';
 import { nerdlet, logger } from 'nr1';
 import Setup from '../../config/setup.json';
-import DownloadLink from 'react-download-link';
 import messages from '../../config/messages.json';
 import {
   mainContainerStyle,
@@ -43,10 +42,9 @@ import right_icon from '../../images/right.svg';
 import flame_icon from '../../images/flame_icon.svg';
 import gout_icon from '../../images/gout_icon.svg';
 import star_icon from '../../images/star_icon.svg';
-import down from '../../images/down.svg';
 
 // UNUSED
-import Emulator from '../../helpers/Emulator.js';
+// import Emulator from '../../helpers/Emulator.js';
 
 /**
  *Main container component
@@ -63,6 +61,7 @@ export default class MainContainer extends React.Component {
       header: false
     });
     this.state = {
+      accountName: '',
       waiting: true,
       stages: null,
       iconFireStatus: false,
@@ -112,7 +111,7 @@ export default class MainContainer extends React.Component {
       },
       dropForm: {
         dropmoney: 0,
-        hours:0,
+        hours: 0,
         percentage: 0
       },
       logoSetupData: null,
@@ -133,7 +132,7 @@ export default class MainContainer extends React.Component {
   }
 
   // =========================================================== EMULATOR
-/*
+  /*
   componentDidMount() {
     this.BoootstrapApplication();
   }
@@ -180,7 +179,7 @@ export default class MainContainer extends React.Component {
       this.setState({ loading: false });
     }, 2000);
   }
-*/
+  */
   // =========================================================== UPDATE DATA API
 
   componentDidMount() {
@@ -204,7 +203,8 @@ export default class MainContainer extends React.Component {
 
   BoootstrapApplication = async () => {
     this.DataManager = new DataManager();
-    const data = await this.DataManager.BootstrapInitialData();
+    const { accountName } = this.state;
+    const data = await this.DataManager.BootstrapInitialData(accountName);
     this.setState(
       {
         stages: data.stages,
@@ -782,8 +782,8 @@ export default class MainContainer extends React.Component {
             <img src={goutBlack} height="15px" width="11px" />
             <span className="goutTxt">{element.gout_quantity}</span>
           </div>
-          <div className="cashStage" >
-            {this.FormatMoney(element.gout_money, this.DisplayConsole) }
+          <div className="cashStage">
+            {this.FormatMoney(element.gout_money, this.DisplayConsole)}
           </div>
         </div>
       );
@@ -1102,9 +1102,7 @@ export default class MainContainer extends React.Component {
       // TO-DO
     }
     if (MenuRightDefault === 1) {
-      this.DataManager.UpdateGoutParameters(
-        dropForm
-      );
+      this.DataManager.UpdateGoutParameters(dropForm);
     }
   };
 
@@ -1161,14 +1159,16 @@ export default class MainContainer extends React.Component {
         (amount = Math.abs(Number(amount) || 0).toFixed(decimalCount))
       ).toString();
       const j = i.length > 3 ? i.length % 3 : 0;
-      return `${amount < 0 ? '-' : ''}$${j ? i.substr(0, j) + thousands : ''
-        }${i.substr(j).replace(/(\d{3})(?=\d)/g, `$1${thousands}`)}${decimalCount
+      return `${amount < 0 ? '-' : ''}$${
+        j ? i.substr(0, j) + thousands : ''
+      }${i.substr(j).replace(/(\d{3})(?=\d)/g, `$1${thousands}`)}${
+        decimalCount
           ? decimal +
-          Math.abs(amount - i)
-            .toFixed(decimalCount)
-            .slice(2)
+            Math.abs(amount - i)
+              .toFixed(decimalCount)
+              .slice(2)
           : ''
-        }`;
+      }`;
     } catch (e) {
       DisplayConsole('error', `Error in format money ${e}`);
     }
@@ -1190,15 +1190,15 @@ export default class MainContainer extends React.Component {
 
   changeTimeRangeKpi = ({ value }, index) => {
     this.setState(
-      { timeRangeKpi: { index:index, range: value }, getOldSessions: true },
+      { timeRangeKpi: { index: index, range: value }, getOldSessions: true },
       this.updateDataNow
     );
   };
 
-  updateDataKpisChecked = (kpis) => {
+  updateDataKpisChecked = kpis => {
     this.DataManager.SaveKpisSelection(kpis);
     this.setState({ kpis });
-  }
+  };
 
   render() {
     const {
@@ -1431,7 +1431,7 @@ export default class MainContainer extends React.Component {
                       %{' '}
                     </div>
                     <div className="subTitleRight_container">
-                    of the Steps with most Drops
+                      of the Steps with most Drops
                     </div>
                   </div>
                 </div>
@@ -1600,27 +1600,7 @@ export default class MainContainer extends React.Component {
                     element.active_dotted_color
                   )}
                 >
-                  <Stage
-                    index={element.index}
-                    onClickStage={this.onClickStage}
-                    title={element.title}
-                    circleColor={element.errors}
-                    percentageCongestion={element.congestion.percentage}
-                    valueCongestion={element.congestion.value}
-                    capacityPercentage={element.capacity}
-                    totalCountStage={element.total_count}
-                    goutActive={element.gout_enable}
-                    goutQuantity={element.gout_quantity}
-                    status={element.status_color}
-                    tune={tune}
-                    url={
-                      element.dashboard_url === false
-                        ? 'false'
-                        : element.dashboard_url
-                    }
-                    colors={colors}
-                    trafficIconType={element.trafficIconType}
-                  />
+                  <Stage stage={element} onClickStage={this.onClickStage} />
                 </div>
               ))}
             </div>
