@@ -11,7 +11,7 @@ export default class StepContainer extends React.Component {
   componentDidMount() {
     const { quantityOfContainer } = this.state;
     let control = 0;
-    while (control !== 7) {
+    while (control !== 6) {
       quantityOfContainer.push({ name: control });
       control += 1;
     }

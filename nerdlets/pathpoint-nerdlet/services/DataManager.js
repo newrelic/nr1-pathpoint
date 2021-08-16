@@ -53,8 +53,8 @@ export default class DataManager {
     ];
   }
 
-  async BootstrapInitialData() {
-    await this.GetAccountId();
+  async BootstrapInitialData(accountName) {
+    await this.GetAccountId(accountName);
     await this.GetDBmaxCapacity();
     await this.CheckVersion();
     await this.GetCanaryData();
@@ -84,7 +84,14 @@ export default class DataManager {
     };
   }
 
-  async UpdateData(timeRange, city, getOldSessions, stages, kpis, timeRangeKpi) {
+  async UpdateData(
+    timeRange,
+    city,
+    getOldSessions,
+    stages,
+    kpis,
+    timeRangeKpi
+  ) {
     if (this.accountId !== null) {
       this.timeRange = timeRange;
       this.city = city;
@@ -103,10 +110,26 @@ export default class DataManager {
     }
   }
 
-  async GetAccountId() {
+  async GetAccountId(accountName) {
     try {
       const { data } = await AccountsQuery.query();
-      this.accountId = data[0].id;
+      if (accountName !== '') {
+        data.some(account => {
+          let found = false;
+          if (account.name === accountName) {
+            this.accountId = account.id;
+            found = true;
+          }
+          if (!found) {
+            // If AccountName is not found use the first account
+            this.accountId = data[0].id;
+          }
+          return found;
+        });
+      } else {
+        // By default capture the First Account in the List
+        this.accountId = data[0].id;
+      }
     } catch (error) {
       throw new Error(error);
     }
@@ -387,20 +410,17 @@ export default class DataManager {
             measure.type === 101 &&
             value.nrql != null &&
             value.nrql.results &&
-            value.nrql.results.length == 2 &&
+            value.nrql.results.length === 2 &&
             value.nrql.results[0].value &&
             value.nrql.results[0].comparison
           ) {
-            console.log("RESULTS:", value.nrql.results);
-            if (value.nrql.results[0].comparison == 'current') {
+            if (value.nrql.results[0].comparison === 'current') {
               measure.value.current = value.nrql.results[0].value;
               measure.value.previous = value.nrql.results[1].value;
             } else {
               measure.value.current = value.nrql.results[1].value;
               measure.value.previous = value.nrql.results[0].value;
             }
-            console.log('measure.value.current', measure.value.current);
-            console.log('measure.value.previous', measure.value.previous);
           }
         }
       }
@@ -984,7 +1004,6 @@ export default class DataManager {
     let i = 0;
     let line = 0;
     let kpi = null;
-    console.log('KPIS', this.kpis);
     this.configuration.pathpointVersion = this.version;
     this.configuration.kpis.length = 0;
     for (let i = 0; i < this.kpis.length; i++) {
@@ -997,7 +1016,6 @@ export default class DataManager {
         query: this.kpis[i].query,
         value: this.kpis[i].value,
         check: this.kpis[i].check
-
       };
       this.configuration.kpis.push(kpi);
     }
@@ -1386,8 +1404,9 @@ export default class DataManager {
   GetCurrentHistoricErrorScript() {
     const data = historicErrorScript();
     const pathpointId = `var pathpointId = "${this.pathpointId}"`;
-    const response = `${pathpointId}${data.header
-      }${this.CreateNrqlQueriesForHistoricErrorScript()}${data.footer}`;
+    const response = `${pathpointId}${
+      data.header
+    }${this.CreateNrqlQueriesForHistoricErrorScript()}${data.footer}`;
     return response;
   }
 
@@ -1909,7 +1928,7 @@ for (const [key, value] of Object.entries(return` +
           dropmoney: 100,
           hours: 48,
           percentage: 30
-        }
+        };
       }
     } catch (error) {
       throw new Error(error);
