@@ -62,6 +62,7 @@ export default class MainContainer extends React.Component {
     });
     this.state = {
       accountName: '',
+      totalContainers: 1,
       waiting: true,
       stages: null,
       iconFireStatus: false,
@@ -211,7 +212,8 @@ export default class MainContainer extends React.Component {
         colors: data.colors,
         version: data.version,
         accountId: data.accountId,
-        kpis: data.kpis
+        kpis: data.kpis,
+        totalContainers: data.totalContainers
       },
       async () => {
         this.validationQuery = new ValidationQuery(this.state.accountId);
@@ -1228,6 +1230,7 @@ export default class MainContainer extends React.Component {
       testText,
       goodQuery,
       modifiedQuery,
+      totalContainers,
       // KPI Properties
       timeRangeKpi,
       kpis
@@ -1266,7 +1269,6 @@ export default class MainContainer extends React.Component {
               iconCanaryStatus={iconCanaryStatus}
               iconGoutStatus={iconGoutStatus}
               loading={loading}
-              tune={tune}
               showLeftPanel={showLeftPanel}
               openLeftMenu={this.openLeftMenu}
               handleContextMenuGout={this._handleContextMenuGout}
@@ -1274,13 +1276,11 @@ export default class MainContainer extends React.Component {
               handleContextMenuFire={this._handleContextMenuFire}
               logoSetup={this.state.logoSetup}
               ToggleHeaderButtons={this.ToggleHeaderButtons}
-              DisplayConsole={this.DisplayConsole}
               // KPI properties
               changeTimeRangeKpi={this.changeTimeRangeKpi}
               timeRangeKpi={timeRangeKpi}
               kpis={kpis}
               updateDataKpisChecked={this.updateDataKpisChecked}
-              saveKpis={this.saveKpis}
             />
           </div>
           <div
@@ -1666,7 +1666,7 @@ export default class MainContainer extends React.Component {
                               colors={colors}
                               iconFireStatus={iconFireStatus}
                               iconSixthSenseStatus={iconSixthSenseStatus}
-                              tune={tune}
+                              totalContainers={totalContainers}
                             />
                           </div>
                         </div>
@@ -1682,7 +1682,7 @@ export default class MainContainer extends React.Component {
                             colors={colors}
                             iconFireStatus={iconFireStatus}
                             iconSixthSenseStatus={iconSixthSenseStatus}
-                            tune={tune}
+                            totalContainers={totalContainers}
                           />
                         </div>
                       )}

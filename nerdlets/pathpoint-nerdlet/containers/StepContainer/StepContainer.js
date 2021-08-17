@@ -9,9 +9,10 @@ export default class StepContainer extends React.Component {
   };
 
   componentDidMount() {
+    const { totalContainers } = this.props;
     const { quantityOfContainer } = this.state;
     let control = 0;
-    while (control !== 6) {
+    while (control !== totalContainers) {
       quantityOfContainer.push({ name: control });
       control += 1;
     }
@@ -85,5 +86,6 @@ StepContainer.propTypes = {
   latencyStatus: PropTypes.bool.isRequired,
   iconCanaryStatus: PropTypes.bool.isRequired,
   colors: PropTypes.object.isRequired,
-  iconFireStatus: PropTypes.bool.isRequired
+  iconFireStatus: PropTypes.bool.isRequired,
+  totalContainers: PropTypes.number.isRequired
 };
