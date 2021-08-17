@@ -80,8 +80,19 @@ export default class DataManager {
       kpis: [...this.kpis],
       colors: this.colors,
       accountId: this.accountId,
-      version: this.version
+      version: this.version,
+      totalContainers: this.SetTotalContainers()
     };
+  }
+
+  SetTotalContainers() {
+    let total = 0;
+    this.stages.forEach(stage => {
+      if (stage.steps.length > total) {
+        total = stage.steps.length;
+      }
+    });
+    return total;
   }
 
   async UpdateData(

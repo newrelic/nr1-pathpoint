@@ -37,17 +37,13 @@ const Header = ({
   handleContextMenuGout,
   ToggleHeaderButtons,
   logoSetup,
-  DisplayConsole,
   // KPI PROPS
   timeRangeKpi,
   changeTimeRangeKpi,
   kpis,
-  updateDataKpisChecked,
-  saveKpis,
+  updateDataKpisChecked
 }) => {
-
-  const merchant = 0;
-  const filterKpis = kpis.filter(kpi=>kpi.query!==''&&kpi.check);
+  const filterKpis = kpis.filter(kpi => kpi.query !== '' && kpi.check);
 
   return (
     <div className="containerHeader">
@@ -80,46 +76,35 @@ const Header = ({
             }
           ]}
         />
-        {merchant === 0 ? <>{filterKpis.map((kpi, index) =>
-          <div key={index} style={{ cursor: kpi.link !== '' ? 'pointer' : 'default' }} onClick={() => { kpi.link !== '' && window.open(kpi.link) }} className="kpicontent">
-            <div className="kpicontent--colorgrey kpicontent--size10">
-              {kpi.shortName}
-            </div>
-            <div className="kpicontent--colorblack kpicontent--size12">
-            {kpi.type==100 ? <>
-              {kpi.value}
-              </>:<>
-              {CurrentAndPreviousStatus(kpi.value)}
-            </>}
-            </div>
-          </div>
-        )}</> : <>
-          <div className="kpicontent" style={{ cursor: kpisMerchant[1].link !== '' ? 'pointer' : 'default' }} onClick={() => { kpisMerchant[0].link !== '' && window.open(kpisMerchant[0].link) }}>
-            <div className="kpicontent--colorgrey kpicontent--size10">
-              {kpisMerchant[0].shortName}
-            </div>
-            <div className="kpicontent--colorblack kpicontent--size12">
-              {kpisMerchant[0].value}
-            </div>
-          </div>
-          <div className="kpicontent" style={{ cursor: kpisMerchant[1].link !== '' ? 'pointer' : 'default' }} onClick={() => { kpisMerchant[1].link !== '' && window.open(kpisMerchant[1].link) }}>
-            <div className="kpicontent--colorgrey kpicontent--size10">
-              {kpisMerchant[1].shortName}
-            </div>
-            <div className="kpicontent--colorblack kpicontent--size12">
-              {fkpiUSD}
-            </div>
-          </div>
-          <div className="kpicontent" style={{ cursor: kpisMerchant[1].link !== '' ? 'pointer' : 'default' }} onClick={() => { kpisMerchant[2].link !== '' && window.open(kpisMerchant[2].link) }}>
-            <div className="kpicontent--colorgrey kpicontent--size10">
-              {kpisMerchant[2].shortName}
-            </div>
-            <div className="kpicontent--colorblack kpicontent--size12">
-              {kpiAVG}
-            </div>
-          </div>
-        </>}
-        {merchant === 0 && <SelectorKpis listKpis={kpis} updateDataKpisChecked={updateDataKpisChecked} saveKpis={saveKpis} />}
+        <>
+          {filterKpis.map((kpi, index) => {
+            return (
+              <div
+                key={index}
+                style={{ cursor: kpi.link !== '' ? 'pointer' : 'default' }}
+                onClick={() => {
+                  kpi.link !== '' && window.open(kpi.link);
+                }}
+                className="kpicontent"
+              >
+                <div className="kpicontent--colorgrey kpicontent--size10">
+                  {kpi.shortName}
+                </div>
+                <div className="kpicontent--colorblack kpicontent--size12">
+                  {kpi.type === 100 ? (
+                    <>{kpi.value}</>
+                  ) : (
+                    <>{CurrentAndPreviousStatus(kpi.value)}</>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </>
+        <SelectorKpis
+          listKpis={kpis}
+          updateDataKpisChecked={updateDataKpisChecked}
+        />
       </div>
       <span
         className="budgetLoss"
@@ -179,8 +164,6 @@ const Header = ({
             src={iconGoutStatus ? goutIconOn : goutIcon}
           />
         </div>
-
-
         <Select
           name="header"
           handleOnChange={changeTimeRange}
@@ -217,14 +200,16 @@ const FormatMoney = (
       (amount = Math.abs(Number(amount) || 0).toFixed(decimalCount))
     ).toString();
     const j = i.length > 3 ? i.length % 3 : 0;
-    return `${amount < 0 ? '-' : ''}$${j ? i.substr(0, j) + thousands : ''
-      }${i.substr(j).replace(/(\d{3})(?=\d)/g, `$1${thousands}`)}${decimalCount
+    return `${amount < 0 ? '-' : ''}$${
+      j ? i.substr(0, j) + thousands : ''
+    }${i.substr(j).replace(/(\d{3})(?=\d)/g, `$1${thousands}`)}${
+      decimalCount
         ? decimal +
-        Math.abs(amount - i)
-          .toFixed(decimalCount)
-          .slice(2)
+          Math.abs(amount - i)
+            .toFixed(decimalCount)
+            .slice(2)
         : ''
-      }`;
+    }`;
   } catch (e) {
     DisplayConsole('error', `Error in format money ${e}`);
   }
@@ -254,18 +239,21 @@ const RenderLogo = logoSetup => {
 };
 
 const CurrentAndPreviousStatus = kpi => {
-  return(
+  return (
     <div className="kpi">
-      {kpi.current}<span>{PrintStatus(kpi.current-kpi.previous)}</span>
+      {kpi.current}
+      <span>{PrintStatus(kpi.current - kpi.previous)}</span>
     </div>
   );
 };
 
 const PrintStatus = value => {
-  const printStatus = value === 0 ? kpiStatusEqual : value > 0 ? kpiStatusUpper : kpiStatusLower;
-  return(
+  let printStatus = kpiStatusLower;
+  printStatus = value === 0 ? kpiStatusEqual : printStatus;
+  printStatus = value > 0 ? kpiStatusUpper : printStatus;
+  return (
     <div className="kpi-status">
-        <img src={printStatus} />
+      <img src={printStatus} />
     </div>
   );
 };
@@ -287,5 +275,8 @@ Header.propTypes = {
   handleContextMenuGout: PropTypes.func.isRequired,
   ToggleHeaderButtons: PropTypes.func.isRequired,
   logoSetup: PropTypes.object.isRequired,
-  DisplayConsole: PropTypes.func.isRequired
+  timeRangeKpi: PropTypes.object.isRequired,
+  changeTimeRangeKpi: PropTypes.func.isRequired,
+  kpis: PropTypes.object.isRequired,
+  updateDataKpisChecked: PropTypes.func.isRequired
 };
