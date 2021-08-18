@@ -32,10 +32,10 @@ export default class ValidationQuery {
     if (query === '') {
       return { testText, goodQuery };
     }
-    const { data, errors } =
-      type !== 'Cloudflare App' && (await this.validateNrqlQuery(query));
+    const { data, errors } = await this.validateNrqlQuery(query);
     switch (type) {
-      case 'Count Query':
+      case 'PRC-COUNT-QUERY':
+      case 'PCC-COUNT-QUERY':
         goodQuery = this.countQueryValidation(errors, data);
         break;
       case 'Apdex Query':
@@ -85,17 +85,18 @@ export default class ValidationQuery {
     return validate;
   }
 
-  countQueryValidation(errors, data) {
+  countPRCQueryValidation(errors, data) {
     let validate = true;
     let quantity = 0;
     if (errors && errors.length > 0) {
       validate = false;
     } else if (data instanceof Array && data.length === 1) {
-      for (const [, value] of Object.entries(data[0])) {
+      for (const [key, value] of Object.entries(data[0])) {
         if (typeof value !== 'number') {
           validate = false;
           break;
         }
+        if (key === 'session') validate = false;
         quantity++;
       }
       if (quantity > 2) {
