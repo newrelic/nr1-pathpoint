@@ -45,30 +45,29 @@ while (($datos = fgetcsv($f, 1000, ",")) !== FALSE) {
         $readingHeader = false;
     } else {
         $stages[0] = $datos[0];
-        $touchpointType = $datos[1];
-        $touchpoint = $datos[2];
-        $steps = $datos[3];
+        $touchpointType = $datos[3];
+        $touchpoint = $datos[1];
+        $steps = $datos[2];
 
-        $tp_queryCount = $datos[4];
-        $tp_queryError = $datos[5];
-
-        $tp_error_threshold = $datos[6];
-        $tp_apdex_query = $datos[7];
-        $apdex_time = $datos[8];
-
-        $tp_session_query = $datos[9];
-        $tp_session_duration = $datos[10];
-
+        $tp_query = $datos[12];
         if($createDashboards){
             $touchpointLink = createDashboardForStage($stages[0], $touchpoint, $actualDashboardsList);
         }else{
-            $touchpointLink = $datos[11];
+            $touchpointLink = $datos[13];
         }
 
+        $min_count = $datos[4];
+        $apdex_threshold = $datos[5];
+        $min_apdex = $datos[6];
+        $max_response_time = $datos[7];
+        $max_error_percentage = $datos[8];
+        $max_avg_response_time = $datos[9];
+        $max_total_check_time = $datos[10];
+        $min_success_percentage = $datos[11];
         //----------------------------------
         foreach ($stages as $stage) {
             if (valida_stage($stage)) {
-                addTouchpoint(stage_index($stage), $touchpointType, $touchpoint, $steps, $touchpointLink, $tp_queryCount, $tp_queryError, $tp_error_threshold, $tp_apdex_query, $apdex_time, $tp_session_query,$tp_session_duration);
+                addTouchpoint(stage_index($stage), $touchpointType, $touchpoint, $steps, $touchpointLink, $tp_query, $min_count, $apdex_threshold, $min_apdex, $max_response_time, $max_error_percentage, $max_avg_response_time, $max_total_check_time, $min_success_percentage);
             }
         }
     }
@@ -168,71 +167,71 @@ function getDashboardLink($link)
     }
 }
 
-function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touchpointLink, $tp_queryCount, $tp_queryError, $tp_error_threshold, $tp_apdex_query, $apdex_time, $tp_session_query, $tp_session_duration)
+function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touchpointLink, $tp_query, $min_count, $apdex_threshold, $min_apdex, $max_response_time, $max_error_percentage, $max_avg_response_time, $max_total_check_time, $min_success_percentage)
 {
     global $view;
     global $touchPoints;
     $tpIndex = count($view["stages"][$stage_index]["touchpoints"]) + 1;
     $historicError = false;
-    if ($touchpointType == 0) {
-        $touchPoints[0]["touchpoints"][] = [
-            "stage_index" => ($stage_index + 1),
-            "value" => $touchpoint,
-            "touchpoint_index" => $tpIndex,
-            "status_on_off" => true,
-            "relation_steps" => getStepIndex($stage_index, $steps),
-            "measure_points" => [
-                [
-                    "type" => 0,
-                    "query" => $tp_queryCount,
-                    "count" => 0
-                ],
-                [
-                    "type" => 1,
-                    "query" => $tp_queryError,
-                    "error_threshold" => (int) $tp_error_threshold,
-                    "error_percentage" => 0
-                ],
-                [
-                    "type" => 2,
-                    "query" => $tp_apdex_query,
-                    "apdex" => 0,
-                    "apdex_time" => (int) $apdex_time,
-                ]
-            ]
-        ];
-        //SESSIONS_COUNT
-        $last = count($touchPoints[0]["touchpoints"]);
+    $touchPoints[0]["touchpoints"][] = [
+        "stage_index" => ($stage_index + 1),
+        "value" => $touchpoint,
+        "touchpoint_index" => $tpIndex,
+        "status_on_off" => true,
+        "relation_steps" => getStepIndex($stage_index, $steps),
+        "measure_points" => []
+    ];
+    $last = count($touchPoints[0]["touchpoints"]);
+    if ($touchpointType == 'PRC') {
         $touchPoints[0]["touchpoints"][$last - 1]["measure_points"][] = [
-            "type" => 3,
-            "query" => $tp_session_query,
-            "count" => 0
+            "type" => $touchpointType,
+            "query" => $tp_query,
+            "min_count" => (int) $min_count,
+            "session_count" => 0
         ];
-        // SESSION_TIME
+    }else if ($touchpointType == 'PCC') {
         $touchPoints[0]["touchpoints"][$last - 1]["measure_points"][] = [
-            "type" => 4,
-            "query" => $tp_session_duration,
-            "sessions" => []
+            "type" => $touchpointType,
+            "query" => $tp_query,
+            "min_count" => (int) $min_count,
+            "transaction_count" => 0
         ];
-    }else if($touchpointType==1){
-        $touchPoints[0]["touchpoints"][] = [
-            "stage_index" => ($stage_index + 1),
-            "value" => $touchpoint,
-            "touchpoint_index" => $tpIndex,
-            "status_on_off" => true,
-            "relation_steps" => getStepIndex($stage_index, $steps),
-            "measure_points" => [
-                [
-                    "type" => 20,
-                    "query" => $tp_queryCount,
-                    "error_threshold" => (int) $tp_error_threshold,
-                    "count" => 0,
-                    "error_percentage" => 0
-                ]
-            ]
+    }else if ($touchpointType == 'APP') {
+        $touchPoints[0]["touchpoints"][$last - 1]["measure_points"][] = [
+            "type" => $touchpointType,
+            "query" => $tp_query,
+            "apdex_threshold" => (int) $apdex_threshold,
+            "min_apdex" => (int) $min_apdex,
+            "max_response_time" => (int) $max_response_time,
+            "max_error_percentage" => (int) $max_error_percentage,
+            "apdex_value" => 0,
+            "response_value" => 0,
+            "error_percentage" => 0
+        ];
+    }else if ($touchpointType == 'FRT') {
+        $touchPoints[0]["touchpoints"][$last - 1]["measure_points"][] = [
+            "type" => $touchpointType,
+            "query" => $tp_query,
+            "apdex_threshold" => (int) $apdex_threshold,
+            "min_apdex" => (int) $min_apdex,
+            "max_response_time" => (int) $max_response_time,
+            "max_error_percentage" => (int) $max_error_percentage,
+            "apdex_value" => 0,
+            "response_value" => 0,
+            "error_percentage" => 0
+        ];
+    }else if ($touchpointType == 'SYN') {
+        $touchPoints[0]["touchpoints"][$last - 1]["measure_points"][] = [
+            "type" => $touchpointType,
+            "query" => $tp_query,
+            "max_avg_response_time" => (int) $max_avg_response_time,
+            "max_total_check_time" => (int) $max_total_check_time,
+            "min_success_percentage" => (int) $min_success_percentage,
+            "success_percentage" => 0,
+            "max_duration" => 0,
+            "max_request_time" =>0
         ];
     }
-    //$n = rand(1, 100);
     $view["stages"][$stage_index]["touchpoints"][] = [
         "index" => $tpIndex,
         "stage_index" => $stage_index + 1,
