@@ -44,12 +44,11 @@ export default class DataManager {
     };
     this.configurationJSON = {};
     this.measureNames = [
-      'COUNT-QUERY',
-      'ERROR-PERCENTAGE-QUERY',
-      'APDEX-QUERY',
-      'SESSIONS-QUERY',
-      'SESSIONS-QUERY-DURATION',
-      'FULL-OPEN-QUERY'
+      'PRC-COUNT-QUERY',
+      'PCC-COUNT-QUERY',
+      'APP-HEALTH-QUERY',
+      'FRT-HEALTH-QUERY',
+      'SYN-CHECK-QUERY'
     ];
   }
 
@@ -362,53 +361,57 @@ export default class DataManager {
         if (c[0] === 'measure') {
           const measure = this.graphQlmeasures[Number(c[1])][0];
           if (
-            measure.type === 0 &&
-            value.nrql !== null &&
-            value.nrql.results &&
-            value.nrql.results[0] &&
-            value.nrql.results[0].count
-          ) {
-            measure.count = value.nrql.results[0].count;
-          } else if (
-            measure.type === 1 &&
-            value.nrql !== null &&
-            value.nrql.results &&
-            value.nrql.results[0] &&
-            value.nrql.results[0].percentage
-          ) {
-            measure.error_percentage =
-              value.nrql.results[0].percentage == null
-                ? 0
-                : value.nrql.results[0].percentage;
-          } else if (
-            measure.type === 2 &&
-            value.nrql !== null &&
-            value.nrql.results &&
-            value.nrql.results[0] &&
-            value.nrql.results[0].score
-          ) {
-            measure.apdex = value.nrql.results[0].score;
-          } else if (
-            measure.type === 3 &&
+            measure.type === 'PRC' &&
             value.nrql !== null &&
             value.nrql.results &&
             value.nrql.results[0] &&
             value.nrql.results[0].session
           ) {
-            measure.count = value.nrql.results[0].session;
+            measure.session_count = value.nrql.results[0].session;
           } else if (
-            measure.type === 4 &&
-            value.nrql !== null &&
-            value.nrql.results
-          ) {
-            this.SetSessions(measure, value.nrql.results);
-          } else if (
-            measure.type === 20 &&
+            measure.type === 'PCC' &&
             value.nrql !== null &&
             value.nrql.results &&
-            value.nrql.results[0]
+            value.nrql.results[0] &&
+            value.nrql.results[0].count
           ) {
-            this.SetLogsMeasure(measure, value.nrql.results[0]);
+            measure.transaction_count = value.nrql.results[0].count;
+          } else if (
+            measure.type === 'APP' &&
+            value.nrql !== null &&
+            value.nrql.results &&
+            value.nrql.results[0] &&
+            value.nrql.results[0].apdex &&
+            value.nrql.results[0].response &&
+            value.nrql.results[0].error
+          ) {
+            measure.apdex_value = value.nrql.results[0].apdex;
+            measure.response_value = value.nrql.results[0].response;
+            measure.error_percentage = value.nrql.results[0].error;
+          } else if (
+            measure.type === 'FRT' &&
+            value.nrql !== null &&
+            value.nrql.results &&
+            value.nrql.results[0] &&
+            value.nrql.results[0].apdex &&
+            value.nrql.results[0].response &&
+            value.nrql.results[0].error
+          ) {
+            measure.apdex_value = value.nrql.results[0].apdex;
+            measure.response_value = value.nrql.results[0].response;
+            measure.error_percentage = value.nrql.results[0].error;
+          } else if (
+            measure.type === 'SYN' &&
+            value.nrql !== null &&
+            value.nrql.results &&
+            value.nrql.results[0] &&
+            value.nrql.results[0].success &&
+            value.nrql.results[0].duration &&
+            value.nrql.results[0].request
+          ) {
+            measure.success_percentage = value.nrql.results[0].success;
+            measure.max_duration = value.nrql.results[0].duration;
+            measure.max_request_time = value.nrql.results[0].request;
           } else if (
             measure.type === 100 &&
             value.nrql != null &&
@@ -578,8 +581,6 @@ export default class DataManager {
 
   CountryCalculateUpdates(element) {
     const values = this.Getmeasures(element);
-    let totalUse = values.total_count;
-    totalUse = totalUse === 0 ? 1 : totalUse;
     for (let i = 0; i < this.stages.length; i++) {
       this.stages[i].status_color = 'good';
       this.stages[i].status_color = this.UpdateErrorCondition(
@@ -587,87 +588,67 @@ export default class DataManager {
         this.GetStageError(i + 1, element)
       );
       this.stages[i].total_count = values.count_by_stage[i];
-      this.stages[i].congestion.value =
-        Math.round((values.count_by_stage[i] / totalUse) * 10000) / 100;
-      this.stages[i].capacity =
-        (values.count_by_stage[i] /
-          this.CheckMaxCapacity(values.count_by_stage[i], i)) *
-        100;
-      this.stages[i].congestion.percentage =
-        (1 - values.apdex_by_stage[i]) * 100;
+      this.stages[i].trafficIconType = 'traffic';
       if (values.sessions_by_stage[i] !== 0) {
         this.stages[i].trafficIconType = 'people';
         this.stages[i].total_count = values.sessions_by_stage[i];
-        this.stages[i].congestion.value =
-          Math.round(values.session_percentage_by_stage[i] * 10000) / 100;
-      } else {
-        this.stages[i].trafficIconType = 'traffic';
       }
-      if (values.logmeasure_by_stage[i] !== 0) {
-        this.stages[i].total_count =
-          this.stages[i].total_count + values.logmeasure_by_stage[i];
-      }
+
+      this.stages[i].capacity = Math.floor(Math.random() * 100); // TODO
+
+      this.stages[i].congestion.value = Math.floor(Math.random() * 100); // TODO
+
+      this.stages[i].congestion.percentage = this.stages[i].congestion.value; // TODO
     }
     this.UpdateMaxLatencySteps(values.min_apdex_touchpoint_index_by_stage);
   }
 
   Getmeasures(element) {
-    let total_count = 0;
     const count_by_stage = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     const sessions_by_stage = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    const session_percentage_by_stage = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     const apdex_by_stage = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
     const min_apdex_touchpoint_index_by_stage = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    const logmeasure_by_stage = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     element.touchpoints.forEach(touchpoint => {
       if (touchpoint.status_on_off) {
         touchpoint.measure_points.forEach(measure => {
-          if (measure.type === 0) {
-            total_count += measure.count;
-            count_by_stage[touchpoint.stage_index - 1] += measure.count;
-          } else if (
-            measure.type === 2 &&
-            apdex_by_stage[touchpoint.stage_index - 1] > measure.apdex
-          ) {
-            apdex_by_stage[touchpoint.stage_index - 1] = measure.apdex;
-            min_apdex_touchpoint_index_by_stage[touchpoint.stage_index - 1] =
-              touchpoint.touchpoint_index;
-          } else if (measure.type === 3) {
-            sessions_by_stage[touchpoint.stage_index - 1] += measure.count;
-          } else if (measure.type === 4) {
-            session_percentage_by_stage[
-              touchpoint.stage_index - 1
-            ] = this.GetSessionsPercentage(measure.sessions);
-          } else if (measure.type === 20) {
-            logmeasure_by_stage[touchpoint.stage_index - 1] += measure.count;
+          if (measure.type === 'PRC') {
+            sessions_by_stage[touchpoint.stage_index - 1] +=
+              measure.session_count;
+          } else if (measure.type === 'PCC') {
+            count_by_stage[touchpoint.stage_index - 1] +=
+              measure.transaction_count;
+          } else if (measure.type === 'APP' || measure.type === 'FRT') {
+            if (
+              apdex_by_stage[touchpoint.stage_index - 1] > measure.apdex_value
+            ) {
+              apdex_by_stage[touchpoint.stage_index - 1] = measure.apdex_value;
+              min_apdex_touchpoint_index_by_stage[touchpoint.stage_index - 1] =
+                touchpoint.touchpoint_index;
+            }
           }
         });
       }
     });
     return {
-      total_count: total_count,
       count_by_stage: count_by_stage,
       sessions_by_stage: sessions_by_stage,
-      session_percentage_by_stage: session_percentage_by_stage,
-      apdex_by_stage: apdex_by_stage,
-      min_apdex_touchpoint_index_by_stage: min_apdex_touchpoint_index_by_stage,
-      logmeasure_by_stage: logmeasure_by_stage
+      min_apdex_touchpoint_index_by_stage: min_apdex_touchpoint_index_by_stage
     };
   }
 
-  GetSessionsPercentage(sessions) {
-    if (sessions.length === 0) {
-      return 0;
-    }
-    let count = 0;
-    const currentTime = Math.floor(Date.now() / 1000);
-    sessions.forEach(session => {
-      if (currentTime - session.time > 5 * 60) {
-        count++;
-      }
-    });
-    return count / sessions.length;
-  }
+  // GetSessionsPercentage(sessions) {
+  //   if (sessions.length === 0) {
+  //     return 0;
+  //   }
+  //   let count = 0;
+  //   const currentTime = Math.floor(Date.now() / 1000);
+  //   sessions.forEach(session => {
+  //     if (currentTime - session.time > 5 * 60) {
+  //       count++;
+  //     }
+  //   });
+  //   return count / sessions.length;
+  // }
 
   UpdateErrorCondition(actual, nextvalue) {
     if (actual === 'danger') {
@@ -695,8 +676,12 @@ export default class DataManager {
       if (touchpoint.stage_index === stage && touchpoint.status_on_off) {
         count_touchpoints += 1;
         touchpoint.measure_points.forEach(measure => {
-          if (measure.type === 1) {
-            if (measure.error_percentage > measure.error_threshold) {
+          if (measure.type === 'APP' || measure.type === 'FRT') {
+            if (
+              measure.error_percentage > measure.max_error_percentage ||
+              measure.apdex_value < measure.min_apdex ||
+              measure.response_value > measure.max_response_time
+            ) {
               touchpoint.relation_steps.forEach(rel => {
                 steps_with_error[rel - 1] = 1;
               });
@@ -705,18 +690,12 @@ export default class DataManager {
                 touchpoint.touchpoint_index
               );
             }
-          } else if (measure.type === 2) {
-            if (measure.apdex < measure.apdex_time / 100) {
-              touchpoint.relation_steps.forEach(rel => {
-                steps_with_error[rel - 1] = 1;
-              });
-              this.SetTouchpointError(
-                touchpoint.stage_index,
-                touchpoint.touchpoint_index
-              );
-            }
-          } else if (measure.type === 20) {
-            if (measure.error_percentage > measure.error_threshold) {
+          } else if (measure.type === 'SYN') {
+            if (
+              measure.success_percentage < measure.min_success_percentage ||
+              measure.max_request_time > measure.max_total_check_time ||
+              measure.max_duration > measure.max_avg_response_time
+            ) {
               touchpoint.relation_steps.forEach(rel => {
                 steps_with_error[rel - 1] = 1;
               });
@@ -772,20 +751,20 @@ export default class DataManager {
     return count;
   }
 
-  CheckMaxCapacity(currentValue, stage) {
-    const timeRange = 'STAGES';
-    for (const [key, value] of Object.entries(this.capacity[this.city])) {
-      if (key === timeRange) {
-        const result = Math.max(value[stage], currentValue);
-        if (value[stage] < currentValue) {
-          this.capacityUpdatePending = true;
-          value[stage] = currentValue * 2;
-        }
-        return result;
-      }
-    }
-    return currentValue;
-  }
+  // CheckMaxCapacity(currentValue, stage) {
+  //   const timeRange = 'STAGES';
+  //   for (const [key, value] of Object.entries(this.capacity[this.city])) {
+  //     if (key === timeRange) {
+  //       const result = Math.max(value[stage], currentValue);
+  //       if (value[stage] < currentValue) {
+  //         this.capacityUpdatePending = true;
+  //         value[stage] = currentValue * 2;
+  //       }
+  //       return result;
+  //     }
+  //   }
+  //   return currentValue;
+  // }
 
   UpdateMaxLatencySteps(max_duration_touchpoint_index_by_stage) {
     for (let i = 0; i < this.stages.length; i++) {
@@ -1118,38 +1097,43 @@ export default class DataManager {
           ) {
             found = true;
             touchpoint.measure_points.forEach(measure => {
-              if (measure.type === 0) {
+              if (measure.type === 'PRC') {
                 queries.push({
                   type: this.measureNames[0],
                   query: measure.query,
-                  error_threshold: measure.error_threshold
+                  min_count: measure.min_count
                 });
-              } else if (measure.type === 1) {
+              } else if (measure.type === 'PCC') {
                 queries.push({
                   type: this.measureNames[1],
                   query: measure.query,
-                  apdex_time: measure.apdex_time
+                  min_count: measure.min_count
                 });
-              } else if (measure.type === 2) {
+              } else if (measure.type === 'APP') {
                 queries.push({
                   type: this.measureNames[2],
-                  query: measure.query
+                  query: measure.query,
+                  apdex_threshold: measure.apdex_threshold,
+                  min_apdex: measure.min_apdex,
+                  max_response_time: measure.max_response_time,
+                  max_error_percentage: measure.max_error_percentage
                 });
-              } else if (measure.type === 3) {
+              } else if (measure.type === 'FRT') {
                 queries.push({
                   type: this.measureNames[3],
-                  query: measure.query
+                  query: measure.query,
+                  apdex_threshold: measure.apdex_threshold,
+                  min_apdex: measure.min_apdex,
+                  max_response_time: measure.max_response_time,
+                  max_error_percentage: measure.max_error_percentage
                 });
-              } else if (measure.type === 4) {
+              } else if (measure.type === 'SYN') {
                 queries.push({
                   type: this.measureNames[4],
-                  query: measure.query
-                });
-              } else if (measure.type === 20) {
-                queries.push({
-                  type: this.measureNames[5],
                   query: measure.query,
-                  error_threshold: measure.error_threshold
+                  max_avg_response_time: measure.max_avg_response_time,
+                  max_total_check_time: measure.max_total_check_time,
+                  min_success_percentage: measure.min_success_percentage
                 });
               }
             });
@@ -1281,43 +1265,52 @@ export default class DataManager {
         tp.queries.forEach(query => {
           if (query.type === this.measureNames[0]) {
             measure = {
-              type: 0,
+              type: 'PRC',
               query: query.query,
-              count: 0
+              min_count: query.min_count,
+              session_count: 0
             };
           } else if (query.type === this.measureNames[1]) {
             measure = {
-              type: 1,
+              type: 'PCC',
               query: query.query,
-              error_threshold: 5,
-              error_percentage: 0
+              min_count: query.min_count,
+              transaction_count: 0
             };
           } else if (query.type === this.measureNames[2]) {
             measure = {
-              type: 2,
+              type: 'APP',
               query: query.query,
-              apdex: 0,
-              apdex_time: 0.4
+              apdex_threshold: query.apdex_threshold,
+              min_apdex: query.min_apdex,
+              max_response_time: query.max_response_time,
+              max_error_percentage: query.max_error_percentage,
+              apdex_value: 0,
+              response_value: 0,
+              error_percentage: 0
             };
           } else if (query.type === this.measureNames[3]) {
             measure = {
-              type: 3,
+              type: 'FRT',
               query: query.query,
-              count: 0
+              apdex_threshold: query.apdex_threshold,
+              min_apdex: query.min_apdex,
+              max_response_time: query.max_response_time,
+              max_error_percentage: query.max_error_percentage,
+              apdex_value: 0,
+              response_value: 0,
+              error_percentage: 0
             };
           } else if (query.type === this.measureNames[4]) {
             measure = {
-              type: 4,
+              type: 'SYN',
               query: query.query,
-              sessions: []
-            };
-          } else if (query.type === this.measureNames[5]) {
-            measure = {
-              type: 20,
-              query: query.query,
-              error_threshold: query.error_threshold,
-              count: 0,
-              error_percentage: 0
+              max_avg_response_time: query.max_avg_response_time,
+              max_total_check_time: query.max_total_check_time,
+              min_success_percentage: query.min_success_percentage,
+              success_percentage: 0,
+              max_duration: 0,
+              max_request_time: 0
             };
           }
           tpDef2.measure_points.push(measure);
@@ -1750,11 +1743,11 @@ for (const [key, value] of Object.entries(return` +
             found2 = true;
             let actualValue = 0;
             tp.measure_points.forEach(measure => {
-              if (measure.type === 0) {
+              if (measure.type === 'PRC') {
                 datos.push({
-                  label: 'Count Query',
+                  label: this.measureNames[0],
                   value: actualValue,
-                  type: 0,
+                  type: 'PRC',
                   query_start: '',
                   query_body: measure.query,
                   query_footer: `SINCE ${this.TimeRangeTransform(
@@ -1762,11 +1755,11 @@ for (const [key, value] of Object.entries(return` +
                     false
                   )}`
                 });
-              } else if (measure.type === 1) {
+              } else if (measure.type === 'PCC') {
                 datos.push({
-                  label: 'Error Percentage Query',
+                  label: this.measureNames[1],
                   value: actualValue,
-                  type: 1,
+                  type: 'PCC',
                   query_start: '',
                   query_body: measure.query,
                   query_footer: `SINCE ${this.TimeRangeTransform(
@@ -1774,11 +1767,11 @@ for (const [key, value] of Object.entries(return` +
                     false
                   )}`
                 });
-              } else if (measure.type === 2) {
+              } else if (measure.type === 'APP') {
                 datos.push({
-                  label: 'Apdex Query',
+                  label: this.measureNames[2],
                   value: actualValue,
-                  type: 2,
+                  type: 'APP',
                   query_start: '',
                   query_body: measure.query,
                   query_footer: `SINCE ${this.TimeRangeTransform(
@@ -1786,11 +1779,11 @@ for (const [key, value] of Object.entries(return` +
                     false
                   )}`
                 });
-              } else if (measure.type === 3) {
+              } else if (measure.type === 'FRT') {
                 datos.push({
-                  label: 'Session Query',
+                  label: this.measureNames[3],
                   value: actualValue,
-                  type: 3,
+                  type: 'FRT',
                   query_start: '',
                   query_body: measure.query,
                   query_footer: `SINCE ${this.TimeRangeTransform(
@@ -1798,23 +1791,11 @@ for (const [key, value] of Object.entries(return` +
                     false
                   )}`
                 });
-              } else if (measure.type === 4) {
+              } else if (measure.type === 'SYN') {
                 datos.push({
-                  label: 'Session Query Duration',
+                  label: this.measureNames[4],
                   value: actualValue,
-                  type: 4,
-                  query_start: '',
-                  query_body: measure.query,
-                  query_footer: `SINCE ${this.TimeRangeTransform(
-                    this.timeRange,
-                    false
-                  )}`
-                });
-              } else if (measure.type === 20) {
-                datos.push({
-                  label: 'Full Open Query',
-                  value: actualValue,
-                  type: 20,
+                  type: 'SYN',
                   query_start: '',
                   query_body: measure.query,
                   query_footer: `SINCE ${this.TimeRangeTransform(
@@ -1890,11 +1871,7 @@ for (const [key, value] of Object.entries(return` +
       let found = false;
       if (measure.type === data.type) {
         found = true;
-        if (measure.type === 4) {
-          measure.appName = data.query_body;
-        } else {
-          measure.query = data.query_body;
-        }
+        measure.query = data.query_body;
       }
       return found;
     });
