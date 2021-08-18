@@ -112,12 +112,12 @@ export default class ValidationQuery {
     if (errors && errors.length > 0) {
       validate = false;
     } else if (
-      data instanceof Array && 
+      data instanceof Array &&
       data.length === 2 &&
       data[0].value &&
       data[0].comparison &&
       query.toLowerCase().includes('compare with')
-      ) {
+    ) {
       validate = true;
     }
     return validate;

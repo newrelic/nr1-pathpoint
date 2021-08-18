@@ -5,253 +5,106 @@
     "touchpoints": [
       {
         "stage_index": 1,
-        "value": "Catalog API",
+        "value": "Login People",
         "touchpoint_index": 1,
-        "status_on_off": true,
-        "relation_steps": [
-          1
-        ],
-        "measure_points": [
-          {
-            "type": 0,
-            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name='WebTransaction/Action/'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='QS' AND name='WebTransaction/Action/'",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='QS' AND name='WebTransaction/Action/'",
-            "apdex": 0,
-            "apdex_time": 40
-          },
-          {
-            "type": 3,
-            "query": "SELECT uniqueCount(session) as session FROM PageView WHERE appName='QS' AND name='WebTransaction/Action/'",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "SELECT count(*) FROM PageView WHERE appName='QS' AND name='WebTransaction/Action/' FACET session LIMIT MAX",
-            "sessions": []
-          }
-        ]
-      },
-      {
-        "stage_index": 1,
-        "value": "Master Data API",
-        "touchpoint_index": 2,
-        "status_on_off": true,
-        "relation_steps": [
-          2
-        ],
-        "measure_points": [
-          {
-            "type": 0,
-            "query": "SELECT count(*) from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/grpc.health.v1.Health/Check'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/grpc.health.v1.Health/Check'",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/grpc.health.v1.Health/Check'",
-            "apdex": 0,
-            "apdex_time": 40
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
-          }
-        ]
-      },
-      {
-        "stage_index": 1,
-        "value": "Pricing API",
-        "touchpoint_index": 3,
         "status_on_off": true,
         "relation_steps": [
           4
         ],
         "measure_points": [
           {
-            "type": 20,
-            "query": "SELECT FILTER(count(*), WHERE container_name='server') as R1, FILTER(count(*), WHERE container_name='main') as R2 FROM Log",
-            "error_threshold": 5,
-            "count": 0,
+            "type": "PRC",
+            "query": "SELECT uniqueCount(session) as session FROM PageView WHERE appName='QS' AND name='WebTransaction/Action/'",
+            "min_count": 10,
+            "session_count": 0
+          }
+        ]
+      },
+      {
+        "stage_index": 1,
+        "value": "App Backend Health",
+        "touchpoint_index": 2,
+        "status_on_off": true,
+        "relation_steps": [
+          3
+        ],
+        "measure_points": [
+          {
+            "type": "APP",
+            "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
+            "apdex_threshold": 0,
+            "min_apdex": 0,
+            "max_response_time": 0,
+            "max_error_percentage": 5,
+            "apdex_value": 0,
+            "response_value": 0,
             "error_percentage": 0
           }
         ]
       },
       {
         "stage_index": 1,
-        "value": "Search API",
+        "value": "App Frontend Health",
+        "touchpoint_index": 3,
+        "status_on_off": true,
+        "relation_steps": [
+          1
+        ],
+        "measure_points": [
+          {
+            "type": "FRT",
+            "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
+            "apdex_threshold": 1,
+            "min_apdex": 0,
+            "max_response_time": 1,
+            "max_error_percentage": 5,
+            "apdex_value": 0,
+            "response_value": 0,
+            "error_percentage": 0
+          }
+        ]
+      },
+      {
+        "stage_index": 1,
+        "value": "Login Check",
         "touchpoint_index": 4,
+        "status_on_off": true,
+        "relation_steps": [
+          4
+        ],
+        "measure_points": [
+          {
+            "type": "SYN",
+            "query": "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE monitorName='BDB Live person'",
+            "max_avg_response_time": 0,
+            "max_total_check_time": 1,
+            "min_success_percentage": 98,
+            "success_percentage": 0,
+            "max_duration": 0,
+            "max_request_time": 0
+          }
+        ]
+      },
+      {
+        "stage_index": 1,
+        "value": "Signup People",
+        "touchpoint_index": 5,
         "status_on_off": true,
         "relation_steps": [
           5
         ],
         "measure_points": [
           {
-            "type": 0,
-            "query": "SELECT count(*) from Transaction WHERE appName='currency-service' AND name='WebTransaction/Custom//Check'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='currency-service' AND name='WebTransaction/Custom//Check'",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='currency-service' AND name='WebTransaction/Custom//Check'",
-            "apdex": 0,
-            "apdex_time": 40
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
-          }
-        ]
-      },
-      {
-        "stage_index": 1,
-        "value": "Session Manager API",
-        "touchpoint_index": 5,
-        "status_on_off": true,
-        "relation_steps": [
-          10
-        ],
-        "measure_points": [
-          {
-            "type": 0,
-            "query": "SELECT count(*) FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/GET /'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/GET /'",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/GET /'",
-            "apdex": 0,
-            "apdex_time": 40
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
-          }
-        ]
-      },
-      {
-        "stage_index": 1,
-        "value": "Subscriptions API",
-        "touchpoint_index": 6,
-        "status_on_off": true,
-        "relation_steps": [
-          11
-        ],
-        "measure_points": [
-          {
-            "type": 0,
-            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name LIKE 'WebTransaction/Action/App%'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='QS' AND name LIKE 'WebTransaction/Action/App%'",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='QS' AND name LIKE 'WebTransaction/Action/App%'",
-            "apdex": 0,
-            "apdex_time": 40
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
-          }
-        ]
-      },
-      {
-        "stage_index": 1,
-        "value": "Suggestions API",
-        "touchpoint_index": 7,
-        "status_on_off": true,
-        "relation_steps": [
-          14
-        ],
-        "measure_points": [
-          {
-            "type": 0,
-            "query": "SELECT count(*) from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/GetQuote'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/GetQuote'",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/GetQuote'",
-            "apdex": 0,
-            "apdex_time": 40
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
+            "type": "PRC",
+            "query": "SELECT uniqueCount(session) as session FROM PageView WHERE appName='QS' AND name='WebTransaction/Action/login'",
+            "min_count": 36,
+            "session_count": 0
           }
         ]
       },
       {
         "stage_index": 2,
-        "value": "Catalog API",
+        "value": "Catalog API USE",
         "touchpoint_index": 1,
         "status_on_off": true,
         "relation_steps": [
@@ -259,31 +112,10 @@
         ],
         "measure_points": [
           {
-            "type": 0,
-            "query": "SELECT count(*) from Transaction WHERE appName='productCatalog-service' AND name='WebTransaction/Go/hipstershop.ProductCatalogService/GetProduct'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='productCatalog-service' AND name='WebTransaction/Go/hipstershop.ProductCatalogService/GetProduct'",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='productCatalog-service' AND name='WebTransaction/Go/hipstershop.ProductCatalogService/GetProduct'",
-            "apdex": 0,
-            "apdex_time": 40
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
+            "type": "PCC",
+            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name LIKE 'WebTransaction/Action/App%'",
+            "min_count": 20,
+            "transaction_count": 0
           }
         ]
       },
@@ -297,31 +129,15 @@
         ],
         "measure_points": [
           {
-            "type": 0,
-            "query": "SELECT count(*) FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/GET /cart'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/GET /cart'",
-            "error_threshold": 5,
+            "type": "APP",
+            "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
+            "apdex_threshold": 0,
+            "min_apdex": 0,
+            "max_response_time": 0,
+            "max_error_percentage": 5,
+            "apdex_value": 0,
+            "response_value": 0,
             "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/GET /cart'",
-            "apdex": 0,
-            "apdex_time": 40
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
           }
         ]
       },
@@ -335,31 +151,15 @@
         ],
         "measure_points": [
           {
-            "type": 0,
-            "query": "SELECT count(*) FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/GET /product/{id}'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/GET /product/{id}'",
-            "error_threshold": 5,
+            "type": "FRT",
+            "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
+            "apdex_threshold": 1,
+            "min_apdex": 0,
+            "max_response_time": 1,
+            "max_error_percentage": 5,
+            "apdex_value": 0,
+            "response_value": 0,
             "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/GET /product/{id}'",
-            "apdex": 0,
-            "apdex_time": 40
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
           }
         ]
       },
@@ -373,31 +173,10 @@
         ],
         "measure_points": [
           {
-            "type": 0,
-            "query": "SELECT count(*) FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/POST /cart'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/POST /cart'",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/POST /cart'",
-            "apdex": 0,
-            "apdex_time": 40
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
+            "type": "PCC",
+            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name='WebTransaction/Action/login'",
+            "min_count": 36,
+            "transaction_count": 0
           }
         ]
       },
@@ -411,37 +190,16 @@
         ],
         "measure_points": [
           {
-            "type": 0,
-            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name='WebTransaction/Action/home'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='QS' AND name='WebTransaction/Action/home'",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='QS' AND name='WebTransaction/Action/home'",
-            "apdex": 0,
-            "apdex_time": 40
-          },
-          {
-            "type": 3,
-            "query": "SELECT uniqueCount(session) as session FROM PageView WHERE appName='QS' AND name='WebTransaction/Action/home'",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "SELECT count(*) FROM PageView WHERE appName='QS' AND name='WebTransaction/Action/home' FACET session LIMIT MAX",
-            "sessions": []
+            "type": "PCC",
+            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name='WebTransaction/Action/login'",
+            "min_count": 36,
+            "transaction_count": 0
           }
         ]
       },
       {
         "stage_index": 3,
-        "value": "Checkout API",
+        "value": "Checkout Check",
         "touchpoint_index": 2,
         "status_on_off": true,
         "relation_steps": [
@@ -449,31 +207,14 @@
         ],
         "measure_points": [
           {
-            "type": 0,
-            "query": "SELECT count(*) from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='shipping-service' AND name='WebTransaction/Go/hipstershop.ShippingService/ShipOrder'",
-            "apdex": 0,
-            "apdex_time": 40
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
+            "type": "SYN",
+            "query": "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE monitorName='BDB Live person'",
+            "max_avg_response_time": 0,
+            "max_total_check_time": 1,
+            "min_success_percentage": 98,
+            "success_percentage": 0,
+            "max_duration": 0,
+            "max_request_time": 0
           }
         ]
       },
@@ -487,31 +228,10 @@
         ],
         "measure_points": [
           {
-            "type": 0,
-            "query": "SELECT count(*) from Transaction WHERE appName='productCatalog-service' AND name='WebTransaction/Go/hipstershop.ProductCatalogService/ListProducts'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='productCatalog-service' AND name='WebTransaction/Go/hipstershop.ProductCatalogService/ListProducts'",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='productCatalog-service' AND name='WebTransaction/Go/hipstershop.ProductCatalogService/ListProducts'",
-            "apdex": 0,
-            "apdex_time": 40
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
+            "type": "PCC",
+            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name LIKE 'WebTransaction/Action/App%'",
+            "min_count": 20,
+            "transaction_count": 0
           }
         ]
       },
@@ -525,31 +245,15 @@
         ],
         "measure_points": [
           {
-            "type": 0,
-            "query": "SELECT count(*) from Transaction WHERE appName='currency-service' AND name='WebTransaction/Custom//Convert'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='currency-service' AND name='WebTransaction/Custom//Convert'",
-            "error_threshold": 5,
+            "type": "APP",
+            "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
+            "apdex_threshold": 0,
+            "min_apdex": 0,
+            "max_response_time": 0,
+            "max_error_percentage": 5,
+            "apdex_value": 0,
+            "response_value": 0,
             "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='currency-service' AND name='WebTransaction/Custom//Convert'",
-            "apdex": 0,
-            "apdex_time": 40
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
           }
         ]
       },
@@ -563,31 +267,15 @@
         ],
         "measure_points": [
           {
-            "type": 0,
-            "query": "SELECT count(*) from Transaction WHERE appName='currency-service' AND name='WebTransaction/Custom//GetSupportedCurrencies'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='currency-service' AND name='WebTransaction/Custom//GetSupportedCurrencies'",
-            "error_threshold": 5,
+            "type": "FRT",
+            "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
+            "apdex_threshold": 1,
+            "min_apdex": 0,
+            "max_response_time": 1,
+            "max_error_percentage": 5,
+            "apdex_value": 0,
+            "response_value": 0,
             "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='currency-service' AND name='WebTransaction/Custom//GetSupportedCurrencies'",
-            "apdex": 0,
-            "apdex_time": 40
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
           }
         ]
       },
@@ -601,31 +289,10 @@
         ],
         "measure_points": [
           {
-            "type": 0,
-            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name='WebTransaction/Action/logout'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='QS' AND name='WebTransaction/Action/'",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='QS' AND name='WebTransaction/Action/logout'",
-            "apdex": 0,
-            "apdex_time": 40
-          },
-          {
-            "type": 3,
-            "query": "SELECT uniqueCount(session) as session FROM PageView WHERE appName='QS' AND name='WebTransaction/Action/logout'",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "SELECT count(*) FROM PageView WHERE appName='QS' AND name='WebTransaction/Action/logout' FACET session LIMIT MAX",
-            "sessions": []
+            "type": "PCC",
+            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name='WebTransaction/Action/login'",
+            "min_count": 36,
+            "transaction_count": 0
           }
         ]
       },
@@ -639,31 +306,10 @@
         ],
         "measure_points": [
           {
-            "type": 0,
-            "query": "SELECT count(*) FROM Transaction WHERE appName='checkout-service'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage FROM Transaction WHERE appName='checkout-service'",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='checkout-service'",
-            "apdex": 0,
-            "apdex_time": 40
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
+            "type": "PRC",
+            "query": "SELECT uniqueCount(session) as session FROM PageView WHERE appName='QS' AND name='WebTransaction/Action/'",
+            "min_count": 10,
+            "session_count": 0
           }
         ]
       },
@@ -677,31 +323,15 @@
         ],
         "measure_points": [
           {
-            "type": 0,
-            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name='WebTransaction/Action/logout'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='QS' AND name='WebTransaction/Action/'",
-            "error_threshold": 5,
+            "type": "APP",
+            "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
+            "apdex_threshold": 0,
+            "min_apdex": 0,
+            "max_response_time": 0,
+            "max_error_percentage": 5,
+            "apdex_value": 0,
+            "response_value": 0,
             "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='QS' AND name='WebTransaction/Action/logout'",
-            "apdex": 0,
-            "apdex_time": 40
-          },
-          {
-            "type": 3,
-            "query": "SELECT uniqueCount(session) as session FROM PageView WHERE appName='QS' AND name='WebTransaction/Action/logout'",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "SELECT count(*) FROM PageView WHERE appName='QS' AND name='WebTransaction/Action/logout' FACET session LIMIT MAX",
-            "sessions": []
           }
         ]
       },
@@ -715,31 +345,15 @@
         ],
         "measure_points": [
           {
-            "type": 0,
-            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name='WebTransaction/Action/logout'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='QS' AND name='WebTransaction/Action/'",
-            "error_threshold": 5,
+            "type": "FRT",
+            "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
+            "apdex_threshold": 1,
+            "min_apdex": 0,
+            "max_response_time": 1,
+            "max_error_percentage": 5,
+            "apdex_value": 0,
+            "response_value": 0,
             "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='QS' AND name='WebTransaction/Action/logout'",
-            "apdex": 0,
-            "apdex_time": 40
-          },
-          {
-            "type": 3,
-            "query": "SELECT uniqueCount(session) as session FROM PageView WHERE appName='QS' AND name='WebTransaction/Action/logout'",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "SELECT count(*) FROM PageView WHERE appName='QS' AND name='WebTransaction/Action/logout' FACET session LIMIT MAX",
-            "sessions": []
           }
         ]
       },
@@ -753,31 +367,14 @@
         ],
         "measure_points": [
           {
-            "type": 0,
-            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name='WebTransaction/Action/login'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='QS' AND name='WebTransaction/Action/login'",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='QS' AND name='WebTransaction/Action/login'",
-            "apdex": 0,
-            "apdex_time": 40
-          },
-          {
-            "type": 3,
-            "query": "SELECT uniqueCount(session) as session FROM PageView WHERE appName='QS' AND name='WebTransaction/Action/login'",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "SELECT count(*) FROM PageView WHERE appName='QS' AND name='WebTransaction/Action/login' FACET session LIMIT MAX",
-            "sessions": []
+            "type": "SYN",
+            "query": "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE monitorName='BDB Live person'",
+            "max_avg_response_time": 0,
+            "max_total_check_time": 1,
+            "min_success_percentage": 98,
+            "success_percentage": 0,
+            "max_duration": 0,
+            "max_request_time": 0
           }
         ]
       },
@@ -791,31 +388,10 @@
         ],
         "measure_points": [
           {
-            "type": 0,
-            "query": "SELECT count(*) FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/POST /cart/checkout'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/POST /cart/checkout'",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/POST /cart/checkout'",
-            "apdex": 0,
-            "apdex_time": 40
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
+            "type": "PRC",
+            "query": "SELECT uniqueCount(session) as session FROM PageView WHERE appName='QS' AND name='WebTransaction/Action/login'",
+            "min_count": 36,
+            "session_count": 0
           }
         ]
       },
@@ -829,31 +405,10 @@
         ],
         "measure_points": [
           {
-            "type": 0,
-            "query": "SELECT count(*) FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/POST /setCurrency'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/POST /setCurrency'",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='frontend-service' AND name='WebTransaction/Go/POST /setCurrency'",
-            "apdex": 0,
-            "apdex_time": 40
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
+            "type": "PCC",
+            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name='WebTransaction/Action/login'",
+            "min_count": 36,
+            "transaction_count": 0
           }
         ]
       },
@@ -867,31 +422,14 @@
         ],
         "measure_points": [
           {
-            "type": 0,
-            "query": "SELECT count(*) FROM Transaction WHERE appName='recommendation-service' AND name='WebTransaction/Function/ListRecommendations'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage FROM Transaction WHERE appName='recommendation-service' AND name='WebTransaction/Function/ListRecommendations'",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='recommendation-service' AND name='WebTransaction/Function/ListRecommendations'",
-            "apdex": 0,
-            "apdex_time": 40
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
+            "type": "SYN",
+            "query": "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE monitorName='BDB Live person'",
+            "max_avg_response_time": 0,
+            "max_total_check_time": 1,
+            "min_success_percentage": 98,
+            "success_percentage": 0,
+            "max_duration": 0,
+            "max_request_time": 0
           }
         ]
       },
@@ -905,31 +443,10 @@
         ],
         "measure_points": [
           {
-            "type": 0,
-            "query": "SELECT count(*) FROM Transaction WHERE appName='email-service'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage FROM Transaction WHERE appName='email-service'",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='email-service'",
-            "apdex": 0,
-            "apdex_time": 40
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
+            "type": "PCC",
+            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name LIKE 'WebTransaction/Action/App%'",
+            "min_count": 20,
+            "transaction_count": 0
           }
         ]
       },
@@ -943,31 +460,15 @@
         ],
         "measure_points": [
           {
-            "type": 0,
-            "query": "SELECT count(*) FROM Transaction WHERE appName='payment-service'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage FROM Transaction WHERE appName='payment-service'",
-            "error_threshold": 5,
+            "type": "APP",
+            "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
+            "apdex_threshold": 0,
+            "min_apdex": 0,
+            "max_response_time": 0,
+            "max_error_percentage": 5,
+            "apdex_value": 0,
+            "response_value": 0,
             "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='payment-service'",
-            "apdex": 0,
-            "apdex_time": 40
-          },
-          {
-            "type": 3,
-            "query": "",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "",
-            "sessions": []
           }
         ]
       },
@@ -981,31 +482,15 @@
         ],
         "measure_points": [
           {
-            "type": 0,
-            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name='WebTransaction/Action/logout'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='QS' AND name='WebTransaction/Action/'",
-            "error_threshold": 5,
+            "type": "FRT",
+            "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
+            "apdex_threshold": 1,
+            "min_apdex": 0,
+            "max_response_time": 1,
+            "max_error_percentage": 5,
+            "apdex_value": 0,
+            "response_value": 0,
             "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='QS' AND name='WebTransaction/Action/logout'",
-            "apdex": 0,
-            "apdex_time": 40
-          },
-          {
-            "type": 3,
-            "query": "SELECT uniqueCount(session) as session FROM PageView WHERE appName='QS' AND name='WebTransaction/Action/logout'",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "SELECT count(*) FROM PageView WHERE appName='QS' AND name='WebTransaction/Action/logout' FACET session LIMIT MAX",
-            "sessions": []
           }
         ]
       },
@@ -1019,31 +504,10 @@
         ],
         "measure_points": [
           {
-            "type": 0,
-            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name='WebTransaction/Action/logout'",
-            "count": 0
-          },
-          {
-            "type": 1,
-            "query": "SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='QS' AND name='WebTransaction/Action/'",
-            "error_threshold": 5,
-            "error_percentage": 0
-          },
-          {
-            "type": 2,
-            "query": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='QS' AND name='WebTransaction/Action/logout'",
-            "apdex": 0,
-            "apdex_time": 40
-          },
-          {
-            "type": 3,
-            "query": "SELECT uniqueCount(session) as session FROM PageView WHERE appName='QS' AND name='WebTransaction/Action/logout'",
-            "count": 0
-          },
-          {
-            "type": 4,
-            "query": "SELECT count(*) FROM PageView WHERE appName='QS' AND name='WebTransaction/Action/logout' FACET session LIMIT MAX",
-            "sessions": []
+            "type": "PCC",
+            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name='WebTransaction/Action/login'",
+            "min_count": 36,
+            "transaction_count": 0
           }
         ]
       }
