@@ -676,19 +676,24 @@ export default class DataManager {
       if (touchpoint.stage_index === stage && touchpoint.status_on_off) {
         count_touchpoints += 1;
         touchpoint.measure_points.forEach(measure => {
-          if (measure.type === 'APP' || measure.type === 'FRT') {
+          let setError = false;
+          if (
+            measure.type === 'PRC' &&
+            measure.session_count < measure.min_count
+          ) {
+            setError = true;
+          } else if (
+            measure.type === 'PCC' &&
+            measure.transaction_count < measure.min_count
+          ) {
+            setError = true;
+          } else if (measure.type === 'APP' || measure.type === 'FRT') {
             if (
               measure.error_percentage > measure.max_error_percentage ||
               measure.apdex_value < measure.min_apdex ||
               measure.response_value > measure.max_response_time
             ) {
-              touchpoint.relation_steps.forEach(rel => {
-                steps_with_error[rel - 1] = 1;
-              });
-              this.SetTouchpointError(
-                touchpoint.stage_index,
-                touchpoint.touchpoint_index
-              );
+              setError = true;
             }
           } else if (measure.type === 'SYN') {
             if (
@@ -696,14 +701,17 @@ export default class DataManager {
               measure.max_request_time > measure.max_total_check_time ||
               measure.max_duration > measure.max_avg_response_time
             ) {
-              touchpoint.relation_steps.forEach(rel => {
-                steps_with_error[rel - 1] = 1;
-              });
-              this.SetTouchpointError(
-                touchpoint.stage_index,
-                touchpoint.touchpoint_index
-              );
+              setError = true;
             }
+          }
+          if (setError) {
+            touchpoint.relation_steps.forEach(rel => {
+              steps_with_error[rel - 1] = 1;
+            });
+            this.SetTouchpointError(
+              touchpoint.stage_index,
+              touchpoint.touchpoint_index
+            );
           }
         });
       }
