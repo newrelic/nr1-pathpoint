@@ -1716,17 +1716,7 @@ for (const [key, value] of Object.entries(return` +
             tp.touchpoint_index === touchpoint.index
           ) {
             found2 = true;
-            if (tp.measure_points.length > 1) {
-              datos = {
-                error_threshold: tp.measure_points[1].error_threshold,
-                apdex_time: tp.measure_points[2].apdex_time
-              };
-            } else {
-              datos = {
-                error_threshold: tp.measure_points[0].error_threshold,
-                apdex_time: 0
-              };
-            }
+            datos = tp.measure_points;
           }
           return found2;
         });
@@ -1835,11 +1825,28 @@ for (const [key, value] of Object.entries(return` +
             tp.touchpoint_index === touchpoint.index
           ) {
             found2 = true;
-            if (tp.measure_points.length > 1) {
-              tp.measure_points[1].error_threshold = datos.error_threshold;
-              tp.measure_points[2].apdex_time = datos.apdex_time;
-            } else {
-              tp.measure_points[0].error_threshold = datos.error_threshold;
+            switch (tp.measure_points[0].type) {
+              case 'PRC':
+              case 'PCC':
+                tp.measure_points[0].min_count = datos.min_count;
+                break;
+              case 'APP':
+              case 'FRT':
+                tp.measure_points[0].apdex_threshold = datos.apdex_threshold;
+                tp.measure_points[0].min_apdex = datos.min_apdex;
+                tp.measure_points[0].max_response_time =
+                  datos.max_response_time;
+                tp.measure_points[0].max_error_percentage =
+                  datos.max_error_percentage;
+                break;
+              case 'SYN':
+                tp.measure_points[0].max_avg_response_time =
+                  datos.max_avg_response_time;
+                tp.measure_points[0].max_total_check_time =
+                  datos.max_total_check_time;
+                tp.measure_points[0].min_success_percentage =
+                  datos.min_success_percentage;
+                break;
             }
             this.SetStorageTouchpoints();
           }

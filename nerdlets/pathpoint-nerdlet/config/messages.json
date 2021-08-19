@@ -48,12 +48,11 @@
         }
     },
     "sample_querys": {
-        "count": "SELECT count(*) from Transaction WHERE appName='QS'",
-        "percentage":"SELECT percentage(count(*), WHERE error is true) as percentage from Transaction WHERE appName='QS'",
-        "apdex": "SELECT apdex(duration, t:0.5) FROM Transaction WHERE appName='QS'",
-        "session": "SELECT uniqueCount(session) as session FROM PageView WHERE appName='QS'",
-        "sessionDuration": "SELECT count(*) FROM PageView WHERE appName='QS' FACET session LIMIT MAX",
-        "fullOpenQuery": "SELECT FILTER(count(*), WHERE container_name='server') as R1, FILTER(count(*), WHERE container_name='main') as R2 FROM Log"
+        "prc": "SELECT uniqueCount(session) as session FROM PageView WHERE appName='QS' AND name='WebTransaction/Action/'",
+        "pcc":"SELECT count(*) from Transaction WHERE appName='QS' AND name LIKE 'WebTransaction/Action/App%'",
+        "app": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
+        "frt": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
+        "syn": "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE monitorName='BDB Live person'"
     },
     "test_query": {
         "wrong": "Incorrect validated",

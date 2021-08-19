@@ -869,23 +869,20 @@ export default class MainContainer extends React.Component {
     let querySample = '';
     const { stageNameSelected } = this.state;
     switch (stageNameSelected.datos[value].label) {
-      case 'Count Query':
-        querySample = messages.sample_querys.count;
+      case 'PRC-COUNT-QUERY':
+        querySample = messages.sample_querys.prc;
         break;
-      case 'Error Percentage Query':
-        querySample = messages.sample_querys.percentage;
+      case 'PCC-COUNT-QUERY':
+        querySample = messages.sample_querys.pcc;
         break;
-      case 'Apdex Query':
-        querySample = messages.sample_querys.apdex;
+      case 'APP-HEALTH-QUERY':
+        querySample = messages.sample_querys.app;
         break;
-      case 'Session Query':
-        querySample = messages.sample_querys.session;
+      case 'FRT-HEALTH-QUERY':
+        querySample = messages.sample_querys.frt;
         break;
-      case 'Session Query Duration':
-        querySample = messages.sample_querys.sessionDuration;
-        break;
-      case 'Full Open Query':
-        querySample = messages.sample_querys.fullOpenQuery;
+      case 'SYN-CHECK-QUERY':
+        querySample = messages.sample_querys.syn;
         break;
     }
     if (stageNameSelected.selectedCase) {
@@ -950,10 +947,25 @@ export default class MainContainer extends React.Component {
     this._onClose();
   };
 
-  handleSaveUpdateTune = async ({ threshold, apdex }) => {
+  handleSaveUpdateTune = async ({
+    min_count,
+    apdex_threshold,
+    min_apdex,
+    max_response_time,
+    max_error_percentage,
+    max_avg_response_time,
+    max_total_check_time,
+    min_success_percentage
+  }) => {
     const datos = {
-      error_threshold: threshold,
-      apdex_time: apdex
+      min_count: min_count,
+      apdex_threshold: apdex_threshold,
+      min_apdex: min_apdex,
+      max_response_time: max_response_time,
+      max_error_percentage: max_error_percentage,
+      max_avg_response_time: max_avg_response_time,
+      max_total_check_time: max_total_check_time,
+      min_success_percentage: min_success_percentage
     };
     await this.DataManager.UpdateTouchpointTune(
       this.state.stageNameSelected.touchpoint,
