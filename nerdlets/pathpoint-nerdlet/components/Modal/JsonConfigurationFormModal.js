@@ -46,12 +46,12 @@ function handleUploadJSONFile(
         const queryErrors = [];
         let tested = false;
         for (let i = 0; i < parsed.length; i++) {
-          if(parsed[i].type === 100){
+          if (parsed[i].type === 100) {
             tested = await validateKpiQuery.validateQuery(
-              'Count Query',
+              'KPI-100',
               parsed[i].query
             );
-          }else if(parsed[i].type === 101){
+          } else if (parsed[i].type === 101) {
             tested = await validateKpiQuery.validateQuery(
               'KPI-101',
               parsed[i].query
@@ -88,7 +88,7 @@ function handleUploadJSONFile(
       onClose([
         {
           dataPath: `JSON File`,
-          message: `Bad JSON File Structure` + error
+          message: `Bad JSON File Structure ${error}`
         }
       ]);
     }
