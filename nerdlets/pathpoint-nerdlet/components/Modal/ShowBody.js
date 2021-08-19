@@ -25,40 +25,77 @@ export default class ShowBody extends Component {
       url: '',
       text: '',
       type: '',
-      threshold: '',
-      apdex: '',
       subject: '',
       name: '',
       company: '',
       account: '',
       email: '',
       phone: '',
-      message: ''
+      message: '',
+      min_count: 0,
+      apdex_threshold: 0,
+      min_apdex: 0,
+      max_response_time: 0,
+      max_error_percentage: 0,
+      max_avg_response_time: 0,
+      max_total_check_time: 0,
+      min_success_percentage: 0
     };
   }
 
   componentDidMount() {
     const { stageNameSelected } = this.props;
-    let error_threshold = '';
-    let apdex_time = '';
-    if (stageNameSelected && stageNameSelected.datos) {
-      error_threshold = stageNameSelected.datos.error_threshold;
-      apdex_time = stageNameSelected.datos.apdex_time;
+    if (
+      stageNameSelected &&
+      stageNameSelected.datos &&
+      stageNameSelected.datos[0]
+    ) {
+      let {
+        min_count,
+        apdex_threshold,
+        min_apdex,
+        max_response_time,
+        max_error_percentage,
+        max_avg_response_time,
+        max_total_check_time,
+        min_success_percentage
+      } = this.state;
+      switch (stageNameSelected.datos[0].type) {
+        case 'PRC':
+        case 'PCC':
+          min_count = stageNameSelected.datos[0].min_count;
+          break;
+        case 'APP':
+        case 'FRT':
+          apdex_threshold = stageNameSelected.datos[0].apdex_threshold;
+          min_apdex = stageNameSelected.datos[0].min_apdex;
+          max_response_time = stageNameSelected.datos[0].max_response_time;
+          max_error_percentage =
+            stageNameSelected.datos[0].max_error_percentage;
+          break;
+        case 'SYN':
+          max_avg_response_time =
+            stageNameSelected.datos[0].max_avg_response_time;
+          max_total_check_time =
+            stageNameSelected.datos[0].max_total_check_time;
+          min_success_percentage =
+            stageNameSelected.datos[0].min_success_percentage;
+      }
+      this.setState({
+        min_count: min_count,
+        apdex_threshold: apdex_threshold,
+        min_apdex: min_apdex,
+        max_response_time: max_response_time,
+        max_error_percentage: max_error_percentage,
+        max_avg_response_time: max_avg_response_time,
+        max_total_check_time: max_total_check_time,
+        min_success_percentage: min_success_percentage
+      });
     }
     if (messages.configuration.support.options_select_support_02.service_1) {
       this.setState({
         subject:
           messages.configuration.support.options_select_support_02.service_1
-      });
-    }
-    if (apdex_time) {
-      this.setState({
-        apdex: apdex_time
-      });
-    }
-    if (error_threshold) {
-      this.setState({
-        threshold: error_threshold
       });
     }
   }
@@ -99,9 +136,27 @@ export default class ShowBody extends Component {
 
   handleSubmitTune = event => {
     event.preventDefault();
-    const { threshold, apdex } = this.state;
+    const {
+      min_count,
+      apdex_threshold,
+      min_apdex,
+      max_response_time,
+      max_error_percentage,
+      max_avg_response_time,
+      max_total_check_time,
+      min_success_percentage
+    } = this.state;
     const { handleSaveUpdateTune } = this.props;
-    handleSaveUpdateTune({ threshold, apdex });
+    handleSaveUpdateTune({
+      min_count,
+      apdex_threshold,
+      min_apdex,
+      max_response_time,
+      max_error_percentage,
+      max_avg_response_time,
+      max_total_check_time,
+      min_success_percentage
+    });
   };
 
   showBodyRender = () => {

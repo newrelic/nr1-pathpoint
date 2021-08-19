@@ -17,7 +17,16 @@ export default {
       items: [
         {
           type: 'object',
-          required: ['index', 'type', 'name', 'shortName', 'link', 'query', 'value', 'check'],
+          required: [
+            'index',
+            'type',
+            'name',
+            'shortName',
+            'link',
+            'query',
+            'value',
+            'check'
+          ],
           properties: {
             index: {
               type: 'number'
@@ -40,7 +49,7 @@ export default {
               type: 'string'
             },
             value: {
-              type: ['number','object']
+              type: ['number', 'object']
             },
             check: {
               type: 'boolean'
