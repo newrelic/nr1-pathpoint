@@ -45,29 +45,28 @@ while (($datos = fgetcsv($f, 1000, ",")) !== FALSE) {
         $readingHeader = false;
     } else {
         $stages[0] = $datos[0];
-        $touchpointType = $datos[3];
         $touchpoint = $datos[1];
         $steps = $datos[2];
-
-        $tp_query = $datos[12];
+        $touchpointType = $datos[3];
+        $min_count = $datos[4];
+        $min_apdex = $datos[5];
+        $max_response_time = $datos[6];
+        $max_error_percentage = $datos[7];
+        $max_avg_response_time = $datos[8];
+        $max_total_check_time = $datos[9];
+        $min_success_percentage = $datos[10];
+        $tp_query = $datos[11];
         if($createDashboards){
             $touchpointLink = createDashboardForStage($stages[0], $touchpoint, $actualDashboardsList);
         }else{
-            $touchpointLink = $datos[13];
+            $touchpointLink = $datos[12];
         }
 
-        $min_count = $datos[4];
-        $apdex_threshold = $datos[5];
-        $min_apdex = $datos[6];
-        $max_response_time = $datos[7];
-        $max_error_percentage = $datos[8];
-        $max_avg_response_time = $datos[9];
-        $max_total_check_time = $datos[10];
-        $min_success_percentage = $datos[11];
+        
         //----------------------------------
         foreach ($stages as $stage) {
             if (valida_stage($stage)) {
-                addTouchpoint(stage_index($stage), $touchpointType, $touchpoint, $steps, $touchpointLink, $tp_query, $min_count, $apdex_threshold, $min_apdex, $max_response_time, $max_error_percentage, $max_avg_response_time, $max_total_check_time, $min_success_percentage);
+                addTouchpoint(stage_index($stage), $touchpointType, $touchpoint, $steps, $touchpointLink, $tp_query, $min_count, $min_apdex, $max_response_time, $max_error_percentage, $max_avg_response_time, $max_total_check_time, $min_success_percentage);
             }
         }
     }
@@ -167,7 +166,7 @@ function getDashboardLink($link)
     }
 }
 
-function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touchpointLink, $tp_query, $min_count, $apdex_threshold, $min_apdex, $max_response_time, $max_error_percentage, $max_avg_response_time, $max_total_check_time, $min_success_percentage)
+function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touchpointLink, $tp_query, $min_count, $min_apdex, $max_response_time, $max_error_percentage, $max_avg_response_time, $max_total_check_time, $min_success_percentage)
 {
     global $view;
     global $touchPoints;
@@ -200,7 +199,6 @@ function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touc
         $touchPoints[0]["touchpoints"][$last - 1]["measure_points"][] = [
             "type" => $touchpointType,
             "query" => $tp_query,
-            "apdex_threshold" => (float) $apdex_threshold,
             "min_apdex" => (float) $min_apdex,
             "max_response_time" => (float) $max_response_time,
             "max_error_percentage" => (float) $max_error_percentage,
@@ -212,7 +210,6 @@ function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touc
         $touchPoints[0]["touchpoints"][$last - 1]["measure_points"][] = [
             "type" => $touchpointType,
             "query" => $tp_query,
-            "apdex_threshold" => (float) $apdex_threshold,
             "min_apdex" => (float) $min_apdex,
             "max_response_time" => (float) $max_response_time,
             "max_error_percentage" => (float) $max_error_percentage,

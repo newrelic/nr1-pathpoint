@@ -103,6 +103,7 @@ export default class DataManager {
     timeRangeKpi
   ) {
     if (this.accountId !== null) {
+      console.log('UPDATING-DATA');
       this.timeRange = timeRange;
       this.city = city;
       this.getOldSessions = getOldSessions;
@@ -259,25 +260,22 @@ export default class DataManager {
 
   ClearMeasure(measure) {
     switch (measure.type) {
-      case 0:
-      case 3:
-        measure.count = 0;
+      case 'PRC':
+        measure.session_count = 0;
         break;
-      case 1:
+      case 'PCC':
+        measure.transaction_count = 0;
+        break;
+      case 'APP':
+      case 'FRT':
+        measure.apdex_value = 1;
+        measure.response_value = 0;
         measure.error_percentage = 0;
         break;
-      case 2:
-        measure.apdex = 1;
-        break;
-      case 4:
-        measure.sessions = [];
-        break;
-      case 20:
-        measure.count = 0;
-        measure.error_percentage = 0;
-        break;
-      case 100:
-        measure.value = 0;
+      case 'SYN':
+        measure.success_percentage = 0;
+        measure.max_duration = 0;
+        measure.max_request_time = 0;
         break;
     }
   }
@@ -365,7 +363,10 @@ export default class DataManager {
             value.nrql !== null &&
             value.nrql.results &&
             value.nrql.results[0] &&
-            value.nrql.results[0].session
+            Object.prototype.hasOwnProperty.call(
+              value.nrql.results[0],
+              'session'
+            )
           ) {
             measure.session_count = value.nrql.results[0].session;
           } else if (
@@ -373,7 +374,7 @@ export default class DataManager {
             value.nrql !== null &&
             value.nrql.results &&
             value.nrql.results[0] &&
-            value.nrql.results[0].count
+            Object.prototype.hasOwnProperty.call(value.nrql.results[0], 'count')
           ) {
             measure.transaction_count = value.nrql.results[0].count;
           } else if (
@@ -381,11 +382,21 @@ export default class DataManager {
             value.nrql !== null &&
             value.nrql.results &&
             value.nrql.results[0] &&
-            value.nrql.results[0].apdex &&
-            value.nrql.results[0].response &&
-            value.nrql.results[0].error
+            Object.prototype.hasOwnProperty.call(
+              value.nrql.results[0],
+              'apdex'
+            ) &&
+            Object.prototype.hasOwnProperty.call(
+              value.nrql.results[0],
+              'score'
+            ) &&
+            Object.prototype.hasOwnProperty.call(
+              value.nrql.results[0],
+              'response'
+            ) &&
+            Object.prototype.hasOwnProperty.call(value.nrql.results[0], 'error')
           ) {
-            measure.apdex_value = value.nrql.results[0].apdex;
+            measure.apdex_value = value.nrql.results[0].score;
             measure.response_value = value.nrql.results[0].response;
             measure.error_percentage = value.nrql.results[0].error;
           } else if (
@@ -393,11 +404,21 @@ export default class DataManager {
             value.nrql !== null &&
             value.nrql.results &&
             value.nrql.results[0] &&
-            value.nrql.results[0].apdex &&
-            value.nrql.results[0].response &&
-            value.nrql.results[0].error
+            Object.prototype.hasOwnProperty.call(
+              value.nrql.results[0],
+              'apdex'
+            ) &&
+            Object.prototype.hasOwnProperty.call(
+              value.nrql.results[0],
+              'score'
+            ) &&
+            Object.prototype.hasOwnProperty.call(
+              value.nrql.results[0],
+              'response'
+            ) &&
+            Object.prototype.hasOwnProperty.call(value.nrql.results[0], 'error')
           ) {
-            measure.apdex_value = value.nrql.results[0].apdex;
+            measure.apdex_value = value.nrql.results[0].score;
             measure.response_value = value.nrql.results[0].response;
             measure.error_percentage = value.nrql.results[0].error;
           } else if (
@@ -405,9 +426,18 @@ export default class DataManager {
             value.nrql !== null &&
             value.nrql.results &&
             value.nrql.results[0] &&
-            value.nrql.results[0].success &&
-            value.nrql.results[0].duration &&
-            value.nrql.results[0].request
+            Object.prototype.hasOwnProperty.call(
+              value.nrql.results[0],
+              'success'
+            ) &&
+            Object.prototype.hasOwnProperty.call(
+              value.nrql.results[0],
+              'duration'
+            ) &&
+            Object.prototype.hasOwnProperty.call(
+              value.nrql.results[0],
+              'request'
+            )
           ) {
             measure.success_percentage = value.nrql.results[0].success;
             measure.max_duration = value.nrql.results[0].duration;
@@ -417,7 +447,7 @@ export default class DataManager {
             value.nrql != null &&
             value.nrql.results &&
             value.nrql.results[0] &&
-            value.nrql.results[0].value
+            Object.prototype.hasOwnProperty.call(value.nrql.results[0], 'value')
           ) {
             measure.value = value.nrql.results[0].value;
           } else if (
@@ -425,8 +455,14 @@ export default class DataManager {
             value.nrql != null &&
             value.nrql.results &&
             value.nrql.results.length === 2 &&
-            value.nrql.results[0].value &&
-            value.nrql.results[0].comparison
+            Object.prototype.hasOwnProperty.call(
+              value.nrql.results[0],
+              'value'
+            ) &&
+            Object.prototype.hasOwnProperty.call(
+              value.nrql.results[0],
+              'comparison'
+            )
           ) {
             if (value.nrql.results[0].comparison === 'current') {
               measure.value.current = value.nrql.results[0].value;
@@ -603,20 +639,46 @@ export default class DataManager {
     this.UpdateMaxLatencySteps(values.min_apdex_touchpoint_index_by_stage);
   }
 
-  Getmeasures(element) {
+  Getmeasures(touchpoints_by_country) {
+    const prc_by_stage = [];
+    const pcc_by_stage = [];
+    this.stages.forEach(() => {
+      const recA = {
+        num_touchpoints: 0,
+        average: 0,
+        total_count: 0
+      };
+      const recB = {
+        num_touchpoints: 0,
+        average: 0,
+        total_count: 0
+      };
+      prc_by_stage.push(recA);
+      pcc_by_stage.push(recB);
+    });
+
     const count_by_stage = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     const sessions_by_stage = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     const apdex_by_stage = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
     const min_apdex_touchpoint_index_by_stage = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    element.touchpoints.forEach(touchpoint => {
+
+    touchpoints_by_country.touchpoints.forEach(touchpoint => {
       if (touchpoint.status_on_off) {
         touchpoint.measure_points.forEach(measure => {
           if (measure.type === 'PRC') {
-            sessions_by_stage[touchpoint.stage_index - 1] +=
+            prc_by_stage[touchpoint.stage_index - 1].num_touchpoints++;
+            prc_by_stage[touchpoint.stage_index - 1].total_count +=
               measure.session_count;
+            prc_by_stage[touchpoint.stage_index - 1].average =
+              prc_by_stage[touchpoint.stage_index - 1].total_count /
+              prc_by_stage[touchpoint.stage_index - 1].num_touchpoints;
           } else if (measure.type === 'PCC') {
-            count_by_stage[touchpoint.stage_index - 1] +=
+            pcc_by_stage[touchpoint.stage_index - 1].num_touchpoints++;
+            pcc_by_stage[touchpoint.stage_index - 1].total_count +=
               measure.transaction_count;
+            pcc_by_stage[touchpoint.stage_index - 1].average =
+              pcc_by_stage[touchpoint.stage_index - 1].total_count /
+              pcc_by_stage[touchpoint.stage_index - 1].num_touchpoints;
           } else if (measure.type === 'APP' || measure.type === 'FRT') {
             if (
               apdex_by_stage[touchpoint.stage_index - 1] > measure.apdex_value
@@ -629,6 +691,8 @@ export default class DataManager {
         });
       }
     });
+    console.log('PRC:',prc_by_stage);
+    console.log('PCC:',pcc_by_stage);
     return {
       count_by_stage: count_by_stage,
       sessions_by_stage: sessions_by_stage,
@@ -1121,7 +1185,6 @@ export default class DataManager {
                 queries.push({
                   type: this.measureNames[2],
                   query: measure.query,
-                  apdex_threshold: measure.apdex_threshold,
                   min_apdex: measure.min_apdex,
                   max_response_time: measure.max_response_time,
                   max_error_percentage: measure.max_error_percentage
@@ -1130,7 +1193,6 @@ export default class DataManager {
                 queries.push({
                   type: this.measureNames[3],
                   query: measure.query,
-                  apdex_threshold: measure.apdex_threshold,
                   min_apdex: measure.min_apdex,
                   max_response_time: measure.max_response_time,
                   max_error_percentage: measure.max_error_percentage
@@ -1289,7 +1351,6 @@ export default class DataManager {
             measure = {
               type: 'APP',
               query: query.query,
-              apdex_threshold: query.apdex_threshold,
               min_apdex: query.min_apdex,
               max_response_time: query.max_response_time,
               max_error_percentage: query.max_error_percentage,
@@ -1301,7 +1362,6 @@ export default class DataManager {
             measure = {
               type: 'FRT',
               query: query.query,
-              apdex_threshold: query.apdex_threshold,
               min_apdex: query.min_apdex,
               max_response_time: query.max_response_time,
               max_error_percentage: query.max_error_percentage,
@@ -1416,8 +1476,7 @@ export default class DataManager {
   GetCurrentHistoricErrorScript() {
     const data = historicErrorScript();
     const pathpointId = `var pathpointId = "${this.pathpointId}"`;
-    const response = `${pathpointId}${
-      data.header
+    const response = `${pathpointId}${data.header
     }${this.CreateNrqlQueriesForHistoricErrorScript()}${data.footer}`;
     return response;
   }
@@ -1832,7 +1891,6 @@ for (const [key, value] of Object.entries(return` +
                 break;
               case 'APP':
               case 'FRT':
-                tp.measure_points[0].apdex_threshold = datos.apdex_threshold;
                 tp.measure_points[0].min_apdex = datos.min_apdex;
                 tp.measure_points[0].max_response_time =
                   datos.max_response_time;

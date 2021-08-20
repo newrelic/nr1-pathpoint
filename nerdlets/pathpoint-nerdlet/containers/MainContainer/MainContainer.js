@@ -949,7 +949,6 @@ export default class MainContainer extends React.Component {
 
   handleSaveUpdateTune = async ({
     min_count,
-    apdex_threshold,
     min_apdex,
     max_response_time,
     max_error_percentage,
@@ -959,7 +958,6 @@ export default class MainContainer extends React.Component {
   }) => {
     const datos = {
       min_count: min_count,
-      apdex_threshold: apdex_threshold,
       min_apdex: min_apdex,
       max_response_time: max_response_time,
       max_error_percentage: max_error_percentage,
