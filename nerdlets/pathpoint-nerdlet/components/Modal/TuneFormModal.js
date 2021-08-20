@@ -71,15 +71,6 @@ const RenderForm = (datos, handleOnChange) => {
         <>
           <div style={{ height: '40px' }}>
             {renderField({
-              label: 'APDEX Threshold',
-              defaultValue: datos[0].apdex_threshold,
-              id: 'apdex_threshold',
-              onChange: handleOnChange,
-              name: 'apdex_threshold'
-            })}
-          </div>
-          <div style={{ height: '40px' }}>
-            {renderField({
               label: 'APDEX Response (Min)',
               defaultValue: datos[0].min_apdex,
               id: 'min_apdex',
@@ -121,7 +112,7 @@ const RenderForm = (datos, handleOnChange) => {
           </div>
           <div style={{ height: '40px' }}>
             {renderField({
-              label: 'Total Check Time (Min)',
+              label: 'Total Check Time (Max)',
               defaultValue: datos[0].max_total_check_time,
               id: 'max_total_check_time',
               onChange: handleOnChange,

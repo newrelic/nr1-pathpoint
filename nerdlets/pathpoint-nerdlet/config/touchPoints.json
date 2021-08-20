@@ -32,7 +32,6 @@
           {
             "type": "APP",
             "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
-            "apdex_threshold": 0.025,
             "min_apdex": 0.4,
             "max_response_time": 0.5,
             "max_error_percentage": 5,
@@ -54,7 +53,6 @@
           {
             "type": "FRT",
             "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
-            "apdex_threshold": 1,
             "min_apdex": 0.6,
             "max_response_time": 1.2,
             "max_error_percentage": 5,
@@ -131,7 +129,6 @@
           {
             "type": "APP",
             "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
-            "apdex_threshold": 0.025,
             "min_apdex": 0.4,
             "max_response_time": 0.5,
             "max_error_percentage": 5,
@@ -153,7 +150,6 @@
           {
             "type": "FRT",
             "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
-            "apdex_threshold": 1,
             "min_apdex": 0.6,
             "max_response_time": 1.2,
             "max_error_percentage": 5,
@@ -247,7 +243,6 @@
           {
             "type": "APP",
             "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
-            "apdex_threshold": 0.025,
             "min_apdex": 0.4,
             "max_response_time": 0.5,
             "max_error_percentage": 5,
@@ -269,7 +264,6 @@
           {
             "type": "FRT",
             "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
-            "apdex_threshold": 1,
             "min_apdex": 0.6,
             "max_response_time": 1.2,
             "max_error_percentage": 5,
@@ -325,7 +319,6 @@
           {
             "type": "APP",
             "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
-            "apdex_threshold": 0.025,
             "min_apdex": 0.4,
             "max_response_time": 0.5,
             "max_error_percentage": 5,
@@ -347,7 +340,6 @@
           {
             "type": "FRT",
             "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
-            "apdex_threshold": 1,
             "min_apdex": 0.6,
             "max_response_time": 1.2,
             "max_error_percentage": 5,
@@ -462,7 +454,6 @@
           {
             "type": "APP",
             "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
-            "apdex_threshold": 0.025,
             "min_apdex": 0.4,
             "max_response_time": 0.5,
             "max_error_percentage": 5,
@@ -484,7 +475,6 @@
           {
             "type": "FRT",
             "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
-            "apdex_threshold": 1,
             "min_apdex": 0.6,
             "max_response_time": 1.2,
             "max_error_percentage": 5,
