@@ -153,7 +153,8 @@ export default class MainContainer extends React.Component {
         colors: data.colors,
         version: data.version,
         accountId: data.accountId,
-        kpis: data.kpis
+        kpis: data.kpis,
+        totalContainers: data.totalContainers
       },
       async () => {
         this.emulator = new Emulator(this.state.stages, data.kpis);
