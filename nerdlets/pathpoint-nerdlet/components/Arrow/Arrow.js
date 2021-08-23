@@ -6,18 +6,22 @@ const Arrow = ({
   valueCongestion,
   percentageCongestion,
   trafficIconType,
-  textLevelBar
+  textLevelBar,
+  arrowMode
 }) => {
   const showPeopleIcon = trafficIconType === 'people';
   const showTrafficIcon = trafficIconType === 'traffic';
+  const arrowHead = arrowMode === 'FLOW' ? 40 : 0;
+  const labelx = arrowWidth;
+  arrowWidth = arrowMode === 'FLOW' ? arrowWidth : arrowWidth + 40; 
   const Ax =
     percentageCongestion !== 0 ? 40 - (40 * percentageCongestion) / 100 : 40;
   const pathArrow = `M 0 0 L ${arrowWidth} 0 L ${arrowWidth +
-    40} 40 L ${arrowWidth} 80 L 0 80 L 40 40 Z`;
-  const viewBoxValue = `0 0 ${arrowWidth + 40} 80`;
+    arrowHead} 40 L ${arrowWidth} 80 L 0 80 L ${arrowHead} ${arrowHead} Z`;
+  const viewBoxValue = `0 0 ${arrowWidth + arrowHead} 80`;
   const pathPercentage = `M ${Ax} ${Ax} L ${arrowWidth +
-    Ax} ${Ax} L ${arrowWidth + 40} 40 L ${arrowWidth + Ax} ${80 -
-    Ax} L ${Ax} ${80 - Ax} L 40 40 Z`;
+    Ax} ${Ax} L ${arrowWidth + arrowHead} 40 L ${arrowWidth + Ax} ${80 -
+    Ax} L ${Ax} ${80 - Ax} L ${arrowHead} ${arrowHead} Z`;
   const congestion = Math.round(valueCongestion * 100) / 100;
   return (
     <svg fill="#ff0000" height="100%" width="100%" viewBox={viewBoxValue}>
@@ -36,7 +40,7 @@ const Arrow = ({
         fill="#144867"
       />
       <text
-        x={arrowWidth - 80}
+        x={labelx - 80}
         y={43}
         stroke="#144867"
         strokeWidth={2}
@@ -44,12 +48,12 @@ const Arrow = ({
       >
         {textLevelBar}
       </text>
-      <text x={arrowWidth - 80} y={43} fill="#f0f0f0" className="textLevelBar">
+      <text x={labelx - 80} y={43} fill="#f0f0f0" className="textLevelBar">
         {textLevelBar}
       </text>
 
       <text
-        x={arrowWidth}
+        x={labelx}
         y={43}
         stroke="#144867"
         strokeWidth={2}
@@ -57,7 +61,7 @@ const Arrow = ({
       >
         {congestion}%
       </text>
-      <text x={arrowWidth} y={43} fill="#f0f0f0" className="textLevelBar">
+      <text x={labelx} y={43} fill="#f0f0f0" className="textLevelBar">
         {congestion}%
       </text>
 
@@ -104,7 +108,8 @@ Arrow.propTypes = {
   valueCongestion: PropTypes.number.isRequired,
   percentageCongestion: PropTypes.number.isRequired,
   trafficIconType: PropTypes.string.isRequired,
-  textLevelBar: PropTypes.string.isRequired
+  textLevelBar: PropTypes.string.isRequired,
+  arrowMode: PropTypes.string.isRequired
 };
 
 export default Arrow;

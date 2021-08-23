@@ -224,6 +224,8 @@
       "total_count": 0,
       "active_dotted": "none",
       "active_dotted_color": "#828282",
+      "arrowMode": "FLOW",
+      "percentage_above_avg": 20,
       "steps": [
         {
           "value": "",
@@ -234,13 +236,14 @@
               "canary_state": false,
               "latency": true,
               "value": "Web",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
               "error": false,
               "index_stage": 1,
               "relationship_touchpoints": [
+                1,
                 3
               ]
             },
@@ -256,7 +259,9 @@
               "highlighted": false,
               "error": false,
               "index_stage": 1,
-              "relationship_touchpoints": []
+              "relationship_touchpoints": [
+                1
+              ]
             },
             {
               "index": 3,
@@ -264,13 +269,14 @@
               "canary_state": false,
               "latency": false,
               "value": "App",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
               "error": false,
               "index_stage": 1,
               "relationship_touchpoints": [
+                1,
                 2
               ]
             }
@@ -351,7 +357,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Menu",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -377,7 +383,7 @@
               "index": 10,
               "id": "ST1-LINE3-SS4",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Rewards",
               "dark": false,
               "history_error": false,
@@ -404,7 +410,9 @@
               "highlighted": false,
               "error": false,
               "index_stage": 1,
-              "relationship_touchpoints": []
+              "relationship_touchpoints": [
+                5
+              ]
             },
             {
               "index": 12,
@@ -426,7 +434,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Reward Item",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -445,13 +453,15 @@
               "canary_state": false,
               "latency": false,
               "value": "Add to Bag",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
               "error": false,
               "index_stage": 1,
-              "relationship_touchpoints": []
+              "relationship_touchpoints": [
+                5
+              ]
             }
           ]
         }
@@ -462,7 +472,7 @@
           "stage_index": 1,
           "status_on_off": true,
           "active": false,
-          "value": "Login People",
+          "value": "Login People (PRC)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -473,7 +483,10 @@
             "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NDg"
           ],
           "relation_steps": [
-            4
+            4,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -481,7 +494,7 @@
           "stage_index": 1,
           "status_on_off": true,
           "active": false,
-          "value": "App Backend Health",
+          "value": "App Backend Health (APP)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -500,7 +513,7 @@
           "stage_index": 1,
           "status_on_off": true,
           "active": false,
-          "value": "App Frontend Health",
+          "value": "App Frontend Health (FRT)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -519,7 +532,7 @@
           "stage_index": 1,
           "status_on_off": true,
           "active": false,
-          "value": "Login Check",
+          "value": "Login Check (SYN)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -538,7 +551,7 @@
           "stage_index": 1,
           "status_on_off": true,
           "active": false,
-          "value": "Signup People",
+          "value": "Signup People (PRC)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -549,7 +562,9 @@
             "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTM"
           ],
           "relation_steps": [
-            5
+            5,
+            11,
+            14
           ]
         }
       ]
@@ -576,6 +591,8 @@
       "total_count": 0,
       "active_dotted": "none",
       "active_dotted_color": "#828282",
+      "arrowMode": "STATIC",
+      "percentage_above_avg": 20,
       "steps": [
         {
           "value": "",
@@ -600,9 +617,9 @@
               "index": 2,
               "id": "ST2-LINE1-SS2",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Reward Items",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -616,7 +633,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Saved items",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -752,7 +769,7 @@
           "stage_index": 2,
           "status_on_off": true,
           "active": false,
-          "value": "Catalog API USE",
+          "value": "Catalog API USE (PCC)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -771,7 +788,7 @@
           "stage_index": 2,
           "status_on_off": true,
           "active": false,
-          "value": "Pricing API",
+          "value": "Pricing API (APP)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -790,7 +807,7 @@
           "stage_index": 2,
           "status_on_off": true,
           "active": false,
-          "value": "Master Data API",
+          "value": "Master Data API (FRT)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -809,7 +826,7 @@
           "stage_index": 2,
           "status_on_off": true,
           "active": false,
-          "value": "Subscriptions API",
+          "value": "Subscriptions API (PCC)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -847,6 +864,8 @@
       "total_count": 0,
       "active_dotted": "none",
       "active_dotted_color": "#828282",
+      "arrowMode": "STATIC",
+      "percentage_above_avg": 20,
       "steps": [
         {
           "value": "",
@@ -910,7 +929,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Gift Option",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -931,7 +950,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Credit Card",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -975,7 +994,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Gift Card ",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1013,7 +1032,7 @@
           "stage_index": 3,
           "status_on_off": true,
           "active": false,
-          "value": "Session Manager API",
+          "value": "Session Manager API (PCC)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1032,7 +1051,7 @@
           "stage_index": 3,
           "status_on_off": true,
           "active": false,
-          "value": "Checkout Check",
+          "value": "Checkout Check (SYN)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1051,7 +1070,7 @@
           "stage_index": 3,
           "status_on_off": true,
           "active": false,
-          "value": "Customer Credit API",
+          "value": "Customer Credit API (PCC)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1070,7 +1089,7 @@
           "stage_index": 3,
           "status_on_off": true,
           "active": false,
-          "value": "Gift Card API",
+          "value": "Gift Card API (APP)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1089,7 +1108,7 @@
           "stage_index": 3,
           "status_on_off": true,
           "active": false,
-          "value": "Gift Card Hub API",
+          "value": "Gift Card Hub API (FRT)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1108,7 +1127,7 @@
           "stage_index": 3,
           "status_on_off": true,
           "active": false,
-          "value": "Catalog API",
+          "value": "Catalog API (PCC)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1146,6 +1165,8 @@
       "total_count": 0,
       "active_dotted": "none",
       "active_dotted_color": "#828282",
+      "arrowMode": "FLOW",
+      "percentage_above_avg": 20,
       "steps": [
         {
           "value": "",
@@ -1270,7 +1291,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Pick-up Prep",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1324,7 +1345,7 @@
           "stage_index": 4,
           "status_on_off": true,
           "active": false,
-          "value": "Orders API",
+          "value": "Orders API (PRC)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1343,7 +1364,7 @@
           "stage_index": 4,
           "status_on_off": true,
           "active": false,
-          "value": "Customer Credit API",
+          "value": "Customer Credit API (APP)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1362,7 +1383,7 @@
           "stage_index": 4,
           "status_on_off": true,
           "active": false,
-          "value": "Gift Card API",
+          "value": "Gift Card API (FRT)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1381,7 +1402,7 @@
           "stage_index": 4,
           "status_on_off": true,
           "active": false,
-          "value": "Gift Card Hub API",
+          "value": "Gift Card Hub API (SYN)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1400,7 +1421,7 @@
           "stage_index": 4,
           "status_on_off": true,
           "active": false,
-          "value": "Logistics API",
+          "value": "Logistics API (PRC)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1438,6 +1459,8 @@
       "total_count": 0,
       "active_dotted": "none",
       "active_dotted_color": "#828282",
+      "arrowMode": "FLOW",
+      "percentage_above_avg": 20,
       "steps": [
         {
           "value": "",
@@ -1499,7 +1522,7 @@
               "index": 4,
               "id": "ST5-LINE2-SS2",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Customer Pick-Up",
               "dark": false,
               "history_error": false,
@@ -1539,7 +1562,7 @@
               "index": 6,
               "id": "ST5-LINE4-SS1",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Delivered",
               "dark": false,
               "history_error": false,
@@ -1555,7 +1578,7 @@
               "index": 7,
               "id": "ST5-LINE4-SS2",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Returned",
               "dark": false,
               "history_error": false,
@@ -1574,7 +1597,7 @@
               "index": 8,
               "id": "ST5-LINE5-SS1",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Proof of Delivery",
               "dark": false,
               "history_error": false,
@@ -1609,7 +1632,7 @@
           "stage_index": 5,
           "status_on_off": true,
           "active": false,
-          "value": "VTEX Do API",
+          "value": "VTEX Do API (PCC)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1628,7 +1651,7 @@
           "stage_index": 5,
           "status_on_off": true,
           "active": false,
-          "value": "Subscriptions API",
+          "value": "Subscriptions API (SYN)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1647,7 +1670,7 @@
           "stage_index": 5,
           "status_on_off": true,
           "active": false,
-          "value": "Session Manager API",
+          "value": "Session Manager API (PCC)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1666,7 +1689,7 @@
           "stage_index": 5,
           "status_on_off": true,
           "active": false,
-          "value": "Checkout API",
+          "value": "Checkout API (APP)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1685,7 +1708,7 @@
           "stage_index": 5,
           "status_on_off": true,
           "active": false,
-          "value": "Customer Credit API",
+          "value": "Customer Credit API (FRT)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1704,7 +1727,7 @@
           "stage_index": 5,
           "status_on_off": true,
           "active": false,
-          "value": "Gift Card API",
+          "value": "Gift Card API (PCC)",
           "highlighted": false,
           "error": false,
           "history_error": false,
