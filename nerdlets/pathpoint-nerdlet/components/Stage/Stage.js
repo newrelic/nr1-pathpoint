@@ -12,7 +12,7 @@ import goodHeart from '../../images/heart_green.svg';
 import warningHeart from '../../images/heart_yellow.svg';
 
 const Stage = ({ stage, onClickStage }) => {
-  const textLevelBar = `CONGESTION`;
+  const textLevelBar = ``;
   let healthIcon = warningHeart;
   if (stage.status_color === 'danger') {
     healthIcon = dangerHeart;
@@ -49,6 +49,7 @@ const Stage = ({ stage, onClickStage }) => {
             percentageCongestion={stage.congestion.percentage}
             trafficIconType={stage.trafficIconType}
             textLevelBar={textLevelBar}
+            arrowMode={stage.arrowMode}
           />
         </div>
         <div className="capacityBar">
