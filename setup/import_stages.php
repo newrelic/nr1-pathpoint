@@ -30,8 +30,10 @@ function addStage($stage)
     $index = count($view_base["stages"]) + 1;
     $ligth="good";
     $active_dotted="none";
+    $arrowMode="FLOW";
     if($index==4){ $ligth="danger";}
     if($index==5){ $ligth="warning";}
+    if($index==2 || $index==3){ $arrowMode="STATIC";}
     //if($index==2 || $index==5){ $active_dotted="dashed";}
     $view_base["stages"][] = [
         "index" => $index,
@@ -55,6 +57,8 @@ function addStage($stage)
         "total_count" => 0,
         "active_dotted" => $active_dotted,
         "active_dotted_color" => "#828282",
+        "arrowMode" => $arrowMode,
+        "percentage_above_avg" => 20,
         "steps" => [],
         "touchpoints" => []
     ];
