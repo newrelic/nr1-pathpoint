@@ -145,7 +145,8 @@ export default class MainContainer extends React.Component {
 
   BoootstrapApplication = async () => {
     this.DataManager = new DataManager();
-    const data = await this.DataManager.BootstrapInitialData();
+    const { accountName } = this.state;
+    const data = await this.DataManager.BootstrapInitialData(accountName);
     this.setState(
       {
         stages: data.stages,
