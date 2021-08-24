@@ -14,7 +14,8 @@ import {
   AccountStorageMutation,
   AccountsQuery,
   AccountStorageQuery,
-  NerdGraphQuery
+  NerdGraphQuery,
+  logger
 } from 'nr1';
 
 // DEFINE AND EXPORT CLASS
@@ -103,7 +104,7 @@ export default class DataManager {
     timeRangeKpi
   ) {
     if (this.accountId !== null) {
-      console.log('UPDATING-DATA');
+      logger.log(`UPDATING-DATA: ${this.accountId}`);
       this.timeRange = timeRange;
       this.city = city;
       this.getOldSessions = getOldSessions;
@@ -368,7 +369,6 @@ export default class DataManager {
               'session'
             )
           ) {
-            console.log('prc: sessions=',value.nrql.results[0].session);
             measure.session_count = value.nrql.results[0].session;
           } else if (
             measure.type === 'PCC' &&
@@ -377,8 +377,7 @@ export default class DataManager {
             value.nrql.results[0] &&
             Object.prototype.hasOwnProperty.call(value.nrql.results[0], 'count')
           ) {
-            console.log('pcc: transactions=',measure.transaction_count);
-            //measure.transaction_count = 0;//value.nrql.results[0].count;
+            measure.transaction_count = value.nrql.results[0].count;
           } else if (
             measure.type === 'APP' &&
             value.nrql !== null &&
@@ -501,7 +500,7 @@ export default class DataManager {
           alias = `measure_${n}`;
           n += 1;
           gql += `${alias}: account(id: ${this.accountId}) {
-              nrql(query: "${nrql[1]}", timeout: 10) {
+              nrql(query: "${this.escapeQuote(nrql[1])}", timeout: 10) {
                   results
               }
           }`;
@@ -530,7 +529,7 @@ export default class DataManager {
         alias = `measure_${n}`;
         n += 1;
         gql += `${alias}: account(id: ${this.accountId}) {
-            nrql(query: "${nrql[1]}", timeout: 10) {
+            nrql(query: "${this.escapeQuote(nrql[1])}", timeout: 10) {
                 results
             }
         }`;
@@ -543,6 +542,10 @@ export default class DataManager {
       );
       return { data, n, errors };
     }
+  }
+
+  escapeQuote(data) {
+    return data.replace(/["]/g, '\\"');
   }
 
   SetSessions(measure, sessions) {
@@ -1510,8 +1513,9 @@ export default class DataManager {
   GetCurrentHistoricErrorScript() {
     const data = historicErrorScript();
     const pathpointId = `var pathpointId = "${this.pathpointId}"`;
-    const response = `${pathpointId}${data.header
-      }${this.CreateNrqlQueriesForHistoricErrorScript()}${data.footer}`;
+    const response = `${pathpointId}${
+      data.header
+    }${this.CreateNrqlQueriesForHistoricErrorScript()}${data.footer}`;
     return response;
   }
 
