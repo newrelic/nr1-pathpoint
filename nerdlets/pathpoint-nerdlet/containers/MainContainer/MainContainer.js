@@ -1655,13 +1655,7 @@ export default class MainContainer extends React.Component {
                       {element.money_enabled |
                       iconGoutStatus |
                       iconFireStatus ? (
-                        <div
-                          style={{
-                            display: 'grid',
-                            gridTemplate: '5% 1fr/ 1fr',
-                            width: '100%'
-                          }}
-                        >
+                        <div>
                           {this.renderContentAboveStep(
                             element.money_enabled,
                             iconGoutStatus,
