@@ -119,6 +119,7 @@ export default class MainContainer extends React.Component {
       configuration: null,
       updateData: null,
       testText: '',
+      resultsTestQuery: '',
       goodQuery: true,
       logoSetup: {
         type: 'Default'
@@ -677,6 +678,7 @@ export default class MainContainer extends React.Component {
       viewModal: view,
       stageNameSelected: { touchpoint, datos },
       testText: '',
+      resultsTestQuery: '',
       modifiedQuery: false,
       goodQuery: true
     });
@@ -854,13 +856,15 @@ export default class MainContainer extends React.Component {
     ) {
       this.setState({
         stageNameSelected,
-        testText: ''
+        testText: '',
+        resultsTestQuery: ''
       });
     } else {
       stageNameSelected.selectedCase = parseInt(event.target.value);
       this.setState({
         stageNameSelected,
         testText: '',
+        resultsTestQuery: '',
         modifiedQuery: false,
         goodQuery: true
       });
@@ -896,6 +900,7 @@ export default class MainContainer extends React.Component {
     }
     this.setState({
       testText: '',
+      resultsTestQuery: '',
       stageNameSelected
     });
   };
@@ -907,7 +912,18 @@ export default class MainContainer extends React.Component {
       type,
       query
     );
-    this.setState({ testText, modifiedQuery: false, goodQuery });
+    let results = '';
+    if (goodQuery) {
+      const data = await this.DataManager.ReadQueryResults(query);
+      console.log(data);
+      results = 'AQUI VAN LOS RESULTADOS del QUERY';
+    }
+    this.setState({
+      testText,
+      modifiedQuery: false,
+      goodQuery,
+      resultsTestQuery: results
+    });
   };
 
   handleChangeTexarea = query => {
@@ -923,6 +939,7 @@ export default class MainContainer extends React.Component {
       return {
         stageNameSelected,
         testText: '',
+        resultsTestQuery: '',
         modifiedQuery: true
       };
     });
@@ -1240,6 +1257,7 @@ export default class MainContainer extends React.Component {
       starForm,
       flameForm,
       testText,
+      resultsTestQuery,
       goodQuery,
       modifiedQuery,
       totalContainers,
@@ -1769,6 +1787,7 @@ export default class MainContainer extends React.Component {
             stageNameSelected={stageNameSelected}
             viewModal={viewModal}
             testText={testText}
+            resultsTestQuery={resultsTestQuery}
             goodQuery={goodQuery}
             changeMessage={this.changeMessage}
             chargueSample={this.chargueSample}
