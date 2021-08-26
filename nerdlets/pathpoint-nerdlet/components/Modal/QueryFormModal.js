@@ -32,14 +32,6 @@ HeaderQueryFormModal.propTypes = {
   changeMessage: PropTypes.func.isRequired
 };
 
-// function objToString(obj) {
-//   let str = '';
-//   for (const [p, val] of Object.entries(obj)) {
-//     str += `${p}::${val}\n`;
-//   }
-//   return str;
-// }
-
 function isObject(val) {
   return val instanceof Object;
 }
@@ -93,7 +85,7 @@ function BodyQueryFormModal(props) {
               paddingTop: '15px',
               backgroundColor: '#333333',
               color: '#00EC64',
-              height: '50px',
+              height: '60px',
               padding: '15px'
             }}
           >
