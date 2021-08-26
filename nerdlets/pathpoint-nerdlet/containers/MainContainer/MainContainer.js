@@ -915,8 +915,7 @@ export default class MainContainer extends React.Component {
     let results = '';
     if (goodQuery) {
       const data = await this.DataManager.ReadQueryResults(query);
-      console.log(data);
-      results = 'AQUI VAN LOS RESULTADOS del QUERY';
+      results = data.results;
     }
     this.setState({
       testText,
