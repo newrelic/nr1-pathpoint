@@ -183,6 +183,7 @@ export default class ValidationQuery {
       let apdexCount = false;
       let responseCount = false;
       let errorPercentage = false;
+      console.log('ESTOY-AQUI');
       if (data instanceof Array && data.length === 1) {
         for (const [key, value] of Object.entries(data[0])) {
           if (typeof value !== 'number' && key !== 'apdex') {

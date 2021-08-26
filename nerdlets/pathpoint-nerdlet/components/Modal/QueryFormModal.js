@@ -40,6 +40,7 @@ function BodyQueryFormModal(props) {
     testQuery,
     handleSaveUpdateQuery,
     testText,
+    resultsTestQuery,
     goodQuery,
     modifiedQuery
   } = props;

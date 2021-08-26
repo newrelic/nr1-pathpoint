@@ -281,6 +281,18 @@ export default class DataManager {
     }
   }
 
+  async ReadQueryResults(query) {
+    const measure = {
+      type: 'TEST',
+      results: null
+    };
+    this.graphQlmeasures.length = 0;
+    query = `${query} SINCE ${this.TimeRangeTransform(this.timeRange, false)}`;
+    this.graphQlmeasures.push([measure, query]);
+    await this.NRDBQuery();
+    return measure;
+  }
+
   FetchMeasure(measure) {
     this.ClearMeasure(measure);
     if (measure.query !== '') {
@@ -472,6 +484,8 @@ export default class DataManager {
               measure.value.current = value.nrql.results[1].value;
               measure.value.previous = value.nrql.results[0].value;
             }
+          } else if (measure.type === 'TEST') {
+            measure.results = value.nrql.results[0];
           }
         }
       }
