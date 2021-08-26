@@ -32,6 +32,29 @@ HeaderQueryFormModal.propTypes = {
   changeMessage: PropTypes.func.isRequired
 };
 
+// function objToString(obj) {
+//   let str = '';
+//   for (const [p, val] of Object.entries(obj)) {
+//     str += `${p}::${val}\n`;
+//   }
+//   return str;
+// }
+
+function isObject(val) {
+  return val instanceof Object;
+}
+
+function objToString(obj) {
+  return Object.entries(obj).reduce((str, [p, val]) => {
+    if (isObject(val)) {
+      val = objToString(val);
+      return `${str}${p}[${val}]\n`;
+    } else {
+      return `${str}${p}=${val}\n`;
+    }
+  }, '');
+}
+
 function BodyQueryFormModal(props) {
   const {
     stageNameSelected,
@@ -62,6 +85,20 @@ function BodyQueryFormModal(props) {
             query_body: query_body
           })}
           <strong>{query_footer}</strong>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              paddingTop: '15px',
+              backgroundColor: '#333333',
+              color: '#00EC64',
+              height: '50px',
+              padding: '15px'
+            }}
+          >
+            <strong>{objToString(resultsTestQuery)}</strong>
+          </div>
           <div
             style={{
               display: 'flex',
@@ -212,6 +249,7 @@ BodyQueryFormModal.propTypes = {
   testQuery: PropTypes.func.isRequired,
   handleSaveUpdateQuery: PropTypes.func.isRequired,
   testText: PropTypes.string.isRequired,
+  resultsTestQuery: PropTypes.object.isRequired,
   goodQuery: PropTypes.bool.isRequired,
   modifiedQuery: PropTypes.bool
 };
