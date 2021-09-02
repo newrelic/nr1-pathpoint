@@ -493,6 +493,7 @@ export default class DataManager {
   }
 
   async EvaluateMeasures() {
+    let accountID = this.accountId;
     let gql = `{
      actor {`;
     let alias = '';
@@ -511,9 +512,12 @@ export default class DataManager {
           control + itemsByPage
         );
         dataSplit.forEach(nrql => {
+          if (Reflect.has(nrql[0], 'accountID')) {
+            accountID = nrql[0].accountID;
+          }
           alias = `measure_${n}`;
           n += 1;
-          gql += `${alias}: account(id: ${this.accountId}) {
+          gql += `${alias}: account(id: ${accountID}) {
               nrql(query: "${this.escapeQuote(nrql[1])}", timeout: 10) {
                   results
               }
@@ -540,9 +544,13 @@ export default class DataManager {
       };
     } else {
       this.graphQlmeasures.forEach(nrql => {
+        // check if the measure is MULTI-ACCOUNT
+        if (Reflect.has(nrql[0], 'accountID')) {
+          accountID = nrql[0].accountID;
+        }
         alias = `measure_${n}`;
         n += 1;
-        gql += `${alias}: account(id: ${this.accountId}) {
+        gql += `${alias}: account(id: ${accountID}) {
             nrql(query: "${this.escapeQuote(nrql[1])}", timeout: 10) {
                 results
             }

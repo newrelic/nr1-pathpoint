@@ -17,6 +17,7 @@
         "measure_points": [
           {
             "type": "PRC",
+            "accountID": 2847332,
             "query": "SELECT uniqueCount(session) as session FROM PageView WHERE appName='QS' AND name='WebTransaction/Action/'",
             "min_count": 10,
             "session_count": 0
