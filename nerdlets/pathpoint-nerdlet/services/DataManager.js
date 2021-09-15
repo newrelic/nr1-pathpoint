@@ -1145,6 +1145,8 @@ export default class DataManager {
       this.configuration.stages.push({
         title: stage.title,
         active_dotted: stage.active_dotted,
+        arrowMode: stage.arrowMode,
+        percentage_above_avg: stage.percentage_above_avg,
         steps: [],
         touchpoints: []
       });
@@ -1337,6 +1339,8 @@ export default class DataManager {
         total_count: 0,
         active_dotted: stage.active_dotted,
         active_dotted_color: '#828282',
+        arrowMode: stage.arrowMode,
+        percentage_above_avg: stage.percentage_above_avg,
         steps: [],
         touchpoints: []
       };
