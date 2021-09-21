@@ -27,6 +27,7 @@ describe('<QueryFormModal/>', () => {
         testQuery={jest.fn()}
         handleSaveUpdateQuery={jest.fn()}
         testText="Bad query"
+        resultsTestQuery={{ type: 'default' }}
         goodQuery={false}
         modifiedQuery
         handleChangeTexarea={jest.fn()}
@@ -55,6 +56,7 @@ describe('<QueryFormModal/>', () => {
         testQuery={jest.fn()}
         handleSaveUpdateQuery={jest.fn()}
         testText="good query"
+        resultsTestQuery={{ type: 'default' }}
         goodQuery
         modifiedQuery={false}
         handleChangeTexarea={jest.fn()}
@@ -84,6 +86,7 @@ describe('<QueryFormModal/>', () => {
         testQuery={testQuery}
         handleSaveUpdateQuery={jest.fn()}
         testText="good query"
+        resultsTestQuery={{ type: 'default' }}
         goodQuery
         modifiedQuery={false}
         handleChangeTexarea={jest.fn()}
@@ -117,6 +120,7 @@ describe('<QueryFormModal/>', () => {
         testQuery={jest.fn()}
         handleSaveUpdateQuery={jest.fn()}
         testText="good query"
+        resultsTestQuery={{ type: 'default' }}
         goodQuery
         modifiedQuery={false}
         handleChangeTexarea={jest.fn()}
@@ -171,6 +175,7 @@ describe('<QueryFormModal/>', () => {
         testQuery={jest.fn()}
         handleSaveUpdateQuery={handleSaveUpdateQuery}
         testText="good query"
+        resultsTestQuery={{ type: 'default' }}
         goodQuery
         modifiedQuery={false}
         handleChangeTexarea={jest.fn()}
@@ -202,6 +207,7 @@ describe('<QueryFormModal/>', () => {
         testQuery={jest.fn()}
         handleSaveUpdateQuery={jest.fn()}
         testText="good query"
+        resultsTestQuery={{ type: 'default' }}
         goodQuery
         modifiedQuery={false}
         handleChangeTexarea={handleChangeTexarea}

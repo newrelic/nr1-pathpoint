@@ -160,7 +160,10 @@ export default class ShowBody extends Component {
       case 0:
         return <img src={graphImage} />;
       case 1:
-        return <BodyQueryFormModal {...this.props} />;
+        return  <BodyQueryFormModal 
+                  {...this.props}
+                  resultsTestQuery={this.props??{}}
+                />;
       case 2:
         return (
           <BodyTuneFormModal

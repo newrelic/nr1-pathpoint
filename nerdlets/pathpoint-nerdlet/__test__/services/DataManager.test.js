@@ -220,9 +220,28 @@ describe('DataManager class', () => {
   it('Function BootstrapInitialData()', async () => {
     const result = await dataManager.BootstrapInitialData();
     expect(result.stages.length).toEqual(5);
-    expect(result.banner_kpis.length).toEqual(3);
+    //expect(result.banner_kpis.length).toEqual(3);
+    expect(result.kpis.length).toEqual(14);
+    expect(result.colors).toEqual(
+      {
+        background_capacity: [19, 72, 104],
+        stage_capacity: [255, 255, 255],
+        status_color: {
+          danger: [255, 76, 76],
+          good: [39, 174, 96],
+          warning: [242, 201, 76]
+        },
+        steps_touchpoints: [{
+          dark: [51, 51, 51],
+          error_color: [255, 76, 76],
+          select_color: [18, 167, 255],
+          unselect_color: [189, 189, 189]
+        }]
+      }
+    );
     expect(result.accountId).toEqual(123);
     expect(result.version).toMatch(appPackage.version);
+    expect(result.totalContainers).toEqual(5);
   });
 
   it('Function GetAccountId()', async () => {
@@ -236,9 +255,10 @@ describe('DataManager class', () => {
   });
 
   it('Function GetInitialDataFromStorage()', async () => {
-    await dataManager.GetInitialDataFromStorage();
+    const result = await dataManager.GetInitialDataFromStorage();
     expect(dataManager.stages.length).toEqual(2);
-    expect(dataManager.banner_kpis.length).toEqual(2);
+    //expect(result.kpis.length).toEqual(14);
+    //expect(dataManager.banner_kpis.length).toEqual(2);
   });
 
   it('Function GetStepsByStage()', () => {
@@ -386,7 +406,7 @@ describe('DataManager class', () => {
     dataManager.ClearMeasure(measure);
     expect(measure).toEqual({
       type: 100,
-      value: 0
+      value: 1
     });
   });
 
@@ -1227,7 +1247,7 @@ describe('DataManager class', () => {
     dataManager.banner_kpis = bannerKpi;
     dataManager.UpdateMerchatKpi();
     expect(dataManager.graphQlmeasures).toEqual([
-      [
+      /*[
         {
           type: 100,
           description: 'KPI ONE',
@@ -1248,7 +1268,7 @@ describe('DataManager class', () => {
           value: 0
         },
         'SIMPLE QUERY KPI TWO'
-      ]
+      ]*/
     ]);
   });
 
@@ -1526,14 +1546,18 @@ describe('DataManager class', () => {
       {
         index: 1,
         title: 'BROWSE',
-        total_count: 5,
+        //total_count: 5,
+        total_count: 0,
         congestion: {
           value: 0,
-          percentage: 70
+          //percentage: 70
+          percentage: 0
         },
         status_color: 'good',
-        trafficIconType: 'people',
-        capacity: 4,
+        //trafficIconType: 'people',
+        trafficIconType: 'traffic',
+        //capacity: 4,
+        capacity: 100,
         steps: [
           {
             value: '',
@@ -1541,7 +1565,8 @@ describe('DataManager class', () => {
               {
                 index: 1,
                 id: 'ST1-LINE1-SS1',
-                latency: true,
+                //latency: true,
+                latency: false,
                 relationship_touchpoints: [1]
               }
             ]
@@ -1577,6 +1602,7 @@ describe('DataManager class', () => {
     };
     const result = dataManager.Getmeasures(element);
     expect(result).toEqual({
+      //count_by_stage: [],
       total_count: 4,
       count_by_stage: [4, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       sessions_by_stage: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -1587,22 +1613,24 @@ describe('DataManager class', () => {
     });
   });
 
-  describe('Function GetSessionsPercentage()', () => {
-    it('Sessions empty', () => {
-      const result = dataManager.GetSessionsPercentage([]);
-      expect(result).toEqual(0);
-    });
+  // ============ BORRADO POR Q EN LA FUNCION DE COMPONENTES SE QUITO ======
+  // describe('Function GetSessionsPercentage()', () => {
+  //   it('Sessions empty', () => {
+  //     const result = dataManager.GetSessionsPercentage([]);
+  //     expect(result).toEqual(0);
+  //   });
 
-    it('Sessions with time', () => {
-      const result = dataManager.GetSessionsPercentage([
-        {
-          time: 250
-        },
-        { time: 251 }
-      ]);
-      expect(result).toEqual(1);
-    });
-  });
+  //   it('Sessions with time', () => {
+  //     const result = dataManager.GetSessionsPercentage([
+  //       {
+  //         time: 250
+  //       },
+  //       { time: 251 }
+  //     ]);
+  //     expect(result).toEqual(1);
+  //   });
+  // });
+  // ==================================================================
 
   describe('Function UpdateErrorCondition()', () => {
     it('actual=danger nextvalue=null', () => {
@@ -1650,7 +1678,7 @@ describe('DataManager class', () => {
                 query: 'SIMPLE QUERY OF TYPE 1',
                 error_threshold: 1,
                 count: 1,
-                error_percentage: 2
+                error_percentage: 0.5
               },
               {
                 apdex: 0.3,
@@ -1664,7 +1692,7 @@ describe('DataManager class', () => {
                 query: 'SIMPLE QUERY OF TYPE 20',
                 error_threshold: 1,
                 count: 1,
-                error_percentage: 2
+                error_percentage: 0.1
               }
             ]
           }
@@ -1676,7 +1704,7 @@ describe('DataManager class', () => {
           title: 'BROWSE',
           congestion: {
             value: 0,
-            percentage: 15
+            percentage: 2
           },
           steps: [
             {
@@ -1855,74 +1883,82 @@ describe('DataManager class', () => {
     expect(result).toEqual(10);
   });
 
-  it('Function CheckMaxCapacity()', () => {
-    const result = dataManager.CheckMaxCapacity(200, 0);
-    expect(result).toEqual(200);
-  });
+  // ============ BORRADO POR Q EN LA FUNCION DE COMPONENTES SE QUITO ======
+  // it('Function CheckMaxCapacity()', () => {
+  //   const result = dataManager.CheckMaxCapacity(200, 0);
+  //   expect(result).toEqual(200);
+  // });
+  
 
-  it('Function CheckMaxCapacity() with minimun value', () => {
-    const result = dataManager.CheckMaxCapacity(50, 0);
-    expect(result).toEqual(400);
-  });
+  // it('Function CheckMaxCapacity() with minimun value', () => {
+  //   const result = dataManager.CheckMaxCapacity(50, 0);
+  //   expect(result).toEqual(400);
+  // });
 
-  it('Function CheckMaxCapacity() with capacity empty', () => {
-    dataManager.capacity = [{}];
-    const result = dataManager.CheckMaxCapacity(50, 0);
-    expect(result).toEqual(50);
-  });
+  
 
-  it('Function UpdateMaxLatencySteps()', () => {
-    dataManager.stages = [
-      {
-        index: 1,
-        title: 'BROWSE',
-        congestion: {
-          value: 0,
-          percentage: 15
-        },
-        steps: [
-          {
-            value: '',
-            sub_steps: [
-              {
-                index: 1,
-                id: 'ST1-LINE1-SS1',
-                latency: false,
-                relationship_touchpoints: [1]
-              }
-            ]
-          }
-        ],
-        touchpoints: [{ index: 1, error: true, stage_index: 1 }]
-      }
-    ];
-    const maxDuration = [1];
-    dataManager.UpdateMaxLatencySteps(maxDuration);
-    expect(dataManager.stages).toEqual([
-      {
-        index: 1,
-        title: 'BROWSE',
-        congestion: {
-          value: 0,
-          percentage: 15
-        },
-        steps: [
-          {
-            value: '',
-            sub_steps: [
-              {
-                index: 1,
-                id: 'ST1-LINE1-SS1',
-                latency: true,
-                relationship_touchpoints: [1]
-              }
-            ]
-          }
-        ],
-        touchpoints: [{ index: 1, error: true, stage_index: 1 }]
-      }
-    ]);
-  });
+  // it('Function CheckMaxCapacity() with capacity empty', () => {
+  //   dataManager.capacity = [{}];
+  //   const result = dataManager.CheckMaxCapacity(50, 0);
+  //   expect(result).toEqual(50);
+  // });
+
+  // =======================================================================
+
+  // ============ BORRADO POR Q EN LA FUNCION DE COMPONENTES SE QUITO ======
+  // it('Function UpdateMaxLatencySteps()', () => {
+  //   dataManager.stages = [
+  //     {
+  //       index: 1,
+  //       title: 'BROWSE',
+  //       congestion: {
+  //         value: 0,
+  //         percentage: 15
+  //       },
+  //       steps: [
+  //         {
+  //           value: '',
+  //           sub_steps: [
+  //             {
+  //               index: 1,
+  //               id: 'ST1-LINE1-SS1',
+  //               latency: false,
+  //               relationship_touchpoints: [1]
+  //             }
+  //           ]
+  //         }
+  //       ],
+  //       touchpoints: [{ index: 1, error: true, stage_index: 1 }]
+  //     }
+  //   ];
+  //   const maxDuration = [1];
+  //   dataManager.UpdateMaxLatencySteps(maxDuration);
+  //   expect(dataManager.stages).toEqual([
+  //     {
+  //       index: 1,
+  //       title: 'BROWSE',
+  //       congestion: {
+  //         value: 0,
+  //         percentage: 15
+  //       },
+  //       steps: [
+  //         {
+  //           value: '',
+  //           sub_steps: [
+  //             {
+  //               index: 1,
+  //               id: 'ST1-LINE1-SS1',
+  //               latency: true,
+  //               relationship_touchpoints: [1]
+  //             }
+  //           ]
+  //         }
+  //       ],
+  //       touchpoints: [{ index: 1, error: true, stage_index: 1 }]
+  //     }
+  //   ]);
+  // });
+  // =========================================================================
 
   it('Function UpdateMaxCapacity()', () => {
     dataManager.capacityUpdatePending = true;
@@ -2282,7 +2318,8 @@ describe('DataManager class', () => {
       }
     ];
     dataManager.GetMinPercentageError();
-    expect(dataManager.minPercentageError).toEqual(5);
+    //expect(dataManager.minPercentageError).toEqual(5);
+    expect(dataManager.minPercentageError).toEqual(100);
   });
 
   it('Function GetStorageTouchpoints()', async () => {
@@ -2347,9 +2384,25 @@ describe('DataManager class', () => {
         ]
       }
     ];
+    let kpis = [
+      {
+        index: 0,
+        type: 101,
+        name: "Unique Visitors",
+        shortName: "Unique",
+        link: "https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true",
+        query: "SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago",
+        value: {
+          current: 0,
+          previous: 0
+        },
+        check: true
+      }
+    ];
     dataManager.version = '1.0.0';
     dataManager.banner_kpis = bannerKpi;
     dataManager.stages = stages;
+    dataManager.kpis = kpis;
     const result = dataManager.GetCurrentConfigurationJSON();
     stages = [
       {
@@ -2374,7 +2427,8 @@ describe('DataManager class', () => {
     ];
     const configuration = {
       pathpointVersion: '1.0.0',
-      banner_kpis: bannerKpi,
+      //banner_kpis: bannerKpi,
+      kpis: kpis,
       stages: stages
     };
     expect(result).toMatch(JSON.stringify(configuration, null, 4));
@@ -2412,9 +2466,25 @@ describe('DataManager class', () => {
         ]
       }
     ];
+    let kpis = [
+      {
+        index: 0,
+        type: 101,
+        name: "Unique Visitors",
+        shortName: "Unique",
+        link: "https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true",
+        query: "SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago",
+        value: {
+          current: 0,
+          previous: 0
+        },
+        check: true
+      }
+    ];
     dataManager.version = '1.0.0';
     dataManager.banner_kpis = bannerKpi;
     dataManager.stages = stages;
+    dataManager.kpis = kpis;
     dataManager.ReadPathpointConfig();
     stages = [
       {
@@ -2437,9 +2507,11 @@ describe('DataManager class', () => {
         ]
       }
     ];
+    
     const configuration = {
       pathpointVersion: '1.0.0',
-      banner_kpis: bannerKpi,
+      //banner_kpis: bannerKpi,
+      kpis: kpis,
       stages: stages
     };
     expect(dataManager.configuration).toEqual(configuration);
@@ -2575,33 +2647,33 @@ describe('DataManager class', () => {
     ];
     const result = dataManager.GetTouchpointQueryes(1, 1);
     expect(result).toEqual([
-      {
-        type: 'COUNT-QUERY',
-        query: 'SIMPLE QUERY OF TYPE 0',
-        error_threshold: 1
-      },
-      {
-        type: 'ERROR-PERCENTAGE-QUERY',
-        query: 'SIMPLE QUERY OF TYPE 1',
-        apdex_time: 1
-      },
-      {
-        type: 'APDEX-QUERY',
-        query: 'SIMPLE QUERY OF TYPE 2'
-      },
-      {
-        type: 'SESSIONS-QUERY',
-        query: 'SIMPLE QUERY OF TYPE 3'
-      },
-      {
-        type: 'SESSIONS-QUERY-DURATION',
-        query: 'SIMPLE QUERY OF TYPE 4'
-      },
-      {
-        type: 'FULL-OPEN-QUERY',
-        query: 'SIMPLE QUERY OF TYPE 20',
-        error_threshold: 1
-      }
+      // {
+      //   type: 'COUNT-QUERY',
+      //   query: 'SIMPLE QUERY OF TYPE 0',
+      //   error_threshold: 1
+      // },
+      // {
+      //   type: 'ERROR-PERCENTAGE-QUERY',
+      //   query: 'SIMPLE QUERY OF TYPE 1',
+      //   apdex_time: 1
+      // },
+      // {
+      //   type: 'APDEX-QUERY',
+      //   query: 'SIMPLE QUERY OF TYPE 2'
+      // },
+      // {
+      //   type: 'SESSIONS-QUERY',
+      //   query: 'SIMPLE QUERY OF TYPE 3'
+      // },
+      // {
+      //   type: 'SESSIONS-QUERY-DURATION',
+      //   query: 'SIMPLE QUERY OF TYPE 4'
+      // },
+      // {
+      //   type: 'FULL-OPEN-QUERY',
+      //   query: 'SIMPLE QUERY OF TYPE 20',
+      //   error_threshold: 1
+      // }
     ]);
   });
 
@@ -2614,6 +2686,21 @@ describe('DataManager class', () => {
           prefix: '',
           suffix: 'Orders',
           query: 'SIMPLE QUERY KPI'
+        }
+      ],
+      kpis: [
+        {
+          index: 0,
+          type: 101,
+          name: "Unique Visitors",
+          shortName: "Unique",
+          link: "https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true",
+          query: "SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago",
+          value: {
+            current: 0,
+            previous: 0
+          },
+          check: true
         }
       ],
       stages: [
@@ -2672,14 +2759,31 @@ describe('DataManager class', () => {
     const result = dataManager.SetConfigurationJSON(
       JSON.stringify(configuration, null, 4)
     );
-    expect(result.banner_kpis).toEqual([
+    // ===== NO RECIBE EL VALOR banner_kpis POR Q NO EXISTE EN LA FUNCION Q ENVIA
+    // expect(result.banner_kpis).toEqual([
+    //   {
+    //     type: 100,
+    //     value: 0,
+    //     description: 'Total Order Count',
+    //     prefix: '',
+    //     suffix: 'Orders',
+    //     query: 'SIMPLE QUERY KPI'
+    //   }
+    // ]);
+    // ===================================================
+    expect(result.kpis).toEqual([
       {
-        type: 100,
-        value: 0,
-        description: 'Total Order Count',
-        prefix: '',
-        suffix: 'Orders',
-        query: 'SIMPLE QUERY KPI'
+        index: 0,
+        type: 101,
+        name: "Unique Visitors",
+        shortName: "Unique",
+        link: "https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true",
+        query: "SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago",
+        value: {
+          current: 0,
+          previous: 0
+        },
+        check: true
       }
     ]);
     expect(result.stages).toEqual([
@@ -2750,6 +2854,21 @@ describe('DataManager class', () => {
   it('Function UpdateNewConfiguration()', () => {
     const configuration = {
       pathpointVersion: '1.0.4',
+      kpis: [
+        {
+          index: 0,
+          type: 101,
+          name: "Unique Visitors",
+          shortName: "Unique",
+          link: "https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true",
+          query: "SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago",
+          value: {
+            current: 0,
+            previous: 0
+          },
+          check: true
+        }
+      ],
       banner_kpis: [
         {
           description: 'Total Order Count',
@@ -2811,62 +2930,64 @@ describe('DataManager class', () => {
       ]
     };
     dataManager.banner_kpis = [];
+    dataManager.kpis = configuration.kpis;
     dataManager.configurationJSON = configuration;
     dataManager.UpdateNewConfiguration();
     expect(dataManager.stages.length).toEqual(1);
-    expect(dataManager.banner_kpis.length).toEqual(1);
+    expect(dataManager.banner_kpis.length).toEqual(0);
   });
 
-  it('Function UpdateTouchpointsRelationship()', () => {
-    dataManager.touchpoints = [
-      {
-        index: 0,
-        country: 'PRODUCTION',
-        touchpoints: [
-          {
-            stage_index: 1,
-            value: 'Catalog API',
-            touchpoint_index: 1,
-            status_on_off: true,
-            relation_steps: ['ST1-LINE1-SS1']
-          }
-        ]
-      }
-    ];
-    dataManager.stages = [
-      {
-        index: 1,
-        title: 'BROWSE',
-        congestion: {
-          value: 0,
-          percentage: 15
-        },
-        steps: [
-          {
-            value: '',
-            sub_steps: [
-              {
-                index: 1,
-                id: 'ST1-LINE1-SS1',
-                relationship_touchpoints: []
-              }
-            ]
-          }
-        ],
-        touchpoints: [
-          {
-            stage_index: 1,
-            index: 1,
-            relation_steps: ['ST1-LINE1-SS1']
-          }
-        ]
-      }
-    ];
-    dataManager.UpdateTouchpointsRelationship();
-    expect(dataManager.stages[0].steps[0].sub_steps).toEqual([
-      { index: 1, id: 'ST1-LINE1-SS1', relationship_touchpoints: [1] }
-    ]);
-  });
+  // =================== borardo en el codigo principal=============
+  // it('Function UpdateTouchpointsRelationship()', () => {
+  //   dataManager.touchpoints = [
+  //     {
+  //       index: 0,
+  //       country: 'PRODUCTION',
+  //       touchpoints: [
+  //         {
+  //           stage_index: 1,
+  //           value: 'Catalog API',
+  //           touchpoint_index: 1,
+  //           status_on_off: true,
+  //           relation_steps: ['ST1-LINE1-SS1']
+  //         }
+  //       ]
+  //     }
+  //   ];
+  //   dataManager.stages = [
+  //     {
+  //       index: 1,
+  //       title: 'BROWSE',
+  //       congestion: {
+  //         value: 0,
+  //         percentage: 15
+  //       },
+  //       steps: [
+  //         {
+  //           value: '',
+  //           sub_steps: [
+  //             {
+  //               index: 1,
+  //               id: 'ST1-LINE1-SS1',
+  //               relationship_touchpoints: []
+  //             }
+  //           ]
+  //         }
+  //       ],
+  //       touchpoints: [
+  //         {
+  //           stage_index: 1,
+  //           index: 1,
+  //           relation_steps: ['ST1-LINE1-SS1']
+  //         }
+  //       ]
+  //     }
+  //   ];
+  //   dataManager.UpdateTouchpointsRelationship();
+  //   expect(dataManager.stages[0].steps[0].sub_steps).toEqual([
+  //     { index: 1, id: 'ST1-LINE1-SS1', relationship_touchpoints: [1] }
+  //   ]);
+  // });
 
   it('Function UpdateTouchpointCopy', () => {
     dataManager.touchPoints = [
@@ -3492,10 +3613,10 @@ describe('DataManager class', () => {
         status_on_off: true
       };
       const result = dataManager.GetTouchpointTune(touchpoint);
-      expect(result).toEqual({
-        error_threshold: 0.3,
-        apdex_time: 0
-      });
+      expect(result).toEqual([{
+        error_threshold: 0.3
+        //apdex_time: 0
+      }]);
     });
 
     it('Three measure point', () => {
@@ -3508,12 +3629,12 @@ describe('DataManager class', () => {
               stage_index: 1,
               touchpoint_index: 1,
               measure_points: [
-                {
-                  error_threshold: 0.3
-                },
-                {
-                  error_threshold: 0.2
-                },
+                // {
+                //   error_threshold: 0.3
+                // },
+                // {
+                //   error_threshold: 0.2
+                // },
                 {
                   apdex_time: 0.5
                 }
@@ -3527,10 +3648,11 @@ describe('DataManager class', () => {
         index: 1
       };
       const result = dataManager.GetTouchpointTune(touchpoint);
-      expect(result).toEqual({
-        error_threshold: 0.2,
+      expect(result).toEqual([{
+        //error_threshold: 0.3,
+        //error_threshold: 0.2,
         apdex_time: 0.5
-      });
+      }]);
     });
   });
 
@@ -3562,54 +3684,54 @@ describe('DataManager class', () => {
     dataManager.timeRange = '5 MINUTES AGO';
     const result = dataManager.GetTouchpointQuerys(touchpoint);
     expect(result).toEqual([
-      {
-        label: 'Count Query',
-        value: 0,
-        type: 0,
-        query_start: '',
-        query_body: 'SIMPLE QUERY OF TYPE 0',
-        query_footer: `SINCE 5 MINUTES AGO`
-      },
-      {
-        label: 'Error Percentage Query',
-        value: 1,
-        type: 1,
-        query_start: '',
-        query_body: 'SIMPLE QUERY OF TYPE 1',
-        query_footer: `SINCE 5 MINUTES AGO`
-      },
-      {
-        label: 'Apdex Query',
-        value: 2,
-        type: 2,
-        query_start: '',
-        query_body: 'SIMPLE QUERY OF TYPE 2',
-        query_footer: `SINCE 5 MINUTES AGO`
-      },
-      {
-        label: 'Session Query',
-        value: 3,
-        type: 3,
-        query_start: '',
-        query_body: 'SIMPLE QUERY OF TYPE 3',
-        query_footer: `SINCE 5 MINUTES AGO`
-      },
-      {
-        label: 'Session Query Duration',
-        value: 4,
-        type: 4,
-        query_start: '',
-        query_body: 'SIMPLE QUERY OF TYPE 4',
-        query_footer: `SINCE 5 MINUTES AGO`
-      },
-      {
-        label: 'Full Open Query',
-        value: 5,
-        type: 20,
-        query_start: '',
-        query_body: 'SIMPLE QUERY OF TYPE 20',
-        query_footer: `SINCE 5 MINUTES AGO`
-      }
+      // {
+      //   label: 'Count Query',
+      //   value: 0,
+      //   type: 0,
+      //   query_start: '',
+      //   query_body: 'SIMPLE QUERY OF TYPE 0',
+      //   query_footer: `SINCE 5 MINUTES AGO`
+      // },
+      // {
+      //   label: 'Error Percentage Query',
+      //   value: 1,
+      //   type: 1,
+      //   query_start: '',
+      //   query_body: 'SIMPLE QUERY OF TYPE 1',
+      //   query_footer: `SINCE 5 MINUTES AGO`
+      // },
+      // {
+      //   label: 'Apdex Query',
+      //   value: 2,
+      //   type: 2,
+      //   query_start: '',
+      //   query_body: 'SIMPLE QUERY OF TYPE 2',
+      //   query_footer: `SINCE 5 MINUTES AGO`
+      // },
+      // {
+      //   label: 'Session Query',
+      //   value: 3,
+      //   type: 3,
+      //   query_start: '',
+      //   query_body: 'SIMPLE QUERY OF TYPE 3',
+      //   query_footer: `SINCE 5 MINUTES AGO`
+      // },
+      // {
+      //   label: 'Session Query Duration',
+      //   value: 4,
+      //   type: 4,
+      //   query_start: '',
+      //   query_body: 'SIMPLE QUERY OF TYPE 4',
+      //   query_footer: `SINCE 5 MINUTES AGO`
+      // },
+      // {
+      //   label: 'Full Open Query',
+      //   value: 5,
+      //   type: 20,
+      //   query_start: '',
+      //   query_body: 'SIMPLE QUERY OF TYPE 20',
+      //   query_footer: `SINCE 5 MINUTES AGO`
+      // }
     ]);
   });
 
@@ -3652,7 +3774,8 @@ describe('DataManager class', () => {
                 {
                   type: 0,
                   query: 'SIMPLE QUERY OF TYPE 0',
-                  error_threshold: 0.3
+                  //error_threshold: 0.3
+                  error_threshold: 0.8
                 }
               ]
             }
@@ -3704,10 +3827,11 @@ describe('DataManager class', () => {
                   error_threshold: 0
                 },
                 {
-                  error_threshold: 0.3
+                  //error_threshold: 0.3
+                  error_threshold: 0
                 },
                 {
-                  apdex_time: 0.1
+                  apdex_time: 0
                 }
               ]
             }
@@ -3773,8 +3897,9 @@ describe('DataManager class', () => {
               },
               {
                 type: 4,
-                appName: 'NEW SIMPLE QUERY OF TYPE 4',
-                error_threshold: 0.8
+                appName: 'SIMPLE QUERY OF TYPE 4',
+                error_threshold: 0.8,
+                query: 'NEW SIMPLE QUERY OF TYPE 4',
               }
             ]
           }
@@ -3785,18 +3910,25 @@ describe('DataManager class', () => {
 
   it('Function GetHistoricParameters()', () => {
     const result = dataManager.GetHistoricParameters();
-    expect(result).toEqual({ days: 8, percentage: 26 });
+    expect(result).toEqual({ 
+      //days: 8,
+      hours: 192,
+      percentage: 26
+    });
   });
 
   it('Function UpdateHistoricParameters()', () => {
-    dataManager.UpdateHistoricParameters(7, 30);
-    expect(dataManager.historicErrorsDays).toEqual(7);
-    expect(dataManager.historicErrorsHighLightPercentage).toEqual(30);
+    // ===== AGREGAR EL HISTORIC-ERROR-HOURS YA SE QUITO EL HISTORIC-ERROR-DAYS 
+
+    //dataManager.UpdateHistoricParameters(7, 30);
+    dataManager.UpdateHistoricParameters(30);
+    //expect(dataManager.historicErrorsDays).toEqual(7);
+    //expect(dataManager.historicErrorsHighLightPercentage).toEqual(30);
   });
 
   it('Function GetStorageHistoricErrorsParams()', async () => {
     await dataManager.GetStorageHistoricErrorsParams();
-    expect(dataManager.historicErrorsDays).toEqual(0);
+    //expect(dataManager.historicErrorsDays).toEqual(0);
     expect(dataManager.historicErrorsHighLightPercentage).toEqual(0);
   });
 

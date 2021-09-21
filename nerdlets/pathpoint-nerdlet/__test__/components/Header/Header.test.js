@@ -36,6 +36,34 @@ describe('<Header/>', () => {
           value: 0
         }
       ];
+      const kpis = [
+        {
+          index: 0,
+          type: 101,
+          name: "Unique Visitors",
+          shortName: "Unique",
+          link: "https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true",
+          query: "SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago",
+          value: {
+            current: 0,
+            previous: 0
+          },
+          check: true
+        },
+        {
+          index: 1,
+          type: 101,
+          name: "1 Account",
+          shortName: "1 Acc.",
+          link: "https://chart-embed.service.newrelic.com/herald/5817c955-7920-4367-86e5-e8a998852863?height=400px&timepicker=true",
+          query: "SELECT count(*) as value  FROM Transaction COMPARE WITH 2 day ago",
+          value: {
+            current: 0,
+            previous: 0
+          },
+          check: false
+        }
+      ];
       const header = mount(
         <Header
           iconSixthSenseStatus
@@ -48,10 +76,21 @@ describe('<Header/>', () => {
           showLeftPanel
           openLeftMenu={jest.fn()}
           handleContextMenuFire={jest.fn()}
+          handleContextMenuGout={jest.fn()}
+          // ---- quitar este atributo
           banner_kpis={banner_kpis}
+          // --------------------------
           ToggleHeaderButtons={jest.fn()}
           logoSetup={{ type: 'default' }}
+          timeRangeKpi={{
+            index: 0,
+          }}
+          changeTimeRangeKpi={jest.fn()}
+          kpis={kpis}
+          updateDataKpisChecked={jest.fn()}
+          // ---- quitar este atributo
           DisplayConsole={jest.fn()}
+          // --------------------------
         />
       );
       expect(header.length).toEqual(1);
@@ -87,6 +126,34 @@ describe('<Header/>', () => {
           value: 0
         }
       ];
+      const kpis = [
+        {
+          index: 0,
+          type: 101,
+          name: "Unique Visitors",
+          shortName: "Unique",
+          link: "https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true",
+          query: "SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago",
+          value: {
+            current: 0,
+            previous: 0
+          },
+          check: true
+        },
+        {
+          index: 1,
+          type: 101,
+          name: "1 Account",
+          shortName: "1 Acc.",
+          link: "https://chart-embed.service.newrelic.com/herald/5817c955-7920-4367-86e5-e8a998852863?height=400px&timepicker=true",
+          query: "SELECT count(*) as value  FROM Transaction COMPARE WITH 2 day ago",
+          value: {
+            current: 0,
+            previous: 0
+          },
+          check: false
+        }
+      ];
       const header = mount(
         <Header
           iconSixthSenseStatus
@@ -99,10 +166,21 @@ describe('<Header/>', () => {
           showLeftPanel
           openLeftMenu={jest.fn()}
           handleContextMenuFire={jest.fn()}
+          handleContextMenuGout={jest.fn()}
+          // ---- quitar este atributo
           banner_kpis={banner_kpis}
+          // --------------------------
           ToggleHeaderButtons={jest.fn()}
           logoSetup={{ type: 'default' }}
+          timeRangeKpi={{
+            index: 0,
+          }}
+          changeTimeRangeKpi={jest.fn()}
+          kpis={kpis}
+          updateDataKpisChecked={jest.fn()}
+          // ---- quitar este atributo
           DisplayConsole={jest.fn()}
+          // --------------------------
         />
       );
       header
@@ -142,6 +220,34 @@ describe('<Header/>', () => {
           value: 0
         }
       ];
+      const kpis = [
+        {
+          index: 0,
+          type: 101,
+          name: "Unique Visitors",
+          shortName: "Unique",
+          link: "https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true",
+          query: "SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago",
+          value: {
+            current: 0,
+            previous: 0
+          },
+          check: true
+        },
+        {
+          index: 1,
+          type: 101,
+          name: "1 Account",
+          shortName: "1 Acc.",
+          link: "https://chart-embed.service.newrelic.com/herald/5817c955-7920-4367-86e5-e8a998852863?height=400px&timepicker=true",
+          query: "SELECT count(*) as value  FROM Transaction COMPARE WITH 2 day ago",
+          value: {
+            current: 0,
+            previous: 0
+          },
+          check: false
+        }
+      ];
       const header = mount(
         <Header
           iconSixthSenseStatus
@@ -154,10 +260,21 @@ describe('<Header/>', () => {
           showLeftPanel
           openLeftMenu={jest.fn()}
           handleContextMenuFire={jest.fn()}
+          handleContextMenuGout={jest.fn()}
+          // ---- quitar este atributo
           banner_kpis={banner_kpis}
+          // --------------------------
           ToggleHeaderButtons={handleAddToCart}
           logoSetup={{ type: 'default' }}
+          timeRangeKpi={{
+            index: 0,
+          }}
+          changeTimeRangeKpi={jest.fn()}
+          kpis={kpis}
+          updateDataKpisChecked={jest.fn()}
+          // ---- quitar este atributo
           DisplayConsole={jest.fn()}
+          // --------------------------
         />
       );
       header
@@ -197,6 +314,34 @@ describe('<Header/>', () => {
           value: 0
         }
       ];
+      const kpis = [
+        {
+          index: 0,
+          type: 101,
+          name: "Unique Visitors",
+          shortName: "Unique",
+          link: "https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true",
+          query: "SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago",
+          value: {
+            current: 0,
+            previous: 0
+          },
+          check: true
+        },
+        {
+          index: 1,
+          type: 101,
+          name: "1 Account",
+          shortName: "1 Acc.",
+          link: "https://chart-embed.service.newrelic.com/herald/5817c955-7920-4367-86e5-e8a998852863?height=400px&timepicker=true",
+          query: "SELECT count(*) as value  FROM Transaction COMPARE WITH 2 day ago",
+          value: {
+            current: 0,
+            previous: 0
+          },
+          check: false
+        }
+      ];
       const header = mount(
         <Header
           iconSixthSenseStatus
@@ -209,10 +354,21 @@ describe('<Header/>', () => {
           showLeftPanel
           openLeftMenu={jest.fn()}
           handleContextMenuFire={jest.fn()}
+          handleContextMenuGout={jest.fn()}
+          // ---- quitar este atributo
           banner_kpis={banner_kpis}
+          // --------------------------
           ToggleHeaderButtons={handleAddToCart}
           logoSetup={{ type: 'default' }}
+          timeRangeKpi={{
+            index: 0,
+          }}
+          changeTimeRangeKpi={jest.fn()}
+          kpis={kpis}
+          updateDataKpisChecked={jest.fn()}
+          // ---- quitar este atributo
           DisplayConsole={jest.fn()}
+          // --------------------------
         />
       );
       header
@@ -251,6 +407,34 @@ describe('<Header/>', () => {
           value: 0
         }
       ];
+      const kpis = [
+        {
+          index: 0,
+          type: 101,
+          name: "Unique Visitors",
+          shortName: "Unique",
+          link: "https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true",
+          query: "SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago",
+          value: {
+            current: 0,
+            previous: 0
+          },
+          check: true
+        },
+        {
+          index: 1,
+          type: 101,
+          name: "1 Account",
+          shortName: "1 Acc.",
+          link: "https://chart-embed.service.newrelic.com/herald/5817c955-7920-4367-86e5-e8a998852863?height=400px&timepicker=true",
+          query: "SELECT count(*) as value  FROM Transaction COMPARE WITH 2 day ago",
+          value: {
+            current: 0,
+            previous: 0
+          },
+          check: false
+        }
+      ];
       const header = mount(
         <Header
           iconSixthSenseStatus={false}
@@ -263,10 +447,21 @@ describe('<Header/>', () => {
           showLeftPanel={false}
           openLeftMenu={jest.fn()}
           handleContextMenuFire={jest.fn()}
+          handleContextMenuGout={jest.fn()}
+          // ---- quitar este atributo
           banner_kpis={banner_kpis}
+          // --------------------------
           ToggleHeaderButtons={jest.fn()}
           logoSetup={{ type: 'default' }}
+          timeRangeKpi={{
+            index: 0,
+          }}
+          changeTimeRangeKpi={jest.fn()}
+          kpis={kpis}
+          updateDataKpisChecked={jest.fn()}
+          // ---- quitar este atributo
           DisplayConsole={jest.fn()}
+          // --------------------------
         />
       );
       expect(header.length).toEqual(1);
