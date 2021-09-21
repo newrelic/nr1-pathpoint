@@ -738,7 +738,6 @@ export default class DataManager {
         });
       }
     });
-    console.log('tpc deveulto',tpc)
     return {
       count_by_stage: tpc
     };
@@ -866,6 +865,7 @@ export default class DataManager {
         return 'warning';
       }
       return 'good';
+      
     } else {
       return 'good';
     }
@@ -1102,6 +1102,7 @@ export default class DataManager {
       });
       if (data) {
         this.touchPoints = data.TouchPoints;
+        console.log('this.touchPoints',this.touchPoints)
         this.touchPointsCopy = JSON.parse(JSON.stringify(this.touchPoints)); // clone the touchpoints with new reference
         this.GetMinPercentageError();
         this.SetTouchpointsStatus();
@@ -1676,8 +1677,10 @@ export default class DataManager {
     let query2 = '';
     const countBreak = 20;
     this.touchPoints.forEach(element => {
+      console.log('element',element)
       if (element.index === this.city) {
         element.touchpoints.forEach(touchpoint => {
+          console.log('touchpoint.measure_points[0]',touchpoint.measure_points[0])
           data +=
             ' measure_' +
             touchpoint.stage_index +
