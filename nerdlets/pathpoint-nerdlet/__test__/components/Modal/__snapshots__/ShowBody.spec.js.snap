@@ -33,6 +33,63 @@ exports[`ShowBody component ShowBody with default data in 0 view 1`] = `
         style={
           Object {
             "alignItems": "center",
+            "backgroundColor": "#333333",
+            "color": "#00EC64",
+            "display": "flex",
+            "height": "60px",
+            "justifyContent": "space-between",
+            "padding": "15px",
+            "paddingTop": "15px",
+          }
+        }
+      >
+        <strong>
+          querySample=simple query
+stageNameSelected[selectedCase=0
+datos[0[label=Full Open Query
+query_body=SELECT FILTER(count(*) FROM Log
+query_footer=SINCE 5 MINUTES AGO
+query_start=
+type=20
+value=0
+]
+]
+]
+chargueSample=function () {
+        return fn.apply(this, arguments);
+      }
+testQuery=function () {
+        return fn.apply(this, arguments);
+      }
+handleSaveUpdateQuery=function () {
+        return fn.apply(this, arguments);
+      }
+handleSaveUpdateSupport=function () {
+        return fn.apply(this, arguments);
+      }
+testText=Bad query
+goodQuery=false
+modifiedQuery=true
+handleChangeTexarea=function () {
+        return fn.apply(this, arguments);
+      }
+viewModal=1
+handleSaveUpdateTune=function () {
+        return fn.apply(this, arguments);
+      }
+_onClose=function () {
+        return fn.apply(this, arguments);
+      }
+LogoFormSubmit=function () {
+        return fn.apply(this, arguments);
+      }
+
+        </strong>
+      </div>
+      <div
+        style={
+          Object {
+            "alignItems": "center",
             "display": "flex",
             "justifyContent": "space-between",
             "paddingTop": "30px",

@@ -69,7 +69,8 @@ export default class DataManager {
     } else {
       this.stages = ViewData.stages;
       this.colors = ViewData.colors;
-      this.kpis = ViewData.kpis;
+      this.kpis = ViewData.kpis??[];
+      
       this.SetInitialDataViewToStorage();
       this.SetStorageTouchpoints();
       this.SetVersion();
@@ -171,7 +172,7 @@ export default class DataManager {
       });
       if (data) {
         this.stages = data.ViewJSON;
-        this.kpis = data.Kpis;
+        this.kpis = data.Kpis??[];
       }
     } catch (error) {
       throw new Error(error);
@@ -737,7 +738,7 @@ export default class DataManager {
         });
       }
     });
-    console.log('TPC:', tpc);
+    console.log('tpc deveulto',tpc)
     return {
       count_by_stage: tpc
     };
@@ -1297,6 +1298,7 @@ export default class DataManager {
     let substepIndex = 1;
     this.stages.length = 0;
     this.touchPoints.length = 0;
+    this.kpis = this.kpis??[]
     this.kpis.length = 0;
     this.touchPoints.push({
       index: 0,

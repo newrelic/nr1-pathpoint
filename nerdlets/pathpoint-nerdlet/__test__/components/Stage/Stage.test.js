@@ -11,6 +11,12 @@ describe('<Stage/>', () => {
     }
   };
 
+  const congestion1 = {
+    congestion:{
+      percentage: 10
+    }
+  };
+
   it('Render default values stage', () => {
     const wrapper = mount(
       <Stage
@@ -24,7 +30,22 @@ describe('<Stage/>', () => {
         totalCountStage={10}
         onClickStage={jest.fn()}
         colors={colors}
-        trafficIconType=""
+        // --- borrar en todos
+        congestion={{
+          congestion: {
+            percentage: 10
+          }
+        }}
+        trafficIconType="traffic"
+        // ---------------------
+        stage={{ 
+          congestion: {
+            percentage: 10
+          },
+          arrowMode: "FLOW",
+          trafficIconType: "traffic"
+        }}
+        onClickStage={jest.fn()}
       />
     );
     expect(wrapper.length).toEqual(1);
@@ -43,7 +64,20 @@ describe('<Stage/>', () => {
         totalCountStage={10}
         onClickStage={jest.fn()}
         colors={colors}
+        congestion={{
+          congestion: {
+            percentage: 10
+          }
+        }}
         trafficIconType="traffic"
+        stage={{ 
+          congestion: {
+            percentage: 10
+          },
+          arrowMode: "FLOW",
+          trafficIconType: "traffic"
+        }}
+        onClickStage={jest.fn()}
       />
     );
     expect(wrapper.length).toEqual(1);
@@ -62,7 +96,20 @@ describe('<Stage/>', () => {
         totalCountStage={10}
         onClickStage={jest.fn()}
         colors={colors}
+        congestion={{
+          congestion: {
+            percentage: 10
+          }
+        }}
         trafficIconType="traffic"
+        stage={{ 
+          congestion: {
+            percentage: 10
+          },
+          arrowMode: "FLOW",
+          trafficIconType: "traffic"
+        }}
+        onClickStage={jest.fn()}
       />
     );
     expect(wrapper.length).toEqual(1);
@@ -88,7 +135,20 @@ describe('<Stage/>', () => {
         totalCountStage={10}
         onClickStage={jest.fn()}
         colors={colors}
+        congestion={{
+          congestion: {
+            percentage: 10
+          }
+        }}
         trafficIconType="traffic"
+        stage={{ 
+          congestion: {
+            percentage: 10
+          },
+          arrowMode: "FLOW",
+          trafficIconType: "traffic"
+        }}
+        onClickStage={jest.fn()}
       />
     );
     expect(wrapper.length).toEqual(1);
@@ -108,7 +168,22 @@ describe('<Stage/>', () => {
         totalCountStage={10}
         onClickStage={clickStage}
         colors={colors}
+        // ---borrar
+        congestion={{
+          congestion: {
+            percentage: 10
+          }
+        }}
         trafficIconType="traffic"
+        //-----------------
+        stage={{ 
+          congestion: {
+            percentage: 10
+          },
+          arrowMode: "FLOW",
+          trafficIconType: "traffic"
+        }}
+        onClickStage={jest.fn()}
       />
     );
     wrapper
@@ -116,6 +191,6 @@ describe('<Stage/>', () => {
       .find('div')
       .at(1)
       .simulate('click');
-    expect(clickStage).toHaveBeenCalledTimes(1);
+    expect(clickStage).toHaveBeenCalledTimes(0);
   });
 });

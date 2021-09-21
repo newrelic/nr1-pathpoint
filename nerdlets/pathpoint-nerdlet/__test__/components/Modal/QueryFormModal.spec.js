@@ -27,6 +27,7 @@ describe('QueryFormModal component', () => {
         testQuery={jest.fn()}
         handleSaveUpdateQuery={jest.fn()}
         testText="Bad query"
+        resultsTestQuery={{ type: 'default' }}
         goodQuery={false}
         modifiedQuery
         handleChangeTexarea={jest.fn()}
