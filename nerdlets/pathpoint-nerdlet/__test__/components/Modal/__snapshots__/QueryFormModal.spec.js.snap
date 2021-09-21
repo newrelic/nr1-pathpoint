@@ -33,6 +33,25 @@ exports[`QueryFormModal component Render body with default data 1`] = `
         style={
           Object {
             "alignItems": "center",
+            "backgroundColor": "#333333",
+            "color": "#00EC64",
+            "display": "flex",
+            "height": "60px",
+            "justifyContent": "space-between",
+            "padding": "15px",
+            "paddingTop": "15px",
+          }
+        }
+      >
+        <strong>
+          type=default
+
+        </strong>
+      </div>
+      <div
+        style={
+          Object {
+            "alignItems": "center",
             "display": "flex",
             "justifyContent": "space-between",
             "paddingTop": "30px",

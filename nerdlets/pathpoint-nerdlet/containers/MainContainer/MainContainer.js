@@ -129,7 +129,8 @@ export default class MainContainer extends React.Component {
         index: 0,
         range: '24 HOURS AGO'
       },
-      kpis: null
+      //kpis: null
+      kpis: []
     };
   }
 
@@ -256,7 +257,7 @@ export default class MainContainer extends React.Component {
         this.setState(
           {
             stages: data.stages,
-            kpis: data.kpis,
+            kpis: data.kpis??[],
             getOldSessions: false,
             waiting: false
           },
@@ -1166,7 +1167,7 @@ export default class MainContainer extends React.Component {
     const data = this.DataManager.SetConfigurationJSON(payload);
     this.setState({
       stages: data.stages,
-      kpis: data.kpis
+      kpis: data.kpis??[]
     });
   };
 
@@ -1227,6 +1228,7 @@ export default class MainContainer extends React.Component {
 
   updateDataKpisChecked = kpis => {
     this.DataManager.SaveKpisSelection(kpis);
+    console.log(kpis)
     this.setState({ kpis });
   };
 

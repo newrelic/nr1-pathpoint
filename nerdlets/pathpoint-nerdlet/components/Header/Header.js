@@ -43,6 +43,7 @@ const Header = ({
   kpis,
   updateDataKpisChecked
 }) => {
+  //const asArray = Object.entries(kpis);
   const filterKpis = kpis.filter(kpi => kpi.query !== '' && kpi.check);
 
   return (
@@ -277,6 +278,7 @@ Header.propTypes = {
   logoSetup: PropTypes.object.isRequired,
   timeRangeKpi: PropTypes.object.isRequired,
   changeTimeRangeKpi: PropTypes.func.isRequired,
-  kpis: PropTypes.object.isRequired,
+  //kpis: PropTypes.object.isRequired,
+  kpis: PropTypes.array.isRequired,
   updateDataKpisChecked: PropTypes.func.isRequired
 };
