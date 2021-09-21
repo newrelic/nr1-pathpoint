@@ -1678,7 +1678,8 @@ describe('DataManager class', () => {
                 query: 'SIMPLE QUERY OF TYPE 1',
                 error_threshold: 1,
                 count: 1,
-                error_percentage: 0.5
+                error_percentage: 0.5,
+                max_error_percentage: 0.1
               },
               {
                 apdex: 0.3,
@@ -1686,13 +1687,59 @@ describe('DataManager class', () => {
                 query: 'SIMPLE QUERY OF TYPE 2',
                 type: 2
               },
-              { count: 4, query: 'SIMPLE QUERY OF TYPE 3', type: 3 },
+              { 
+                count: 4,
+                query: 'SIMPLE QUERY OF TYPE 3',
+                type: 3,
+                error_percentage: 0.7,
+                max_error_percentage: 0.1
+              },
               {
                 type: 20,
                 query: 'SIMPLE QUERY OF TYPE 20',
                 error_threshold: 1,
                 count: 1,
-                error_percentage: 0.1
+                error_percentage: 0.2,
+                max_error_percentage: 0.1
+              }
+            ]
+          },
+          {
+            stage_index: 1,
+            value: 'Catalog API',
+            touchpoint_index: 1,
+            status_on_off: true,
+            relation_steps: [1],
+            measure_points: [
+              { count: 4, query: 'SIMPLE QUERY OF TYPE 0', type: 0 },
+              {
+                type: 1,
+                query: 'SIMPLE QUERY OF TYPE 1',
+                error_threshold: 1,
+                count: 1,
+                error_percentage: 0.5,
+                max_error_percentage: 0.1
+              },
+              {
+                apdex: 0.3,
+                apdex_time: 10,
+                query: 'SIMPLE QUERY OF TYPE 2',
+                type: 2
+              },
+              { 
+                count: 4,
+                query: 'SIMPLE QUERY OF TYPE 3',
+                type: 3,
+                error_percentage: 0.7,
+                max_error_percentage: 0.1
+              },
+              {
+                type: 20,
+                query: 'SIMPLE QUERY OF TYPE 20',
+                error_threshold: 1,
+                count: 1,
+                error_percentage: 0.2,
+                max_error_percentage: 0.1
               }
             ]
           }
@@ -1709,10 +1756,23 @@ describe('DataManager class', () => {
           steps: [
             {
               value: '',
+              valueError:'',
+              sub_steps: [
+                {
+                  newValue:'',
+                  index: 1,
+                  id: 'ST1-LINE1-SS1',
+                  relationship_touchpoints: [1]
+                }
+              ]
+            },
+            {
+              value: '',
+              valueError:'',
               sub_steps: [
                 {
                   index: 1,
-                  id: 'ST1-LINE1-SS1',
+                  id: 'ST1-LINE1-SS2',
                   relationship_touchpoints: [1]
                 }
               ]
