@@ -126,6 +126,7 @@ export default class DataManager {
   async GetAccountId(accountName) {
     try {
       const { data } = await AccountsQuery.query();
+      console.log('Access Accounts:',data);
       if (accountName !== '') {
         data.some(account => {
           let found = false;
@@ -370,123 +371,139 @@ export default class DataManager {
     if (data && data.actor) {
       for (const [key, value] of Object.entries(data.actor)) {
         const c = key.split('_');
-        if (c[0] === 'measure') {
-          const measure = this.graphQlmeasures[Number(c[1])][0];
-          if (
-            measure.type === 'PRC' &&
-            value.nrql !== null &&
-            value.nrql.results &&
-            value.nrql.results[0] &&
-            Object.prototype.hasOwnProperty.call(
-              value.nrql.results[0],
-              'session'
-            )
-          ) {
-            measure.session_count = value.nrql.results[0].session;
-          } else if (
-            measure.type === 'PCC' &&
-            value.nrql !== null &&
-            value.nrql.results &&
-            value.nrql.results[0] &&
-            Object.prototype.hasOwnProperty.call(value.nrql.results[0], 'count')
-          ) {
-            measure.transaction_count = value.nrql.results[0].count;
-          } else if (
-            measure.type === 'APP' &&
-            value.nrql !== null &&
-            value.nrql.results &&
-            value.nrql.results[0] &&
-            Object.prototype.hasOwnProperty.call(
-              value.nrql.results[0],
-              'apdex'
-            ) &&
-            Object.prototype.hasOwnProperty.call(
-              value.nrql.results[0],
-              'score'
-            ) &&
-            Object.prototype.hasOwnProperty.call(
-              value.nrql.results[0],
-              'response'
-            ) &&
-            Object.prototype.hasOwnProperty.call(value.nrql.results[0], 'error')
-          ) {
-            measure.apdex_value = value.nrql.results[0].score;
-            measure.response_value = value.nrql.results[0].response;
-            measure.error_percentage = value.nrql.results[0].error;
-          } else if (
-            measure.type === 'FRT' &&
-            value.nrql !== null &&
-            value.nrql.results &&
-            value.nrql.results[0] &&
-            Object.prototype.hasOwnProperty.call(
-              value.nrql.results[0],
-              'apdex'
-            ) &&
-            Object.prototype.hasOwnProperty.call(
-              value.nrql.results[0],
-              'score'
-            ) &&
-            Object.prototype.hasOwnProperty.call(
-              value.nrql.results[0],
-              'response'
-            ) &&
-            Object.prototype.hasOwnProperty.call(value.nrql.results[0], 'error')
-          ) {
-            measure.apdex_value = value.nrql.results[0].score;
-            measure.response_value = value.nrql.results[0].response;
-            measure.error_percentage = value.nrql.results[0].error;
-          } else if (
-            measure.type === 'SYN' &&
-            value.nrql !== null &&
-            value.nrql.results &&
-            value.nrql.results[0] &&
-            Object.prototype.hasOwnProperty.call(
-              value.nrql.results[0],
-              'success'
-            ) &&
-            Object.prototype.hasOwnProperty.call(
-              value.nrql.results[0],
-              'duration'
-            ) &&
-            Object.prototype.hasOwnProperty.call(
-              value.nrql.results[0],
-              'request'
-            )
-          ) {
-            measure.success_percentage = value.nrql.results[0].success;
-            measure.max_duration = value.nrql.results[0].duration;
-            measure.max_request_time = value.nrql.results[0].request;
-          } else if (
-            measure.type === 100 &&
-            value.nrql != null &&
-            value.nrql.results &&
-            value.nrql.results[0] &&
-            Object.prototype.hasOwnProperty.call(value.nrql.results[0], 'value')
-          ) {
-            measure.value = value.nrql.results[0].value;
-          } else if (
-            measure.type === 101 &&
-            value.nrql != null &&
-            value.nrql.results &&
-            value.nrql.results.length === 2 &&
-            Object.prototype.hasOwnProperty.call(
-              value.nrql.results[0],
-              'value'
-            ) &&
-            Object.prototype.hasOwnProperty.call(
-              value.nrql.results[0],
-              'comparison'
-            )
-          ) {
-            if (value.nrql.results[0].comparison === 'current') {
-              measure.value.current = value.nrql.results[0].value;
-              measure.value.previous = value.nrql.results[1].value;
-            } else {
-              measure.value.current = value.nrql.results[1].value;
-              measure.value.previous = value.nrql.results[0].value;
+        if (value !== null) {
+          if (c[0] === 'measure') {
+            const measure = this.graphQlmeasures[Number(c[1])][0];
+            // const query = this.graphQlmeasures[Number(c[1])][1];
+            // console.log('Query:',query);
+            if (
+              measure.type === 'PRC' &&
+              value.nrql !== null &&
+              value.nrql.results &&
+              value.nrql.results[0] &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'session'
+              )
+            ) {
+              measure.session_count = value.nrql.results[0].session;
+            } else if (
+              measure.type === 'PCC' &&
+              value.nrql !== null &&
+              value.nrql.results &&
+              value.nrql.results[0] &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'count'
+              )
+            ) {
+              measure.transaction_count = value.nrql.results[0].count;
+            } else if (
+              measure.type === 'APP' &&
+              value.nrql !== null &&
+              value.nrql.results &&
+              value.nrql.results[0] &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'apdex'
+              ) &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'score'
+              ) &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'response'
+              ) &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'error'
+              )
+            ) {
+              measure.apdex_value = value.nrql.results[0].score;
+              measure.response_value = value.nrql.results[0].response;
+              measure.error_percentage = value.nrql.results[0].error;
+            } else if (
+              measure.type === 'FRT' &&
+              value.nrql !== null &&
+              value.nrql.results &&
+              value.nrql.results[0] &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'apdex'
+              ) &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'score'
+              ) &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'response'
+              ) &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'error'
+              )
+            ) {
+              measure.apdex_value = value.nrql.results[0].score;
+              measure.response_value = value.nrql.results[0].response;
+              measure.error_percentage = value.nrql.results[0].error;
+            } else if (
+              measure.type === 'SYN' &&
+              value.nrql !== null &&
+              value.nrql.results &&
+              value.nrql.results[0] &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'success'
+              ) &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'duration'
+              ) &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'request'
+              )
+            ) {
+              measure.success_percentage = value.nrql.results[0].success;
+              measure.max_duration = value.nrql.results[0].duration;
+              measure.max_request_time = value.nrql.results[0].request;
+            } else if (
+              measure.type === 100 &&
+              value.nrql != null &&
+              value.nrql.results &&
+              value.nrql.results[0] &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'value'
+              )
+            ) {
+              measure.value = value.nrql.results[0].value;
+            } else if (
+              measure.type === 101 &&
+              value.nrql != null &&
+              value.nrql.results &&
+              value.nrql.results.length === 2 &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'value'
+              ) &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'comparison'
+              )
+            ) {
+              if (value.nrql.results[0].comparison === 'current') {
+                measure.value.current = value.nrql.results[0].value;
+                measure.value.previous = value.nrql.results[1].value;
+              } else {
+                measure.value.current = value.nrql.results[1].value;
+                measure.value.previous = value.nrql.results[0].value;
+              }
+            } else if (measure.type === 'TEST') {
+              measure.results = value.nrql.results[0];
             }
-          } else if (measure.type === 'TEST') {
-            measure.results = value.nrql.results[0];
           }
         }
       }
@@ -738,6 +755,7 @@ export default class DataManager {
         });
       }
     });
+    // console.log('TPC:', tpc);
     return {
       count_by_stage: tpc
     };
@@ -1328,6 +1346,7 @@ export default class DataManager {
         status_color: 'good',
         gout_enable: false,
         gout_quantity: 150,
+        gout_money: 250,
         money_enabled: false,
         trafficIconType: 'traffic',
         money: '',
