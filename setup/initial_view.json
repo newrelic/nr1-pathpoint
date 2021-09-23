@@ -60,7 +60,7 @@
       "name": "Unique Visitors",
       "shortName": "Unique",
       "link": "https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true",
-      "query": "SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago",
+      "query": "SELECT count(*) as value  FROM  Public_APICall COMPARE WITH 2 day ago",
       "value": {
         "current":0,
         "previous":0
@@ -72,8 +72,8 @@
       "type": 101,
       "name": "1 Account",
       "shortName": "1 Acc.",
-      "link": "https://chart-embed.service.newrelic.com/herald/5817c955-7920-4367-86e5-e8a998852863?height=400px&timepicker=true",
-      "query": "SELECT count(*) as value  FROM Transaction COMPARE WITH 2 day ago",
+      "link": "https://onenr.io/01qwL8KPxw5",
+      "query": "SELECT count(*) as value  FROM  Public_APICall COMPARE WITH 2 day ago",
       "value": {
         "current":0,
         "previous":0
@@ -85,8 +85,8 @@
       "type": 100,
       "name": "1+ Account",
       "shortName": "1+ Acc.",
-      "link": "https://chart-embed.service.newrelic.com/herald/02f19687-0df2-4cb3-90d3-1c6bebc1d272?height=400px&timepicker=true",
-      "query": "SELECT count(*) as value  FROM Transaction",
+      "link": "https://onenr.io/01qwL8KPxw5",
+      "query": "SELECT count(*) as value  FROM Public_APICall",
       "value": 0,
       "check": false
     },
@@ -95,8 +95,8 @@
       "type": 100,
       "name": "Customers",
       "shortName": "Cust.",
-      "link": "https://chart-embed.service.newrelic.com/herald/5638e60b-aa10-4dee-aa28-2b3a0de2ef93?height=400px&timepicker=true",
-      "query": "SELECT count(*) as value  FROM Transaction",
+      "link": "https://onenr.io/01qwL8KPxw5",
+      "query": "SELECT count(*) as value  FROM Public_APICall",
       "value": 0,
       "check": false
     },
@@ -105,8 +105,8 @@
       "type": 100,
       "name": "All Accounts",
       "shortName": "All Acc.",
-      "link": "https://chart-embed.service.newrelic.com/herald/eee5b039-0685-4ec6-a390-cf7903ca4360?height=400px&timepicker=true",
-      "query": "SELECT count(*) as value  FROM Transaction",
+      "link": "https://onenr.io/01qwL8KPxw5",
+      "query": "SELECT count(*) as value  FROM Public_APICall",
       "value": 0,
       "check": false
     },
@@ -115,8 +115,8 @@
       "type": 100,
       "name": "Monthly vs Annual Pay",
       "shortName": "MvsA",
-      "link": "https://chart-embed.service.newrelic.com/herald/d9eaa379-c767-47da-9078-a72b6437544c?height=400px&timepicker=true",
-      "query": "SELECT count(*) as value  FROM Transaction",
+      "link": "https://onenr.io/01qwL8KPxw5",
+      "query": "SELECT count(*) as value  FROM Public_APICall",
       "value": 0,
       "check": false
     },
@@ -125,8 +125,8 @@
       "type": 100,
       "name": "Autopay",
       "shortName": "Autopay",
-      "link": "https://chart-embed.service.newrelic.com/herald/724b483d-468d-4c39-b774-7bb314393a07?height=400px&timepicker=true",
-      "query": "SELECT count(*) as value  FROM Transaction",
+      "link": "https://onenr.io/01qwL8KPxw5",
+      "query": "SELECT count(*) as value  FROM Public_APICall",
       "value": 0,
       "check": false
     },
@@ -135,8 +135,8 @@
       "type": 100,
       "name": "eStatement",
       "shortName": "eStat.",
-      "link": "https://chart-embed.service.newrelic.com/herald/0f8d490f-1d3b-4158-8f20-e49ee251a53d?height=400px&timepicker=true",
-      "query": "SELECT count(*) as value  FROM Transaction",
+      "link": "https://onenr.io/01qwL8KPxw5",
+      "query": "SELECT count(*) as value  FROM Public_APICall",
       "value": 0,
       "check": false
     },
@@ -145,8 +145,8 @@
       "type": 100,
       "name": "1 loan Signed-in",
       "shortName": "1_loan",
-      "link": "https://chart-embed.service.newrelic.com/herald/29766b66-9da5-4b6b-8612-26d489186d6f?height=400px&timepicker=true",
-      "query": "SELECT count(*) as value  FROM Transaction",
+      "link": "https://onenr.io/01qwL8KPxw5",
+      "query": "SELECT count(*) as value  FROM Public_APICall",
       "value": 0,
       "check": false
     },
@@ -155,8 +155,8 @@
       "type": 100,
       "name": "1+ loan Signed-in",
       "shortName": "1+loan",
-      "link": "https://chart-embed.service.newrelic.com/herald/b155e7c3-2372-4fcb-9121-7e9fceba2d52?height=400px&timepicker=true",
-      "query": "SELECT count(*) as value  FROM Transaction",
+      "link": "https://onenr.io/01qwL8KPxw5",
+      "query": "SELECT count(*) as value  FROM Public_APICall",
       "value": 0,
       "check": false
     },
@@ -165,8 +165,8 @@
       "type": 100,
       "name": "Consumer Loans Signed-in",
       "shortName": "Cust L",
-      "link": "https://chart-embed.service.newrelic.com/herald/67f30122-c94c-4fbb-9303-23768d643301?height=400px&timepicker=true",
-      "query": "SELECT count(*) as value  FROM Transaction",
+      "link": "https://onenr.io/01qwL8KPxw5",
+      "query": "SELECT count(*) as value  FROM Public_APICall",
       "value": 0,
       "check": false
     },
@@ -175,8 +175,8 @@
       "type": 100,
       "name": "green orders",
       "shortName": "Green orders (max)",
-      "link": "https://chart-embed.service.newrelic.com/herald/6019906d-1347-4cce-a9f5-ca58652bc4b0?height=400px&timepicker=true",
-      "query": "SELECT count(*) as value  FROM Transaction",
+      "link": "https://onenr.io/01qwL8KPxw5",
+      "query": "SELECT count(*) as value  FROM Public_APICall",
       "value": 0,
       "check": false
     },
@@ -185,8 +185,8 @@
       "type": 100,
       "name": "Past Due",
       "shortName": "Past_Due",
-      "link": "",
-      "query": "SELECT count(*) as value  FROM Transaction",
+      "link": "https://onenr.io/01qwL8KPxw5",
+      "query": "SELECT count(*) as value  FROM Public_APICall",
       "value": 0,
       "check": false
     },
@@ -195,8 +195,8 @@
       "type": 100,
       "name": "Auto-Dialer",
       "shortName": "Auto-Dialer",
-      "link": "https://chart-embed.service.newrelic.com/herald/fa7ded98-c742-4fed-8823-87aeaefa4628?height=400px&timepicker=true",
-      "query": "SELECT count(*) as value  FROM Transaction",
+      "link": "https://onenr.io/01qwL8KPxw5",
+      "query": "SELECT count(*) as value  FROM Public_APICall",
       "value": 0,
       "check": false
     }
