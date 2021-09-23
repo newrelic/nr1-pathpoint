@@ -57,13 +57,16 @@ function BodyQueryFormModal(props) {
     testText,
     resultsTestQuery,
     goodQuery,
-    modifiedQuery
+    modifiedQuery,
+    accountIDs
   } = props;
+  console.log('accountIDs',accountIDs)
   const value = stageNameSelected.selectedCase
     ? stageNameSelected.selectedCase
     : 0;
   const query_body = stageNameSelected.datos[value].query_body;
   const query_footer = stageNameSelected.datos[value].query_footer;
+  stageNameSelected.datos[value].accountID = 7845963;
   return (
     <div
       style={{
