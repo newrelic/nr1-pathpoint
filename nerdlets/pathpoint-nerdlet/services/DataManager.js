@@ -2004,6 +2004,7 @@ for (const [key, value] of Object.entries(return` +
   }
 
   UpdateTouchpointQuerys(touchpoint, datos) {
+    console.log('datos', datos);
     this.touchPoints.some(element => {
       let found = false;
       if (element.index === this.city) {

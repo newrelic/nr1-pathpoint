@@ -130,7 +130,21 @@ export default class MainContainer extends React.Component {
         range: '24 HOURS AGO'
       },
       //kpis: null
-      kpis: []
+      kpis: [],
+      accountIDs: [
+        {
+          name:"Account 1",
+          id: 7859640
+        },
+        {
+          name:"Account 2",
+          id: 7859641
+        },
+        {
+          name:"Account 3",
+          id: 7859642
+        }
+      ],
     };
   }
 
@@ -1264,7 +1278,8 @@ export default class MainContainer extends React.Component {
       totalContainers,
       // KPI Properties
       timeRangeKpi,
-      kpis
+      kpis,
+      accountIDs
     } = this.state;
     if (this.state.waiting) {
       return (
@@ -1808,6 +1823,7 @@ export default class MainContainer extends React.Component {
             SetConfigurationJSON={this.SetConfigurationJSON}
             GetCurrentHistoricErrorScript={this.GetCurrentHistoricErrorScript}
             modifiedQuery={modifiedQuery}
+            accountIDs={accountIDs}
           />
           <div id="cover-spin" style={{ display: loading ? '' : 'none' }} />
         </div>

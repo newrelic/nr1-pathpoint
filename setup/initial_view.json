@@ -201,19 +201,5 @@
       "check": false
     }
   ],
-  "accountIDs": [
-    {
-      "name":"1 Account",
-      "id": 7859640
-    },
-    {
-      "name":"1 Account",
-      "id": 7859640
-    },
-    {
-      "name":"1 Account",
-      "id": 7859640
-    }
-  ],
   "stages": []
 }
