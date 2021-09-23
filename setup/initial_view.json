@@ -65,6 +65,9 @@
         "current":0,
         "previous":0
       },
+      "value_type": "FLOAT",
+      "prefix": "$",
+      "suffix": "",
       "check": true
     },
     {
@@ -78,6 +81,9 @@
         "current":0,
         "previous":0
       },
+      "value_type": "FLOAT",
+      "prefix": "",
+      "suffix": "%",
       "check": false
     },
     {
@@ -88,6 +94,9 @@
       "link": "https://onenr.io/01qwL8KPxw5",
       "query": "SELECT count(*) as value  FROM Public_APICall",
       "value": 0,
+      "value_type": "FLOAT",
+      "prefix": "R$",
+      "suffix": "",
       "check": false
     },
     {
@@ -98,6 +107,9 @@
       "link": "https://onenr.io/01qwL8KPxw5",
       "query": "SELECT count(*) as value  FROM Public_APICall",
       "value": 0,
+      "value_type": "INT",
+      "prefix": "#",
+      "suffix": "ACC",
       "check": false
     },
     {
@@ -108,6 +120,9 @@
       "link": "https://onenr.io/01qwL8KPxw5",
       "query": "SELECT count(*) as value  FROM Public_APICall",
       "value": 0,
+      "value_type": "INT",
+      "prefix": "",
+      "suffix": "",
       "check": false
     },
     {
@@ -118,6 +133,9 @@
       "link": "https://onenr.io/01qwL8KPxw5",
       "query": "SELECT count(*) as value  FROM Public_APICall",
       "value": 0,
+      "value_type": "INT",
+      "prefix": "",
+      "suffix": "",
       "check": false
     },
     {
@@ -128,6 +146,9 @@
       "link": "https://onenr.io/01qwL8KPxw5",
       "query": "SELECT count(*) as value  FROM Public_APICall",
       "value": 0,
+      "value_type": "INT",
+      "prefix": "",
+      "suffix": "",
       "check": false
     },
     {
@@ -138,6 +159,9 @@
       "link": "https://onenr.io/01qwL8KPxw5",
       "query": "SELECT count(*) as value  FROM Public_APICall",
       "value": 0,
+      "value_type": "INT",
+      "prefix": "",
+      "suffix": "",
       "check": false
     },
     {
@@ -148,6 +172,9 @@
       "link": "https://onenr.io/01qwL8KPxw5",
       "query": "SELECT count(*) as value  FROM Public_APICall",
       "value": 0,
+      "value_type": "INT",
+      "prefix": "",
+      "suffix": "",
       "check": false
     },
     {
@@ -158,6 +185,9 @@
       "link": "https://onenr.io/01qwL8KPxw5",
       "query": "SELECT count(*) as value  FROM Public_APICall",
       "value": 0,
+      "value_type": "INT",
+      "prefix": "",
+      "suffix": "",
       "check": false
     },
     {
@@ -168,6 +198,9 @@
       "link": "https://onenr.io/01qwL8KPxw5",
       "query": "SELECT count(*) as value  FROM Public_APICall",
       "value": 0,
+      "value_type": "INT",
+      "prefix": "",
+      "suffix": "",
       "check": false
     },
     {
@@ -178,6 +211,9 @@
       "link": "https://onenr.io/01qwL8KPxw5",
       "query": "SELECT count(*) as value  FROM Public_APICall",
       "value": 0,
+      "value_type": "INT",
+      "prefix": "",
+      "suffix": "",
       "check": false
     },
     {
@@ -188,6 +224,9 @@
       "link": "https://onenr.io/01qwL8KPxw5",
       "query": "SELECT count(*) as value  FROM Public_APICall",
       "value": 0,
+      "value_type": "INT",
+      "prefix": "",
+      "suffix": "",
       "check": false
     },
     {
@@ -198,6 +237,9 @@
       "link": "https://onenr.io/01qwL8KPxw5",
       "query": "SELECT count(*) as value  FROM Public_APICall",
       "value": 0,
+      "value_type": "INT",
+      "prefix": "",
+      "suffix": "",
       "check": false
     }
   ],
