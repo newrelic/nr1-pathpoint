@@ -216,8 +216,7 @@ export const CustomSchemaValidation = target => {
     stage.touchpoints.forEach((touchpoint, c) => {
       if (
         touchpoint.dashboard_url[0] !== false &&
-        !touchpoint.dashboard_url[0].includes('https://one.newrelic.com') &&
-        !touchpoint.dashboard_url[0].includes('https://one.nr')
+        !touchpoint.dashboard_url[0].includes('https://')
       ) {
         errors.push({
           dataPath: `stages/${i}/touchpoints/${c}/dashboard_url/0`,

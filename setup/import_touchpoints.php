@@ -55,18 +55,19 @@ while (($datos = fgetcsv($f, 1000, ",")) !== FALSE) {
         $max_avg_response_time = $datos[8];
         $max_total_check_time = $datos[9];
         $min_success_percentage = $datos[10];
-        $tp_query = $datos[11];
+        $multiAccountID = $datos[11];
+        $tp_query = $datos[12];
         if($createDashboards){
             $touchpointLink = createDashboardForStage($stages[0], $touchpoint, $actualDashboardsList);
         }else{
-            $touchpointLink = $datos[12];
+            $touchpointLink = $datos[13];
         }
 
         
         //----------------------------------
         foreach ($stages as $stage) {
             if (valida_stage($stage)) {
-                addTouchpoint(stage_index($stage), $touchpointType, $touchpoint, $steps, $touchpointLink, $tp_query, $min_count, $min_apdex, $max_response_time, $max_error_percentage, $max_avg_response_time, $max_total_check_time, $min_success_percentage);
+                addTouchpoint(stage_index($stage), $touchpointType, $touchpoint, $steps, $touchpointLink, $tp_query, $min_count, $min_apdex, $max_response_time, $max_error_percentage, $max_avg_response_time, $max_total_check_time, $min_success_percentage,$multiAccountID);
             }
         }
     }
@@ -166,7 +167,7 @@ function getDashboardLink($link)
     }
 }
 
-function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touchpointLink, $tp_query, $min_count, $min_apdex, $max_response_time, $max_error_percentage, $max_avg_response_time, $max_total_check_time, $min_success_percentage)
+function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touchpointLink, $tp_query, $min_count, $min_apdex, $max_response_time, $max_error_percentage, $max_avg_response_time, $max_total_check_time, $min_success_percentage, $multiAccountID)
 {
     global $view;
     global $touchPoints;
@@ -228,6 +229,10 @@ function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touc
             "max_duration" => 0,
             "max_request_time" =>0
         ];
+    }
+    if($multiAccountID !== ''){
+        $lastMeasure = count($touchPoints[0]["touchpoints"][$last - 1]["measure_points"]);
+        $touchPoints[0]["touchpoints"][$last - 1]["measure_points"][$lastMeasure-1]["accountID"] = (int) $multiAccountID;
     }
     $view["stages"][$stage_index]["touchpoints"][] = [
         "index" => $tpIndex,

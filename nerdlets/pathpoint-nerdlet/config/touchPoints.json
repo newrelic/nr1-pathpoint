@@ -5,28 +5,25 @@
     "touchpoints": [
       {
         "stage_index": 1,
-        "value": "Login People (PRC)",
+        "value": "Login People",
         "touchpoint_index": 1,
         "status_on_off": true,
         "relation_steps": [
-          4,
-          1,
-          2,
-          3
+          4
         ],
         "measure_points": [
           {
             "type": "PRC",
-            "accountID": 2847332,
-            "query": "SELECT uniqueCount(session) as session FROM PageView WHERE appName='QS' AND name='WebTransaction/Action/'",
+            "query": "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
             "min_count": 10,
-            "session_count": 0
+            "session_count": 0,
+            "accountID": 2904070
           }
         ]
       },
       {
         "stage_index": 1,
-        "value": "App Backend Health (APP)",
+        "value": "App Backend Health",
         "touchpoint_index": 2,
         "status_on_off": true,
         "relation_steps": [
@@ -47,7 +44,7 @@
       },
       {
         "stage_index": 1,
-        "value": "App Frontend Health (FRT)",
+        "value": "App Frontend Health",
         "touchpoint_index": 3,
         "status_on_off": true,
         "relation_steps": [
@@ -68,7 +65,7 @@
       },
       {
         "stage_index": 1,
-        "value": "Login Check (SYN)",
+        "value": "Login Check",
         "touchpoint_index": 4,
         "status_on_off": true,
         "relation_steps": [
@@ -89,26 +86,25 @@
       },
       {
         "stage_index": 1,
-        "value": "Signup People (PRC)",
+        "value": "Signup People",
         "touchpoint_index": 5,
         "status_on_off": true,
         "relation_steps": [
-          5,
-          11,
-          14
+          5
         ],
         "measure_points": [
           {
             "type": "PRC",
-            "query": "SELECT uniqueCount(session) as session FROM PageView WHERE appName='QS' AND name='WebTransaction/Action/login'",
+            "query": "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='us-east-1'",
             "min_count": 36,
-            "session_count": 0
+            "session_count": 0,
+            "accountID": 2904070
           }
         ]
       },
       {
         "stage_index": 2,
-        "value": "Catalog API USE (PCC)",
+        "value": "Catalog API USE",
         "touchpoint_index": 1,
         "status_on_off": true,
         "relation_steps": [
@@ -117,7 +113,7 @@
         "measure_points": [
           {
             "type": "PCC",
-            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name LIKE 'WebTransaction/Action/App%'",
+            "query": "SELECT count(*) FROM Public_APICall WHERE awsRegion='us-east-1'",
             "min_count": 20,
             "transaction_count": 0
           }
@@ -125,7 +121,7 @@
       },
       {
         "stage_index": 2,
-        "value": "Pricing API (APP)",
+        "value": "Pricing API",
         "touchpoint_index": 2,
         "status_on_off": true,
         "relation_steps": [
@@ -146,7 +142,7 @@
       },
       {
         "stage_index": 2,
-        "value": "Master Data API (FRT)",
+        "value": "Master Data API",
         "touchpoint_index": 3,
         "status_on_off": true,
         "relation_steps": [
@@ -167,7 +163,7 @@
       },
       {
         "stage_index": 2,
-        "value": "Subscriptions API (PCC)",
+        "value": "Subscriptions API",
         "touchpoint_index": 4,
         "status_on_off": true,
         "relation_steps": [
@@ -184,7 +180,7 @@
       },
       {
         "stage_index": 3,
-        "value": "Session Manager API (PCC)",
+        "value": "Session Manager API",
         "touchpoint_index": 1,
         "status_on_off": true,
         "relation_steps": [
@@ -201,7 +197,7 @@
       },
       {
         "stage_index": 3,
-        "value": "Checkout Check (SYN)",
+        "value": "Checkout Check",
         "touchpoint_index": 2,
         "status_on_off": true,
         "relation_steps": [
@@ -222,7 +218,7 @@
       },
       {
         "stage_index": 3,
-        "value": "Customer Credit API (PCC)",
+        "value": "Customer Credit API",
         "touchpoint_index": 3,
         "status_on_off": true,
         "relation_steps": [
@@ -239,7 +235,7 @@
       },
       {
         "stage_index": 3,
-        "value": "Gift Card API (APP)",
+        "value": "Gift Card API",
         "touchpoint_index": 4,
         "status_on_off": true,
         "relation_steps": [
@@ -260,7 +256,7 @@
       },
       {
         "stage_index": 3,
-        "value": "Gift Card Hub API (FRT)",
+        "value": "Gift Card Hub API",
         "touchpoint_index": 5,
         "status_on_off": true,
         "relation_steps": [
@@ -281,7 +277,7 @@
       },
       {
         "stage_index": 3,
-        "value": "Catalog API (PCC)",
+        "value": "Catalog API",
         "touchpoint_index": 6,
         "status_on_off": true,
         "relation_steps": [
@@ -298,7 +294,7 @@
       },
       {
         "stage_index": 4,
-        "value": "Orders API (PRC)",
+        "value": "Orders API",
         "touchpoint_index": 1,
         "status_on_off": true,
         "relation_steps": [
@@ -307,15 +303,16 @@
         "measure_points": [
           {
             "type": "PRC",
-            "query": "SELECT uniqueCount(session) as session FROM PageView WHERE appName='QS' AND name='WebTransaction/Action/'",
+            "query": "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='ap-southeast-2'",
             "min_count": 10,
-            "session_count": 0
+            "session_count": 0,
+            "accountID": 2904070
           }
         ]
       },
       {
         "stage_index": 4,
-        "value": "Customer Credit API (APP)",
+        "value": "Customer Credit API",
         "touchpoint_index": 2,
         "status_on_off": true,
         "relation_steps": [
@@ -336,7 +333,7 @@
       },
       {
         "stage_index": 4,
-        "value": "Gift Card API (FRT)",
+        "value": "Gift Card API",
         "touchpoint_index": 3,
         "status_on_off": true,
         "relation_steps": [
@@ -357,7 +354,7 @@
       },
       {
         "stage_index": 4,
-        "value": "Gift Card Hub API (SYN)",
+        "value": "Gift Card Hub API",
         "touchpoint_index": 4,
         "status_on_off": true,
         "relation_steps": [
@@ -378,7 +375,7 @@
       },
       {
         "stage_index": 4,
-        "value": "Logistics API (PRC)",
+        "value": "Logistics API",
         "touchpoint_index": 5,
         "status_on_off": true,
         "relation_steps": [
@@ -387,15 +384,16 @@
         "measure_points": [
           {
             "type": "PRC",
-            "query": "SELECT uniqueCount(session) as session FROM PageView WHERE appName='QS' AND name='WebTransaction/Action/login'",
+            "query": "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='us-west-1'",
             "min_count": 36,
-            "session_count": 0
+            "session_count": 0,
+            "accountID": 2904070
           }
         ]
       },
       {
         "stage_index": 5,
-        "value": "VTEX Do API (PCC)",
+        "value": "VTEX Do API",
         "touchpoint_index": 1,
         "status_on_off": true,
         "relation_steps": [
@@ -412,7 +410,7 @@
       },
       {
         "stage_index": 5,
-        "value": "Subscriptions API (SYN)",
+        "value": "Subscriptions API",
         "touchpoint_index": 2,
         "status_on_off": true,
         "relation_steps": [
@@ -433,7 +431,7 @@
       },
       {
         "stage_index": 5,
-        "value": "Session Manager API (PCC)",
+        "value": "Session Manager API",
         "touchpoint_index": 3,
         "status_on_off": true,
         "relation_steps": [
@@ -450,7 +448,7 @@
       },
       {
         "stage_index": 5,
-        "value": "Checkout API (APP)",
+        "value": "Checkout API",
         "touchpoint_index": 4,
         "status_on_off": true,
         "relation_steps": [
@@ -471,7 +469,7 @@
       },
       {
         "stage_index": 5,
-        "value": "Customer Credit API (FRT)",
+        "value": "Customer Credit API",
         "touchpoint_index": 5,
         "status_on_off": true,
         "relation_steps": [
@@ -492,7 +490,7 @@
       },
       {
         "stage_index": 5,
-        "value": "Gift Card API (PCC)",
+        "value": "Gift Card API",
         "touchpoint_index": 6,
         "status_on_off": true,
         "relation_steps": [

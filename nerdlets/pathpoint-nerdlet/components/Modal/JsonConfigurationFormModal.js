@@ -144,8 +144,8 @@ function BodyJsonConfigurationFormModal(props) {
             <div>
               <img src={down} height="15" width="24" />
               <DownloadLink
-                label="Pathpoint_Json_v1.1"
-                filename="Pathpoint_Json_v1.1.json"
+                label="Pathpoint_Json_v1.5"
+                filename="Pathpoint_Json_v1.5.json"
                 className="downloadLink"
                 style={{ cursor: 'pointer' }}
                 exportFile={
