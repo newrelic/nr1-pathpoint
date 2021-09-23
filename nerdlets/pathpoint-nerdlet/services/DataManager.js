@@ -130,23 +130,25 @@ export default class DataManager {
   async GetAccountId(accountName) {
     try {
       const { data } = await AccountsQuery.query();
-      this.FillAccountIDs(data);
-      if (accountName !== '') {
-        data.some(account => {
-          let found = false;
-          if (account.name === accountName) {
-            this.accountId = account.id;
-            found = true;
-          }
-          if (!found) {
-            // If AccountName is not found use the first account
-            this.accountId = data[0].id;
-          }
-          return found;
-        });
-      } else {
-        // By default capture the First Account in the List
-        this.accountId = data[0].id;
+      if (data.length > 0) {
+        this.FillAccountIDs(data);
+        if (accountName !== '') {
+          data.some(account => {
+            let found = false;
+            if (account.name === accountName) {
+              this.accountId = account.id;
+              found = true;
+            }
+            if (!found) {
+              // If AccountName is not found use the first account
+              this.accountId = data[0].id;
+            }
+            return found;
+          });
+        } else {
+          // By default capture the First Account in the List
+          this.accountId = data[0].id;
+        }
       }
     } catch (error) {
       throw new Error(error);
@@ -154,15 +156,13 @@ export default class DataManager {
   }
 
   FillAccountIDs(data) {
-    if (data != null) {
-      this.accountIDs.length = 0;
-      data.forEach(account => {
-        this.accountIDs.push({
-          name: account.name,
-          id: account.id
-        });
+    this.accountIDs.length = 0;
+    data.forEach(account => {
+      this.accountIDs.push({
+        name: account.name,
+        id: account.id
       });
-    }
+    });
   }
 
   async CheckVersion() {
@@ -1124,13 +1124,14 @@ export default class DataManager {
     this.configuration.kpis.length = 0;
     for (let i = 0; i < this.kpis.length; i++) {
       kpi = {
-        index: this.kpis[i].index,
         type: this.kpis[i].type,
         name: this.kpis[i].name,
         shortName: this.kpis[i].shortName,
         link: this.kpis[i].link,
         query: this.kpis[i].query,
-        value: this.kpis[i].value,
+        value_type: this.kpis[i].value_type,
+        prefix: this.kpis[i].prefix,
+        suffix: this.kpis[i].suffix,
         check: this.kpis[i].check
       };
       this.configuration.kpis.push(kpi);
@@ -1215,6 +1216,7 @@ export default class DataManager {
 
   GetTouchpointQueryes(stage_index, index) {
     const queries = [];
+    let accountID = this.accountId;
     this.touchPoints.forEach(element => {
       if (element.index === this.city) {
         element.touchpoints.some(touchpoint => {
@@ -1225,21 +1227,28 @@ export default class DataManager {
           ) {
             found = true;
             touchpoint.measure_points.forEach(measure => {
+              accountID = this.accountId;
+              if (measure.accountID) {
+                accountID = measure.accountID;
+              }
               if (measure.type === 'PRC') {
                 queries.push({
                   type: this.measureNames[0],
+                  accountID: accountID,
                   query: measure.query,
                   min_count: measure.min_count
                 });
               } else if (measure.type === 'PCC') {
                 queries.push({
                   type: this.measureNames[1],
+                  accountID: accountID,
                   query: measure.query,
                   min_count: measure.min_count
                 });
               } else if (measure.type === 'APP') {
                 queries.push({
                   type: this.measureNames[2],
+                  accountID: accountID,
                   query: measure.query,
                   min_apdex: measure.min_apdex,
                   max_response_time: measure.max_response_time,
@@ -1248,6 +1257,7 @@ export default class DataManager {
               } else if (measure.type === 'FRT') {
                 queries.push({
                   type: this.measureNames[3],
+                  accountID: accountID,
                   query: measure.query,
                   min_apdex: measure.min_apdex,
                   max_response_time: measure.max_response_time,
@@ -1256,6 +1266,7 @@ export default class DataManager {
               } else if (measure.type === 'SYN') {
                 queries.push({
                   type: this.measureNames[4],
+                  accountID: accountID,
                   query: measure.query,
                   max_avg_response_time: measure.max_avg_response_time,
                   max_total_check_time: measure.max_total_check_time,
@@ -1300,17 +1311,32 @@ export default class DataManager {
       touchpoints: []
     });
     let ikpi = null;
+    let index = 0;
     this.configurationJSON.kpis.forEach(kpi => {
       ikpi = {
-        index: kpi.index,
+        index: index,
         type: kpi.type,
         name: kpi.name,
         shortName: kpi.shortName,
         link: kpi.link,
         query: kpi.query,
-        value: kpi.value,
+        value_type: kpi.value_type,
+        prefix: kpi.prefix,
+        suffix: kpi.suffix,
         check: kpi.check
       };
+      index++;
+      if (kpi.type === 100) {
+        ikpi = { ...ikpi, value: 0 };
+      } else {
+        ikpi = {
+          ...ikpi,
+          value: {
+            current: 0,
+            previous: 0
+          }
+        };
+      }
       this.kpis.push(ikpi);
     });
     this.configurationJSON.stages.forEach(stage => {
@@ -1440,6 +1466,9 @@ export default class DataManager {
               max_duration: 0,
               max_request_time: 0
             };
+          }
+          if (query.accountID !== this.accountId) {
+            measure = { accountID: query.accountID, ...measure };
           }
           tpDef2.measure_points.push(measure);
         });
@@ -1848,13 +1877,13 @@ for (const [key, value] of Object.entries(return` +
 
   GetTouchpointQuerys(touchpoint) {
     const datos = [];
+    let accountID = this.accountId;
     this.touchPoints.some(element => {
       let found1 = false;
       if (element.index === this.city) {
         found1 = true;
         element.touchpoints.some(tp => {
           let found2 = false;
-          let accountID = this.accountId;
           if (
             tp.stage_index === touchpoint.stage_index &&
             tp.touchpoint_index === touchpoint.index
@@ -1862,6 +1891,7 @@ for (const [key, value] of Object.entries(return` +
             found2 = true;
             let actualValue = 0;
             tp.measure_points.forEach(measure => {
+              accountID = this.accountId;
               if (measure.accountID) {
                 accountID = measure.accountID;
               }

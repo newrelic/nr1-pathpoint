@@ -18,19 +18,17 @@ export default {
         {
           type: 'object',
           required: [
-            'index',
             'type',
             'name',
             'shortName',
             'link',
             'query',
-            'value',
+            'value_type',
+            'prefix',
+            'suffix',
             'check'
           ],
           properties: {
-            index: {
-              type: 'number'
-            },
             type: {
               type: 'number',
               minimum: 100,
@@ -48,8 +46,15 @@ export default {
             query: {
               type: 'string'
             },
-            value: {
-              type: ['number', 'object']
+            value_type: {
+              type: 'string',
+              enum: ['INT', 'FLOAT']
+            },
+            prefix: {
+              type: 'string'
+            },
+            suffix: {
+              type: 'string'
             },
             check: {
               type: 'boolean'
@@ -155,13 +160,16 @@ export default {
                       items: [
                         {
                           type: 'object',
-                          required: ['type'],
+                          required: ['type', 'query', 'accountID'],
                           properties: {
                             type: {
                               type: 'string'
                             },
                             query: {
                               type: 'string'
+                            },
+                            accountID: {
+                              type: 'number'
                             }
                           }
                         }
