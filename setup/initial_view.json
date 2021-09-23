@@ -59,7 +59,7 @@
       "type": 101,
       "name": "Unique Visitors",
       "shortName": "Unique",
-      "link": "https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true",
+      "link": "https://onenr.io/01qwL8KPxw5",
       "query": "SELECT count(*) as value  FROM  Public_APICall COMPARE WITH 2 day ago",
       "value": {
         "current":0,
