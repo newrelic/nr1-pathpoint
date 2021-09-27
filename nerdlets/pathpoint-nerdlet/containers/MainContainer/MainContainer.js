@@ -132,8 +132,8 @@ export default class MainContainer extends React.Component {
       kpis: [],
       accountIDs: [
         {
-          name: 'Account 1',
-          id: 7859640
+          name: 'WigiBoards',
+          id: 2710112
         },
         {
           name: 'Account 2',
@@ -141,6 +141,10 @@ export default class MainContainer extends React.Component {
         },
         {
           name: 'Account 3',
+          id: 7859642
+        },
+        {
+          name: 'Account 4',
           id: 7859642
         }
       ]
