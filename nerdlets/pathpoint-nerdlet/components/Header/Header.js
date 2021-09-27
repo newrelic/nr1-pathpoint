@@ -43,7 +43,6 @@ const Header = ({
   kpis,
   updateDataKpisChecked
 }) => {
-  //const asArray = Object.entries(kpis);
   const filterKpis = kpis.filter(kpi => kpi.query !== '' && kpi.check);
 
   return (
@@ -92,11 +91,7 @@ const Header = ({
                   {kpi.shortName}
                 </div>
                 <div className="kpicontent--colorblack kpicontent--size12">
-                  {kpi.type === 100 ? (
-                    <>{kpi.value}</>
-                  ) : (
-                    <>{CurrentAndPreviousStatus(kpi.value)}</>
-                  )}
+                  {PrintKPI(kpi)}
                 </div>
               </div>
             );
@@ -187,6 +182,24 @@ const options = [
   { label: '7 days', value: '7 DAYS AGO' }
 ];
 
+const transformK = (value, type) => {
+  let decimalCount = 1;
+  let million = 1000000;
+  let millar = 1000;
+  if (type === 'FLOAT') {
+    decimalCount = 100;
+    million = 10000;
+    millar = 10;
+  }
+  if (value > 1000000) {
+    return `${Math.round(value / million) / decimalCount} M`;
+  }
+  if (value > 1000) {
+    return `${Math.round(value / millar) / decimalCount} K`;
+  }
+  return `${Math.round(value * decimalCount) / decimalCount}`;
+};
+
 const FormatMoney = (
   amount,
   DisplayConsole,
@@ -242,8 +255,10 @@ const RenderLogo = logoSetup => {
 const CurrentAndPreviousStatus = kpi => {
   return (
     <div className="kpi">
-      {kpi.current}
-      <span>{PrintStatus(kpi.current - kpi.previous)}</span>
+      {kpi.prefix}
+      {transformK(kpi.value.current, kpi.value_type)}
+      {kpi.suffix}
+      <span>{PrintStatus(kpi.value.current - kpi.value.previous)}</span>
     </div>
   );
 };
@@ -257,6 +272,22 @@ const PrintStatus = value => {
       <img src={printStatus} />
     </div>
   );
+};
+
+const PrintKPI = kpi => {
+  if (kpi.type === 100) {
+    return (
+      <div className="kpi">
+        {kpi.prefix}
+        {transformK(kpi.value, kpi.value_type)}
+        {kpi.suffix}
+      </div>
+    );
+  } else if (kpi.type === 101) {
+    return CurrentAndPreviousStatus(kpi);
+  } else {
+    return `NONE`;
+  }
 };
 
 export { CurrentAndPreviousStatus, RenderLogo, FormatMoney };
@@ -278,7 +309,6 @@ Header.propTypes = {
   logoSetup: PropTypes.object.isRequired,
   timeRangeKpi: PropTypes.object.isRequired,
   changeTimeRangeKpi: PropTypes.func.isRequired,
-  //kpis: PropTypes.object.isRequired,
   kpis: PropTypes.array.isRequired,
   updateDataKpisChecked: PropTypes.func.isRequired
 };

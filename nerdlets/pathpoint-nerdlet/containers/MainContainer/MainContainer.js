@@ -129,22 +129,21 @@ export default class MainContainer extends React.Component {
         index: 0,
         range: '24 HOURS AGO'
       },
-      //kpis: null
       kpis: [],
       accountIDs: [
         {
-          name:"Account 1",
+          name: 'Account 1',
           id: 7859640
         },
         {
-          name:"Account 2",
+          name: 'Account 2',
           id: 7859641
         },
         {
-          name:"Account 3",
+          name: 'Account 3',
           id: 7859642
         }
-      ],
+      ]
     };
   }
 
@@ -231,7 +230,8 @@ export default class MainContainer extends React.Component {
         version: data.version,
         accountId: data.accountId,
         kpis: data.kpis,
-        totalContainers: data.totalContainers
+        totalContainers: data.totalContainers,
+        accountIDs: data.accountIDs
       },
       async () => {
         this.validationQuery = new ValidationQuery(this.state.accountId);
@@ -271,7 +271,7 @@ export default class MainContainer extends React.Component {
         this.setState(
           {
             stages: data.stages,
-            kpis: data.kpis??[],
+            kpis: data.kpis ?? [],
             getOldSessions: false,
             waiting: false
           },
@@ -1181,7 +1181,7 @@ export default class MainContainer extends React.Component {
     const data = this.DataManager.SetConfigurationJSON(payload);
     this.setState({
       stages: data.stages,
-      kpis: data.kpis??[]
+      kpis: data.kpis ?? []
     });
   };
 
@@ -1242,7 +1242,6 @@ export default class MainContainer extends React.Component {
 
   updateDataKpisChecked = kpis => {
     this.DataManager.SaveKpisSelection(kpis);
-    console.log(kpis)
     this.setState({ kpis });
   };
 
