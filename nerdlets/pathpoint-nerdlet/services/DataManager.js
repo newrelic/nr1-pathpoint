@@ -5,7 +5,6 @@
 // IMPORT LIBRARIES DEPENDENCIES
 import NerdletData from '../../../nr1.json';
 import TouchPoints from '../config/touchPoints.json';
-import Capacity from '../config/capacity.json';
 import Canary from '../config/canary_states.json';
 import ViewData from '../config/view.json';
 import appPackage from '../../../package.json';
@@ -30,9 +29,7 @@ export default class DataManager {
     this.graphQlmeasures = [];
     this.touchPointsCopy = null;
     this.city = 0;
-    this.capacityUpdatePending = false;
     this.pathpointId = NerdletData.id;
-    this.capacity = Capacity;
     this.touchPoints = TouchPoints;
     this.stages = [];
     this.lastStorageVersion = null;
@@ -51,17 +48,25 @@ export default class DataManager {
       'FRT-HEALTH-QUERY',
       'SYN-CHECK-QUERY'
     ];
+    this.accountIDs = [
+      {
+        name: 'NAME',
+        id: 0
+      }
+    ];
   }
 
   async BootstrapInitialData(accountName) {
     await this.GetAccountId(accountName);
-    await this.GetDBmaxCapacity();
+    logger.log('Accounts::');
+    this.accountIDs.forEach(account => {
+      logger.log(`AccountName:${account.name}   ID:${account.id} `);
+    });
     await this.CheckVersion();
     await this.GetCanaryData();
     await this.GetStorageHistoricErrorsParams();
     await this.GetStorageDropParams();
     this.version = appPackage.version;
-    /* istanbul ignore next */
     if (this.lastStorageVersion === appPackage.version) {
       this.colors = ViewData.colors;
       await this.GetInitialDataFromStorage();
@@ -69,8 +74,7 @@ export default class DataManager {
     } else {
       this.stages = ViewData.stages;
       this.colors = ViewData.colors;
-      this.kpis = ViewData.kpis??[];
-      
+      this.kpis = ViewData.kpis ?? [];
       this.SetInitialDataViewToStorage();
       this.SetStorageTouchpoints();
       this.SetVersion();
@@ -82,7 +86,8 @@ export default class DataManager {
       colors: this.colors,
       accountId: this.accountId,
       version: this.version,
-      totalContainers: this.SetTotalContainers()
+      totalContainers: this.SetTotalContainers(),
+      accountIDs: this.accountIDs
     };
   }
 
@@ -114,8 +119,7 @@ export default class DataManager {
       this.timeRangeKpi = timeRangeKpi;
       await this.TouchPointsUpdate();
       await this.UpdateMerchatKpi();
-      await this.CalculateUpdates();
-      await this.UpdateMaxCapacity();
+      this.CalculateUpdates();
       return {
         stages: this.stages,
         kpis: this.kpis
@@ -126,27 +130,39 @@ export default class DataManager {
   async GetAccountId(accountName) {
     try {
       const { data } = await AccountsQuery.query();
-      console.log('Access Accounts:',data);
-      if (accountName !== '') {
-        data.some(account => {
-          let found = false;
-          if (account.name === accountName) {
-            this.accountId = account.id;
-            found = true;
-          }
-          if (!found) {
-            // If AccountName is not found use the first account
-            this.accountId = data[0].id;
-          }
-          return found;
-        });
-      } else {
-        // By default capture the First Account in the List
-        this.accountId = data[0].id;
+      if (data.length > 0) {
+        this.FillAccountIDs(data);
+        if (accountName !== '') {
+          data.some(account => {
+            let found = false;
+            if (account.name === accountName) {
+              this.accountId = account.id;
+              found = true;
+            }
+            if (!found) {
+              // If AccountName is not found use the first account
+              this.accountId = data[0].id;
+            }
+            return found;
+          });
+        } else {
+          // By default capture the First Account in the List
+          this.accountId = data[0].id;
+        }
       }
     } catch (error) {
       throw new Error(error);
     }
+  }
+
+  FillAccountIDs(data) {
+    this.accountIDs.length = 0;
+    data.forEach(account => {
+      this.accountIDs.push({
+        name: account.name,
+        id: account.id
+      });
+    });
   }
 
   async CheckVersion() {
@@ -173,7 +189,7 @@ export default class DataManager {
       });
       if (data) {
         this.stages = data.ViewJSON;
-        this.kpis = data.Kpis??[];
+        this.kpis = data.Kpis ?? [];
       }
     } catch (error) {
       throw new Error(error);
@@ -883,10 +899,8 @@ export default class DataManager {
         return 'warning';
       }
       return 'good';
-      
-    } else {
-      return 'good';
     }
+    return 'good';
   }
 
   SetTouchpointError(stage_index, touchpoint_index) {
@@ -914,44 +928,6 @@ export default class DataManager {
       i++;
     }
     return count;
-  }
-
-  // CheckMaxCapacity(currentValue, stage) {
-  //   const timeRange = 'STAGES';
-  //   for (const [key, value] of Object.entries(this.capacity[this.city])) {
-  //     if (key === timeRange) {
-  //       const result = Math.max(value[stage], currentValue);
-  //       if (value[stage] < currentValue) {
-  //         this.capacityUpdatePending = true;
-  //         value[stage] = currentValue * 2;
-  //       }
-  //       return result;
-  //     }
-  //   }
-  //   return currentValue;
-  // }
-
-  UpdateMaxCapacity() {
-    if (this.capacityUpdatePending) {
-      this.capacityUpdatePending = false;
-      this.SetDBmaxCapacity();
-    }
-  }
-
-  SetDBmaxCapacity() {
-    try {
-      AccountStorageMutation.mutate({
-        accountId: this.accountId,
-        actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
-        collection: 'pathpoint',
-        documentId: 'maxCapacity',
-        document: {
-          Capacity: this.capacity
-        }
-      });
-    } catch (error) {
-      throw new Error(error);
-    }
   }
 
   LoadCanaryData() {
@@ -1120,7 +1096,6 @@ export default class DataManager {
       });
       if (data) {
         this.touchPoints = data.TouchPoints;
-        console.log('this.touchPoints',this.touchPoints)
         this.touchPointsCopy = JSON.parse(JSON.stringify(this.touchPoints)); // clone the touchpoints with new reference
         this.GetMinPercentageError();
         this.SetTouchpointsStatus();
@@ -1149,13 +1124,14 @@ export default class DataManager {
     this.configuration.kpis.length = 0;
     for (let i = 0; i < this.kpis.length; i++) {
       kpi = {
-        index: this.kpis[i].index,
         type: this.kpis[i].type,
         name: this.kpis[i].name,
         shortName: this.kpis[i].shortName,
         link: this.kpis[i].link,
         query: this.kpis[i].query,
-        value: this.kpis[i].value,
+        value_type: this.kpis[i].value_type,
+        prefix: this.kpis[i].prefix,
+        suffix: this.kpis[i].suffix,
         check: this.kpis[i].check
       };
       this.configuration.kpis.push(kpi);
@@ -1240,6 +1216,7 @@ export default class DataManager {
 
   GetTouchpointQueryes(stage_index, index) {
     const queries = [];
+    let accountID = this.accountId;
     this.touchPoints.forEach(element => {
       if (element.index === this.city) {
         element.touchpoints.some(touchpoint => {
@@ -1250,21 +1227,28 @@ export default class DataManager {
           ) {
             found = true;
             touchpoint.measure_points.forEach(measure => {
+              accountID = this.accountId;
+              if (measure.accountID) {
+                accountID = measure.accountID;
+              }
               if (measure.type === 'PRC') {
                 queries.push({
                   type: this.measureNames[0],
+                  accountID: accountID,
                   query: measure.query,
                   min_count: measure.min_count
                 });
               } else if (measure.type === 'PCC') {
                 queries.push({
                   type: this.measureNames[1],
+                  accountID: accountID,
                   query: measure.query,
                   min_count: measure.min_count
                 });
               } else if (measure.type === 'APP') {
                 queries.push({
                   type: this.measureNames[2],
+                  accountID: accountID,
                   query: measure.query,
                   min_apdex: measure.min_apdex,
                   max_response_time: measure.max_response_time,
@@ -1273,6 +1257,7 @@ export default class DataManager {
               } else if (measure.type === 'FRT') {
                 queries.push({
                   type: this.measureNames[3],
+                  accountID: accountID,
                   query: measure.query,
                   min_apdex: measure.min_apdex,
                   max_response_time: measure.max_response_time,
@@ -1281,6 +1266,7 @@ export default class DataManager {
               } else if (measure.type === 'SYN') {
                 queries.push({
                   type: this.measureNames[4],
+                  accountID: accountID,
                   query: measure.query,
                   max_avg_response_time: measure.max_avg_response_time,
                   max_total_check_time: measure.max_total_check_time,
@@ -1317,7 +1303,7 @@ export default class DataManager {
     let substepIndex = 1;
     this.stages.length = 0;
     this.touchPoints.length = 0;
-    this.kpis = this.kpis??[]
+    this.kpis = this.kpis ?? [];
     this.kpis.length = 0;
     this.touchPoints.push({
       index: 0,
@@ -1325,17 +1311,32 @@ export default class DataManager {
       touchpoints: []
     });
     let ikpi = null;
+    let index = 0;
     this.configurationJSON.kpis.forEach(kpi => {
       ikpi = {
-        index: kpi.index,
+        index: index,
         type: kpi.type,
         name: kpi.name,
         shortName: kpi.shortName,
         link: kpi.link,
         query: kpi.query,
-        value: kpi.value,
+        value_type: kpi.value_type,
+        prefix: kpi.prefix,
+        suffix: kpi.suffix,
         check: kpi.check
       };
+      index++;
+      if (kpi.type === 100) {
+        ikpi = { ...ikpi, value: 0 };
+      } else {
+        ikpi = {
+          ...ikpi,
+          value: {
+            current: 0,
+            previous: 0
+          }
+        };
+      }
       this.kpis.push(ikpi);
     });
     this.configurationJSON.stages.forEach(stage => {
@@ -1465,6 +1466,9 @@ export default class DataManager {
               max_duration: 0,
               max_request_time: 0
             };
+          }
+          if (query.accountID !== this.accountId) {
+            measure = { accountID: query.accountID, ...measure };
           }
           tpDef2.measure_points.push(measure);
         });
@@ -1696,10 +1700,8 @@ export default class DataManager {
     let query2 = '';
     const countBreak = 20;
     this.touchPoints.forEach(element => {
-      console.log('element',element)
       if (element.index === this.city) {
         element.touchpoints.forEach(touchpoint => {
-          console.log('touchpoint.measure_points[0]',touchpoint.measure_points[0])
           data +=
             ' measure_' +
             touchpoint.stage_index +
@@ -1875,6 +1877,7 @@ for (const [key, value] of Object.entries(return` +
 
   GetTouchpointQuerys(touchpoint) {
     const datos = [];
+    let accountID = this.accountId;
     this.touchPoints.some(element => {
       let found1 = false;
       if (element.index === this.city) {
@@ -1888,8 +1891,13 @@ for (const [key, value] of Object.entries(return` +
             found2 = true;
             let actualValue = 0;
             tp.measure_points.forEach(measure => {
+              accountID = this.accountId;
+              if (measure.accountID) {
+                accountID = measure.accountID;
+              }
               if (measure.type === 'PRC') {
                 datos.push({
+                  accountID: accountID,
                   label: this.measureNames[0],
                   value: actualValue,
                   type: 'PRC',
@@ -1902,6 +1910,7 @@ for (const [key, value] of Object.entries(return` +
                 });
               } else if (measure.type === 'PCC') {
                 datos.push({
+                  accountID: accountID,
                   label: this.measureNames[1],
                   value: actualValue,
                   type: 'PCC',
@@ -1914,6 +1923,7 @@ for (const [key, value] of Object.entries(return` +
                 });
               } else if (measure.type === 'APP') {
                 datos.push({
+                  accountID: accountID,
                   label: this.measureNames[2],
                   value: actualValue,
                   type: 'APP',
@@ -1926,6 +1936,7 @@ for (const [key, value] of Object.entries(return` +
                 });
               } else if (measure.type === 'FRT') {
                 datos.push({
+                  accountID: accountID,
                   label: this.measureNames[3],
                   value: actualValue,
                   type: 'FRT',
@@ -1938,6 +1949,7 @@ for (const [key, value] of Object.entries(return` +
                 });
               } else if (measure.type === 'SYN') {
                 datos.push({
+                  accountID: accountID,
                   label: this.measureNames[4],
                   value: actualValue,
                   type: 'SYN',
@@ -2004,7 +2016,6 @@ for (const [key, value] of Object.entries(return` +
   }
 
   UpdateTouchpointQuerys(touchpoint, datos) {
-    console.log('datos', datos);
     this.touchPoints.some(element => {
       let found = false;
       if (element.index === this.city) {
@@ -2033,6 +2044,9 @@ for (const [key, value] of Object.entries(return` +
       let found = false;
       if (measure.type === data.type) {
         found = true;
+        if (data.accountID !== this.accountId) {
+          measure.accountID = data.accountID;
+        }
         measure.query = data.query_body;
       }
       return found;
@@ -2127,23 +2141,6 @@ for (const [key, value] of Object.entries(return` +
         this.historicErrorsHours = data.historicErrorsHours;
         this.historicErrorsHighLightPercentage =
           data.historicErrorsHighLightPercentage;
-      }
-    } catch (error) {
-      throw new Error(error);
-    }
-  }
-
-  async GetDBmaxCapacity() {
-    try {
-      const { data } = await AccountStorageQuery.query({
-        accountId: this.accountId,
-        collection: 'pathpoint',
-        documentId: 'maxCapacity'
-      });
-      if (data) {
-        this.capacity = data.Capacity;
-      } else {
-        this.SetDBmaxCapacity();
       }
     } catch (error) {
       throw new Error(error);
