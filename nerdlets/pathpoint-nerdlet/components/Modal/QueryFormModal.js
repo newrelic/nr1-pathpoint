@@ -3,27 +3,14 @@ import PropTypes from 'prop-types';
 import { Button, Form } from 'react-bootstrap';
 import Select from '../Select/Select';
 import SelectIDs from '../SelectIDs/SelectIDs';
+import index from '../RangeTime';
 
 //let accountID;
 
 function HeaderQueryFormModal(props) {
   
-  const { stageNameSelected, changeMessage, accountIDs, changeID } = props;
-  let id = accountIDs.map(obj => {
-    console.log('onjeto',obj)
-    const value = stageNameSelected.selectedCase
-    ? stageNameSelected.selectedCase
-    : 0;
-    return obj.id = stageNameSelected.datos[value].accountID
-  })
-  console.log('indice',id)
-  const handleChange = (childData) => {
-    const value = stageNameSelected.selectedCase
-    ? stageNameSelected.selectedCase
-    : 0;
-    stageNameSelected.datos[value].accountID = childData.target.value;
-    //sacar el indice seleccionado
-  }
+  const { stageNameSelected, changeMessage } = props;
+  
   return (
     <>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -39,20 +26,6 @@ function HeaderQueryFormModal(props) {
             />
           </div>
         </div>
-
-        <div style={{ display: 'flex', flexDirection: 'row', marginTop: '7px' }}>
-          <div style={{ display: 'flex', width: '290px', marginLeft: '10px', alignItems: 'center' }}>
-            <div className="selectIDModal" style={{ marginLeft: '130px', alignItems: 'center' }}>SINCE 5 MINUTES AGO</div>
-          </div>
-          <div>
-            <SelectIDs
-              name="query"
-              parentCallBack={handleChange}
-              options={accountIDs}
-              selectedID={selectedID}
-            />
-          </div>
-        </div>
       </div>
     </>
   );
@@ -65,9 +38,6 @@ HeaderQueryFormModal.propTypes = {
     PropTypes.number.isRequired
   ]),
   changeMessage: PropTypes.func.isRequired,
-  accountIDs: PropTypes.array.isRequired,
-  changeID: PropTypes.number.isRequired,
-  selectedID: PropTypes.number.isRequired,
 };
 
 function isObject(val) {
@@ -98,10 +68,18 @@ function BodyQueryFormModal(props) {
     modifiedQuery,
     accountIDs
   } = props;
+
   //console.log('accountIDs at click save',accountID)
   const value = stageNameSelected.selectedCase
     ? stageNameSelected.selectedCase
     : 0;
+
+  const idSeleccionado =  stageNameSelected.datos[value].accountID;
+
+  const handleChange = (childData) => {
+    stageNameSelected.datos[value].accountID = childData.target.value;
+    //sacar el indice seleccionado
+  }
   const query_body = stageNameSelected.datos[value].query_body;
   const query_footer = stageNameSelected.datos[value].query_footer;
   console.log('accountIDs at click save',stageNameSelected.datos[value].accountID)
@@ -112,6 +90,19 @@ function BodyQueryFormModal(props) {
         width: '600px'
       }}
     >
+      <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '4px' }}>
+        <div style={{ display: 'flex', width: '290px', marginLeft: '10px', alignItems: 'center' }}>
+          <div className="selectIDModal" style={{ marginLeft: '130px', alignItems: 'center' }}>SINCE 5 MINUTES AGO</div>
+        </div>
+        <div>
+          <SelectIDs
+            name="query"
+            parentCallBack={handleChange}
+            options={accountIDs}
+            idSeleccionado={idSeleccionado}
+          />
+        </div>
+      </div>
       <div>
         <Form onSubmit={event => handleSaveUpdateQuery(event)}>
           {renderTextArea({

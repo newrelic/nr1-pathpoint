@@ -112,5 +112,6 @@ SelectIDs.propTypes = {
     options: PropTypes.array.isRequired,
     name: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,
-    handleOnChange: PropTypes.func.isRequired
+    handleOnChange: PropTypes.func.isRequired,
+    idSeleccionado: PropTypes.number.isRequired
 };
