@@ -2,21 +2,56 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Form } from 'react-bootstrap';
 import Select from '../Select/Select';
+import SelectIDs from '../SelectIDs/SelectIDs';
+
+//let accountID;
 
 function HeaderQueryFormModal(props) {
-  const { stageNameSelected, changeMessage } = props;
+  
+  const { stageNameSelected, changeMessage, accountIDs, changeID } = props;
+  let id = accountIDs.map(obj => {
+    console.log('onjeto',obj)
+    const value = stageNameSelected.selectedCase
+    ? stageNameSelected.selectedCase
+    : 0;
+    return obj.id = stageNameSelected.datos[value].accountID
+  })
+  console.log('indice',id)
+  const handleChange = (childData) => {
+    const value = stageNameSelected.selectedCase
+    ? stageNameSelected.selectedCase
+    : 0;
+    stageNameSelected.datos[value].accountID = childData.target.value;
+    //sacar el indice seleccionado
+  }
   return (
     <>
-      <div style={{ display: 'flex' }}>
-        <div className="titleModal" style={{ width: '290px' }}>
-          {stageNameSelected.touchpoint.value}
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <div style={{ display: 'flex' }}>
+          <div className="titleModal" style={{ width: '290px' }}>
+            {stageNameSelected.touchpoint.value}
+          </div>
+          <div>
+            <Select
+              name="query"
+              handleOnChange={changeMessage}
+              options={stageNameSelected.datos}
+            />
+          </div>
         </div>
-        <div>
-          <Select
-            name="query"
-            handleOnChange={changeMessage}
-            options={stageNameSelected.datos}
-          />
+
+        <div style={{ display: 'flex', flexDirection: 'row', marginTop: '7px' }}>
+          <div style={{ display: 'flex', width: '290px', marginLeft: '10px', alignItems: 'center' }}>
+            <div className="selectIDModal" style={{ marginLeft: '130px', alignItems: 'center' }}>SINCE 5 MINUTES AGO</div>
+          </div>
+          <div>
+            <SelectIDs
+              name="query"
+              parentCallBack={handleChange}
+              options={accountIDs}
+              selectedID={selectedID}
+            />
+          </div>
         </div>
       </div>
     </>
@@ -29,7 +64,10 @@ HeaderQueryFormModal.propTypes = {
     PropTypes.object.isRequired,
     PropTypes.number.isRequired
   ]),
-  changeMessage: PropTypes.func.isRequired
+  changeMessage: PropTypes.func.isRequired,
+  accountIDs: PropTypes.array.isRequired,
+  changeID: PropTypes.number.isRequired,
+  selectedID: PropTypes.number.isRequired,
 };
 
 function isObject(val) {
@@ -60,13 +98,14 @@ function BodyQueryFormModal(props) {
     modifiedQuery,
     accountIDs
   } = props;
-  console.log('accountIDs',accountIDs)
+  //console.log('accountIDs at click save',accountID)
   const value = stageNameSelected.selectedCase
     ? stageNameSelected.selectedCase
     : 0;
   const query_body = stageNameSelected.datos[value].query_body;
   const query_footer = stageNameSelected.datos[value].query_footer;
-  stageNameSelected.datos[value].accountID = 7845963;
+  console.log('accountIDs at click save',stageNameSelected.datos[value].accountID)
+  //stageNameSelected.datos[value].accountID = accountID;
   return (
     <div
       style={{
