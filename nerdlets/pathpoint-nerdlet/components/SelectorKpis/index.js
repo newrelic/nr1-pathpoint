@@ -109,7 +109,6 @@ const Icon = () => (
 export default index;
 
 index.propTypes = {
-  //listKpis: PropTypes.object.isRequired,
   listKpis: PropTypes.array.isRequired,
   updateDataKpisChecked: PropTypes.func.isRequired
 };
