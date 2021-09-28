@@ -5,26 +5,20 @@ import Select from '../Select/Select';
 import SelectIDs from '../SelectIDs/SelectIDs';
 import index from '../RangeTime';
 
-//let accountID;
-
 function HeaderQueryFormModal(props) {
-  
   const { stageNameSelected, changeMessage } = props;
-  
   return (
     <>
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <div style={{ display: 'flex' }}>
-          <div className="titleModal" style={{ width: '290px' }}>
-            {stageNameSelected.touchpoint.value}
-          </div>
-          <div>
-            <Select
-              name="query"
-              handleOnChange={changeMessage}
-              options={stageNameSelected.datos}
-            />
-          </div>
+      <div style={{ display: 'flex' }}>
+        <div className="titleModal" style={{ width: '290px' }}>
+          {stageNameSelected.touchpoint.value}
+        </div>
+        <div>
+          <Select
+            name="query"
+            handleOnChange={changeMessage}
+            options={stageNameSelected.datos}
+          />
         </div>
       </div>
     </>
@@ -37,7 +31,7 @@ HeaderQueryFormModal.propTypes = {
     PropTypes.object.isRequired,
     PropTypes.number.isRequired
   ]),
-  changeMessage: PropTypes.func.isRequired,
+  changeMessage: PropTypes.func.isRequired
 };
 
 function isObject(val) {
@@ -69,7 +63,6 @@ function BodyQueryFormModal(props) {
     accountIDs
   } = props;
 
-  //console.log('accountIDs at click save',accountID)
   const value = stageNameSelected.selectedCase
     ? stageNameSelected.selectedCase
     : 0;
@@ -78,22 +71,19 @@ function BodyQueryFormModal(props) {
 
   const handleChange = (childData) => {
     stageNameSelected.datos[value].accountID = childData.target.value;
-    //sacar el indice seleccionado
   }
   const query_body = stageNameSelected.datos[value].query_body;
   const query_footer = stageNameSelected.datos[value].query_footer;
-  console.log('accountIDs at click save',stageNameSelected.datos[value].accountID)
-  //stageNameSelected.datos[value].accountID = accountID;
   return (
     <div
       style={{
         width: '600px'
       }}
     >
-      <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '4px' }}>
-        <div style={{ display: 'flex', width: '290px', marginLeft: '10px', alignItems: 'center' }}>
-          <div className="selectIDModal" style={{ marginLeft: '130px', alignItems: 'center' }}>SINCE 5 MINUTES AGO</div>
-        </div>
+      <div style={{ display: 'flex', justifyContent: 'start', flexDirection: 'row', marginBottom: '4px' }}>
+        
+          <div className="selectIDModal" style={{display: 'flex', width: '80px', alignItems: 'center', }}>AccountId</div>
+        
         <div>
           <SelectIDs
             name="query"
