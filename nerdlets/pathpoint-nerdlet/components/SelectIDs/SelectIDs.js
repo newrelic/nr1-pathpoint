@@ -1,21 +1,27 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import './styles.scss'
 
 export default class SelectIDs extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
             open: false,
-            selected: 0
+            selected: 0,
+            idSeleccionado: 0
         };
     }
 
     componentDidMount() {
         document.addEventListener('mousedown', this.handleClickOutside);
-        const { name, options } = this.props;
-        const { selected } = this.state;
-        const event = { target: { value: options[selected].id, name } };
-        this.props.parentCallBack(event);
+        const { name, options, idSeleccionado } = this.props;
+        let idIndex = 0;
+        options.map(index => {
+            if (index.id === idSeleccionado){
+                idIndex = options.indexOf(index);
+                this.setState({ selected: parseInt(idIndex) });
+            }
+        })
     }
 
     componentWillUnmount() {
@@ -31,6 +37,7 @@ export default class SelectIDs extends PureComponent {
     };
 
     clickAction = () => {
+        
         this.setState(prevState => ({ open: !prevState.open }));
     };
 
@@ -39,7 +46,6 @@ export default class SelectIDs extends PureComponent {
         const event = { target: { value: obj.id, name } };
         this.setState({ selected: parseInt(optionSelected) });
         this.props.parentCallBack(event);
-        //handleOnChange(event);
     };
 
     render() {
@@ -47,22 +53,22 @@ export default class SelectIDs extends PureComponent {
         const { selected, open } = this.state;
         return (
             <div
-                className="custom-select-wrapper"
+                className="custom-select-wrapper_SelectID"
                 onClick={this.clickAction}
                 ref={this.myRef}
             >
                 <div
-                    className="custom-select"
+                    className="custom-select_SelectID"
                     style={
                         open
                             ? { visibility: 'visible', pointerEvents: 'all', opacity: 1 }
                             : {}
                     }
                 >
-                    <div className="custom-select__trigger">
+                    <div className="custom-select__trigger_SelectID">
                         <span
                             style={{
-                                width: '230px',
+                                width: '80px',
                                 whiteSpace: 'nowrap',
                                 textOverflow: 'ellipsis',
                                 overflow: 'hidden'
@@ -73,7 +79,7 @@ export default class SelectIDs extends PureComponent {
                         <div className="arrow" />
                     </div>
                     <div
-                        className="custom-options"
+                        className="custom-options-SelectID"
                         style={
                             open
                                 ? { visibility: 'visible', pointerEvents: 'all', opacity: 1 }
@@ -82,6 +88,7 @@ export default class SelectIDs extends PureComponent {
                     >
                         {options.map((obj, index) => (
                             <span
+                                
                                 key={index}
                                 onClick={() => this.clickSelected(index, obj)}
                                 className={
@@ -91,10 +98,10 @@ export default class SelectIDs extends PureComponent {
                                 }
                             >
                                 <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                    <div style={{ display: 'flex', justifyContent: 'start', width: '50%' }}>
+                                    <div style={{ display: 'flex', justifyContent: 'start', width: '65%' }}>
                                         {obj.name}
                                     </div>
-                                    <div style={{ display: 'flex', justifyContent: 'start', width: '50%' }}>
+                                    <div style={{ display: 'flex', justifyContent: 'start', width: '35%' }}>
                                         {obj.id}
                                     </div>
                                 </div>
