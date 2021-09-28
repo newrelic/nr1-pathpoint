@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Button, Form } from 'react-bootstrap';
 import Select from '../Select/Select';
 import SelectIDs from '../SelectIDs/SelectIDs';
-import index from '../RangeTime';
 
 function HeaderQueryFormModal(props) {
   const { stageNameSelected, changeMessage } = props;
@@ -67,11 +66,11 @@ function BodyQueryFormModal(props) {
     ? stageNameSelected.selectedCase
     : 0;
 
-  const idSeleccionado =  stageNameSelected.datos[value].accountID;
+  const idSeleccionado = stageNameSelected.datos[value].accountID;
 
-  const handleChange = (childData) => {
+  const handleChange = childData => {
     stageNameSelected.datos[value].accountID = childData.target.value;
-  }
+  };
   const query_body = stageNameSelected.datos[value].query_body;
   const query_footer = stageNameSelected.datos[value].query_footer;
   return (
@@ -80,10 +79,24 @@ function BodyQueryFormModal(props) {
         width: '600px'
       }}
     >
-      <div style={{ display: 'flex', justifyContent: 'start', flexDirection: 'row', marginBottom: '4px' }}>
-        
-          <div className="selectIDModal" style={{display: 'flex', width: '80px', alignItems: 'center', }}>AccountId</div>
-        
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'start',
+          flexDirection: 'row',
+          marginBottom: '4px'
+        }}
+      >
+        <div
+          className="selectIDModal"
+          style={{
+            display: 'flex',
+            width: '80px',
+            alignItems: 'center'
+          }}
+        >
+          AccountId
+        </div>
         <div>
           <SelectIDs
             name="query"
@@ -266,7 +279,8 @@ BodyQueryFormModal.propTypes = {
   testText: PropTypes.string.isRequired,
   resultsTestQuery: PropTypes.object.isRequired,
   goodQuery: PropTypes.bool.isRequired,
-  modifiedQuery: PropTypes.bool
+  modifiedQuery: PropTypes.bool,
+  accountIDs: PropTypes.object.isRequired
 };
 
 export { HeaderQueryFormModal, BodyQueryFormModal };
