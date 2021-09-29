@@ -19,7 +19,13 @@ import { HeaderJsonConfigurationFormModal } from './JsonConfigurationFormModal';
 import { HeaderBackgroundProcessesFormModal } from './BackgroundProcessesFormModal';
 
 export default function ShowHeader(props) {
-  const { viewModal, stageNameSelected, changeMessage, accountIDs, changeID } = props;
+  const {
+    viewModal,
+    stageNameSelected,
+    changeMessage
+    // accountIDs,
+    // changeID
+  } = props;
   switch (viewModal) {
     case 0:
       return (
@@ -56,8 +62,8 @@ export default function ShowHeader(props) {
         <HeaderQueryFormModal
           stageNameSelected={stageNameSelected}
           changeMessage={changeMessage}
-          accountIDs={accountIDs}
-          changeID={changeID}
+          // accountIDs={accountIDs}
+          // changeID={changeID}
         />
       );
     case 2:
@@ -96,7 +102,7 @@ ShowHeader.propTypes = {
     PropTypes.object.isRequired,
     PropTypes.number.isRequired
   ]),
-  changeMessage: PropTypes.func.isRequired,
-  accountIDs: PropTypes.array.isRequired,
-  changeID: PropTypes.number.isRequired
+  changeMessage: PropTypes.func.isRequired
+  // accountIDs: PropTypes.array.isRequired,
+  // changeID: PropTypes.number.isRequired
 };
