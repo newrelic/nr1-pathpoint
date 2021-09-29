@@ -1,16 +1,12 @@
-/* eslint-disable react/prop-types */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import './styles.scss';
 
 export default class SelectIDs extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       open: false,
-      selected: 0,
-      // eslint-disable-next-line react/no-unused-state
-      idSeleccionado: 0
+      selected: 0
     };
   }
 
@@ -18,12 +14,12 @@ export default class SelectIDs extends PureComponent {
     document.addEventListener('mousedown', this.handleClickOutside);
     const { options, idSeleccionado } = this.props;
     let idIndex = 0;
-    // eslint-disable-next-line array-callback-return
     options.map(index => {
       if (index.id === idSeleccionado) {
         idIndex = options.indexOf(index);
         this.setState({ selected: parseInt(idIndex) });
       }
+      return 0;
     });
   }
 
@@ -35,8 +31,7 @@ export default class SelectIDs extends PureComponent {
 
   handleClickOutside = e => {
     if (!this.myRef.current.contains(e.target)) {
-      // eslint-disable-next-line react/no-unused-state
-      this.setState({ visible: false });
+      this.setState({ open: false });
     }
   };
 
@@ -45,10 +40,10 @@ export default class SelectIDs extends PureComponent {
   };
 
   clickSelected = (optionSelected, obj) => {
-    const { name } = this.props;
+    const { name, handleOnChange } = this.props;
     const event = { target: { value: obj.id, name } };
     this.setState({ selected: parseInt(optionSelected) });
-    this.props.parentCallBack(event);
+    handleOnChange(event);
   };
 
   render() {
@@ -100,24 +95,8 @@ export default class SelectIDs extends PureComponent {
                 }
               >
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'start',
-                      width: '65%'
-                    }}
-                  >
-                    {obj.name}
-                  </div>
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'start',
-                      width: '35%'
-                    }}
-                  >
-                    {obj.id}
-                  </div>
+                  <div className="id-custom-options">{obj.id}</div>
+                  <div className="name-custom-options">{obj.name}</div>
                 </div>
               </span>
             ))}
@@ -132,7 +111,6 @@ SelectIDs.propTypes = {
   options: PropTypes.array.isRequired,
   name: PropTypes.string.isRequired,
   id: PropTypes.number.isRequired,
-  // eslint-disable-next-line react/no-unused-prop-types
   handleOnChange: PropTypes.func.isRequired,
   idSeleccionado: PropTypes.number.isRequired
 };

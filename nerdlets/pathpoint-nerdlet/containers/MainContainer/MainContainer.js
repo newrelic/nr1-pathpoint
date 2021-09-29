@@ -71,7 +71,7 @@ export default class MainContainer extends React.Component {
       iconCanaryStatus: false,
       iconSixthSenseStatus: false,
       hidden: false,
-      stageNameSelected: '',
+      stageNameSelected: null,
       viewModal: 0,
       checkMoney: false,
       city: 0,
@@ -927,9 +927,11 @@ export default class MainContainer extends React.Component {
   testQuery = async (query, value) => {
     const { stageNameSelected } = this.state;
     const type = stageNameSelected.datos[value].label;
+    const accountID = stageNameSelected.datos[value].accountID;
     const { testText, goodQuery } = await this.validationQuery.validateQuery(
       type,
-      query
+      query,
+      accountID
     );
     let results = '';
     if (goodQuery) {

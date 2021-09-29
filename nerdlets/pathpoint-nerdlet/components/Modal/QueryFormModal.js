@@ -48,6 +48,20 @@ function objToString(obj) {
   }, '');
 }
 
+function validateAccountIDByDefault(id, accountIDs) {
+  const result = accountIDs.some(account => {
+    let found = false;
+    if (account.id === id) {
+      found = true;
+    }
+    return found;
+  });
+  if (!result) {
+    id = accountIDs[0].id;
+  }
+  return id;
+}
+
 function BodyQueryFormModal(props) {
   const {
     stageNameSelected,
@@ -59,16 +73,16 @@ function BodyQueryFormModal(props) {
     resultsTestQuery,
     goodQuery,
     modifiedQuery,
-    // eslint-disable-next-line react/prop-types
     accountIDs
   } = props;
-
   const value = stageNameSelected.selectedCase
     ? stageNameSelected.selectedCase
     : 0;
-
-  const idSeleccionado = stageNameSelected.datos[value].accountID;
-
+  const idSeleccionado = validateAccountIDByDefault(
+    stageNameSelected.datos[value].accountID,
+    accountIDs
+  );
+  stageNameSelected.datos[value].accountID = idSeleccionado;
   const handleChange = childData => {
     stageNameSelected.datos[value].accountID = childData.target.value;
   };
@@ -90,15 +104,18 @@ function BodyQueryFormModal(props) {
       >
         <div
           className="selectIDModal"
-          style={{ display: 'flex', width: '80px', alignItems: 'center' }}
+          style={{
+            display: 'flex',
+            width: '80px',
+            alignItems: 'center'
+          }}
         >
           AccountId
         </div>
-
         <div>
           <SelectIDs
             name="query"
-            parentCallBack={handleChange}
+            handleOnChange={handleChange}
             options={accountIDs}
             idSeleccionado={idSeleccionado}
           />
@@ -277,7 +294,8 @@ BodyQueryFormModal.propTypes = {
   testText: PropTypes.string.isRequired,
   resultsTestQuery: PropTypes.object.isRequired,
   goodQuery: PropTypes.bool.isRequired,
-  modifiedQuery: PropTypes.bool
+  modifiedQuery: PropTypes.bool,
+  accountIDs: PropTypes.object.isRequired
 };
 
 export { HeaderQueryFormModal, BodyQueryFormModal };
