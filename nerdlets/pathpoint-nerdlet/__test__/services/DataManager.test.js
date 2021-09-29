@@ -199,12 +199,16 @@ jest.mock(
     const nerdlet = {
       setConfig: jest.fn()
     };
+    const logger = {
+      log: () => {}
+    };
     return {
       AccountsQuery: AccountsQuery,
       AccountStorageQuery: AccountStorageQuery,
       AccountStorageMutation: AccountStorageMutation,
       NerdGraphQuery: NerdGraphQuery,
-      nerdlet: nerdlet
+      nerdlet: nerdlet,
+      logger: logger
     };
   },
   { virtual: true }
