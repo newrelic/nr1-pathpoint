@@ -5,6 +5,12 @@ import {
   HeaderQueryFormModal
 } from '../../../components/Modal/QueryFormModal';
 
+const accountIDs = [
+  {
+    name: 'WigiBoards',
+    id: 2710112
+  }
+];
 describe('<QueryFormModal/>', () => {
   it('Render body', () => {
     const bodyQueryForm = mount(
@@ -31,6 +37,7 @@ describe('<QueryFormModal/>', () => {
         goodQuery={false}
         modifiedQuery
         handleChangeTexarea={jest.fn()}
+        accountIDs={accountIDs}
       />
     );
     expect(bodyQueryForm.length).toEqual(1);
@@ -60,6 +67,7 @@ describe('<QueryFormModal/>', () => {
         goodQuery
         modifiedQuery={false}
         handleChangeTexarea={jest.fn()}
+        accountIDs={accountIDs}
       />
     );
     expect(bodyQueryForm.length).toEqual(1);
@@ -90,6 +98,7 @@ describe('<QueryFormModal/>', () => {
         goodQuery
         modifiedQuery={false}
         handleChangeTexarea={jest.fn()}
+        accountIDs={accountIDs}
       />
     );
     bodyQueryForm
@@ -124,6 +133,7 @@ describe('<QueryFormModal/>', () => {
         goodQuery
         modifiedQuery={false}
         handleChangeTexarea={jest.fn()}
+        accountIDs={accountIDs}
       />
     );
     bodyQueryForm.find('a').simulate('click');
@@ -179,6 +189,7 @@ describe('<QueryFormModal/>', () => {
         goodQuery
         modifiedQuery={false}
         handleChangeTexarea={jest.fn()}
+        accountIDs={accountIDs}
       />
     );
     const button = bodyQueryForm.find('button').at(1);
@@ -211,6 +222,7 @@ describe('<QueryFormModal/>', () => {
         goodQuery
         modifiedQuery={false}
         handleChangeTexarea={handleChangeTexarea}
+        accountIDs={accountIDs}
       />
     );
     const textArea = bodyQueryForm.find('textarea');

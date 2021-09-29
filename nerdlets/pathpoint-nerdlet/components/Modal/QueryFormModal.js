@@ -84,8 +84,6 @@ function BodyQueryFormModal(props) {
   );
   stageNameSelected.datos[value].accountID = idSeleccionado;
   const handleChange = childData => {
-    // eslint-disable-next-line no-console
-    console.log('llego handle Change');
     stageNameSelected.datos[value].accountID = childData.target.value;
   };
   const query_body = stageNameSelected.datos[value].query_body;
@@ -297,6 +295,7 @@ BodyQueryFormModal.propTypes = {
   resultsTestQuery: PropTypes.object.isRequired,
   goodQuery: PropTypes.bool.isRequired,
   modifiedQuery: PropTypes.bool,
+  // accountIDs: PropTypes.object.isRequired
   accountIDs: PropTypes.array.isRequired
 };
 
