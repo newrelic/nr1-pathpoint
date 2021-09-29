@@ -14,6 +14,8 @@ describe('<ShowHeader/>', () => {
             icon_active: true,
             title: 'touchpoint one'
           }}
+          accountIDs={{ type: 'default' }}
+          changeID={1213212}
         />
       );
       expect(headerRender.length).toEqual(1);
@@ -29,6 +31,8 @@ describe('<ShowHeader/>', () => {
             icon_active: false,
             title: 'touchpoint one'
           }}
+          accountIDs={{ type: 'default' }}
+          changeID={1213212}
         />
       );
       expect(headerRender.length).toEqual(1);
@@ -44,6 +48,8 @@ describe('<ShowHeader/>', () => {
             icon_active: false,
             title: 'touchpoint one'
           }}
+          accountIDs={{ type: 'default' }}
+          changeID={1213212}
         />
       );
       expect(headerRender.length).toEqual(1);
@@ -59,6 +65,8 @@ describe('<ShowHeader/>', () => {
             icon_active: false,
             title: 'touchpoint one'
           }}
+          accountIDs={{ type: 'default' }}
+          changeID={1213212}
         />
       );
       expect(headerRender.length).toEqual(1);
@@ -88,6 +96,8 @@ describe('<ShowHeader/>', () => {
           ]
         }}
         viewModal={1}
+        accountIDs={{ type: 'default' }}
+        changeID={1213212}
       />
     );
     expect(headerRender.length).toEqual(1);
@@ -116,6 +126,8 @@ describe('<ShowHeader/>', () => {
           ]
         }}
         viewModal={2}
+        accountIDs={{ type: 'default' }}
+        changeID={1213212}
       />
     );
     expect(headerRender.length).toEqual(1);
@@ -131,6 +143,8 @@ describe('<ShowHeader/>', () => {
           }
         }}
         viewModal={3}
+        accountIDs={{ type: 'default' }}
+        changeID={1213212}
       />
     );
     expect(headerRender.length).toEqual(1);
@@ -142,6 +156,8 @@ describe('<ShowHeader/>', () => {
         changeMessage={jest.fn()}
         stageNameSelected={{}}
         viewModal={4}
+        accountIDs={{ type: 'default' }}
+        changeID={1213212}
       />
     );
     expect(headerRender.length).toEqual(1);
@@ -153,6 +169,8 @@ describe('<ShowHeader/>', () => {
         changeMessage={jest.fn()}
         stageNameSelected={{}}
         viewModal={5}
+        accountIDs={{ type: 'default' }}
+        changeID={1213212}
       />
     );
     expect(headerRender.length).toEqual(1);
@@ -164,6 +182,8 @@ describe('<ShowHeader/>', () => {
         changeMessage={jest.fn()}
         stageNameSelected={{}}
         viewModal={6}
+        accountIDs={{ type: 'default' }}
+        changeID={1213212}
       />
     );
     expect(headerRender.length).toEqual(1);
@@ -175,6 +195,8 @@ describe('<ShowHeader/>', () => {
         changeMessage={jest.fn()}
         stageNameSelected={{}}
         viewModal={7}
+        accountIDs={{ type: 'default' }}
+        changeID={1213212}
       />
     );
     expect(headerRender.length).toEqual(1);
@@ -186,6 +208,8 @@ describe('<ShowHeader/>', () => {
         changeMessage={jest.fn()}
         stageNameSelected={{}}
         viewModal={8}
+        accountIDs={{ type: 'default' }}
+        changeID={1213212}
       />
     );
     expect(headerRender.length).toEqual(1);
@@ -197,6 +221,8 @@ describe('<ShowHeader/>', () => {
         changeMessage={jest.fn()}
         stageNameSelected={{}}
         viewModal={9}
+        accountIDs={{ type: 'default' }}
+        changeID={1213212}
       />
     );
     expect(headerRender.length).toEqual(1);
@@ -208,6 +234,8 @@ describe('<ShowHeader/>', () => {
         changeMessage={jest.fn()}
         stageNameSelected={{}}
         viewModal={10}
+        accountIDs={{ type: 'default' }}
+        changeID={1213212}
       />
     );
     expect(headerRender.length).toEqual(1);

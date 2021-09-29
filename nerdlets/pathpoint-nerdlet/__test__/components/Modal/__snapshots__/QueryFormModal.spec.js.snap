@@ -8,6 +8,101 @@ exports[`QueryFormModal component Render body with default data 1`] = `
     }
   }
 >
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "row",
+        "justifyContent": "start",
+        "marginBottom": "4px",
+      }
+    }
+  >
+    <div
+      className="selectIDModal"
+      style={
+        Object {
+          "alignItems": "center",
+          "display": "flex",
+          "width": "80px",
+        }
+      }
+    >
+      AccountId
+    </div>
+    <div>
+      <div
+        className="custom-select-wrapper_SelectID"
+        onClick={[Function]}
+      >
+        <div
+          className="custom-select_SelectID"
+          style={Object {}}
+        >
+          <div
+            className="custom-select__trigger_SelectID"
+          >
+            <span
+              style={
+                Object {
+                  "overflow": "hidden",
+                  "textOverflow": "ellipsis",
+                  "whiteSpace": "nowrap",
+                  "width": "80px",
+                }
+              }
+            >
+              2710112
+            </span>
+            <div
+              className="arrow"
+            />
+          </div>
+          <div
+            className="custom-options-SelectID"
+            style={Object {}}
+          >
+            <span
+              className="custom-option selected"
+              onClick={[Function]}
+            >
+              <div
+                style={
+                  Object {
+                    "display": "flex",
+                    "flexDirection": "row",
+                  }
+                }
+              >
+                <div
+                  style={
+                    Object {
+                      "display": "flex",
+                      "justifyContent": "start",
+                      "width": "65%",
+                    }
+                  }
+                >
+                  WigiBoards
+                </div>
+                <div
+                  style={
+                    Object {
+                      "display": "flex",
+                      "justifyContent": "start",
+                      "width": "35%",
+                    }
+                  }
+                >
+                  2710112
+                </div>
+              </div>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <div>
     <form
       className=""
