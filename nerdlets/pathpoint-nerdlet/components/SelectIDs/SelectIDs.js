@@ -12,14 +12,15 @@ export default class SelectIDs extends PureComponent {
 
   componentDidMount() {
     document.addEventListener('mousedown', this.handleClickOutside);
-    const { name, options, idSeleccionado } = this.props;
+    const { options, idSeleccionado } = this.props;
     let idIndex = 0;
     options.map(index => {
       if (index.id === idSeleccionado) {
         idIndex = options.indexOf(index);
         this.setState({ selected: parseInt(idIndex) });
       }
-    })
+      return 0;
+    });
   }
 
   componentWillUnmount() {
@@ -30,12 +31,11 @@ export default class SelectIDs extends PureComponent {
 
   handleClickOutside = e => {
     if (!this.myRef.current.contains(e.target)) {
-      this.setState({ visible: false });
+      this.setState({ open: false });
     }
   };
 
   clickAction = () => {
-
     this.setState(prevState => ({ open: !prevState.open }));
   };
 
@@ -43,7 +43,7 @@ export default class SelectIDs extends PureComponent {
     const { name, handleOnChange } = this.props;
     const event = { target: { value: obj.id, name } };
     this.setState({ selected: parseInt(optionSelected) });
-    this.props.parentCallBack(event);
+    handleOnChange(event);
   };
 
   render() {
@@ -86,7 +86,6 @@ export default class SelectIDs extends PureComponent {
           >
             {options.map((obj, index) => (
               <span
-
                 key={index}
                 onClick={() => this.clickSelected(index, obj)}
                 className={
@@ -96,20 +95,31 @@ export default class SelectIDs extends PureComponent {
                 }
               >
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
-                  <div style={{ display: 'flex', justifyContent: 'start', width: '65%' }}>
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'start',
+                      width: '65%'
+                    }}
+                  >
                     {obj.name}
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'start', width: '35%' }}>
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'start',
+                      width: '35%'
+                    }}
+                  >
                     {obj.id}
                   </div>
                 </div>
-
               </span>
             ))}
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
