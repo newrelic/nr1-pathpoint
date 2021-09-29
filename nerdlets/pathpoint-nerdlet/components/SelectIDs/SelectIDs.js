@@ -95,24 +95,8 @@ export default class SelectIDs extends PureComponent {
                 }
               >
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'start',
-                      width: '65%'
-                    }}
-                  >
-                    {obj.name}
-                  </div>
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'start',
-                      width: '35%'
-                    }}
-                  >
-                    {obj.id}
-                  </div>
+                  <div className="id-custom-options">{obj.id}</div>
+                  <div className="name-custom-options">{obj.name}</div>
                 </div>
               </span>
             ))}
