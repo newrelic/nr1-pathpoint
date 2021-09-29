@@ -48,6 +48,20 @@ function objToString(obj) {
   }, '');
 }
 
+function validateAccountIDByDefault(id, accountIDs) {
+  const result = accountIDs.some(account => {
+    let found = false;
+    if (account.id === id) {
+      found = true;
+    }
+    return found;
+  });
+  if (!result) {
+    id = accountIDs[0].id;
+  }
+  return id;
+}
+
 function BodyQueryFormModal(props) {
   const {
     stageNameSelected,
@@ -61,13 +75,14 @@ function BodyQueryFormModal(props) {
     modifiedQuery,
     accountIDs
   } = props;
-
   const value = stageNameSelected.selectedCase
     ? stageNameSelected.selectedCase
     : 0;
-
-  const idSeleccionado = stageNameSelected.datos[value].accountID;
-
+  const idSeleccionado = validateAccountIDByDefault(
+    stageNameSelected.datos[value].accountID,
+    accountIDs
+  );
+  stageNameSelected.datos[value].accountID = idSeleccionado;
   const handleChange = childData => {
     stageNameSelected.datos[value].accountID = childData.target.value;
   };
@@ -100,7 +115,7 @@ function BodyQueryFormModal(props) {
         <div>
           <SelectIDs
             name="query"
-            parentCallBack={handleChange}
+            handleOnChange={handleChange}
             options={accountIDs}
             idSeleccionado={idSeleccionado}
           />
