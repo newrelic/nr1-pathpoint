@@ -31,6 +31,7 @@ describe('QueryFormModal component', () => {
         goodQuery={false}
         modifiedQuery
         handleChangeTexarea={jest.fn()}
+        accountIDs={{ type: 'default' }}
       />
     );
     expect(body.toJSON()).toMatchSnapshot();
