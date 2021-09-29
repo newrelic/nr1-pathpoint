@@ -6,10 +6,11 @@ export default class ValidationQuery {
     this.accountId = accountId;
   }
 
-  async validateNrqlQuery(query) {
+  async validateNrqlQuery(query, accountID) {
+    const accId = accountID === 0 ? this.accountId : accountID;
     const gql = `{
         actor {
-         account(id: ${this.accountId}) {
+         account(id: ${accId}) {
            nrql(query: "${query}") {
              results
            }
@@ -26,7 +27,7 @@ export default class ValidationQuery {
     return { errors, data: dataReturn };
   }
 
-  async validateQuery(type, query) {
+  async validateQuery(type, query, accountID = 0) {
     let testText = messages.test_query.wrong;
     let goodQuery = false;
     if (query === '') {
@@ -34,7 +35,7 @@ export default class ValidationQuery {
       goodQuery = true;
       return { testText, goodQuery };
     }
-    const { data, errors } = await this.validateNrqlQuery(query);
+    const { data, errors } = await this.validateNrqlQuery(query, accountID);
     switch (type) {
       case 'PRC-COUNT-QUERY':
         goodQuery = this.countPRCQueryValidation(errors, data);
