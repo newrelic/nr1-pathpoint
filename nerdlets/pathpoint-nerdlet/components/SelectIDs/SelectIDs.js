@@ -126,7 +126,6 @@ export default class SelectIDs extends PureComponent {
 SelectIDs.propTypes = {
   options: PropTypes.array.isRequired,
   name: PropTypes.string.isRequired,
-  id: PropTypes.number.isRequired,
   handleOnChange: PropTypes.func.isRequired,
   idSeleccionado: PropTypes.number.isRequired
 };

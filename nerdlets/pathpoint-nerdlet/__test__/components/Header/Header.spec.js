@@ -33,10 +33,11 @@ const kpis = [
   {
     index: 0,
     type: 101,
-    name: "Unique Visitors",
-    shortName: "Unique",
-    link: "https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true",
-    query: "SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago",
+    name: 'Unique Visitors',
+    shortName: 'Unique',
+    link:
+      'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
+    query: 'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago',
     value: {
       current: 0,
       previous: 0
@@ -46,10 +47,11 @@ const kpis = [
   {
     index: 1,
     type: 101,
-    name: "1 Account",
-    shortName: "1 Acc.",
-    link: "https://chart-embed.service.newrelic.com/herald/5817c955-7920-4367-86e5-e8a998852863?height=400px&timepicker=true",
-    query: "SELECT count(*) as value  FROM Transaction COMPARE WITH 2 day ago",
+    name: '1 Account',
+    shortName: '1 Acc.',
+    link:
+      'https://chart-embed.service.newrelic.com/herald/5817c955-7920-4367-86e5-e8a998852863?height=400px&timepicker=true',
+    query: 'SELECT count(*) as value  FROM Transaction COMPARE WITH 2 day ago',
     value: {
       current: 0,
       previous: 0
@@ -78,7 +80,7 @@ describe('Header component', () => {
         ToggleHeaderButtons={jest.fn()}
         logoSetup={{ type: 'default' }}
         timeRangeKpi={{
-          index: 0,
+          index: 0
         }}
         changeTimeRangeKpi={jest.fn()}
         kpis={kpis}
@@ -111,7 +113,7 @@ describe('Header component', () => {
         ToggleHeaderButtons={jest.fn()}
         logoSetup={{ type: 'default' }}
         timeRangeKpi={{
-          index: 0,
+          index: 0
         }}
         changeTimeRangeKpi={jest.fn()}
         kpis={kpis}
@@ -124,7 +126,7 @@ describe('Header component', () => {
     expect(header.toJSON()).toMatchSnapshot();
   });
 
-  test('Header component with iconCanaryStatus',async () => {
+  test('Header component with iconCanaryStatus', async () => {
     const header = create(
       <Header
         iconSixthSenseStatus={false}
@@ -144,7 +146,7 @@ describe('Header component', () => {
         ToggleHeaderButtons={jest.fn()}
         logoSetup={{ type: 'default' }}
         timeRangeKpi={{
-          index: 0,
+          index: 0
         }}
         changeTimeRangeKpi={jest.fn()}
         kpis={kpis}
@@ -177,7 +179,7 @@ describe('Header component', () => {
         ToggleHeaderButtons={jest.fn()}
         logoSetup={{ type: 'default' }}
         timeRangeKpi={{
-          index: 0,
+          index: 0
         }}
         changeTimeRangeKpi={jest.fn()}
         kpis={kpis}
@@ -210,7 +212,7 @@ describe('Header component', () => {
         ToggleHeaderButtons={jest.fn()}
         logoSetup={{ type: 'default' }}
         timeRangeKpi={{
-          index: 0,
+          index: 0
         }}
         changeTimeRangeKpi={jest.fn()}
         kpis={kpis}
@@ -223,7 +225,7 @@ describe('Header component', () => {
     expect(header.toJSON()).toMatchSnapshot();
   });
 
-  test('Header component with iconGoutStatus',async () => {
+  test('Header component with iconGoutStatus', async () => {
     const header = create(
       <Header
         iconSixthSenseStatus={false}
@@ -243,7 +245,7 @@ describe('Header component', () => {
         ToggleHeaderButtons={jest.fn()}
         logoSetup={{ type: 'default' }}
         timeRangeKpi={{
-          index: 0,
+          index: 0
         }}
         changeTimeRangeKpi={jest.fn()}
         kpis={kpis}
@@ -276,7 +278,7 @@ describe('Header component', () => {
         ToggleHeaderButtons={jest.fn()}
         logoSetup={{ type: 'default' }}
         timeRangeKpi={{
-          index: 0,
+          index: 0
         }}
         changeTimeRangeKpi={jest.fn()}
         kpis={kpis}
@@ -312,7 +314,7 @@ describe('Header component', () => {
           text: 'Logo Text'
         }}
         timeRangeKpi={{
-          index: 0,
+          index: 0
         }}
         changeTimeRangeKpi={jest.fn()}
         kpis={kpis}
@@ -349,7 +351,7 @@ describe('Header component', () => {
             'https://www.howdeniberia.com/wp-content/uploads/2018/05/Disney-logo-png-transparent-download.png'
         }}
         timeRangeKpi={{
-          index: 0,
+          index: 0
         }}
         changeTimeRangeKpi={jest.fn()}
         kpis={kpis}
@@ -387,7 +389,7 @@ describe('Header component', () => {
             'https://www.howdeniberia.com/wp-content/uploads/2018/05/Disney-logo-png-transparent-download.png'
         }}
         timeRangeKpi={{
-          index: 0,
+          index: 0
         }}
         changeTimeRangeKpi={jest.fn()}
         kpis={kpis}

@@ -3,6 +3,24 @@ import { mount } from 'enzyme';
 import ShowBody from '../../../components/Modal/ShowBody';
 import { it, jest } from '@jest/globals';
 
+const accountIDs = [
+  {
+    name: 'WigiBoards',
+    id: 2710112
+  },
+  {
+    name: 'Account 2',
+    id: 7859641
+  },
+  {
+    name: 'Account 3',
+    id: 7859642
+  },
+  {
+    name: 'Account 4',
+    id: 7859642
+  }
+];
 describe('<ShowBody/>', () => {
   it('Render view modal 0 ', () => {
     const bodyRender = mount(
@@ -48,10 +66,12 @@ describe('<ShowBody/>', () => {
         testQuery={jest.fn()}
         handleSaveUpdateQuery={jest.fn()}
         testText="Bad query"
+        resultsTestQuery={{ type: 'default' }}
         goodQuery={false}
         modifiedQuery
         handleChangeTexarea={jest.fn()}
         viewModal={1}
+        accountIDs={accountIDs}
       />
     );
     expect(bodyRender.length).toEqual(1);
