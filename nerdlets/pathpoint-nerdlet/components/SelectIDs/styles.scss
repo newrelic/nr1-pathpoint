@@ -1,9 +1,9 @@
-.custom-select-wrapper {
+.custom-select-wrapper_SelectID {
     position: relative;
     user-select: none;
     width: 100%;
 }
-.custom-select {
+.custom-select_SelectID {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -11,7 +11,7 @@
     border-style: solid;
     border-color: rgb(204, 204, 204);
 }
-.custom-select__trigger {
+.custom-select__trigger_SelectID {
     position: relative;
     display: flex;
     align-items: center;
@@ -28,9 +28,10 @@
     border-style: solid;
     border-color: rgb(204, 204, 204);
 }
-.custom-options {
+.custom-options-SelectID {
     position: absolute;
     display: block;
+    width: 320px;
     top: 100%;
     left: 0;
     right: 0;
@@ -87,7 +88,15 @@
     transform: rotate(-45deg);
     background-color: #394a6d;
 }
+.name-custom-options {
+    display: flex;
+    justify-content: start;
+    width: 250px;
+    white-space: pre-line !important;
+}
 
-.options_box {
-    background-color: red;
+.id-custom-options {
+    display: flex;
+    justify-content: start;
+    width: 70px;
 }
