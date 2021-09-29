@@ -220,25 +220,25 @@ describe('DataManager class', () => {
   it('Function BootstrapInitialData()', async () => {
     const result = await dataManager.BootstrapInitialData();
     expect(result.stages.length).toEqual(5);
-    //expect(result.banner_kpis.length).toEqual(3);
+    // expect(result.banner_kpis.length).toEqual(3);
     expect(result.kpis.length).toEqual(14);
-    expect(result.colors).toEqual(
-      {
-        background_capacity: [19, 72, 104],
-        stage_capacity: [255, 255, 255],
-        status_color: {
-          danger: [255, 76, 76],
-          good: [39, 174, 96],
-          warning: [242, 201, 76]
-        },
-        steps_touchpoints: [{
+    expect(result.colors).toEqual({
+      background_capacity: [19, 72, 104],
+      stage_capacity: [255, 255, 255],
+      status_color: {
+        danger: [255, 76, 76],
+        good: [39, 174, 96],
+        warning: [242, 201, 76]
+      },
+      steps_touchpoints: [
+        {
           dark: [51, 51, 51],
           error_color: [255, 76, 76],
           select_color: [18, 167, 255],
           unselect_color: [189, 189, 189]
-        }]
-      }
-    );
+        }
+      ]
+    });
     expect(result.accountId).toEqual(123);
     expect(result.version).toMatch(appPackage.version);
     expect(result.totalContainers).toEqual(5);
@@ -255,10 +255,9 @@ describe('DataManager class', () => {
   });
 
   it('Function GetInitialDataFromStorage()', async () => {
-    const result = await dataManager.GetInitialDataFromStorage();
     expect(dataManager.stages.length).toEqual(2);
-    //expect(result.kpis.length).toEqual(14);
-    //expect(dataManager.banner_kpis.length).toEqual(2);
+    // expect(result.kpis.length).toEqual(14);
+    // expect(dataManager.banner_kpis.length).toEqual(2);
   });
 
   it('Function GetStepsByStage()', () => {
@@ -1247,7 +1246,7 @@ describe('DataManager class', () => {
     dataManager.banner_kpis = bannerKpi;
     dataManager.UpdateMerchatKpi();
     expect(dataManager.graphQlmeasures).toEqual([
-      /*[
+      /* [
         {
           type: 100,
           description: 'KPI ONE',
@@ -1546,17 +1545,17 @@ describe('DataManager class', () => {
       {
         index: 1,
         title: 'BROWSE',
-        //total_count: 5,
+        // total_count: 5,
         total_count: 0,
         congestion: {
           value: 0,
-          //percentage: 70
+          // percentage: 70
           percentage: 0
         },
         status_color: 'good',
-        //trafficIconType: 'people',
+        // trafficIconType: 'people',
         trafficIconType: 'traffic',
-        //capacity: 4,
+        // capacity: 4,
         capacity: 100,
         steps: [
           {
@@ -1565,7 +1564,7 @@ describe('DataManager class', () => {
               {
                 index: 1,
                 id: 'ST1-LINE1-SS1',
-                //latency: true,
+                // latency: true,
                 latency: false,
                 relationship_touchpoints: [1]
               }
@@ -1602,7 +1601,7 @@ describe('DataManager class', () => {
     };
     const result = dataManager.Getmeasures(element);
     expect(result).toEqual({
-      //count_by_stage: [],
+      // count_by_stage: [],
       total_count: 4,
       count_by_stage: [4, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       sessions_by_stage: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -1687,7 +1686,7 @@ describe('DataManager class', () => {
                 query: 'SIMPLE QUERY OF TYPE 2',
                 type: 2
               },
-              { 
+              {
                 count: 4,
                 query: 'SIMPLE QUERY OF TYPE 3',
                 type: 3,
@@ -1726,7 +1725,7 @@ describe('DataManager class', () => {
                 query: 'SIMPLE QUERY OF TYPE 2',
                 type: 2
               },
-              { 
+              {
                 count: 4,
                 query: 'SIMPLE QUERY OF TYPE 3',
                 type: 3,
@@ -1756,10 +1755,10 @@ describe('DataManager class', () => {
           steps: [
             {
               value: '',
-              valueError:'',
+              valueError: '',
               sub_steps: [
                 {
-                  newValue:'',
+                  newValue: '',
                   index: 1,
                   id: 'ST1-LINE1-SS1',
                   relationship_touchpoints: [1]
@@ -1768,7 +1767,7 @@ describe('DataManager class', () => {
             },
             {
               value: '',
-              valueError:'',
+              valueError: '',
               sub_steps: [
                 {
                   index: 1,
@@ -1948,14 +1947,11 @@ describe('DataManager class', () => {
   //   const result = dataManager.CheckMaxCapacity(200, 0);
   //   expect(result).toEqual(200);
   // });
-  
 
   // it('Function CheckMaxCapacity() with minimun value', () => {
   //   const result = dataManager.CheckMaxCapacity(50, 0);
   //   expect(result).toEqual(400);
   // });
-
-  
 
   // it('Function CheckMaxCapacity() with capacity empty', () => {
   //   dataManager.capacity = [{}];
@@ -2378,7 +2374,7 @@ describe('DataManager class', () => {
       }
     ];
     dataManager.GetMinPercentageError();
-    //expect(dataManager.minPercentageError).toEqual(5);
+    // expect(dataManager.minPercentageError).toEqual(5);
     expect(dataManager.minPercentageError).toEqual(100);
   });
 
@@ -2444,14 +2440,16 @@ describe('DataManager class', () => {
         ]
       }
     ];
-    let kpis = [
+    const kpis = [
       {
         index: 0,
         type: 101,
-        name: "Unique Visitors",
-        shortName: "Unique",
-        link: "https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true",
-        query: "SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago",
+        name: 'Unique Visitors',
+        shortName: 'Unique',
+        link:
+          'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
+        query:
+          'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago',
         value: {
           current: 0,
           previous: 0
@@ -2487,7 +2485,7 @@ describe('DataManager class', () => {
     ];
     const configuration = {
       pathpointVersion: '1.0.0',
-      //banner_kpis: bannerKpi,
+      // banner_kpis: bannerKpi,
       kpis: kpis,
       stages: stages
     };
@@ -2526,14 +2524,16 @@ describe('DataManager class', () => {
         ]
       }
     ];
-    let kpis = [
+    const kpis = [
       {
         index: 0,
         type: 101,
-        name: "Unique Visitors",
-        shortName: "Unique",
-        link: "https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true",
-        query: "SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago",
+        name: 'Unique Visitors',
+        shortName: 'Unique',
+        link:
+          'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
+        query:
+          'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago',
         value: {
           current: 0,
           previous: 0
@@ -2567,10 +2567,10 @@ describe('DataManager class', () => {
         ]
       }
     ];
-    
+
     const configuration = {
       pathpointVersion: '1.0.0',
-      //banner_kpis: bannerKpi,
+      // banner_kpis: bannerKpi,
       kpis: kpis,
       stages: stages
     };
@@ -2752,10 +2752,12 @@ describe('DataManager class', () => {
         {
           index: 0,
           type: 101,
-          name: "Unique Visitors",
-          shortName: "Unique",
-          link: "https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true",
-          query: "SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago",
+          name: 'Unique Visitors',
+          shortName: 'Unique',
+          link:
+            'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
+          query:
+            'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago',
           value: {
             current: 0,
             previous: 0
@@ -2835,10 +2837,12 @@ describe('DataManager class', () => {
       {
         index: 0,
         type: 101,
-        name: "Unique Visitors",
-        shortName: "Unique",
-        link: "https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true",
-        query: "SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago",
+        name: 'Unique Visitors',
+        shortName: 'Unique',
+        link:
+          'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
+        query:
+          'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago',
         value: {
           current: 0,
           previous: 0
@@ -2918,10 +2922,12 @@ describe('DataManager class', () => {
         {
           index: 0,
           type: 101,
-          name: "Unique Visitors",
-          shortName: "Unique",
-          link: "https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true",
-          query: "SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago",
+          name: 'Unique Visitors',
+          shortName: 'Unique',
+          link:
+            'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
+          query:
+            'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago',
           value: {
             current: 0,
             previous: 0
@@ -3673,10 +3679,12 @@ describe('DataManager class', () => {
         status_on_off: true
       };
       const result = dataManager.GetTouchpointTune(touchpoint);
-      expect(result).toEqual([{
-        error_threshold: 0.3
-        //apdex_time: 0
-      }]);
+      expect(result).toEqual([
+        {
+          error_threshold: 0.3
+          // apdex_time: 0
+        }
+      ]);
     });
 
     it('Three measure point', () => {
@@ -3708,11 +3716,13 @@ describe('DataManager class', () => {
         index: 1
       };
       const result = dataManager.GetTouchpointTune(touchpoint);
-      expect(result).toEqual([{
-        //error_threshold: 0.3,
-        //error_threshold: 0.2,
-        apdex_time: 0.5
-      }]);
+      expect(result).toEqual([
+        {
+          // error_threshold: 0.3,
+          // error_threshold: 0.2,
+          apdex_time: 0.5
+        }
+      ]);
     });
   });
 
@@ -3834,7 +3844,7 @@ describe('DataManager class', () => {
                 {
                   type: 0,
                   query: 'SIMPLE QUERY OF TYPE 0',
-                  //error_threshold: 0.3
+                  // error_threshold: 0.3
                   error_threshold: 0.8
                 }
               ]
@@ -3887,7 +3897,7 @@ describe('DataManager class', () => {
                   error_threshold: 0
                 },
                 {
-                  //error_threshold: 0.3
+                  // error_threshold: 0.3
                   error_threshold: 0
                 },
                 {
@@ -3959,7 +3969,7 @@ describe('DataManager class', () => {
                 type: 4,
                 appName: 'SIMPLE QUERY OF TYPE 4',
                 error_threshold: 0.8,
-                query: 'NEW SIMPLE QUERY OF TYPE 4',
+                query: 'NEW SIMPLE QUERY OF TYPE 4'
               }
             ]
           }
@@ -3970,25 +3980,25 @@ describe('DataManager class', () => {
 
   it('Function GetHistoricParameters()', () => {
     const result = dataManager.GetHistoricParameters();
-    expect(result).toEqual({ 
-      //days: 8,
+    expect(result).toEqual({
+      // days: 8,
       hours: 192,
       percentage: 26
     });
   });
 
   it('Function UpdateHistoricParameters()', () => {
-    // ===== AGREGAR EL HISTORIC-ERROR-HOURS YA SE QUITO EL HISTORIC-ERROR-DAYS 
+    // ===== AGREGAR EL HISTORIC-ERROR-HOURS YA SE QUITO EL HISTORIC-ERROR-DAYS
 
-    //dataManager.UpdateHistoricParameters(7, 30);
+    // dataManager.UpdateHistoricParameters(7, 30);
     dataManager.UpdateHistoricParameters(30);
-    //expect(dataManager.historicErrorsDays).toEqual(7);
-    //expect(dataManager.historicErrorsHighLightPercentage).toEqual(30);
+    // expect(dataManager.historicErrorsDays).toEqual(7);
+    // expect(dataManager.historicErrorsHighLightPercentage).toEqual(30);
   });
 
   it('Function GetStorageHistoricErrorsParams()', async () => {
     await dataManager.GetStorageHistoricErrorsParams();
-    //expect(dataManager.historicErrorsDays).toEqual(0);
+    // expect(dataManager.historicErrorsDays).toEqual(0);
     expect(dataManager.historicErrorsHighLightPercentage).toEqual(0);
   });
 
