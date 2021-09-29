@@ -19,7 +19,13 @@ import { HeaderJsonConfigurationFormModal } from './JsonConfigurationFormModal';
 import { HeaderBackgroundProcessesFormModal } from './BackgroundProcessesFormModal';
 
 export default function ShowHeader(props) {
-  const { viewModal, stageNameSelected, changeMessage, accountIDs, changeID } = props;
+  const {
+    viewModal,
+    stageNameSelected,
+    changeMessage,
+    accountIDs,
+    changeID
+  } = props;
   switch (viewModal) {
     case 0:
       return (
