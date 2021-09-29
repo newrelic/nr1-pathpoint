@@ -1,124 +1,138 @@
+/* eslint-disable react/prop-types */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import './styles.scss'
+import './styles.scss';
 
 export default class SelectIDs extends PureComponent {
-    constructor(props) {
-        super(props);
-        this.state = {
-            open: false,
-            selected: 0,
-            idSeleccionado: 0
-        };
-    }
-
-    componentDidMount() {
-        document.addEventListener('mousedown', this.handleClickOutside);
-        const { name, options, idSeleccionado } = this.props;
-        let idIndex = 0;
-        options.map(index => {
-            if (index.id === idSeleccionado){
-                idIndex = options.indexOf(index);
-                this.setState({ selected: parseInt(idIndex) });
-            }
-        })
-    }
-
-    componentWillUnmount() {
-        document.removeEventListener('mousedown', this.handleClickOutside);
-    }
-
-    myRef = React.createRef();
-
-    handleClickOutside = e => {
-        if (!this.myRef.current.contains(e.target)) {
-            this.setState({ visible: false });
-        }
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false,
+      selected: 0,
+      // eslint-disable-next-line react/no-unused-state
+      idSeleccionado: 0
     };
+  }
 
-    clickAction = () => {
-        
-        this.setState(prevState => ({ open: !prevState.open }));
-    };
+  componentDidMount() {
+    document.addEventListener('mousedown', this.handleClickOutside);
+    const { options, idSeleccionado } = this.props;
+    let idIndex = 0;
+    // eslint-disable-next-line array-callback-return
+    options.map(index => {
+      if (index.id === idSeleccionado) {
+        idIndex = options.indexOf(index);
+        this.setState({ selected: parseInt(idIndex) });
+      }
+    });
+  }
 
-    clickSelected = (optionSelected, obj) => {
-        const { name, handleOnChange } = this.props;
-        const event = { target: { value: obj.id, name } };
-        this.setState({ selected: parseInt(optionSelected) });
-        this.props.parentCallBack(event);
-    };
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClickOutside);
+  }
 
-    render() {
-        const { options } = this.props;
-        const { selected, open } = this.state;
-        return (
-            <div
-                className="custom-select-wrapper_SelectID"
-                onClick={this.clickAction}
-                ref={this.myRef}
+  myRef = React.createRef();
+
+  handleClickOutside = e => {
+    if (!this.myRef.current.contains(e.target)) {
+      // eslint-disable-next-line react/no-unused-state
+      this.setState({ visible: false });
+    }
+  };
+
+  clickAction = () => {
+    this.setState(prevState => ({ open: !prevState.open }));
+  };
+
+  clickSelected = (optionSelected, obj) => {
+    const { name } = this.props;
+    const event = { target: { value: obj.id, name } };
+    this.setState({ selected: parseInt(optionSelected) });
+    this.props.parentCallBack(event);
+  };
+
+  render() {
+    const { options } = this.props;
+    const { selected, open } = this.state;
+    return (
+      <div
+        className="custom-select-wrapper_SelectID"
+        onClick={this.clickAction}
+        ref={this.myRef}
+      >
+        <div
+          className="custom-select_SelectID"
+          style={
+            open
+              ? { visibility: 'visible', pointerEvents: 'all', opacity: 1 }
+              : {}
+          }
+        >
+          <div className="custom-select__trigger_SelectID">
+            <span
+              style={{
+                width: '80px',
+                whiteSpace: 'nowrap',
+                textOverflow: 'ellipsis',
+                overflow: 'hidden'
+              }}
             >
-                <div
-                    className="custom-select_SelectID"
-                    style={
-                        open
-                            ? { visibility: 'visible', pointerEvents: 'all', opacity: 1 }
-                            : {}
-                    }
-                >
-                    <div className="custom-select__trigger_SelectID">
-                        <span
-                            style={{
-                                width: '80px',
-                                whiteSpace: 'nowrap',
-                                textOverflow: 'ellipsis',
-                                overflow: 'hidden'
-                            }}
-                        >
-                            {options[selected].id}
-                        </span>
-                        <div className="arrow" />
-                    </div>
-                    <div
-                        className="custom-options-SelectID"
-                        style={
-                            open
-                                ? { visibility: 'visible', pointerEvents: 'all', opacity: 1 }
-                                : {}
-                        }
-                    >
-                        {options.map((obj, index) => (
-                            <span
-                                
-                                key={index}
-                                onClick={() => this.clickSelected(index, obj)}
-                                className={
-                                    selected === index
-                                        ? 'custom-option selected'
-                                        : 'custom-option'
-                                }
-                            >
-                                <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                    <div style={{ display: 'flex', justifyContent: 'start', width: '65%' }}>
-                                        {obj.name}
-                                    </div>
-                                    <div style={{ display: 'flex', justifyContent: 'start', width: '35%' }}>
-                                        {obj.id}
-                                    </div>
-                                </div>
-
-                            </span>
-                        ))}
-                    </div>
+              {options[selected].id}
+            </span>
+            <div className="arrow" />
+          </div>
+          <div
+            className="custom-options-SelectID"
+            style={
+              open
+                ? { visibility: 'visible', pointerEvents: 'all', opacity: 1 }
+                : {}
+            }
+          >
+            {options.map((obj, index) => (
+              <span
+                key={index}
+                onClick={() => this.clickSelected(index, obj)}
+                className={
+                  selected === index
+                    ? 'custom-option selected'
+                    : 'custom-option'
+                }
+              >
+                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'start',
+                      width: '65%'
+                    }}
+                  >
+                    {obj.name}
+                  </div>
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'start',
+                      width: '35%'
+                    }}
+                  >
+                    {obj.id}
+                  </div>
                 </div>
-            </div>
-        )
-    }
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
 SelectIDs.propTypes = {
-    options: PropTypes.array.isRequired,
-    name: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired,
-    handleOnChange: PropTypes.func.isRequired,
-    idSeleccionado: PropTypes.number.isRequired
+  options: PropTypes.array.isRequired,
+  name: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
+  // eslint-disable-next-line react/no-unused-prop-types
+  handleOnChange: PropTypes.func.isRequired,
+  idSeleccionado: PropTypes.number.isRequired
 };
