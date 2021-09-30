@@ -8,6 +8,209 @@ exports[`ShowBody component ShowBody with default data in 0 view 1`] = `
     }
   }
 >
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "row",
+        "justifyContent": "start",
+        "marginBottom": "4px",
+      }
+    }
+  >
+    <div
+      className="selectIDModal"
+      style={
+        Object {
+          "alignItems": "center",
+          "display": "flex",
+          "width": "80px",
+        }
+      }
+    >
+      AccountId
+    </div>
+    <div>
+      <div
+        className="custom-select-wrapper_SelectID"
+        onClick={[Function]}
+      >
+        <div
+          className="custom-select_SelectID"
+          style={Object {}}
+        >
+          <div
+            className="custom-select__trigger_SelectID"
+          >
+            <span
+              style={
+                Object {
+                  "overflow": "hidden",
+                  "textOverflow": "ellipsis",
+                  "whiteSpace": "nowrap",
+                  "width": "80px",
+                }
+              }
+            >
+              2710112
+            </span>
+            <div
+              className="arrow"
+            />
+          </div>
+          <div
+            className="custom-options-SelectID"
+            style={Object {}}
+          >
+            <span
+              className="custom-option selected"
+              onClick={[Function]}
+            >
+              <div
+                style={
+                  Object {
+                    "display": "flex",
+                    "flexDirection": "row",
+                  }
+                }
+              >
+                <div
+                  style={
+                    Object {
+                      "display": "flex",
+                      "justifyContent": "start",
+                      "width": "65%",
+                    }
+                  }
+                >
+                  WigiBoards
+                </div>
+                <div
+                  style={
+                    Object {
+                      "display": "flex",
+                      "justifyContent": "start",
+                      "width": "35%",
+                    }
+                  }
+                >
+                  2710112
+                </div>
+              </div>
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              <div
+                style={
+                  Object {
+                    "display": "flex",
+                    "flexDirection": "row",
+                  }
+                }
+              >
+                <div
+                  style={
+                    Object {
+                      "display": "flex",
+                      "justifyContent": "start",
+                      "width": "65%",
+                    }
+                  }
+                >
+                  Account 2
+                </div>
+                <div
+                  style={
+                    Object {
+                      "display": "flex",
+                      "justifyContent": "start",
+                      "width": "35%",
+                    }
+                  }
+                >
+                  7859641
+                </div>
+              </div>
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              <div
+                style={
+                  Object {
+                    "display": "flex",
+                    "flexDirection": "row",
+                  }
+                }
+              >
+                <div
+                  style={
+                    Object {
+                      "display": "flex",
+                      "justifyContent": "start",
+                      "width": "65%",
+                    }
+                  }
+                >
+                  Account 3
+                </div>
+                <div
+                  style={
+                    Object {
+                      "display": "flex",
+                      "justifyContent": "start",
+                      "width": "35%",
+                    }
+                  }
+                >
+                  7859642
+                </div>
+              </div>
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              <div
+                style={
+                  Object {
+                    "display": "flex",
+                    "flexDirection": "row",
+                  }
+                }
+              >
+                <div
+                  style={
+                    Object {
+                      "display": "flex",
+                      "justifyContent": "start",
+                      "width": "65%",
+                    }
+                  }
+                >
+                  Account 4
+                </div>
+                <div
+                  style={
+                    Object {
+                      "display": "flex",
+                      "justifyContent": "start",
+                      "width": "35%",
+                    }
+                  }
+                >
+                  7859642
+                </div>
+              </div>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <div>
     <form
       className=""
@@ -44,45 +247,7 @@ exports[`ShowBody component ShowBody with default data in 0 view 1`] = `
         }
       >
         <strong>
-          querySample=simple query
-stageNameSelected[selectedCase=0
-datos[0[label=Full Open Query
-query_body=SELECT FILTER(count(*) FROM Log
-query_footer=SINCE 5 MINUTES AGO
-query_start=
-type=20
-value=0
-]
-]
-]
-chargueSample=function () {
-        return fn.apply(this, arguments);
-      }
-testQuery=function () {
-        return fn.apply(this, arguments);
-      }
-handleSaveUpdateQuery=function () {
-        return fn.apply(this, arguments);
-      }
-handleSaveUpdateSupport=function () {
-        return fn.apply(this, arguments);
-      }
-testText=Bad query
-goodQuery=false
-modifiedQuery=true
-handleChangeTexarea=function () {
-        return fn.apply(this, arguments);
-      }
-viewModal=1
-handleSaveUpdateTune=function () {
-        return fn.apply(this, arguments);
-      }
-_onClose=function () {
-        return fn.apply(this, arguments);
-      }
-LogoFormSubmit=function () {
-        return fn.apply(this, arguments);
-      }
+          type=default
 
         </strong>
       </div>

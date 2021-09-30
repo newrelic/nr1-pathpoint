@@ -295,7 +295,8 @@ BodyQueryFormModal.propTypes = {
   resultsTestQuery: PropTypes.object.isRequired,
   goodQuery: PropTypes.bool.isRequired,
   modifiedQuery: PropTypes.bool,
-  accountIDs: PropTypes.object.isRequired
+  // accountIDs: PropTypes.object.isRequired
+  accountIDs: PropTypes.array.isRequired
 };
 
 export { HeaderQueryFormModal, BodyQueryFormModal };
