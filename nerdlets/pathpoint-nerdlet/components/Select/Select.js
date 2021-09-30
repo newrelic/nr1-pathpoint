@@ -39,7 +39,7 @@ export default class Select extends PureComponent {
   };
 
   render() {
-    const { options } = this.props;
+    const { options, width } = this.props;
     const { selected, open } = this.state;
     return (
       <div
@@ -58,7 +58,7 @@ export default class Select extends PureComponent {
           <div className="custom-select__trigger">
             <span
               style={{
-                width: '230px',
+                width: width ?? '230px',
                 whiteSpace: 'nowrap',
                 textOverflow: 'ellipsis',
                 overflow: 'hidden'
@@ -99,5 +99,6 @@ export default class Select extends PureComponent {
 Select.propTypes = {
   options: PropTypes.array.isRequired,
   name: PropTypes.string.isRequired,
-  handleOnChange: PropTypes.func.isRequired
+  handleOnChange: PropTypes.func.isRequired,
+  width: PropTypes.string.isRequired
 };
