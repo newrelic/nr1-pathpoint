@@ -49,7 +49,7 @@ const Stage = ({ stage, onClickStage }) => {
             percentageCongestion={stage.congestion.percentage}
             trafficIconType={stage.trafficIconType}
             textLevelBar={textLevelBar}
-            arrowMode={stage.arrowMode??""}
+            arrowMode={stage.arrowMode ?? ''}
           />
         </div>
         <div className="capacityBar">
