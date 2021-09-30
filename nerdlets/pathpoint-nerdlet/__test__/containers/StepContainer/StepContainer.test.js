@@ -93,11 +93,11 @@ describe('<StepContainer/>', () => {
         steps={steps}
         onclickStep={jest.fn()}
         title=""
-        iconSixthSenseStatus
-        iconGoutStatus
-        latencyStatus
-        iconCanaryStatus
-        iconFireStatus
+        iconSixthSenseStatus={false}
+        iconGoutStatus={false}
+        latencyStatus={false}
+        iconCanaryStatus={false}
+        iconFireStatus={false}
         colors={colors}
       />
     );
@@ -196,11 +196,11 @@ describe('<StepContainer/>', () => {
         steps={stepsObj}
         onclickStep={jest.fn()}
         title=""
-        iconSixthSenseStatus
-        iconGoutStatus
-        latencyStatus
-        iconCanaryStatus
-        iconFireStatus
+        iconSixthSenseStatus={false}
+        iconGoutStatus={false}
+        latencyStatus={false}
+        iconCanaryStatus={false}
+        iconFireStatus={false}
         colors={colors}
       />
     );
