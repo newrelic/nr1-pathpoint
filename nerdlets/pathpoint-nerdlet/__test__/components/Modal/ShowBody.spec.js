@@ -2,6 +2,25 @@ import React from 'react';
 import { create } from 'react-test-renderer';
 import ShowBody from '../../../components/Modal/ShowBody';
 
+const accountIDs = [
+  {
+    name: 'WigiBoards',
+    id: 2710112
+  },
+  {
+    name: 'Account 2',
+    id: 7859641
+  },
+  {
+    name: 'Account 3',
+    id: 7859642
+  },
+  {
+    name: 'Account 4',
+    id: 7859642
+  }
+];
+
 describe('ShowBody component', () => {
   test('ShowBody with default data in 0 view', () => {
     const body = create(
@@ -25,6 +44,7 @@ describe('ShowBody component', () => {
         handleSaveUpdateQuery={jest.fn()}
         handleSaveUpdateSupport={jest.fn()}
         testText="Bad query"
+        resultsTestQuery={{ type: 'default' }}
         goodQuery={false}
         modifiedQuery
         handleChangeTexarea={jest.fn()}
@@ -32,6 +52,7 @@ describe('ShowBody component', () => {
         handleSaveUpdateTune={jest.fn()}
         _onClose={jest.fn()}
         LogoFormSubmit={jest.fn()}
+        accountIDs={accountIDs}
       />
     );
     expect(body.toJSON()).toMatchSnapshot();
