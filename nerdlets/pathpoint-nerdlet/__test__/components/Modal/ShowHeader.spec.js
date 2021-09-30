@@ -14,6 +14,8 @@ describe('ShowHeader component', () => {
           icon_active: true,
           title: 'touchpoint one'
         }}
+        accountIDs={{ type: 'default' }}
+        changeID={1213212}
       />
     );
     expect(header.toJSON()).toMatchSnapshot();

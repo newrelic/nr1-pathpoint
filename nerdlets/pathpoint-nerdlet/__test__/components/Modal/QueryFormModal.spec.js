@@ -5,6 +5,12 @@ import {
   HeaderQueryFormModal
 } from '../../../components/Modal/QueryFormModal';
 
+const accountIDs = [
+  {
+    name: 'WigiBoards',
+    id: 2710112
+  }
+];
 describe('QueryFormModal component', () => {
   test('Render body with default data', () => {
     const body = create(
@@ -31,6 +37,7 @@ describe('QueryFormModal component', () => {
         goodQuery={false}
         modifiedQuery
         handleChangeTexarea={jest.fn()}
+        accountIDs={accountIDs}
       />
     );
     expect(body.toJSON()).toMatchSnapshot();
