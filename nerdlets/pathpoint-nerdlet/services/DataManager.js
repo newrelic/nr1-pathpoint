@@ -299,8 +299,9 @@ export default class DataManager {
     }
   }
 
-  async ReadQueryResults(query) {
+  async ReadQueryResults(query, accountID) {
     const measure = {
+      accountID: accountID,
       type: 'TEST',
       results: null
     };

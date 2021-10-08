@@ -935,7 +935,7 @@ export default class MainContainer extends React.Component {
     );
     let results = '';
     if (goodQuery) {
-      const data = await this.DataManager.ReadQueryResults(query);
+      const data = await this.DataManager.ReadQueryResults(query, accountID);
       results = data.results;
     }
     this.setState({
