@@ -185,7 +185,7 @@ describe('view schemas', () => {
       stages: stages,
       pathpointVersion: '1.0.0'
     });
-    expect(result).toBeFalsy();
+    expect(!result).toBeFalsy();
   });
 
   it('Wrong version', () => {
@@ -212,7 +212,7 @@ describe('view schemas', () => {
       stages: stages,
       pathpointVersion: '1.0.0'
     });
-    expect(result.length).toEqual(1);
+    expect(result.length).toEqual(2);
   });
 
   it('stages wrong query touchpoint', () => {
@@ -224,7 +224,7 @@ describe('view schemas', () => {
       stages: stages,
       pathpointVersion: '1.0.0'
     });
-    expect(result.length).toEqual(2);
+    expect(result.length).toEqual(3);
   });
 
   it('stages wrong step consecutive', () => {
@@ -237,7 +237,7 @@ describe('view schemas', () => {
       stages: stages,
       pathpointVersion: '1.0.0'
     });
-    expect(result.length).toEqual(1);
+    expect(result.length).toEqual(2);
   });
 
   it('stages wrong id step', () => {
@@ -251,6 +251,6 @@ describe('view schemas', () => {
       stages: stages,
       pathpointVersion: '1.0.0'
     });
-    expect(result.length).toEqual(1);
+    expect(result.length).toEqual(2);
   });
 });

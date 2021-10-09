@@ -40,6 +40,8 @@ describe('<QueryFormModal/>', () => {
         accountIDs={accountIDs}
       />
     );
+    // eslint-disable-next-line no-console
+    console.log(bodyQueryForm);
     expect(bodyQueryForm.length).toEqual(1);
   });
 
@@ -229,5 +231,48 @@ describe('<QueryFormModal/>', () => {
     const event = { target: { value: 'sometext' } };
     textArea.simulate('change', event);
     expect(handleChangeTexarea).toHaveBeenCalledTimes(1);
+  });
+
+  it('Simulate handleOnChange selectID', () => {
+    const handleChange = jest.fn();
+    const bodyQueryForm = mount(
+      <BodyQueryFormModal
+        querySample="simple query"
+        stageNameSelected={{
+          datos: [
+            {
+              label: 'Full Open Query',
+              query_body: 'SELECT FILTER(count(*) FROM Log',
+              query_footer: 'SINCE 5 MINUTES AGO',
+              query_start: '',
+              type: 20,
+              value: 0
+            }
+          ]
+        }}
+        chargueSample={jest.fn()}
+        testQuery={jest.fn()}
+        handleSaveUpdateQuery={jest.fn()}
+        testText="good query"
+        resultsTestQuery={{ type: 'default' }}
+        goodQuery
+        modifiedQuery={false}
+        handleChangeTexarea={jest.fn()}
+        accountIDs={accountIDs}
+        handleOnChange={handleChange}
+      />
+    );
+    // bodyQueryForm.instance().clickSelected(1, { value: 1 });
+    // expect(handleChange).toHaveBeenCalledTimes(1);
+    // expect(bodyQueryForm.props('stageNameSelected')).toEqual(1);
+    const SelectIDs = bodyQueryForm.find('SelectIDs');
+    const event = { target: { value: 'sometext' } };
+    SelectIDs.simulate('change', event);
+    // eslint-disable-next-line no-console
+    console.log(bodyQueryForm);
+    const result = handleChange(event);
+    // eslint-disable-next-line no-console
+    console.log(result);
+    expect(handleChange).toHaveBeenCalledTimes(1);
   });
 });
