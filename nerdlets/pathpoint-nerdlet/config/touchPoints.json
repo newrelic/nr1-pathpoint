@@ -17,7 +17,8 @@
             "query": "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
             "min_count": 10,
             "session_count": 0,
-            "accountID": 2904070
+            "accountID": 2904070,
+            "measure_time": "15 minutes ago"
           }
         ]
       },
@@ -80,7 +81,8 @@
             "min_success_percentage": 98,
             "success_percentage": 0,
             "max_duration": 0,
-            "max_request_time": 0
+            "max_request_time": 0,
+            "measure_time": "3 hours ago"
           }
         ]
       },
@@ -212,7 +214,8 @@
             "min_success_percentage": 98,
             "success_percentage": 0,
             "max_duration": 0,
-            "max_request_time": 0
+            "max_request_time": 0,
+            "measure_time": "2 hours ago"
           }
         ]
       },
@@ -369,7 +372,8 @@
             "min_success_percentage": 98,
             "success_percentage": 0,
             "max_duration": 0,
-            "max_request_time": 0
+            "max_request_time": 0,
+            "measure_time": "1 hour ago"
           }
         ]
       },
@@ -425,7 +429,8 @@
             "min_success_percentage": 98,
             "success_percentage": 0,
             "max_duration": 0,
-            "max_request_time": 0
+            "max_request_time": 0,
+            "measure_time": "1 week ago"
           }
         ]
       },
