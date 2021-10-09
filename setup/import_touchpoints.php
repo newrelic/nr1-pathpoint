@@ -62,12 +62,13 @@ while (($datos = fgetcsv($f, 1000, ",")) !== FALSE) {
         }else{
             $touchpointLink = $datos[13];
         }
+        $measureTime = $datos[14];
 
         
         //----------------------------------
         foreach ($stages as $stage) {
             if (valida_stage($stage)) {
-                addTouchpoint(stage_index($stage), $touchpointType, $touchpoint, $steps, $touchpointLink, $tp_query, $min_count, $min_apdex, $max_response_time, $max_error_percentage, $max_avg_response_time, $max_total_check_time, $min_success_percentage,$multiAccountID);
+                addTouchpoint(stage_index($stage), $touchpointType, $touchpoint, $steps, $touchpointLink, $tp_query, $min_count, $min_apdex, $max_response_time, $max_error_percentage, $max_avg_response_time, $max_total_check_time, $min_success_percentage,$multiAccountID, $measureTime);
             }
         }
     }
@@ -167,7 +168,7 @@ function getDashboardLink($link)
     }
 }
 
-function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touchpointLink, $tp_query, $min_count, $min_apdex, $max_response_time, $max_error_percentage, $max_avg_response_time, $max_total_check_time, $min_success_percentage, $multiAccountID)
+function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touchpointLink, $tp_query, $min_count, $min_apdex, $max_response_time, $max_error_percentage, $max_avg_response_time, $max_total_check_time, $min_success_percentage, $multiAccountID, $measureTime)
 {
     global $view;
     global $touchPoints;
@@ -233,6 +234,10 @@ function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touc
     if($multiAccountID !== ''){
         $lastMeasure = count($touchPoints[0]["touchpoints"][$last - 1]["measure_points"]);
         $touchPoints[0]["touchpoints"][$last - 1]["measure_points"][$lastMeasure-1]["accountID"] = (int) $multiAccountID;
+    }
+    if($measureTime !== ''){
+        $lastMeasure = count($touchPoints[0]["touchpoints"][$last - 1]["measure_points"]);
+        $touchPoints[0]["touchpoints"][$last - 1]["measure_points"][$lastMeasure-1]["measure_time"] = $measureTime;
     }
     $view["stages"][$stage_index]["touchpoints"][] = [
         "index" => $tpIndex,
