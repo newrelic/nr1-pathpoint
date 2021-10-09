@@ -12,6 +12,7 @@ describe('SupportFormModal component', () => {
         handleSubmitSupport={jest.fn()}
         handleOnChange={jest.fn()}
         handleSaveUpdateSupport={jest.fn()}
+        width=""
       />
     );
     expect(body.toJSON()).toMatchSnapshot();

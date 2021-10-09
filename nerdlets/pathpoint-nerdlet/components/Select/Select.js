@@ -100,5 +100,5 @@ Select.propTypes = {
   options: PropTypes.array.isRequired,
   name: PropTypes.string.isRequired,
   handleOnChange: PropTypes.func.isRequired,
-  width: PropTypes.string.isRequired
+  width: PropTypes.string
 };

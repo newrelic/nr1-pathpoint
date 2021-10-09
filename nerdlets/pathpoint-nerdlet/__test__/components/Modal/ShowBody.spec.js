@@ -49,6 +49,7 @@ describe('ShowBody component', () => {
         modifiedQuery
         handleChangeTexarea={jest.fn()}
         viewModal={1}
+        width="230px"
         handleSaveUpdateTune={jest.fn()}
         _onClose={jest.fn()}
         LogoFormSubmit={jest.fn()}

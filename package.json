@@ -8,7 +8,8 @@
         "test": "jest -w 1",
         "eslint-check": "eslint nerdlets/",
         "eslint-fix": "eslint nerdlets/ --fix",
-        "coverage": "jest --coverage"
+        "coverage": "jest --coverage",
+        "open:coverage": "start ./coverage/lcov-report/index.html"
     },
     "nr1": {
         "uuid": "4da92288-f951-41c5-a91c-9e45d4864ee9"
