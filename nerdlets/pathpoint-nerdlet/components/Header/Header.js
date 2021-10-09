@@ -290,7 +290,7 @@ const PrintKPI = kpi => {
   }
 };
 
-export { CurrentAndPreviousStatus, RenderLogo, FormatMoney };
+export { CurrentAndPreviousStatus, RenderLogo, FormatMoney, transformK };
 export default Header;
 
 Header.propTypes = {

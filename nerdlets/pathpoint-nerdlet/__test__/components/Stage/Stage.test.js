@@ -11,8 +11,9 @@ describe('<Stage/>', () => {
     }
   };
 
+  // eslint-disable-next-line no-unused-vars
   const congestion1 = {
-    congestion:{
+    congestion: {
       percentage: 10
     }
   };
@@ -38,14 +39,13 @@ describe('<Stage/>', () => {
         }}
         trafficIconType="traffic"
         // ---------------------
-        stage={{ 
+        stage={{
           congestion: {
             percentage: 10
           },
-          arrowMode: "FLOW",
-          trafficIconType: "traffic"
+          arrowMode: 'FLOW',
+          trafficIconType: 'traffic'
         }}
-        onClickStage={jest.fn()}
       />
     );
     expect(wrapper.length).toEqual(1);
@@ -70,14 +70,13 @@ describe('<Stage/>', () => {
           }
         }}
         trafficIconType="traffic"
-        stage={{ 
+        stage={{
           congestion: {
             percentage: 10
           },
-          arrowMode: "FLOW",
-          trafficIconType: "traffic"
+          arrowMode: 'FLOW',
+          trafficIconType: 'traffic'
         }}
-        onClickStage={jest.fn()}
       />
     );
     expect(wrapper.length).toEqual(1);
@@ -102,14 +101,13 @@ describe('<Stage/>', () => {
           }
         }}
         trafficIconType="traffic"
-        stage={{ 
+        stage={{
           congestion: {
             percentage: 10
           },
-          arrowMode: "FLOW",
-          trafficIconType: "traffic"
+          arrowMode: 'FLOW',
+          trafficIconType: 'traffic'
         }}
-        onClickStage={jest.fn()}
       />
     );
     expect(wrapper.length).toEqual(1);
@@ -141,14 +139,13 @@ describe('<Stage/>', () => {
           }
         }}
         trafficIconType="traffic"
-        stage={{ 
+        stage={{
           congestion: {
             percentage: 10
           },
-          arrowMode: "FLOW",
-          trafficIconType: "traffic"
+          arrowMode: 'FLOW',
+          trafficIconType: 'traffic'
         }}
-        onClickStage={jest.fn()}
       />
     );
     expect(wrapper.length).toEqual(1);
@@ -175,15 +172,14 @@ describe('<Stage/>', () => {
           }
         }}
         trafficIconType="traffic"
-        //-----------------
-        stage={{ 
+        // -----------------
+        stage={{
           congestion: {
             percentage: 10
           },
-          arrowMode: "FLOW",
-          trafficIconType: "traffic"
+          arrowMode: 'FLOW',
+          trafficIconType: 'traffic'
         }}
-        onClickStage={jest.fn()}
       />
     );
     wrapper
@@ -191,6 +187,38 @@ describe('<Stage/>', () => {
       .find('div')
       .at(1)
       .simulate('click');
-    expect(clickStage).toHaveBeenCalledTimes(0);
+    expect(clickStage).toHaveBeenCalledTimes(1);
+    // eslint-disable-next-line no-console
+    console.log(wrapper);
+  });
+
+  it('Function transformK', () => {
+    const wrapper = mount(
+      <Stage
+        stage={{
+          title: '',
+          percentageCongestion: 10,
+          valueCongestion: 100000000,
+          index: 2,
+          goutQuantity: 0,
+          status: 'danger',
+          capacityPercentage: 100,
+          totalCountStage: 10,
+          colors: colors,
+          total_count: 0,
+          arrowMode: 'FLOW',
+          trafficIconType: 'traffic',
+          congestion: {
+            value: 0,
+            percentage: 15
+          }
+        }}
+        onClickStage={jest.fn()}
+      />
+    );
+    // const result = wrapper.instance().transformK(100);
+    // eslint-disable-next-line no-console
+    console.log(wrapper.instance());
+    expect(wrapper.length).toEqual(1);
   });
 });
