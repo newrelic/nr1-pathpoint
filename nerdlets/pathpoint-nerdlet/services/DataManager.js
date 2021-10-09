@@ -299,13 +299,13 @@ export default class DataManager {
     }
   }
 
-  async ReadQueryResults(query) {
+  async ReadQueryResults(query, accountID) {
     const measure = {
+      accountID: accountID,
       type: 'TEST',
       results: null
     };
     this.graphQlmeasures.length = 0;
-    query = `${query} SINCE ${this.TimeRangeTransform(this.timeRange, false)}`;
     this.graphQlmeasures.push([measure, query]);
     await this.NRDBQuery();
     return measure;
@@ -314,10 +314,13 @@ export default class DataManager {
   FetchMeasure(measure) {
     this.ClearMeasure(measure);
     if (measure.query !== '') {
-      const query = `${measure.query} SINCE ${this.TimeRangeTransform(
+      let query = `${measure.query} SINCE ${this.TimeRangeTransform(
         this.timeRange,
         false
       )}`;
+      if (measure.measure_time) {
+        query = `${measure.query} SINCE ${measure.measure_time}`;
+      }
       this.graphQlmeasures.push([measure, query]);
     }
   }
@@ -1903,10 +1906,7 @@ for (const [key, value] of Object.entries(return` +
                   type: 'PRC',
                   query_start: '',
                   query_body: measure.query,
-                  query_footer: `SINCE ${this.TimeRangeTransform(
-                    this.timeRange,
-                    false
-                  )}`
+                  query_footer: this.ValidateMeasureTime(measure)
                 });
               } else if (measure.type === 'PCC') {
                 datos.push({
@@ -1916,10 +1916,7 @@ for (const [key, value] of Object.entries(return` +
                   type: 'PCC',
                   query_start: '',
                   query_body: measure.query,
-                  query_footer: `SINCE ${this.TimeRangeTransform(
-                    this.timeRange,
-                    false
-                  )}`
+                  query_footer: this.ValidateMeasureTime(measure)
                 });
               } else if (measure.type === 'APP') {
                 datos.push({
@@ -1929,10 +1926,7 @@ for (const [key, value] of Object.entries(return` +
                   type: 'APP',
                   query_start: '',
                   query_body: measure.query,
-                  query_footer: `SINCE ${this.TimeRangeTransform(
-                    this.timeRange,
-                    false
-                  )}`
+                  query_footer: this.ValidateMeasureTime(measure)
                 });
               } else if (measure.type === 'FRT') {
                 datos.push({
@@ -1942,10 +1936,7 @@ for (const [key, value] of Object.entries(return` +
                   type: 'FRT',
                   query_start: '',
                   query_body: measure.query,
-                  query_footer: `SINCE ${this.TimeRangeTransform(
-                    this.timeRange,
-                    false
-                  )}`
+                  query_footer: this.ValidateMeasureTime(measure)
                 });
               } else if (measure.type === 'SYN') {
                 datos.push({
@@ -1955,10 +1946,7 @@ for (const [key, value] of Object.entries(return` +
                   type: 'SYN',
                   query_start: '',
                   query_body: measure.query,
-                  query_footer: `SINCE ${this.TimeRangeTransform(
-                    this.timeRange,
-                    false
-                  )}`
+                  query_footer: this.ValidateMeasureTime(measure)
                 });
               }
               actualValue++;
@@ -1970,6 +1958,13 @@ for (const [key, value] of Object.entries(return` +
       return found1;
     });
     return datos;
+  }
+
+  ValidateMeasureTime(measure) {
+    if (measure.measure_time) {
+      return `SINCE ${measure.measure_time}`;
+    }
+    return `SINCE ${this.TimeRangeTransform(this.timeRange, false)}`;
   }
 
   UpdateTouchpointTune(touchpoint, datos) {

@@ -182,7 +182,7 @@ function BodyQueryFormModal(props) {
                   }}
                   onClick={
                     /* istanbul ignore next */ () => {
-                      testQuery(query_body, value);
+                      testQuery(`${query_body} ${query_footer}`, value);
                     }
                   }
                 >
