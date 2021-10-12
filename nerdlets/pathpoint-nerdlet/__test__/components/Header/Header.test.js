@@ -3,9 +3,22 @@ import { mount } from 'enzyme';
 import Header, {
   transformK,
   FormatMoney,
-  RenderLogo
+  RenderLogo,
+  PrintKPI
 } from '../../../components/Header/Header';
 
+jest.mock(
+  'nr1',
+  () => {
+    const window = {
+      open: jest.fn()
+    };
+    return {
+      window
+    };
+  },
+  { virtual: true }
+);
 describe('<Header/>', () => {
   describe('Mount component', () => {
     it('Banner kpis initial', () => {
@@ -197,8 +210,6 @@ describe('<Header/>', () => {
         .at(0)
         .simulate('click');
       expect(handleAddToCart).toHaveBeenCalledTimes(1);
-      // eslint-disable-next-line no-console
-      console.log(handleAddToCart);
     });
 
     it('Simulate click toggleHeaderButtons with flame status', () => {
@@ -704,6 +715,15 @@ describe('<Header/>', () => {
       const result = FormatMoney({});
       expect(result).toMatch('$0.00');
     });
+
+    it('incorrect value', () => {
+      const amount = [];
+      const decimalCount = false;
+      const DisplayConsole = jest.fn();
+      const result = FormatMoney(amount, DisplayConsole, decimalCount);
+      expect(result).toMatch('$0');
+      DisplayConsole('error', 'Error Message');
+    });
   });
 
   describe('Function RenderLogo', () => {
@@ -767,5 +787,66 @@ describe('<Header/>', () => {
       const result = transformK(value);
       expect(result).toEqual('100');
     });
+  });
+
+  describe('Function PrintKPI', () => {
+    it('kpi = 100', () => {
+      const kpi = {
+        index: 0,
+        type: 100,
+        name: 'Unique Visitors',
+        shortName: 'Unique',
+        link:
+          'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
+        query:
+          'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago',
+        value: {
+          current: 0,
+          previous: 0
+        },
+        check: true
+      };
+      const result = PrintKPI(kpi);
+      expect(result).toBeTruthy();
+    });
+  });
+  it('kpi = 101', () => {
+    const kpi = {
+      index: 0,
+      type: 101,
+      name: 'Unique Visitors',
+      shortName: 'Unique',
+      link:
+        'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
+      query:
+        'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago',
+      value: {
+        current: 0,
+        previous: 0
+      },
+      check: true
+    };
+    const result = PrintKPI(kpi);
+    expect(result).toBeTruthy();
+  });
+
+  it('kpi = 102', () => {
+    const kpi = {
+      index: 0,
+      type: 102,
+      name: 'Unique Visitors',
+      shortName: 'Unique',
+      link:
+        'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
+      query:
+        'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago',
+      value: {
+        current: 0,
+        previous: 0
+      },
+      check: true
+    };
+    const result = PrintKPI(kpi);
+    expect(result).toBeTruthy();
   });
 });

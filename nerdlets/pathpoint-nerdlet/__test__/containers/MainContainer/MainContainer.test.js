@@ -1093,6 +1093,91 @@ describe('<MainContainer/>', () => {
     instance.chargueSample(0);
   });
 
+  it('chargueSample with PRC-COUNT-QUERY', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.state.stageNameSelected = {
+      datos: [
+        {
+          label: 'PRC-COUNT-QUERY'
+        }
+      ]
+    };
+    instance.chargueSample(0);
+  });
+
+  it('chargueSample with PCC-COUNT-QUERY', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.state.stageNameSelected = {
+      datos: [
+        {
+          label: 'PCC-COUNT-QUERY'
+        }
+      ]
+    };
+    instance.chargueSample(0);
+  });
+
+  it('chargueSample with APP-HEALTH-QUERY', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.state.stageNameSelected = {
+      datos: [
+        {
+          label: 'APP-HEALTH-QUERY'
+        }
+      ]
+    };
+    instance.chargueSample(0);
+  });
+
+  it('chargueSample with FRT-HEALTH-QUERY', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.state.stageNameSelected = {
+      datos: [
+        {
+          label: 'FRT-HEALTH-QUERY'
+        }
+      ]
+    };
+    instance.chargueSample(0);
+  });
+
+  it('chargueSample with SYN-CHECK-QUERY', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.state.stageNameSelected = {
+      datos: [
+        {
+          label: 'SYN-CHECK-QUERY'
+        }
+      ]
+    };
+    instance.chargueSample(0);
+  });
+
+  it('chargueSample with selectedCase', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.state.stageNameSelected = {
+      selectedCase: 0,
+      datos: [
+        {
+          label: 'Count Query'
+        }
+      ]
+    };
+    instance.chargueSample(0);
+  });
+
   it('testQuery', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
@@ -1446,5 +1531,37 @@ describe('<MainContainer/>', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
     instance.DisplayConsole('warning', 'Warning Message');
+  });
+
+  it('changeTimeRangeKpi ', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.timeRangeKpi = { index: 0, range: 'none' };
+    instance.changeTimeRangeKpi({ value: 'none' }, 0);
+  });
+
+  it('updateDataKpisChecked  ', () => {
+    const kpi = {
+      index: 0,
+      type: 101,
+      name: 'Unique Visitors',
+      shortName: 'Unique',
+      link:
+        'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
+      query:
+        'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago',
+      value: {
+        current: 0,
+        previous: 0
+      },
+      check: true
+    };
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.DataManager = {
+      SaveKpisSelection: jest.fn()
+    };
+    instance.state.kpis = kpi;
+    instance.updateDataKpisChecked();
   });
 });

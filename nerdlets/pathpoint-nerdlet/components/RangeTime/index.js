@@ -53,6 +53,7 @@ class index extends Component {
           <div className="options">
             {options.map((option, index) => (
               <div
+                id="optionsBox"
                 key={index}
                 className={
                   index === timeRangeKpi.index
