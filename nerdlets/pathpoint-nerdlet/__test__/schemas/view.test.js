@@ -253,4 +253,34 @@ describe('view schemas', () => {
     });
     expect(result.length).toEqual(2);
   });
+
+  it('stages wrong dashboard_url with no includes http', () => {
+    stages[0].touchpoints[0].dashboard_url = ['://google.com'];
+    const result = CustomSchemaValidation({
+      stages: stages,
+      pathpointVersion: '1.0.0'
+    });
+    expect(result.length).toEqual(3);
+  });
+
+  it('error return false', () => {
+    stages[0].touchpoints[0].dashboard_url = ['https://google.com'];
+    stages[0].touchpoints[0].related_steps = '';
+    stages[0].steps = [
+      {
+        line: 1,
+        values: [
+          {
+            title: 'Web',
+            id: 'ST1-LINE2-SS1'
+          }
+        ]
+      }
+    ];
+    const result = CustomSchemaValidation({
+      stages: stages,
+      pathpointVersion: '1.5.8'
+    });
+    expect(result).toEqual(false);
+  });
 });

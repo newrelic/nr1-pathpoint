@@ -13,6 +13,7 @@ const accountIDs = [
 ];
 describe('<QueryFormModal/>', () => {
   it('Render body', () => {
+    const resultsTestQuery = { str: 'asd', array: ['asd', 'ter'] };
     const bodyQueryForm = mount(
       <BodyQueryFormModal
         querySample="simple query"
@@ -25,7 +26,8 @@ describe('<QueryFormModal/>', () => {
               query_footer: 'SINCE 5 MINUTES AGO',
               query_start: '',
               type: 20,
-              value: 0
+              value: 0,
+              accountID: 2710112
             }
           ]
         }}
@@ -33,15 +35,13 @@ describe('<QueryFormModal/>', () => {
         testQuery={jest.fn()}
         handleSaveUpdateQuery={jest.fn()}
         testText="Bad query"
-        resultsTestQuery={{ type: 'default' }}
+        resultsTestQuery={resultsTestQuery}
         goodQuery={false}
         modifiedQuery
         handleChangeTexarea={jest.fn()}
         accountIDs={accountIDs}
       />
     );
-    // eslint-disable-next-line no-console
-    console.log(bodyQueryForm);
     expect(bodyQueryForm.length).toEqual(1);
   });
 
@@ -234,7 +234,7 @@ describe('<QueryFormModal/>', () => {
   });
 
   it('Simulate handleOnChange selectID', () => {
-    const handleChange = jest.fn();
+    const handleOnChange = jest.fn();
     const bodyQueryForm = mount(
       <BodyQueryFormModal
         querySample="simple query"
@@ -246,7 +246,8 @@ describe('<QueryFormModal/>', () => {
               query_footer: 'SINCE 5 MINUTES AGO',
               query_start: '',
               type: 20,
-              value: 0
+              value: 0,
+              accountID: 2710112
             }
           ]
         }}
@@ -259,20 +260,11 @@ describe('<QueryFormModal/>', () => {
         modifiedQuery={false}
         handleChangeTexarea={jest.fn()}
         accountIDs={accountIDs}
-        handleOnChange={handleChange}
+        handleOnChange={handleOnChange}
       />
     );
-    // bodyQueryForm.instance().clickSelected(1, { value: 1 });
-    // expect(handleChange).toHaveBeenCalledTimes(1);
-    // expect(bodyQueryForm.props('stageNameSelected')).toEqual(1);
-    const SelectIDs = bodyQueryForm.find('SelectIDs');
-    const event = { target: { value: 'sometext' } };
-    SelectIDs.simulate('change', event);
-    // eslint-disable-next-line no-console
-    console.log(bodyQueryForm);
-    const result = handleChange(event);
-    // eslint-disable-next-line no-console
-    console.log(result);
-    expect(handleChange).toHaveBeenCalledTimes(1);
+    // const event = { target: { value: 2710112 } };
+    expect(bodyQueryForm.length).toEqual(1);
+    expect(handleOnChange).toHaveBeenCalledTimes(0);
   });
 });

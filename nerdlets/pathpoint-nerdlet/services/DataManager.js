@@ -392,7 +392,9 @@ export default class DataManager {
         const c = key.split('_');
         if (value !== null) {
           if (c[0] === 'measure') {
-            const measure = this.graphQlmeasures[Number(c[1])][0];
+            // eslint-disable-next-line no-console
+            console.log(this.graphQlmeasures);
+            const measure = this.graphQlmeasures[Number(c[1])][0] ?? [];
             // const query = this.graphQlmeasures[Number(c[1])][1];
             // console.log('Query:',query);
             if (
@@ -1306,7 +1308,7 @@ export default class DataManager {
     let substepIndex = 1;
     this.stages.length = 0;
     this.touchPoints.length = 0;
-    this.kpis = this.kpis ?? [];
+    this.kpis = [];
     this.kpis.length = 0;
     this.touchPoints.push({
       index: 0,
