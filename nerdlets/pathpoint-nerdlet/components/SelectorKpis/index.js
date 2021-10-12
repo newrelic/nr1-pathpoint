@@ -80,6 +80,7 @@ class index extends Component {
               {filterKpis.map((kpi, index) => (
                 <div key={index} className="listKpis__content--item">
                   <Checkbox
+                    id="checkbox"
                     checked={kpi.check}
                     onChange={() => this.handleCheckKpi(kpi)}
                   />

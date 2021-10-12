@@ -57,13 +57,10 @@ describe('<RangeTime/>', () => {
         }}
       />
     );
-    wrapper
-      //   .find('.options')
-      .find('div')
-      .at(1)
-      .simulate('click');
-    // eslint-disable-next-line no-console
-    console.log(wrapper);
+    wrapper.setState({
+      visible: true
+    });
+    wrapper.find('#optionsBox').simulate('click');
     expect(wrapper.state('selected')).toEqual(0);
   });
 });

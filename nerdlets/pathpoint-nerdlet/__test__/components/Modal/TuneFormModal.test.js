@@ -90,24 +90,54 @@ describe('<QueryFormModal/>', () => {
     expect(handleSubmitTune).toHaveBeenCalledTimes(1);
   });
 
-  // it('Simulate onChange of input', () => {
-  //   const onChange = jest.fn();
-  //   const bodyTuneForm = mount(
-  //     <renderField
-  //       id=""
-  //       name=""
-  //       label="text"
-  //       defaultValue=""
-  //       onChange={onChange}
-  //     />
-  //   );
-  //   // eslint-disable-next-line no-console
-  //   console.log(bodyTuneForm.instance());
-  //   // const input = bodyTuneForm.find('input').first();
-  //   // const event = { target: { value: 'sometext' } };
-  //   // input.simulate('change', event);
-  //   expect(onChange).toHaveBeenCalledTimes(0);
-  // });
+  it('Simulate onChange of input', () => {
+    const onChange = jest.fn();
+    const bodyRender = mount(
+      <BodyTuneFormModal
+        handleOnChange={jest.fn()}
+        handleSubmitTune={jest.fn()}
+        stageNameSelected={{
+          selectedCase: {
+            value: 0
+          },
+          datos: [
+            {
+              type: 'SYN',
+              query:
+                "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE monitorName='BDB Live person'",
+              max_avg_response_time: 0.7,
+              max_total_check_time: 1.25,
+              min_success_percentage: 98,
+              success_percentage: 0,
+              max_duration: 0,
+              max_request_time: 0
+            }
+          ]
+        }}
+        renderField={onChange}
+        handleSaveUpdateTune={jest.fn()}
+      />
+    );
+    // const result = bodyRender.renderField({
+    //   id: 'min_success_percentage',
+    //   name: 'min_success_percentage',
+    //   label: '% Success Rate (Min)',
+    //   defaultValue: 98,
+    //   onChange: onChange
+    // });
+    // const bodyTuneForm = mount(
+    //   <renderField
+    //     id="min_success_percentage"
+    //     name="min_success_percentage"
+    //     label="% Success Rate (Min)"
+    //     defaultValue={98}
+    //     onChange={onChange}
+    //   />
+    // );
+    // eslint-disable-next-line no-console
+    console.log(bodyRender.instance());
+    expect(onChange).toHaveBeenCalledTimes(0);
+  });
 
   it('RenderForm view case PRC', () => {
     const bodyRender = mount(
