@@ -4707,6 +4707,15 @@ describe('DataManager class', () => {
   // });
 
   it('Function UpdateData()', async () => {
+    dataManager.graphQlmeasures = [
+      [
+        {
+          type: 0,
+          query: 'BAD REQUEST ON PURPOSE'
+        },
+        'BAD REQUEST ON PURPOSE'
+      ]
+    ];
     dataManager.accountId = 123;
     const measures = [
       {
