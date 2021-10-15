@@ -392,9 +392,9 @@ export default class DataManager {
         const c = key.split('_');
         if (value !== null) {
           if (c[0] === 'measure') {
-            // eslint-disable-next-line no-console
-            console.log(this.graphQlmeasures);
             const measure = this.graphQlmeasures[Number(c[1])][0] ?? [];
+            // eslint-disable-next-line no-console
+            console.log(measure);
             // const query = this.graphQlmeasures[Number(c[1])][1];
             // console.log('Query:',query);
             if (

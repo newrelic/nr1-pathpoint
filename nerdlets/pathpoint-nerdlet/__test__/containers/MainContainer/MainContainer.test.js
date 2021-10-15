@@ -490,7 +490,7 @@ describe('<MainContainer/>', () => {
     instance.onClickStage(1);
   });
 
-  it('InitLogoSetupData', () => {
+  it('InitLogoSetupData', async () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
     instance.LogoSetupData = {
