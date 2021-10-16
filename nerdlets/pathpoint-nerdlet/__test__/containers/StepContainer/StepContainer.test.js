@@ -58,9 +58,17 @@ describe('<StepContainer/>', () => {
     const result = wrapper.instance().calculateIndex();
     expect(result.length).toEqual(3);
     expect(result).toEqual([
-      { value: '', sub_steps: [[Object], [Object]], index: 1 },
-      { value: '', sub_steps: [[Object], [Object]], index: 2 },
-      { value: '', sub_steps: [[Object], [Object]], index: 3 }
+      {
+        value: '',
+        sub_steps: [{ dotted: false }, { dotted: false }],
+        index: 1
+      },
+      {
+        value: '',
+        sub_steps: [{ dotted: false }, { dotted: false }],
+        index: 2
+      },
+      { value: '', sub_steps: [{ dotted: false }, { dotted: false }], index: 3 }
     ]);
   });
   it('checking calculateIndex with sub_steps.dotted some true', () => {
@@ -118,9 +126,17 @@ describe('<StepContainer/>', () => {
     const result = wrapper.instance().calculateIndex();
     expect(result.length).toEqual(3);
     expect(result).toEqual([
-      { value: '', sub_steps: [[Object], [Object]], dotted: true },
-      { value: '', sub_steps: [[Object], [Object]], index: 1 },
-      { value: '', sub_steps: [[Object], [Object]], index: 2 }
+      {
+        value: '',
+        sub_steps: [{ dotted: true }, { dotted: false }],
+        dotted: true
+      },
+      {
+        value: '',
+        sub_steps: [{ dotted: false }, { dotted: false }],
+        index: 1
+      },
+      { value: '', sub_steps: [{ dotted: false }, { dotted: false }], index: 2 }
     ]);
   });
   it('checking calculateIndex with sub_steps.dotted all true', () => {
@@ -178,9 +194,21 @@ describe('<StepContainer/>', () => {
     const result = wrapper.instance().calculateIndex();
     expect(result.length).toEqual(3);
     expect(result).toEqual([
-      { value: '', sub_steps: [[Object], [Object]], dotted: true },
-      { value: '', sub_steps: [[Object], [Object]], dotted: true },
-      { value: '', sub_steps: [[Object], [Object]], dotted: true }
+      {
+        value: '',
+        sub_steps: [{ dotted: true }, { dotted: false }],
+        dotted: true
+      },
+      {
+        value: '',
+        sub_steps: [{ dotted: false }, { dotted: true }],
+        dotted: true
+      },
+      {
+        value: '',
+        sub_steps: [{ dotted: true }, { dotted: true }],
+        dotted: true
+      }
     ]);
   });
   it('checking calculateIndex with value != vacio', () => {
@@ -238,9 +266,21 @@ describe('<StepContainer/>', () => {
     const result = wrapper.instance().calculateIndex();
     expect(result.length).toEqual(3);
     expect(result).toEqual([
-      { value: ' ', sub_steps: [[Object], [Object]], index: 1 },
-      { value: '*', sub_steps: [[Object], [Object]], index: 2 },
-      { value: '', sub_steps: [[Object], [Object]], dotted: true }
+      {
+        value: ' ',
+        sub_steps: [{ dotted: true }, { dotted: false }],
+        index: 1
+      },
+      {
+        value: '*',
+        sub_steps: [{ dotted: false }, { dotted: true }],
+        index: 2
+      },
+      {
+        value: '',
+        sub_steps: [{ dotted: true }, { dotted: true }],
+        dotted: true
+      }
     ]);
   });
 });
