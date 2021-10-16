@@ -3,91 +3,44 @@ import { shallow } from 'enzyme';
 import StepContainer from '../../../containers/StepContainer/StepContainer';
 
 describe('<StepContainer/>', () => {
-  it('Steps with substeps', () => {
+  it('checking calculateIndex with sub_steps.dotted all false', () => {
     const steps = [
       {
         value: '',
         sub_steps: [
           {
-            index: 1,
-            id: 'ST1-LINE2-SS1',
-            canary_state: false,
-            latency: false,
-            value: 'Login',
-            dark: false,
-            sixth_sense: false,
-            history_error: false,
-            dotted: true,
-            highlighted: false,
-            error: false,
-            index_stage: 1,
-            relationship_touchpoints: [3]
+            dotted: false
           },
           {
-            index: 2,
-            id: 'ST1-LINE2-SS2',
-            canary_state: false,
-            latency: false,
-            value: 'Signup',
-            dark: false,
-            sixth_sense: false,
-            history_error: false,
-            dotted: false,
-            highlighted: false,
-            error: false,
-            index_stage: 1,
-            relationship_touchpoints: [4]
+            dotted: false
           }
         ]
       },
       {
-        index: 3,
-        id: 'ST1-LINE2-SS2',
-        canary_state: false,
-        latency: false,
-        value: 'Signup',
-        dark: false,
-        sixth_sense: false,
-        history_error: false,
-        dotted: false,
-        highlighted: false,
-        error: false,
-        index_stage: 1,
-        relationship_touchpoints: [4]
+        value: '',
+        sub_steps: [
+          {
+            dotted: false
+          },
+          {
+            dotted: false
+          }
+        ]
       },
       {
-        index: 4,
-        id: 'ST1-LINE2-SS3',
-        canary_state: false,
-        latency: false,
-        value: 'Guest',
-        dark: false,
-        sixth_sense: false,
-        history_error: false,
-        dotted: false,
-        highlighted: false,
-        error: false,
-        index_stage: 1,
-        relationship_touchpoints: []
+        value: '',
+        sub_steps: [
+          {
+            dotted: false
+          },
+          {
+            dotted: false
+          }
+        ]
       }
     ];
-    const colors = {
-      background_capacity: [19, 72, 104],
-      stage_capacity: [255, 255, 255],
-      status_color: {
-        danger: [255, 76, 76],
-        warning: [242, 201, 76],
-        good: [39, 174, 96]
-      },
-      steps_touchpoints: [
-        {
-          select_color: [18, 167, 255],
-          unselect_color: [189, 189, 189],
-          error_color: [255, 76, 76],
-          dark: [51, 51, 51]
-        }
-      ]
-    };
+    const colors = {};
+    const totalContainers = 1;
     const wrapper = shallow(
       <StepContainer
         steps={steps}
@@ -99,101 +52,58 @@ describe('<StepContainer/>', () => {
         iconCanaryStatus={false}
         iconFireStatus={false}
         colors={colors}
+        totalContainers={totalContainers}
       />
     );
-
     const result = wrapper.instance().calculateIndex();
     expect(result.length).toEqual(3);
+    expect(result).toEqual([
+      { value: '', sub_steps: [[Object], [Object]], index: 1 },
+      { value: '', sub_steps: [[Object], [Object]], index: 2 },
+      { value: '', sub_steps: [[Object], [Object]], index: 3 }
+    ]);
   });
-
-  it('Steps with render', () => {
-    const stepsObj = [
+  it('checking calculateIndex with sub_steps.dotted some true', () => {
+    const steps = [
       {
         value: '',
         sub_steps: [
           {
-            index: 1,
-            id: 'ST1-LINE2-SS1',
-            canary_state: false,
-            latency: false,
-            value: 'Login',
-            dark: false,
-            sixth_sense: false,
-            history_error: false,
-            dotted: true,
-            highlighted: false,
-            error: false,
-            index_stage: 1,
-            relationship_touchpoints: [3]
+            dotted: true
           },
           {
-            index: 2,
-            id: 'ST1-LINE2-SS2',
-            canary_state: false,
-            latency: false,
-            value: 'Signup',
-            dark: false,
-            sixth_sense: false,
-            history_error: false,
-            dotted: false,
-            highlighted: false,
-            error: false,
-            index_stage: 1,
-            relationship_touchpoints: [4]
+            dotted: false
           }
         ]
       },
       {
-        index: 3,
-        id: 'ST1-LINE2-SS2',
-        canary_state: false,
-        latency: false,
-        value: 'Signup',
-        dark: false,
-        sixth_sense: false,
-        history_error: false,
-        dotted: false,
-        highlighted: false,
-        error: false,
-        index_stage: 1,
-        relationship_touchpoints: [4]
+        value: '',
+        sub_steps: [
+          {
+            dotted: false
+          },
+          {
+            dotted: false
+          }
+        ]
       },
       {
-        index: 4,
-        id: 'ST1-LINE2-SS3',
-        canary_state: false,
-        latency: false,
-        value: 'Guest',
-        dark: false,
-        sixth_sense: false,
-        history_error: false,
-        dotted: false,
-        highlighted: false,
-        error: false,
-        index_stage: 1,
-        relationship_touchpoints: []
+        value: '',
+        sub_steps: [
+          {
+            dotted: false
+          },
+          {
+            dotted: false
+          }
+        ]
       }
     ];
-    const colors = {
-      background_capacity: [19, 72, 104],
-      stage_capacity: [255, 255, 255],
-      status_color: {
-        danger: [255, 76, 76],
-        warning: [242, 201, 76],
-        good: [39, 174, 96]
-      },
-      steps_touchpoints: [
-        {
-          select_color: [18, 167, 255],
-          unselect_color: [189, 189, 189],
-          error_color: [255, 76, 76],
-          dark: [51, 51, 51]
-        }
-      ]
-    };
-    const stepContainer = shallow(
+    const colors = {};
+    const totalContainers = 1;
+    const wrapper = shallow(
       <StepContainer
-        steps={stepsObj}
+        steps={steps}
         onclickStep={jest.fn()}
         title=""
         iconSixthSenseStatus={false}
@@ -202,8 +112,135 @@ describe('<StepContainer/>', () => {
         iconCanaryStatus={false}
         iconFireStatus={false}
         colors={colors}
+        totalContainers={totalContainers}
       />
     );
-    expect(stepContainer.length).toEqual(1);
+    const result = wrapper.instance().calculateIndex();
+    expect(result.length).toEqual(3);
+    expect(result).toEqual([
+      { value: '', sub_steps: [[Object], [Object]], dotted: true },
+      { value: '', sub_steps: [[Object], [Object]], index: 1 },
+      { value: '', sub_steps: [[Object], [Object]], index: 2 }
+    ]);
+  });
+  it('checking calculateIndex with sub_steps.dotted all true', () => {
+    const steps = [
+      {
+        value: '',
+        sub_steps: [
+          {
+            dotted: true
+          },
+          {
+            dotted: false
+          }
+        ]
+      },
+      {
+        value: '',
+        sub_steps: [
+          {
+            dotted: false
+          },
+          {
+            dotted: true
+          }
+        ]
+      },
+      {
+        value: '',
+        sub_steps: [
+          {
+            dotted: true
+          },
+          {
+            dotted: true
+          }
+        ]
+      }
+    ];
+    const colors = {};
+    const totalContainers = 1;
+    const wrapper = shallow(
+      <StepContainer
+        steps={steps}
+        onclickStep={jest.fn()}
+        title=""
+        iconSixthSenseStatus={false}
+        iconGoutStatus={false}
+        latencyStatus={false}
+        iconCanaryStatus={false}
+        iconFireStatus={false}
+        colors={colors}
+        totalContainers={totalContainers}
+      />
+    );
+    const result = wrapper.instance().calculateIndex();
+    expect(result.length).toEqual(3);
+    expect(result).toEqual([
+      { value: '', sub_steps: [[Object], [Object]], dotted: true },
+      { value: '', sub_steps: [[Object], [Object]], dotted: true },
+      { value: '', sub_steps: [[Object], [Object]], dotted: true }
+    ]);
+  });
+  it('checking calculateIndex with value != vacio', () => {
+    const steps = [
+      {
+        value: ' ',
+        sub_steps: [
+          {
+            dotted: true
+          },
+          {
+            dotted: false
+          }
+        ]
+      },
+      {
+        value: '*',
+        sub_steps: [
+          {
+            dotted: false
+          },
+          {
+            dotted: true
+          }
+        ]
+      },
+      {
+        value: '',
+        sub_steps: [
+          {
+            dotted: true
+          },
+          {
+            dotted: true
+          }
+        ]
+      }
+    ];
+    const colors = {};
+    const totalContainers = 1;
+    const wrapper = shallow(
+      <StepContainer
+        steps={steps}
+        onclickStep={jest.fn()}
+        title=""
+        iconSixthSenseStatus={false}
+        iconGoutStatus={false}
+        latencyStatus={false}
+        iconCanaryStatus={false}
+        iconFireStatus={false}
+        colors={colors}
+        totalContainers={totalContainers}
+      />
+    );
+    const result = wrapper.instance().calculateIndex();
+    expect(result.length).toEqual(3);
+    expect(result).toEqual([
+      { value: ' ', sub_steps: [[Object], [Object]], index: 1 },
+      { value: '*', sub_steps: [[Object], [Object]], index: 2 },
+      { value: '', sub_steps: [[Object], [Object]], dotted: true }
+    ]);
   });
 });
