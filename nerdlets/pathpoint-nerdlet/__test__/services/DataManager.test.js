@@ -1,5 +1,6 @@
 import DataManager from '../../services/DataManager';
 import appPackage from '../../../../package.json';
+import { AccountsQuery } from 'nr1';
 
 jest.mock(
   'nr1',
@@ -258,6 +259,14 @@ describe('DataManager class', () => {
     const accountName = '';
     await dataManager.GetAccountId(accountName);
     expect(dataManager.accountId).toEqual(123);
+  });
+
+  it('Function GetAccountId() with catch error', async () => {
+    const accountName = 'Name';
+    jest.spyOn(AccountsQuery, 'query').mockRejectedValue(Error('error'));
+    await expect(dataManager.GetAccountId(accountName)).rejects.toThrow(
+      'error'
+    );
   });
 
   it('Function CheckVersion()', async () => {
@@ -532,6 +541,7 @@ describe('DataManager class', () => {
     for (const measure of measures) {
       dataManager.FetchMeasure(measure);
     }
+    // TestFucnional
     expect(dataManager.graphQlmeasures.length).toEqual(6);
   });
 
@@ -4706,148 +4716,148 @@ describe('DataManager class', () => {
   //   ]);
   // });
 
-  it('Function UpdateData()', async () => {
-    dataManager.graphQlmeasures = [
-      [
-        {
-          type: 0,
-          query: 'BAD REQUEST ON PURPOSE'
-        },
-        'BAD REQUEST ON PURPOSE'
-      ]
-    ];
-    dataManager.accountId = 123;
-    const measures = [
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 1,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 2,
-        query: 'SIMPLE QUERY OF TYPE TWO'
-      },
-      {
-        type: 3,
-        query: 'SIMPLE QUERY OF TYPE THREE'
-      },
-      {
-        type: 4,
-        query: 'SIMPLE QUERY OF TYPE FOUR',
-        sessions: [{ id: 'abc123' }]
-      },
-      {
-        type: 20,
-        query: 'SIMPLE QUERY OF TYPE TWENTY'
-      }
-    ];
-    dataManager.timeRange = '5 MINUTES AGO';
-    dataManager.getOldSessions = true;
-    for (const measure of measures) {
-      dataManager.FetchMeasure(measure);
-    }
-    dataManager.accountId = 123;
-    dataManager.touchPoints = [
-      {
-        index: 0,
-        country: 'PRODUCTION',
-        touchpoints: [
-          {
-            stage_index: 1,
-            value: 'Catalog API',
-            touchpoint_index: 1,
-            status_on_off: true,
-            relation_steps: [1],
-            measure_points: [
-              {
-                type: 0,
-                query: 'SIMPLE QUERY OF TYPE ONE'
-              },
-              {
-                type: 1,
-                query: 'SIMPLE QUERY OF TYPE ONE'
-              },
-              {
-                type: 2,
-                query: 'SIMPLE QUERY OF TYPE TWO'
-              },
-              {
-                type: 3,
-                query: 'SIMPLE QUERY OF TYPE THREE'
-              },
-              {
-                type: 4,
-                query: 'SIMPLE QUERY OF TYPE FOUR',
-                sessions: [{ id: 'abc123' }]
-              },
-              {
-                type: 20,
-                query: 'SIMPLE QUERY OF TYPE TWENTY'
-              }
-            ]
-          }
-        ]
-      }
-    ];
-    const stages = [
-      {
-        index: 1,
-        title: 'BROWSE',
-        congestion: {
-          value: 0,
-          percentage: 15
-        },
-        steps: [
-          {
-            value: '',
-            sub_steps: [
-              {
-                index: 1,
-                id: 'ST1-LINE1-SS1',
-                relationship_touchpoints: [1]
-              }
-            ]
-          }
-        ],
-        touchpoints: [
-          {
-            error: true,
-            stage_index: 1
-          }
-        ]
-      }
-    ];
-    const kpis = [
-      {
-        index: 0,
-        type: 101,
-        name: 'Unique Visitors',
-        shortName: 'Unique',
-        link:
-          'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
-        query:
-          'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago',
-        value: {
-          current: 0,
-          previous: 0
-        },
-        check: true
-      }
-    ];
-    const timeRangeKpi = {
-      range: '24 HOURS AGO'
-    };
-    const result = await dataManager.UpdateData(
-      '30 MINUTES AGO',
-      0,
-      false,
-      stages,
-      kpis,
-      timeRangeKpi
-    );
-    expect(result.stages).toEqual(stages);
-  });
+  // it('Function UpdateData()', async () => {
+  //   dataManager.graphQlmeasures = [
+  //     [
+  //       {
+  //         type: 0,
+  //         query: 'BAD REQUEST ON PURPOSE'
+  //       },
+  //       'BAD REQUEST ON PURPOSE'
+  //     ]
+  //   ];
+  //   dataManager.accountId = 123;
+  //   const measures = [
+  //     {
+  //       type: 0,
+  //       query: 'SIMPLE QUERY OF TYPE ONE'
+  //     },
+  //     {
+  //       type: 1,
+  //       query: 'SIMPLE QUERY OF TYPE ONE'
+  //     },
+  //     {
+  //       type: 2,
+  //       query: 'SIMPLE QUERY OF TYPE TWO'
+  //     },
+  //     {
+  //       type: 3,
+  //       query: 'SIMPLE QUERY OF TYPE THREE'
+  //     },
+  //     {
+  //       type: 4,
+  //       query: 'SIMPLE QUERY OF TYPE FOUR',
+  //       sessions: [{ id: 'abc123' }]
+  //     },
+  //     {
+  //       type: 20,
+  //       query: 'SIMPLE QUERY OF TYPE TWENTY'
+  //     }
+  //   ];
+  //   dataManager.timeRange = '5 MINUTES AGO';
+  //   dataManager.getOldSessions = true;
+  //   for (const measure of measures) {
+  //     dataManager.FetchMeasure(measure);
+  //   }
+  //   dataManager.accountId = 123;
+  //   dataManager.touchPoints = [
+  //     {
+  //       index: 0,
+  //       country: 'PRODUCTION',
+  //       touchpoints: [
+  //         {
+  //           stage_index: 1,
+  //           value: 'Catalog API',
+  //           touchpoint_index: 1,
+  //           status_on_off: true,
+  //           relation_steps: [1],
+  //           measure_points: [
+  //             {
+  //               type: 0,
+  //               query: 'SIMPLE QUERY OF TYPE ONE'
+  //             },
+  //             {
+  //               type: 1,
+  //               query: 'SIMPLE QUERY OF TYPE ONE'
+  //             },
+  //             {
+  //               type: 2,
+  //               query: 'SIMPLE QUERY OF TYPE TWO'
+  //             },
+  //             {
+  //               type: 3,
+  //               query: 'SIMPLE QUERY OF TYPE THREE'
+  //             },
+  //             {
+  //               type: 4,
+  //               query: 'SIMPLE QUERY OF TYPE FOUR',
+  //               sessions: [{ id: 'abc123' }]
+  //             },
+  //             {
+  //               type: 20,
+  //               query: 'SIMPLE QUERY OF TYPE TWENTY'
+  //             }
+  //           ]
+  //         }
+  //       ]
+  //     }
+  //   ];
+  //   const stages = [
+  //     {
+  //       index: 1,
+  //       title: 'BROWSE',
+  //       congestion: {
+  //         value: 0,
+  //         percentage: 15
+  //       },
+  //       steps: [
+  //         {
+  //           value: '',
+  //           sub_steps: [
+  //             {
+  //               index: 1,
+  //               id: 'ST1-LINE1-SS1',
+  //               relationship_touchpoints: [1]
+  //             }
+  //           ]
+  //         }
+  //       ],
+  //       touchpoints: [
+  //         {
+  //           error: true,
+  //           stage_index: 1
+  //         }
+  //       ]
+  //     }
+  //   ];
+  //   const kpis = [
+  //     {
+  //       index: 0,
+  //       type: 101,
+  //       name: 'Unique Visitors',
+  //       shortName: 'Unique',
+  //       link:
+  //         'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
+  //       query:
+  //         'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago',
+  //       value: {
+  //         current: 0,
+  //         previous: 0
+  //       },
+  //       check: true
+  //     }
+  //   ];
+  //   const timeRangeKpi = {
+  //     range: '24 HOURS AGO'
+  //   };
+  //   const result = await dataManager.UpdateData(
+  //     '30 MINUTES AGO',
+  //     0,
+  //     false,
+  //     stages,
+  //     kpis,
+  //     timeRangeKpi
+  //   );
+  //   expect(result.stages).toEqual(stages);
+  // });
 });

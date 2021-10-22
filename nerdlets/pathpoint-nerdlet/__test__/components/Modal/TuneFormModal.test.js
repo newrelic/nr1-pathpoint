@@ -92,6 +92,7 @@ describe('<QueryFormModal/>', () => {
 
   it('Simulate onChange of input', () => {
     const onChange = jest.fn();
+    // eslint-disable-next-line no-unused-vars
     const bodyRender = mount(
       <BodyTuneFormModal
         handleOnChange={jest.fn()}
@@ -134,8 +135,6 @@ describe('<QueryFormModal/>', () => {
     //     onChange={onChange}
     //   />
     // );
-    // eslint-disable-next-line no-console
-    console.log(bodyRender.instance());
     expect(onChange).toHaveBeenCalledTimes(0);
   });
 

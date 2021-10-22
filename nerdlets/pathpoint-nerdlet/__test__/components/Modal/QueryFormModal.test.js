@@ -263,7 +263,6 @@ describe('<QueryFormModal/>', () => {
         handleOnChange={handleOnChange}
       />
     );
-    // const event = { target: { value: 2710112 } };
     expect(bodyQueryForm.length).toEqual(1);
     expect(handleOnChange).toHaveBeenCalledTimes(0);
   });

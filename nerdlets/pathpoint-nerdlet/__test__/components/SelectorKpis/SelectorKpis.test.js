@@ -4,6 +4,7 @@ import SelectorKpis from '../../../components/SelectorKpis';
 
 describe('<SelectorKpis/>', () => {
   it('Render default', () => {
+    // Test de componente pasando variablessin crashear
     const listKpi = [
       {
         index: 0,
