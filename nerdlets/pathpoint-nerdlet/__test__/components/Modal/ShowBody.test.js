@@ -338,6 +338,7 @@ describe('<ShowBody/>', () => {
         name: 'url'
       }
     });
+    // TestFuncional
     expect(bodyRender.state('url')).toMatch('sometext');
   });
 

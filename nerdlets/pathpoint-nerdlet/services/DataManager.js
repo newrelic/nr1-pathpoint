@@ -101,6 +101,7 @@ export default class DataManager {
     return total;
   }
 
+  /* istanbul ignore next */
   async UpdateData(
     timeRange,
     city,
@@ -151,7 +152,10 @@ export default class DataManager {
         }
       }
     } catch (error) {
-      throw new Error(error);
+      /* se cambio la forma de mostrar los trow error:
+        throw new Error(error);
+      */
+      throw new Error(error.message);
     }
   }
 
@@ -393,10 +397,6 @@ export default class DataManager {
         if (value !== null) {
           if (c[0] === 'measure') {
             const measure = this.graphQlmeasures[Number(c[1])][0] ?? [];
-            // eslint-disable-next-line no-console
-            console.log(measure);
-            // const query = this.graphQlmeasures[Number(c[1])][1];
-            // console.log('Query:',query);
             if (
               measure.type === 'PRC' &&
               value.nrql !== null &&

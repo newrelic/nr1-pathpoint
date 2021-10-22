@@ -225,6 +225,7 @@ const FormatMoney = (
         : ''
     }`;
   } catch (e) {
+    /* istanbul ignore next */
     DisplayConsole('error', `Error in format money ${e}`);
   }
 };

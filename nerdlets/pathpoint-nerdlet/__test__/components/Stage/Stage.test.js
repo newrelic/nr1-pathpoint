@@ -216,9 +216,6 @@ describe('<Stage/>', () => {
         onClickStage={jest.fn()}
       />
     );
-    // const result = wrapper.instance().transformK(100);
-    // eslint-disable-next-line no-console
-    console.log(wrapper.instance());
     expect(wrapper.length).toEqual(1);
   });
 
@@ -278,9 +275,6 @@ describe('<Stage/>', () => {
         onClickStage={jest.fn()}
       />
     );
-    // const result = wrapper.instance().transformK(100);
-    // eslint-disable-next-line no-console
-    console.log(wrapper.instance());
     expect(wrapper.length).toEqual(1);
   });
 });
