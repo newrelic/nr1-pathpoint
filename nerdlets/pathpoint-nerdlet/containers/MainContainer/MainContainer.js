@@ -628,8 +628,6 @@ export default class MainContainer extends React.Component {
       this._onClose();
     }
     if (iconFireStatus) {
-      // eslint-disable-next-line no-console
-      console.log(iconFireStatus);
       const data = await this.DataManager.ReadHistoricErrors();
       this.setState(
         {
@@ -1053,8 +1051,6 @@ export default class MainContainer extends React.Component {
   };
 
   handleSaveUpdateSupport = values => {
-    // const mesagge = 'entro para prueba';
-    // console.log(mesagge);
     const { subject, name, email, phone, message, account, company } = values;
     const datos = {
       subject: subject,
