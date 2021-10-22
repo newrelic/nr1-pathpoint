@@ -7,9 +7,9 @@ import PropTypes from 'prop-types';
 import DiamondBlue from '../../images/DiamondBlue.svg';
 import DiamondWhite from '../../images/Diamond.svg';
 import Arrow from '../Arrow/Arrow';
-import dangerHeart from '../../images/heart_red.svg';
-import goodHeart from '../../images/heart_green.svg';
-import warningHeart from '../../images/heart_yellow.svg';
+import dangerHeart from '../../images/Red.svg';
+import goodHeart from '../../images/Green.svg';
+import warningHeart from '../../images/Yellow.svg';
 
 const Stage = ({ stage, onClickStage }) => {
   const textLevelBar = ``;
@@ -27,7 +27,7 @@ const Stage = ({ stage, onClickStage }) => {
         <div className="growFlex4">
           <div className="contentHealth growFlex4">
             <span className="growFlex4">
-              <img style={{ height: '25px' }} src={healthIcon} />
+              <img style={{ height: '10px' }} src={healthIcon} />
               <span className="brakeTittle">{`${stage.title}`}</span>
             </span>
             <span className="quantiyTitleStage">{`${transformK(
