@@ -400,16 +400,14 @@ export default class MainContainer extends React.Component {
           } else {
             flag = step.highlighted;
             step.highlighted = !step.highlighted;
-            for (const id_touchpoint of step.sub_steps[0]
-              .relationship_touchpoints) {
+            // for (const id_touchpoint of step.sub_steps[0]
+            //   .relationship_touchpoints) {
+            //   touchpoint.push(id_touchpoint);
+            // }
+            // =====> Definir bien la funcion, (antigua funcion)
+            for (const id_touchpoint of step.relationship_touchpoints) {
               touchpoint.push(id_touchpoint);
             }
-            /*
-              =====> Definir bien la funcion, (antigua funcion)
-              for (const id_touchpoint of step.relationship_touchpoints) {
-              touchpoint.push(id_touchpoint);
-            }
-            */
           }
         } else {
           step.highlighted = false;

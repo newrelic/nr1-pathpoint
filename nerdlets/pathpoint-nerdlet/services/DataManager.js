@@ -381,18 +381,22 @@ export default class DataManager {
 
   async NRDBQuery() {
     const { data, errors, n } = await this.EvaluateMeasures();
+    // this.SendToLoging(data, errors);
     if (n === 0) {
       return 0;
     }
     if (errors && errors.length > 0) {
-      console.log('NRDB- Error:',errors);
+      console.log('NRDB- Error:', errors);
     }
     if (data && data.actor) {
       for (const [key, value] of Object.entries(data.actor)) {
         const c = key.split('_');
         if (value !== null) {
           if (c[0] === 'measure') {
-            const measure = this.graphQlmeasures[Number(c[1])][0] ?? [];
+            const measure = this.graphQlmeasures[Number(c[1])][0];
+            // const query = this.graphQlmeasures[Number(c[1])][1];
+            // console.log('Query:',query);
+            // console.log('Result',value);
             if (
               measure.type === 'PRC' &&
               value.nrql !== null &&
@@ -547,6 +551,7 @@ export default class DataManager {
           control + itemsByPage
         );
         dataSplit.forEach(nrql => {
+          accountID = this.accountId;
           if (Reflect.has(nrql[0], 'accountID')) {
             accountID = nrql[0].accountID;
           }
@@ -580,6 +585,7 @@ export default class DataManager {
     } else {
       this.graphQlmeasures.forEach(nrql => {
         // check if the measure is MULTI-ACCOUNT
+        accountID = this.accountId;
         if (Reflect.has(nrql[0], 'accountID')) {
           accountID = nrql[0].accountID;
         }

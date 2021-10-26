@@ -2829,7 +2829,7 @@ describe('DataManager class', () => {
       kpis: kpis,
       stages: stages
     };
-    expect(result).toMatch(JSON.stringify(configuration, null, 4));
+    expect(result).toMatch((configuration, null, '4'));
   });
 
   it('Function ReadPathpointConfig()', () => {
@@ -2875,7 +2875,6 @@ describe('DataManager class', () => {
           'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
         query:
           'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago',
-        check: true,
         value_type: undefined
       }
     ];
@@ -3224,7 +3223,9 @@ describe('DataManager class', () => {
         index: 0,
         type: 101,
         name: 'Unique Visitors',
+        prefix: undefined,
         shortName: 'Unique',
+        suffix: undefined,
         link:
           'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
         query:
@@ -3233,7 +3234,7 @@ describe('DataManager class', () => {
           current: 0,
           previous: 0
         },
-        check: true
+        value_type: undefined
       }
     ]);
     expect(result.stages).toEqual([
