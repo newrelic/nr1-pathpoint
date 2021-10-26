@@ -385,7 +385,7 @@ export default class DataManager {
       return 0;
     }
     if (errors && errors.length > 0) {
-      // TO DO
+      console.log('NRDB- Error:',errors);
     }
     if (data && data.actor) {
       for (const [key, value] of Object.entries(data.actor)) {
@@ -1134,8 +1134,7 @@ export default class DataManager {
         query: this.kpis[i].query,
         value_type: this.kpis[i].value_type,
         prefix: this.kpis[i].prefix,
-        suffix: this.kpis[i].suffix,
-        check: this.kpis[i].check
+        suffix: this.kpis[i].suffix
       };
       this.configuration.kpis.push(kpi);
     }
@@ -1325,8 +1324,7 @@ export default class DataManager {
         query: kpi.query,
         value_type: kpi.value_type,
         prefix: kpi.prefix,
-        suffix: kpi.suffix,
-        check: kpi.check
+        suffix: kpi.suffix
       };
       index++;
       if (kpi.type === 100) {
