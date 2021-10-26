@@ -25,8 +25,7 @@ export default {
             'query',
             'value_type',
             'prefix',
-            'suffix',
-            'check'
+            'suffix'
           ],
           properties: {
             type: {
@@ -55,9 +54,6 @@ export default {
             },
             suffix: {
               type: 'string'
-            },
-            check: {
-              type: 'boolean'
             }
           }
         }
