@@ -75,26 +75,14 @@ exports[`QueryFormModal component Render body with default data 1`] = `
                 }
               >
                 <div
-                  style={
-                    Object {
-                      "display": "flex",
-                      "justifyContent": "start",
-                      "width": "65%",
-                    }
-                  }
-                >
-                  WigiBoards
-                </div>
-                <div
-                  style={
-                    Object {
-                      "display": "flex",
-                      "justifyContent": "start",
-                      "width": "35%",
-                    }
-                  }
+                  className="id-custom-options"
                 >
                   2710112
+                </div>
+                <div
+                  className="name-custom-options"
+                >
+                  WigiBoards
                 </div>
               </div>
             </span>

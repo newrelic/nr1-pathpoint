@@ -75,27 +75,15 @@ exports[`ShowBody component ShowBody with default data in 0 view 1`] = `
                 }
               >
                 <div
-                  style={
-                    Object {
-                      "display": "flex",
-                      "justifyContent": "start",
-                      "width": "65%",
-                    }
-                  }
-                >
-                  WigiBoards
-                </div>
-                <div
-                  style={
-                    Object {
-                      "display": "flex",
-                      "justifyContent": "start",
-                      "width": "35%",
-                    }
-                  }
+                  className="id-custom-options"
                 >
                   2710112
                 </div>
+                <div
+                  className="name-custom-options"
+                >
+                  WigiBoards
+                </div>
               </div>
             </span>
             <span
@@ -111,27 +99,15 @@ exports[`ShowBody component ShowBody with default data in 0 view 1`] = `
                 }
               >
                 <div
-                  style={
-                    Object {
-                      "display": "flex",
-                      "justifyContent": "start",
-                      "width": "65%",
-                    }
-                  }
-                >
-                  Account 2
-                </div>
-                <div
-                  style={
-                    Object {
-                      "display": "flex",
-                      "justifyContent": "start",
-                      "width": "35%",
-                    }
-                  }
+                  className="id-custom-options"
                 >
                   7859641
                 </div>
+                <div
+                  className="name-custom-options"
+                >
+                  Account 2
+                </div>
               </div>
             </span>
             <span
@@ -147,27 +123,15 @@ exports[`ShowBody component ShowBody with default data in 0 view 1`] = `
                 }
               >
                 <div
-                  style={
-                    Object {
-                      "display": "flex",
-                      "justifyContent": "start",
-                      "width": "65%",
-                    }
-                  }
+                  className="id-custom-options"
+                >
+                  7859642
+                </div>
+                <div
+                  className="name-custom-options"
                 >
                   Account 3
                 </div>
-                <div
-                  style={
-                    Object {
-                      "display": "flex",
-                      "justifyContent": "start",
-                      "width": "35%",
-                    }
-                  }
-                >
-                  7859642
-                </div>
               </div>
             </span>
             <span
@@ -183,26 +147,14 @@ exports[`ShowBody component ShowBody with default data in 0 view 1`] = `
                 }
               >
                 <div
-                  style={
-                    Object {
-                      "display": "flex",
-                      "justifyContent": "start",
-                      "width": "65%",
-                    }
-                  }
-                >
-                  Account 4
-                </div>
-                <div
-                  style={
-                    Object {
-                      "display": "flex",
-                      "justifyContent": "start",
-                      "width": "35%",
-                    }
-                  }
+                  className="id-custom-options"
                 >
                   7859642
+                </div>
+                <div
+                  className="name-custom-options"
+                >
+                  Account 4
                 </div>
               </div>
             </span>
