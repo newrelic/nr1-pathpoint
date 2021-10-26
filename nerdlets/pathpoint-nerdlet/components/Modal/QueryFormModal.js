@@ -84,6 +84,7 @@ function BodyQueryFormModal(props) {
   );
   stageNameSelected.datos[value].accountID = idSeleccionado;
   const handleChange = childData => {
+    /* istanbul ignore next */
     stageNameSelected.datos[value].accountID = childData.target.value;
   };
   const query_body = stageNameSelected.datos[value].query_body;

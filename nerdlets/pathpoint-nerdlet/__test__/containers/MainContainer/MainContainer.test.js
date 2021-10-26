@@ -16,6 +16,8 @@ jest.mock(
           switch (collection) {
             case 'pathpoint': {
               switch (documentId) {
+                case 'logoSetupData':
+                  return { type: 'default' };
                 case 'version':
                   return { data: { Version: '9.9.9' } };
                 case 'newViewJSON':
@@ -312,6 +314,23 @@ const colors = {
   ]
 };
 
+const kpis = [
+  {
+    index: 0,
+    type: 101,
+    name: 'Unique Visitors',
+    shortName: 'Unique',
+    link:
+      'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
+    query: 'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago',
+    value: {
+      current: 0,
+      previous: 0
+    },
+    check: true
+  }
+];
+
 const canaryData = [
   {
     stage_index: 1,
@@ -423,13 +442,24 @@ describe('<MainContainer/>', () => {
   it('BoootstrapApplication', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
+    instance.setState({
+      stages: stages,
+      colors: colors,
+      version: '1.0.0',
+      accountId: 123,
+      kpis: kpis,
+      totalContainers: 0,
+      accountIDs: [{ name: 'NAME', id: 0 }]
+    });
     instance.DataManager = {
       BootstrapInitialData: jest.fn().mockReturnValue({
         stages,
-        banner_kpis,
         colors,
         version: '1.0.0',
-        accountId: 1234
+        accountId: 1234,
+        kpis,
+        totalContainers: 0,
+        accountIDs: [{ name: 'NAME', id: 0 }]
       })
     };
     instance.InitLogoSetupData = jest.fn();
@@ -490,7 +520,7 @@ describe('<MainContainer/>', () => {
     instance.onClickStage(1);
   });
 
-  it('InitLogoSetupData', () => {
+  it('InitLogoSetupData', async () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
     instance.LogoSetupData = {
@@ -498,7 +528,7 @@ describe('<MainContainer/>', () => {
         type: 'default'
       })
     };
-    instance.InitLogoSetupData(1234);
+    instance.InitLogoSetupData(2710112);
   });
 
   it('onclickStep', () => {
@@ -521,6 +551,154 @@ describe('<MainContainer/>', () => {
     };
     instance.ResetAllStages = jest.fn();
     instance.onclickStep(stepEntry);
+    expect(instance.state.stages).toEqual([
+      {
+        index: 1,
+        title: 'BROWSE',
+        latencyStatus: true,
+        status_color: 'good',
+        gout_enable: false,
+        gout_quantity: 150,
+        money_enabled: false,
+        trafficIconType: 'traffic',
+        money: '',
+        icon_active: false,
+        icon_description: 'medal',
+        icon_visible: false,
+        congestion: {
+          value: 0,
+          percentage: 15
+        },
+        capacity: 0,
+        total_count: 0,
+        active_dotted: 'none',
+        active_dotted_color: '#828282',
+        steps: [
+          {
+            value: '',
+            index_stage: 1,
+            sub_steps: [
+              {
+                index: 1,
+                id: 'ST1-LINE1-SS1',
+                canary_state: false,
+                latency: true,
+                value: 'Web',
+                dark: false,
+                history_error: false,
+                dotted: false,
+                highlighted: true,
+                error: false,
+                index_stage: 1,
+                relationship_touchpoints: [1]
+              }
+            ]
+          }
+        ],
+        touchpoints: [
+          {
+            index: 1,
+            stage_index: 1,
+            status_on_off: true,
+            active: false,
+            value: 'Catalog API',
+            highlighted: true,
+            error: false,
+            history_error: false,
+            countrys: [0],
+            dashboard_url: [
+              'https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NDg'
+            ],
+            relation_steps: [1]
+          }
+        ]
+      }
+    ]);
+  });
+
+  it('onclickStep with substep.value != stepentry.value', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    const stepEntry = {
+      canary_state: false,
+      dark: false,
+      dotted: false,
+      error: false,
+      highlighted: true,
+      history_error: false,
+      id: 'ST1-LINE1-SS1',
+      index: 1,
+      index_stage: 1,
+      latency: false,
+      relationship_touchpoints: [1],
+      value: 'Test'
+    };
+    instance.ResetAllStages = jest.fn();
+    instance.onclickStep(stepEntry);
+    expect(instance.state.stages).toEqual([
+      {
+        index: 1,
+        title: 'BROWSE',
+        latencyStatus: true,
+        status_color: 'good',
+        gout_enable: false,
+        gout_quantity: 150,
+        money_enabled: false,
+        trafficIconType: 'traffic',
+        money: '',
+        icon_active: false,
+        icon_description: 'medal',
+        icon_visible: false,
+        congestion: {
+          value: 0,
+          percentage: 15
+        },
+        capacity: 0,
+        total_count: 0,
+        active_dotted: 'none',
+        active_dotted_color: '#828282',
+        steps: [
+          {
+            value: '',
+            index_stage: 1,
+            sub_steps: [
+              {
+                index: 1,
+                id: 'ST1-LINE1-SS1',
+                canary_state: false,
+                latency: true,
+                value: 'Web',
+                dark: false,
+                history_error: false,
+                dotted: false,
+                highlighted: false,
+                error: false,
+                index_stage: 1,
+                relationship_touchpoints: [1]
+              }
+            ]
+          }
+        ],
+        touchpoints: [
+          {
+            index: 1,
+            stage_index: 1,
+            status_on_off: true,
+            active: false,
+            value: 'Catalog API',
+            highlighted: false,
+            error: false,
+            history_error: false,
+            countrys: [0],
+            dashboard_url: [
+              'https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NDg'
+            ],
+            relation_steps: [1]
+          }
+        ]
+      }
+    ]);
   });
 
   it('onclickStep with iconFireStatus', () => {
@@ -544,6 +722,69 @@ describe('<MainContainer/>', () => {
     };
     instance.ResetAllStages = jest.fn();
     instance.onclickStep(stepEntry);
+    expect(instance.state.stages).toEqual([
+      {
+        index: 1,
+        title: 'BROWSE',
+        latencyStatus: true,
+        status_color: 'good',
+        gout_enable: false,
+        gout_quantity: 150,
+        money_enabled: false,
+        trafficIconType: 'traffic',
+        money: '',
+        icon_active: false,
+        icon_description: 'medal',
+        icon_visible: false,
+        congestion: {
+          value: 0,
+          percentage: 15
+        },
+        capacity: 0,
+        total_count: 0,
+        active_dotted: 'none',
+        active_dotted_color: '#828282',
+        steps: [
+          {
+            value: '',
+            index_stage: 1,
+            sub_steps: [
+              {
+                index: 1,
+                id: 'ST1-LINE1-SS1',
+                canary_state: false,
+                latency: true,
+                value: 'Web',
+                dark: false,
+                history_error: false,
+                dotted: false,
+                highlighted: true,
+                error: false,
+                index_stage: 1,
+                relationship_touchpoints: [1]
+              }
+            ]
+          }
+        ],
+        touchpoints: [
+          {
+            index: 1,
+            stage_index: 1,
+            status_on_off: true,
+            active: false,
+            value: 'Catalog API',
+            highlighted: true,
+            error: false,
+            history_error: false,
+            countrys: [0],
+            dashboard_url: [
+              'https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NDg'
+            ],
+            relation_steps: [1]
+          }
+        ]
+      }
+    ]);
   });
 
   it('onclickStep with iconCanaryStatus', () => {
@@ -572,6 +813,69 @@ describe('<MainContainer/>', () => {
     };
     instance.ResetAllStages = jest.fn();
     instance.onclickStep(stepEntry);
+    expect(instance.state.stages).toEqual([
+      {
+        index: 1,
+        title: 'BROWSE',
+        latencyStatus: true,
+        status_color: 'good',
+        gout_enable: false,
+        gout_quantity: 150,
+        money_enabled: false,
+        trafficIconType: 'traffic',
+        money: '',
+        icon_active: false,
+        icon_description: 'medal',
+        icon_visible: false,
+        congestion: {
+          value: 0,
+          percentage: 15
+        },
+        capacity: 0,
+        total_count: 0,
+        active_dotted: 'none',
+        active_dotted_color: '#828282',
+        steps: [
+          {
+            value: '',
+            index_stage: 1,
+            sub_steps: [
+              {
+                index: 1,
+                id: 'ST1-LINE1-SS1',
+                canary_state: true,
+                latency: true,
+                value: 'Web',
+                dark: false,
+                history_error: false,
+                dotted: false,
+                highlighted: true,
+                error: false,
+                index_stage: 1,
+                relationship_touchpoints: [1]
+              }
+            ]
+          }
+        ],
+        touchpoints: [
+          {
+            index: 1,
+            stage_index: 1,
+            status_on_off: true,
+            active: false,
+            value: 'Catalog API',
+            highlighted: false,
+            error: false,
+            history_error: false,
+            countrys: [0],
+            dashboard_url: [
+              'https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NDg'
+            ],
+            relation_steps: [1]
+          }
+        ]
+      }
+    ]);
   });
 
   it('onclickStep with step.value', () => {
@@ -601,6 +905,70 @@ describe('<MainContainer/>', () => {
     };
     instance.ResetAllStages = jest.fn();
     instance.onclickStep(stepEntry);
+    expect(instance.state.stages).toEqual([
+      {
+        index: 1,
+        title: 'BROWSE',
+        latencyStatus: true,
+        status_color: 'good',
+        gout_enable: false,
+        gout_quantity: 150,
+        money_enabled: false,
+        trafficIconType: 'traffic',
+        money: '',
+        icon_active: false,
+        icon_description: 'medal',
+        icon_visible: false,
+        congestion: {
+          value: 0,
+          percentage: 15
+        },
+        capacity: 0,
+        total_count: 0,
+        active_dotted: 'none',
+        active_dotted_color: '#828282',
+        steps: [
+          {
+            value: 'test',
+            index_stage: 1,
+            highlighted: false,
+            sub_steps: [
+              {
+                index: 1,
+                id: 'ST1-LINE1-SS1',
+                canary_state: true,
+                latency: true,
+                value: 'Web',
+                dark: false,
+                history_error: false,
+                dotted: false,
+                highlighted: true,
+                error: false,
+                index_stage: 1,
+                relationship_touchpoints: [1]
+              }
+            ]
+          }
+        ],
+        touchpoints: [
+          {
+            index: 1,
+            stage_index: 1,
+            status_on_off: true,
+            active: false,
+            value: 'Catalog API',
+            highlighted: false,
+            error: false,
+            history_error: false,
+            countrys: [0],
+            dashboard_url: [
+              'https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NDg'
+            ],
+            relation_steps: [1]
+          }
+        ]
+      }
+    ]);
   });
 
   it('onclickStep with step.value and stepEntry', () => {
@@ -624,18 +992,347 @@ describe('<MainContainer/>', () => {
       relationship_touchpoints: [1],
       value: 'Web'
     };
+    instance.ResetAllStages = jest.fn();
+    instance.onclickStep(stepEntry);
+    expect(instance.state.stages).toEqual([
+      {
+        index: 1,
+        title: 'BROWSE',
+        latencyStatus: true,
+        status_color: 'good',
+        gout_enable: false,
+        gout_quantity: 150,
+        money_enabled: false,
+        trafficIconType: 'traffic',
+        money: '',
+        icon_active: false,
+        icon_description: 'medal',
+        icon_visible: false,
+        congestion: {
+          value: 0,
+          percentage: 15
+        },
+        capacity: 0,
+        total_count: 0,
+        active_dotted: 'none',
+        active_dotted_color: '#828282',
+        steps: [
+          {
+            value: 'Web',
+            canary_state: true,
+            highlighted: false,
+            index_stage: 1,
+            sub_steps: [
+              {
+                index: 1,
+                id: 'ST1-LINE1-SS1',
+                canary_state: true,
+                latency: true,
+                value: 'Web',
+                dark: false,
+                history_error: false,
+                dotted: false,
+                highlighted: true,
+                error: false,
+                index_stage: 1,
+                relationship_touchpoints: [1]
+              }
+            ]
+          }
+        ],
+        touchpoints: [
+          {
+            index: 1,
+            stage_index: 1,
+            status_on_off: true,
+            active: false,
+            value: 'Catalog API',
+            highlighted: false,
+            error: false,
+            history_error: false,
+            countrys: [0],
+            dashboard_url: [
+              'https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NDg'
+            ],
+            relation_steps: [1]
+          }
+        ]
+      }
+    ]);
+  });
+
+  it('onclickStep with step.value and stepEntry and iconCanaryStatus = false', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.iconCanaryStatus = false;
+    instance.state.stages = stages;
+    instance.state.stages[0].steps[0].value = 'Web';
+    const stepEntry = {
+      canary_state: false,
+      dark: false,
+      dotted: false,
+      error: false,
+      highlighted: true,
+      history_error: false,
+      id: 'ST1-LINE1-SS1',
+      index: 1,
+      index_stage: 1,
+      latency: false,
+      relationship_touchpoints: [1],
+      value: 'Web'
+    };
+    instance.ResetAllStages = jest.fn();
+    instance.onclickStep(stepEntry);
+    expect(instance.state.stages).toEqual([
+      {
+        index: 1,
+        title: 'BROWSE',
+        latencyStatus: true,
+        status_color: 'good',
+        gout_enable: false,
+        gout_quantity: 150,
+        money_enabled: false,
+        trafficIconType: 'traffic',
+        money: '',
+        icon_active: false,
+        icon_description: 'medal',
+        icon_visible: false,
+        congestion: {
+          value: 0,
+          percentage: 15
+        },
+        capacity: 0,
+        total_count: 0,
+        active_dotted: 'none',
+        active_dotted_color: '#828282',
+        steps: [
+          {
+            value: 'Web',
+            canary_state: true,
+            highlighted: true,
+            index_stage: 1,
+            sub_steps: [
+              {
+                index: 1,
+                id: 'ST1-LINE1-SS1',
+                canary_state: true,
+                latency: true,
+                value: 'Web',
+                dark: false,
+                history_error: false,
+                dotted: false,
+                highlighted: true,
+                error: false,
+                index_stage: 1,
+                relationship_touchpoints: [1]
+              }
+            ]
+          }
+        ],
+        touchpoints: [
+          {
+            index: 1,
+            stage_index: 1,
+            status_on_off: true,
+            active: false,
+            value: 'Catalog API',
+            highlighted: true,
+            error: false,
+            history_error: false,
+            countrys: [0],
+            dashboard_url: [
+              'https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NDg'
+            ],
+            relation_steps: [1]
+          }
+        ]
+      }
+    ]);
+  });
+
+  it('onclickStep with iterator.title != stage.title', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    const stagesPrueba = [
+      {
+        index: 1,
+        title: 'BROWSE',
+        latencyStatus: false,
+        status_color: 'good',
+        gout_enable: false,
+        gout_quantity: 150,
+        money_enabled: false,
+        trafficIconType: 'traffic',
+        money: '',
+        icon_active: false,
+        icon_description: 'medal',
+        icon_visible: false,
+        congestion: {
+          value: 0,
+          percentage: 15
+        },
+        capacity: 0,
+        total_count: 0,
+        active_dotted: 'none',
+        active_dotted_color: '#828282',
+        steps: [
+          {
+            value: '',
+            index_stage: 1,
+            sub_steps: [
+              {
+                index: 1,
+                id: 'ST1-LINE1-SS1',
+                canary_state: false,
+                latency: true,
+                value: 'Web',
+                dark: false,
+                history_error: false,
+                dotted: false,
+                highlighted: false,
+                error: false,
+                index_stage: 1,
+                relationship_touchpoints: [1]
+              }
+            ]
+          }
+        ],
+        touchpoints: []
+      },
+      {
+        index: 2,
+        title: 'ARROW',
+        latencyStatus: false,
+        status_color: 'good',
+        gout_enable: false,
+        gout_quantity: 150,
+        money_enabled: false,
+        trafficIconType: 'traffic',
+        money: '',
+        icon_active: false,
+        icon_description: 'medal',
+        icon_visible: false,
+        congestion: {
+          value: 0,
+          percentage: 15
+        },
+        capacity: 0,
+        total_count: 0,
+        active_dotted: 'none',
+        active_dotted_color: '#828282',
+        steps: [],
+        touchpoints: []
+      }
+    ];
+    instance.state.iconCanaryStatus = true;
+    instance.state.canaryData = canaryData;
+    instance.state.stages = stagesPrueba;
+    instance.state.stages[0].steps[0].value = 'test';
+    const stepEntry = {
+      canary_state: false,
+      dark: false,
+      dotted: false,
+      error: false,
+      highlighted: true,
+      history_error: false,
+      id: 'ST1-LINE1-SS1',
+      index: 1,
+      index_stage: 2,
+      latency: false,
+      relationship_touchpoints: [1],
+      value: 'Web'
+    };
     instance.DataManager = {
       SetCanaryData: jest.fn(),
       UpdateCanaryData: jest.fn()
     };
     instance.ResetAllStages = jest.fn();
     instance.onclickStep(stepEntry);
+    expect(instance.state.stages).toEqual([
+      {
+        index: 1,
+        title: 'BROWSE',
+        latencyStatus: false,
+        status_color: 'good',
+        gout_enable: false,
+        gout_quantity: 150,
+        money_enabled: false,
+        trafficIconType: 'traffic',
+        money: '',
+        icon_active: false,
+        icon_description: 'medal',
+        icon_visible: false,
+        congestion: {
+          value: 0,
+          percentage: 15
+        },
+        capacity: 0,
+        total_count: 0,
+        active_dotted: 'none',
+        active_dotted_color: '#828282',
+        steps: [
+          {
+            value: 'test',
+            index_stage: 1,
+            sub_steps: [
+              {
+                index: 1,
+                id: 'ST1-LINE1-SS1',
+                canary_state: false,
+                latency: true,
+                value: 'Web',
+                dark: false,
+                history_error: false,
+                dotted: false,
+                highlighted: false,
+                error: false,
+                index_stage: 1,
+                relationship_touchpoints: [1]
+              }
+            ]
+          }
+        ],
+        touchpoints: []
+      },
+      {
+        index: 2,
+        title: 'ARROW',
+        latencyStatus: false,
+        status_color: 'good',
+        gout_enable: false,
+        gout_quantity: 150,
+        money_enabled: false,
+        trafficIconType: 'traffic',
+        money: '',
+        icon_active: false,
+        icon_description: 'medal',
+        icon_visible: false,
+        congestion: {
+          value: 0,
+          percentage: 15
+        },
+        capacity: 0,
+        total_count: 0,
+        active_dotted: 'none',
+        active_dotted_color: '#828282',
+        steps: [],
+        touchpoints: []
+      }
+    ]);
   });
 
   it('ResetAllStages', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
     instance.state.stages = stages;
+    instance.ResetAllStages();
+  });
+
+  it('ResetAllStages with step.value = ""', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.state.stages[0].steps[0].value = '';
     instance.ResetAllStages();
   });
 
@@ -662,6 +1359,15 @@ describe('<MainContainer/>', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
     instance.state.stages = stages;
+    instance.ExecuteSetCanaryData = jest.fn();
+    instance.PreSelectCanaryData(canaryData);
+  });
+
+  it('PreSelectCanaryData with step.value !== ""', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.state.stages[0].steps[0].value = 'Test';
     instance.ExecuteSetCanaryData = jest.fn();
     instance.PreSelectCanaryData(canaryData);
   });
@@ -732,6 +1438,16 @@ describe('<MainContainer/>', () => {
     const instance = mainContainer.instance();
     instance.state.stages = stages;
     instance.clearStepsHistoricError(true);
+  });
+
+  it('updateHistoricErrors', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.state.stages[0].touchpoints[0].history_error = true;
+    instance.clearStepsHistoricError(true);
+    instance.setStepsHistoricError = jest.fn();
+    instance.updateHistoricErrors();
   });
 
   // it('setStepsHistoricError', () => {
@@ -900,6 +1616,140 @@ describe('<MainContainer/>', () => {
     instance.resetIcons(false, false, true, false);
   });
 
+  it('resetIcons with statusFire and step.value === ""', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    const stageResetIcons = [
+      {
+        index: 1,
+        title: 'BROWSE',
+        latencyStatus: false,
+        status_color: 'good',
+        gout_enable: false,
+        gout_quantity: 150,
+        money_enabled: false,
+        trafficIconType: 'traffic',
+        money: '',
+        icon_active: false,
+        icon_description: 'medal',
+        icon_visible: false,
+        congestion: {
+          value: 0,
+          percentage: 15
+        },
+        capacity: 0,
+        total_count: 0,
+        active_dotted: 'none',
+        active_dotted_color: '#828282',
+        steps: [
+          {
+            value: '',
+            index_stage: 1,
+            sub_steps: [
+              {
+                index: 1,
+                id: 'ST1-LINE1-SS1',
+                canary_state: false,
+                latency: true,
+                value: 'Web',
+                dark: false,
+                history_error: false,
+                dotted: false,
+                highlighted: false,
+                error: false,
+                index_stage: 1,
+                relationship_touchpoints: [1]
+              }
+            ]
+          }
+        ],
+        touchpoints: [
+          {
+            index: 1,
+            stage_index: 1,
+            status_on_off: true,
+            active: false,
+            value: 'Catalog API',
+            highlighted: false,
+            error: false,
+            history_error: false,
+            countrys: [0],
+            dashboard_url: [
+              'https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NDg'
+            ],
+            relation_steps: [1]
+          }
+        ]
+      }
+    ];
+    instance.state.stages = stageResetIcons;
+    instance.resetIcons(false, true, false, false);
+    expect(instance.state.stages).toEqual([
+      {
+        index: 1,
+        title: 'BROWSE',
+        latencyStatus: false,
+        status_color: 'good',
+        gout_enable: false,
+        gout_quantity: 150,
+        money_enabled: false,
+        trafficIconType: 'traffic',
+        money: '',
+        icon_active: false,
+        icon_description: 'medal',
+        icon_visible: false,
+        congestion: {
+          value: 0,
+          percentage: 15
+        },
+        capacity: 0,
+        total_count: 0,
+        active_dotted: 'none',
+        active_dotted_color: '#828282',
+        steps: [
+          {
+            value: '',
+            highlighted: false,
+            index_stage: 1,
+            sub_steps: [
+              {
+                index: 1,
+                id: 'ST1-LINE1-SS1',
+                canary_state: false,
+                latency: true,
+                value: 'Web',
+                dark: false,
+                history_error: false,
+                dotted: false,
+                highlighted: false,
+                error: false,
+                index_stage: 1,
+                relationship_touchpoints: [1]
+              }
+            ]
+          }
+        ],
+        touchpoints: [
+          {
+            index: 1,
+            stage_index: 1,
+            status_on_off: true,
+            active: false,
+            value: 'Catalog API',
+            highlighted: false,
+            error: false,
+            history_error: false,
+            countrys: [0],
+            dashboard_url: [
+              'https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NDg'
+            ],
+            relation_steps: [1]
+          }
+        ]
+      }
+    ]);
+  });
+
   it('resetIcons with statusCanary', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
@@ -1001,6 +1851,7 @@ describe('<MainContainer/>', () => {
     instance.state.stageNameSelected = {
       selectedCase: 'wrapper'
     };
+    instance.state.modifiedQuery = true;
     instance.state.stages = stages;
     instance.changeMessage({
       target: {
@@ -1021,6 +1872,21 @@ describe('<MainContainer/>', () => {
       ]
     };
     instance.chargueSample(0);
+  });
+
+  it('changeMessage with modifiedQuery', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stageNameSelected = {
+      selectedCase: 'wrapper'
+    };
+    instance.state.modifiedQuery = true;
+    instance.state.stages = stages;
+    instance.changeMessage({
+      target: {
+        value: 'test'
+      }
+    });
   });
 
   it('chargueSample with Error Percentage Query', () => {
@@ -1093,6 +1959,94 @@ describe('<MainContainer/>', () => {
     instance.chargueSample(0);
   });
 
+  it('chargueSample with PRC-COUNT-QUERY', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.state.stageNameSelected = {
+      datos: [
+        {
+          label: 'PRC-COUNT-QUERY'
+        }
+      ]
+    };
+    instance.chargueSample(0);
+  });
+
+  it('chargueSample with PCC-COUNT-QUERY', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.state.stageNameSelected = {
+      datos: [
+        {
+          label: 'PCC-COUNT-QUERY'
+        }
+      ]
+    };
+    instance.chargueSample(0);
+  });
+
+  it('chargueSample with APP-HEALTH-QUERY', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.state.stageNameSelected = {
+      datos: [
+        {
+          label: 'APP-HEALTH-QUERY'
+        }
+      ]
+    };
+    instance.chargueSample(0);
+  });
+
+  it('chargueSample with FRT-HEALTH-QUERY', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.state.stageNameSelected = {
+      datos: [
+        {
+          label: 'FRT-HEALTH-QUERY'
+        }
+      ]
+    };
+    instance.chargueSample(0);
+  });
+
+  it('chargueSample with SYN-CHECK-QUERY', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.state.stageNameSelected = {
+      datos: [
+        {
+          label: 'SYN-CHECK-QUERY'
+        }
+      ]
+    };
+    instance.chargueSample(0);
+  });
+
+  it('chargueSample with selectedCase', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.state.stageNameSelected = {
+      selectedCase: 1,
+      datos: [
+        {
+          query_body: 'Count Query'
+        },
+        {
+          query_body: 'Count Query'
+        }
+      ]
+    };
+    instance.chargueSample(0);
+  });
+
   it('testQuery', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
@@ -1100,10 +2054,15 @@ describe('<MainContainer/>', () => {
     instance.state.stageNameSelected = {
       datos: [
         {
+          accountID: 271,
           label: 'Count Query'
         }
       ]
     };
+    instance.validationQuery = jest.fn().mockReturnValue({
+      testText: 'good',
+      goodQuery: true
+    });
     instance.testQuery(
       'SELECT count(*) as value FROM Transaction SINCE 1 minute AGO',
       0
@@ -1143,6 +2102,26 @@ describe('<MainContainer/>', () => {
     );
   });
 
+  it('handleChangeTexarea with stageNameSelected', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.state.stageNameSelected = {
+      selectedCase: 1,
+      datos: [
+        {
+          query_body: 'Count Query'
+        },
+        {
+          query_body: 'Count Query'
+        }
+      ]
+    };
+    instance.handleChangeTexarea(
+      'SELECT count(*) as value FROM Transaction SINCE 1 minute AGO'
+    );
+  });
+
   it('handleChangeTexareaSupport', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
@@ -1168,7 +2147,10 @@ describe('<MainContainer/>', () => {
   it('handleSaveUpdateQuery', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
-    instance.state.stages = stages;
+    instance.state.stageNameSelected = {
+      touchpoint: []
+    };
+    instance._onClose = jest.fn();
     instance.DataManager = {
       UpdateTouchpointQuerys: jest.fn()
     };
@@ -1184,6 +2166,9 @@ describe('<MainContainer/>', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
     instance.state.stages = stages;
+    instance.state.stageNameSelected = {
+      touchpoint: []
+    };
     instance._onClose = jest.fn();
     instance.DataManager = {
       UpdateTouchpointTune: jest.fn()
@@ -1351,6 +2336,28 @@ describe('<MainContainer/>', () => {
     instance._onCloseMenuRight();
   });
 
+  it('_onCloseMenuRight with MenuRightDefault = 2', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.MenuRightDefault = 2;
+    instance.state.stages = stages;
+    instance.DataManager = {
+      UpdateHistoricParameters: jest.fn()
+    };
+    instance._onCloseMenuRight();
+  });
+
+  it('_onCloseMenuRight with MenuRightDefault = 1', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.MenuRightDefault = 1;
+    instance.state.stages = stages;
+    instance.DataManager = {
+      UpdateGoutParameters: jest.fn()
+    };
+    instance._onCloseMenuRight();
+  });
+
   it('_DropHandleChange', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
@@ -1446,5 +2453,37 @@ describe('<MainContainer/>', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
     instance.DisplayConsole('warning', 'Warning Message');
+  });
+
+  it('changeTimeRangeKpi ', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.timeRangeKpi = { index: 0, range: 'none' };
+    instance.changeTimeRangeKpi({ value: 'none' }, 0);
+  });
+
+  it('updateDataKpisChecked  ', () => {
+    const kpi = {
+      index: 0,
+      type: 101,
+      name: 'Unique Visitors',
+      shortName: 'Unique',
+      link:
+        'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
+      query:
+        'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago',
+      value: {
+        current: 0,
+        previous: 0
+      },
+      check: true
+    };
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.DataManager = {
+      SaveKpisSelection: jest.fn()
+    };
+    instance.state.kpis = kpi;
+    instance.updateDataKpisChecked();
   });
 });

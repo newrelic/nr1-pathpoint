@@ -225,6 +225,7 @@ const FormatMoney = (
         : ''
     }`;
   } catch (e) {
+    /* istanbul ignore next */
     DisplayConsole('error', `Error in format money ${e}`);
   }
 };
@@ -290,7 +291,13 @@ const PrintKPI = kpi => {
   }
 };
 
-export { CurrentAndPreviousStatus, RenderLogo, FormatMoney };
+export {
+  CurrentAndPreviousStatus,
+  RenderLogo,
+  FormatMoney,
+  transformK,
+  PrintKPI
+};
 export default Header;
 
 Header.propTypes = {
