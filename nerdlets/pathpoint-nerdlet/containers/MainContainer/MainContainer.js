@@ -26,6 +26,7 @@ import DataManager from '../../services/DataManager';
 import ValidationQuery from '../../services/Validations.js';
 import LogoSetupData from '../../services/LogoSetupData';
 import { CreateJiraIssue } from '../../services/JiraConnector';
+import { CreateLogRequest } from '../../services/LogsConnector';
 
 // IMPORT STATIC FILES AND IMAGES
 import logoNewRelic from '../../images/logoNewRelic.png';
@@ -248,6 +249,10 @@ export default class MainContainer extends React.Component {
         }, Setup.time_refresh);
       }
     );
+    // == funcion logs
+    const dataLog = 'mensaje proxy 1 2 3';
+    CreateLogRequest(dataLog);
+    // == end funcion logs
   };
 
   ExecuteUpdateData = changeLoading => {
@@ -395,9 +400,16 @@ export default class MainContainer extends React.Component {
           } else {
             flag = step.highlighted;
             step.highlighted = !step.highlighted;
-            for (const id_touchpoint of step.relationship_touchpoints) {
+            for (const id_touchpoint of step.sub_steps[0]
+              .relationship_touchpoints) {
               touchpoint.push(id_touchpoint);
             }
+            /*
+              =====> Definir bien la funcion, (antigua funcion)
+              for (const id_touchpoint of step.relationship_touchpoints) {
+              touchpoint.push(id_touchpoint);
+            }
+            */
           }
         } else {
           step.highlighted = false;
@@ -977,6 +989,7 @@ export default class MainContainer extends React.Component {
     this.setState(supportForm);
   };
 
+  // se le tiene que quitar el async por q esta demas
   handleSaveUpdateQuery = async event => {
     event.preventDefault();
     await this.DataManager.UpdateTouchpointQuerys(

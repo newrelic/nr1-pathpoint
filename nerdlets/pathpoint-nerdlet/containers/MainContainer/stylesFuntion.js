@@ -41,6 +41,7 @@ export function contentContainerStyle(numStages) {
   if (numStages <= 5) {
     return { paddingLeft: '5%', paddingRight: '5%' };
   } else {
+    /* istanbul ignore next */
     return {
       paddingLeft: '1%',
       paddingRight: '1%'

@@ -13,6 +13,7 @@ const accountIDs = [
 ];
 describe('<QueryFormModal/>', () => {
   it('Render body', () => {
+    const resultsTestQuery = { str: 'asd', array: ['asd', 'ter'] };
     const bodyQueryForm = mount(
       <BodyQueryFormModal
         querySample="simple query"
@@ -25,7 +26,8 @@ describe('<QueryFormModal/>', () => {
               query_footer: 'SINCE 5 MINUTES AGO',
               query_start: '',
               type: 20,
-              value: 0
+              value: 0,
+              accountID: 2710112
             }
           ]
         }}
@@ -33,7 +35,7 @@ describe('<QueryFormModal/>', () => {
         testQuery={jest.fn()}
         handleSaveUpdateQuery={jest.fn()}
         testText="Bad query"
-        resultsTestQuery={{ type: 'default' }}
+        resultsTestQuery={resultsTestQuery}
         goodQuery={false}
         modifiedQuery
         handleChangeTexarea={jest.fn()}
@@ -229,5 +231,39 @@ describe('<QueryFormModal/>', () => {
     const event = { target: { value: 'sometext' } };
     textArea.simulate('change', event);
     expect(handleChangeTexarea).toHaveBeenCalledTimes(1);
+  });
+
+  it('Simulate handleOnChange selectID', () => {
+    const handleOnChange = jest.fn();
+    const bodyQueryForm = mount(
+      <BodyQueryFormModal
+        querySample="simple query"
+        stageNameSelected={{
+          datos: [
+            {
+              label: 'Full Open Query',
+              query_body: 'SELECT FILTER(count(*) FROM Log',
+              query_footer: 'SINCE 5 MINUTES AGO',
+              query_start: '',
+              type: 20,
+              value: 0,
+              accountID: 2710112
+            }
+          ]
+        }}
+        chargueSample={jest.fn()}
+        testQuery={jest.fn()}
+        handleSaveUpdateQuery={jest.fn()}
+        testText="good query"
+        resultsTestQuery={{ type: 'default' }}
+        goodQuery
+        modifiedQuery={false}
+        handleChangeTexarea={jest.fn()}
+        accountIDs={accountIDs}
+        handleOnChange={handleOnChange}
+      />
+    );
+    expect(bodyQueryForm.length).toEqual(1);
+    expect(handleOnChange).toHaveBeenCalledTimes(0);
   });
 });

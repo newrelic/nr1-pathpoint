@@ -1,10 +1,24 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import Header, {
+  transformK,
   FormatMoney,
-  RenderLogo
+  RenderLogo,
+  PrintKPI
 } from '../../../components/Header/Header';
 
+jest.mock(
+  'nr1',
+  () => {
+    const window = {
+      open: jest.fn()
+    };
+    return {
+      window
+    };
+  },
+  { virtual: true }
+);
 describe('<Header/>', () => {
   describe('Mount component', () => {
     it('Banner kpis initial', () => {
@@ -394,6 +408,198 @@ describe('<Header/>', () => {
       expect(handleAddToCart).toHaveBeenCalledTimes(1);
     });
 
+    it('Simulate click toggleHeaderButtons with gout status', () => {
+      const handleAddToCart = jest.fn();
+      const banner_kpis = [
+        {
+          type: 100,
+          description: 'Total Order Count',
+          prefix: '',
+          suffix: 'Orders',
+          query: 'SELECT count(*) as value FROM Transaction SINCE 1 minute AGO',
+          value: 0
+        },
+        {
+          type: 100,
+          description: 'Total Order Value',
+          prefix: '$',
+          suffix: '',
+          query:
+            'SELECT count(*) as value FROM Transaction SINCE 5 minutes AGO',
+          value: 0
+        },
+        {
+          type: 100,
+          description: 'Max Duration',
+          prefix: '',
+          suffix: '',
+          query:
+            'SELECT max(duration) as value FROM Transaction SINCE 30 minutes AGO',
+          value: 0
+        }
+      ];
+      const kpis = [
+        {
+          index: 0,
+          type: 101,
+          name: 'Unique Visitors',
+          shortName: 'Unique',
+          link:
+            'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
+          query:
+            'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago',
+          value: {
+            current: 0,
+            previous: 0
+          },
+          check: true
+        },
+        {
+          index: 1,
+          type: 101,
+          name: '1 Account',
+          shortName: '1 Acc.',
+          link:
+            'https://chart-embed.service.newrelic.com/herald/5817c955-7920-4367-86e5-e8a998852863?height=400px&timepicker=true',
+          query:
+            'SELECT count(*) as value  FROM Transaction COMPARE WITH 2 day ago',
+          value: {
+            current: 0,
+            previous: 0
+          },
+          check: false
+        }
+      ];
+      const header = mount(
+        <Header
+          iconSixthSenseStatus
+          activeSixthSenseIcon={jest.fn()}
+          iconCanaryStatus
+          iconFireStatus
+          iconStartStatus
+          changeTimeRange={jest.fn()}
+          iconGoutStatus
+          showLeftPanel
+          openLeftMenu={jest.fn()}
+          handleContextMenuFire={jest.fn()}
+          handleContextMenuGout={jest.fn()}
+          // ---- quitar este atributo
+          banner_kpis={banner_kpis}
+          // --------------------------
+          ToggleHeaderButtons={handleAddToCart}
+          logoSetup={{ type: 'default' }}
+          timeRangeKpi={{
+            index: 0
+          }}
+          changeTimeRangeKpi={jest.fn()}
+          kpis={kpis}
+          updateDataKpisChecked={jest.fn()}
+          // ---- quitar este atributo
+          DisplayConsole={jest.fn()}
+          // --------------------------
+        />
+      );
+      header
+        .find('.fireIconContainer')
+        .at(3)
+        .simulate('click');
+      expect(handleAddToCart).toHaveBeenCalledTimes(1);
+    });
+
+    it('Kpi click to open link', () => {
+      const banner_kpis = [
+        {
+          type: 100,
+          description: 'Total Order Count',
+          prefix: '$',
+          suffix: 'Orders',
+          query: 'SELECT count(*) as value FROM Transaction SINCE 1 minute AGO',
+          value: 0
+        },
+        {
+          type: 100,
+          description: 'Total Order Value',
+          prefix: '',
+          suffix: '',
+          query:
+            'SELECT count(*) as value FROM Transaction SINCE 5 minutes AGO',
+          value: 0
+        },
+        {
+          type: 100,
+          description: 'Max Duration',
+          prefix: '$',
+          suffix: '',
+          query:
+            'SELECT max(duration) as value FROM Transaction SINCE 30 minutes AGO',
+          value: 0
+        }
+      ];
+      const kpis = [
+        {
+          index: 0,
+          type: 101,
+          name: 'Unique Visitors',
+          shortName: 'Unique',
+          link:
+            'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
+          query:
+            'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago',
+          value: {
+            current: 0,
+            previous: 0
+          },
+          check: true
+        },
+        {
+          index: 1,
+          type: 101,
+          name: '1 Account',
+          shortName: '1 Acc.',
+          link:
+            'https://chart-embed.service.newrelic.com/herald/5817c955-7920-4367-86e5-e8a998852863?height=400px&timepicker=true',
+          query:
+            'SELECT count(*) as value  FROM Transaction COMPARE WITH 2 day ago',
+          value: {
+            current: 0,
+            previous: 0
+          },
+          check: false
+        }
+      ];
+      const header = mount(
+        <Header
+          iconSixthSenseStatus={false}
+          activeSixthSenseIcon={jest.fn()}
+          iconCanaryStatus={false}
+          iconFireStatus={false}
+          iconStartStatus={false}
+          changeTimeRange={jest.fn()}
+          iconGoutStatus={false}
+          showLeftPanel={false}
+          openLeftMenu={jest.fn()}
+          handleContextMenuFire={jest.fn()}
+          handleContextMenuGout={jest.fn()}
+          // ---- quitar este atributo
+          banner_kpis={banner_kpis}
+          // --------------------------
+          ToggleHeaderButtons={jest.fn()}
+          logoSetup={{ type: 'default' }}
+          timeRangeKpi={{
+            index: 0
+          }}
+          changeTimeRangeKpi={jest.fn()}
+          kpis={kpis}
+          updateDataKpisChecked={jest.fn()}
+          // ---- quitar este atributo
+          DisplayConsole={jest.fn()}
+          // --------------------------
+        />
+      );
+      const filterKpis = jest.fn();
+      header.find('.kpicontent').simulate('click');
+      expect(filterKpis).toHaveBeenCalledTimes(0);
+    });
     it('Banner kpis change order and values boolean', () => {
       const banner_kpis = [
         {
@@ -509,6 +715,15 @@ describe('<Header/>', () => {
       const result = FormatMoney({});
       expect(result).toMatch('$0.00');
     });
+
+    it('incorrect value', () => {
+      const amount = [];
+      const decimalCount = false;
+      const DisplayConsole = jest.fn();
+      const result = FormatMoney(amount, DisplayConsole, decimalCount);
+      expect(result).toMatch('$0');
+      DisplayConsole('error', 'Error Message');
+    });
   });
 
   describe('Function RenderLogo', () => {
@@ -549,5 +764,89 @@ describe('<Header/>', () => {
         </div>
       );
     });
+  });
+  describe('Function transformK', () => {
+    it('Type is float', () => {
+      const value = 10000;
+      const type = 'FLOAT';
+      const result = transformK(value, type);
+      expect(result).toEqual('10 K');
+    });
+    it('Value is higher than 1000000', () => {
+      const value = 1000001;
+      const result = transformK(value);
+      expect(result).toEqual('1 M');
+    });
+    it('Value is higher than 1000', () => {
+      const value = 1001;
+      const result = transformK(value);
+      expect(result).toEqual('1 K');
+    });
+    it('Value is less than 1000', () => {
+      const value = 100;
+      const result = transformK(value);
+      expect(result).toEqual('100');
+    });
+  });
+
+  describe('Function PrintKPI', () => {
+    it('kpi = 100', () => {
+      const kpi = {
+        index: 0,
+        type: 100,
+        name: 'Unique Visitors',
+        shortName: 'Unique',
+        link:
+          'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
+        query:
+          'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago',
+        value: {
+          current: 0,
+          previous: 0
+        },
+        check: true
+      };
+      const result = PrintKPI(kpi);
+      expect(result).toBeTruthy();
+    });
+  });
+  it('kpi = 101', () => {
+    const kpi = {
+      index: 0,
+      type: 101,
+      name: 'Unique Visitors',
+      shortName: 'Unique',
+      link:
+        'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
+      query:
+        'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago',
+      value: {
+        current: 0,
+        previous: 0
+      },
+      check: true
+    };
+    const result = PrintKPI(kpi);
+    expect(result).toBeTruthy();
+  });
+
+  it('kpi = 102', () => {
+    const kpi = {
+      index: 0,
+      type: 102,
+      name: 'Unique Visitors',
+      shortName: 'Unique',
+      link:
+        'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
+      query:
+        'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago',
+      value: {
+        current: 0,
+        previous: 0
+      },
+      check: true
+    };
+    const result = PrintKPI(kpi);
+    expect(result).toBeTruthy();
   });
 });
