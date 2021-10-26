@@ -101,7 +101,6 @@ export default class DataManager {
     return total;
   }
 
-  /* istanbul ignore next */
   async UpdateData(
     timeRange,
     city,
@@ -152,10 +151,7 @@ export default class DataManager {
         }
       }
     } catch (error) {
-      /* se cambio la forma de mostrar los trow error:
-        throw new Error(error);
-      */
-      throw new Error(error.message);
+      throw new Error(error);
     }
   }
 
