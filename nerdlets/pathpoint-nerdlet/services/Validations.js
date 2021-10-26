@@ -138,17 +138,33 @@ export default class ValidationQuery {
   }
 
   kpi101Validation(errors, query, data) {
-    let validate = false;
+    let validate = true;
+    let quantity = 0;
+    let transactionValue = false;
+    let transactionComparison = false;
     if (errors && errors.length > 0) {
       validate = false;
     } else if (
       data instanceof Array &&
       data.length === 2 &&
-      data[0].value &&
-      data[0].comparison &&
       query.toLowerCase().includes('compare with')
     ) {
-      validate = true;
+      for (const [key, value] of Object.entries(data[0])) {
+        if (typeof value !== 'number' && key !== 'comparison') {
+          validate = false;
+          break;
+        }
+        if (key === 'value') transactionValue = true;
+        if (key === 'comparison') transactionComparison = true;
+        quantity++;
+      }
+      if (quantity > 2) {
+        validate = false;
+      } else if (!transactionValue || !transactionComparison) {
+        validate = false;
+      }
+    } else {
+      validate = false;
     }
     return validate;
   }
