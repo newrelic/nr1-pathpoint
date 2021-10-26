@@ -1065,7 +1065,71 @@ describe('<MainContainer/>', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
     instance.state.iconCanaryStatus = false;
-    instance.state.stages = stages;
+    const stagesCanary = [
+      {
+        index: 1,
+        title: 'BROWSE',
+        latencyStatus: false,
+        status_color: 'good',
+        gout_enable: false,
+        gout_quantity: 150,
+        money_enabled: false,
+        trafficIconType: 'traffic',
+        money: '',
+        icon_active: false,
+        icon_description: 'medal',
+        icon_visible: false,
+        congestion: {
+          value: 0,
+          percentage: 15
+        },
+        capacity: 0,
+        total_count: 0,
+        active_dotted: 'none',
+        active_dotted_color: '#828282',
+        steps: [
+          {
+            value: '',
+            index_stage: 1,
+            relationship_touchpoints: [1],
+            sub_steps: [
+              {
+                index: 1,
+                id: 'ST1-LINE1-SS1',
+                canary_state: false,
+                latency: true,
+                value: 'Web',
+                dark: false,
+                history_error: false,
+                dotted: false,
+                highlighted: false,
+                error: false,
+                index_stage: 1,
+                relationship_touchpoints: [1]
+              }
+            ]
+          }
+        ],
+        touchpoints: [
+          {
+            index: 1,
+            stage_index: 1,
+            status_on_off: true,
+            active: false,
+            value: 'Catalog API',
+            highlighted: false,
+            error: false,
+            history_error: false,
+            countrys: [0],
+            dashboard_url: [
+              'https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NDg'
+            ],
+            relation_steps: [1]
+          }
+        ]
+      }
+    ];
+    instance.state.stages = stagesCanary;
     instance.state.stages[0].steps[0].value = 'Web';
     const stepEntry = {
       canary_state: false,
@@ -1087,7 +1151,7 @@ describe('<MainContainer/>', () => {
       {
         index: 1,
         title: 'BROWSE',
-        latencyStatus: true,
+        latencyStatus: false,
         status_color: 'good',
         gout_enable: false,
         gout_quantity: 150,
@@ -1108,20 +1172,20 @@ describe('<MainContainer/>', () => {
         steps: [
           {
             value: 'Web',
-            canary_state: true,
             highlighted: true,
             index_stage: 1,
+            relationship_touchpoints: [1],
             sub_steps: [
               {
                 index: 1,
                 id: 'ST1-LINE1-SS1',
-                canary_state: true,
+                canary_state: false,
                 latency: true,
                 value: 'Web',
                 dark: false,
                 history_error: false,
                 dotted: false,
-                highlighted: true,
+                highlighted: false,
                 error: false,
                 index_stage: 1,
                 relationship_touchpoints: [1]

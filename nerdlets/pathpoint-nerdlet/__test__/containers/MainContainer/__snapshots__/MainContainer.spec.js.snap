@@ -4131,7 +4131,7 @@ exports[`<MainContainer/> Values stages 1`] = `
                     src={Object {}}
                     style={
                       Object {
-                        "height": "25px",
+                        "height": "10px",
                       }
                     }
                   />
