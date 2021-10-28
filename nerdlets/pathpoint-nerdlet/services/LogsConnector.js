@@ -1,34 +1,68 @@
 import axios from 'axios';
-import env from '../../../.env.json';
+import nr1 from '../../../nr1.json';
 
-export const CreateLogRequest = dataLog => {
-  const data = {
-    message: dataLog, // si noes obligatorio lo quito, sies concateno la informacion de abajo
-    // crear campo pathpoint_id = id del nr1
-    // crear campo application = Patphpoint
-    // crear campo action = TouchpointQuery
-    // crear campo query = datos de la query ?? si hay mas queries defino mas queries
-    // crear campo results = datos de resultado que devolvio la query
-    // crear campo duration = tiempo que demoro en responder la query
-    // crear campo error = "" ?? mensaje de error
-    // crear campo touchpoint_name = Nombre del touchpoint
-    // crear campo touchpoint_type = Type del touchpoint
-    // crear campo stage = nombre del stage
-    // crear un tipo de buffer para enviar logs en bloque
-    logtype: 'accesslogs',
-    service: 'login-service',
-    hostname: 'login.example.com'
-  };
-  const licenseKey = env.newRelicLogLicense;
+// clase que trabaja de manera independiente
+export default class LogConnector {
+  constructor() {
+    this.pathpoint_id = nr1.id;
+    this.buffer = [];
+    setInterval(() => {
+      this.checkBuffer();
+    }, 10000);
+  }
 
-  const instance = axios.create();
-  const logEnvio = JSON.stringify(data);
-  //  instance.post(env.proxyLog, logEnvio, {
-  instance.post('https://log-api.newrelic.com/log/v1', logEnvio, {
-    headers: {
-      contentType: 'application/json',
-      // 'X-License-Key': licenseKey
-      'X-License-Key': '23e412dac46fbc1a485444a8e2588af3FFFFNRAL'
+  SendLog(datos) {
+    this.buffer.push(datos);
+  }
+
+  checkBuffer() {
+    const maxSizeBuffer = new Blob([JSON.stringify(this.buffer)]).size;
+    const maxSixeSend = 999999;
+    let ArrayResult = [];
+    if (maxSizeBuffer > maxSixeSend) {
+      ArrayResult = this.comprirArray(maxSizeBuffer, maxSixeSend);
+      this.buffer = [];
+    } else {
+      ArrayResult.push(this.buffer);
+      this.buffer = [];
     }
-  });
-};
+    const instance = axios.create();
+    const licenseKey = '1d92fdd9f76cb3ff123dabd866824d47ecdbNRAL';
+    if (ArrayResult[0].length > 0) {
+      ArrayResult.forEach((element, index) => {
+        const logEnvio = JSON.stringify(element);
+        instance
+          .post('https://log-api.newrelic.com/log/v1', logEnvio, {
+            headers: {
+              contentType: 'application/json',
+              'X-License-Key': licenseKey
+            }
+          })
+          .then(() => {
+            ArrayResult.splice(index, 1);
+          })
+          .catch(() => {
+            // To do
+          });
+      });
+    }
+  }
+
+  // showBuffer() {
+  //   console.log('buffer lentgh:', this.buffer.length);
+  //   console.info('buffer size:', new Blob([JSON.stringify(this.buffer)]).size);
+  // }
+
+  comprirArray(maxSizeBuffer, maxSixeSend) {
+    const nSalto = Math.ceil(maxSizeBuffer / maxSixeSend);
+    const bufferLenght = this.buffer.length;
+    const optimoSize = Math.ceil(bufferLenght / nSalto);
+    const ArrayResult = [];
+    let temporal = [];
+    for (let i = 0; i < nSalto; i++) {
+      temporal = this.buffer.slice(optimoSize * i, optimoSize * (i + 1));
+      ArrayResult.push(temporal);
+    }
+    return ArrayResult;
+  }
+}
