@@ -618,7 +618,7 @@
       },
       "capacity": 0,
       "total_count": 0,
-      "active_dotted": "none",
+      "active_dotted": "dotted",
       "active_dotted_color": "#828282",
       "arrowMode": "STATIC",
       "percentage_above_avg": 20,

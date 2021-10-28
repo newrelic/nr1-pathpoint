@@ -14,6 +14,7 @@
         "measure_points": [
           {
             "type": "PRC",
+            "accountID": 123456,
             "query": "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
             "min_count": 10,
             "session_count": 0,

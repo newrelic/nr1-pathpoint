@@ -23,10 +23,12 @@ export const CreateLogRequest = dataLog => {
 
   const instance = axios.create();
   const logEnvio = JSON.stringify(data);
-  instance.post(env.proxyLog, logEnvio, {
+  //  instance.post(env.proxyLog, logEnvio, {
+  instance.post('https://log-api.newrelic.com/log/v1', logEnvio, {
     headers: {
       contentType: 'application/json',
-      'X-License-Key': licenseKey
+      // 'X-License-Key': licenseKey
+      'X-License-Key': '23e412dac46fbc1a485444a8e2588af3FFFFNRAL'
     }
   });
 };
