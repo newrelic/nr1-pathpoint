@@ -17,6 +17,8 @@ import {
   logger
 } from 'nr1';
 
+import axios from 'axios';
+
 // DEFINE AND EXPORT CLASS
 export default class DataManager {
   constructor() {
@@ -110,7 +112,7 @@ export default class DataManager {
     timeRangeKpi
   ) {
     if (this.accountId !== null) {
-      logger.log(`UPDATING-DATA: ${this.accountId}`);
+      console.log(`UPDATING-DATA: ${this.accountId}`);
       this.timeRange = timeRange;
       this.city = city;
       this.getOldSessions = getOldSessions;
@@ -266,7 +268,12 @@ export default class DataManager {
         element.touchpoints.forEach(touchpoint => {
           if (touchpoint.status_on_off) {
             touchpoint.measure_points.forEach(measure => {
-              this.FetchMeasure(measure);
+              const extraInfo = {
+                measureType: 'touchpoint',
+                touchpointName: touchpoint.value,
+                stageName: this.stages[touchpoint.stage_index - 1].title
+              };
+              this.FetchMeasure(measure, extraInfo);
             });
           }
         });
@@ -306,12 +313,12 @@ export default class DataManager {
       results: null
     };
     this.graphQlmeasures.length = 0;
-    this.graphQlmeasures.push([measure, query]);
+    this.graphQlmeasures.push([measure, query, null]);
     await this.NRDBQuery();
     return measure;
   }
 
-  FetchMeasure(measure) {
+  FetchMeasure(measure, extraInfo = null) {
     this.ClearMeasure(measure);
     if (measure.query !== '') {
       let query = `${measure.query} SINCE ${this.TimeRangeTransform(
@@ -321,7 +328,7 @@ export default class DataManager {
       if (measure.measure_time) {
         query = `${measure.query} SINCE ${measure.measure_time}`;
       }
-      this.graphQlmeasures.push([measure, query]);
+      this.graphQlmeasures.push([measure, query, extraInfo]);
     }
   }
 
@@ -379,14 +386,134 @@ export default class DataManager {
     return `${time_start} UNTIL ${time_end}`;
   }
 
+  SendToLogs(logRecord) {
+    const logR = {
+      ...logRecord,
+      pathpoint_id: this.pathpointId,
+      application: 'Patphpoint',
+      logtype: 'accesslogs',
+      service: 'login-service',
+      hostname: 'login.example.com'
+    };
+    // console.log('LOG-RECORD:', logR);
+    const instance = axios.create();
+    const logEnvio = JSON.stringify(logR);
+    instance.post('https://log-api.newrelic.com/log/v1', logEnvio, {
+      headers: {
+        contentType: 'application/json',
+        'X-License-Key': '23e412dac46fbc1a485444a8e2588af3FFFFNRAL'
+      }
+    });
+  }
+
+  MakeLogingData(startMeasureTime, endMeasureTime, data, errors) {
+    if (errors && errors.length > 0) {
+      // TODO
+      errors.forEach(error => {
+        if (Reflect.has(error, 'path')) {
+          for (const [, value] of Object.entries(error.path)) {
+            const c = value.split('_');
+            if (c[0] === 'measure') {
+              const measure = this.graphQlmeasures[Number(c[1])][0];
+              const query = this.graphQlmeasures[Number(c[1])][1];
+              const extraInfo = this.graphQlmeasures[Number(c[1])][2];
+              let accountID = this.accountId;
+              if (Reflect.has(measure, 'accountID')) {
+                accountID = measure.accountID;
+              }
+              if (extraInfo.measureType === 'touchpoint') {
+                const logRecord = {
+                  action: 'TouchpointERROR',
+                  account_id: accountID,
+                  error: true,
+                  error_message: JSON.stringify(error),
+                  query: query,
+                  touchpoint_name: extraInfo.touchpointName,
+                  touchpoint_type: measure.type,
+                  stage_name: extraInfo.stageName
+                };
+                this.SendToLogs(logRecord);
+              }
+              if (extraInfo.measureType === 'kpi') {
+                const logRecord = {
+                  action: 'KPI-ERROR',
+                  account_id: accountID,
+                  error: true,
+                  error_message: JSON.stringify(error),
+                  query: query,
+                  kpi_name: extraInfo.kpiName,
+                  kpi_type: extraInfo.kpiType
+                };
+                this.SendToLogs(logRecord);
+              }
+            }
+          }
+        }
+      });
+    }
+    if (data && data.actor) {
+      for (const [key, value] of Object.entries(data.actor)) {
+        const c = key.split('_');
+        if (
+          c[0] === 'measure' &&
+          value &&
+          Reflect.has(value, 'nrql') &&
+          Reflect.has(value.nrql, 'results')
+        ) {
+          const measure = this.graphQlmeasures[Number(c[1])][0];
+          const query = this.graphQlmeasures[Number(c[1])][1];
+          const extraInfo = this.graphQlmeasures[Number(c[1])][2];
+          const totalMeasures = this.graphQlmeasures.length;
+          const timeByMeasure =
+            (endMeasureTime - startMeasureTime) / totalMeasures;
+          if (extraInfo !== null) {
+            let accountID = this.accountId;
+            if (Reflect.has(measure, 'accountID')) {
+              accountID = measure.accountID;
+            }
+            if (extraInfo.measureType === 'touchpoint') {
+              const logRecord = {
+                action: 'TouchpointQuery',
+                account_id: accountID,
+                error: false,
+                query: query,
+                results: JSON.stringify(value.nrql.results),
+                duration: timeByMeasure,
+                touchpoint_name: extraInfo.touchpointName,
+                touchpoint_type: measure.type,
+                stage_name: extraInfo.stageName
+              };
+              this.SendToLogs(logRecord);
+            }
+            if (extraInfo.measureType === 'kpi') {
+              const logRecord = {
+                action: 'KPI-Query',
+                account_id: accountID,
+                error: false,
+                query: query,
+                results: JSON.stringify(value.nrql.results),
+                duration: timeByMeasure,
+                kpi_name: extraInfo.kpiName,
+                kpi_type: extraInfo.kpiType
+              };
+              this.SendToLogs(logRecord);
+            }
+          }
+        }
+      }
+    }
+  }
+
   async NRDBQuery() {
+    const startMeasureTime = Date.now();
     const { data, errors, n } = await this.EvaluateMeasures();
-    // this.SendToLoging(data, errors);
+    const endMeasureTime = Date.now();
+    this.MakeLogingData(startMeasureTime, endMeasureTime, data, errors);
     if (n === 0) {
       return 0;
     }
     if (errors && errors.length > 0) {
-      console.log('NRDB- Error:', errors);
+      console.log('NRDB-Error:', errors);
     }
     if (data && data.actor) {
       for (const [key, value] of Object.entries(data.actor)) {
@@ -652,9 +779,15 @@ export default class DataManager {
     this.graphQlmeasures.length = 0;
     for (let i = 0; i < this.kpis.length; i++) {
       if (this.kpis[i].check) {
+        const extraInfo = {
+          measureType: 'kpi',
+          kpiName: this.kpis[i].name,
+          kpiType: this.kpis[i].type
+        };
         this.graphQlmeasures.push([
           this.kpis[i],
-          this.kpis[i].query + ' SINCE ' + this.timeRangeKpi.range
+          this.kpis[i].query + ' SINCE ' + this.timeRangeKpi.range,
+          extraInfo
         ]);
       }
     }

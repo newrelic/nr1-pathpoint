@@ -62,7 +62,7 @@ export default class MainContainer extends React.Component {
       header: false
     });
     this.state = {
-      accountName: '',
+      accountName: 'Demotron V2',
       totalContainers: 1,
       waiting: true,
       stages: null,
