@@ -24,6 +24,10 @@ export default class LogConnector {
   }
 
   CheckBuffer() {
+    if (this.licenseKey === 'API-KEY-HERE') {
+      this.buffer = [];
+      return null;
+    }
     const maxSizeBuffer = new Blob([JSON.stringify(this.buffer)]).size;
     const maxSixeSend = 999999;
     let ArrayResult = [];
