@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import DiamondBlue from '../../images/DiamondBlue.svg';
 import DiamondWhite from '../../images/Diamond.svg';
 import Arrow from '../Arrow/Arrow';
+import Workload from '../Workload/workload';
 import dangerHeart from '../../images/Red.svg';
 import goodHeart from '../../images/Green.svg';
 import warningHeart from '../../images/Yellow.svg';
@@ -21,6 +22,7 @@ const Stage = ({ stage, onClickStage }) => {
     healthIcon = goodHeart;
   }
   const indicators = calculate(stage.capacity);
+  const status = stage.index;
   return (
     <div className="stage">
       <div className="titleStage">
@@ -53,15 +55,7 @@ const Stage = ({ stage, onClickStage }) => {
           />
         </div>
         <div className="capacityBar">
-          {indicators.map((entry, index) => {
-            return (
-              <img
-                key={index}
-                style={{ width: '1.27vw', height: '1.27vw' }}
-                src={entry.name === 'white' ? DiamondWhite : DiamondBlue}
-              />
-            );
-          })}
+          <Workload workloadWidth={40} workloadValue={status} />
         </div>
         <div className="percentText">
           {stage.index === 1
