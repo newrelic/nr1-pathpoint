@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const Workload = ({ workloadWidth, workloadValue }) => {
   const arrowHead = 10;
   const arrayPath = [];
-  for (let i = 1; i <= workloadValue; i++) {
+  for (let i = 1; i <= 4; i++) {
     const pathWorkload = `M ${arrowHead * i + (i - 1) * workloadWidth} 0 L ${i *
       workloadWidth +
       arrowHead * i} 0 L ${i * workloadWidth + arrowHead * (i - 1)} 13 L ${(i -
@@ -16,22 +16,10 @@ const Workload = ({ workloadWidth, workloadValue }) => {
   }
   return (
     <svg fill="#ff0000" height="100%" width="100%">
-      {workloadValue > 1
-        ? arrayPath.map(workload => {
+      {arrayPath.map((workload, index) => {
+        if (index < workloadValue) {
+          if (workloadValue === 1) {
             return (
-              // eslint-disable-next-line react/jsx-key
-              <path
-                id="arrow"
-                d={workload}
-                stroke="#01b2ff"
-                strokeWidth="1"
-                fill="#01b2ff"
-              />
-            );
-          })
-        : arrayPath.map(workload => {
-            return (
-              // eslint-disable-next-line react/jsx-key
               <path
                 id="arrow"
                 d={workload}
@@ -40,7 +28,29 @@ const Workload = ({ workloadWidth, workloadValue }) => {
                 fill="#e3e6e8"
               />
             );
-          })}
+          } else {
+            return (
+              <path
+                id="arrow"
+                d={workload}
+                stroke="#01b2ff"
+                strokeWidth="1"
+                fill="#01b2ff"
+              />
+            );
+          }
+        } else {
+          return (
+            <path
+              id="arrow"
+              d={workload}
+              stroke="#e3e6e8"
+              strokeWidth="1"
+              fill="#ffffff"
+            />
+          );
+        }
+      })}
     </svg>
   );
 };
