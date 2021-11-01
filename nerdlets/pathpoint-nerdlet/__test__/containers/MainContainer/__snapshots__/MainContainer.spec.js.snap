@@ -4251,123 +4251,40 @@ exports[`<MainContainer/> Values stages 1`] = `
             <div
               className="capacityBar"
             >
-              <img
-                src={Object {}}
-                style={
-                  Object {
-                    "height": "1.27vw",
-                    "width": "1.27vw",
-                  }
-                }
-              />
-              <img
-                src={Object {}}
-                style={
-                  Object {
-                    "height": "1.27vw",
-                    "width": "1.27vw",
-                  }
-                }
-              />
-              <img
-                src={Object {}}
-                style={
-                  Object {
-                    "height": "1.27vw",
-                    "width": "1.27vw",
-                  }
-                }
-              />
-              <img
-                src={Object {}}
-                style={
-                  Object {
-                    "height": "1.27vw",
-                    "width": "1.27vw",
-                  }
-                }
-              />
-              <img
-                src={Object {}}
-                style={
-                  Object {
-                    "height": "1.27vw",
-                    "width": "1.27vw",
-                  }
-                }
-              />
-              <img
-                src={Object {}}
-                style={
-                  Object {
-                    "height": "1.27vw",
-                    "width": "1.27vw",
-                  }
-                }
-              />
-              <img
-                src={Object {}}
-                style={
-                  Object {
-                    "height": "1.27vw",
-                    "width": "1.27vw",
-                  }
-                }
-              />
-              <img
-                src={Object {}}
-                style={
-                  Object {
-                    "height": "1.27vw",
-                    "width": "1.27vw",
-                  }
-                }
-              />
-              <img
-                src={Object {}}
-                style={
-                  Object {
-                    "height": "1.27vw",
-                    "width": "1.27vw",
-                  }
-                }
-              />
-              <img
-                src={Object {}}
-                style={
-                  Object {
-                    "height": "1.27vw",
-                    "width": "1.27vw",
-                  }
-                }
-              />
-              <img
-                src={Object {}}
-                style={
-                  Object {
-                    "height": "1.27vw",
-                    "width": "1.27vw",
-                  }
-                }
-              />
-              <img
-                src={Object {}}
-                style={
-                  Object {
-                    "height": "1.27vw",
-                    "width": "1.27vw",
-                  }
-                }
-              />
-              <img
-                src={Object {}}
-                style={
-                  Object {
-                    "height": "1.27vw",
-                    "width": "1.27vw",
-                  }
-                }
-              />
+              <svg
+                fill="#ff0000"
+                height="100%"
+                width="100%"
+              >
+                <path
+                  d="M 10 0 L 50 0 L 40 13 L 0 13 Z"
+                  fill="#e3e6e8"
+                  id="arrow"
+                  stroke="#e3e6e8"
+                  strokeWidth="1"
+                />
+                <path
+                  d="M 60 0 L 100 0 L 90 13 L 50 13 Z"
+                  fill="#ffffff"
+                  id="arrow"
+                  stroke="#e3e6e8"
+                  strokeWidth="1"
+                />
+                <path
+                  d="M 110 0 L 150 0 L 140 13 L 100 13 Z"
+                  fill="#ffffff"
+                  id="arrow"
+                  stroke="#e3e6e8"
+                  strokeWidth="1"
+                />
+                <path
+                  d="M 160 0 L 200 0 L 190 13 L 150 13 Z"
+                  fill="#ffffff"
+                  id="arrow"
+                  stroke="#e3e6e8"
+                  strokeWidth="1"
+                />
+              </svg>
             </div>
             <div
               className="percentText"
