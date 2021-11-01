@@ -3,7 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // IMPORT IMAGES AND STATIC FILES
-
 import Arrow from '../Arrow/Arrow';
 import Workload from '../Workload/workload';
 import dangerHeart from '../../images/Red.svg';
