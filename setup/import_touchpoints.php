@@ -234,7 +234,7 @@ function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touc
         $touchPoints[0]["touchpoints"][$last - 1]["measure_points"][] = [
             "type" => $touchpointType,
             "query" => $tp_query,
-            "status_value" => 'OPERATIONAL'
+            "status_value" => 'NO-VALUE'
         ];
     }
     if($multiAccountID !== ''){

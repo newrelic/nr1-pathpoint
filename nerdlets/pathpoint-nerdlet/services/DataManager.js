@@ -306,7 +306,7 @@ export default class DataManager {
         measure.max_request_time = 0;
         break;
       case 'WLD':
-        measure.status_value = 'OPERATIONAL';
+        measure.status_value = 'NO-VALUE';
         break;
     }
   }
@@ -861,7 +861,7 @@ export default class DataManager {
         steps_max_cong: [],
         above_avg: stage.percentage_above_avg,
         steps_over_percentage_indexes: [],
-        capacity_status: 'OPERATIONAL'
+        capacity_status: 'NO-VALUE'
       };
       tpc.push(rec);
     });
@@ -1489,6 +1489,9 @@ export default class DataManager {
           }
         };
       }
+      if (index < 4) {
+        ikpi = { ...ikpi, check: true };
+      }
       this.kpis.push(ikpi);
     });
     this.configurationJSON.stages.forEach(stage => {
@@ -1622,7 +1625,7 @@ export default class DataManager {
             measure = {
               type: 'WLD',
               query: query.query,
-              status_value: 'OPERATIONAL'
+              status_value: 'NO-VALUE'
             };
           }
           if (query.accountID !== this.accountId) {

@@ -111,8 +111,8 @@
         "measure_points": [
           {
             "type": "WLD",
-            "query": "SELECT statusValue FROM WorkloadStatus WHERE entity.name='ACME Banking' LIMIt 1",
-            "status_value": "OPERATIONAL"
+            "query": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='ACME Banking'",
+            "status_value": "NO-VALUE"
           }
         ]
       },
@@ -201,8 +201,8 @@
         "measure_points": [
           {
             "type": "WLD",
-            "query": "SELECT statusValue FROM WorkloadStatus WHERE entity.name='Acme Telco - Ecommerce' LIMIt 1",
-            "status_value": "OPERATIONAL"
+            "query": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='Acme Telco - Ecommerce'",
+            "status_value": "NO-VALUE"
           }
         ]
       },
@@ -330,8 +330,8 @@
         "measure_points": [
           {
             "type": "WLD",
-            "query": "SELECT statusValue FROM WorkloadStatus WHERE entity.name='Demotron V2 - Acme Dev' LIMIt 1",
-            "status_value": "OPERATIONAL"
+            "query": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='Demotron V2 - Acme Dev'",
+            "status_value": "NO-VALUE"
           }
         ]
       },
@@ -442,8 +442,8 @@
         "measure_points": [
           {
             "type": "WLD",
-            "query": "SELECT statusValue FROM WorkloadStatus WHERE entity.name='Databases' LIMIT 1",
-            "status_value": "OPERATIONAL"
+            "query": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='Databases'",
+            "status_value": "NO-VALUE"
           }
         ]
       },
@@ -571,8 +571,8 @@
         "measure_points": [
           {
             "type": "WLD",
-            "query": "SELECT statusValue FROM WorkloadStatus WHERE entity.name='Demotron V2 - Telco' LIMIT 1",
-            "status_value": "OPERATIONAL"
+            "query": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='Demotron V2 - Telco'",
+            "status_value": "NO-VALUE"
           }
         ]
       }
