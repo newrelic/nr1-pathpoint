@@ -18,8 +18,8 @@ const Stage = ({ stage, onClickStage }) => {
   if (stage.status_color === 'good') {
     healthIcon = goodHeart;
   }
-  const indicators = calculate(stage.capacity);
-  const status = stage.index;
+  const capacity = GetCapacity(stage.capacity);
+  const status = GetStatus(stage.capacity);
   return (
     <div className="stage">
       <div className="titleStage">
@@ -55,13 +55,41 @@ const Stage = ({ stage, onClickStage }) => {
           <Workload workloadWidth={40} workloadValue={status} />
         </div>
         <div className="percentText">
-          {stage.index === 1
-            ? `Infra Workload: ${Math.round(stage.capacity * 100) / 100}%`
-            : `${Math.round(stage.capacity * 100) / 100}%`}
+          {stage.index === 1 ? `Infra Workload: ${capacity}%` : `${capacity}%`}
         </div>
       </div>
     </div>
   );
+};
+
+const GetCapacity = capacity => {
+  switch (capacity) {
+    case 'OPERATIONAL':
+      return 100;
+    case 'DEGRADED':
+      return 75;
+    case 'DISRUPTED':
+      return 50;
+    case 'UNKNOWN':
+      return 25;
+    default:
+      return 0;
+  }
+};
+
+const GetStatus = capacity => {
+  switch (capacity) {
+    case 'OPERATIONAL':
+      return 4;
+    case 'DEGRADED':
+      return 3;
+    case 'DISRUPTED':
+      return 2;
+    case 'UNKNOWN':
+      return 1;
+    default:
+      return 0;
+  }
 };
 
 const transformK = value => {
@@ -72,30 +100,6 @@ const transformK = value => {
     return `${Math.round(value / 1000)} K`;
   }
   return value;
-};
-
-const calculate = level => {
-  const newIndicators = [];
-  const quantityObjects = 13;
-  const quantityArrowsBlue = parseInt((quantityObjects / 100) * level);
-  if (level <= 5) {
-    newIndicators.push({ name: 'blue' });
-    for (let i = 0; i < quantityObjects - 1; i++) {
-      newIndicators.push({ name: 'white' });
-    }
-  } else if (level >= 100) {
-    for (let i = 0; i < quantityObjects; i++) {
-      newIndicators.push({ name: 'blue' });
-    }
-  } else {
-    for (let i = 0; i < quantityArrowsBlue; i++) {
-      newIndicators.push({ name: 'blue' });
-    }
-    for (let i = 0; i < quantityObjects - quantityArrowsBlue; i++) {
-      newIndicators.push({ name: 'white' });
-    }
-  }
-  return newIndicators;
 };
 
 export default Stage;
