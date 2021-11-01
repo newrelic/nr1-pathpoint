@@ -185,7 +185,7 @@ export default class TouchPoint extends React.Component {
                 iconSixthSenseStatus,
                 iconFireStatus
               ),
-              cursor: 'pointer',
+              cursor: this.ActivateCursor(touchpoint, city),
               background: this.BackgroundTouchPoint(status_on_off, active)
             }}
             onMouseDown={this.HandleContextMenu}
