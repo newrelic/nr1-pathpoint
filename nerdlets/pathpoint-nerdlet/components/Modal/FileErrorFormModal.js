@@ -32,7 +32,7 @@ function BodyFileErrorFormModal(props) {
         {errorsList.map((error, i) => {
           return (
             <div className="error-alert-modal" key={i}>
-              <p>{`${error.dataPath} - ${error.message}`}</p>
+              <p>{`${error.dataPath} ${error.message}`}</p>
             </div>
           );
         })}
@@ -110,6 +110,7 @@ function handleUploadJSONFile(
         );
         let totalErrrors = [];
         if (!customErrors && queryErrors.length === 0) {
+          alert('m')
           SetConfigurationJSON(eX.target.result);
         }
         if (customErrors) {
@@ -123,7 +124,11 @@ function handleUploadJSONFile(
         }
         onClose(totalErrrors);
       } else {
-        onClose(validate.errors);
+        const errors = TranslateAJVErrors(
+          validate.errors,
+          JSON.parse(eX.target.result)
+        );
+        onClose(errors);
       }
     } catch (error) {
       onClose([
@@ -134,6 +139,65 @@ function handleUploadJSONFile(
       ]);
     }
   };
+}
+
+function TranslateAJVErrors(errors, payload) {
+  const translated = [];
+  errors.forEach(error => {
+    if (error.dataPath === '') {
+      translated.push({
+        ...error,
+        dataPath: 'The uploaded file'
+      });
+    } else if (error.dataPath.split('/').length > 2) {
+      let message = error.message;
+      const flag = error.dataPath.split('/')[1];
+      const index = parseInt(error.dataPath.split('/')[2]);
+      let dataPath = '';
+      if (flag === 'kpis') {
+        if (error.params.missingProperty) {
+          if (payload[flag][index].name) {
+            dataPath = `The following KPI: '${payload[flag][index].name}', `;
+          } else if (payload[flag][index].shortName) {
+            dataPath = `The following KPI: '${payload[flag][index].shortName}', `;
+          } else {
+            dataPath = `The KPI at the position ${index + 1}, `;
+          }
+        } else if (error.params.allowedValues) {
+          const property = error.dataPath.split('/');
+          dataPath = `The following KPI: '${
+            payload[flag][index].name
+          }' in the property '${property[property.length - 1]}' `;
+          const params = JSON.stringify(error.params.allowedValues)
+            .replace('[', '')
+            .replace(']', '')
+            .replace(',', ', ');
+          message = `${error.message}: ${params}`;
+        } else {
+          const property = error.dataPath.split('/');
+          dataPath = `The following KPI: '${
+            payload[flag][index].name
+          }' in the property '${property[property.length - 1]}' `;
+        }
+      } else if (flag === 'stages') {
+        // if (error.dataPath.split('/').length === 3) {}
+      }
+      translated.push({
+        ...error,
+        dataPath,
+        message
+      });
+    } else {
+      translated.push({
+        ...error,
+        dataPath: `In the uploaded file, the property '${error.dataPath.replace(
+          '/',
+          ''
+        )}'`
+      });
+    }
+  });
+  return translated;
 }
 
 BodyFileErrorFormModal.propTypes = {
