@@ -749,7 +749,7 @@ describe('Validations class', () => {
       const validateErrors = validations.kpi101Validation('error', '');
       expect(validateErrors).toEqual(false);
       const validateData = validations.kpi101Validation(errors, query, data);
-      expect(validateData).toEqual(true);
+      expect(validateData).toEqual(false);
     });
 
     it('Function kpiQueryValidation()', () => {

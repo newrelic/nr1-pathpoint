@@ -65,7 +65,7 @@ exports[`Arrow component Arrow component with latency 1`] = `
       strokeWidth={2}
       viewBox="0 0 32 15"
       width="30"
-      x={55}
+      x={85}
       y="33"
     >
       <path
@@ -78,7 +78,7 @@ exports[`Arrow component Arrow component with latency 1`] = `
       height="15"
       viewBox="0 0 32 15"
       width="30"
-      x={55}
+      x={85}
       y="33"
     >
       <path
@@ -155,7 +155,7 @@ exports[`Arrow component Arrow component with no latency 1`] = `
       strokeWidth={2}
       viewBox="0 0 32 15"
       width="30"
-      x={55}
+      x={85}
       y="33"
     >
       <path
@@ -168,7 +168,7 @@ exports[`Arrow component Arrow component with no latency 1`] = `
       height="15"
       viewBox="0 0 32 15"
       width="30"
-      x={55}
+      x={85}
       y="33"
     >
       <path
