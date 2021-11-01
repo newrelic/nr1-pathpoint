@@ -50,6 +50,9 @@ export default class ValidationQuery {
       case 'SYN-CHECK-QUERY':
         goodQuery = this.checkSYNQueryValidation(errors, data);
         break;
+      case 'WORKLOAD-QUERY':
+        goodQuery = this.checkWLDQueryValidation(errors, data);
+        break;
       case 'KPI-101':
         goodQuery = this.kpi101Validation(errors, query, data);
         break;
@@ -251,6 +254,28 @@ export default class ValidationQuery {
       } else {
         validate = false;
       }
+    }
+    return validate;
+  }
+
+  checkWLDQueryValidation(errors, data) {
+    let validate = true;
+    let quantity = 0;
+    let sessionCount = false;
+    if (errors && errors.length > 0) {
+      validate = false;
+    } else if (data instanceof Array && data.length === 1) {
+      for (const [key] of Object.entries(data[0])) {
+        if (key === 'statusValue') sessionCount = true;
+        quantity++;
+      }
+      if (quantity > 2) {
+        validate = false;
+      } else if (!sessionCount) {
+        validate = false;
+      }
+    } else {
+      validate = false;
     }
     return validate;
   }
