@@ -17,11 +17,12 @@ import {
   logger
 } from 'nr1';
 
-import axios from 'axios';
+import LogConnector from './LogsConnector';
 
 // DEFINE AND EXPORT CLASS
 export default class DataManager {
   constructor() {
+    this.LogConnector = new LogConnector();
     this.minPercentageError = 100;
     this.historicErrorsHours = 192;
     this.historicErrorsHighLightPercentage = 26;
@@ -387,23 +388,7 @@ export default class DataManager {
   }
 
   SendToLogs(logRecord) {
-    const logR = {
-      ...logRecord,
-      pathpoint_id: this.pathpointId,
-      application: 'Patphpoint',
-      logtype: 'accesslogs',
-      service: 'login-service',
-      hostname: 'login.example.com'
-    };
-    // console.log('LOG-RECORD:', logR);
-    const instance = axios.create();
-    const logEnvio = JSON.stringify(logR);
-    instance.post('https://log-api.newrelic.com/log/v1', logEnvio, {
-      headers: {
-        contentType: 'application/json',
-        'X-License-Key': '23e412dac46fbc1a485444a8e2588af3FFFFNRAL'
-      }
-    });
+    this.LogConnector.SendLog(logRecord);
   }
 
   MakeLogingData(startMeasureTime, endMeasureTime, data, errors) {
@@ -432,6 +417,7 @@ export default class DataManager {
                   touchpoint_type: measure.type,
                   stage_name: extraInfo.stageName
                 };
+                this.LogConnector.SendLog(logRecord);
                 this.SendToLogs(logRecord);
               }
               if (extraInfo.measureType === 'kpi') {

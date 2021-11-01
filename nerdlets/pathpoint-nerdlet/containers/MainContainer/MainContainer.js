@@ -26,7 +26,6 @@ import DataManager from '../../services/DataManager';
 import ValidationQuery from '../../services/Validations.js';
 import LogoSetupData from '../../services/LogoSetupData';
 import { CreateJiraIssue } from '../../services/JiraConnector';
-import { CreateLogRequest } from '../../services/LogsConnector';
 
 // IMPORT STATIC FILES AND IMAGES
 import logoNewRelic from '../../images/logoNewRelic.png';
@@ -249,10 +248,6 @@ export default class MainContainer extends React.Component {
         }, Setup.time_refresh);
       }
     );
-    // == funcion logs
-    const dataLog = 'mensaje proxy 1 2 3';
-    CreateLogRequest(dataLog);
-    // == end funcion logs
   };
 
   ExecuteUpdateData = changeLoading => {
