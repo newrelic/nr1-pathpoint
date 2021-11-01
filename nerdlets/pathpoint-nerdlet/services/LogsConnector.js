@@ -1,41 +1,51 @@
 import axios from 'axios';
 import nr1 from '../../../nr1.json';
+import env from '../../../.env.json';
 
 // clase que trabaja de manera independiente
 export default class LogConnector {
   constructor() {
-    this.pathpoint_id = nr1.id;
+    this.pathpointId = nr1.id;
+    this.licenseKey = env.newRelicLogLicense;
     this.buffer = [];
+    this.axiosInstance = axios.create();
     setInterval(() => {
-      this.checkBuffer();
+      this.CheckBuffer();
     }, 10000);
   }
 
   SendLog(datos) {
-    this.buffer.push(datos);
+    const fullData = {
+      ...datos,
+      pathpoint_id: this.pathpointId,
+      application: 'Patphpoint'
+    };
+    this.buffer.push(fullData);
   }
 
-  checkBuffer() {
+  CheckBuffer() {
+    if (this.licenseKey === 'API-KEY-HERE') {
+      this.buffer = [];
+      return null;
+    }
     const maxSizeBuffer = new Blob([JSON.stringify(this.buffer)]).size;
     const maxSixeSend = 999999;
     let ArrayResult = [];
     if (maxSizeBuffer > maxSixeSend) {
-      ArrayResult = this.comprirArray(maxSizeBuffer, maxSixeSend);
+      ArrayResult = this.ValidateArraySize(maxSizeBuffer, maxSixeSend);
       this.buffer = [];
     } else {
       ArrayResult.push(this.buffer);
       this.buffer = [];
     }
-    const instance = axios.create();
-    const licenseKey = '1d92fdd9f76cb3ff123dabd866824d47ecdbNRAL';
     if (ArrayResult[0].length > 0) {
       ArrayResult.forEach((element, index) => {
         const logEnvio = JSON.stringify(element);
-        instance
+        this.axiosInstance
           .post('https://log-api.newrelic.com/log/v1', logEnvio, {
             headers: {
               contentType: 'application/json',
-              'X-License-Key': licenseKey
+              'X-License-Key': this.licenseKey
             }
           })
           .then(() => {
@@ -48,12 +58,12 @@ export default class LogConnector {
     }
   }
 
-  // showBuffer() {
+  // ShowBuffer() {
   //   console.log('buffer lentgh:', this.buffer.length);
   //   console.info('buffer size:', new Blob([JSON.stringify(this.buffer)]).size);
   // }
 
-  comprirArray(maxSizeBuffer, maxSixeSend) {
+  ValidateArraySize(maxSizeBuffer, maxSixeSend) {
     const nSalto = Math.ceil(maxSizeBuffer / maxSixeSend);
     const bufferLenght = this.buffer.length;
     const optimoSize = Math.ceil(bufferLenght / nSalto);
