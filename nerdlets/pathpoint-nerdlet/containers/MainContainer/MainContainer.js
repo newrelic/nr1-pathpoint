@@ -914,6 +914,9 @@ export default class MainContainer extends React.Component {
       case 'SYN-CHECK-QUERY':
         querySample = messages.sample_querys.syn;
         break;
+      case 'WORKLOAD-QUERY':
+        querySample = messages.sample_querys.wld;
+        break;
     }
     if (stageNameSelected.selectedCase) {
       stageNameSelected.datos[
