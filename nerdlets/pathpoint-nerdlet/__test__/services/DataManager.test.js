@@ -1339,7 +1339,11 @@ describe('DataManager class', () => {
           value: [Object],
           check: true
         },
-        'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago SINCE 24 HOURS AGO'
+        'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago SINCE 24 HOURS AGO',
+        {
+          index: 0,
+          measureType: 'touchpoint'
+        }
       ]
     ];
     dataManager.timeRange = '5 MINUTES AGO';

@@ -448,6 +448,8 @@ export default class DataManager {
         ) {
           const measure = this.graphQlmeasures[Number(c[1])][0];
           const query = this.graphQlmeasures[Number(c[1])][1];
+          // eslint-disable-next-line no-console
+          console.log('grapql', this.graphQlmeasures[Number(c[1])][1]);
           const extraInfo = this.graphQlmeasures[Number(c[1])][2];
           const totalMeasures = this.graphQlmeasures.length;
           const timeByMeasure =
