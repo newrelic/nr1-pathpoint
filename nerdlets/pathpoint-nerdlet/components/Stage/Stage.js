@@ -54,19 +54,22 @@ const Stage = ({ stage, onClickStage }) => {
         <div className="capacityBar">
           <Workload workloadWidth={40} workloadValue={status} />
         </div>
-        <div className="percentText">
-          {stage.index === 1 ? `Infra Workload: ${capacity}` : `${capacity}`}
-        </div>
+        <div className="percentText">{`Infra Workload: ${capacity}`}</div>
       </div>
     </div>
   );
 };
 
 const GetCapacity = capacity => {
-  if (capacity === 'NO-VALUE') {
-    return '';
+  if (
+    capacity === 'OPERATIONAL' ||
+    capacity === 'DEGRADED' ||
+    capacity === 'DISRUPTED' ||
+    capacity === 'UNKNOWN'
+  ) {
+    return capacity;
   }
-  return capacity;
+  return '';
 };
 
 const GetStatus = capacity => {

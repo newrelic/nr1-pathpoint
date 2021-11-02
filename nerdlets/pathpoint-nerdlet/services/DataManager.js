@@ -415,7 +415,7 @@ export default class DataManager {
               }
               if (extraInfo.measureType === 'touchpoint') {
                 const logRecord = {
-                  action: 'TouchpointERROR',
+                  action: 'touchpoint-error',
                   account_id: accountID,
                   error: true,
                   error_message: JSON.stringify(error),
@@ -429,7 +429,7 @@ export default class DataManager {
               }
               if (extraInfo.measureType === 'kpi') {
                 const logRecord = {
-                  action: 'KPI-ERROR',
+                  action: 'kpi-error',
                   account_id: accountID,
                   error: true,
                   error_message: JSON.stringify(error),
@@ -466,7 +466,7 @@ export default class DataManager {
             }
             if (extraInfo.measureType === 'touchpoint') {
               const logRecord = {
-                action: 'TouchpointQuery',
+                action: 'touchpoint-query',
                 account_id: accountID,
                 error: false,
                 query: query,
@@ -480,7 +480,7 @@ export default class DataManager {
             }
             if (extraInfo.measureType === 'kpi') {
               const logRecord = {
-                action: 'KPI-Query',
+                action: 'kpi-query',
                 account_id: accountID,
                 error: false,
                 query: query,
