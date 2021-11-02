@@ -165,6 +165,18 @@ const Header = ({
           handleOnChange={changeTimeRange}
           options={options}
         />
+        <div
+          style={{
+            cursor: 'pointer'
+          }}
+          onClick={() => {
+            if (1 === 1) {
+              window.open('http://one.newrelic.com');
+            }
+          }}
+        >
+          View Logs
+        </div>
       </div>
     </div>
   );
