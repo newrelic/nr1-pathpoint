@@ -42,12 +42,20 @@
   margin: 0 !important;
   font-weight: bold;
 }
-
+.containerRigthtHand {
+  display: flex;
+  margin-right: 10px;
+  align-items: center;
+}
 .distributionIcons {
   display: grid;
   grid-template: 1fr / 15% 15% 15% 15% 15% 1fr;
   align-items: center;
   justify-content: space-between;
+}
+.viewLogs {
+  font-size: 12px;
+  color: #bdbdbd;
 }
 .budgetLoss {
   font-family: Open Sans;

@@ -112,67 +112,68 @@ const Header = ({
           color: iconFireStatus && 'red'
         }}
       />
-      <div className="distributionIcons">
-        <div
-          style={{ visibility: 'hidden' }}
-          className="fireIconContainer"
-          onClick={() => {
-            activeSixthSenseIcon();
-          }}
-        >
-          <img
-            style={{ height: '18px' }}
-            src={iconSixthSenseStatus ? sixthSenseIconOn : sixthSenseIcon}
+      <div className="containerRigthtHand">
+        <div className="distributionIcons">
+          <div
+            style={{ visibility: 'hidden' }}
+            className="fireIconContainer"
+            onClick={() => {
+              activeSixthSenseIcon();
+            }}
+          >
+            <img
+              style={{ height: '18px' }}
+              src={iconSixthSenseStatus ? sixthSenseIconOn : sixthSenseIcon}
+            />
+          </div>
+          <div
+            className="fireIconContainer"
+            onClick={() => {
+              ToggleHeaderButtons('iconCanaryStatus');
+            }}
+          >
+            <img
+              style={{ height: '18px' }}
+              src={iconCanaryStatus ? canaryIconOn : canaryIcon}
+            />
+          </div>
+          <div
+            className="fireIconContainer"
+            onClick={() => {
+              ToggleHeaderButtons('iconFireStatus');
+            }}
+            onMouseDown={handleContextMenuFire}
+          >
+            <img
+              style={{ height: '18px' }}
+              src={iconFireStatus ? fireIconOn : fireIcon}
+            />
+          </div>
+          <div
+            className="fireIconContainer"
+            onClick={() => {
+              ToggleHeaderButtons('iconGoutStatus');
+            }}
+            onMouseDown={handleContextMenuGout}
+          >
+            <img
+              style={{ height: '18px' }}
+              src={iconGoutStatus ? goutIconOn : goutIcon}
+            />
+          </div>
+          <Select
+            name="header"
+            handleOnChange={changeTimeRange}
+            options={options}
           />
         </div>
         <div
-          className="fireIconContainer"
-          onClick={() => {
-            ToggleHeaderButtons('iconCanaryStatus');
-          }}
-        >
-          <img
-            style={{ height: '18px' }}
-            src={iconCanaryStatus ? canaryIconOn : canaryIcon}
-          />
-        </div>
-        <div
-          className="fireIconContainer"
-          onClick={() => {
-            ToggleHeaderButtons('iconFireStatus');
-          }}
-          onMouseDown={handleContextMenuFire}
-        >
-          <img
-            style={{ height: '18px' }}
-            src={iconFireStatus ? fireIconOn : fireIcon}
-          />
-        </div>
-        <div
-          className="fireIconContainer"
-          onClick={() => {
-            ToggleHeaderButtons('iconGoutStatus');
-          }}
-          onMouseDown={handleContextMenuGout}
-        >
-          <img
-            style={{ height: '18px' }}
-            src={iconGoutStatus ? goutIconOn : goutIcon}
-          />
-        </div>
-        <Select
-          name="header"
-          handleOnChange={changeTimeRange}
-          options={options}
-        />
-        <div
+          className="viewLogs"
           style={{
             cursor: 'pointer'
           }}
           onClick={() => {
-            if (1 === 1) {
-              window.open('http://one.newrelic.com');
-            }
+            window.open('http://one.newrelic.com');
           }}
         >
           View Logs
