@@ -115,6 +115,7 @@ export default class DataManager {
   ) {
     if (this.accountId !== null) {
       console.log(`UPDATING-DATA: ${this.accountId}`);
+      //console.log('KKPPIs:',this.kpis);
       this.timeRange = timeRange;
       this.city = city;
       this.getOldSessions = getOldSessions;
@@ -306,7 +307,7 @@ export default class DataManager {
         measure.max_request_time = 0;
         break;
       case 'WLD':
-        measure.status_value = 'OPERATIONAL';
+        measure.status_value = 'NO-VALUE';
         break;
     }
   }
@@ -415,7 +416,7 @@ export default class DataManager {
               }
               if (extraInfo.measureType === 'touchpoint') {
                 const logRecord = {
-                  action: 'TouchpointERROR',
+                  action: 'touchpoint-error',
                   account_id: accountID,
                   error: true,
                   error_message: JSON.stringify(error),
@@ -429,7 +430,7 @@ export default class DataManager {
               }
               if (extraInfo.measureType === 'kpi') {
                 const logRecord = {
-                  action: 'KPI-ERROR',
+                  action: 'kpi-error',
                   account_id: accountID,
                   error: true,
                   error_message: JSON.stringify(error),
@@ -450,6 +451,7 @@ export default class DataManager {
         if (
           c[0] === 'measure' &&
           value &&
+          value.nrql &&
           Reflect.has(value, 'nrql') &&
           Reflect.has(value.nrql, 'results')
         ) {
@@ -466,7 +468,7 @@ export default class DataManager {
             }
             if (extraInfo.measureType === 'touchpoint') {
               const logRecord = {
-                action: 'TouchpointQuery',
+                action: 'touchpoint-query',
                 account_id: accountID,
                 error: false,
                 query: query,
@@ -479,8 +481,11 @@ export default class DataManager {
               this.SendToLogs(logRecord);
             }
             if (extraInfo.measureType === 'kpi') {
+              if (Reflect.has(measure.queryByCity[this.city], 'accountID')) {
+                accountID = measure.queryByCity[this.city].accountID;
+              }
               const logRecord = {
-                action: 'KPI-Query',
+                action: 'kpi-query',
                 account_id: accountID,
                 error: false,
                 query: query,
@@ -686,6 +691,12 @@ export default class DataManager {
           if (Reflect.has(nrql[0], 'accountID')) {
             accountID = nrql[0].accountID;
           }
+          // Special Change ONLY for KPI-MULTI-ACCOINT-MEASURES
+          if (nrql[0].type === 100 || nrql[0].type === 101) {
+            if (Reflect.has(nrql[0].queryByCity[this.city], 'accountID')) {
+              accountID = nrql[0].queryByCity[this.city].accountID;
+            }
+          }
           alias = `measure_${n}`;
           n += 1;
           gql += `${alias}: account(id: ${accountID}) {
@@ -719,6 +730,12 @@ export default class DataManager {
         accountID = this.accountId;
         if (Reflect.has(nrql[0], 'accountID')) {
           accountID = nrql[0].accountID;
+        }
+        // Special Change ONLY for KPI-MULTI-ACCOINT-MEASURES
+        if (nrql[0].type === 100 || nrql[0].type === 101) {
+          if (Reflect.has(nrql[0].queryByCity[this.city], 'accountID')) {
+            accountID = nrql[0].queryByCity[this.city].accountID;
+          }
         }
         alias = `measure_${n}`;
         n += 1;
@@ -790,10 +807,13 @@ export default class DataManager {
         };
         this.graphQlmeasures.push([
           this.kpis[i],
-          this.kpis[i].query + ' SINCE ' + this.timeRangeKpi.range,
+          this.kpis[i].queryByCity[this.city].query +
+            ' SINCE ' +
+            this.timeRangeKpi.range,
           extraInfo
         ]);
       }
+      this.kpis[i].link = this.kpis[i].queryByCity[this.city].link;
     }
     await this.NRDBQuery();
   }
@@ -861,7 +881,7 @@ export default class DataManager {
         steps_max_cong: [],
         above_avg: stage.percentage_above_avg,
         steps_over_percentage_indexes: [],
-        capacity_status: 'OPERATIONAL'
+        capacity_status: 'NO-VALUE'
       };
       tpc.push(rec);
     });
@@ -1268,15 +1288,25 @@ export default class DataManager {
     let i = 0;
     let line = 0;
     let kpi = null;
+    let multyQuery = null;
+    let accountID = this.accountId;
     this.configuration.pathpointVersion = this.version;
     this.configuration.kpis.length = 0;
     for (let i = 0; i < this.kpis.length; i++) {
+      accountID = this.accountId;
+      if (Reflect.has(this.kpis[i].queryByCity[this.city], 'accountID')) {
+        accountID = this.kpis[i].queryByCity[this.city].accountID;
+      }
+      multyQuery = {
+        accountID: accountID,
+        query: this.kpis[i].queryByCity[this.city].query
+      };
       kpi = {
         type: this.kpis[i].type,
         name: this.kpis[i].name,
         shortName: this.kpis[i].shortName,
-        link: this.kpis[i].link,
-        query: this.kpis[i].query,
+        link: this.kpis[i].queryByCity[this.city].link,
+        measure: multyQuery,
         value_type: this.kpis[i].value_type,
         prefix: this.kpis[i].prefix,
         suffix: this.kpis[i].suffix
@@ -1465,18 +1495,35 @@ export default class DataManager {
     });
     let ikpi = null;
     let index = 0;
+    let queryByCity = null;
     this.configurationJSON.kpis.forEach(kpi => {
       ikpi = {
         index: index,
         type: kpi.type,
         name: kpi.name,
         shortName: kpi.shortName,
-        link: kpi.link,
-        query: kpi.query,
+        link: '',
         value_type: kpi.value_type,
         prefix: kpi.prefix,
         suffix: kpi.suffix
       };
+      if (kpi.measure.accountID !== this.accountId) {
+        queryByCity = [
+          {
+            accountID: kpi.measure.accountID,
+            query: kpi.measure.query,
+            link: kpi.link
+          }
+        ];
+      } else {
+        queryByCity = [
+          {
+            query: kpi.measure.query,
+            link: kpi.link
+          }
+        ];
+      }
+      ikpi = { ...ikpi, queryByCity: queryByCity };
       index++;
       if (kpi.type === 100) {
         ikpi = { ...ikpi, value: 0 };
@@ -1488,6 +1535,9 @@ export default class DataManager {
             previous: 0
           }
         };
+      }
+      if (index < 4) {
+        ikpi = { ...ikpi, check: true };
       }
       this.kpis.push(ikpi);
     });
@@ -1622,7 +1672,7 @@ export default class DataManager {
             measure = {
               type: 'WLD',
               query: query.query,
-              status_value: 'OPERATIONAL'
+              status_value: 'NO-VALUE'
             };
           }
           if (query.accountID !== this.accountId) {
