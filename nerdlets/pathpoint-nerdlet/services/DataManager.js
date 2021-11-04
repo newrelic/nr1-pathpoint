@@ -178,7 +178,6 @@ export default class DataManager {
     this.accountIDs.forEach(acc => {
       ids += acc.id + '--';
     });
-    console.log('IDS', ids);
     const initial_length = ids.length;
     this.touchPoints.forEach(element => {
       element.touchpoints.forEach(touchpoint => {
@@ -463,7 +462,6 @@ export default class DataManager {
                   touchpoint_type: measure.type,
                   stage_name: extraInfo.stageName
                 };
-                this.LogConnector.SendLog(logRecord);
                 this.SendToLogs(logRecord);
               }
               if (extraInfo.measureType === 'kpi') {
@@ -1509,6 +1507,12 @@ export default class DataManager {
     this.configurationJSON = JSON.parse(configuration);
     this.UpdateNewConfiguration();
     this.AddCustomAccountIDs();
+    const logRecord = {
+      action: 'json-update',
+      error: false,
+      json_file: configuration
+    };
+    this.SendToLogs(logRecord);
     return {
       stages: this.stages,
       kpis: this.kpis
@@ -2088,6 +2092,15 @@ for (const [key, value] of Object.entries(return` +
             tp.touchpoint_index === touchpoint.index
           ) {
             found2 = true;
+            const logRecord = {
+              action: 'touchpoint-enable-disable',
+              error: false,
+              touchpoint_name: touchpoint.value,
+              touchpoint_type: tp.measure_points[0].type,
+              stage_name: this.stages[tp.stage_index - 1].title,
+              touchpoint_enabled: touchpoint.status_on_off
+            };
+            this.SendToLogs(logRecord);
             tp.status_on_off = touchpoint.status_on_off;
             if (updateStorage) {
               this.SetStorageTouchpoints();
@@ -2124,7 +2137,6 @@ for (const [key, value] of Object.entries(return` +
   }
 
   GetTouchpointQuerys(touchpoint) {
-    console.log('SI')
     const datos = [];
     let accountID = this.accountId;
     this.touchPoints.some(element => {
@@ -2235,6 +2247,16 @@ for (const [key, value] of Object.entries(return` +
             tp.touchpoint_index === touchpoint.index
           ) {
             found2 = true;
+            const logRecord = {
+              action: 'touchpoint-tune',
+              message: datos,
+              error: false,
+              touchpoint_name: touchpoint.value,
+              touchpoint_type: tp.measure_points[0].type,
+              stage_name: this.stages[tp.stage_index - 1].title,
+              touchpoint_enabled: touchpoint.status_on_off
+            };
+            this.SendToLogs(logRecord);
             switch (tp.measure_points[0].type) {
               case 'PRC':
               case 'PCC':
@@ -2278,6 +2300,18 @@ for (const [key, value] of Object.entries(return` +
             tp.touchpoint_index === touchpoint.index
           ) {
             found2 = true;
+            const logRecord = {
+              action: 'touchpoint-update',
+              message: datos,
+              account_id: datos[0].accountID,
+              query: datos[0].query_body,
+              error: false,
+              touchpoint_name: touchpoint.value,
+              touchpoint_type: tp.measure_points[0].type,
+              stage_name: this.stages[tp.stage_index - 1].title,
+              touchpoint_enabled: touchpoint.status_on_off
+            };
+            this.SendToLogs(logRecord);
             datos.forEach(dato => {
               this.UpdateMeasure(dato, tp.measure_points);
             });
