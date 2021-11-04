@@ -1,14 +1,19 @@
 import axios from 'axios';
-import nr1 from '../../../nr1.json';
+import nr1Json from '../../../nr1.json';
 import env from '../../../.env.json';
+import { UserQuery } from 'nr1';
+import { browserName, browserVersion } from 'react-device-detect';
 
 // clase que trabaja de manera independiente
 export default class LogConnector {
   constructor() {
-    this.pathpointId = nr1.id;
+    this.pathpointId = nr1Json.id;
     this.licenseKey = env.newRelicLogLicense;
     this.buffer = [];
     this.axiosInstance = axios.create();
+    UserQuery.query().then(({ data }) => {
+      this.userData = data;
+    });
     setInterval(() => {
       this.CheckBuffer();
     }, 10000);
@@ -18,7 +23,12 @@ export default class LogConnector {
     const fullData = {
       ...datos,
       pathpoint_id: this.pathpointId,
-      application: 'Patphpoint'
+      application: 'Pathpoint',
+      user_name: this.userData.name,
+      user_id: this.userData.id,
+      user_email: this.userData.email,
+      browser_name: browserName,
+      browser_version: browserVersion
     };
     this.buffer.push(fullData);
   }

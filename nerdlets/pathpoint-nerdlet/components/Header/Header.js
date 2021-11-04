@@ -22,6 +22,7 @@ import SelectorKpis from '../SelectorKpis';
 import kpiStatusEqual from '../../images/kpiStatusEqual.svg';
 import kpiStatusUpper from '../../images/kpiStatusUpper.svg';
 import kpiStatusLower from '../../images/kpiStatusLower.svg';
+import { navigation } from 'nr1';
 
 const Header = ({
   iconSixthSenseStatus,
@@ -112,59 +113,84 @@ const Header = ({
           color: iconFireStatus && 'red'
         }}
       />
-      <div className="distributionIcons">
-        <div
-          style={{ visibility: 'hidden' }}
-          className="fireIconContainer"
-          onClick={() => {
-            activeSixthSenseIcon();
-          }}
-        >
-          <img
-            style={{ height: '18px' }}
-            src={iconSixthSenseStatus ? sixthSenseIconOn : sixthSenseIcon}
+      <div className="containerRigthtHand">
+        <div className="distributionIcons">
+          <div
+            style={{ visibility: 'hidden' }}
+            className="fireIconContainer"
+            onClick={() => {
+              activeSixthSenseIcon();
+            }}
+          >
+            <img
+              style={{ height: '18px' }}
+              src={iconSixthSenseStatus ? sixthSenseIconOn : sixthSenseIcon}
+            />
+          </div>
+          <div
+            className="fireIconContainer"
+            onClick={() => {
+              ToggleHeaderButtons('iconCanaryStatus');
+            }}
+          >
+            <img
+              style={{ height: '18px' }}
+              src={iconCanaryStatus ? canaryIconOn : canaryIcon}
+            />
+          </div>
+          <div
+            className="fireIconContainer"
+            onClick={() => {
+              ToggleHeaderButtons('iconFireStatus');
+            }}
+            onMouseDown={handleContextMenuFire}
+          >
+            <img
+              style={{ height: '18px' }}
+              src={iconFireStatus ? fireIconOn : fireIcon}
+            />
+          </div>
+          <div
+            className="fireIconContainer"
+            onClick={() => {
+              ToggleHeaderButtons('iconGoutStatus');
+            }}
+            onMouseDown={handleContextMenuGout}
+          >
+            <img
+              style={{ height: '18px' }}
+              src={iconGoutStatus ? goutIconOn : goutIcon}
+            />
+          </div>
+          <Select
+            name="header"
+            handleOnChange={changeTimeRange}
+            options={options}
           />
         </div>
-        <div
-          className="fireIconContainer"
+        {/* <div
+          className="viewLogs"
+          style={{
+            cursor: 'pointer'
+          }}
           onClick={() => {
-            ToggleHeaderButtons('iconCanaryStatus');
+            //window.open('http://one.newrelic.com');
+            // navigation.openNerdlet({
+            //   id: 'logger.log-tailer',
+            //   state: {
+            //     accountId: 1606862,
+            //     query: `labels.app:delivery`,
+            //     timeRange: {
+            //       begin_time: 1635881674,
+            //       end_time: 1635886674,
+            //       duration: undefined
+            //     }
+            //   }
+            // });
           }}
         >
-          <img
-            style={{ height: '18px' }}
-            src={iconCanaryStatus ? canaryIconOn : canaryIcon}
-          />
-        </div>
-        <div
-          className="fireIconContainer"
-          onClick={() => {
-            ToggleHeaderButtons('iconFireStatus');
-          }}
-          onMouseDown={handleContextMenuFire}
-        >
-          <img
-            style={{ height: '18px' }}
-            src={iconFireStatus ? fireIconOn : fireIcon}
-          />
-        </div>
-        <div
-          className="fireIconContainer"
-          onClick={() => {
-            ToggleHeaderButtons('iconGoutStatus');
-          }}
-          onMouseDown={handleContextMenuGout}
-        >
-          <img
-            style={{ height: '18px' }}
-            src={iconGoutStatus ? goutIconOn : goutIcon}
-          />
-        </div>
-        <Select
-          name="header"
-          handleOnChange={changeTimeRange}
-          options={options}
-        />
+          View Logs
+        </div> */}
       </div>
     </div>
   );
