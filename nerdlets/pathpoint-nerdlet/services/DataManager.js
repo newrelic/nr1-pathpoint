@@ -115,7 +115,8 @@ export default class DataManager {
   ) {
     if (this.accountId !== null) {
       console.log(`UPDATING-DATA: ${this.accountId}`);
-      //console.log('KKPPIs:',this.kpis);
+      // console.log('KKPPIs:',this.kpis);
+      // this.AddCustomAccountIDs();
       this.timeRange = timeRange;
       this.city = city;
       this.getOldSessions = getOldSessions;
@@ -137,6 +138,7 @@ export default class DataManager {
       const { data } = await AccountsQuery.query();
       if (data.length > 0) {
         this.FillAccountIDs(data);
+        this.AddCustomAccountIDs();
         if (accountName !== '') {
           data.some(account => {
             let found = false;
@@ -168,6 +170,42 @@ export default class DataManager {
         id: account.id
       });
     });
+  }
+
+  AddCustomAccountIDs() {
+    this.removeCustomIDs();
+    let ids = '--';
+    this.accountIDs.forEach(acc => {
+      ids += acc.id + '--';
+    });
+    console.log('IDS', ids);
+    const initial_length = ids.length;
+    this.touchPoints.forEach(element => {
+      element.touchpoints.forEach(touchpoint => {
+        touchpoint.measure_points.forEach(measure => {
+          if (measure.accountID) {
+            if (ids.indexOf('--' + measure.accountID + '--') === -1) {
+              ids += measure.accountID + '--';
+            }
+          }
+        });
+      });
+    });
+    if (ids.length > initial_length) {
+      const newIds = ids.substring(initial_length, ids.length - 2).split('--');
+      newIds.forEach(newId => {
+        this.accountIDs.push({
+          name: 'Custom ID',
+          id: parseInt(newId)
+        });
+      });
+    }
+  }
+
+  removeCustomIDs() {
+    while (this.accountIDs[this.accountIDs.length - 1].name === 'Custom ID') {
+      this.accountIDs.pop();
+    }
   }
 
   async CheckVersion() {
@@ -1297,15 +1335,17 @@ export default class DataManager {
       if (Reflect.has(this.kpis[i].queryByCity[this.city], 'accountID')) {
         accountID = this.kpis[i].queryByCity[this.city].accountID;
       }
-      multyQuery = {
-        accountID: accountID,
-        query: this.kpis[i].queryByCity[this.city].query
-      };
+      multyQuery = [
+        {
+          accountID: accountID,
+          query: this.kpis[i].queryByCity[this.city].query,
+          link: this.kpis[i].queryByCity[this.city].link
+        }
+      ];
       kpi = {
         type: this.kpis[i].type,
         name: this.kpis[i].name,
         shortName: this.kpis[i].shortName,
-        link: this.kpis[i].queryByCity[this.city].link,
         measure: multyQuery,
         value_type: this.kpis[i].value_type,
         prefix: this.kpis[i].prefix,
@@ -1468,6 +1508,7 @@ export default class DataManager {
   SetConfigurationJSON(configuration) {
     this.configurationJSON = JSON.parse(configuration);
     this.UpdateNewConfiguration();
+    this.AddCustomAccountIDs();
     return {
       stages: this.stages,
       kpis: this.kpis
@@ -1502,23 +1543,22 @@ export default class DataManager {
         type: kpi.type,
         name: kpi.name,
         shortName: kpi.shortName,
-        link: '',
         value_type: kpi.value_type,
         prefix: kpi.prefix,
         suffix: kpi.suffix
       };
-      if (kpi.measure.accountID !== this.accountId) {
+      if (kpi.measure[0].accountID !== this.accountId) {
         queryByCity = [
           {
-            accountID: kpi.measure.accountID,
-            query: kpi.measure.query,
+            accountID: kpi.measure[0].accountID,
+            query: kpi.measure[0].query,
             link: kpi.link
           }
         ];
       } else {
         queryByCity = [
           {
-            query: kpi.measure.query,
+            query: kpi.measure[0].query,
             link: kpi.link
           }
         ];
@@ -2084,6 +2124,7 @@ for (const [key, value] of Object.entries(return` +
   }
 
   GetTouchpointQuerys(touchpoint) {
+    console.log('SI')
     const datos = [];
     let accountID = this.accountId;
     this.touchPoints.some(element => {
