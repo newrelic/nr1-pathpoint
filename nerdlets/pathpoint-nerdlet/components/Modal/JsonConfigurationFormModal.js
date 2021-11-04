@@ -49,12 +49,12 @@ function handleUploadJSONFile(
           if (parsed[i].type === 100) {
             tested = await validateKpiQuery.validateQuery(
               'KPI-100',
-              parsed[i].measure.query
+              parsed[i].measure[0].query
             );
           } else if (parsed[i].type === 101) {
             tested = await validateKpiQuery.validateQuery(
               'KPI-101',
-              parsed[i].measure.query
+              parsed[i].measure[0].query
             );
           }
           if (!tested.goodQuery) {
@@ -129,7 +129,20 @@ function TranslateAJVErrors(errors, payload) {
         message: error.message
       });
     } else {
-      console.log(path, 'OATH')
+      let stage = null, step = null, value = null, kpi = null, measure = null;
+      path.forEach((item, i) => {
+        if (item === 'stages') {
+          stage = payload.stages[parseInt(path[1])];
+        } else if (item === 'steps') {
+          step = payload.stages[path[1]].steps[3];
+        } else if (item === 'values') {
+          value = payload.stages[path[1]].steps[path[3]].values[path[5]];
+        } else if (item === 'kpis') {
+          kpi = payload.kpis[1];
+        } else if (item === 'measures') {
+          
+        }
+      });
     }
   });
   return translated;
