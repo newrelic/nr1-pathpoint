@@ -110,7 +110,7 @@ function handleUploadJSONFile(
         );
         let totalErrrors = [];
         if (!customErrors && queryErrors.length === 0) {
-          SetConfigurationJSON(eX.target.result);
+          // SetConfigurationJSON(eX.target.result);
         }
         if (customErrors) {
           totalErrrors = [...customErrors];
@@ -179,7 +179,8 @@ function TranslateAJVErrors(errors, payload) {
           }' in the property '${property[property.length - 1]}' `;
         }
       } else if (flag === 'stages') {
-        // if (error.dataPath.split('/').length === 3) {}
+        if (error.dataPath.split('/').length === 3) {
+        }
       }
       translated.push({
         ...error,
