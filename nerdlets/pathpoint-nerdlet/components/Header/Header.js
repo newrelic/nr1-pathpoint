@@ -44,7 +44,7 @@ const Header = ({
   kpis,
   updateDataKpisChecked
 }) => {
-  const filterKpis = kpis.filter(kpi => kpi.query !== '' && kpi.check);
+  const filterKpis = kpis.filter(kpi => kpi.check);
 
   return (
     <div className="containerHeader">
