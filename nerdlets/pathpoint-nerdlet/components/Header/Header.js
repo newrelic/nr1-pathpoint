@@ -22,7 +22,7 @@ import SelectorKpis from '../SelectorKpis';
 import kpiStatusEqual from '../../images/kpiStatusEqual.svg';
 import kpiStatusUpper from '../../images/kpiStatusUpper.svg';
 import kpiStatusLower from '../../images/kpiStatusLower.svg';
-import { navigation } from 'nr1';
+// import { navigation } from 'nr1';
 
 const Header = ({
   iconSixthSenseStatus,
