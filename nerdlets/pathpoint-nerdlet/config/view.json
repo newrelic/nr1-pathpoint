@@ -59,10 +59,9 @@
       "type": 101,
       "name": "Unique Visitors",
       "shortName": "Unique",
-      "link": "https://onenr.io/01qwL8KPxw5",
       "queryByCity": [
         {
-          "accountID": 1606800,
+          "accountID": 1606862,
           "query": "SELECT count(*) as value  FROM  Public_APICall COMPARE WITH 2 day ago",
           "link": "https://onenr.io/01qwL8KPxw5"
         }
@@ -81,7 +80,6 @@
       "type": 101,
       "name": "1 Account",
       "shortName": "1 Acc.",
-      "link": "https://",
       "queryByCity": [
         {
           "query": "SELECT count(*) as value  FROM  Public_APICall COMPARE WITH 2 day ago",
@@ -102,7 +100,6 @@
       "type": 100,
       "name": "1+ Account",
       "shortName": "1+ Acc.",
-      "link": "https://onenr.io/01qwL8KPxw5",
       "queryByCity": [
         {
           "accountID": 1606862,
@@ -121,7 +118,6 @@
       "type": 100,
       "name": "Customers",
       "shortName": "Cust.",
-      "link": "https://onenr.io/01qwL8KPxw5",
       "queryByCity": [
         {
           "query": "SELECT count(*) as value  FROM  Public_APICall",
@@ -139,7 +135,6 @@
       "type": 100,
       "name": "All Accounts",
       "shortName": "All Acc.",
-      "link": "https://onenr.io/01qwL8KPxw5",
       "queryByCity": [
         {
           "accountID": 1606862,
@@ -158,7 +153,6 @@
       "type": 100,
       "name": "Monthly vs Annual Pay",
       "shortName": "MvsA",
-      "link": "https://onenr.io/01qwL8KPxw5",
       "queryByCity": [
         {
           "accountID": 1606862,
@@ -177,7 +171,6 @@
       "type": 100,
       "name": "Autopay",
       "shortName": "Autopay",
-      "link": "https://onenr.io/01qwL8KPxw5",
       "queryByCity": [
         {
           "query": "SELECT count(*) as value  FROM  Public_APICall",
@@ -195,7 +188,6 @@
       "type": 100,
       "name": "eStatement",
       "shortName": "eStat.",
-      "link": "https://onenr.io/01qwL8KPxw5",
       "queryByCity": [
         {
           "accountID": 1606862,
@@ -214,7 +206,6 @@
       "type": 100,
       "name": "1 loan Signed-in",
       "shortName": "1_loan",
-      "link": "https://onenr.io/01qwL8KPxw5",
       "queryByCity": [
         {
           "accountID": 1606862,
@@ -233,7 +224,6 @@
       "type": 100,
       "name": "1+ loan Signed-in",
       "shortName": "1+loan",
-      "link": "https://onenr.io/01qwL8KPxw5",
       "queryByCity": [
         {
           "accountID": 1606862,
@@ -252,7 +242,6 @@
       "type": 100,
       "name": "Consumer Loans Signed-in",
       "shortName": "Cust L",
-      "link": "https://onenr.io/01qwL8KPxw5",
       "queryByCity": [
         {
           "query": "SELECT count(*) as value  FROM  Public_APICall",
@@ -270,7 +259,6 @@
       "type": 100,
       "name": "green orders",
       "shortName": "Green orders (max)",
-      "link": "https://onenr.io/01qwL8KPxw5",
       "queryByCity": [
         {
           "query": "SELECT count(*) as value  FROM  Public_APICall",
@@ -288,7 +276,6 @@
       "type": 100,
       "name": "Past Due",
       "shortName": "Past_Due",
-      "link": "https://onenr.io/01qwL8KPxw5",
       "queryByCity": [
         {
           "query": "SELECT count(*) as value  FROM  Public_APICall",
@@ -306,7 +293,6 @@
       "type": 100,
       "name": "Auto-Dialer",
       "shortName": "Auto-Dialer",
-      "link": "https://onenr.io/01qwL8KPxw5",
       "queryByCity": [
         {
           "query": "SELECT count(*) as value  FROM  Public_APICall",
@@ -383,9 +369,9 @@
               "index": 3,
               "id": "ST1-LINE1-SS3",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "App",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -406,7 +392,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Login",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -421,7 +407,7 @@
               "index": 5,
               "id": "ST1-LINE2-SS2",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Signup",
               "dark": false,
               "history_error": false,
@@ -458,7 +444,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Search",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -531,7 +517,7 @@
               "index": 12,
               "id": "ST1-LINE4-SS2",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Pick-Up Item",
               "dark": false,
               "history_error": false,
@@ -566,7 +552,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Add to Bag",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -789,7 +775,7 @@
               "index": 5,
               "id": "ST2-LINE2-SS2",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Promo Code",
               "dark": false,
               "history_error": false,
@@ -1067,7 +1053,7 @@
               "index": 4,
               "id": "ST3-LINE2-SS3",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Gift Option",
               "dark": false,
               "history_error": false,
@@ -1088,7 +1074,7 @@
               "index": 5,
               "id": "ST3-LINE3-SS1",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Credit Card",
               "dark": false,
               "history_error": false,
@@ -1104,7 +1090,7 @@
               "index": 6,
               "id": "ST3-LINE3-SS2",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Paypal",
               "dark": false,
               "history_error": false,
@@ -1120,7 +1106,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Afterpay",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1134,7 +1120,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Gift Card ",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1362,7 +1348,7 @@
               "index": 3,
               "id": "ST4-LINE1-SS3",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Item Not Available",
               "dark": false,
               "history_error": false,
@@ -1399,7 +1385,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Order Canceled",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1446,7 +1432,7 @@
               "index": 8,
               "id": "ST4-LINE3-SS2",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Pick-up Prep",
               "dark": false,
               "history_error": false,
@@ -1465,7 +1451,7 @@
               "index": 9,
               "id": "ST4-LINE4-SS1",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Order Tracking #",
               "dark": false,
               "history_error": false,
@@ -1483,7 +1469,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Pick-up Date and Locatioon",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
