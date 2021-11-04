@@ -22,7 +22,7 @@ export default {
             'name',
             'shortName',
             'link',
-            'query',
+            'measure',
             'value_type',
             'prefix',
             'suffix'
@@ -41,8 +41,17 @@ export default {
             link: {
               type: 'string'
             },
-            query: {
-              type: 'string'
+            measure: {
+              type: 'object',
+              required: ['accountID', 'query'],
+              properties: {
+                query: {
+                  type: 'string'
+                },
+                accountID: {
+                  type: 'number'
+                }
+              }
             },
             value_type: {
               type: 'string',

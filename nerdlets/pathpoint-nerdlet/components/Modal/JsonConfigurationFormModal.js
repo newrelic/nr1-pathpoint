@@ -49,12 +49,12 @@ function handleUploadJSONFile(
           if (parsed[i].type === 100) {
             tested = await validateKpiQuery.validateQuery(
               'KPI-100',
-              parsed[i].query
+              parsed[i].measure.query
             );
           } else if (parsed[i].type === 101) {
             tested = await validateKpiQuery.validateQuery(
               'KPI-101',
-              parsed[i].query
+              parsed[i].measure.query
             );
           }
           if (!tested.goodQuery) {
@@ -101,28 +101,35 @@ function handleUploadJSONFile(
 
 function TranslateAJVErrors(errors, payload) {
   const translated = [];
+  const settings = {
+    kpis: {
+      names: ['name', 'shortName']
+    },
+    stages: {
+      names: ['title']
+    },
+    steps: {
+      names: ['line']
+    },
+    values: {
+      names: ['title']
+    }
+  };
   errors.forEach(error => {
     const path = error.dataPath.split('/');
-    path.shift();
+    path.splice(0, 1);
     if (path.length === 0) {
       translated.push({
         dataPath: 'The uploaded file',
         message: error.message
       });
     } else if (path.length === 1) {
-      const property = path[0];
       translated.push({
-        dataPath: `In the uploaded file, the property '${property}'`,
+        dataPath: `In the uploaded file, the following property '${path[0]}'`,
         message: error.message
       });
-    } else if (path.length === 2) {
-
     } else {
-      path.forEach(pathItem => {
-        if (isNaN(pathItem)) {
-          return null;
-        }
-      });
+      console.log(path, 'OATH')
     }
   });
   return translated;
