@@ -21,7 +21,6 @@ export default {
             'type',
             'name',
             'shortName',
-            'link',
             'measure',
             'value_type',
             'prefix',
@@ -38,20 +37,25 @@ export default {
             shortName: {
               type: 'string'
             },
-            link: {
-              type: 'string'
-            },
             measure: {
-              type: 'object',
-              required: ['accountID', 'query'],
-              properties: {
-                query: {
-                  type: 'string'
-                },
-                accountID: {
-                  type: 'number'
+              type: 'array',
+              items: [
+                {
+                  type: 'object',
+                  required: ['accountID', 'query', 'link'],
+                  properties: {
+                    query: {
+                      type: 'string'
+                    },
+                    accountID: {
+                      type: 'number'
+                    },
+                    link: {
+                      type: 'string'
+                    }
+                  }
                 }
-              }
+              ]
             },
             value_type: {
               type: 'string',
