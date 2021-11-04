@@ -59,7 +59,6 @@
       "type": 101,
       "name": "Unique Visitors",
       "shortName": "Unique",
-      "link": "https://onenr.io/01qwL8KPxw5",
       "queryByCity": [
         {
           "accountID": 1606862,
@@ -81,7 +80,6 @@
       "type": 101,
       "name": "1 Account",
       "shortName": "1 Acc.",
-      "link": "https://onenr.io/01qwL8KPxw5",
       "queryByCity": [
         {
           "query": "SELECT count(*) as value  FROM  Public_APICall COMPARE WITH 2 day ago",
@@ -102,7 +100,6 @@
       "type": 100,
       "name": "1+ Account",
       "shortName": "1+ Acc.",
-      "link": "https://onenr.io/01qwL8KPxw5",
       "queryByCity": [
         {
           "accountID": 1606862,
@@ -121,7 +118,6 @@
       "type": 100,
       "name": "Customers",
       "shortName": "Cust.",
-      "link": "https://onenr.io/01qwL8KPxw5",
       "queryByCity": [
         {
           "query": "SELECT count(*) as value  FROM  Public_APICall",
@@ -139,7 +135,6 @@
       "type": 100,
       "name": "All Accounts",
       "shortName": "All Acc.",
-      "link": "https://onenr.io/01qwL8KPxw5",
       "queryByCity": [
         {
           "accountID": 1606862,
@@ -158,7 +153,6 @@
       "type": 100,
       "name": "Monthly vs Annual Pay",
       "shortName": "MvsA",
-      "link": "https://onenr.io/01qwL8KPxw5",
       "queryByCity": [
         {
           "accountID": 1606862,
@@ -177,7 +171,6 @@
       "type": 100,
       "name": "Autopay",
       "shortName": "Autopay",
-      "link": "https://onenr.io/01qwL8KPxw5",
       "queryByCity": [
         {
           "query": "SELECT count(*) as value  FROM  Public_APICall",
@@ -195,7 +188,6 @@
       "type": 100,
       "name": "eStatement",
       "shortName": "eStat.",
-      "link": "https://onenr.io/01qwL8KPxw5",
       "queryByCity": [
         {
           "accountID": 1606862,
@@ -214,7 +206,6 @@
       "type": 100,
       "name": "1 loan Signed-in",
       "shortName": "1_loan",
-      "link": "https://onenr.io/01qwL8KPxw5",
       "queryByCity": [
         {
           "accountID": 1606862,
@@ -233,7 +224,6 @@
       "type": 100,
       "name": "1+ loan Signed-in",
       "shortName": "1+loan",
-      "link": "https://onenr.io/01qwL8KPxw5",
       "queryByCity": [
         {
           "accountID": 1606862,
@@ -252,7 +242,6 @@
       "type": 100,
       "name": "Consumer Loans Signed-in",
       "shortName": "Cust L",
-      "link": "https://onenr.io/01qwL8KPxw5",
       "queryByCity": [
         {
           "query": "SELECT count(*) as value  FROM  Public_APICall",
@@ -270,7 +259,6 @@
       "type": 100,
       "name": "green orders",
       "shortName": "Green orders (max)",
-      "link": "https://onenr.io/01qwL8KPxw5",
       "queryByCity": [
         {
           "query": "SELECT count(*) as value  FROM  Public_APICall",
@@ -288,7 +276,6 @@
       "type": 100,
       "name": "Past Due",
       "shortName": "Past_Due",
-      "link": "https://onenr.io/01qwL8KPxw5",
       "queryByCity": [
         {
           "query": "SELECT count(*) as value  FROM  Public_APICall",
@@ -306,7 +293,6 @@
       "type": 100,
       "name": "Auto-Dialer",
       "shortName": "Auto-Dialer",
-      "link": "https://onenr.io/01qwL8KPxw5",
       "queryByCity": [
         {
           "query": "SELECT count(*) as value  FROM  Public_APICall",
