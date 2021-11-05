@@ -230,6 +230,12 @@ function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touc
             "max_duration" => 0,
             "max_request_time" =>0
         ];
+    }else if ($touchpointType == 'WLD') {
+        $touchPoints[0]["touchpoints"][$last - 1]["measure_points"][] = [
+            "type" => $touchpointType,
+            "query" => $tp_query,
+            "status_value" => 'NO-VALUE'
+        ];
     }
     if($multiAccountID !== ''){
         $lastMeasure = count($touchPoints[0]["touchpoints"][$last - 1]["measure_points"]);

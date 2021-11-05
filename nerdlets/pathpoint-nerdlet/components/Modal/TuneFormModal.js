@@ -130,6 +130,14 @@ const RenderForm = (datos, handleOnChange) => {
           </div>
         </>
       );
+    case 'WLD':
+      return (
+        <>
+          <div style={{ height: '40px' }}>
+            This type of Touchpoint does not have any attributes for Tune
+          </div>
+        </>
+      );
   }
 };
 

@@ -33,7 +33,7 @@ function addStage($stage)
     $arrowMode="FLOW";
     if($index==4){ $ligth="danger";}
     if($index==5){ $ligth="warning";}
-    if($index==2 || $index==3){ $arrowMode="STATIC";}
+    //if($index==2 || $index==3){ $arrowMode="STATIC";}
     //if($index==2 || $index==5){ $active_dotted="dashed";}
     $view_base["stages"][] = [
         "index" => $index,
