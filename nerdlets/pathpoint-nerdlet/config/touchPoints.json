@@ -14,6 +14,7 @@
         "measure_points": [
           {
             "type": "PRC",
+            "timeout": 10,
             "query": "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
             "min_count": 10,
             "session_count": 0,
@@ -32,6 +33,7 @@
         "measure_points": [
           {
             "type": "APP",
+            "timeout": 10,
             "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
             "min_apdex": 0.4,
             "max_response_time": 0.5,
@@ -53,6 +55,7 @@
         "measure_points": [
           {
             "type": "FRT",
+            "timeout": 10,
             "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
             "min_apdex": 0.6,
             "max_response_time": 1.2,
@@ -74,6 +77,7 @@
         "measure_points": [
           {
             "type": "SYN",
+            "timeout": 10,
             "query": "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE monitorName='BDB Live person'",
             "max_avg_response_time": 0.7,
             "max_total_check_time": 1.25,
@@ -96,6 +100,7 @@
         "measure_points": [
           {
             "type": "PRC",
+            "timeout": 10,
             "query": "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='us-east-1'",
             "min_count": 36,
             "session_count": 0
@@ -111,6 +116,7 @@
         "measure_points": [
           {
             "type": "WLD",
+            "timeout": 10,
             "query": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='ACME Banking'",
             "status_value": "NO-VALUE"
           }
@@ -127,6 +133,7 @@
         "measure_points": [
           {
             "type": "PCC",
+            "timeout": 10,
             "query": "SELECT count(*) FROM Public_APICall WHERE awsRegion='us-east-1'",
             "min_count": 20,
             "transaction_count": 0
@@ -144,6 +151,7 @@
         "measure_points": [
           {
             "type": "APP",
+            "timeout": 10,
             "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
             "min_apdex": 0.4,
             "max_response_time": 0.5,
@@ -165,6 +173,7 @@
         "measure_points": [
           {
             "type": "FRT",
+            "timeout": 10,
             "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
             "min_apdex": 0.6,
             "max_response_time": 1.2,
@@ -186,6 +195,7 @@
         "measure_points": [
           {
             "type": "PCC",
+            "timeout": 10,
             "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name='WebTransaction/Action/login'",
             "min_count": 36,
             "transaction_count": 0
@@ -201,6 +211,7 @@
         "measure_points": [
           {
             "type": "WLD",
+            "timeout": 10,
             "query": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='Acme Telco - Ecommerce'",
             "status_value": "NO-VALUE"
           }
@@ -217,6 +228,7 @@
         "measure_points": [
           {
             "type": "PCC",
+            "timeout": 10,
             "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name='WebTransaction/Action/login'",
             "min_count": 36,
             "transaction_count": 0
@@ -234,6 +246,7 @@
         "measure_points": [
           {
             "type": "SYN",
+            "timeout": 10,
             "query": "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE monitorName='BDB Live person'",
             "max_avg_response_time": 0.7,
             "max_total_check_time": 1.25,
@@ -256,6 +269,7 @@
         "measure_points": [
           {
             "type": "PCC",
+            "timeout": 10,
             "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name LIKE 'WebTransaction/Action/App%'",
             "min_count": 20,
             "transaction_count": 0
@@ -273,6 +287,7 @@
         "measure_points": [
           {
             "type": "APP",
+            "timeout": 10,
             "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
             "min_apdex": 0.4,
             "max_response_time": 0.5,
@@ -294,6 +309,7 @@
         "measure_points": [
           {
             "type": "FRT",
+            "timeout": 10,
             "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
             "min_apdex": 0.6,
             "max_response_time": 1.2,
@@ -315,6 +331,7 @@
         "measure_points": [
           {
             "type": "PCC",
+            "timeout": 10,
             "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name='WebTransaction/Action/login'",
             "min_count": 36,
             "transaction_count": 0
@@ -330,6 +347,7 @@
         "measure_points": [
           {
             "type": "WLD",
+            "timeout": 10,
             "query": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='Demotron V2 - Acme Dev'",
             "status_value": "NO-VALUE"
           }
@@ -346,6 +364,7 @@
         "measure_points": [
           {
             "type": "PRC",
+            "timeout": 10,
             "query": "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='ap-southeast-2'",
             "min_count": 10,
             "session_count": 0
@@ -363,6 +382,7 @@
         "measure_points": [
           {
             "type": "APP",
+            "timeout": 10,
             "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
             "min_apdex": 0.4,
             "max_response_time": 0.5,
@@ -384,6 +404,7 @@
         "measure_points": [
           {
             "type": "FRT",
+            "timeout": 10,
             "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
             "min_apdex": 0.6,
             "max_response_time": 1.2,
@@ -405,6 +426,7 @@
         "measure_points": [
           {
             "type": "SYN",
+            "timeout": 10,
             "query": "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE monitorName='BDB Live person'",
             "max_avg_response_time": 0.7,
             "max_total_check_time": 1.25,
@@ -427,6 +449,7 @@
         "measure_points": [
           {
             "type": "PRC",
+            "timeout": 10,
             "query": "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='us-west-1'",
             "min_count": 36,
             "session_count": 0
@@ -442,6 +465,7 @@
         "measure_points": [
           {
             "type": "WLD",
+            "timeout": 10,
             "query": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='Databases'",
             "status_value": "NO-VALUE"
           }
@@ -458,6 +482,7 @@
         "measure_points": [
           {
             "type": "PCC",
+            "timeout": 10,
             "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name='WebTransaction/Action/login'",
             "min_count": 36,
             "transaction_count": 0
@@ -475,6 +500,7 @@
         "measure_points": [
           {
             "type": "SYN",
+            "timeout": 10,
             "query": "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE monitorName='BDB Live person'",
             "max_avg_response_time": 0.7,
             "max_total_check_time": 1.25,
@@ -497,6 +523,7 @@
         "measure_points": [
           {
             "type": "PCC",
+            "timeout": 10,
             "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name LIKE 'WebTransaction/Action/App%'",
             "min_count": 20,
             "transaction_count": 0
@@ -514,6 +541,7 @@
         "measure_points": [
           {
             "type": "APP",
+            "timeout": 10,
             "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
             "min_apdex": 0.4,
             "max_response_time": 0.5,
@@ -535,6 +563,7 @@
         "measure_points": [
           {
             "type": "FRT",
+            "timeout": 10,
             "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
             "min_apdex": 0.6,
             "max_response_time": 1.2,
@@ -556,6 +585,7 @@
         "measure_points": [
           {
             "type": "PCC",
+            "timeout": 10,
             "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name='WebTransaction/Action/login'",
             "min_count": 36,
             "transaction_count": 0
@@ -571,6 +601,7 @@
         "measure_points": [
           {
             "type": "WLD",
+            "timeout": 10,
             "query": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='Demotron V2 - Telco'",
             "status_value": "NO-VALUE"
           }
