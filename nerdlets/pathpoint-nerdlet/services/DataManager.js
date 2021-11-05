@@ -49,7 +49,8 @@ export default class DataManager {
       'PCC-COUNT-QUERY',
       'APP-HEALTH-QUERY',
       'FRT-HEALTH-QUERY',
-      'SYN-CHECK-QUERY'
+      'SYN-CHECK-QUERY',
+      'WORKLOAD-QUERY'
     ];
     this.accountIDs = [
       {
@@ -304,6 +305,9 @@ export default class DataManager {
         measure.max_duration = 0;
         measure.max_request_time = 0;
         break;
+      case 'WLD':
+        measure.status_value = 'NO-VALUE';
+        break;
     }
   }
 
@@ -328,6 +332,9 @@ export default class DataManager {
       )}`;
       if (measure.measure_time) {
         query = `${measure.query} SINCE ${measure.measure_time}`;
+      }
+      if (measure.type === 'WLD') {
+        query = measure.query;
       }
       this.graphQlmeasures.push([measure, query, extraInfo]);
     }
@@ -408,7 +415,7 @@ export default class DataManager {
               }
               if (extraInfo.measureType === 'touchpoint') {
                 const logRecord = {
-                  action: 'TouchpointERROR',
+                  action: 'touchpoint-error',
                   account_id: accountID,
                   error: true,
                   error_message: JSON.stringify(error),
@@ -422,7 +429,7 @@ export default class DataManager {
               }
               if (extraInfo.measureType === 'kpi') {
                 const logRecord = {
-                  action: 'KPI-ERROR',
+                  action: 'kpi-error',
                   account_id: accountID,
                   error: true,
                   error_message: JSON.stringify(error),
@@ -459,7 +466,7 @@ export default class DataManager {
             }
             if (extraInfo.measureType === 'touchpoint') {
               const logRecord = {
-                action: 'TouchpointQuery',
+                action: 'touchpoint-query',
                 account_id: accountID,
                 error: false,
                 query: query,
@@ -473,7 +480,7 @@ export default class DataManager {
             }
             if (extraInfo.measureType === 'kpi') {
               const logRecord = {
-                action: 'KPI-Query',
+                action: 'kpi-query',
                 account_id: accountID,
                 error: false,
                 query: query,
@@ -603,6 +610,17 @@ export default class DataManager {
               measure.success_percentage = value.nrql.results[0].success;
               measure.max_duration = value.nrql.results[0].duration;
               measure.max_request_time = value.nrql.results[0].request;
+            } else if (
+              measure.type === 'WLD' &&
+              value.nrql !== null &&
+              value.nrql.results &&
+              value.nrql.results[0] &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'statusValue'
+              )
+            ) {
+              measure.status_value = value.nrql.results[0].statusValue;
             } else if (
               measure.type === 100 &&
               value.nrql != null &&
@@ -813,7 +831,7 @@ export default class DataManager {
       this.stages[i].total_count = values.count_by_stage[i].total_count;
       this.stages[i].trafficIconType = values.count_by_stage[i].traffic_type;
 
-      this.stages[i].capacity = 100; // TODO
+      this.stages[i].capacity = values.count_by_stage[i].capacity_status;
 
       let congestion = 0;
       if (values.count_by_stage[i].total_steps !== 0) {
@@ -842,7 +860,8 @@ export default class DataManager {
         max_congestion: 0,
         steps_max_cong: [],
         above_avg: stage.percentage_above_avg,
-        steps_over_percentage_indexes: []
+        steps_over_percentage_indexes: [],
+        capacity_status: 'NO-VALUE'
       };
       tpc.push(rec);
     });
@@ -866,6 +885,9 @@ export default class DataManager {
               tpc[idx].steps_indexes
             );
             tpc[idx].total_steps = tpc[idx].steps_indexes.length;
+          }
+          if (measure.type === 'WLD') {
+            tpc[idx].capacity_status = measure.status_value;
           }
         });
       }
@@ -1167,9 +1189,10 @@ export default class DataManager {
         accountId: this.accountId,
         actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
         collection: 'pathpoint',
-        documentId: 'touchpoints',
+        documentId: 'touchpoints', // syntetics
         document: {
           TouchPoints: this.touchPoints
+          // identificador de la lista q se esta creando junto con los id's
         }
       });
       if (data) {
@@ -1397,6 +1420,12 @@ export default class DataManager {
                   max_total_check_time: measure.max_total_check_time,
                   min_success_percentage: measure.min_success_percentage
                 });
+              } else if (measure.type === 'WLD') {
+                queries.push({
+                  type: this.measureNames[5],
+                  accountID: accountID,
+                  query: measure.query
+                });
               }
             });
           }
@@ -1460,6 +1489,9 @@ export default class DataManager {
             previous: 0
           }
         };
+      }
+      if (index < 4) {
+        ikpi = { ...ikpi, check: true };
       }
       this.kpis.push(ikpi);
     });
@@ -1589,6 +1621,12 @@ export default class DataManager {
               success_percentage: 0,
               max_duration: 0,
               max_request_time: 0
+            };
+          } else if (query.type === this.measureNames[5]) {
+            measure = {
+              type: 'WLD',
+              query: query.query,
+              status_value: 'NO-VALUE'
             };
           }
           if (query.accountID !== this.accountId) {
@@ -2068,6 +2106,16 @@ for (const [key, value] of Object.entries(return` +
                   query_start: '',
                   query_body: measure.query,
                   query_footer: this.ValidateMeasureTime(measure)
+                });
+              } else if (measure.type === 'WLD') {
+                datos.push({
+                  accountID: accountID,
+                  label: this.measureNames[5],
+                  value: actualValue,
+                  type: 'WLD',
+                  query_start: '',
+                  query_body: measure.query,
+                  query_footer: ''
                 });
               }
               actualValue++;

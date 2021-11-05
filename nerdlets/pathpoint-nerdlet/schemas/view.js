@@ -11,7 +11,7 @@ export default {
     },
     kpis: {
       type: 'array',
-      minItems: 2,
+      minItems: 0,
       maxItems: 50,
       additionalItems: true,
       items: [
@@ -30,8 +30,7 @@ export default {
           properties: {
             type: {
               type: 'number',
-              minimum: 100,
-              maximum: 101
+              enum: [100, 101]
             },
             name: {
               type: 'string'

@@ -409,7 +409,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Gift Card",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -454,9 +454,9 @@
               "index": 12,
               "id": "ST1-LINE4-SS2",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Pick-Up Item",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -489,7 +489,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Add to Bag",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -506,7 +506,7 @@
           "stage_index": 1,
           "status_on_off": true,
           "active": false,
-          "value": "Login People",
+          "value": "Login People (PRC)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -525,7 +525,7 @@
           "stage_index": 1,
           "status_on_off": true,
           "active": false,
-          "value": "App Backend Health",
+          "value": "App Backend Health (APP)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -544,7 +544,7 @@
           "stage_index": 1,
           "status_on_off": true,
           "active": false,
-          "value": "App Frontend Health",
+          "value": "App Frontend Health (FRT)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -563,7 +563,7 @@
           "stage_index": 1,
           "status_on_off": true,
           "active": false,
-          "value": "Login Check",
+          "value": "Login Check (SYN)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -582,7 +582,7 @@
           "stage_index": 1,
           "status_on_off": true,
           "active": false,
-          "value": "Signup People",
+          "value": "Signup People (PRC)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -595,6 +595,23 @@
           "relation_steps": [
             5
           ]
+        },
+        {
+          "index": 6,
+          "stage_index": 1,
+          "status_on_off": true,
+          "active": false,
+          "value": "Workload (WLD)",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            false
+          ],
+          "relation_steps": []
         }
       ]
     },
@@ -681,7 +698,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Add/Remove Item",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -716,7 +733,7 @@
               "canary_state": false,
               "latency": false,
               "value": "PAY Calculation",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -798,7 +815,7 @@
           "stage_index": 2,
           "status_on_off": true,
           "active": false,
-          "value": "Catalog API USE",
+          "value": "Catalog API USE (PCC)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -817,7 +834,7 @@
           "stage_index": 2,
           "status_on_off": true,
           "active": false,
-          "value": "Pricing API",
+          "value": "Pricing API (APP)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -836,7 +853,7 @@
           "stage_index": 2,
           "status_on_off": true,
           "active": false,
-          "value": "Master Data API",
+          "value": "Master Data API (FRT)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -855,7 +872,7 @@
           "stage_index": 2,
           "status_on_off": true,
           "active": false,
-          "value": "Subscriptions API",
+          "value": "Subscriptions API (PCC)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -868,6 +885,23 @@
           "relation_steps": [
             8
           ]
+        },
+        {
+          "index": 5,
+          "stage_index": 2,
+          "status_on_off": true,
+          "active": false,
+          "value": "Workload (WLD)",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            false
+          ],
+          "relation_steps": []
         }
       ]
     },
@@ -942,7 +976,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Pick-Up Options",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -977,9 +1011,9 @@
               "index": 5,
               "id": "ST3-LINE3-SS1",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Credit Card",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -993,9 +1027,9 @@
               "index": 6,
               "id": "ST3-LINE3-SS2",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Paypal",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1023,7 +1057,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Gift Card ",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1061,7 +1095,7 @@
           "stage_index": 3,
           "status_on_off": true,
           "active": false,
-          "value": "Session Manager API",
+          "value": "Session Manager API (PCC)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1080,7 +1114,7 @@
           "stage_index": 3,
           "status_on_off": true,
           "active": false,
-          "value": "Checkout Check",
+          "value": "Checkout Check (SYN)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1099,7 +1133,7 @@
           "stage_index": 3,
           "status_on_off": true,
           "active": false,
-          "value": "Customer Credit API",
+          "value": "Customer Credit API (PCC)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1118,7 +1152,7 @@
           "stage_index": 3,
           "status_on_off": true,
           "active": false,
-          "value": "Gift Card API",
+          "value": "Gift Card API (APP)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1137,7 +1171,7 @@
           "stage_index": 3,
           "status_on_off": true,
           "active": false,
-          "value": "Gift Card Hub API",
+          "value": "Gift Card Hub API (FRT)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1156,7 +1190,7 @@
           "stage_index": 3,
           "status_on_off": true,
           "active": false,
-          "value": "Catalog API",
+          "value": "Catalog API (PCC)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1169,6 +1203,23 @@
           "relation_steps": [
             4
           ]
+        },
+        {
+          "index": 7,
+          "stage_index": 3,
+          "status_on_off": true,
+          "active": false,
+          "value": "Workload (WLD)",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            false
+          ],
+          "relation_steps": []
         }
       ]
     },
@@ -1271,7 +1322,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Order Canceled",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1283,7 +1334,7 @@
               "index": 6,
               "id": "ST4-LINE2-SS3",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Order Delayed",
               "dark": false,
               "history_error": false,
@@ -1374,7 +1425,7 @@
           "stage_index": 4,
           "status_on_off": true,
           "active": false,
-          "value": "Orders API",
+          "value": "Orders API (PRC)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1393,7 +1444,7 @@
           "stage_index": 4,
           "status_on_off": true,
           "active": false,
-          "value": "Customer Credit API",
+          "value": "Customer Credit API (APP)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1412,7 +1463,7 @@
           "stage_index": 4,
           "status_on_off": true,
           "active": false,
-          "value": "Gift Card API",
+          "value": "Gift Card API (FRT)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1431,7 +1482,7 @@
           "stage_index": 4,
           "status_on_off": true,
           "active": false,
-          "value": "Gift Card Hub API",
+          "value": "Gift Card Hub API (SYN)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1450,7 +1501,7 @@
           "stage_index": 4,
           "status_on_off": true,
           "active": false,
-          "value": "Logistics API",
+          "value": "Logistics API (PRC)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1463,6 +1514,23 @@
           "relation_steps": [
             10
           ]
+        },
+        {
+          "index": 6,
+          "stage_index": 4,
+          "status_on_off": true,
+          "active": false,
+          "value": "Workload (WLD)",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            false
+          ],
+          "relation_steps": []
         }
       ]
     },
@@ -1551,7 +1619,7 @@
               "index": 4,
               "id": "ST5-LINE2-SS2",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Customer Pick-Up",
               "dark": false,
               "history_error": false,
@@ -1607,7 +1675,7 @@
               "index": 7,
               "id": "ST5-LINE4-SS2",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Returned",
               "dark": false,
               "history_error": false,
@@ -1626,7 +1694,7 @@
               "index": 8,
               "id": "ST5-LINE5-SS1",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Proof of Delivery",
               "dark": false,
               "history_error": false,
@@ -1661,7 +1729,7 @@
           "stage_index": 5,
           "status_on_off": true,
           "active": false,
-          "value": "VTEX Do API",
+          "value": "VTEX Do API (PCC)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1680,7 +1748,7 @@
           "stage_index": 5,
           "status_on_off": true,
           "active": false,
-          "value": "Subscriptions API",
+          "value": "Subscriptions API (SYN)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1699,7 +1767,7 @@
           "stage_index": 5,
           "status_on_off": true,
           "active": false,
-          "value": "Session Manager API",
+          "value": "Session Manager API (PCC)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1718,7 +1786,7 @@
           "stage_index": 5,
           "status_on_off": true,
           "active": false,
-          "value": "Checkout API",
+          "value": "Checkout API (APP)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1737,7 +1805,7 @@
           "stage_index": 5,
           "status_on_off": true,
           "active": false,
-          "value": "Customer Credit API",
+          "value": "Customer Credit API (FRT)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1756,7 +1824,7 @@
           "stage_index": 5,
           "status_on_off": true,
           "active": false,
-          "value": "Gift Card API",
+          "value": "Gift Card API (PCC)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1769,6 +1837,23 @@
           "relation_steps": [
             8
           ]
+        },
+        {
+          "index": 7,
+          "stage_index": 5,
+          "status_on_off": true,
+          "active": false,
+          "value": "Workload (WLD)",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            false
+          ],
+          "relation_steps": []
         }
       ]
     }
