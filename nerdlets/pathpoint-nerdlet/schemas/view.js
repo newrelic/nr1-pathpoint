@@ -39,16 +39,19 @@ export default {
             },
             measure: {
               type: 'array',
+              minItems: 0,
+              maxItems: 20,
+              additionalItems: true,
               items: [
                 {
                   type: 'object',
                   required: ['accountID', 'query', 'link'],
                   properties: {
-                    query: {
-                      type: 'string'
-                    },
                     accountID: {
                       type: 'number'
+                    },
+                    query: {
+                      type: 'string'
                     },
                     link: {
                       type: 'string'
