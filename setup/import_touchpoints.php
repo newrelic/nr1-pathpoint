@@ -63,12 +63,12 @@ while (($datos = fgetcsv($f, 1000, ",")) !== FALSE) {
             $touchpointLink = $datos[13];
         }
         $measureTime = $datos[14];
-
+        $touchpoint_timeout = $datos[15];
         
         //----------------------------------
         foreach ($stages as $stage) {
             if (valida_stage($stage)) {
-                addTouchpoint(stage_index($stage), $touchpointType, $touchpoint, $steps, $touchpointLink, $tp_query, $min_count, $min_apdex, $max_response_time, $max_error_percentage, $max_avg_response_time, $max_total_check_time, $min_success_percentage,$multiAccountID, $measureTime);
+                addTouchpoint(stage_index($stage), $touchpointType, $touchpoint, $steps, $touchpointLink, $tp_query, $min_count, $min_apdex, $max_response_time, $max_error_percentage, $max_avg_response_time, $max_total_check_time, $min_success_percentage,$multiAccountID, $measureTime, $touchpoint_timeout);
             }
         }
     }
@@ -168,7 +168,7 @@ function getDashboardLink($link)
     }
 }
 
-function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touchpointLink, $tp_query, $min_count, $min_apdex, $max_response_time, $max_error_percentage, $max_avg_response_time, $max_total_check_time, $min_success_percentage, $multiAccountID, $measureTime)
+function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touchpointLink, $tp_query, $min_count, $min_apdex, $max_response_time, $max_error_percentage, $max_avg_response_time, $max_total_check_time, $min_success_percentage, $multiAccountID, $measureTime, $touchpoint_timeout)
 {
     global $view;
     global $touchPoints;
@@ -186,6 +186,7 @@ function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touc
     if ($touchpointType == 'PRC') {
         $touchPoints[0]["touchpoints"][$last - 1]["measure_points"][] = [
             "type" => $touchpointType,
+            "timeout" => (int) $touchpoint_timeout,
             "query" => $tp_query,
             "min_count" => (int) $min_count,
             "session_count" => 0
@@ -193,6 +194,7 @@ function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touc
     }else if ($touchpointType == 'PCC') {
         $touchPoints[0]["touchpoints"][$last - 1]["measure_points"][] = [
             "type" => $touchpointType,
+            "timeout" => (int) $touchpoint_timeout,
             "query" => $tp_query,
             "min_count" => (int) $min_count,
             "transaction_count" => 0
@@ -200,6 +202,7 @@ function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touc
     }else if ($touchpointType == 'APP') {
         $touchPoints[0]["touchpoints"][$last - 1]["measure_points"][] = [
             "type" => $touchpointType,
+            "timeout" => (int) $touchpoint_timeout,
             "query" => $tp_query,
             "min_apdex" => (float) $min_apdex,
             "max_response_time" => (float) $max_response_time,
@@ -211,6 +214,7 @@ function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touc
     }else if ($touchpointType == 'FRT') {
         $touchPoints[0]["touchpoints"][$last - 1]["measure_points"][] = [
             "type" => $touchpointType,
+            "timeout" => (int) $touchpoint_timeout,
             "query" => $tp_query,
             "min_apdex" => (float) $min_apdex,
             "max_response_time" => (float) $max_response_time,
@@ -222,6 +226,7 @@ function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touc
     }else if ($touchpointType == 'SYN') {
         $touchPoints[0]["touchpoints"][$last - 1]["measure_points"][] = [
             "type" => $touchpointType,
+            "timeout" => (int) $touchpoint_timeout,
             "query" => $tp_query,
             "max_avg_response_time" => (float) $max_avg_response_time,
             "max_total_check_time" => (float) $max_total_check_time,
@@ -233,6 +238,7 @@ function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touc
     }else if ($touchpointType == 'WLD') {
         $touchPoints[0]["touchpoints"][$last - 1]["measure_points"][] = [
             "type" => $touchpointType,
+            "timeout" => (int) $touchpoint_timeout,
             "query" => $tp_query,
             "status_value" => 'NO-VALUE'
         ];

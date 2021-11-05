@@ -341,7 +341,7 @@
               "canary_state": false,
               "latency": true,
               "value": "Web",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -357,7 +357,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Mobile Web",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -369,9 +369,9 @@
               "index": 3,
               "id": "ST1-LINE1-SS3",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "App",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -392,7 +392,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Login",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -444,7 +444,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Search",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -517,7 +517,7 @@
               "index": 12,
               "id": "ST1-LINE4-SS2",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Pick-Up Item",
               "dark": false,
               "history_error": false,
@@ -552,7 +552,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Add to Bag",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -672,7 +672,7 @@
             0
           ],
           "dashboard_url": [
-            false
+            "https://onenr.io/08dQemz3VQe"
           ],
           "relation_steps": []
         }
@@ -761,7 +761,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Add/Remove Item",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -775,7 +775,7 @@
               "index": 5,
               "id": "ST2-LINE2-SS2",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Promo Code",
               "dark": false,
               "history_error": false,
@@ -794,7 +794,7 @@
               "index": 6,
               "id": "ST2-LINE3-SS1",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "PAY Calculation",
               "dark": false,
               "history_error": false,
@@ -812,7 +812,7 @@
               "canary_state": false,
               "latency": false,
               "value": "POINTS Calculation",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -831,7 +831,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Checkout",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -962,7 +962,7 @@
             0
           ],
           "dashboard_url": [
-            false
+            "https://onenr.io/0a7j9pBB3RO"
           ],
           "relation_steps": []
         }
@@ -1039,7 +1039,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Pick-Up Options",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1053,7 +1053,7 @@
               "index": 4,
               "id": "ST3-LINE2-SS3",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Gift Option",
               "dark": false,
               "history_error": false,
@@ -1074,9 +1074,9 @@
               "index": 5,
               "id": "ST3-LINE3-SS1",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Credit Card",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1090,7 +1090,7 @@
               "index": 6,
               "id": "ST3-LINE3-SS2",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Paypal",
               "dark": false,
               "history_error": false,
@@ -1280,7 +1280,7 @@
             0
           ],
           "dashboard_url": [
-            false
+            "https://onenr.io/0YBR6kKKqjO"
           ],
           "relation_steps": []
         }
@@ -1432,9 +1432,9 @@
               "index": 8,
               "id": "ST4-LINE3-SS2",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Pick-up Prep",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1451,9 +1451,9 @@
               "index": 9,
               "id": "ST4-LINE4-SS1",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Order Tracking #",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1591,7 +1591,7 @@
             0
           ],
           "dashboard_url": [
-            false
+            "https://onenr.io/0x0jlDzz7jW"
           ],
           "relation_steps": []
         }
@@ -1738,7 +1738,7 @@
               "index": 7,
               "id": "ST5-LINE4-SS2",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Returned",
               "dark": false,
               "history_error": false,
@@ -1773,7 +1773,7 @@
               "index": 9,
               "id": "ST5-LINE5-SS2",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Proof of Store Pick-up",
               "dark": false,
               "history_error": false,
@@ -1914,7 +1914,7 @@
             0
           ],
           "dashboard_url": [
-            false
+            "https://onenr.io/04ERPDJqaRW"
           ],
           "relation_steps": []
         }
