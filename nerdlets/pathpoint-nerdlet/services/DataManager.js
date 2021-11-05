@@ -58,6 +58,7 @@ export default class DataManager {
         id: 0
       }
     ];
+    this.detaultTimeout = 10;
   }
 
   async BootstrapInitialData(accountName) {
@@ -733,10 +734,15 @@ export default class DataManager {
               accountID = nrql[0].queryByCity[this.city].accountID;
             }
           }
+          // Check if the Measure have a Timeout Defined
+          let timeOut = this.detaultTimeout;
+          if (Reflect.has(nrql[0], 'timeout')) {
+            timeOut = nrql[0].timeout;
+          }
           alias = `measure_${n}`;
           n += 1;
           gql += `${alias}: account(id: ${accountID}) {
-              nrql(query: "${this.escapeQuote(nrql[1])}", timeout: 10) {
+              nrql(query: "${this.escapeQuote(nrql[1])}", timeout: ${timeOut}) {
                   results
               }
           }`;
@@ -773,10 +779,15 @@ export default class DataManager {
             accountID = nrql[0].queryByCity[this.city].accountID;
           }
         }
+        // Check if the Measure have a Timeout Defined
+        let timeOut = this.detaultTimeout;
+        if (Reflect.has(nrql[0], 'timeout')) {
+          timeOut = nrql[0].timeout;
+        }
         alias = `measure_${n}`;
         n += 1;
         gql += `${alias}: account(id: ${accountID}) {
-            nrql(query: "${this.escapeQuote(nrql[1])}", timeout: 10) {
+            nrql(query: "${this.escapeQuote(nrql[1])}", timeout: ${timeOut}) {
                 results
             }
         }`;
@@ -844,8 +855,8 @@ export default class DataManager {
         this.graphQlmeasures.push([
           this.kpis[i],
           this.kpis[i].queryByCity[this.city].query +
-            ' SINCE ' +
-            this.timeRangeKpi.range,
+          ' SINCE ' +
+          this.timeRangeKpi.range,
           extraInfo
         ]);
       }
@@ -1817,9 +1828,8 @@ export default class DataManager {
   GetCurrentHistoricErrorScript() {
     const data = historicErrorScript();
     const pathpointId = `var pathpointId = "${this.pathpointId}"`;
-    const response = `${pathpointId}${
-      data.header
-    }${this.CreateNrqlQueriesForHistoricErrorScript()}${data.footer}`;
+    const response = `${pathpointId}${data.header
+      }${this.CreateNrqlQueriesForHistoricErrorScript()}${data.footer}`;
     return response;
   }
 
