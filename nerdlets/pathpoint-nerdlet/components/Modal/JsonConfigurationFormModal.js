@@ -59,8 +59,8 @@ function handleUploadJSONFile(
           }
           if (!tested.goodQuery) {
             queryErrors.push({
-              dataPath: `kpis/${i}/query`,
-              message: `Bad query structure`
+              dataPath: `Error at KPI '${parsed[i].name}', in measure at position 1, in property 'query': `,
+              message: `bad query structure`
             });
           }
         }
@@ -69,7 +69,7 @@ function handleUploadJSONFile(
         );
         let totalErrrors = [];
         if (!customErrors && queryErrors.length === 0) {
-          // SetConfigurationJSON(eX.target.result);
+          SetConfigurationJSON(eX.target.result);
         }
         if (customErrors) {
           totalErrrors = [...customErrors];
@@ -101,7 +101,6 @@ function handleUploadJSONFile(
 
 function TranslateAJVErrors(errors, payload) {
   const translated = [];
-  console.log(errors, 'ERRORS')
   errors.forEach(error => {
     const path = error.dataPath.split('/');
     let message = error.message;
