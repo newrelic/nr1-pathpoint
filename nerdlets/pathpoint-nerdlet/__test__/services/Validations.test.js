@@ -161,6 +161,8 @@ describe('Validations class', () => {
 
   beforeEach(() => {
     validations = new Validations();
+    // eslint-disable-next-line no-console
+    console.log(validations);
   });
 
   describe('Function validateNrqlQuery', () => {
