@@ -899,6 +899,7 @@ export default class DataManager {
       this.stages[i].trafficIconType = values.count_by_stage[i].traffic_type;
 
       this.stages[i].capacity = values.count_by_stage[i].capacity_status;
+      this.stages[i].capacity_link = values.count_by_stage[i].capacity_link;
 
       let congestion = 0;
       if (values.count_by_stage[i].total_steps !== 0) {
@@ -928,7 +929,8 @@ export default class DataManager {
         steps_max_cong: [],
         above_avg: stage.percentage_above_avg,
         steps_over_percentage_indexes: [],
-        capacity_status: 'NO-VALUE'
+        capacity_status: 'NO-VALUE',
+        capacity_link: ''
       };
       tpc.push(rec);
     });
@@ -955,6 +957,7 @@ export default class DataManager {
           }
           if (measure.type === 'WLD') {
             tpc[idx].capacity_status = measure.status_value;
+            tpc[idx].capacity_link = this.GetWokloadTouchpointLink(touchpoint);
           }
         });
       }
@@ -990,6 +993,19 @@ export default class DataManager {
     return {
       count_by_stage: tpc
     };
+  }
+
+  GetWokloadTouchpointLink(touchpoint) {
+    let link = '';
+    this.stages[touchpoint.stage_index - 1].touchpoints.some(tp => {
+      let found = false;
+      if (tp.index === touchpoint.touchpoint_index) {
+        found = true;
+        link = tp.dashboard_url[0];
+      }
+      return found;
+    });
+    return link;
   }
 
   UpdateStepsIndexes(relation_steps, list) {
