@@ -8,7 +8,7 @@ const Workload = ({ workloadWidth, workloadValue }) => {
     const pathWorkload = `M ${arrowHead * i + (i - 1) * workloadWidth} 0 L ${i *
       workloadWidth +
       arrowHead * i} 0 L ${i * workloadWidth + arrowHead * (i - 1)} 13 L ${(i -
-        1) *
+      1) *
       workloadWidth +
       arrowHead * (i - 1) +
       0} 13 Z`;
