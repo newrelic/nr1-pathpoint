@@ -9,14 +9,14 @@ Array [
       className="error-alert-modal"
     >
       <p>
-        /data/0 - message error 1
+        /data/0 message error 1
       </p>
     </div>
     <div
       className="error-alert-modal"
     >
       <p>
-        /data/1 - message error 2
+        /data/1 message error 2
       </p>
     </div>
   </div>,
