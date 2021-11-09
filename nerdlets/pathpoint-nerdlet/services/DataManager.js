@@ -1459,6 +1459,7 @@ export default class DataManager {
   GetTouchpointQueryes(stage_index, index) {
     const queries = [];
     let accountID = this.accountId;
+    let measure_time = this.TimeRangeTransform(this.timeRange, false);
     this.touchPoints.forEach(element => {
       if (element.index === this.city) {
         element.touchpoints.some(touchpoint => {
@@ -1470,6 +1471,9 @@ export default class DataManager {
             found = true;
             touchpoint.measure_points.forEach(measure => {
               accountID = this.accountId;
+              if (measure.measure_time) {
+                measure_time = measure.measure_time;
+              }
               if (measure.accountID) {
                 accountID = measure.accountID;
               }
@@ -1478,14 +1482,16 @@ export default class DataManager {
                   type: this.measureNames[0],
                   accountID: accountID,
                   query: measure.query,
-                  min_count: measure.min_count
+                  min_count: measure.min_count,
+                  measure_time: measure_time
                 });
               } else if (measure.type === 'PCC') {
                 queries.push({
                   type: this.measureNames[1],
                   accountID: accountID,
                   query: measure.query,
-                  min_count: measure.min_count
+                  min_count: measure.min_count,
+                  measure_time: measure_time
                 });
               } else if (measure.type === 'APP') {
                 queries.push({
@@ -1494,7 +1500,8 @@ export default class DataManager {
                   query: measure.query,
                   min_apdex: measure.min_apdex,
                   max_response_time: measure.max_response_time,
-                  max_error_percentage: measure.max_error_percentage
+                  max_error_percentage: measure.max_error_percentage,
+                  measure_time: measure_time
                 });
               } else if (measure.type === 'FRT') {
                 queries.push({
@@ -1503,7 +1510,8 @@ export default class DataManager {
                   query: measure.query,
                   min_apdex: measure.min_apdex,
                   max_response_time: measure.max_response_time,
-                  max_error_percentage: measure.max_error_percentage
+                  max_error_percentage: measure.max_error_percentage,
+                  measure_time: measure_time
                 });
               } else if (measure.type === 'SYN') {
                 queries.push({
@@ -1512,13 +1520,15 @@ export default class DataManager {
                   query: measure.query,
                   max_avg_response_time: measure.max_avg_response_time,
                   max_total_check_time: measure.max_total_check_time,
-                  min_success_percentage: measure.min_success_percentage
+                  min_success_percentage: measure.min_success_percentage,
+                  measure_time: measure_time
                 });
               } else if (measure.type === 'WLD') {
                 queries.push({
                   type: this.measureNames[5],
                   accountID: accountID,
-                  query: measure.query
+                  query: measure.query,
+                  measure_time: measure_time
                 });
               }
             });
@@ -1583,14 +1593,14 @@ export default class DataManager {
           {
             accountID: kpi.measure[0].accountID,
             query: kpi.measure[0].query,
-            link: kpi.link
+            link: kpi.measure[0].link
           }
         ];
       } else {
         queryByCity = [
           {
             query: kpi.measure[0].query,
-            link: kpi.link
+            link: kpi.measure[0].link
           }
         ];
       }
@@ -1748,6 +1758,12 @@ export default class DataManager {
           }
           if (query.accountID !== this.accountId) {
             measure = { accountID: query.accountID, ...measure };
+          }
+          if (
+            query.measure_time !==
+            this.TimeRangeTransform(this.timeRange, false)
+          ) {
+            measure = { ...measure, measure_time: query.measure_time };
           }
           tpDef2.measure_points.push(measure);
         });
