@@ -58,6 +58,7 @@ export default class DataManager {
         id: 0
       }
     ];
+    this.detaultTimeout = 10;
   }
 
   async BootstrapInitialData(accountName) {
@@ -115,6 +116,8 @@ export default class DataManager {
   ) {
     if (this.accountId !== null) {
       console.log(`UPDATING-DATA: ${this.accountId}`);
+      // console.log('KKPPIs:',this.kpis);
+      // this.AddCustomAccountIDs();
       this.timeRange = timeRange;
       this.city = city;
       this.getOldSessions = getOldSessions;
@@ -136,6 +139,7 @@ export default class DataManager {
       const { data } = await AccountsQuery.query();
       if (data.length > 0) {
         this.FillAccountIDs(data);
+        this.AddCustomAccountIDs();
         if (accountName !== '') {
           data.some(account => {
             let found = false;
@@ -167,6 +171,41 @@ export default class DataManager {
         id: account.id
       });
     });
+  }
+
+  AddCustomAccountIDs() {
+    this.removeCustomIDs();
+    let ids = '--';
+    this.accountIDs.forEach(acc => {
+      ids += acc.id + '--';
+    });
+    const initial_length = ids.length;
+    this.touchPoints.forEach(element => {
+      element.touchpoints.forEach(touchpoint => {
+        touchpoint.measure_points.forEach(measure => {
+          if (measure.accountID) {
+            if (ids.indexOf('--' + measure.accountID + '--') === -1) {
+              ids += measure.accountID + '--';
+            }
+          }
+        });
+      });
+    });
+    if (ids.length > initial_length) {
+      const newIds = ids.substring(initial_length, ids.length - 2).split('--');
+      newIds.forEach(newId => {
+        this.accountIDs.push({
+          name: 'Custom ID',
+          id: parseInt(newId)
+        });
+      });
+    }
+  }
+
+  removeCustomIDs() {
+    while (this.accountIDs[this.accountIDs.length - 1].name === 'Custom ID') {
+      this.accountIDs.pop();
+    }
   }
 
   async CheckVersion() {
@@ -424,7 +463,6 @@ export default class DataManager {
                   touchpoint_type: measure.type,
                   stage_name: extraInfo.stageName
                 };
-                this.LogConnector.SendLog(logRecord);
                 this.SendToLogs(logRecord);
               }
               if (extraInfo.measureType === 'kpi') {
@@ -450,6 +488,7 @@ export default class DataManager {
         if (
           c[0] === 'measure' &&
           value &&
+          value.nrql &&
           Reflect.has(value, 'nrql') &&
           Reflect.has(value.nrql, 'results')
         ) {
@@ -479,6 +518,9 @@ export default class DataManager {
               this.SendToLogs(logRecord);
             }
             if (extraInfo.measureType === 'kpi') {
+              if (Reflect.has(measure.queryByCity[this.city], 'accountID')) {
+                accountID = measure.queryByCity[this.city].accountID;
+              }
               const logRecord = {
                 action: 'kpi-query',
                 account_id: accountID,
@@ -686,10 +728,21 @@ export default class DataManager {
           if (Reflect.has(nrql[0], 'accountID')) {
             accountID = nrql[0].accountID;
           }
+          // Special Change ONLY for KPI-MULTI-ACCOINT-MEASURES
+          if (nrql[0].type === 100 || nrql[0].type === 101) {
+            if (Reflect.has(nrql[0].queryByCity[this.city], 'accountID')) {
+              accountID = nrql[0].queryByCity[this.city].accountID;
+            }
+          }
+          // Check if the Measure have a Timeout Defined
+          let timeOut = this.detaultTimeout;
+          if (Reflect.has(nrql[0], 'timeout')) {
+            timeOut = nrql[0].timeout;
+          }
           alias = `measure_${n}`;
           n += 1;
           gql += `${alias}: account(id: ${accountID}) {
-              nrql(query: "${this.escapeQuote(nrql[1])}", timeout: 10) {
+              nrql(query: "${this.escapeQuote(nrql[1])}", timeout: ${timeOut}) {
                   results
               }
           }`;
@@ -720,10 +773,21 @@ export default class DataManager {
         if (Reflect.has(nrql[0], 'accountID')) {
           accountID = nrql[0].accountID;
         }
+        // Special Change ONLY for KPI-MULTI-ACCOINT-MEASURES
+        if (nrql[0].type === 100 || nrql[0].type === 101) {
+          if (Reflect.has(nrql[0].queryByCity[this.city], 'accountID')) {
+            accountID = nrql[0].queryByCity[this.city].accountID;
+          }
+        }
+        // Check if the Measure have a Timeout Defined
+        let timeOut = this.detaultTimeout;
+        if (Reflect.has(nrql[0], 'timeout')) {
+          timeOut = nrql[0].timeout;
+        }
         alias = `measure_${n}`;
         n += 1;
         gql += `${alias}: account(id: ${accountID}) {
-            nrql(query: "${this.escapeQuote(nrql[1])}", timeout: 10) {
+            nrql(query: "${this.escapeQuote(nrql[1])}", timeout: ${timeOut}) {
                 results
             }
         }`;
@@ -790,10 +854,13 @@ export default class DataManager {
         };
         this.graphQlmeasures.push([
           this.kpis[i],
-          this.kpis[i].query + ' SINCE ' + this.timeRangeKpi.range,
+          this.kpis[i].queryByCity[this.city].query +
+          ' SINCE ' +
+          this.timeRangeKpi.range,
           extraInfo
         ]);
       }
+      this.kpis[i].link = this.kpis[i].queryByCity[this.city].link;
     }
     await this.NRDBQuery();
   }
@@ -1269,15 +1336,27 @@ export default class DataManager {
     let i = 0;
     let line = 0;
     let kpi = null;
+    let multyQuery = null;
+    let accountID = this.accountId;
     this.configuration.pathpointVersion = this.version;
     this.configuration.kpis.length = 0;
     for (let i = 0; i < this.kpis.length; i++) {
+      accountID = this.accountId;
+      if (Reflect.has(this.kpis[i].queryByCity[this.city], 'accountID')) {
+        accountID = this.kpis[i].queryByCity[this.city].accountID;
+      }
+      multyQuery = [
+        {
+          accountID: accountID,
+          query: this.kpis[i].queryByCity[this.city].query,
+          link: this.kpis[i].queryByCity[this.city].link
+        }
+      ];
       kpi = {
         type: this.kpis[i].type,
         name: this.kpis[i].name,
         shortName: this.kpis[i].shortName,
-        link: this.kpis[i].link,
-        query: this.kpis[i].query,
+        measure: multyQuery,
         value_type: this.kpis[i].value_type,
         prefix: this.kpis[i].prefix,
         suffix: this.kpis[i].suffix
@@ -1439,6 +1518,13 @@ export default class DataManager {
   SetConfigurationJSON(configuration) {
     this.configurationJSON = JSON.parse(configuration);
     this.UpdateNewConfiguration();
+    this.AddCustomAccountIDs();
+    const logRecord = {
+      action: 'json-update',
+      error: false,
+      json_file: configuration
+    };
+    this.SendToLogs(logRecord);
     return {
       stages: this.stages,
       kpis: this.kpis
@@ -1466,18 +1552,34 @@ export default class DataManager {
     });
     let ikpi = null;
     let index = 0;
+    let queryByCity = null;
     this.configurationJSON.kpis.forEach(kpi => {
       ikpi = {
         index: index,
         type: kpi.type,
         name: kpi.name,
         shortName: kpi.shortName,
-        link: kpi.link,
-        query: kpi.query,
         value_type: kpi.value_type,
         prefix: kpi.prefix,
         suffix: kpi.suffix
       };
+      if (kpi.measure[0].accountID !== this.accountId) {
+        queryByCity = [
+          {
+            accountID: kpi.measure[0].accountID,
+            query: kpi.measure[0].query,
+            link: kpi.link
+          }
+        ];
+      } else {
+        queryByCity = [
+          {
+            query: kpi.measure[0].query,
+            link: kpi.link
+          }
+        ];
+      }
+      ikpi = { ...ikpi, queryByCity: queryByCity };
       index++;
       if (kpi.type === 100) {
         ikpi = { ...ikpi, value: 0 };
@@ -1727,9 +1829,8 @@ export default class DataManager {
   GetCurrentHistoricErrorScript() {
     const data = historicErrorScript();
     const pathpointId = `var pathpointId = "${this.pathpointId}"`;
-    const response = `${pathpointId}${
-      data.header
-    }${this.CreateNrqlQueriesForHistoricErrorScript()}${data.footer}`;
+    const response = `${pathpointId}${data.header
+      }${this.CreateNrqlQueriesForHistoricErrorScript()}${data.footer}`;
     return response;
   }
 
@@ -2002,6 +2103,15 @@ for (const [key, value] of Object.entries(return` +
             tp.touchpoint_index === touchpoint.index
           ) {
             found2 = true;
+            const logRecord = {
+              action: 'touchpoint-enable-disable',
+              error: false,
+              touchpoint_name: touchpoint.value,
+              touchpoint_type: tp.measure_points[0].type,
+              stage_name: this.stages[tp.stage_index - 1].title,
+              touchpoint_enabled: touchpoint.status_on_off
+            };
+            this.SendToLogs(logRecord);
             tp.status_on_off = touchpoint.status_on_off;
             if (updateStorage) {
               this.SetStorageTouchpoints();
@@ -2148,6 +2258,16 @@ for (const [key, value] of Object.entries(return` +
             tp.touchpoint_index === touchpoint.index
           ) {
             found2 = true;
+            const logRecord = {
+              action: 'touchpoint-tune',
+              message: datos,
+              error: false,
+              touchpoint_name: touchpoint.value,
+              touchpoint_type: tp.measure_points[0].type,
+              stage_name: this.stages[tp.stage_index - 1].title,
+              touchpoint_enabled: touchpoint.status_on_off
+            };
+            this.SendToLogs(logRecord);
             switch (tp.measure_points[0].type) {
               case 'PRC':
               case 'PCC':
@@ -2191,6 +2311,18 @@ for (const [key, value] of Object.entries(return` +
             tp.touchpoint_index === touchpoint.index
           ) {
             found2 = true;
+            const logRecord = {
+              action: 'touchpoint-update',
+              message: datos,
+              account_id: datos[0].accountID,
+              query: datos[0].query_body,
+              error: false,
+              touchpoint_name: touchpoint.value,
+              touchpoint_type: tp.measure_points[0].type,
+              stage_name: this.stages[tp.stage_index - 1].title,
+              touchpoint_enabled: touchpoint.status_on_off
+            };
+            this.SendToLogs(logRecord);
             datos.forEach(dato => {
               this.UpdateMeasure(dato, tp.measure_points);
             });

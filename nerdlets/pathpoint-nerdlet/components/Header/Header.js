@@ -22,6 +22,7 @@ import SelectorKpis from '../SelectorKpis';
 import kpiStatusEqual from '../../images/kpiStatusEqual.svg';
 import kpiStatusUpper from '../../images/kpiStatusUpper.svg';
 import kpiStatusLower from '../../images/kpiStatusLower.svg';
+// import { navigation } from 'nr1';
 
 const Header = ({
   iconSixthSenseStatus,
@@ -43,7 +44,7 @@ const Header = ({
   kpis,
   updateDataKpisChecked
 }) => {
-  const filterKpis = kpis.filter(kpi => kpi.query !== '' && kpi.check);
+  const filterKpis = kpis.filter(kpi => kpi.check);
 
   return (
     <div className="containerHeader">
@@ -167,17 +168,29 @@ const Header = ({
             options={options}
           />
         </div>
-        <div
+        {/* <div
           className="viewLogs"
           style={{
             cursor: 'pointer'
           }}
           onClick={() => {
-            window.open('http://one.newrelic.com');
+            //window.open('http://one.newrelic.com');
+            // navigation.openNerdlet({
+            //   id: 'logger.log-tailer',
+            //   state: {
+            //     accountId: 1606862,
+            //     query: `labels.app:delivery`,
+            //     timeRange: {
+            //       begin_time: 1635881674,
+            //       end_time: 1635886674,
+            //       duration: undefined
+            //     }
+            //   }
+            // });
           }}
         >
           View Logs
-        </div>
+        </div> */}
       </div>
     </div>
   );
