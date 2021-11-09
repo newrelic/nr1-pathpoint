@@ -34,6 +34,7 @@ describe('LogsConnector', () => {
     //   })
     // };
     const datos = {
+      // nuevo valor
       pathpointID: '12587',
       application: 'Pathpoint',
       mesagge: 'log enviado',
