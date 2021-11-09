@@ -7,6 +7,7 @@ import { browserName, browserVersion } from 'react-device-detect';
 // clase que trabaja de manera independiente
 export default class LogConnector {
   constructor() {
+    this.enableDisable = true;
     this.pathpointId = nr1Json.id;
     this.licenseKey = env.newRelicLogLicense;
     this.buffer = [];
@@ -17,6 +18,10 @@ export default class LogConnector {
     setInterval(() => {
       this.CheckBuffer();
     }, 10000);
+  }
+
+  EnableDisable(status) {
+    this.enableDisable = status;
   }
 
   SendLog(datos) {
@@ -34,7 +39,7 @@ export default class LogConnector {
   }
 
   CheckBuffer() {
-    if (this.licenseKey === 'API-KEY-HERE') {
+    if (this.licenseKey === 'API-KEY-HERE' || !this.enableDisable) {
       this.buffer = [];
       return null;
     }
