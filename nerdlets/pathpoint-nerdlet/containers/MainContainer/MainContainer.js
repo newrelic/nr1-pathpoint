@@ -130,24 +130,8 @@ export default class MainContainer extends React.Component {
         range: '24 HOURS AGO'
       },
       kpis: [],
-      accountIDs: [
-        {
-          name: 'WigiBoards',
-          id: 2710112
-        },
-        {
-          name: 'Account 2',
-          id: 7859641
-        },
-        {
-          name: 'Account 3',
-          id: 7859642
-        },
-        {
-          name: 'Account 4',
-          id: 7859642
-        }
-      ]
+      accountIDs: [],
+      sendingLogsEnableDisable: true
     };
   }
 
@@ -697,6 +681,12 @@ export default class MainContainer extends React.Component {
       datos = this.DataManager.GetTouchpointTune(touchpoint);
     } else if (view === 1) {
       datos = this.DataManager.GetTouchpointQuerys(touchpoint);
+    } else if (view === 9) {
+      // GeneralConfigurationForm
+      const { sendingLogsEnableDisable } = this.state;
+      datos = {
+        sendingLogsEnableDisable: sendingLogsEnableDisable
+      };
     }
     this.setState({
       viewModal: view,
@@ -1025,6 +1015,17 @@ export default class MainContainer extends React.Component {
     this.setState({
       showCanaryWelcomeMat: !event.target.elements.checkbox_canary.checked
     });
+    this._onClose();
+  };
+
+  handleSaveUpdateGeneralConfiguration = event => {
+    event.preventDefault();
+    this.setState({
+      sendingLogsEnableDisable: event.target.elements.checkbox_logs.checked
+    });
+    this.DataManager.EnableDisableLogsConnector(
+      event.target.elements.checkbox_logs.checked
+    );
     this._onClose();
   };
 
@@ -1395,7 +1396,7 @@ export default class MainContainer extends React.Component {
                       onClick={this._handleClickProcesses}
                       style={{ padding: '5px' }}
                     >
-                      Background processes
+                      Credentials and General Configuration
                     </div>
                   </div>
                 </div>
@@ -1838,6 +1839,9 @@ export default class MainContainer extends React.Component {
             GetCurrentHistoricErrorScript={this.GetCurrentHistoricErrorScript}
             modifiedQuery={modifiedQuery}
             accountIDs={accountIDs}
+            handleSaveUpdateGeneralConfiguration={
+              this.handleSaveUpdateGeneralConfiguration
+            }
           />
           <div id="cover-spin" style={{ display: loading ? '' : 'none' }} />
         </div>
