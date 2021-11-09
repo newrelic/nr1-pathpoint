@@ -54,6 +54,7 @@ function addStage($stage)
             "percentage" => 15,
         ],
         "capacity" => 0,
+        "capacity_link" => '',
         "total_count" => 0,
         "active_dotted" => $active_dotted,
         "active_dotted_color" => "#828282",

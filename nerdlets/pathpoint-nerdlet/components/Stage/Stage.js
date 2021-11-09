@@ -51,13 +51,28 @@ const Stage = ({ stage, onClickStage }) => {
             arrowMode={stage.arrowMode ?? ''}
           />
         </div>
-        <div className="capacityBar">
+        <div
+          className="capacityBar"
+          style={SetCursorStyle(stage.capacity_link)}
+          onClick={() => {
+            if (stage.capacity_link !== false) {
+              window.open(stage.capacity_link);
+            }
+          }}
+        >
           <Workload workloadWidth={40} workloadValue={status} />
         </div>
-        <div className="percentText">{`Infra Workload: ${capacity}`}</div>
+        <div className="percentText">{`Infra: ${capacity}`}</div>
       </div>
     </div>
   );
+};
+
+const SetCursorStyle = link => {
+  if (link !== false) {
+    return { cursor: 'pointer' };
+  }
+  return { cursor: 'default' };
 };
 
 const GetCapacity = capacity => {
