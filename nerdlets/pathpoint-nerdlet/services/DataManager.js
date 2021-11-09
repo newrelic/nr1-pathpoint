@@ -855,8 +855,8 @@ export default class DataManager {
         this.graphQlmeasures.push([
           this.kpis[i],
           this.kpis[i].queryByCity[this.city].query +
-          ' SINCE ' +
-          this.timeRangeKpi.range,
+            ' SINCE ' +
+            this.timeRangeKpi.range,
           extraInfo
         ]);
       }
