@@ -250,17 +250,6 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
             </div>
           </div>
         </div>
-        <div
-          className="viewLogs"
-          onClick={[Function]}
-          style={
-            Object {
-              "cursor": "pointer",
-            }
-          }
-        >
-          View Logs
-        </div>
       </div>
     </div>
   </div>
@@ -1095,17 +1084,6 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
             </div>
           </div>
         </div>
-        <div
-          className="viewLogs"
-          onClick={[Function]}
-          style={
-            Object {
-              "cursor": "pointer",
-            }
-          }
-        >
-          View Logs
-        </div>
       </div>
     </div>
   </div>
@@ -1939,17 +1917,6 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
               </div>
             </div>
           </div>
-        </div>
-        <div
-          className="viewLogs"
-          onClick={[Function]}
-          style={
-            Object {
-              "cursor": "pointer",
-            }
-          }
-        >
-          View Logs
         </div>
       </div>
     </div>
@@ -2831,17 +2798,6 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
             </div>
           </div>
         </div>
-        <div
-          className="viewLogs"
-          onClick={[Function]}
-          style={
-            Object {
-              "cursor": "pointer",
-            }
-          }
-        >
-          View Logs
-        </div>
       </div>
     </div>
   </div>
@@ -3675,17 +3631,6 @@ exports[`<MainContainer/> Values stages 1`] = `
               </div>
             </div>
           </div>
-        </div>
-        <div
-          className="viewLogs"
-          onClick={[Function]}
-          style={
-            Object {
-              "cursor": "pointer",
-            }
-          }
-        >
-          View Logs
         </div>
       </div>
     </div>
@@ -4820,17 +4765,6 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
               </div>
             </div>
           </div>
-        </div>
-        <div
-          className="viewLogs"
-          onClick={[Function]}
-          style={
-            Object {
-              "cursor": "pointer",
-            }
-          }
-        >
-          View Logs
         </div>
       </div>
     </div>

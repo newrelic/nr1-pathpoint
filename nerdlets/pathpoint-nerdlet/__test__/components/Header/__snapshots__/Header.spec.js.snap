@@ -274,17 +274,6 @@ exports[`Header component Header component with default data 1`] = `
         </div>
       </div>
     </div>
-    <div
-      className="viewLogs"
-      onClick={[Function]}
-      style={
-        Object {
-          "cursor": "pointer",
-        }
-      }
-    >
-      View Logs
-    </div>
   </div>
 </div>
 `;
@@ -562,17 +551,6 @@ exports[`Header component Header component with emulate activeSixthSenseIcon 1`]
           </div>
         </div>
       </div>
-    </div>
-    <div
-      className="viewLogs"
-      onClick={[Function]}
-      style={
-        Object {
-          "cursor": "pointer",
-        }
-      }
-    >
-      View Logs
     </div>
   </div>
 </div>
@@ -852,17 +830,6 @@ exports[`Header component Header component with iconCanaryStatus 1`] = `
         </div>
       </div>
     </div>
-    <div
-      className="viewLogs"
-      onClick={[Function]}
-      style={
-        Object {
-          "cursor": "pointer",
-        }
-      }
-    >
-      View Logs
-    </div>
   </div>
 </div>
 `;
@@ -1140,17 +1107,6 @@ exports[`Header component Header component with iconFireStatus 1`] = `
           </div>
         </div>
       </div>
-    </div>
-    <div
-      className="viewLogs"
-      onClick={[Function]}
-      style={
-        Object {
-          "cursor": "pointer",
-        }
-      }
-    >
-      View Logs
     </div>
   </div>
 </div>
@@ -1430,17 +1386,6 @@ exports[`Header component Header component with iconGoutStatus 1`] = `
         </div>
       </div>
     </div>
-    <div
-      className="viewLogs"
-      onClick={[Function]}
-      style={
-        Object {
-          "cursor": "pointer",
-        }
-      }
-    >
-      View Logs
-    </div>
   </div>
 </div>
 `;
@@ -1718,17 +1663,6 @@ exports[`Header component Header component with iconSixthSenseStatus 1`] = `
           </div>
         </div>
       </div>
-    </div>
-    <div
-      className="viewLogs"
-      onClick={[Function]}
-      style={
-        Object {
-          "cursor": "pointer",
-        }
-      }
-    >
-      View Logs
     </div>
   </div>
 </div>
@@ -2008,17 +1942,6 @@ exports[`Header component Header component with iconStartStatus 1`] = `
         </div>
       </div>
     </div>
-    <div
-      className="viewLogs"
-      onClick={[Function]}
-      style={
-        Object {
-          "cursor": "pointer",
-        }
-      }
-    >
-      View Logs
-    </div>
   </div>
 </div>
 `;
@@ -2296,17 +2219,6 @@ exports[`Header component Header component with logoSetup Text 1`] = `
           </div>
         </div>
       </div>
-    </div>
-    <div
-      className="viewLogs"
-      onClick={[Function]}
-      style={
-        Object {
-          "cursor": "pointer",
-        }
-      }
-    >
-      View Logs
     </div>
   </div>
 </div>
@@ -2586,17 +2498,6 @@ exports[`Header component Header component with logoSetup URL 1`] = `
         </div>
       </div>
     </div>
-    <div
-      className="viewLogs"
-      onClick={[Function]}
-      style={
-        Object {
-          "cursor": "pointer",
-        }
-      }
-    >
-      View Logs
-    </div>
   </div>
 </div>
 `;
@@ -2874,17 +2775,6 @@ exports[`Header component Header component with showLeftPanel 1`] = `
           </div>
         </div>
       </div>
-    </div>
-    <div
-      className="viewLogs"
-      onClick={[Function]}
-      style={
-        Object {
-          "cursor": "pointer",
-        }
-      }
-    >
-      View Logs
     </div>
   </div>
 </div>

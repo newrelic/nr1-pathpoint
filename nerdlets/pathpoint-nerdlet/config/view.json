@@ -59,8 +59,13 @@
       "type": 101,
       "name": "Unique Visitors",
       "shortName": "Unique",
-      "link": "https://onenr.io/01qwL8KPxw5",
-      "query": "SELECT count(*) as value  FROM  Public_APICall COMPARE WITH 2 day ago",
+      "queryByCity": [
+        {
+          "accountID": 1606862,
+          "query": "SELECT count(*) as value  FROM  Public_APICall COMPARE WITH 2 day ago",
+          "link": "https://onenr.io/01qwL8KPxw5"
+        }
+      ],
       "value": {
         "current": 0,
         "previous": 0
@@ -75,8 +80,12 @@
       "type": 101,
       "name": "1 Account",
       "shortName": "1 Acc.",
-      "link": "https://onenr.io/01qwL8KPxw5",
-      "query": "SELECT count(*) as value  FROM  Public_APICall COMPARE WITH 2 day ago",
+      "queryByCity": [
+        {
+          "query": "SELECT count(*) as value  FROM  Public_APICall COMPARE WITH 2 day ago",
+          "link": "https://onenr.io/01qwL8KPxw5"
+        }
+      ],
       "value": {
         "current": 0,
         "previous": 0
@@ -91,8 +100,13 @@
       "type": 100,
       "name": "1+ Account",
       "shortName": "1+ Acc.",
-      "link": "https://onenr.io/01qwL8KPxw5",
-      "query": "SELECT count(*) as value  FROM Public_APICall",
+      "queryByCity": [
+        {
+          "accountID": 1606862,
+          "query": "SELECT count(*) as value  FROM  Public_APICall",
+          "link": "https://onenr.io/01qwL8KPxw5"
+        }
+      ],
       "value": 0,
       "value_type": "FLOAT",
       "prefix": "R$",
@@ -104,8 +118,12 @@
       "type": 100,
       "name": "Customers",
       "shortName": "Cust.",
-      "link": "https://onenr.io/01qwL8KPxw5",
-      "query": "SELECT count(*) as value  FROM Public_APICall",
+      "queryByCity": [
+        {
+          "query": "SELECT count(*) as value  FROM  Public_APICall",
+          "link": "https://onenr.io/01qwL8KPxw5"
+        }
+      ],
       "value": 0,
       "value_type": "INT",
       "prefix": "#",
@@ -117,8 +135,13 @@
       "type": 100,
       "name": "All Accounts",
       "shortName": "All Acc.",
-      "link": "https://onenr.io/01qwL8KPxw5",
-      "query": "SELECT count(*) as value  FROM Public_APICall",
+      "queryByCity": [
+        {
+          "accountID": 1606862,
+          "query": "SELECT count(*) as value  FROM  Public_APICall",
+          "link": "https://onenr.io/01qwL8KPxw5"
+        }
+      ],
       "value": 0,
       "value_type": "INT",
       "prefix": "",
@@ -130,8 +153,13 @@
       "type": 100,
       "name": "Monthly vs Annual Pay",
       "shortName": "MvsA",
-      "link": "https://onenr.io/01qwL8KPxw5",
-      "query": "SELECT count(*) as value  FROM Public_APICall",
+      "queryByCity": [
+        {
+          "accountID": 1606862,
+          "query": "SELECT count(*) as value  FROM  Public_APICall",
+          "link": "https://onenr.io/01qwL8KPxw5"
+        }
+      ],
       "value": 0,
       "value_type": "INT",
       "prefix": "",
@@ -143,8 +171,12 @@
       "type": 100,
       "name": "Autopay",
       "shortName": "Autopay",
-      "link": "https://onenr.io/01qwL8KPxw5",
-      "query": "SELECT count(*) as value  FROM Public_APICall",
+      "queryByCity": [
+        {
+          "query": "SELECT count(*) as value  FROM  Public_APICall",
+          "link": "https://onenr.io/01qwL8KPxw5"
+        }
+      ],
       "value": 0,
       "value_type": "INT",
       "prefix": "",
@@ -156,8 +188,13 @@
       "type": 100,
       "name": "eStatement",
       "shortName": "eStat.",
-      "link": "https://onenr.io/01qwL8KPxw5",
-      "query": "SELECT count(*) as value  FROM Public_APICall",
+      "queryByCity": [
+        {
+          "accountID": 1606862,
+          "query": "SELECT count(*) as value  FROM  Public_APICall",
+          "link": "https://onenr.io/01qwL8KPxw5"
+        }
+      ],
       "value": 0,
       "value_type": "INT",
       "prefix": "",
@@ -169,8 +206,13 @@
       "type": 100,
       "name": "1 loan Signed-in",
       "shortName": "1_loan",
-      "link": "https://onenr.io/01qwL8KPxw5",
-      "query": "SELECT count(*) as value  FROM Public_APICall",
+      "queryByCity": [
+        {
+          "accountID": 1606862,
+          "query": "SELECT count(*) as value  FROM  Public_APICall",
+          "link": "https://onenr.io/01qwL8KPxw5"
+        }
+      ],
       "value": 0,
       "value_type": "INT",
       "prefix": "",
@@ -182,8 +224,13 @@
       "type": 100,
       "name": "1+ loan Signed-in",
       "shortName": "1+loan",
-      "link": "https://onenr.io/01qwL8KPxw5",
-      "query": "SELECT count(*) as value  FROM Public_APICall",
+      "queryByCity": [
+        {
+          "accountID": 1606862,
+          "query": "SELECT count(*) as value  FROM  Public_APICall",
+          "link": "https://onenr.io/01qwL8KPxw5"
+        }
+      ],
       "value": 0,
       "value_type": "INT",
       "prefix": "",
@@ -195,8 +242,12 @@
       "type": 100,
       "name": "Consumer Loans Signed-in",
       "shortName": "Cust L",
-      "link": "https://onenr.io/01qwL8KPxw5",
-      "query": "SELECT count(*) as value  FROM Public_APICall",
+      "queryByCity": [
+        {
+          "query": "SELECT count(*) as value  FROM  Public_APICall",
+          "link": "https://onenr.io/01qwL8KPxw5"
+        }
+      ],
       "value": 0,
       "value_type": "INT",
       "prefix": "",
@@ -208,8 +259,12 @@
       "type": 100,
       "name": "green orders",
       "shortName": "Green orders (max)",
-      "link": "https://onenr.io/01qwL8KPxw5",
-      "query": "SELECT count(*) as value  FROM Public_APICall",
+      "queryByCity": [
+        {
+          "query": "SELECT count(*) as value  FROM  Public_APICall",
+          "link": "https://onenr.io/01qwL8KPxw5"
+        }
+      ],
       "value": 0,
       "value_type": "INT",
       "prefix": "",
@@ -221,8 +276,12 @@
       "type": 100,
       "name": "Past Due",
       "shortName": "Past_Due",
-      "link": "https://onenr.io/01qwL8KPxw5",
-      "query": "SELECT count(*) as value  FROM Public_APICall",
+      "queryByCity": [
+        {
+          "query": "SELECT count(*) as value  FROM  Public_APICall",
+          "link": "https://onenr.io/01qwL8KPxw5"
+        }
+      ],
       "value": 0,
       "value_type": "INT",
       "prefix": "",
@@ -234,8 +293,12 @@
       "type": 100,
       "name": "Auto-Dialer",
       "shortName": "Auto-Dialer",
-      "link": "https://onenr.io/01qwL8KPxw5",
-      "query": "SELECT count(*) as value  FROM Public_APICall",
+      "queryByCity": [
+        {
+          "query": "SELECT count(*) as value  FROM  Public_APICall",
+          "link": "https://onenr.io/01qwL8KPxw5"
+        }
+      ],
       "value": 0,
       "value_type": "INT",
       "prefix": "",
@@ -278,7 +341,7 @@
               "canary_state": false,
               "latency": true,
               "value": "Web",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -294,7 +357,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Mobile Web",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -306,7 +369,7 @@
               "index": 3,
               "id": "ST1-LINE1-SS3",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "App",
               "dark": false,
               "history_error": false,
@@ -489,7 +552,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Add to Bag",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -609,7 +672,7 @@
             0
           ],
           "dashboard_url": [
-            false
+            "https://onenr.io/08dQemz3VQe"
           ],
           "relation_steps": []
         }
@@ -731,7 +794,7 @@
               "index": 6,
               "id": "ST2-LINE3-SS1",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "PAY Calculation",
               "dark": false,
               "history_error": false,
@@ -749,7 +812,7 @@
               "canary_state": false,
               "latency": false,
               "value": "POINTS Calculation",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -899,7 +962,7 @@
             0
           ],
           "dashboard_url": [
-            false
+            "https://onenr.io/0a7j9pBB3RO"
           ],
           "relation_steps": []
         }
@@ -976,7 +1039,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Pick-Up Options",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1027,9 +1090,9 @@
               "index": 6,
               "id": "ST3-LINE3-SS2",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Paypal",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1043,7 +1106,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Afterpay",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1057,7 +1120,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Gift Card ",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1217,7 +1280,7 @@
             0
           ],
           "dashboard_url": [
-            false
+            "https://onenr.io/0YBR6kKKqjO"
           ],
           "relation_steps": []
         }
@@ -1334,7 +1397,7 @@
               "index": 6,
               "id": "ST4-LINE2-SS3",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Order Delayed",
               "dark": false,
               "history_error": false,
@@ -1371,7 +1434,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Pick-up Prep",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1390,7 +1453,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Order Tracking #",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1406,7 +1469,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Pick-up Date and Locatioon",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1528,7 +1591,7 @@
             0
           ],
           "dashboard_url": [
-            false
+            "https://onenr.io/0x0jlDzz7jW"
           ],
           "relation_steps": []
         }
@@ -1619,7 +1682,7 @@
               "index": 4,
               "id": "ST5-LINE2-SS2",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Customer Pick-Up",
               "dark": false,
               "history_error": false,
@@ -1675,7 +1738,7 @@
               "index": 7,
               "id": "ST5-LINE4-SS2",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Returned",
               "dark": false,
               "history_error": false,
@@ -1710,7 +1773,7 @@
               "index": 9,
               "id": "ST5-LINE5-SS2",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Proof of Store Pick-up",
               "dark": false,
               "history_error": false,
@@ -1851,7 +1914,7 @@
             0
           ],
           "dashboard_url": [
-            false
+            "https://onenr.io/04ERPDJqaRW"
           ],
           "relation_steps": []
         }
