@@ -16,7 +16,7 @@ import { BodyCanaryFormModal } from './CanaryFormModal';
 import { BodySupportFormModal } from './SupportFormModal';
 import { BodyFileErrorFormModal } from './FileErrorFormModal';
 import { BodyJsonConfigurationFormModal } from './JsonConfigurationFormModal';
-import { BodyBackgroundProcessesFormModal } from './BackgroundProcessesFormModal';
+import { BodyGeneralConfigurationFormModal } from './GeneralConfigurationFormModal';
 
 export default class ShowBody extends Component {
   constructor(props) {
@@ -188,7 +188,7 @@ export default class ShowBody extends Component {
       case 8:
         return <BodyFileErrorFormModal {...this.props} />;
       case 9:
-        return <BodyBackgroundProcessesFormModal {...this.props} />;
+        return <BodyGeneralConfigurationFormModal {...this.props} />;
       case 10:
         return (
           <BodyLogoFormModal

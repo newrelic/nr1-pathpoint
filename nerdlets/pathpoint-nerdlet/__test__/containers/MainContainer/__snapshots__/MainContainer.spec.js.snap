@@ -333,7 +333,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
                 }
               }
             >
-              Background processes
+              Credentials and General Configuration
             </div>
           </div>
         </div>
@@ -1167,7 +1167,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
                 }
               }
             >
-              Background processes
+              Credentials and General Configuration
             </div>
           </div>
         </div>
@@ -2001,7 +2001,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
                 }
               }
             >
-              Background processes
+              Credentials and General Configuration
             </div>
           </div>
         </div>
@@ -2881,7 +2881,7 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
                 }
               }
             >
-              Background processes
+              Credentials and General Configuration
             </div>
           </div>
         </div>
@@ -3715,7 +3715,7 @@ exports[`<MainContainer/> Values stages 1`] = `
                 }
               }
             >
-              Background processes
+              Credentials and General Configuration
             </div>
           </div>
         </div>
@@ -4270,6 +4270,12 @@ exports[`<MainContainer/> Values stages 1`] = `
             </div>
             <div
               className="capacityBar"
+              onClick={[Function]}
+              style={
+                Object {
+                  "cursor": "pointer",
+                }
+              }
             >
               <svg
                 fill="#ff0000"
@@ -4309,7 +4315,7 @@ exports[`<MainContainer/> Values stages 1`] = `
             <div
               className="percentText"
             >
-              Infra Workload: 
+              Infra: 
             </div>
           </div>
         </div>
@@ -4849,7 +4855,7 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
                 }
               }
             >
-              Background processes
+              Credentials and General Configuration
             </div>
           </div>
         </div>
