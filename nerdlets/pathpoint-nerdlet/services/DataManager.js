@@ -2474,4 +2474,8 @@ for (const [key, value] of Object.entries(return` +
       throw new Error(error);
     }
   }
+
+  EnableDisableLogsConnector(status) {
+    this.LogConnector.EnableDisable(status);
+  }
 }
