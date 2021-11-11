@@ -116,8 +116,6 @@ export default class DataManager {
   ) {
     if (this.accountId !== null) {
       console.log(`UPDATING-DATA: ${this.accountId}`);
-      // console.log('KKPPIs:',this.kpis);
-      // this.AddCustomAccountIDs();
       this.timeRange = timeRange;
       this.city = city;
       this.getOldSessions = getOldSessions;
@@ -1927,8 +1925,9 @@ export default class DataManager {
   GetCurrentHistoricErrorScript() {
     const data = historicErrorScript();
     const pathpointId = `var pathpointId = "${this.pathpointId}"`;
-    const response = `${pathpointId}${data.header
-      }${this.CreateNrqlQueriesForHistoricErrorScript()}${data.footer}`;
+    const response = `${pathpointId}${
+      data.header
+    }${this.CreateNrqlQueriesForHistoricErrorScript()}${data.footer}`;
     return response;
   }
 
@@ -2421,6 +2420,7 @@ for (const [key, value] of Object.entries(return` +
               account_id: datos[0].accountID,
               query: datos[0].query_body,
               error: false,
+              timeout: datos[0].timeout,
               touchpoint_name: touchpoint.value,
               touchpoint_type: tp.measure_points[0].type,
               stage_name: this.stages[tp.stage_index - 1].title,
@@ -2448,6 +2448,7 @@ for (const [key, value] of Object.entries(return` +
           measure.accountID = data.accountID;
         }
         measure.query = data.query_body;
+        measure.timeout = data.timeout;
       }
       return found;
     });
