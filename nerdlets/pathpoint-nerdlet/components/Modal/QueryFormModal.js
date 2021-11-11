@@ -87,10 +87,12 @@ function BodyQueryFormModal(props) {
     /* istanbul ignore next */
     stageNameSelected.datos[value].accountID = childData.target.value;
   };
+  const handleTimeoutChange = childData => {
+    stageNameSelected.datos[value].timeout = childData.target.value;
+  };
   const query_body = stageNameSelected.datos[value].query_body;
   const query_footer = stageNameSelected.datos[value].query_footer;
   const timeout = stageNameSelected.datos[value].timeout;
-  console.log('Timeout:', timeout);
   return (
     <div
       style={{
@@ -143,7 +145,7 @@ function BodyQueryFormModal(props) {
             className="selectIDModal"
             style={{
               display: 'flex',
-              width: '80px',
+              width: '65px',
               alignItems: 'center'
             }}
           >
@@ -154,10 +156,11 @@ function BodyQueryFormModal(props) {
               id="Timeout"
               name="Timeout"
               type="text"
-              onChange={e => handleChange(e)}
+              defaultValue={timeout}
+              onChange={handleTimeoutChange}
               className="inputText"
               style={{
-                width: '60px',
+                width: '50px',
                 border: '1px solid gray',
                 padding: '5px'
               }}
