@@ -183,7 +183,7 @@ describe('view schemas', () => {
   it('stages correct structure', () => {
     const result = CustomSchemaValidation({
       stages: stages,
-      pathpointVersion: '1.0.0'
+      pathpointVersion: '1.1.0'
     });
     expect(result).toBeFalsy();
   });
@@ -200,7 +200,7 @@ describe('view schemas', () => {
     stages[0].touchpoints[0].dashboard_url = ['https://google.com'];
     const result = CustomSchemaValidation({
       stages: stages,
-      pathpointVersion: '1.0.0'
+      pathpointVersion: '1.1.0'
     });
     expect(result.length).toEqual(1);
   });
@@ -210,7 +210,7 @@ describe('view schemas', () => {
     stages[0].touchpoints[0].related_steps = '123';
     const result = CustomSchemaValidation({
       stages: stages,
-      pathpointVersion: '1.0.0'
+      pathpointVersion: '1.1.0'
     });
     expect(result.length).toEqual(1);
   });
@@ -222,7 +222,7 @@ describe('view schemas', () => {
     stages[0].touchpoints[0].queries[1].type = 'ERROR-PERCENTAGE-QUERY~';
     const result = CustomSchemaValidation({
       stages: stages,
-      pathpointVersion: '1.0.0'
+      pathpointVersion: '1.1.0'
     });
     expect(result.length).toEqual(2);
   });
@@ -235,7 +235,7 @@ describe('view schemas', () => {
     stages[0].steps[1].line = 9;
     const result = CustomSchemaValidation({
       stages: stages,
-      pathpointVersion: '1.0.0'
+      pathpointVersion: '1.1.0'
     });
     expect(result.length).toEqual(1);
   });
@@ -249,7 +249,7 @@ describe('view schemas', () => {
     stages[0].steps[1].values[0].id = 'ABCDE';
     const result = CustomSchemaValidation({
       stages: stages,
-      pathpointVersion: '1.0.0'
+      pathpointVersion: '1.1.0'
     });
     expect(result.length).toEqual(1);
   });
