@@ -45,7 +45,7 @@ const Header = ({
   updateDataKpisChecked
 }) => {
   const filterKpis = kpis.filter(kpi => kpi.check);
-
+  const showLogsLink = true; // TODO logic to hidden
   return (
     <div className="containerHeader">
       <div className="quantityDinner">
@@ -168,13 +168,16 @@ const Header = ({
             options={options}
           />
         </div>
-        {/* <div
+        <div
           className="viewLogs"
           style={{
+            visibility: showLogsLink ? 'visible' : 'hidden',
             cursor: 'pointer'
           }}
           onClick={() => {
-            //window.open('http://one.newrelic.com');
+            window.open(
+              'https://one.newrelic.com/launcher/logger.log-launcher'
+            );
             // navigation.openNerdlet({
             //   id: 'logger.log-tailer',
             //   state: {
@@ -190,7 +193,7 @@ const Header = ({
           }}
         >
           View Logs
-        </div> */}
+        </div>
       </div>
     </div>
   );
