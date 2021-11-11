@@ -99,7 +99,7 @@ function handleUploadJSONFile(
   };
 }
 
-function TranslateAJVErrors(errors, payload) {
+export function TranslateAJVErrors(errors, payload) {
   const translated = [];
   errors.forEach(error => {
     const path = error.dataPath.split('/');
