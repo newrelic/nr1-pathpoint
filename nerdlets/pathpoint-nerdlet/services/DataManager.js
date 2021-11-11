@@ -310,6 +310,7 @@ export default class DataManager {
           if (touchpoint.status_on_off) {
             touchpoint.measure_points.forEach(measure => {
               const extraInfo = {
+                touchpointRef: touchpoint,
                 measureType: 'touchpoint',
                 touchpointName: touchpoint.value,
                 stageName: this.stages[touchpoint.stage_index - 1].title
@@ -439,7 +440,6 @@ export default class DataManager {
 
   MakeLogingData(startMeasureTime, endMeasureTime, data, errors) {
     if (errors && errors.length > 0) {
-      // TODO
       errors.forEach(error => {
         if (Reflect.has(error, 'path')) {
           for (const [, value] of Object.entries(error.path)) {
@@ -463,6 +463,8 @@ export default class DataManager {
                   touchpoint_type: measure.type,
                   stage_name: extraInfo.stageName
                 };
+                // DISABLE Touchpoints with ERRORS
+                this.DisableTouchpointByError(extraInfo.touchpointRef);
                 this.SendToLogs(logRecord);
               }
               if (extraInfo.measureType === 'kpi') {
@@ -539,6 +541,12 @@ export default class DataManager {
     }
   }
 
+  DisableTouchpointByError(touchpoint) {
+    touchpoint.status_on_off = false;
+    this.UpdateTouchpointStatus(touchpoint);
+    this.SetStorageTouchpoints();
+  }
+
   async NRDBQuery() {
     const startMeasureTime = Date.now();
     const { data, errors, n } = await this.EvaluateMeasures();
@@ -556,6 +564,8 @@ export default class DataManager {
         if (value !== null) {
           if (c[0] === 'measure') {
             const measure = this.graphQlmeasures[Number(c[1])][0];
+            const extraInfo = this.graphQlmeasures[Number(c[1])][2];
+            this.CheckIfResponseErrorCanBeSet(extraInfo, false);
             // const query = this.graphQlmeasures[Number(c[1])][1];
             // console.log('Query:',query);
             // console.log('Result',value);
@@ -569,6 +579,9 @@ export default class DataManager {
                 'session'
               )
             ) {
+              if (value.nrql.results[0].session == null) {
+                this.CheckIfResponseErrorCanBeSet(extraInfo, true);
+              }
               measure.session_count = value.nrql.results[0].session;
             } else if (
               measure.type === 'PCC' &&
@@ -580,6 +593,9 @@ export default class DataManager {
                 'count'
               )
             ) {
+              if (value.nrql.results[0].count == null) {
+                this.CheckIfResponseErrorCanBeSet(extraInfo, true);
+              }
               measure.transaction_count = value.nrql.results[0].count;
             } else if (
               measure.type === 'APP' &&
@@ -603,6 +619,12 @@ export default class DataManager {
                 'error'
               )
             ) {
+              if (
+                value.nrql.results[0].response === null ||
+                value.nrql.results[0].error === null
+              ) {
+                this.CheckIfResponseErrorCanBeSet(extraInfo, true);
+              }
               measure.apdex_value = value.nrql.results[0].score;
               measure.response_value = value.nrql.results[0].response;
               measure.error_percentage = value.nrql.results[0].error;
@@ -628,6 +650,12 @@ export default class DataManager {
                 'error'
               )
             ) {
+              if (
+                value.nrql.results[0].response === null ||
+                value.nrql.results[0].error === null
+              ) {
+                this.CheckIfResponseErrorCanBeSet(extraInfo, true);
+              }
               measure.apdex_value = value.nrql.results[0].score;
               measure.response_value = value.nrql.results[0].response;
               measure.error_percentage = value.nrql.results[0].error;
@@ -649,6 +677,13 @@ export default class DataManager {
                 'request'
               )
             ) {
+              if (
+                value.nrql.results[0].success === null ||
+                value.nrql.results[0].duration === null ||
+                value.nrql.results[0].request === null
+              ) {
+                this.CheckIfResponseErrorCanBeSet(extraInfo, true);
+              }
               measure.success_percentage = value.nrql.results[0].success;
               measure.max_duration = value.nrql.results[0].duration;
               measure.max_request_time = value.nrql.results[0].request;
@@ -662,6 +697,9 @@ export default class DataManager {
                 'statusValue'
               )
             ) {
+              if (value.nrql.results[0].statusValue == null) {
+                this.CheckIfResponseErrorCanBeSet(extraInfo, true);
+              }
               measure.status_value = value.nrql.results[0].statusValue;
             } else if (
               measure.type === 100 &&
@@ -697,11 +735,40 @@ export default class DataManager {
               }
             } else if (measure.type === 'TEST') {
               measure.results = value.nrql.results[0];
+            } else {
+              // the Touchpoint response is with ERROR
+              this.CheckIfResponseErrorCanBeSet(extraInfo, true);
             }
           }
         }
       }
     }
+  }
+
+  CheckIfResponseErrorCanBeSet(extraInfo, status) {
+    if (extraInfo !== null) {
+      if (extraInfo.measureType === 'touchpoint') {
+        this.SetTouchpointResponseError(extraInfo.touchpointRef, status);
+      }
+    }
+  }
+
+  SetTouchpointResponseError(touchpoint, status) {
+    this.stages.some(stage => {
+      let found = false;
+      if (stage.index === touchpoint.stage_index) {
+        stage.touchpoints.some(tp => {
+          let foundTp = false;
+          if (tp.index === touchpoint.touchpoint_index) {
+            tp.response_error = status;
+            foundTp = true;
+          }
+          return foundTp;
+        });
+        found = true;
+      }
+      return found;
+    });
   }
 
   async EvaluateMeasures() {
@@ -2206,7 +2273,8 @@ for (const [key, value] of Object.entries(return` +
                   type: 'PRC',
                   query_start: '',
                   query_body: measure.query,
-                  query_footer: this.ValidateMeasureTime(measure)
+                  query_footer: this.ValidateMeasureTime(measure),
+                  timeout: measure.timeout
                 });
               } else if (measure.type === 'PCC') {
                 datos.push({
@@ -2216,7 +2284,8 @@ for (const [key, value] of Object.entries(return` +
                   type: 'PCC',
                   query_start: '',
                   query_body: measure.query,
-                  query_footer: this.ValidateMeasureTime(measure)
+                  query_footer: this.ValidateMeasureTime(measure),
+                  timeout: measure.timeout
                 });
               } else if (measure.type === 'APP') {
                 datos.push({
@@ -2226,7 +2295,8 @@ for (const [key, value] of Object.entries(return` +
                   type: 'APP',
                   query_start: '',
                   query_body: measure.query,
-                  query_footer: this.ValidateMeasureTime(measure)
+                  query_footer: this.ValidateMeasureTime(measure),
+                  timeout: measure.timeout
                 });
               } else if (measure.type === 'FRT') {
                 datos.push({
@@ -2236,7 +2306,8 @@ for (const [key, value] of Object.entries(return` +
                   type: 'FRT',
                   query_start: '',
                   query_body: measure.query,
-                  query_footer: this.ValidateMeasureTime(measure)
+                  query_footer: this.ValidateMeasureTime(measure),
+                  timeout: measure.timeout
                 });
               } else if (measure.type === 'SYN') {
                 datos.push({
@@ -2246,7 +2317,8 @@ for (const [key, value] of Object.entries(return` +
                   type: 'SYN',
                   query_start: '',
                   query_body: measure.query,
-                  query_footer: this.ValidateMeasureTime(measure)
+                  query_footer: this.ValidateMeasureTime(measure),
+                  timeout: measure.timeout
                 });
               } else if (measure.type === 'WLD') {
                 datos.push({
@@ -2256,7 +2328,8 @@ for (const [key, value] of Object.entries(return` +
                   type: 'WLD',
                   query_start: '',
                   query_body: measure.query,
-                  query_footer: ''
+                  query_footer: '',
+                  timeout: measure.timeout
                 });
               }
               actualValue++;
