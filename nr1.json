@@ -1,10 +1,6 @@
 {
   "schemaType": "NERDPACK",
-<<<<<<< HEAD
   "id": "1061ca20-5783-46e5-bcaa-5370df659f00",
-=======
-  "id": "6e10cead-eb24-4f46-915f-3468531bf60a",
->>>>>>> ffe208d80b306f6006817e941b4fb96f97f90d23
   "displayName": "StarkIndustries Pathpoint",
   "description": "Pathpoint is an enterprise platform tracker that models business process health using New Relic telemetry as the foundational signal data."
 }
