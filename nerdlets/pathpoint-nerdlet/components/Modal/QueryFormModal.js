@@ -89,6 +89,8 @@ function BodyQueryFormModal(props) {
   };
   const query_body = stageNameSelected.datos[value].query_body;
   const query_footer = stageNameSelected.datos[value].query_footer;
+  const timeout = stageNameSelected.datos[value].timeout;
+  console.log('Timeout:',timeout);
   return (
     <div
       style={{
