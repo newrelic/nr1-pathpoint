@@ -8,7 +8,7 @@ const Workload = ({ workloadWidth, workloadValue }) => {
     const pathWorkload = `M ${arrowHead * i + (i - 1) * workloadWidth} 0 L ${i *
       workloadWidth +
       arrowHead * i} 0 L ${i * workloadWidth + arrowHead * (i - 1)} 13 L ${(i -
-        1) *
+      1) *
       workloadWidth +
       arrowHead * (i - 1) +
       0} 13 Z`;
@@ -17,14 +17,24 @@ const Workload = ({ workloadWidth, workloadValue }) => {
   return (
     <svg fill="#ff0000" height="100%" width="100%">
       {arrayPath.map((workload, index) => {
-        if (index < workloadValue) {
+        if (workloadValue === 0) {
           return (
             <path
               id="arrow"
               d={workload}
-              stroke="#01b2ff"
+              stroke="#BDBDBD"
               strokeWidth="1"
-              fill="#01b2ff"
+              fill="#BDBDBD"
+            />
+          );
+        } else if (index < workloadValue) {
+          return (
+            <path
+              id="arrow"
+              d={workload}
+              stroke="#0aaf77"
+              strokeWidth="1"
+              fill="#0aaf77"
             />
           );
         } else {
