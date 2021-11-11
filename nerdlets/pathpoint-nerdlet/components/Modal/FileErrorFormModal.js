@@ -2,6 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Ajv from 'ajv';
 
+// IMPORT UTILS
+import { TranslateAJVErrors } from './JsonConfigurationFormModal';
+
 // IMPORT SCHEMA VALIDATION
 import viewSchema, { CustomSchemaValidation } from '../../schemas/view';
 
@@ -138,130 +141,6 @@ function handleUploadJSONFile(
       ]);
     }
   };
-}
-
-function TranslateAJVErrors(errors, payload) {
-  const translated = [];
-  errors.forEach(error => {
-    const path = error.dataPath.split('/');
-    let message = error.message;
-    path.splice(0, 1);
-    if (path.length === 0) {
-      translated.push({
-        dataPath: 'The uploaded file',
-        message: error.message
-      });
-    } else if (path.length === 1) {
-      translated.push({
-        dataPath: `In the uploaded file, the following property '${path[0]}'`,
-        message: error.message
-      });
-    } else {
-      let stage = null;
-      let step = null;
-      let value = null;
-      let kpi = null;
-      let measure = null;
-      let touchpoint = null;
-      let dashboard_url = null;
-      let dataPath = null;
-      let query = null;
-      path.forEach(item => {
-        if (item === 'stages') {
-          stage = payload.stages[parseInt(path[1])];
-        } else if (item === 'steps' && !isNaN(path[3])) {
-          step = payload.stages[path[1]].steps[path[3]];
-        } else if (item === 'values' && !isNaN(path[5])) {
-          value = payload.stages[path[1]].steps[path[3]].values[path[5]];
-        } else if (item === 'kpis') {
-          kpi = payload.kpis[path[1]];
-        } else if (item === 'measure' && !isNaN(path[3])) {
-          measure = payload.kpis[path[1]].measure[path[3]];
-        } else if (item === 'touchpoints' && !isNaN(path[3])) {
-          touchpoint = payload.stages[path[1]].touchpoints[path[3]];
-        } else if (item === 'dashboard_url' && !isNaN(path[5])) {
-          dashboard_url =
-            payload.stages[path[1]].touchpoints[path[3]].dashboard_url[path[5]];
-        } else if (item === 'queries' && !isNaN(path[5])) {
-          query = payload.stages[path[1]].touchpoints[path[3]].queries[path[5]];
-        }
-      });
-      if (stage) {
-        if (stage.title) {
-          dataPath = `The stage '${stage.title}'`;
-        } else {
-          dataPath = `The stage at position ${parseInt(path[1]) + 1}`;
-        }
-      }
-      if (step) {
-        if (step.line) {
-          dataPath = `${dataPath}, in step line # ${step.line}`;
-        } else {
-          dataPath = `${dataPath}, in step at position ${parseInt(path[3]) +
-            1}`;
-        }
-      }
-      if (touchpoint) {
-        if (touchpoint.title) {
-          dataPath = `${dataPath}, in touchpoint '${touchpoint.title}'`;
-        } else {
-          dataPath = `${dataPath}, in touchpoint at position '${parseInt(
-            path[3]
-          ) + 1}'`;
-        }
-      }
-      if (value) {
-        if (value.title) {
-          dataPath = `${dataPath}, in substep ${value.title}`;
-        } else {
-          dataPath = `${dataPath}, in substep at position ${parseInt(path[5]) +
-            1}`;
-        }
-      }
-      if (kpi) {
-        if (kpi.name) {
-          dataPath = `The KPI '${kpi.name}'`;
-        } else if (kpi.shortName) {
-          dataPath = `The KPI '${kpi.shortName}'`;
-        } else {
-          dataPath = `The KPI at the position ${parseInt(path[1]) + 1}`;
-        }
-      }
-      if (measure) {
-        dataPath = `${dataPath}, in measure at the position ${parseInt(
-          path[3]
-        ) + 1}`;
-      }
-      if (dashboard_url) {
-        dataPath = `${dataPath}, in dashboard_url at position ${parseInt(
-          path[5]
-        ) + 1}`;
-      }
-      if (query) {
-        if (query.type) {
-          dataPath = `${dataPath}, in query ${query.type}`;
-        } else {
-          dataPath = `${dataPath}, in query at position ${parseInt(path[5]) + 1}`;
-        }
-      }
-      if (!error.params.missingProperty) {
-        dataPath = `${dataPath}, the property '${path[path.length - 1]}'`;
-      }
-      if (error.params.allowedValues) {
-        let allowedValues = '';
-        error.params.allowedValues.forEach(item => {
-          allowedValues = `${allowedValues} ${item}, `;
-        });
-        allowedValues = allowedValues.trim().slice(0, -1);
-        message = `${message}: ${allowedValues}`;
-      }
-      translated.push({
-        dataPath: `${dataPath}, `,
-        message
-      });
-    }
-  });
-  return translated;
 }
 
 BodyFileErrorFormModal.propTypes = {
