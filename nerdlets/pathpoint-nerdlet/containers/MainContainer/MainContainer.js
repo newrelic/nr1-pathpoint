@@ -120,6 +120,7 @@ export default class MainContainer extends React.Component {
       configuration: null,
       updateData: null,
       testText: '',
+      testingNow: false,
       resultsTestQuery: '',
       goodQuery: true,
       logoSetup: {
@@ -930,10 +931,10 @@ export default class MainContainer extends React.Component {
   };
 
   testQuery = async (query, value) => {
+    this.setState({ testingNow: true });
     const { stageNameSelected } = this.state;
     const type = stageNameSelected.datos[value].label;
     const accountID = stageNameSelected.datos[value].accountID;
-    console.log('Query:', query);
     const { testText, goodQuery } = await this.validationQuery.validateQuery(
       type,
       query,
@@ -946,6 +947,7 @@ export default class MainContainer extends React.Component {
     // }
     this.setState({
       testText,
+      testingNow: false,
       modifiedQuery: false,
       goodQuery,
       resultsTestQuery: results
@@ -1305,6 +1307,7 @@ export default class MainContainer extends React.Component {
       starForm,
       flameForm,
       testText,
+      testingNow,
       resultsTestQuery,
       goodQuery,
       modifiedQuery,
@@ -1836,6 +1839,7 @@ export default class MainContainer extends React.Component {
             stageNameSelected={stageNameSelected}
             viewModal={viewModal}
             testText={testText}
+            testingNow={testingNow}
             resultsTestQuery={resultsTestQuery}
             goodQuery={goodQuery}
             changeMessage={this.changeMessage}

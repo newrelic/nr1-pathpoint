@@ -70,6 +70,7 @@ function BodyQueryFormModal(props) {
     testQuery,
     handleSaveUpdateQuery,
     testText,
+    testingNow,
     resultsTestQuery,
     goodQuery,
     modifiedQuery,
@@ -93,7 +94,6 @@ function BodyQueryFormModal(props) {
   const query_body = stageNameSelected.datos[value].query_body;
   const query_footer = stageNameSelected.datos[value].query_footer;
   const timeout = stageNameSelected.datos[value].timeout;
-  const disableTestButton = true;
   return (
     <div
       style={{
@@ -221,7 +221,7 @@ function BodyQueryFormModal(props) {
               </a>
               <div>
                 <Button
-                  disabled={disableTestButton}
+                  disabled={testingNow}
                   variant="contained"
                   color="primary"
                   style={{
@@ -347,8 +347,8 @@ BodyQueryFormModal.propTypes = {
   resultsTestQuery: PropTypes.object.isRequired,
   goodQuery: PropTypes.bool.isRequired,
   modifiedQuery: PropTypes.bool,
-  // accountIDs: PropTypes.object.isRequired
-  accountIDs: PropTypes.array.isRequired
+  accountIDs: PropTypes.array.isRequired,
+  testingNow: PropTypes.bool
 };
 
 export { HeaderQueryFormModal, BodyQueryFormModal };
