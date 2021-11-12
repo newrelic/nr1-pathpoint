@@ -1,3 +1,11 @@
+## [1.1.1](https://github.com/newrelic/nr1-pathpoint/compare/v1.1.0...v1.1.1) (2021-11-12)
+
+
+### Bug Fixes
+
+* trigger build ([e65baba](https://github.com/newrelic/nr1-pathpoint/commit/e65baba98561d02e882a627ce1e05015438f5b91))
+* updating release version ([1f5ca0b](https://github.com/newrelic/nr1-pathpoint/commit/1f5ca0bb38b602279be4c47aa47d50634229c09e))
+
 # [1.1.0](https://github.com/newrelic/nr1-pathpoint/compare/v1.0.1...v1.1.0) (2021-10-11)
 
 
