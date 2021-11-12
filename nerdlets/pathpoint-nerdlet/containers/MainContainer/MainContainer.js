@@ -62,6 +62,7 @@ export default class MainContainer extends React.Component {
     });
     this.state = {
       updating: false,
+      queryModalShowing: false,
       accountName: 'Demotron V2',
       totalContainers: 1,
       waiting: true,
@@ -237,9 +238,9 @@ export default class MainContainer extends React.Component {
   };
 
   ExecuteUpdateData = changeLoading => {
-    const { updating } = this.state;
-    console.log('updating:', updating);
-    if (!updating) {
+    const { updating, queryModalShowing } = this.state;
+    console.log('updating:', updating, 'QueryModal:', queryModalShowing);
+    if (!updating && !queryModalShowing) {
       this.setState(
         {
           updating: true
@@ -459,7 +460,7 @@ export default class MainContainer extends React.Component {
 
   _onClose = errors => {
     const actualValue = this.state.hidden;
-    this.setState({ hidden: !actualValue, updating: false });
+    this.setState({ hidden: !actualValue, queryModalShowing: false });
     this.restoreTouchPoints();
     if (errors) {
       this.setState({
@@ -683,7 +684,7 @@ export default class MainContainer extends React.Component {
 
   openModalParent = (touchpoint, view) => {
     let datos = null;
-    const updating = true; // DO NOT Update Data while Modals is Showing
+    const queryModalShowing = true; // DO NOT Update Data while Modals is Showing
     if (view === 2) {
       datos = this.DataManager.GetTouchpointTune(touchpoint);
     } else if (view === 1) {
@@ -702,7 +703,7 @@ export default class MainContainer extends React.Component {
       resultsTestQuery: '',
       modifiedQuery: false,
       goodQuery: true,
-      updating: updating,
+      queryModalShowing: queryModalShowing,
       hidden: true
     });
   };
