@@ -87,8 +87,12 @@ function BodyQueryFormModal(props) {
     /* istanbul ignore next */
     stageNameSelected.datos[value].accountID = childData.target.value;
   };
+  const handleTimeoutChange = childData => {
+    stageNameSelected.datos[value].timeout = childData.target.value;
+  };
   const query_body = stageNameSelected.datos[value].query_body;
   const query_footer = stageNameSelected.datos[value].query_footer;
+  const timeout = stageNameSelected.datos[value].timeout;
   return (
     <div
       style={{
@@ -98,30 +102,73 @@ function BodyQueryFormModal(props) {
       <div
         style={{
           display: 'flex',
-          justifyContent: 'start',
-          flexDirection: 'row',
+          justifyContent: 'space-between',
           marginBottom: '4px'
         }}
       >
         <div
-          className="selectIDModal"
           style={{
             display: 'flex',
-            width: '80px',
-            alignItems: 'center'
+            justifyContent: 'start',
+            flexDirection: 'row',
+            marginBottom: '4px'
           }}
         >
-          AccountId
+          <div
+            className="selectIDModal"
+            style={{
+              display: 'flex',
+              width: '80px',
+              alignItems: 'center'
+            }}
+          >
+            AccountId
+          </div>
+          <div>
+            <SelectIDs
+              name="query"
+              handleOnChange={handleChange}
+              options={accountIDs}
+              idSeleccionado={idSeleccionado}
+            />
+          </div>
         </div>
-        <div>
-          <SelectIDs
-            name="query"
-            handleOnChange={handleChange}
-            options={accountIDs}
-            idSeleccionado={idSeleccionado}
-          />
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'end',
+            flexDirection: 'row',
+            marginBottom: '4px'
+          }}
+        >
+          <div
+            className="selectIDModal"
+            style={{
+              display: 'flex',
+              width: '65px',
+              alignItems: 'center'
+            }}
+          >
+            Timeout
+          </div>
+          <div>
+            <input
+              id="Timeout"
+              name="Timeout"
+              type="text"
+              defaultValue={timeout}
+              onChange={handleTimeoutChange}
+              className="inputText"
+              style={{
+                width: '50px',
+                border: '1px solid gray',
+                padding: '5px'
+              }}
+            />
+          </div>
         </div>
       </div>
+
       <div>
         <Form onSubmit={event => handleSaveUpdateQuery(event)}>
           {renderTextArea({
