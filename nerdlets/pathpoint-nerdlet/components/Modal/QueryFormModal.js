@@ -93,6 +93,7 @@ function BodyQueryFormModal(props) {
   const query_body = stageNameSelected.datos[value].query_body;
   const query_footer = stageNameSelected.datos[value].query_footer;
   const timeout = stageNameSelected.datos[value].timeout;
+  const disableTestButton = true;
   return (
     <div
       style={{
@@ -220,6 +221,7 @@ function BodyQueryFormModal(props) {
               </a>
               <div>
                 <Button
+                  disabled={disableTestButton}
                   variant="contained"
                   color="primary"
                   style={{
@@ -230,7 +232,9 @@ function BodyQueryFormModal(props) {
                   }}
                   onClick={
                     /* istanbul ignore next */ () => {
-                      testQuery(`${query_body} ${query_footer}`, value);
+                      if (query_body !== '') {
+                        testQuery(`${query_body} ${query_footer}`, value);
+                      }
                     }
                   }
                 >
