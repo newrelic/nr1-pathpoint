@@ -229,6 +229,7 @@ export const CustomSchemaValidation = target => {
       });
     });
   });
+  // Just compare the Major and Minor versions
   const currentVersion = appPackage.version.split('.');
   const targetVersion = target.pathpointVersion.split('.');
   if (
