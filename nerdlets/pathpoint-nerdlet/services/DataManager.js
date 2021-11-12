@@ -370,9 +370,8 @@ export default class DataManager {
       )}`;
       if (measure.measure_time) {
         query = `${measure.query} SINCE ${measure.measure_time}`;
-      }
-      if (measure.type === 'WLD') {
-        query = measure.query;
+      } else if (measure.type === 'WLD') {
+        query = `${measure.query} SINCE 3 HOURS AGO`;
       }
       this.graphQlmeasures.push([measure, query, extraInfo]);
     }
