@@ -47,7 +47,6 @@ import down from '../../images/down.svg';
 
 /**
  *Main container component
- *
  * @export
  * @class MainContainer
  * @extends {React.Component}
