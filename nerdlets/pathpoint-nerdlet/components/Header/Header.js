@@ -2,6 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Select from '../Select/Select';
+import { Icon } from 'nr1';
 
 // IMPORT IMAGES AND STATIC FILES
 import lines from '../../images/lines.svg';
@@ -192,7 +193,8 @@ const Header = ({
             // });
           }}
         >
-          View Logs
+          <Icon type={Icon.TYPE.HARDWARE_AND_SOFTWARE__SOFTWARE__LOGS} />
+          See Logs
         </div>
       </div>
     </div>

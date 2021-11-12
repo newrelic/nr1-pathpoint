@@ -61,6 +61,7 @@ export default class MainContainer extends React.Component {
       header: false
     });
     this.state = {
+      updating: false,
       accountName: 'Demotron V2',
       totalContainers: 1,
       waiting: true,
@@ -235,47 +236,51 @@ export default class MainContainer extends React.Component {
   };
 
   ExecuteUpdateData = changeLoading => {
-    this.setState(
-      {
-        updating: true
-      },
-      async () => {
-        const {
-          timeRange,
-          city,
-          getOldSessions,
-          stages,
-          kpis,
-          timeRangeKpi
-        } = this.state;
-        const data = await this.DataManager.UpdateData(
-          timeRange,
-          city,
-          getOldSessions,
-          stages,
-          kpis,
-          timeRangeKpi
-        );
-        this.setState(
-          {
-            stages: data.stages,
-            kpis: data.kpis ?? [],
-            getOldSessions: false,
-            waiting: false
-          },
-          () => {
-            this.setState({
-              updating: false
-            });
-            if (changeLoading) {
+    const { updating } = this.state;
+    console.log('updating:', updating);
+    if (!updating) {
+      this.setState(
+        {
+          updating: true
+        },
+        async () => {
+          const {
+            timeRange,
+            city,
+            getOldSessions,
+            stages,
+            kpis,
+            timeRangeKpi
+          } = this.state;
+          const data = await this.DataManager.UpdateData(
+            timeRange,
+            city,
+            getOldSessions,
+            stages,
+            kpis,
+            timeRangeKpi
+          );
+          this.setState(
+            {
+              stages: data.stages,
+              kpis: data.kpis ?? [],
+              getOldSessions: false,
+              waiting: false
+            },
+            () => {
               this.setState({
-                loading: false
+                updating: false
               });
+              if (changeLoading) {
+                this.setState({
+                  loading: false
+                });
+              }
             }
-          }
-        );
-      }
-    );
+          );
+        }
+      );
+    }
   };
 
   updateDataNow() {
@@ -453,7 +458,7 @@ export default class MainContainer extends React.Component {
 
   _onClose = errors => {
     const actualValue = this.state.hidden;
-    this.setState({ hidden: !actualValue });
+    this.setState({ hidden: !actualValue, updating: false });
     this.restoreTouchPoints();
     if (errors) {
       this.setState({
@@ -677,6 +682,7 @@ export default class MainContainer extends React.Component {
 
   openModalParent = (touchpoint, view) => {
     let datos = null;
+    const updating = true; // DO NOT Update Data while Modals is Showing
     if (view === 2) {
       datos = this.DataManager.GetTouchpointTune(touchpoint);
     } else if (view === 1) {
@@ -694,9 +700,10 @@ export default class MainContainer extends React.Component {
       testText: '',
       resultsTestQuery: '',
       modifiedQuery: false,
-      goodQuery: true
+      goodQuery: true,
+      updating: updating,
+      hidden: true
     });
-    this._onClose();
   };
 
   changeTimeRange = event => {
@@ -926,16 +933,17 @@ export default class MainContainer extends React.Component {
     const { stageNameSelected } = this.state;
     const type = stageNameSelected.datos[value].label;
     const accountID = stageNameSelected.datos[value].accountID;
+    console.log('Query:', query);
     const { testText, goodQuery } = await this.validationQuery.validateQuery(
       type,
       query,
       accountID
     );
     let results = '';
-    if (goodQuery) {
-      const data = await this.DataManager.ReadQueryResults(query, accountID);
-      results = data.results;
-    }
+    // if (goodQuery) {
+    const data = await this.DataManager.ReadQueryResults(query, accountID);
+    results = data.results;
+    // }
     this.setState({
       testText,
       modifiedQuery: false,
@@ -953,6 +961,15 @@ export default class MainContainer extends React.Component {
         ].query_body = query;
       } else {
         stageNameSelected.datos[0].query_body = query;
+      }
+      if (query === '') {
+        return {
+          stageNameSelected,
+          testText: '',
+          resultsTestQuery: '',
+          modifiedQuery: false,
+          goodQuery: true
+        };
       }
       return {
         stageNameSelected,
@@ -982,6 +999,7 @@ export default class MainContainer extends React.Component {
       this.state.stageNameSelected.touchpoint,
       this.state.stageNameSelected.datos
     );
+    this.setState({ updating: false });
     this._onClose();
   };
 
