@@ -1200,7 +1200,7 @@ export default class DataManager {
 
   SetTouchpointError(stage_index, touchpoint_index) {
     this.stages[stage_index - 1].touchpoints.forEach(touchpoint => {
-      if (touchpoint.index === touchpoint_index) {
+      if (touchpoint.index === touchpoint_index && !touchpoint.response_error) {
         touchpoint.error = true;
       }
     });
@@ -1208,11 +1208,28 @@ export default class DataManager {
       step.sub_steps.forEach(sub_step => {
         sub_step.relationship_touchpoints.forEach(value => {
           if (value === touchpoint_index) {
-            sub_step.error = true;
+            if (
+              this.CheckIfTouchpointIsResponding(stage_index, touchpoint_index)
+            ) {
+              sub_step.error = true;
+            }
           }
         });
       });
     });
+  }
+
+  CheckIfTouchpointIsResponding(stage_index, touchpoint_index) {
+    let response = false;
+    this.stages[stage_index - 1].touchpoints.some(tp => {
+      let found = false;
+      if (tp.index === touchpoint_index) {
+        found = true;
+        response = !tp.response_error;
+      }
+      return found;
+    });
+    return response;
   }
 
   GetTotalStepsWithError(steps_with_error) {
