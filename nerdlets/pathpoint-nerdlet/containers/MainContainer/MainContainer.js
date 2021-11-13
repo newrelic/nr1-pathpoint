@@ -62,6 +62,14 @@ export default class MainContainer extends React.Component {
     });
     this.state = {
       accountName: 'Demotron V2',
+      credentials: {
+        accountId: null,
+        ingestLicense: null,
+        userAPIKey: null,
+        dropTools: null,
+        flameTools: null,
+        loggin: null
+      },
       totalContainers: 1,
       waiting: true,
       stages: null,
@@ -211,6 +219,21 @@ export default class MainContainer extends React.Component {
     this.DataManager = new DataManager();
     const { accountName } = this.state;
     const data = await this.DataManager.BootstrapInitialData(accountName);
+    let credentials = {};
+    if (
+      data.credentials &&
+      data.credentials.actor.nerdStorageVault.secrets.length > 0
+    ) {
+      data.credentials.actor.nerdStorageVault.secrets.forEach(item => {
+        credentials[item.key] = item.value !== '_' ? item.value : '';
+      });
+    }
+    if (data.generalConfiguration) {
+      credentials = {
+        ...credentials,
+        ...data.generalConfiguration
+      };
+    }
     this.setState(
       {
         stages: data.stages,
@@ -219,7 +242,8 @@ export default class MainContainer extends React.Component {
         accountId: data.accountId,
         kpis: data.kpis,
         totalContainers: data.totalContainers,
-        accountIDs: data.accountIDs
+        accountIDs: data.accountIDs,
+        credentials
       },
       async () => {
         this.validationQuery = new ValidationQuery(this.state.accountId);
@@ -682,10 +706,10 @@ export default class MainContainer extends React.Component {
     } else if (view === 1) {
       datos = this.DataManager.GetTouchpointQuerys(touchpoint);
     } else if (view === 9) {
-      // GeneralConfigurationForm
-      const { sendingLogsEnableDisable } = this.state;
       datos = {
-        sendingLogsEnableDisable: sendingLogsEnableDisable
+        credentials: this.state.credentials,
+        accountIDs: this.state.accountIDs,
+        accountId: this.state.accountId
       };
     }
     this.setState({
@@ -1018,14 +1042,21 @@ export default class MainContainer extends React.Component {
     this._onClose();
   };
 
-  handleSaveUpdateGeneralConfiguration = event => {
-    event.preventDefault();
-    this.setState({
-      sendingLogsEnableDisable: event.target.elements.checkbox_logs.checked
+  HandleCredentialsFormChange = event => {
+    this.setState(state => {
+      return {
+        credentials: {
+          ...state.credentials,
+          [event.target.name]: event.target.value
+        }
+      };
     });
-    this.DataManager.EnableDisableLogsConnector(
-      event.target.elements.checkbox_logs.checked
-    );
+  };
+
+  handleSaveUpdateGeneralConfiguration = e => {
+    e.preventDefault();
+    this.DataManager.SaveCredentialsInVault(this.state.credentials);
+    this.DataManager.SaveGeneralConfiguration(this.state.credentials);
     this._onClose();
   };
 
@@ -1259,6 +1290,16 @@ export default class MainContainer extends React.Component {
   updateDataKpisChecked = kpis => {
     this.DataManager.SaveKpisSelection(kpis);
     this.setState({ kpis });
+  };
+
+  resetCredentials = () => {
+    this.DataManager.ResetCredentialsInVault();
+    this.DataManager.SaveGeneralConfiguration({
+      loggin: false,
+      flameTools: false,
+      dropTools: false
+    });
+    this._onClose();
   };
 
   render() {
@@ -1839,6 +1880,9 @@ export default class MainContainer extends React.Component {
             GetCurrentHistoricErrorScript={this.GetCurrentHistoricErrorScript}
             modifiedQuery={modifiedQuery}
             accountIDs={accountIDs}
+            HandleCredentialsFormChange={this.HandleCredentialsFormChange}
+            credentialsData={this.state.credentials}
+            resetCredentials={this.resetCredentials}
             handleSaveUpdateGeneralConfiguration={
               this.handleSaveUpdateGeneralConfiguration
             }
