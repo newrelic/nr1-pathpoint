@@ -13,8 +13,12 @@ jest.mock(
     const window = {
       open: jest.fn()
     };
+    const Icon = {
+      type: jest.fn()
+    };
     return {
-      window
+      window,
+      Icon
     };
   },
   { virtual: true }

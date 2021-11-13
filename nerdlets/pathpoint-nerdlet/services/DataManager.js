@@ -125,6 +125,7 @@ export default class DataManager {
       await this.TouchPointsUpdate();
       await this.UpdateMerchatKpi();
       this.CalculateUpdates();
+      console.log("FINISH-Update")
       return {
         stages: this.stages,
         kpis: this.kpis
@@ -370,9 +371,8 @@ export default class DataManager {
       )}`;
       if (measure.measure_time) {
         query = `${measure.query} SINCE ${measure.measure_time}`;
-      }
-      if (measure.type === 'WLD') {
-        query = measure.query;
+      } else if (measure.type === 'WLD') {
+        query = `${measure.query} SINCE 3 HOURS AGO`;
       }
       this.graphQlmeasures.push([measure, query, extraInfo]);
     }
@@ -450,32 +450,34 @@ export default class DataManager {
               if (Reflect.has(measure, 'accountID')) {
                 accountID = measure.accountID;
               }
-              if (extraInfo.measureType === 'touchpoint') {
-                const logRecord = {
-                  action: 'touchpoint-error',
-                  account_id: accountID,
-                  error: true,
-                  error_message: JSON.stringify(error),
-                  query: query,
-                  touchpoint_name: extraInfo.touchpointName,
-                  touchpoint_type: measure.type,
-                  stage_name: extraInfo.stageName
-                };
-                // DISABLE Touchpoints with ERRORS
-                this.DisableTouchpointByError(extraInfo.touchpointRef);
-                this.SendToLogs(logRecord);
-              }
-              if (extraInfo.measureType === 'kpi') {
-                const logRecord = {
-                  action: 'kpi-error',
-                  account_id: accountID,
-                  error: true,
-                  error_message: JSON.stringify(error),
-                  query: query,
-                  kpi_name: extraInfo.kpiName,
-                  kpi_type: extraInfo.kpiType
-                };
-                this.SendToLogs(logRecord);
+              if (extraInfo) {
+                if (extraInfo.measureType === 'touchpoint') {
+                  const logRecord = {
+                    action: 'touchpoint-error',
+                    account_id: accountID,
+                    error: true,
+                    error_message: JSON.stringify(error),
+                    query: query,
+                    touchpoint_name: extraInfo.touchpointName,
+                    touchpoint_type: measure.type,
+                    stage_name: extraInfo.stageName
+                  };
+                  // DISABLE Touchpoints with ERRORS
+                  this.DisableTouchpointByError(extraInfo.touchpointRef);
+                  this.SendToLogs(logRecord);
+                }
+                if (extraInfo.measureType === 'kpi') {
+                  const logRecord = {
+                    action: 'kpi-error',
+                    account_id: accountID,
+                    error: true,
+                    error_message: JSON.stringify(error),
+                    query: query,
+                    kpi_name: extraInfo.kpiName,
+                    kpi_type: extraInfo.kpiType
+                  };
+                  this.SendToLogs(logRecord);
+                }
               }
             }
           }
@@ -732,7 +734,17 @@ export default class DataManager {
                 measure.value.previous = value.nrql.results[0].value;
               }
             } else if (measure.type === 'TEST') {
-              measure.results = value.nrql.results[0];
+              if (value.nrql != null && value.nrql.results) {
+                measure.results = value.nrql.results[0];
+              } else if (errors && errors.length > 0) {
+                measure.results = {
+                  error: errors[0].message
+                };
+              } else {
+                measure.results = {
+                  error: 'INVALID QUERY'
+                };
+              }
             } else {
               // the Touchpoint response is with ERROR
               this.CheckIfResponseErrorCanBeSet(extraInfo, true);
@@ -1205,7 +1217,7 @@ export default class DataManager {
 
   SetTouchpointError(stage_index, touchpoint_index) {
     this.stages[stage_index - 1].touchpoints.forEach(touchpoint => {
-      if (touchpoint.index === touchpoint_index) {
+      if (touchpoint.index === touchpoint_index && !touchpoint.response_error) {
         touchpoint.error = true;
       }
     });
@@ -1213,11 +1225,28 @@ export default class DataManager {
       step.sub_steps.forEach(sub_step => {
         sub_step.relationship_touchpoints.forEach(value => {
           if (value === touchpoint_index) {
-            sub_step.error = true;
+            if (
+              this.CheckIfTouchpointIsResponding(stage_index, touchpoint_index)
+            ) {
+              sub_step.error = true;
+            }
           }
         });
       });
     });
+  }
+
+  CheckIfTouchpointIsResponding(stage_index, touchpoint_index) {
+    let response = false;
+    this.stages[stage_index - 1].touchpoints.some(tp => {
+      let found = false;
+      if (tp.index === touchpoint_index) {
+        found = true;
+        response = !tp.response_error;
+      }
+      return found;
+    });
+    return response;
   }
 
   GetTotalStepsWithError(steps_with_error) {
