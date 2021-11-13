@@ -2,6 +2,23 @@ import React from 'react';
 import { create } from 'react-test-renderer';
 import Header from '../../../components/Header/Header';
 
+jest.mock(
+  'nr1',
+  () => {
+    const window = {
+      open: jest.fn()
+    };
+    const Icon = {
+      type: jest.fn()
+    };
+    return {
+      window,
+      Icon
+    };
+  },
+  { virtual: true }
+);
+
 const banner_kpis = [
   {
     type: 100,
