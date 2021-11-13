@@ -61,6 +61,8 @@ export default class MainContainer extends React.Component {
       header: false
     });
     this.state = {
+      updating: false,
+      queryModalShowing: false,
       accountName: 'Demotron V2',
       credentials: {
         accountId: null,
@@ -127,6 +129,7 @@ export default class MainContainer extends React.Component {
       configuration: null,
       updateData: null,
       testText: '',
+      testingNow: false,
       resultsTestQuery: '',
       goodQuery: true,
       logoSetup: {
@@ -259,47 +262,51 @@ export default class MainContainer extends React.Component {
   };
 
   ExecuteUpdateData = changeLoading => {
-    this.setState(
-      {
-        updating: true
-      },
-      async () => {
-        const {
-          timeRange,
-          city,
-          getOldSessions,
-          stages,
-          kpis,
-          timeRangeKpi
-        } = this.state;
-        const data = await this.DataManager.UpdateData(
-          timeRange,
-          city,
-          getOldSessions,
-          stages,
-          kpis,
-          timeRangeKpi
-        );
-        this.setState(
-          {
-            stages: data.stages,
-            kpis: data.kpis ?? [],
-            getOldSessions: false,
-            waiting: false
-          },
-          () => {
-            this.setState({
-              updating: false
-            });
-            if (changeLoading) {
+    const { updating, queryModalShowing } = this.state;
+    console.log('updating:', updating, 'QueryModal:', queryModalShowing);
+    if (!updating && !queryModalShowing) {
+      this.setState(
+        {
+          updating: true
+        },
+        async () => {
+          const {
+            timeRange,
+            city,
+            getOldSessions,
+            stages,
+            kpis,
+            timeRangeKpi
+          } = this.state;
+          const data = await this.DataManager.UpdateData(
+            timeRange,
+            city,
+            getOldSessions,
+            stages,
+            kpis,
+            timeRangeKpi
+          );
+          this.setState(
+            {
+              stages: data.stages,
+              kpis: data.kpis ?? [],
+              getOldSessions: false,
+              waiting: false
+            },
+            () => {
               this.setState({
-                loading: false
+                updating: false
               });
+              if (changeLoading) {
+                this.setState({
+                  loading: false
+                });
+              }
             }
-          }
-        );
-      }
-    );
+          );
+        }
+      );
+    }
   };
 
   updateDataNow() {
@@ -477,7 +484,7 @@ export default class MainContainer extends React.Component {
 
   _onClose = errors => {
     const actualValue = this.state.hidden;
-    this.setState({ hidden: !actualValue });
+    this.setState({ hidden: !actualValue, queryModalShowing: false });
     this.restoreTouchPoints();
     if (errors) {
       this.setState({
@@ -701,6 +708,7 @@ export default class MainContainer extends React.Component {
 
   openModalParent = (touchpoint, view) => {
     let datos = null;
+    const queryModalShowing = true; // DO NOT Update Data while Modals is Showing
     if (view === 2) {
       datos = this.DataManager.GetTouchpointTune(touchpoint);
     } else if (view === 1) {
@@ -718,9 +726,10 @@ export default class MainContainer extends React.Component {
       testText: '',
       resultsTestQuery: '',
       modifiedQuery: false,
-      goodQuery: true
+      goodQuery: true,
+      queryModalShowing: queryModalShowing,
+      hidden: true
     });
-    this._onClose();
   };
 
   changeTimeRange = event => {
@@ -947,6 +956,7 @@ export default class MainContainer extends React.Component {
   };
 
   testQuery = async (query, value) => {
+    this.setState({ testingNow: true });
     const { stageNameSelected } = this.state;
     const type = stageNameSelected.datos[value].label;
     const accountID = stageNameSelected.datos[value].accountID;
@@ -956,12 +966,13 @@ export default class MainContainer extends React.Component {
       accountID
     );
     let results = '';
-    if (goodQuery) {
-      const data = await this.DataManager.ReadQueryResults(query, accountID);
-      results = data.results;
-    }
+    // if (goodQuery) {
+    const data = await this.DataManager.ReadQueryResults(query, accountID);
+    results = data.results;
+    // }
     this.setState({
       testText,
+      testingNow: false,
       modifiedQuery: false,
       goodQuery,
       resultsTestQuery: results
@@ -977,6 +988,15 @@ export default class MainContainer extends React.Component {
         ].query_body = query;
       } else {
         stageNameSelected.datos[0].query_body = query;
+      }
+      if (query === '') {
+        return {
+          stageNameSelected,
+          testText: '',
+          resultsTestQuery: '',
+          modifiedQuery: false,
+          goodQuery: true
+        };
       }
       return {
         stageNameSelected,
@@ -1006,6 +1026,7 @@ export default class MainContainer extends React.Component {
       this.state.stageNameSelected.touchpoint,
       this.state.stageNameSelected.datos
     );
+    this.setState({ updating: false });
     this._onClose();
   };
 
@@ -1328,6 +1349,7 @@ export default class MainContainer extends React.Component {
       starForm,
       flameForm,
       testText,
+      testingNow,
       resultsTestQuery,
       goodQuery,
       modifiedQuery,
@@ -1859,6 +1881,7 @@ export default class MainContainer extends React.Component {
             stageNameSelected={stageNameSelected}
             viewModal={viewModal}
             testText={testText}
+            testingNow={testingNow}
             resultsTestQuery={resultsTestQuery}
             goodQuery={goodQuery}
             changeMessage={this.changeMessage}

@@ -2,6 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Select from '../Select/Select';
+import { Icon } from 'nr1';
 
 // IMPORT IMAGES AND STATIC FILES
 import lines from '../../images/lines.svg';
@@ -45,7 +46,7 @@ const Header = ({
   updateDataKpisChecked
 }) => {
   const filterKpis = kpis.filter(kpi => kpi.check);
-
+  const showLogsLink = true; // TODO logic to hidden
   return (
     <div className="containerHeader">
       <div className="quantityDinner">
@@ -168,13 +169,16 @@ const Header = ({
             options={options}
           />
         </div>
-        {/* <div
+        <div
           className="viewLogs"
           style={{
+            visibility: showLogsLink ? 'visible' : 'hidden',
             cursor: 'pointer'
           }}
           onClick={() => {
-            //window.open('http://one.newrelic.com');
+            window.open(
+              'https://one.newrelic.com/launcher/logger.log-launcher'
+            );
             // navigation.openNerdlet({
             //   id: 'logger.log-tailer',
             //   state: {
@@ -189,23 +193,24 @@ const Header = ({
             // });
           }}
         >
-          View Logs
-        </div> */}
+          <Icon type={Icon.TYPE.HARDWARE_AND_SOFTWARE__SOFTWARE__LOGS} />
+          See Logs
+        </div>
       </div>
     </div>
   );
 };
 
 const options = [
-  { label: 'now', value: '5 MINUTES AGO' },
-  { label: '30 minutes', value: '30 MINUTES AGO' },
-  { label: '60 minutes', value: '60 MINUTES AGO' },
-  { label: '3 hours', value: '3 HOURS AGO' },
-  { label: '6 hours', value: '6 HOURS AGO' },
-  { label: '12 hours', value: '12 HOURS AGO' },
-  { label: '24 hours', value: '24 HOURS AGO' },
-  { label: '3 days', value: '3 DAYS AGO' },
-  { label: '7 days', value: '7 DAYS AGO' }
+  { label: 'last 5 minutes', value: '5 MINUTES AGO' },
+  { label: '30 minutes ago', value: '30 MINUTES AGO' },
+  { label: '60 minutes ago', value: '60 MINUTES AGO' },
+  { label: '3 hours ago', value: '3 HOURS AGO' },
+  { label: '6 hours ago', value: '6 HOURS AGO' },
+  { label: '12 hours ago', value: '12 HOURS AGO' },
+  { label: '24 hours ago', value: '24 HOURS AGO' },
+  { label: '3 days ago', value: '3 DAYS AGO' },
+  { label: '7 days ago', value: '7 DAYS AGO' }
 ];
 
 const transformK = (value, type) => {
