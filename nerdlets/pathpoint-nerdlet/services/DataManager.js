@@ -8,6 +8,7 @@ import TouchPoints from '../config/touchPoints.json';
 import Canary from '../config/canary_states.json';
 import ViewData from '../config/view.json';
 import appPackage from '../../../package.json';
+import NerdStorageVault from './NerdStorageVault';
 import { historicErrorScript } from '../../../synthetics/createHistoricErrorScript';
 import {
   AccountStorageMutation,
@@ -22,6 +23,7 @@ import LogConnector from './LogsConnector';
 // DEFINE AND EXPORT CLASS
 export default class DataManager {
   constructor() {
+    this.NerdStorageVault = new NerdStorageVault();
     this.LogConnector = new LogConnector();
     this.minPercentageError = 100;
     this.historicErrorsHours = 192;
@@ -37,6 +39,8 @@ export default class DataManager {
     this.stages = [];
     this.lastStorageVersion = null;
     this.stepsByStage = [];
+    this.credentials = {};
+    this.generalConfiguration = {};
     this.dataCanary = Canary;
     this.configuration = {
       pathpointVersion: null,
@@ -71,6 +75,8 @@ export default class DataManager {
     await this.GetCanaryData();
     await this.GetStorageHistoricErrorsParams();
     await this.GetStorageDropParams();
+    this.credentials = await this.NerdStorageVault.getCredentialsData();
+    await this.GetGeneralConfiguration();
     this.version = appPackage.version;
     if (this.lastStorageVersion === appPackage.version) {
       this.colors = ViewData.colors;
@@ -92,7 +98,9 @@ export default class DataManager {
       accountId: this.accountId,
       version: this.version,
       totalContainers: this.SetTotalContainers(),
-      accountIDs: this.accountIDs
+      accountIDs: this.accountIDs,
+      credentials: this.credentials,
+      generalConfiguration: this.generalConfiguration
     };
   }
 
@@ -2476,5 +2484,58 @@ for (const [key, value] of Object.entries(return` +
 
   EnableDisableLogsConnector(status) {
     this.LogConnector.EnableDisable(status);
+  }
+
+  SaveCredentialsInVault(credentials) {
+    if (credentials.ingestLicense) {
+      this.NerdStorageVault.storeCredentialData(
+        'ingestLicense',
+        credentials.ingestLicense
+      );
+    }
+    if (credentials.userAPIKey) {
+      this.NerdStorageVault.storeCredentialData(
+        'userAPIKey',
+        credentials.userAPIKey
+      );
+    }
+  }
+
+  ResetCredentialsInVault() {
+    this.NerdStorageVault.storeCredentialData('ingestLicense', '_');
+    this.NerdStorageVault.storeCredentialData('userAPIKey', '_');
+  }
+
+  SaveGeneralConfiguration(data) {
+    try {
+      AccountStorageMutation.mutate({
+        accountId: this.accountId,
+        actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
+        collection: 'pathpoint',
+        documentId: 'generalConfiguration',
+        document: {
+          dropTools: data.dropTools,
+          flameTools: data.flameTools,
+          loggin: data.loggin
+        }
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async GetGeneralConfiguration() {
+    try {
+      const { data } = await AccountStorageQuery.query({
+        accountId: this.accountId,
+        collection: 'pathpoint',
+        documentId: 'generalConfiguration'
+      });
+      if (data) {
+        this.generalConfiguration = data;
+      }
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 }
