@@ -70,6 +70,7 @@ function BodyQueryFormModal(props) {
     testQuery,
     handleSaveUpdateQuery,
     testText,
+    testingNow,
     resultsTestQuery,
     goodQuery,
     modifiedQuery,
@@ -220,6 +221,7 @@ function BodyQueryFormModal(props) {
               </a>
               <div>
                 <Button
+                  disabled={testingNow}
                   variant="contained"
                   color="primary"
                   style={{
@@ -230,7 +232,9 @@ function BodyQueryFormModal(props) {
                   }}
                   onClick={
                     /* istanbul ignore next */ () => {
-                      testQuery(`${query_body} ${query_footer}`, value);
+                      if (query_body !== '') {
+                        testQuery(`${query_body} ${query_footer}`, value);
+                      }
                     }
                   }
                 >
@@ -343,8 +347,8 @@ BodyQueryFormModal.propTypes = {
   resultsTestQuery: PropTypes.object.isRequired,
   goodQuery: PropTypes.bool.isRequired,
   modifiedQuery: PropTypes.bool,
-  // accountIDs: PropTypes.object.isRequired
-  accountIDs: PropTypes.array.isRequired
+  accountIDs: PropTypes.array.isRequired,
+  testingNow: PropTypes.bool
 };
 
 export { HeaderQueryFormModal, BodyQueryFormModal };
