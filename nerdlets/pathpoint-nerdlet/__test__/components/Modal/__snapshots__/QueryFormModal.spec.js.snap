@@ -12,82 +12,131 @@ exports[`QueryFormModal component Render body with default data 1`] = `
     style={
       Object {
         "display": "flex",
-        "flexDirection": "row",
-        "justifyContent": "start",
+        "justifyContent": "space-between",
         "marginBottom": "4px",
       }
     }
   >
     <div
-      className="selectIDModal"
       style={
         Object {
-          "alignItems": "center",
           "display": "flex",
-          "width": "80px",
+          "flexDirection": "row",
+          "justifyContent": "start",
+          "marginBottom": "4px",
         }
       }
     >
-      AccountId
-    </div>
-    <div>
       <div
-        className="custom-select-wrapper_SelectID"
-        onClick={[Function]}
+        className="selectIDModal"
+        style={
+          Object {
+            "alignItems": "center",
+            "display": "flex",
+            "width": "80px",
+          }
+        }
       >
+        AccountId
+      </div>
+      <div>
         <div
-          className="custom-select_SelectID"
-          style={Object {}}
+          className="custom-select-wrapper_SelectID"
+          onClick={[Function]}
         >
           <div
-            className="custom-select__trigger_SelectID"
-          >
-            <span
-              style={
-                Object {
-                  "overflow": "hidden",
-                  "textOverflow": "ellipsis",
-                  "whiteSpace": "nowrap",
-                  "width": "80px",
-                }
-              }
-            >
-              2710112
-            </span>
-            <div
-              className="arrow"
-            />
-          </div>
-          <div
-            className="custom-options-SelectID"
+            className="custom-select_SelectID"
             style={Object {}}
           >
-            <span
-              className="custom-option selected"
-              onClick={[Function]}
+            <div
+              className="custom-select__trigger_SelectID"
             >
-              <div
+              <span
                 style={
                   Object {
-                    "display": "flex",
-                    "flexDirection": "row",
+                    "overflow": "hidden",
+                    "textOverflow": "ellipsis",
+                    "whiteSpace": "nowrap",
+                    "width": "80px",
                   }
                 }
               >
+                2710112
+              </span>
+              <div
+                className="arrow"
+              />
+            </div>
+            <div
+              className="custom-options-SelectID"
+              style={Object {}}
+            >
+              <span
+                className="custom-option selected"
+                onClick={[Function]}
+              >
                 <div
-                  className="id-custom-options"
+                  style={
+                    Object {
+                      "display": "flex",
+                      "flexDirection": "row",
+                    }
+                  }
                 >
-                  2710112
+                  <div
+                    className="id-custom-options"
+                  >
+                    2710112
+                  </div>
+                  <div
+                    className="name-custom-options"
+                  >
+                    WigiBoards
+                  </div>
                 </div>
-                <div
-                  className="name-custom-options"
-                >
-                  WigiBoards
-                </div>
-              </div>
-            </span>
+              </span>
+            </div>
           </div>
         </div>
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "row",
+          "justifyContent": "end",
+          "marginBottom": "4px",
+        }
+      }
+    >
+      <div
+        className="selectIDModal"
+        style={
+          Object {
+            "alignItems": "center",
+            "display": "flex",
+            "width": "65px",
+          }
+        }
+      >
+        Timeout
+      </div>
+      <div>
+        <input
+          className="inputText"
+          id="Timeout"
+          name="Timeout"
+          onChange={[Function]}
+          style={
+            Object {
+              "border": "1px solid gray",
+              "padding": "5px",
+              "width": "50px",
+            }
+          }
+          type="text"
+        />
       </div>
     </div>
   </div>
