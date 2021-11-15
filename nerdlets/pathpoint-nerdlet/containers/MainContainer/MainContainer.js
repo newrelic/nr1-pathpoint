@@ -74,7 +74,7 @@ export default class MainContainer extends React.Component {
       },
       licenseValidations: {
         ingestLicense: null,
-        userAPIKey: null
+        userApiKey: null
       },
       totalContainers: 1,
       waiting: true,
@@ -1353,6 +1353,18 @@ export default class MainContainer extends React.Component {
     });
   };
 
+  ValidateUserApiKey = async userApiKey => {
+    const valid = await this.DataManager.ValidateUserApiKey(userApiKey);
+    this.setState(state => {
+      return {
+        licenseValidations: {
+          ...state.licenseValidations,
+          userApiKey: valid
+        }
+      };
+    });
+  };
+
   render() {
     const {
       stages,
@@ -1938,6 +1950,7 @@ export default class MainContainer extends React.Component {
             licenseValidations={this.state.licenseValidations}
             resetCredentials={this.resetCredentials}
             ValidateIngestLicense={this.ValidateIngestLicense}
+            ValidateUserApiKey={this.ValidateUserApiKey}
             handleSaveUpdateGeneralConfiguration={
               this.handleSaveUpdateGeneralConfiguration
             }

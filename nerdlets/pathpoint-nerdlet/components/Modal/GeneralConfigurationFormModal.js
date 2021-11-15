@@ -26,7 +26,8 @@ function BodyGeneralConfigurationFormModal(props) {
     resetCredentials,
     handleOnChange,
     ValidateIngestLicense,
-    licenseValidations
+    licenseValidations,
+    ValidateUserApiKey
   } = props;
   const datos = stageNameSelected.datos;
   return (
@@ -74,12 +75,16 @@ function BodyGeneralConfigurationFormModal(props) {
             placeholder="Type your User API Key"
             bsClass="support-modal-input-text"
             value={props.credentialsData.userAPIKey}
+            onBlur={e => ValidateUserApiKey(e.target.value)}
             onChange={e =>
               handleOnChange({
                 target: { name: 'userAPIKey', value: e.target.value }
               })
             }
           />
+          {licenseValidations.userApiKey === false && (
+            <span style={{ color: '#C62828' }}>User API Key is not valid</span>
+          )}
           <div style={{ marginTop: '25px' }}>
             <input
               id="logginCheck"
@@ -119,7 +124,8 @@ function BodyGeneralConfigurationFormModal(props) {
               }
               disabled={
                 !props.credentialsData.userAPIKey ||
-                props.credentialsData.userAPIKey === ''
+                props.credentialsData.userAPIKey === '' ||
+                licenseValidations.userApiKey === false
               }
               onChange={e =>
                 handleOnChange({
@@ -145,7 +151,8 @@ function BodyGeneralConfigurationFormModal(props) {
               }
               disabled={
                 !props.credentialsData.userAPIKey ||
-                props.credentialsData.userAPIKey === ''
+                props.credentialsData.userAPIKey === '' ||
+                licenseValidations.userApiKey === false
               }
               onChange={e =>
                 handleOnChange({
@@ -175,7 +182,10 @@ function BodyGeneralConfigurationFormModal(props) {
               type="submit"
               variant="contained"
               color="primary"
-              disabled={licenseValidations.ingestLicense === false}
+              disabled={
+                licenseValidations.ingestLicense === false ||
+                licenseValidations.userApiKey === false
+              }
               style={{
                 background: '#0178bf',
                 color: 'white'
@@ -197,7 +207,8 @@ BodyGeneralConfigurationFormModal.propTypes = {
   credentialsData: PropTypes.func.isRequired,
   resetCredentials: PropTypes.func.isRequired,
   ValidateIngestLicense: PropTypes.func.isRequired,
-  licenseValidations: PropTypes.object.isRequired
+  licenseValidations: PropTypes.object.isRequired,
+  ValidateUserApiKey: PropTypes.func.isRequired
 };
 
 export {
