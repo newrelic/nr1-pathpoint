@@ -1509,6 +1509,7 @@ export default class DataManager {
   GetTouchpointQueryes(stage_index, index) {
     const queries = [];
     let accountID = this.accountId;
+    let timeout = 10;
     let measure_time = this.TimeRangeTransform(this.timeRange);
     this.touchPoints.forEach(element => {
       if (element.index === this.city) {
@@ -1527,11 +1528,15 @@ export default class DataManager {
               if (measure.accountID) {
                 accountID = measure.accountID;
               }
+              if (measure.timeout) {
+                timeout = measure.timeout;
+              }
               if (measure.type === 'PRC') {
                 queries.push({
                   type: this.measureNames[0],
                   accountID: accountID,
                   query: measure.query,
+                  query_timeout: timeout,
                   min_count: measure.min_count,
                   measure_time: measure_time
                 });
@@ -1540,6 +1545,7 @@ export default class DataManager {
                   type: this.measureNames[1],
                   accountID: accountID,
                   query: measure.query,
+                  query_timeout: timeout,
                   min_count: measure.min_count,
                   measure_time: measure_time
                 });
@@ -1548,6 +1554,7 @@ export default class DataManager {
                   type: this.measureNames[2],
                   accountID: accountID,
                   query: measure.query,
+                  query_timeout: timeout,
                   min_apdex: measure.min_apdex,
                   max_response_time: measure.max_response_time,
                   max_error_percentage: measure.max_error_percentage,
@@ -1558,6 +1565,7 @@ export default class DataManager {
                   type: this.measureNames[3],
                   accountID: accountID,
                   query: measure.query,
+                  query_timeout: timeout,
                   min_apdex: measure.min_apdex,
                   max_response_time: measure.max_response_time,
                   max_error_percentage: measure.max_error_percentage,
@@ -1568,6 +1576,7 @@ export default class DataManager {
                   type: this.measureNames[4],
                   accountID: accountID,
                   query: measure.query,
+                  query_timeout: timeout,
                   max_avg_response_time: measure.max_avg_response_time,
                   max_total_check_time: measure.max_total_check_time,
                   min_success_percentage: measure.min_success_percentage,
@@ -1578,6 +1587,7 @@ export default class DataManager {
                   type: this.measureNames[5],
                   accountID: accountID,
                   query: measure.query,
+                  query_timeout: timeout,
                   measure_time: measure_time
                 });
               }
@@ -1620,6 +1630,7 @@ export default class DataManager {
     this.touchPoints.length = 0;
     this.kpis = [];
     this.kpis.length = 0;
+    let query_timeout = 10;
     this.touchPoints.push({
       index: 0,
       country: 'PRODUCTION',
@@ -1752,10 +1763,15 @@ export default class DataManager {
           measure_points: []
         };
         tp.queries.forEach(query => {
+          query_timeout = 10;
+          if (query.query_timeout) {
+            query_timeout = query.query_timeout;
+          }
           if (query.type === this.measureNames[0]) {
             measure = {
               type: 'PRC',
               query: query.query,
+              timeout: query_timeout,
               min_count: query.min_count,
               session_count: 0
             };
@@ -1763,6 +1779,7 @@ export default class DataManager {
             measure = {
               type: 'PCC',
               query: query.query,
+              timeout: query_timeout,
               min_count: query.min_count,
               transaction_count: 0
             };
@@ -1770,6 +1787,7 @@ export default class DataManager {
             measure = {
               type: 'APP',
               query: query.query,
+              timeout: query_timeout,
               min_apdex: query.min_apdex,
               max_response_time: query.max_response_time,
               max_error_percentage: query.max_error_percentage,
@@ -1781,6 +1799,7 @@ export default class DataManager {
             measure = {
               type: 'FRT',
               query: query.query,
+              timeout: query_timeout,
               min_apdex: query.min_apdex,
               max_response_time: query.max_response_time,
               max_error_percentage: query.max_error_percentage,
@@ -1792,6 +1811,7 @@ export default class DataManager {
             measure = {
               type: 'SYN',
               query: query.query,
+              timeout: query_timeout,
               max_avg_response_time: query.max_avg_response_time,
               max_total_check_time: query.max_total_check_time,
               min_success_percentage: query.min_success_percentage,
@@ -1803,6 +1823,7 @@ export default class DataManager {
             measure = {
               type: 'WLD',
               query: query.query,
+              timeout: query_timeout,
               status_value: 'NO-VALUE'
             };
           }
