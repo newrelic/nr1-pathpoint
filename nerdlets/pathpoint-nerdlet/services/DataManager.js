@@ -19,12 +19,14 @@ import {
 } from 'nr1';
 
 import LogConnector from './LogsConnector';
+import SynConnector from './SynConnector';
 
 // DEFINE AND EXPORT CLASS
 export default class DataManager {
   constructor() {
     this.NerdStorageVault = new NerdStorageVault();
     this.LogConnector = new LogConnector();
+    this.SynConnector = new SynConnector();
     this.minPercentageError = 100;
     this.historicErrorsHours = 192;
     this.historicErrorsHighLightPercentage = 26;
@@ -2646,5 +2648,15 @@ for (const [key, value] of Object.entries(return` +
     } catch (error) {
       throw new Error(error);
     }
+  }
+
+  async ValidateIngestLicense(license) {
+    const response = await this.LogConnector.ValidateIngestLicense(license);
+    return response;
+  }
+
+  async ValidateUserApiKey(userApiKey) {
+    const valid = await this.SynConnector.ValidateUserApiKey(userApiKey);
+    return valid;
   }
 }

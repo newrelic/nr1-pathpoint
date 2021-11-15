@@ -30,6 +30,28 @@ export default class SynConnector {
     this.buffer.push(datos);
   }
 
+  async ValidateUserApiKey(userApiKey) {
+    try {
+      await this.axiosInstance.post(
+        this.uriSyntetic,
+        {},
+        {
+          headers: {
+            contentType: 'application/json',
+            'Api-Key': userApiKey
+          }
+        }
+      );
+      return true;
+    } catch (error) {
+      if (error.response.status === 401) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  }
+
   SendSyntetic(datos) {
     this.syntetic = datos;
   }

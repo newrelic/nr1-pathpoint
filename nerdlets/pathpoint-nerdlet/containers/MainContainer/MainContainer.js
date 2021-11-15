@@ -72,6 +72,10 @@ export default class MainContainer extends React.Component {
         flameTools: null,
         loggin: null
       },
+      licenseValidations: {
+        ingestLicense: null,
+        userApiKey: null
+      },
       totalContainers: 1,
       waiting: true,
       stages: null,
@@ -1337,6 +1341,30 @@ export default class MainContainer extends React.Component {
     });
   };
 
+  ValidateIngestLicense = async license => {
+    const valid = await this.DataManager.ValidateIngestLicense(license);
+    this.setState(state => {
+      return {
+        licenseValidations: {
+          ...state.licenseValidations,
+          ingestLicense: valid
+        }
+      };
+    });
+  };
+
+  ValidateUserApiKey = async userApiKey => {
+    const valid = await this.DataManager.ValidateUserApiKey(userApiKey);
+    this.setState(state => {
+      return {
+        licenseValidations: {
+          ...state.licenseValidations,
+          userApiKey: valid
+        }
+      };
+    });
+  };
+
   render() {
     const {
       stages,
@@ -1919,7 +1947,10 @@ export default class MainContainer extends React.Component {
             accountIDs={accountIDs}
             HandleCredentialsFormChange={this.HandleCredentialsFormChange}
             credentialsData={this.state.credentials}
+            licenseValidations={this.state.licenseValidations}
             resetCredentials={this.resetCredentials}
+            ValidateIngestLicense={this.ValidateIngestLicense}
+            ValidateUserApiKey={this.ValidateUserApiKey}
             handleSaveUpdateGeneralConfiguration={
               this.handleSaveUpdateGeneralConfiguration
             }
