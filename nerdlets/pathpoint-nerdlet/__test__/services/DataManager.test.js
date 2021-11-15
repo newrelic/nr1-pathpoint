@@ -1,5 +1,6 @@
 import DataManager from '../../services/DataManager';
 import appPackage from '../../../../package.json';
+import { historicErrorScript } from '../../../../synthetics/createHistoricErrorScript';
 import {
   AccountStorageQuery,
   AccountsQuery,

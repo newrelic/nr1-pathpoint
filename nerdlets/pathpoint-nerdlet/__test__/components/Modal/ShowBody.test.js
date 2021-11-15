@@ -293,6 +293,11 @@ describe('<ShowBody/>', () => {
           }
         }}
         credentialsData={{ credentialsData: { ingestLicense: 'INGEST' } }}
+        licenseValidations={{
+          licenseValidations: {
+            ingestLicense: false
+          }
+        }}
         options={{ options: ['options'] }}
       />
     );
