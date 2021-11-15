@@ -53,10 +53,9 @@ function BodyGeneralConfigurationFormModal(props) {
             placeholder="Type your ingest license"
             bsClass="support-modal-input-text"
             value={props.credentialsData.ingestLicense}
-            onPaste={e => e.preventDefault()}
+            // onPaste={e => e.preventDefault()}
             onCopy={e => e.preventDefault()}
             onBlur={e => ValidateIngestLicense(e.target.value)}
-            onFocus={() => console.log('mmm')}
             onChange={e =>
               handleOnChange({
                 target: { name: 'ingestLicense', value: e.target.value }
