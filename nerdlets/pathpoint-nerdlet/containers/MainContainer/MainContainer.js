@@ -1081,6 +1081,33 @@ export default class MainContainer extends React.Component {
     e.preventDefault();
     this.DataManager.SaveCredentialsInVault(this.state.credentials);
     this.DataManager.SaveGeneralConfiguration(this.state.credentials);
+    this.setState(state => {
+      const userApiKey = state.credentials.userAPIKey;
+      const ingestLicense = state.credentials.ingestLicense;
+      let formatedUserApiKey = '';
+      let formatedIngestLicense = '';
+      ingestLicense.split('').forEach((char, i) => {
+        if (i <= 3) {
+          formatedIngestLicense = `${formatedIngestLicense}${char}`;
+        } else {
+          formatedIngestLicense = `${formatedIngestLicense}x`;
+        }
+      });
+      userApiKey.split('').forEach((char, i) => {
+        if (i <= 3) {
+          formatedUserApiKey = `${formatedUserApiKey}${char}`;
+        } else {
+          formatedUserApiKey = `${formatedUserApiKey}x`;
+        }
+      });
+      return {
+        credentials: {
+          ...state.credentials,
+          userAPIKey: formatedUserApiKey,
+          ingestLicense: formatedIngestLicense
+        }
+      };
+    });
     this._onClose();
   };
 
