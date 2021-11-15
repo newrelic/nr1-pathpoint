@@ -207,12 +207,14 @@ export default class MainContainer extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    // console.log('Execute  this...');
     if (
       prevState.updating &&
       !this.state.updating &&
       this.state.pending &&
       this.state.loading
     ) {
+      // console.log('Order to Execute Update Data');
       this.ExecuteUpdateData(true);
     }
   }
