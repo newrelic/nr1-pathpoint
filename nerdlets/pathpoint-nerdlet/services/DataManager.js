@@ -2642,4 +2642,9 @@ for (const [key, value] of Object.entries(return` +
       throw new Error(error);
     }
   }
+
+  async ValidateIngestLicense(license) {
+    const response = await this.LogConnector.ValidateIngestLicense(license);
+    return response;
+  }
 }

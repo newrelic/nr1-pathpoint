@@ -24,7 +24,9 @@ function BodyGeneralConfigurationFormModal(props) {
     stageNameSelected,
     handleFormSubmit,
     resetCredentials,
-    handleOnChange
+    handleOnChange,
+    ValidateIngestLicense,
+    licenseValidations
   } = props;
   const datos = stageNameSelected.datos;
   return (
@@ -51,12 +53,18 @@ function BodyGeneralConfigurationFormModal(props) {
             placeholder="Type your ingest license"
             bsClass="support-modal-input-text"
             value={props.credentialsData.ingestLicense}
+            onBlur={e => ValidateIngestLicense(e.target.value)}
             onChange={e =>
               handleOnChange({
                 target: { name: 'ingestLicense', value: e.target.value }
               })
             }
           />
+          {licenseValidations.ingestLicense === false && (
+            <span style={{ color: '#C62828' }}>
+              Ingest License is not valid
+            </span>
+          )}
         </FormGroup>
         <FormGroup controlId="userAPIKey">
           <label style={{ margin: '0px' }}>User API Key</label>
@@ -84,7 +92,8 @@ function BodyGeneralConfigurationFormModal(props) {
               }
               disabled={
                 !props.credentialsData.ingestLicense ||
-                props.credentialsData.ingestLicense === ''
+                props.credentialsData.ingestLicense === '' ||
+                licenseValidations.ingestLicense === false
               }
               onChange={e =>
                 handleOnChange({
@@ -166,6 +175,7 @@ function BodyGeneralConfigurationFormModal(props) {
               type="submit"
               variant="contained"
               color="primary"
+              disabled={licenseValidations.ingestLicense === false}
               style={{
                 background: '#0178bf',
                 color: 'white'
@@ -185,7 +195,9 @@ BodyGeneralConfigurationFormModal.propTypes = {
   handleOnChange: PropTypes.func.isRequired,
   handleFormSubmit: PropTypes.func.isRequired,
   credentialsData: PropTypes.func.isRequired,
-  resetCredentials: PropTypes.func.isRequired
+  resetCredentials: PropTypes.func.isRequired,
+  ValidateIngestLicense: PropTypes.func.isRequired,
+  licenseValidations: PropTypes.object.isRequired
 };
 
 export {
