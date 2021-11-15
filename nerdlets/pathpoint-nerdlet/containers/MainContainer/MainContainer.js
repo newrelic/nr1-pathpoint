@@ -1320,15 +1320,20 @@ export default class MainContainer extends React.Component {
       flameTools: false,
       dropTools: false
     });
-    this.setState({
-      credentials: {
-        accountId: this.state.accountId,
-        ingestLicense: '',
-        userAPIKey: '',
-        dropTools: false,
-        flameTools: false,
-        loggin: false
-      }
+    document.getElementById('logginCheck').checked = false;
+    document.getElementById('flameToolsCheck').checked = false;
+    document.getElementById('dropToolsCheck').checked = false;
+    this.setState(state => {
+      return {
+        credentials: {
+          accountId: state.accountId,
+          ingestLicense: '',
+          userAPIKey: '',
+          dropTools: false,
+          flameTools: false,
+          loggin: false
+        }
+      };
     });
   };
 

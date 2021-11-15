@@ -74,6 +74,7 @@ function BodyGeneralConfigurationFormModal(props) {
           />
           <div style={{ marginTop: '25px' }}>
             <input
+              id="logginCheck"
               type="checkbox"
               value={
                 datos.credentials.loggin ? datos.credentials.loggin : false
@@ -95,6 +96,7 @@ function BodyGeneralConfigurationFormModal(props) {
           </div>
           <div style={{ marginTop: '10px' }}>
             <input
+              id="flameToolsCheck"
               type="checkbox"
               value={
                 datos.credentials.flameTools
@@ -121,6 +123,7 @@ function BodyGeneralConfigurationFormModal(props) {
           <div style={{ marginTop: '10px' }}>
             <input
               type="checkbox"
+              id="dropToolsCheck"
               value={
                 datos.credentials.dropTools
                   ? datos.credentials.dropTools
