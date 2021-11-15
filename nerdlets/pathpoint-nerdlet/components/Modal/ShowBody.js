@@ -188,7 +188,14 @@ export default class ShowBody extends Component {
       case 8:
         return <BodyFileErrorFormModal {...this.props} />;
       case 9:
-        return <BodyGeneralConfigurationFormModal {...this.props} />;
+        return (
+          <BodyGeneralConfigurationFormModal
+            {...this.props}
+            handleOnChange={this.props.HandleCredentialsFormChange}
+            handleFormSubmit={this.props.handleSaveUpdateGeneralConfiguration}
+            resetCredentials={this.props.resetCredentials}
+          />
+        );
       case 10:
         return (
           <BodyLogoFormModal
@@ -211,5 +218,8 @@ ShowBody.propTypes = {
   _onClose: PropTypes.func.isRequired,
   handleSaveUpdateTune: PropTypes.func.isRequired,
   handleSaveUpdateSupport: PropTypes.func.isRequired,
-  stageNameSelected: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
+  HandleCredentialsFormChange: PropTypes.func.isRequired,
+  resetCredentials: PropTypes.func.isRequired,
+  stageNameSelected: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  handleSaveUpdateGeneralConfiguration: PropTypes.func.isRequired
 };

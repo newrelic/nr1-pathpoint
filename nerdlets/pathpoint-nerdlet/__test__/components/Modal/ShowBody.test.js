@@ -285,9 +285,15 @@ describe('<ShowBody/>', () => {
         stageNameSelected={{
           datos: {
             error_threshold: 0,
-            apdex_time: 0
+            apdex_time: 0,
+            credentials: {
+              accountId: 2710112
+            },
+            accountIDs: [2710112]
           }
         }}
+        credentialsData={{ credentialsData: { ingestLicense: 'INGEST' } }}
+        options={{ options: ['options'] }}
       />
     );
     expect(bodyRender.length).toEqual(1);

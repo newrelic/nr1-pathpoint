@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, FormControl, Form, FormGroup } from 'react-bootstrap';
 import Select from '../Select/Select';
+import SelectIDs from '../SelectIDs/SelectIDs';
 
 // IMPORT ICONS
 import setup from '../../images/setup.svg';
@@ -19,17 +20,27 @@ function HeaderGeneralConfigurationFormModal() {
 }
 
 function BodyGeneralConfigurationFormModal(props) {
-  const { stageNameSelected, handleSaveUpdateGeneralConfiguration } = props;
+  const {
+    stageNameSelected,
+    handleFormSubmit,
+    resetCredentials,
+    handleOnChange
+  } = props;
   const datos = stageNameSelected.datos;
   return (
     <div style={{ width: '400px', paddingTop: '20px' }}>
-      <Form onSubmit={handleSaveUpdateGeneralConfiguration}>
+      <Form onSubmit={handleFormSubmit}>
         <FormGroup controlId="accountId">
           <label style={{ margin: '0px' }}>Account ID</label>
-          <Select
-            name="subject"
-            options={[{ label: 'Select Account ID' }]}
-            handleOnChange={() => null}
+          <SelectIDs
+            name="accountId"
+            handleOnChange={handleOnChange}
+            options={datos.accountIDs}
+            idSeleccionado={
+              datos.credentials.accountId
+                ? datos.credentials.accountId
+                : datos.accountId
+            }
           />
         </FormGroup>
         <FormGroup controlId="ingestLicense">
@@ -39,7 +50,12 @@ function BodyGeneralConfigurationFormModal(props) {
             type="text"
             placeholder="Type your ingest license"
             bsClass="support-modal-input-text"
-            onChange={() => null}
+            value={props.credentialsData.ingestLicense}
+            onChange={e =>
+              handleOnChange({
+                target: { name: 'ingestLicense', value: e.target.value }
+              })
+            }
           />
         </FormGroup>
         <FormGroup controlId="userAPIKey">
@@ -49,20 +65,85 @@ function BodyGeneralConfigurationFormModal(props) {
             type="text"
             placeholder="Type your User API Key"
             bsClass="support-modal-input-text"
-            onChange={() => null}
+            value={props.credentialsData.userAPIKey}
+            onChange={e =>
+              handleOnChange({
+                target: { name: 'userAPIKey', value: e.target.value }
+              })
+            }
           />
           <div style={{ marginTop: '25px' }}>
-            <input type="checkbox" />
+            <input
+              id="logginCheck"
+              type="checkbox"
+              value={
+                datos.credentials.loggin ? datos.credentials.loggin : false
+              }
+              defaultChecked={
+                datos.credentials.loggin ? datos.credentials.loggin : false
+              }
+              disabled={
+                !props.credentialsData.ingestLicense ||
+                props.credentialsData.ingestLicense === ''
+              }
+              onChange={e =>
+                handleOnChange({
+                  target: { name: 'loggin', value: e.target.checked }
+                })
+              }
+            />
             <label className="label-checkbox"> Pathpoint Loggin </label>
           </div>
           <div style={{ marginTop: '10px' }}>
-            <input type="checkbox" />
-            <label className="label-checkbox">
-              Flame Tools Script Updates{' '}
-            </label>
+            <input
+              id="flameToolsCheck"
+              type="checkbox"
+              value={
+                datos.credentials.flameTools
+                  ? datos.credentials.flameTools
+                  : false
+              }
+              defaultChecked={
+                datos.credentials.flameTools
+                  ? datos.credentials.flameTools
+                  : false
+              }
+              disabled={
+                !props.credentialsData.userAPIKey ||
+                props.credentialsData.userAPIKey === ''
+              }
+              onChange={e =>
+                handleOnChange({
+                  target: { name: 'flameTools', value: e.target.checked }
+                })
+              }
+            />
+            <label className="label-checkbox">Flame Tools Script Updates</label>
           </div>
           <div style={{ marginTop: '10px' }}>
-            <input type="checkbox" />
+            <input
+              type="checkbox"
+              id="dropToolsCheck"
+              value={
+                datos.credentials.dropTools
+                  ? datos.credentials.dropTools
+                  : false
+              }
+              defaultChecked={
+                datos.credentials.dropTools
+                  ? datos.credentials.dropTools
+                  : false
+              }
+              disabled={
+                !props.credentialsData.userAPIKey ||
+                props.credentialsData.userAPIKey === ''
+              }
+              onChange={e =>
+                handleOnChange({
+                  target: { name: 'dropTools', value: e.target.checked }
+                })
+              }
+            />
             <label className="label-checkbox">Drop Tools Script Updates</label>
           </div>
           <div
@@ -74,6 +155,7 @@ function BodyGeneralConfigurationFormModal(props) {
           >
             <Button
               variant="outline-danger"
+              onClick={resetCredentials}
               style={{
                 marginRight: '20px'
               }}
@@ -100,7 +182,10 @@ function BodyGeneralConfigurationFormModal(props) {
 
 BodyGeneralConfigurationFormModal.propTypes = {
   stageNameSelected: PropTypes.object.isRequired,
-  handleSaveUpdateGeneralConfiguration: PropTypes.func.isRequired
+  handleOnChange: PropTypes.func.isRequired,
+  handleFormSubmit: PropTypes.func.isRequired,
+  credentialsData: PropTypes.func.isRequired,
+  resetCredentials: PropTypes.func.isRequired
 };
 
 export {
