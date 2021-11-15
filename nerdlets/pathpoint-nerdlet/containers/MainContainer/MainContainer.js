@@ -1086,20 +1086,24 @@ export default class MainContainer extends React.Component {
       const ingestLicense = state.credentials.ingestLicense;
       let formatedUserApiKey = '';
       let formatedIngestLicense = '';
-      ingestLicense.split('').forEach((char, i) => {
-        if (i <= 3) {
-          formatedIngestLicense = `${formatedIngestLicense}${char}`;
-        } else {
-          formatedIngestLicense = `${formatedIngestLicense}x`;
-        }
-      });
-      userApiKey.split('').forEach((char, i) => {
-        if (i <= 3) {
-          formatedUserApiKey = `${formatedUserApiKey}${char}`;
-        } else {
-          formatedUserApiKey = `${formatedUserApiKey}x`;
-        }
-      });
+      if (ingestLicense) {
+        ingestLicense.split('').forEach((char, i) => {
+          if (i <= 3) {
+            formatedIngestLicense = `${formatedIngestLicense}${char}`;
+          } else {
+            formatedIngestLicense = `${formatedIngestLicense}x`;
+          }
+        });
+      }
+      if (userApiKey) {
+        userApiKey.split('').forEach((char, i) => {
+          if (i <= 3) {
+            formatedUserApiKey = `${formatedUserApiKey}${char}`;
+          } else {
+            formatedUserApiKey = `${formatedUserApiKey}x`;
+          }
+        });
+      }
       return {
         credentials: {
           ...state.credentials,
