@@ -63,6 +63,7 @@ export default class MainContainer extends React.Component {
     this.state = {
       updating: false,
       queryModalShowing: false,
+      generalConfigurationSaved: false,
       accountName: 'Demotron V2',
       credentials: {
         accountId: null,
@@ -145,6 +146,7 @@ export default class MainContainer extends React.Component {
       },
       kpis: [],
       accountIDs: [],
+      credentialsBackup: false,
       sendingLogsEnableDisable: true
     };
   }
@@ -261,7 +263,8 @@ export default class MainContainer extends React.Component {
         kpis: data.kpis,
         totalContainers: data.totalContainers,
         accountIDs: data.accountIDs,
-        credentials
+        credentials,
+        credentialsBackup: credentials
       },
       async () => {
         this.validationQuery = new ValidationQuery(this.state.accountId);
@@ -491,6 +494,32 @@ export default class MainContainer extends React.Component {
   _onClose = errors => {
     const actualValue = this.state.hidden;
     this.setState({ hidden: !actualValue, queryModalShowing: false });
+    if (!this.state.generalConfigurationSaved) {
+      this.setState(state => {
+        let credentials = {};
+        if (state.credentialsBackup !== false) {
+          credentials = {
+            ...state.credentialsBackup
+          };
+        } else {
+          credentials = {
+            ...state.credentials,
+            ingestLicense: null,
+            userAPIKey: null,
+            dropTools: false,
+            flameTools: false,
+            loggin: false
+          };
+        }
+        return {
+          licenseValidations: {
+            userApiKey: null,
+            ingestLicense: null
+          },
+          credentials
+        };
+      });
+    }
     this.restoreTouchPoints();
     if (errors) {
       this.setState({
@@ -1112,7 +1141,14 @@ export default class MainContainer extends React.Component {
         }
       };
     });
-    this._onClose();
+    this.setState(
+      {
+        generalConfigurationSaved: true
+      },
+      () => {
+        this._onClose();
+      }
+    );
   };
 
   handleSaveUpdateFire = event => {
@@ -1359,6 +1395,7 @@ export default class MainContainer extends React.Component {
     document.getElementById('dropToolsCheck').checked = false;
     this.setState(state => {
       return {
+        generalConfigurationSaved: true,
         credentials: {
           accountId: state.accountId,
           ingestLicense: '',
