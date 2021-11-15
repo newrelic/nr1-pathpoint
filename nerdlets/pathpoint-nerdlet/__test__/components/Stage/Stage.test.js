@@ -40,6 +40,7 @@ describe('<Stage/>', () => {
         trafficIconType="traffic"
         // ---------------------
         stage={{
+          capacity_link: true,
           congestion: {
             percentage: 10
           },
@@ -51,7 +52,7 @@ describe('<Stage/>', () => {
     expect(wrapper.length).toEqual(1);
   });
 
-  it('Render percentage to 100 with status good', () => {
+  it('Render percentage to 100 with status good and stage.capacity = OPERATIONAL', () => {
     const wrapper = mount(
       <Stage
         title=""
@@ -71,18 +72,20 @@ describe('<Stage/>', () => {
         }}
         trafficIconType="traffic"
         stage={{
+          capacity_link: true,
           congestion: {
             percentage: 10
           },
           arrowMode: 'FLOW',
-          trafficIconType: 'traffic'
+          trafficIconType: 'traffic',
+          capacity: 'OPERATIONAL'
         }}
       />
     );
     expect(wrapper.length).toEqual(1);
   });
 
-  it('Render percentage to < 5 with status warning and high value congestion', () => {
+  it('Render percentage to < 5 with status warning and high value congestion and capacity = DEGRADED', () => {
     const wrapper = mount(
       <Stage
         title=""
@@ -102,19 +105,21 @@ describe('<Stage/>', () => {
         }}
         trafficIconType="traffic"
         stage={{
+          capacity_link: true,
           index: 1,
           congestion: {
             percentage: 10
           },
           arrowMode: 'FLOW',
-          trafficIconType: 'traffic'
+          trafficIconType: 'traffic',
+          capacity: 'DEGRADED'
         }}
       />
     );
     expect(wrapper.length).toEqual(1);
   });
 
-  it('Render percentage to < 5 with status danger and high value congestion', () => {
+  it('Render percentage to < 5 with status danger and high value congestion and capacity = DISRUPTED', () => {
     const colors = {
       status_color: {
         danger: [255, 76, 76],
@@ -141,18 +146,20 @@ describe('<Stage/>', () => {
         }}
         trafficIconType="traffic"
         stage={{
+          capacity_link: true,
           congestion: {
             percentage: 10
           },
           arrowMode: 'FLOW',
-          trafficIconType: 'traffic'
+          trafficIconType: 'traffic',
+          capacity: 'DISRUPTED'
         }}
       />
     );
     expect(wrapper.length).toEqual(1);
   });
 
-  it('Simulate click in stage', () => {
+  it('Simulate click in stage  and stage.capacity = UNKNOWN', () => {
     const clickStage = jest.fn();
     const wrapper = shallow(
       <Stage
@@ -175,11 +182,13 @@ describe('<Stage/>', () => {
         trafficIconType="traffic"
         // -----------------
         stage={{
+          capacity_link: false,
           congestion: {
             percentage: 10
           },
           arrowMode: 'FLOW',
-          trafficIconType: 'traffic'
+          trafficIconType: 'traffic',
+          capacity: 'UNKNOWN'
         }}
       />
     );
@@ -208,6 +217,7 @@ describe('<Stage/>', () => {
           total_count: 1001,
           arrowMode: 'FLOW',
           trafficIconType: 'traffic',
+          capacity_link: true,
           congestion: {
             value: 0,
             percentage: 15
@@ -237,6 +247,7 @@ describe('<Stage/>', () => {
           total_count: 1000001,
           arrowMode: 'FLOW',
           trafficIconType: 'traffic',
+          capacity_link: true,
           congestion: {
             value: 0,
             percentage: 15
@@ -264,6 +275,7 @@ describe('<Stage/>', () => {
           capacity: 105,
           totalCountStage: 10,
           colors: colors,
+          capacity_link: true,
           total_count: 1001,
           arrowMode: 'FLOW',
           trafficIconType: 'traffic',
@@ -276,5 +288,48 @@ describe('<Stage/>', () => {
       />
     );
     expect(wrapper.length).toEqual(1);
+  });
+
+  it('Simulate click in capacityBar', () => {
+    const clickStage = jest.fn();
+    const window = {
+      open: jest.fn()
+    };
+    const wrapper = shallow(
+      <Stage
+        title=""
+        percentageCongestion={10}
+        valueCongestion={100000000}
+        index={2}
+        goutQuantity={0}
+        status="danger"
+        capacityPercentage={100}
+        totalCountStage={10}
+        onClickStage={clickStage}
+        colors={colors}
+        // ---borrar
+        congestion={{
+          congestion: {
+            percentage: 10
+          }
+        }}
+        trafficIconType="traffic"
+        // -----------------
+        stage={{
+          capacity_link: true,
+          congestion: {
+            percentage: 10
+          },
+          arrowMode: 'FLOW',
+          trafficIconType: 'traffic',
+          capacity: 'UNKNOWN'
+        }}
+      />
+    );
+    wrapper
+      .find('.capacityBar')
+      .at(0)
+      .simulate('click');
+    expect(window.open).toHaveBeenCalledTimes(0);
   });
 });

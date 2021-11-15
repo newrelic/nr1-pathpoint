@@ -97,152 +97,156 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
         }
       />
       <div
-        className="distributionIcons"
+        className="containerRigthtHand"
       >
         <div
-          className="fireIconContainer"
-          onClick={[Function]}
-          style={
-            Object {
-              "visibility": "hidden",
-            }
-          }
-        >
-          <img
-            src={Object {}}
-            style={
-              Object {
-                "height": "18px",
-              }
-            }
-          />
-        </div>
-        <div
-          className="fireIconContainer"
-          onClick={[Function]}
-        >
-          <img
-            src={Object {}}
-            style={
-              Object {
-                "height": "18px",
-              }
-            }
-          />
-        </div>
-        <div
-          className="fireIconContainer"
-          onClick={[Function]}
-          onMouseDown={[Function]}
-        >
-          <img
-            src={Object {}}
-            style={
-              Object {
-                "height": "18px",
-              }
-            }
-          />
-        </div>
-        <div
-          className="fireIconContainer"
-          onClick={[Function]}
-          onMouseDown={[Function]}
-        >
-          <img
-            src={Object {}}
-            style={
-              Object {
-                "height": "18px",
-              }
-            }
-          />
-        </div>
-        <div
-          className="custom-select-wrapper"
-          onClick={[Function]}
+          className="distributionIcons"
         >
           <div
-            className="custom-select"
-            style={Object {}}
+            className="fireIconContainer"
+            onClick={[Function]}
+            style={
+              Object {
+                "visibility": "hidden",
+              }
+            }
+          >
+            <img
+              src={Object {}}
+              style={
+                Object {
+                  "height": "18px",
+                }
+              }
+            />
+          </div>
+          <div
+            className="fireIconContainer"
+            onClick={[Function]}
+          >
+            <img
+              src={Object {}}
+              style={
+                Object {
+                  "height": "18px",
+                }
+              }
+            />
+          </div>
+          <div
+            className="fireIconContainer"
+            onClick={[Function]}
+            onMouseDown={[Function]}
+          >
+            <img
+              src={Object {}}
+              style={
+                Object {
+                  "height": "18px",
+                }
+              }
+            />
+          </div>
+          <div
+            className="fireIconContainer"
+            onClick={[Function]}
+            onMouseDown={[Function]}
+          >
+            <img
+              src={Object {}}
+              style={
+                Object {
+                  "height": "18px",
+                }
+              }
+            />
+          </div>
+          <div
+            className="custom-select-wrapper"
+            onClick={[Function]}
           >
             <div
-              className="custom-select__trigger"
-            >
-              <span
-                style={
-                  Object {
-                    "overflow": "hidden",
-                    "textOverflow": "ellipsis",
-                    "whiteSpace": "nowrap",
-                    "width": "230px",
-                  }
-                }
-              >
-                now
-              </span>
-              <div
-                className="arrow"
-              />
-            </div>
-            <div
-              className="custom-options"
+              className="custom-select"
               style={Object {}}
             >
-              <span
-                className="custom-option selected"
-                onClick={[Function]}
+              <div
+                className="custom-select__trigger"
               >
-                now
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
+                <span
+                  style={
+                    Object {
+                      "overflow": "hidden",
+                      "textOverflow": "ellipsis",
+                      "whiteSpace": "nowrap",
+                      "width": "230px",
+                    }
+                  }
+                >
+                  now
+                </span>
+                <div
+                  className="arrow"
+                />
+              </div>
+              <div
+                className="custom-options"
+                style={Object {}}
               >
-                30 minutes
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                60 minutes
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                3 hours
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                6 hours
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                12 hours
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                24 hours
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                3 days
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                7 days
-              </span>
+                <span
+                  className="custom-option selected"
+                  onClick={[Function]}
+                >
+                  now
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  30 minutes
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  60 minutes
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  3 hours
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  6 hours
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  12 hours
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  24 hours
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  3 days
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  7 days
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -329,7 +333,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
                 }
               }
             >
-              Background processes
+              Credentials and General Configuration
             </div>
           </div>
         </div>
@@ -927,152 +931,156 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
         }
       />
       <div
-        className="distributionIcons"
+        className="containerRigthtHand"
       >
         <div
-          className="fireIconContainer"
-          onClick={[Function]}
-          style={
-            Object {
-              "visibility": "hidden",
-            }
-          }
-        >
-          <img
-            src={Object {}}
-            style={
-              Object {
-                "height": "18px",
-              }
-            }
-          />
-        </div>
-        <div
-          className="fireIconContainer"
-          onClick={[Function]}
-        >
-          <img
-            src={Object {}}
-            style={
-              Object {
-                "height": "18px",
-              }
-            }
-          />
-        </div>
-        <div
-          className="fireIconContainer"
-          onClick={[Function]}
-          onMouseDown={[Function]}
-        >
-          <img
-            src={Object {}}
-            style={
-              Object {
-                "height": "18px",
-              }
-            }
-          />
-        </div>
-        <div
-          className="fireIconContainer"
-          onClick={[Function]}
-          onMouseDown={[Function]}
-        >
-          <img
-            src={Object {}}
-            style={
-              Object {
-                "height": "18px",
-              }
-            }
-          />
-        </div>
-        <div
-          className="custom-select-wrapper"
-          onClick={[Function]}
+          className="distributionIcons"
         >
           <div
-            className="custom-select"
-            style={Object {}}
+            className="fireIconContainer"
+            onClick={[Function]}
+            style={
+              Object {
+                "visibility": "hidden",
+              }
+            }
+          >
+            <img
+              src={Object {}}
+              style={
+                Object {
+                  "height": "18px",
+                }
+              }
+            />
+          </div>
+          <div
+            className="fireIconContainer"
+            onClick={[Function]}
+          >
+            <img
+              src={Object {}}
+              style={
+                Object {
+                  "height": "18px",
+                }
+              }
+            />
+          </div>
+          <div
+            className="fireIconContainer"
+            onClick={[Function]}
+            onMouseDown={[Function]}
+          >
+            <img
+              src={Object {}}
+              style={
+                Object {
+                  "height": "18px",
+                }
+              }
+            />
+          </div>
+          <div
+            className="fireIconContainer"
+            onClick={[Function]}
+            onMouseDown={[Function]}
+          >
+            <img
+              src={Object {}}
+              style={
+                Object {
+                  "height": "18px",
+                }
+              }
+            />
+          </div>
+          <div
+            className="custom-select-wrapper"
+            onClick={[Function]}
           >
             <div
-              className="custom-select__trigger"
-            >
-              <span
-                style={
-                  Object {
-                    "overflow": "hidden",
-                    "textOverflow": "ellipsis",
-                    "whiteSpace": "nowrap",
-                    "width": "230px",
-                  }
-                }
-              >
-                now
-              </span>
-              <div
-                className="arrow"
-              />
-            </div>
-            <div
-              className="custom-options"
+              className="custom-select"
               style={Object {}}
             >
-              <span
-                className="custom-option selected"
-                onClick={[Function]}
+              <div
+                className="custom-select__trigger"
               >
-                now
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
+                <span
+                  style={
+                    Object {
+                      "overflow": "hidden",
+                      "textOverflow": "ellipsis",
+                      "whiteSpace": "nowrap",
+                      "width": "230px",
+                    }
+                  }
+                >
+                  now
+                </span>
+                <div
+                  className="arrow"
+                />
+              </div>
+              <div
+                className="custom-options"
+                style={Object {}}
               >
-                30 minutes
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                60 minutes
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                3 hours
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                6 hours
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                12 hours
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                24 hours
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                3 days
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                7 days
-              </span>
+                <span
+                  className="custom-option selected"
+                  onClick={[Function]}
+                >
+                  now
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  30 minutes
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  60 minutes
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  3 hours
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  6 hours
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  12 hours
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  24 hours
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  3 days
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  7 days
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -1159,7 +1167,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
                 }
               }
             >
-              Background processes
+              Credentials and General Configuration
             </div>
           </div>
         </div>
@@ -1757,152 +1765,156 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
         }
       />
       <div
-        className="distributionIcons"
+        className="containerRigthtHand"
       >
         <div
-          className="fireIconContainer"
-          onClick={[Function]}
-          style={
-            Object {
-              "visibility": "hidden",
-            }
-          }
-        >
-          <img
-            src={Object {}}
-            style={
-              Object {
-                "height": "18px",
-              }
-            }
-          />
-        </div>
-        <div
-          className="fireIconContainer"
-          onClick={[Function]}
-        >
-          <img
-            src={Object {}}
-            style={
-              Object {
-                "height": "18px",
-              }
-            }
-          />
-        </div>
-        <div
-          className="fireIconContainer"
-          onClick={[Function]}
-          onMouseDown={[Function]}
-        >
-          <img
-            src={Object {}}
-            style={
-              Object {
-                "height": "18px",
-              }
-            }
-          />
-        </div>
-        <div
-          className="fireIconContainer"
-          onClick={[Function]}
-          onMouseDown={[Function]}
-        >
-          <img
-            src={Object {}}
-            style={
-              Object {
-                "height": "18px",
-              }
-            }
-          />
-        </div>
-        <div
-          className="custom-select-wrapper"
-          onClick={[Function]}
+          className="distributionIcons"
         >
           <div
-            className="custom-select"
-            style={Object {}}
+            className="fireIconContainer"
+            onClick={[Function]}
+            style={
+              Object {
+                "visibility": "hidden",
+              }
+            }
+          >
+            <img
+              src={Object {}}
+              style={
+                Object {
+                  "height": "18px",
+                }
+              }
+            />
+          </div>
+          <div
+            className="fireIconContainer"
+            onClick={[Function]}
+          >
+            <img
+              src={Object {}}
+              style={
+                Object {
+                  "height": "18px",
+                }
+              }
+            />
+          </div>
+          <div
+            className="fireIconContainer"
+            onClick={[Function]}
+            onMouseDown={[Function]}
+          >
+            <img
+              src={Object {}}
+              style={
+                Object {
+                  "height": "18px",
+                }
+              }
+            />
+          </div>
+          <div
+            className="fireIconContainer"
+            onClick={[Function]}
+            onMouseDown={[Function]}
+          >
+            <img
+              src={Object {}}
+              style={
+                Object {
+                  "height": "18px",
+                }
+              }
+            />
+          </div>
+          <div
+            className="custom-select-wrapper"
+            onClick={[Function]}
           >
             <div
-              className="custom-select__trigger"
-            >
-              <span
-                style={
-                  Object {
-                    "overflow": "hidden",
-                    "textOverflow": "ellipsis",
-                    "whiteSpace": "nowrap",
-                    "width": "230px",
-                  }
-                }
-              >
-                now
-              </span>
-              <div
-                className="arrow"
-              />
-            </div>
-            <div
-              className="custom-options"
+              className="custom-select"
               style={Object {}}
             >
-              <span
-                className="custom-option selected"
-                onClick={[Function]}
+              <div
+                className="custom-select__trigger"
               >
-                now
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
+                <span
+                  style={
+                    Object {
+                      "overflow": "hidden",
+                      "textOverflow": "ellipsis",
+                      "whiteSpace": "nowrap",
+                      "width": "230px",
+                    }
+                  }
+                >
+                  now
+                </span>
+                <div
+                  className="arrow"
+                />
+              </div>
+              <div
+                className="custom-options"
+                style={Object {}}
               >
-                30 minutes
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                60 minutes
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                3 hours
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                6 hours
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                12 hours
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                24 hours
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                3 days
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                7 days
-              </span>
+                <span
+                  className="custom-option selected"
+                  onClick={[Function]}
+                >
+                  now
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  30 minutes
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  60 minutes
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  3 hours
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  6 hours
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  12 hours
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  24 hours
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  3 days
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  7 days
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -1989,7 +2001,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
                 }
               }
             >
-              Background processes
+              Credentials and General Configuration
             </div>
           </div>
         </div>
@@ -2633,152 +2645,156 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
         }
       />
       <div
-        className="distributionIcons"
+        className="containerRigthtHand"
       >
         <div
-          className="fireIconContainer"
-          onClick={[Function]}
-          style={
-            Object {
-              "visibility": "hidden",
-            }
-          }
-        >
-          <img
-            src={Object {}}
-            style={
-              Object {
-                "height": "18px",
-              }
-            }
-          />
-        </div>
-        <div
-          className="fireIconContainer"
-          onClick={[Function]}
-        >
-          <img
-            src={Object {}}
-            style={
-              Object {
-                "height": "18px",
-              }
-            }
-          />
-        </div>
-        <div
-          className="fireIconContainer"
-          onClick={[Function]}
-          onMouseDown={[Function]}
-        >
-          <img
-            src={Object {}}
-            style={
-              Object {
-                "height": "18px",
-              }
-            }
-          />
-        </div>
-        <div
-          className="fireIconContainer"
-          onClick={[Function]}
-          onMouseDown={[Function]}
-        >
-          <img
-            src={Object {}}
-            style={
-              Object {
-                "height": "18px",
-              }
-            }
-          />
-        </div>
-        <div
-          className="custom-select-wrapper"
-          onClick={[Function]}
+          className="distributionIcons"
         >
           <div
-            className="custom-select"
-            style={Object {}}
+            className="fireIconContainer"
+            onClick={[Function]}
+            style={
+              Object {
+                "visibility": "hidden",
+              }
+            }
+          >
+            <img
+              src={Object {}}
+              style={
+                Object {
+                  "height": "18px",
+                }
+              }
+            />
+          </div>
+          <div
+            className="fireIconContainer"
+            onClick={[Function]}
+          >
+            <img
+              src={Object {}}
+              style={
+                Object {
+                  "height": "18px",
+                }
+              }
+            />
+          </div>
+          <div
+            className="fireIconContainer"
+            onClick={[Function]}
+            onMouseDown={[Function]}
+          >
+            <img
+              src={Object {}}
+              style={
+                Object {
+                  "height": "18px",
+                }
+              }
+            />
+          </div>
+          <div
+            className="fireIconContainer"
+            onClick={[Function]}
+            onMouseDown={[Function]}
+          >
+            <img
+              src={Object {}}
+              style={
+                Object {
+                  "height": "18px",
+                }
+              }
+            />
+          </div>
+          <div
+            className="custom-select-wrapper"
+            onClick={[Function]}
           >
             <div
-              className="custom-select__trigger"
-            >
-              <span
-                style={
-                  Object {
-                    "overflow": "hidden",
-                    "textOverflow": "ellipsis",
-                    "whiteSpace": "nowrap",
-                    "width": "230px",
-                  }
-                }
-              >
-                now
-              </span>
-              <div
-                className="arrow"
-              />
-            </div>
-            <div
-              className="custom-options"
+              className="custom-select"
               style={Object {}}
             >
-              <span
-                className="custom-option selected"
-                onClick={[Function]}
+              <div
+                className="custom-select__trigger"
               >
-                now
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
+                <span
+                  style={
+                    Object {
+                      "overflow": "hidden",
+                      "textOverflow": "ellipsis",
+                      "whiteSpace": "nowrap",
+                      "width": "230px",
+                    }
+                  }
+                >
+                  now
+                </span>
+                <div
+                  className="arrow"
+                />
+              </div>
+              <div
+                className="custom-options"
+                style={Object {}}
               >
-                30 minutes
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                60 minutes
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                3 hours
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                6 hours
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                12 hours
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                24 hours
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                3 days
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                7 days
-              </span>
+                <span
+                  className="custom-option selected"
+                  onClick={[Function]}
+                >
+                  now
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  30 minutes
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  60 minutes
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  3 hours
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  6 hours
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  12 hours
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  24 hours
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  3 days
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  7 days
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -2865,7 +2881,7 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
                 }
               }
             >
-              Background processes
+              Credentials and General Configuration
             </div>
           </div>
         </div>
@@ -3463,152 +3479,156 @@ exports[`<MainContainer/> Values stages 1`] = `
         }
       />
       <div
-        className="distributionIcons"
+        className="containerRigthtHand"
       >
         <div
-          className="fireIconContainer"
-          onClick={[Function]}
-          style={
-            Object {
-              "visibility": "hidden",
-            }
-          }
-        >
-          <img
-            src={Object {}}
-            style={
-              Object {
-                "height": "18px",
-              }
-            }
-          />
-        </div>
-        <div
-          className="fireIconContainer"
-          onClick={[Function]}
-        >
-          <img
-            src={Object {}}
-            style={
-              Object {
-                "height": "18px",
-              }
-            }
-          />
-        </div>
-        <div
-          className="fireIconContainer"
-          onClick={[Function]}
-          onMouseDown={[Function]}
-        >
-          <img
-            src={Object {}}
-            style={
-              Object {
-                "height": "18px",
-              }
-            }
-          />
-        </div>
-        <div
-          className="fireIconContainer"
-          onClick={[Function]}
-          onMouseDown={[Function]}
-        >
-          <img
-            src={Object {}}
-            style={
-              Object {
-                "height": "18px",
-              }
-            }
-          />
-        </div>
-        <div
-          className="custom-select-wrapper"
-          onClick={[Function]}
+          className="distributionIcons"
         >
           <div
-            className="custom-select"
-            style={Object {}}
+            className="fireIconContainer"
+            onClick={[Function]}
+            style={
+              Object {
+                "visibility": "hidden",
+              }
+            }
+          >
+            <img
+              src={Object {}}
+              style={
+                Object {
+                  "height": "18px",
+                }
+              }
+            />
+          </div>
+          <div
+            className="fireIconContainer"
+            onClick={[Function]}
+          >
+            <img
+              src={Object {}}
+              style={
+                Object {
+                  "height": "18px",
+                }
+              }
+            />
+          </div>
+          <div
+            className="fireIconContainer"
+            onClick={[Function]}
+            onMouseDown={[Function]}
+          >
+            <img
+              src={Object {}}
+              style={
+                Object {
+                  "height": "18px",
+                }
+              }
+            />
+          </div>
+          <div
+            className="fireIconContainer"
+            onClick={[Function]}
+            onMouseDown={[Function]}
+          >
+            <img
+              src={Object {}}
+              style={
+                Object {
+                  "height": "18px",
+                }
+              }
+            />
+          </div>
+          <div
+            className="custom-select-wrapper"
+            onClick={[Function]}
           >
             <div
-              className="custom-select__trigger"
-            >
-              <span
-                style={
-                  Object {
-                    "overflow": "hidden",
-                    "textOverflow": "ellipsis",
-                    "whiteSpace": "nowrap",
-                    "width": "230px",
-                  }
-                }
-              >
-                now
-              </span>
-              <div
-                className="arrow"
-              />
-            </div>
-            <div
-              className="custom-options"
+              className="custom-select"
               style={Object {}}
             >
-              <span
-                className="custom-option selected"
-                onClick={[Function]}
+              <div
+                className="custom-select__trigger"
               >
-                now
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
+                <span
+                  style={
+                    Object {
+                      "overflow": "hidden",
+                      "textOverflow": "ellipsis",
+                      "whiteSpace": "nowrap",
+                      "width": "230px",
+                    }
+                  }
+                >
+                  now
+                </span>
+                <div
+                  className="arrow"
+                />
+              </div>
+              <div
+                className="custom-options"
+                style={Object {}}
               >
-                30 minutes
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                60 minutes
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                3 hours
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                6 hours
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                12 hours
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                24 hours
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                3 days
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                7 days
-              </span>
+                <span
+                  className="custom-option selected"
+                  onClick={[Function]}
+                >
+                  now
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  30 minutes
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  60 minutes
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  3 hours
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  6 hours
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  12 hours
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  24 hours
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  3 days
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  7 days
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -3695,7 +3715,7 @@ exports[`<MainContainer/> Values stages 1`] = `
                 }
               }
             >
-              Background processes
+              Credentials and General Configuration
             </div>
           </div>
         </div>
@@ -4250,129 +4270,52 @@ exports[`<MainContainer/> Values stages 1`] = `
             </div>
             <div
               className="capacityBar"
+              onClick={[Function]}
+              style={
+                Object {
+                  "cursor": "pointer",
+                }
+              }
             >
-              <img
-                src={Object {}}
-                style={
-                  Object {
-                    "height": "1.27vw",
-                    "width": "1.27vw",
-                  }
-                }
-              />
-              <img
-                src={Object {}}
-                style={
-                  Object {
-                    "height": "1.27vw",
-                    "width": "1.27vw",
-                  }
-                }
-              />
-              <img
-                src={Object {}}
-                style={
-                  Object {
-                    "height": "1.27vw",
-                    "width": "1.27vw",
-                  }
-                }
-              />
-              <img
-                src={Object {}}
-                style={
-                  Object {
-                    "height": "1.27vw",
-                    "width": "1.27vw",
-                  }
-                }
-              />
-              <img
-                src={Object {}}
-                style={
-                  Object {
-                    "height": "1.27vw",
-                    "width": "1.27vw",
-                  }
-                }
-              />
-              <img
-                src={Object {}}
-                style={
-                  Object {
-                    "height": "1.27vw",
-                    "width": "1.27vw",
-                  }
-                }
-              />
-              <img
-                src={Object {}}
-                style={
-                  Object {
-                    "height": "1.27vw",
-                    "width": "1.27vw",
-                  }
-                }
-              />
-              <img
-                src={Object {}}
-                style={
-                  Object {
-                    "height": "1.27vw",
-                    "width": "1.27vw",
-                  }
-                }
-              />
-              <img
-                src={Object {}}
-                style={
-                  Object {
-                    "height": "1.27vw",
-                    "width": "1.27vw",
-                  }
-                }
-              />
-              <img
-                src={Object {}}
-                style={
-                  Object {
-                    "height": "1.27vw",
-                    "width": "1.27vw",
-                  }
-                }
-              />
-              <img
-                src={Object {}}
-                style={
-                  Object {
-                    "height": "1.27vw",
-                    "width": "1.27vw",
-                  }
-                }
-              />
-              <img
-                src={Object {}}
-                style={
-                  Object {
-                    "height": "1.27vw",
-                    "width": "1.27vw",
-                  }
-                }
-              />
-              <img
-                src={Object {}}
-                style={
-                  Object {
-                    "height": "1.27vw",
-                    "width": "1.27vw",
-                  }
-                }
-              />
+              <svg
+                fill="#ff0000"
+                height="100%"
+                width="100%"
+              >
+                <path
+                  d="M 10 0 L 50 0 L 40 13 L 0 13 Z"
+                  fill="#ffffff"
+                  id="arrow"
+                  stroke="#e3e6e8"
+                  strokeWidth="1"
+                />
+                <path
+                  d="M 60 0 L 100 0 L 90 13 L 50 13 Z"
+                  fill="#ffffff"
+                  id="arrow"
+                  stroke="#e3e6e8"
+                  strokeWidth="1"
+                />
+                <path
+                  d="M 110 0 L 150 0 L 140 13 L 100 13 Z"
+                  fill="#ffffff"
+                  id="arrow"
+                  stroke="#e3e6e8"
+                  strokeWidth="1"
+                />
+                <path
+                  d="M 160 0 L 200 0 L 190 13 L 150 13 Z"
+                  fill="#ffffff"
+                  id="arrow"
+                  stroke="#e3e6e8"
+                  strokeWidth="1"
+                />
+              </svg>
             </div>
             <div
               className="percentText"
             >
-              Infra Workload: 0%
+              Infra: 
             </div>
           </div>
         </div>
@@ -4676,152 +4619,156 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
         }
       />
       <div
-        className="distributionIcons"
+        className="containerRigthtHand"
       >
         <div
-          className="fireIconContainer"
-          onClick={[Function]}
-          style={
-            Object {
-              "visibility": "hidden",
-            }
-          }
-        >
-          <img
-            src={Object {}}
-            style={
-              Object {
-                "height": "18px",
-              }
-            }
-          />
-        </div>
-        <div
-          className="fireIconContainer"
-          onClick={[Function]}
-        >
-          <img
-            src={Object {}}
-            style={
-              Object {
-                "height": "18px",
-              }
-            }
-          />
-        </div>
-        <div
-          className="fireIconContainer"
-          onClick={[Function]}
-          onMouseDown={[Function]}
-        >
-          <img
-            src={Object {}}
-            style={
-              Object {
-                "height": "18px",
-              }
-            }
-          />
-        </div>
-        <div
-          className="fireIconContainer"
-          onClick={[Function]}
-          onMouseDown={[Function]}
-        >
-          <img
-            src={Object {}}
-            style={
-              Object {
-                "height": "18px",
-              }
-            }
-          />
-        </div>
-        <div
-          className="custom-select-wrapper"
-          onClick={[Function]}
+          className="distributionIcons"
         >
           <div
-            className="custom-select"
-            style={Object {}}
+            className="fireIconContainer"
+            onClick={[Function]}
+            style={
+              Object {
+                "visibility": "hidden",
+              }
+            }
+          >
+            <img
+              src={Object {}}
+              style={
+                Object {
+                  "height": "18px",
+                }
+              }
+            />
+          </div>
+          <div
+            className="fireIconContainer"
+            onClick={[Function]}
+          >
+            <img
+              src={Object {}}
+              style={
+                Object {
+                  "height": "18px",
+                }
+              }
+            />
+          </div>
+          <div
+            className="fireIconContainer"
+            onClick={[Function]}
+            onMouseDown={[Function]}
+          >
+            <img
+              src={Object {}}
+              style={
+                Object {
+                  "height": "18px",
+                }
+              }
+            />
+          </div>
+          <div
+            className="fireIconContainer"
+            onClick={[Function]}
+            onMouseDown={[Function]}
+          >
+            <img
+              src={Object {}}
+              style={
+                Object {
+                  "height": "18px",
+                }
+              }
+            />
+          </div>
+          <div
+            className="custom-select-wrapper"
+            onClick={[Function]}
           >
             <div
-              className="custom-select__trigger"
-            >
-              <span
-                style={
-                  Object {
-                    "overflow": "hidden",
-                    "textOverflow": "ellipsis",
-                    "whiteSpace": "nowrap",
-                    "width": "230px",
-                  }
-                }
-              >
-                now
-              </span>
-              <div
-                className="arrow"
-              />
-            </div>
-            <div
-              className="custom-options"
+              className="custom-select"
               style={Object {}}
             >
-              <span
-                className="custom-option selected"
-                onClick={[Function]}
+              <div
+                className="custom-select__trigger"
               >
-                now
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
+                <span
+                  style={
+                    Object {
+                      "overflow": "hidden",
+                      "textOverflow": "ellipsis",
+                      "whiteSpace": "nowrap",
+                      "width": "230px",
+                    }
+                  }
+                >
+                  now
+                </span>
+                <div
+                  className="arrow"
+                />
+              </div>
+              <div
+                className="custom-options"
+                style={Object {}}
               >
-                30 minutes
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                60 minutes
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                3 hours
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                6 hours
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                12 hours
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                24 hours
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                3 days
-              </span>
-              <span
-                className="custom-option"
-                onClick={[Function]}
-              >
-                7 days
-              </span>
+                <span
+                  className="custom-option selected"
+                  onClick={[Function]}
+                >
+                  now
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  30 minutes
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  60 minutes
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  3 hours
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  6 hours
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  12 hours
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  24 hours
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  3 days
+                </span>
+                <span
+                  className="custom-option"
+                  onClick={[Function]}
+                >
+                  7 days
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -4908,7 +4855,7 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
                 }
               }
             >
-              Background processes
+              Credentials and General Configuration
             </div>
           </div>
         </div>

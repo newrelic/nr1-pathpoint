@@ -978,6 +978,10 @@ describe('<MainContainer/>', () => {
     instance.state.canaryData = canaryData;
     instance.state.stages = stages;
     instance.state.stages[0].steps[0].value = 'Web';
+    instance.DataManager = {
+      SetCanaryData: jest.fn(),
+      UpdateCanaryData: jest.fn()
+    };
     const stepEntry = {
       canary_state: false,
       dark: false,
@@ -1457,10 +1461,30 @@ describe('<MainContainer/>', () => {
   it('ToggleCanaryIcon with no iconCanaryStatus and showCanaryWelcomeMat', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
+    instance.DataManager = {
+      ClearCanaryData: jest.fn().mockReturnValue({
+        stages: [
+          {
+            index: 0,
+            title: 'BROWSE',
+            latencyStatus: false,
+            status_color: 'good'
+          }
+        ]
+      })
+    };
     instance.state.stages = stages;
     instance._onClose = jest.fn();
     instance.state.showCanaryWelcomeMat = true;
     instance.ToggleCanaryIcon(true);
+    expect(instance.state.stages).toEqual([
+      {
+        index: 0,
+        title: 'BROWSE',
+        latencyStatus: false,
+        status_color: 'good'
+      }
+    ]);
   });
 
   it('ToggleCanaryIcon with iconCanaryStatus and showCanaryWelcomeMat', () => {
@@ -1470,6 +1494,18 @@ describe('<MainContainer/>', () => {
     instance.state.iconCanaryStatus = true;
     instance._onClose = jest.fn();
     instance.state.showCanaryWelcomeMat = true;
+    instance.DataManager = {
+      LoadCanaryData: jest.fn().mockReturnValue([
+        {
+          stage_index: 1,
+          stage_title: 'Stage1',
+          states: [false, false]
+        }
+      ]),
+      SetCanaryData: jest.fn().mockReturnValue({
+        stages: []
+      })
+    };
     instance.ToggleCanaryIcon(false);
   });
 
@@ -1482,6 +1518,18 @@ describe('<MainContainer/>', () => {
     instance.state.showCanaryWelcomeMat = false;
     instance.PreSelectCanaryData = jest.fn();
     instance.updateDataNow = jest.fn();
+    instance.DataManager = {
+      LoadCanaryData: jest.fn().mockReturnValue([
+        {
+          stage_index: 1,
+          stage_title: 'Stage1',
+          states: [false, false]
+        }
+      ]),
+      SetCanaryData: jest.fn().mockReturnValue({
+        stages: []
+      })
+    };
     instance.ToggleCanaryIcon(false);
   });
 
@@ -1494,7 +1542,27 @@ describe('<MainContainer/>', () => {
     instance.state.showCanaryWelcomeMat = false;
     instance.PreSelectCanaryData = jest.fn();
     instance.updateDataNow = jest.fn();
+    instance.DataManager = {
+      ClearCanaryData: jest.fn().mockReturnValue({
+        stages: [
+          {
+            index: 0,
+            title: 'BROWSE',
+            latencyStatus: false,
+            status_color: 'good'
+          }
+        ]
+      })
+    };
     instance.ToggleCanaryIcon(true);
+    expect(instance.state.stages).toEqual([
+      {
+        index: 0,
+        title: 'BROWSE',
+        latencyStatus: false,
+        status_color: 'good'
+      }
+    ]);
   });
 
   it('clearStepsHistoricError', () => {
@@ -2356,9 +2424,15 @@ describe('<MainContainer/>', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
     instance.state.stages = stages;
+    instance.DataManager = {
+      GetGoutParameters: jest.fn()
+    };
     instance._handleContextMenuGout({
       button: 2
     });
+    expect(instance.state.backdrop).toEqual(true);
+    expect(instance.state.showRightPanel).toEqual(true);
+    expect(instance.state.MenuRightDefault).toEqual(1);
   });
 
   it('_handleContextMenuStar', () => {
@@ -2374,9 +2448,15 @@ describe('<MainContainer/>', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
     instance.state.stages = stages;
+    instance.DataManager = {
+      GetHistoricParameters: jest.fn()
+    };
     instance._handleContextMenuFire({
       button: 2
     });
+    expect(instance.state.backdrop).toEqual(true);
+    expect(instance.state.showRightPanel).toEqual(true);
+    expect(instance.state.MenuRightDefault).toEqual(3);
   });
 
   it('_onCloseMenuRight', () => {

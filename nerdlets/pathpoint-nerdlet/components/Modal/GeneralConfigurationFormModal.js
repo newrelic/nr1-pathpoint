@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, FormControl, Form, FormGroup } from 'react-bootstrap';
-import Select from '../Select/Select';
 import SelectIDs from '../SelectIDs/SelectIDs';
 
 // IMPORT ICONS
@@ -111,7 +110,7 @@ function BodyGeneralConfigurationFormModal(props) {
                 })
               }
             />
-            <label className="label-checkbox"> Pathpoint Loggin </label>
+            <label className="label-checkbox"> Enable Pathoint Logging </label>
           </div>
           <div style={{ marginTop: '10px' }}>
             <input
@@ -138,7 +137,9 @@ function BodyGeneralConfigurationFormModal(props) {
                 })
               }
             />
-            <label className="label-checkbox">Flame Tools Script Updates</label>
+            <label className="label-checkbox">
+              Enable Flame Filter Background Script
+            </label>
           </div>
           <div style={{ marginTop: '10px' }}>
             <input
@@ -165,7 +166,9 @@ function BodyGeneralConfigurationFormModal(props) {
                 })
               }
             />
-            <label className="label-checkbox">Drop Tools Script Updates</label>
+            <label className="label-checkbox">
+              Enable Drop Filter Background Script
+            </label>
           </div>
           <div
             style={{
