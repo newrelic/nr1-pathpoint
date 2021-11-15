@@ -90,4 +90,22 @@ export default class LogConnector {
     }
     return ArrayResult;
   }
+
+  async ValidateIngestLicense(license) {
+    try {
+      await this.axiosInstance.post(
+        'https://log-api.newrelic.com/log/v1',
+        {},
+        {
+          headers: {
+            contentType: 'application/json',
+            'X-License-Key': license
+          }
+        }
+      );
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
 }
