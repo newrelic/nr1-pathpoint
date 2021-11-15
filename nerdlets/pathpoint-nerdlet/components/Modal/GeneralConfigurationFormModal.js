@@ -27,20 +27,6 @@ function BodyGeneralConfigurationFormModal(props) {
     handleOnChange
   } = props;
   const datos = stageNameSelected.datos;
-  const values = [];
-  datos.accountIDs.forEach(account => {
-    values.push({
-      ...account
-    });
-  });
-  values.push({
-    name: 'daniel',
-    id: 4444
-  });
-  values.push({
-    name: 'felipe',
-    id: 5555
-  });
   return (
     <div style={{ width: '400px', paddingTop: '20px' }}>
       <Form onSubmit={handleFormSubmit}>
@@ -49,7 +35,7 @@ function BodyGeneralConfigurationFormModal(props) {
           <SelectIDs
             name="accountId"
             handleOnChange={handleOnChange}
-            options={values}
+            options={datos.accountIDs}
             idSeleccionado={
               datos.credentials.accountId
                 ? datos.credentials.accountId
