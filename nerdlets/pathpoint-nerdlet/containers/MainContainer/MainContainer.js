@@ -90,7 +90,6 @@ export default class MainContainer extends React.Component {
       checkMoney: false,
       city: 0,
       timeRange: '5 MINUTES AGO',
-      getOldSessions: true,
       loading: false,
       canaryData: null,
       colors: {},
@@ -274,18 +273,10 @@ export default class MainContainer extends React.Component {
           updating: true
         },
         async () => {
-          const {
-            timeRange,
-            city,
-            getOldSessions,
-            stages,
-            kpis,
-            timeRangeKpi
-          } = this.state;
+          const { timeRange, city, stages, kpis, timeRangeKpi } = this.state;
           const data = await this.DataManager.UpdateData(
             timeRange,
             city,
-            getOldSessions,
             stages,
             kpis,
             timeRangeKpi
@@ -294,7 +285,6 @@ export default class MainContainer extends React.Component {
             {
               stages: data.stages,
               kpis: data.kpis ?? [],
-              getOldSessions: false,
               waiting: false
             },
             () => {
@@ -737,10 +727,7 @@ export default class MainContainer extends React.Component {
   };
 
   changeTimeRange = event => {
-    this.setState(
-      { timeRange: event.target.value, getOldSessions: true },
-      this.updateDataNow
-    );
+    this.setState({ timeRange: event.target.value }, this.updateDataNow);
   };
 
   resetIcons = (statusStar, statusFire, statusGot, statusCanary) => {
@@ -1307,7 +1294,7 @@ export default class MainContainer extends React.Component {
 
   changeTimeRangeKpi = ({ value }, index) => {
     this.setState(
-      { timeRangeKpi: { index: index, range: value }, getOldSessions: true },
+      { timeRangeKpi: { index: index, range: value } },
       this.updateDataNow
     );
   };

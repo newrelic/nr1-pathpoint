@@ -116,19 +116,11 @@ export default class DataManager {
     return total;
   }
 
-  async UpdateData(
-    timeRange,
-    city,
-    getOldSessions,
-    stages,
-    kpis,
-    timeRangeKpi
-  ) {
+  async UpdateData(timeRange, city, stages, kpis, timeRangeKpi) {
     if (this.accountId !== null) {
       console.log(`UPDATING-DATA: ${this.accountId}`);
       this.timeRange = timeRange;
       this.city = city;
-      this.getOldSessions = getOldSessions;
       this.stages = stages;
       this.kpis = kpis;
       this.timeRangeKpi = timeRangeKpi;
@@ -376,8 +368,7 @@ export default class DataManager {
     this.ClearMeasure(measure);
     if (measure.query !== '') {
       let query = `${measure.query} SINCE ${this.TimeRangeTransform(
-        this.timeRange,
-        false
+        this.timeRange
       )}`;
       if (measure.measure_time) {
         query = `${measure.query} SINCE ${measure.measure_time}`;
@@ -388,56 +379,47 @@ export default class DataManager {
     }
   }
 
-  TimeRangeTransform(timeRange, sessionsRange) {
+  TimeRangeTransform(timeRange) {
     let time_start = 0;
     let time_end = 0;
     if (timeRange === '5 MINUTES AGO') {
-      if (sessionsRange && this.getOldSessions) {
-        time_start = Math.floor(Date.now() / 1000) - 10 * 59;
-        time_end = Math.floor(Date.now() / 1000) - 5 * 58;
-        return `${time_start} UNTIL ${time_end}`;
-      }
       return timeRange;
     }
     switch (timeRange) {
       case '30 MINUTES AGO':
-        time_start = Math.floor(Date.now() / 1000) - 40 * 60;
+        time_start = Math.floor(Date.now() / 1000) - 35 * 60;
         time_end = Math.floor(Date.now() / 1000) - 30 * 60;
         break;
       case '60 MINUTES AGO':
-        time_start = Math.floor(Date.now() / 1000) - 70 * 60;
+        time_start = Math.floor(Date.now() / 1000) - 65 * 60;
         time_end = Math.floor(Date.now() / 1000) - 60 * 60;
         break;
       case '3 HOURS AGO':
-        time_start = Math.floor(Date.now() / 1000) - 3 * 60 * 60 - 10 * 60;
+        time_start = Math.floor(Date.now() / 1000) - 3 * 60 * 60 - 5 * 60;
         time_end = Math.floor(Date.now() / 1000) - 3 * 60 * 60;
         break;
       case '6 HOURS AGO':
-        time_start = Math.floor(Date.now() / 1000) - 6 * 60 * 60 - 10 * 60;
+        time_start = Math.floor(Date.now() / 1000) - 6 * 60 * 60 - 5 * 60;
         time_end = Math.floor(Date.now() / 1000) - 6 * 60 * 60;
         break;
       case '12 HOURS AGO':
-        time_start = Math.floor(Date.now() / 1000) - 12 * 60 * 60 - 10 * 60;
+        time_start = Math.floor(Date.now() / 1000) - 12 * 60 * 60 - 5 * 60;
         time_end = Math.floor(Date.now() / 1000) - 12 * 60 * 60;
         break;
       case '24 HOURS AGO':
-        time_start = Math.floor(Date.now() / 1000) - 24 * 60 * 60 - 10 * 60;
+        time_start = Math.floor(Date.now() / 1000) - 24 * 60 * 60 - 5 * 60;
         time_end = Math.floor(Date.now() / 1000) - 24 * 60 * 60;
         break;
       case '3 DAYS AGO':
-        time_start = Math.floor(Date.now() / 1000) - 3 * 24 * 60 * 60 - 10 * 60;
+        time_start = Math.floor(Date.now() / 1000) - 3 * 24 * 60 * 60 - 5 * 60;
         time_end = Math.floor(Date.now() / 1000) - 3 * 24 * 60 * 60;
         break;
       case '7 DAYS AGO':
-        time_start = Math.floor(Date.now() / 1000) - 3 * 24 * 60 * 60 - 10 * 60;
+        time_start = Math.floor(Date.now() / 1000) - 3 * 24 * 60 * 60 - 5 * 60;
         time_end = Math.floor(Date.now() / 1000) - 3 * 24 * 60 * 60;
         break;
       default:
         return timeRange;
-    }
-    if (sessionsRange && this.getOldSessions) {
-      time_start = time_start - 10 * 59;
-      time_end = time_end - 5 * 58;
     }
     return `${time_start} UNTIL ${time_end}`;
   }
@@ -840,8 +822,6 @@ export default class DataManager {
         }).catch(errors => {
           return { errors: [{ errors }] };
         });
-        console.log('data nerdgraph', data);
-        console.log('errors nerdgraph', errors)
         if (data && data.actor)
           dataReturn.actor = Object.assign(dataReturn.actor, data.actor);
         if (errors && errors.length > 0) errorsReturn.push(errors);
@@ -887,51 +867,12 @@ export default class DataManager {
           return { errors: [{ errors }] };
         }
       );
-      console.log('data nerdgraph', data);
-      console.log('errors nerdgraph', errors)
       return { data, n, errors };
     }
   }
 
   escapeQuote(data) {
     return data.replace(/["]/g, '\\"');
-  }
-
-  SetSessions(measure, sessions) {
-    const new_sessions = [];
-    sessions.forEach(session => {
-      new_sessions.push({
-        id: session.facet,
-        time: this.SetSessionTime(measure.sessions, session.facet)
-      });
-    });
-    measure.sessions = new_sessions;
-  }
-
-  SetSessionTime(measure_sessions, sessionID) {
-    let session_time = Math.floor(Date.now() / 1000);
-    if (this.getOldSessions) {
-      session_time = session_time - 5 * 58;
-    }
-    measure_sessions.some(m_sess => {
-      let found = false;
-      if (m_sess.id === sessionID) {
-        session_time = m_sess.time;
-        found = true;
-      }
-      return found;
-    });
-    return session_time;
-  }
-
-  SetLogsMeasure(measure, results) {
-    const total = results.R1 + results.R2;
-    measure.count = results.R1;
-    if (total === 0) {
-      measure.error_percentage = 0;
-    } else {
-      measure.error_percentage = Math.round((results.R2 / total) * 10000) / 100;
-    }
   }
 
   async UpdateMerchatKpi() {
@@ -1568,7 +1509,7 @@ export default class DataManager {
   GetTouchpointQueryes(stage_index, index) {
     const queries = [];
     let accountID = this.accountId;
-    let measure_time = this.TimeRangeTransform(this.timeRange, false);
+    let measure_time = this.TimeRangeTransform(this.timeRange);
     this.touchPoints.forEach(element => {
       if (element.index === this.city) {
         element.touchpoints.some(touchpoint => {
@@ -1868,10 +1809,7 @@ export default class DataManager {
           if (query.accountID !== this.accountId) {
             measure = { accountID: query.accountID, ...measure };
           }
-          if (
-            query.measure_time !==
-            this.TimeRangeTransform(this.timeRange, false)
-          ) {
+          if (query.measure_time !== this.TimeRangeTransform(this.timeRange)) {
             measure = { ...measure, measure_time: query.measure_time };
           }
           tpDef2.measure_points.push(measure);
@@ -2390,7 +2328,7 @@ for (const [key, value] of Object.entries(return` +
     if (measure.measure_time) {
       return `SINCE ${measure.measure_time}`;
     }
-    return `SINCE ${this.TimeRangeTransform(this.timeRange, false)}`;
+    return `SINCE ${this.TimeRangeTransform(this.timeRange)}`;
   }
 
   UpdateTouchpointTune(touchpoint, datos) {
