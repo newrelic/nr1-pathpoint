@@ -318,6 +318,19 @@ describe('Datamanager service', () => {
   it('Function BootstrapInitialData() with lastStorageVersion = appPackager.version', async () => {
     const accountName = 'WigiBoards';
     const version = appPackage.version;
+    const data = [
+      {
+        _typename: 'NerdStorageVaultSecret',
+        key: 'TEST',
+        value: 'test123'
+      },
+      {
+        _typename: 'NerdStorageVaultSecret',
+        key: 'api_token',
+        value: 'token'
+      }
+    ];
+    const error = null;
     jest
       .spyOn(AccountStorageQuery, 'query')
       .mockImplementation(({ accountId, collection, documentId }) => {
@@ -419,6 +432,9 @@ describe('Datamanager service', () => {
         }
         return accountId;
       });
+    jest
+      .spyOn(NerdGraphQuery, 'query')
+      .mockImplementationOnce(() => Promise.resolve({ error, data }));
     const result = await dataManager.BootstrapInitialData(accountName);
     expect(dataManager.lastStorageVersion).toEqual(version);
     expect(result.stages.length).toEqual(2);
@@ -427,6 +443,19 @@ describe('Datamanager service', () => {
 
   it('Fucntion BootstrapInitialData() with lastStorageVersion old', async () => {
     const accountName = 'WigiBoards';
+    const data = [
+      {
+        _typename: 'NerdStorageVaultSecret',
+        key: 'TEST',
+        value: 'test123'
+      },
+      {
+        _typename: 'NerdStorageVaultSecret',
+        key: 'api_token',
+        value: 'token'
+      }
+    ];
+    const error = null;
     jest
       .spyOn(AccountStorageQuery, 'query')
       .mockImplementation(({ accountId, collection, documentId }) => {
@@ -528,6 +557,9 @@ describe('Datamanager service', () => {
         }
         return accountId;
       });
+    jest
+      .spyOn(NerdGraphQuery, 'query')
+      .mockImplementationOnce(() => Promise.resolve({ error, data }));
     const result = await dataManager.BootstrapInitialData(accountName);
     expect(dataManager.lastStorageVersion).toEqual('1.0.0');
     expect(result.stages.length).toEqual(5);
@@ -2301,5 +2333,36 @@ describe('Datamanager service', () => {
     ];
     const result = dataManager.GetWokloadTouchpointLink(touchpoint);
     expect(result).toEqual('https://newrelic.one');
+  });
+
+  it('Function UpdateMaxCongestionSteps()', () => {
+    const count_by_stage = [{ steps_max_cong: [1] }];
+    dataManager.stages = [
+      {
+        index: 1,
+        title: 'BROWSE',
+        percentage_above_avg: -1,
+        congestion: {
+          value: 0,
+          percentage: 15
+        },
+        steps: [
+          {
+            value: '',
+            sub_steps: [
+              {
+                index: 1,
+                latency: true,
+                id: 'ST1-LINE1-SS1',
+                relationship_touchpoints: [1]
+              }
+            ]
+          }
+        ],
+        touchpoints: [{ error: true, stage_index: 1 }]
+      }
+    ];
+    dataManager.UpdateMaxCongestionSteps(count_by_stage);
+    expect(dataManager.stages[0].steps[0].sub_steps[0].latency).toEqual(true);
   });
 });
