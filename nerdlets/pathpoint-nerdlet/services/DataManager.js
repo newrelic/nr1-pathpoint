@@ -1036,7 +1036,6 @@ export default class DataManager {
             );
             tpc[idx].total_steps = tpc[idx].steps_indexes.length;
           }
-          console.log('measure', measure.type)
           if (measure.type === 'WLD') {
             tpc[idx].capacity_status = measure.status_value;
             tpc[idx].capacity_link = this.GetWokloadTouchpointLink(touchpoint);

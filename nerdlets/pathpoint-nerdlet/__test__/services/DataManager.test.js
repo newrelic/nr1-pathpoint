@@ -2278,4 +2278,28 @@ describe('Datamanager service', () => {
       ]
     });
   });
+
+  it('Funtion GetWokloadTouchpointLink()', () => {
+    const touchpoint = {
+      stage_index: 1,
+      touchpoint_index: 0
+    };
+    dataManager.stages = [
+      {
+        index: 1,
+        title: 'BROWSE',
+        percentage_above_avg: -1,
+        congestion: {
+          value: 0,
+          percentage: 15
+        },
+        steps: [],
+        touchpoints: [
+          { stage_index: 1, index: 0, dashboard_url: ['https://newrelic.one'] }
+        ]
+      }
+    ];
+    const result = dataManager.GetWokloadTouchpointLink(touchpoint);
+    expect(result).toEqual('https://newrelic.one');
+  });
 });
