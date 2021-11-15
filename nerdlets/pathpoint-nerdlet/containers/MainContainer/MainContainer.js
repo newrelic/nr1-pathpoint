@@ -232,7 +232,17 @@ export default class MainContainer extends React.Component {
       data.credentials.actor.nerdStorageVault.secrets.length > 0
     ) {
       data.credentials.actor.nerdStorageVault.secrets.forEach(item => {
-        credentials[item.key] = item.value !== '_' ? item.value : '';
+        let value = '';
+        if (item.value !== '_') {
+          item.value.split('').forEach((char, i) => {
+            if (i <= 3) {
+              value = `${value}${char}`;
+            } else {
+              value = `${value}x`;
+            }
+          });
+        }
+        credentials[item.key] = value;
       });
     }
     if (data.generalConfiguration) {
