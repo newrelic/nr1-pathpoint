@@ -54,7 +54,10 @@ function BodyGeneralConfigurationFormModal(props) {
             placeholder="Type your ingest license"
             bsClass="support-modal-input-text"
             value={props.credentialsData.ingestLicense}
+            onPaste={e => e.preventDefault()}
+            onCopy={e => e.preventDefault()}
             onBlur={e => ValidateIngestLicense(e.target.value)}
+            onFocus={() => console.log('mmm')}
             onChange={e =>
               handleOnChange({
                 target: { name: 'ingestLicense', value: e.target.value }
@@ -75,6 +78,8 @@ function BodyGeneralConfigurationFormModal(props) {
             placeholder="Type your User API Key"
             bsClass="support-modal-input-text"
             value={props.credentialsData.userAPIKey}
+            // onPaste={e => e.preventDefault()}
+            onCopy={e => e.preventDefault()}
             onBlur={e => ValidateUserApiKey(e.target.value)}
             onChange={e =>
               handleOnChange({
