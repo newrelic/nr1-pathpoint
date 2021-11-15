@@ -27,17 +27,19 @@ function BodyGeneralConfigurationFormModal(props) {
     handleOnChange
   } = props;
   const datos = stageNameSelected.datos;
-  const values = [
-    {
-      label: 'Please select an account id',
-      value: -1
-    }
-  ];
+  const values = [];
   datos.accountIDs.forEach(account => {
     values.push({
-      label: account.name,
-      value: account.id
+      ...account
     });
+  });
+  values.push({
+    name: 'daniel',
+    id: 4444
+  });
+  values.push({
+    name: 'felipe',
+    id: 5555
   });
   return (
     <div style={{ width: '400px', paddingTop: '20px' }}>
@@ -45,10 +47,14 @@ function BodyGeneralConfigurationFormModal(props) {
         <FormGroup controlId="accountId">
           <label style={{ margin: '0px' }}>Account ID</label>
           <SelectIDs
-            name="query"
+            name="accountId"
             handleOnChange={handleOnChange}
-            options={datos.accountIDs}
-            idSeleccionado="2847332"
+            options={values}
+            idSeleccionado={
+              datos.credentials.accountId
+                ? datos.credentials.accountId
+                : datos.accountId
+            }
           />
         </FormGroup>
         <FormGroup controlId="ingestLicense">
