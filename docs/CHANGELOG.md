@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/newrelic/nr1-pathpoint/compare/v1.1.1...v1.2.0) (2021-11-15)
+
+
+### Features
+
+* add catalog keywords and categoryTerms ([acb930d](https://github.com/newrelic/nr1-pathpoint/commit/acb930d16227d65db053acbf6d705665ac8605b6))
+
 ## [1.1.1](https://github.com/newrelic/nr1-pathpoint/compare/v1.1.0...v1.1.1) (2021-11-12)
 
 
