@@ -6,6 +6,7 @@ import Header, {
   RenderLogo,
   PrintKPI
 } from '../../../components/Header/Header';
+import { Icon } from 'nr1';
 
 jest.mock(
   'nr1',
@@ -13,8 +14,15 @@ jest.mock(
     const window = {
       open: jest.fn()
     };
+    const Icon = {
+      type: {
+        HARDWARE_AND_SOFTWARE__SOFTWARE__LOGS:
+          'hardware-and-software--software--logs'
+      }
+    };
     return {
-      window
+      window,
+      Icon: Icon
     };
   },
   { virtual: true }
@@ -82,6 +90,14 @@ describe('<Header/>', () => {
           check: false
         }
       ];
+      const Icon = {
+        TYPE: {
+          HARDWARE_AND_SOFTWARE__SOFTWARE__LOGS: 'logs'
+        }
+      };
+      jest
+        .spyOn(Icon, 'TYPE')
+        .mockReturnValue({ HARDWARE_AND_SOFTWARE__SOFTWARE__LOGS: 'data' });
       const header = mount(
         <Header
           iconSixthSenseStatus
@@ -105,6 +121,7 @@ describe('<Header/>', () => {
           }}
           changeTimeRangeKpi={jest.fn()}
           kpis={kpis}
+          type={Icon}
           updateDataKpisChecked={jest.fn()}
           // ---- quitar este atributo
           DisplayConsole={jest.fn()}
