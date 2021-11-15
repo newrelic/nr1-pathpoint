@@ -45,12 +45,8 @@ import gout_icon from '../../images/gout_icon.svg';
 import star_icon from '../../images/star_icon.svg';
 import down from '../../images/down.svg';
 
-// UNUSED
-// import Emulator from '../../helpers/Emulator.js';
-
 /**
  *Main container component
- *
  * @export
  * @class MainContainer
  * @extends {React.Component}
