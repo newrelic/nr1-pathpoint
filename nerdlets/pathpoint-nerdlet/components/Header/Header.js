@@ -193,7 +193,6 @@ const Header = ({
             // });
           }}
         >
-          {console.log('icoooon', Icon)}
           <Icon type={Icon.TYPE.HARDWARE_AND_SOFTWARE__SOFTWARE__LOGS} />
           See Logs
         </div>
