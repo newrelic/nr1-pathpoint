@@ -3,6 +3,7 @@ import appPackage from '../../../../package.json';
 import {
   AccountStorageQuery,
   AccountsQuery,
+  NerdGraphQuery,
   AccountStorageMutation
 } from 'nr1';
 
@@ -957,11 +958,7 @@ describe('Datamanager service', () => {
     dataManager.FetchMeasure = jest.fn();
     dataManager.NRDBQuery = jest.fn();
     await dataManager.TouchPointsUpdate();
-    expect(dataManager.stages).toEqual([
-      {
-        title: 'BROWSE'
-      }
-    ]);
+    expect(dataManager.FetchMeasure).toHaveBeenCalledTimes(1);
   });
 
   it('Function ClearMeasure()', () => {
@@ -1887,5 +1884,398 @@ describe('Datamanager service', () => {
       ]
     ];
     await dataManager.NRDBQuery();
+  });
+
+  it('Function SetTouchpointResponseError()', () => {
+    dataManager.stages = [
+      {
+        index: 0,
+        title: 'BROWSE',
+        touchpoints: [
+          {
+            index: 1,
+            response_error: ''
+          }
+        ]
+      }
+    ];
+    const touchpoint = {
+      stage_index: 0,
+      touchpoint_index: 1
+    };
+    const status = 'Response Error';
+    dataManager.SetTouchpointResponseError(touchpoint, status);
+    expect(dataManager.stages[0].touchpoints).toEqual([
+      {
+        index: 1,
+        response_error: 'Response Error'
+      }
+    ]);
+  });
+
+  it('Function EvaluateMeasures()', async () => {
+    dataManager.accountId = 2710112;
+    dataManager.escapeQuote = jest.fn();
+    dataManager.graphQlmeasures = [
+      [
+        {
+          accountID: 2710112,
+          type: 'Not_type',
+          timeout: 235,
+          value: {
+            current: 'current',
+            previous: 'previous'
+          }
+        },
+        {
+          query:
+            "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
+        },
+        {
+          measureType: 'touchpoint',
+          touchpointRef: {
+            status_on_off: false
+          }
+        }
+      ]
+    ];
+    const errorMessage = ['Network Error'];
+    jest
+      .spyOn(NerdGraphQuery, 'query')
+      .mockImplementationOnce(() => Promise.reject(new Error(errorMessage)));
+    const result = await dataManager.EvaluateMeasures();
+    expect(result.n).toEqual(1);
+  });
+  it('Function EvaluateMeasures() with type = 101', async () => {
+    dataManager.accountId = 2710112;
+    dataManager.escapeQuote = jest.fn();
+    dataManager.graphQlmeasures = [
+      [
+        {
+          accountID: 2710112,
+          type: 101,
+          timeout: 235,
+          queryByCity: [{ accountID: 2710112 }],
+          value: {
+            current: 'current',
+            previous: 'previous'
+          }
+        },
+        {
+          query:
+            "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
+        },
+        {
+          measureType: 'touchpoint',
+          touchpointRef: {
+            status_on_off: false
+          }
+        }
+      ]
+    ];
+    const errorMessage = ['Network Error'];
+    jest
+      .spyOn(NerdGraphQuery, 'query')
+      .mockImplementationOnce(() => Promise.reject(new Error(errorMessage)));
+    const result = await dataManager.EvaluateMeasures();
+    expect(result.n).toEqual(1);
+  });
+
+  it('Function escapeQuote()', () => {
+    const data =
+      "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'";
+    const result = dataManager.escapeQuote(data);
+    expect(result).toEqual(
+      "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
+    );
+  });
+
+  it('Function SetSessions()', () => {
+    const measure = {
+      sessions: [
+        {
+          id: 123,
+          time: 1230
+        }
+      ]
+    };
+    const sessions = [
+      {
+        facet: 123
+      }
+    ];
+    dataManager.SetSessionTime = jest.fn();
+    dataManager.SetSessions(measure, sessions);
+    expect(dataManager.SetSessionTime).toHaveBeenCalledTimes(1);
+  });
+
+  it('Function SetSessionTime()', () => {
+    const measure_sessions = [
+      {
+        id: 123,
+        time: 1230
+      }
+    ];
+    const sessionID = 123;
+    dataManager.getOldSessions = true;
+    const result = dataManager.SetSessionTime(measure_sessions, sessionID);
+    expect(result).toEqual(1230);
+  });
+
+  it('Function SetLogsMeasure()', () => {
+    const results = {
+      R1: 0,
+      R2: 0
+    };
+    const measure = {
+      count: 1,
+      error_percentage: 1
+    };
+    dataManager.SetLogsMeasure(measure, results);
+    expect(measure).toEqual({
+      count: 0,
+      error_percentage: 0
+    });
+  });
+
+  it('Function SetLogsMeasure() with total > 0', () => {
+    const results = {
+      R1: 2,
+      R2: 2
+    };
+    const measure = {
+      count: 1,
+      error_percentage: 1
+    };
+    dataManager.SetLogsMeasure(measure, results);
+    expect(measure).toEqual({
+      count: 2,
+      error_percentage: 50
+    });
+  });
+
+  it('Function UpdateMerchatKpi()', async () => {
+    dataManager.kpis = [
+      {
+        check: true,
+        index: 0,
+        link: 'https://onenr.io/01qwL8KPxw5',
+        name: 'Unique Visitors',
+        type: 'kpi_visitor',
+        queryByCity: [
+          { query: 'SELECT * FROM Logs', link: 'https://onenr.io/01qwL8KPxw5' }
+        ]
+      }
+    ];
+    dataManager.timeRangeKpi = {
+      range: '24 HOURS AGO'
+    };
+    dataManager.NRDBQuery = jest.fn();
+    dataManager.UpdateMerchatKpi();
+    expect(dataManager.graphQlmeasures).toEqual([
+      [
+        {
+          check: true,
+          index: 0,
+          link: 'https://onenr.io/01qwL8KPxw5',
+          name: 'Unique Visitors',
+          type: 'kpi_visitor',
+          queryByCity: [
+            {
+              link: 'https://onenr.io/01qwL8KPxw5',
+              query: 'SELECT * FROM Logs'
+            }
+          ]
+        },
+        'SELECT * FROM Logs SINCE 24 HOURS AGO',
+        {
+          measureType: 'kpi',
+          kpiName: 'Unique Visitors',
+          kpiType: 'kpi_visitor'
+        }
+      ]
+    ]);
+  });
+
+  it('Function CalculateUpdates()', () => {
+    dataManager.ClearTouchpointError = jest.fn();
+    dataManager.CountryCalculateUpdates = jest.fn();
+    dataManager.touchPoints = [
+      {
+        index: 0
+      }
+    ];
+    dataManager.CalculateUpdates();
+  });
+
+  it('Function ClearTouchpointError()', () => {
+    dataManager.stages = [
+      {
+        index: 0,
+        title: 'BROWSE',
+        touchpoints: [
+          {
+            index: 1,
+            response_error: '',
+            error: true
+          }
+        ],
+        steps: [
+          {
+            sub_steps: [
+              {
+                error: true
+              }
+            ]
+          }
+        ]
+      }
+    ];
+    dataManager.ClearTouchpointError();
+    expect(dataManager.stages[0].steps[0].sub_steps[0].error).toEqual(false);
+  });
+
+  it('Function CountryCalculateUpdates()', () => {
+    const element = {
+      index: 0,
+      country: 'PRODUCTION',
+      touchpoints: [
+        {
+          stage_index: 1,
+          value: 'Catalog API',
+          touchpoint_index: 1,
+          status_on_off: true,
+          relation_steps: [1],
+          measure_points: [
+            {
+              measure: 'PRC'
+            }
+          ]
+        }
+      ]
+    };
+    dataManager.Getmeasures = jest.fn().mockImplementation(() => {
+      return {
+        count_by_stage: [
+          {
+            total_count: 0,
+            traffic_type: 'traffic',
+            capacity_status: 0,
+            capacity_link: 'https://newrelic.one',
+            total_steps: 1,
+            num_steps_over_average: 4
+          }
+        ]
+      };
+    });
+    dataManager.UpdateErrorCondition = jest.fn();
+    dataManager.UpdateMaxCongestionSteps = jest.fn();
+    dataManager.stages = [
+      {
+        index: 1,
+        title: 'BROWSE',
+        status_color: 'bad',
+        total_count: 0,
+        trafficIconType: 'people',
+        capacity: 0,
+        capacity_link: '',
+        congestion: {
+          value: 0,
+          percentage: 15
+        }
+      }
+    ];
+    dataManager.CountryCalculateUpdates(element);
+    expect(dataManager.stages[0].congestion).toEqual({
+      value: 400,
+      percentage: 400
+    });
+  });
+
+  it('Function Getmeasures()', () => {
+    dataManager.city = 0;
+    dataManager.stages = [
+      {
+        index: 1,
+        title: 'BROWSE',
+        percentage_above_avg: -1,
+        congestion: {
+          value: 0,
+          percentage: 15
+        },
+        steps: [
+          {
+            value: '',
+            sub_steps: [
+              {
+                index: 1,
+                id: 'ST1-LINE1-SS1',
+                relationship_touchpoints: [1]
+              }
+            ]
+          }
+        ],
+        touchpoints: [{ error: true, stage_index: 1 }]
+      }
+    ];
+    const element = {
+      index: 0,
+      country: 'PRODUCTION',
+      touchpoints: [
+        {
+          stage_index: 1,
+          value: 'Catalog API',
+          touchpoint_index: 1,
+          status_on_off: true,
+          relation_steps: [1],
+          measure_points: [
+            {
+              type: 'PRC',
+              query:
+                "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
+              min_count: 10,
+              session_count: 20,
+              accountID: 2904070,
+              measure_time: '15 minutes ago'
+            },
+            {
+              type: 'PCC',
+              query:
+                "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
+              min_count: 10,
+              transaction_count: 20,
+              accountID: 2904070,
+              measure_time: '15 minutes ago'
+            },
+            {
+              type: 'WLD',
+              query:
+                "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
+              status_value: true
+            }
+          ]
+        }
+      ]
+    };
+    const result = dataManager.Getmeasures(element);
+    expect(result).toEqual({
+      count_by_stage: [
+        {
+          above_avg: -1,
+          average: 20,
+          capacity_link: '',
+          capacity_status: true,
+          max_congestion: 20,
+          num_steps_over_average: 1,
+          num_touchpoints: 2,
+          steps_indexes: [1],
+          steps_max_cong: [1],
+          steps_over_percentage_indexes: [1],
+          total_count: 40,
+          total_steps: 1,
+          traffic_type: 'traffic'
+        }
+      ]
+    });
   });
 });
