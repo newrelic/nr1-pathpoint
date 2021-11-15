@@ -1,12 +1,5 @@
 import axios from 'axios';
 import nr1 from '../../../nr1.json';
-import {
-  AccountStorageMutation,
-  AccountsQuery,
-  AccountStorageQuery,
-  NerdGraphQuery,
-  logger
-} from 'nr1';
 
 export default class CredentialConnector {
     constructor() {

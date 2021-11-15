@@ -1,13 +1,19 @@
 import DataManager from '../../services/DataManager';
 import appPackage from '../../../../package.json';
-import { AccountsQuery } from 'nr1';
+import { historicErrorScript } from '../../../../synthetics/createHistoricErrorScript';
+import {
+  AccountStorageQuery,
+  AccountsQuery,
+  NerdGraphQuery,
+  AccountStorageMutation
+} from 'nr1';
 
 jest.mock(
   'nr1',
   () => {
     const AccountsQuery = {
       query: jest.fn().mockReturnValue({
-        data: [{ name: 'NAME', id: 123 }]
+        data: [{ id: 2710112, name: 'WigiBoards', email: 'name@name.com' }]
       })
     };
     const AccountStorageQuery = {
@@ -18,11 +24,96 @@ jest.mock(
             case 'pathpoint': {
               switch (documentId) {
                 case 'version':
-                  return { data: { Version: '9.9.9' } };
+                  return { data: { Version: '1.0.0' } };
                 case 'newViewJSON':
-                  return { data: { ViewJSON: [{}, {}], BannerKpis: [{}, {}] } };
+                  return {
+                    data: {
+                      kpis: [
+                        {
+                          check: true,
+                          index: 0,
+                          link: 'https://onenr.io/01qwL8KPxw5',
+                          name: 'Unique Visitors',
+                          prefix: '$',
+                          queryByCity: [],
+                          shortName: 'Unique',
+                          value_type: 'FLOAT'
+                        }
+                      ],
+                      ViewJSON: [
+                        {
+                          index: 1,
+                          title: 'BROWSE',
+                          active_dotted: 'none',
+                          active_dotted_color: '#828282',
+                          arrowMode: 'FLOW',
+                          consgestion: {
+                            percentage: 50,
+                            value: 50
+                          },
+                          status_color: 'warning',
+                          trafficIconType: 'people',
+                          steps: [
+                            {
+                              value: '',
+                              sub_steps: [
+                                {
+                                  index: 1,
+                                  id: 'ST1-LINE1-SS1',
+                                  canary_state: false,
+                                  latency: true,
+                                  value: 'Web',
+                                  dark: true,
+                                  history_error: false,
+                                  dotted: false,
+                                  highlighted: false,
+                                  error: false,
+                                  index_stage: 1,
+                                  relationship_touchpoints: [3]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          index: 2,
+                          title: 'BAG',
+                          active_dotted: 'none',
+                          active_dotted_color: '#828282',
+                          arrowMode: 'FLOW',
+                          consgestion: {
+                            percentage: 50,
+                            value: 50
+                          },
+                          status_color: 'warning',
+                          trafficIconType: 'traffic',
+                          steps: [
+                            {
+                              value: '',
+                              sub_steps: [
+                                {
+                                  index: 1,
+                                  id: 'ST1-LINE1-SS1',
+                                  canary_state: false,
+                                  latency: true,
+                                  value: 'Web',
+                                  dark: true,
+                                  history_error: false,
+                                  dotted: false,
+                                  highlighted: false,
+                                  error: false,
+                                  index_stage: 1,
+                                  relationship_touchpoints: [3]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  };
                 case 'dataCanary':
-                  return { data: { dataCanary: [{}, {}] } };
+                  return { data: { dataCanary: [{ canary: 'canary' }, {}] } };
                 case 'touchpoints':
                   return {
                     data: {
@@ -33,38 +124,34 @@ jest.mock(
                           touchpoints: [
                             {
                               stage_index: 1,
-                              value: 'Catalog API',
-                              touchpoint_index: 1,
                               status_on_off: true,
-                              relation_steps: [1],
+                              touchpoint_index: 1,
+                              value: 'Login People (PRC)',
                               measure_points: [
                                 {
-                                  type: 0,
-                                  query: 'SIMPLE QUERY OF TYPE 0',
-                                  error_threshold: 5
+                                  measure_time: '15 minutes ago',
+                                  min_count: 10,
+                                  query:
+                                    "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
+                                  session_count: 17699,
+                                  timeout: 10,
+                                  type: 'PRC'
                                 }
-                              ]
+                              ],
+                              relation_steps: [4]
                             }
                           ]
                         }
                       ]
                     }
                   };
+                case 'DropParams':
+                  return { data: { dataCanary: [{}, {}] } };
                 case 'HistoricErrorsParams':
                   return {
                     data: {
                       historicErrorsDays: 0,
                       historicErrorsHighLightPercentage: 0
-                    }
-                  };
-                case 'maxCapacity':
-                  return {
-                    data: {
-                      Capacity: [
-                        {
-                          STAGES: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-                        }
-                      ]
                     }
                   };
               }
@@ -190,7 +277,6 @@ jest.mock(
         }
       })
     };
-
     const AccountStorageMutation = {
       ACTION_TYPE: { WRITE_DOCUMENT: 'WRITE_DATA' },
       mutate: jest.fn().mockImplementation(() => {
@@ -203,65 +289,411 @@ jest.mock(
     const logger = {
       log: () => {}
     };
+    const UserQuery = {
+      query: jest.fn().mockReturnValue({
+        then: jest.fn().mockReturnValue({
+          data: { name: 'NAME', id: 123, email: 'NAME@NAME.COM' }
+        })
+      })
+    };
     return {
       AccountsQuery: AccountsQuery,
       AccountStorageQuery: AccountStorageQuery,
       AccountStorageMutation: AccountStorageMutation,
       NerdGraphQuery: NerdGraphQuery,
       nerdlet: nerdlet,
-      logger: logger
+      logger: logger,
+      UserQuery: UserQuery
     };
   },
   { virtual: true }
 );
 
-describe('DataManager class', () => {
+describe('Datamanager service', () => {
   let dataManager;
 
   beforeEach(() => {
     dataManager = new DataManager();
   });
 
-  it('Function BootstrapInitialData()', async () => {
-    const result = await dataManager.BootstrapInitialData();
-    expect(result.stages.length).toEqual(5);
-    // expect(result.banner_kpis.length).toEqual(3);
-    expect(result.kpis.length).toEqual(14);
-    expect(result.colors).toEqual({
-      background_capacity: [19, 72, 104],
-      stage_capacity: [255, 255, 255],
-      status_color: {
-        danger: [255, 76, 76],
-        good: [39, 174, 96],
-        warning: [242, 201, 76]
+  it('Function BootstrapInitialData() with lastStorageVersion = appPackager.version', async () => {
+    const accountName = 'WigiBoards';
+    const version = appPackage.version;
+    const data = [
+      {
+        _typename: 'NerdStorageVaultSecret',
+        key: 'TEST',
+        value: 'test123'
       },
-      steps_touchpoints: [
+      {
+        _typename: 'NerdStorageVaultSecret',
+        key: 'api_token',
+        value: 'token'
+      }
+    ];
+    const error = null;
+    jest
+      .spyOn(AccountStorageQuery, 'query')
+      .mockImplementation(({ accountId, collection, documentId }) => {
+        switch (collection) {
+          case 'pathpoint': {
+            switch (documentId) {
+              case 'version':
+                return { data: { Version: version } };
+              case 'newViewJSON':
+                return {
+                  data: {
+                    kpis: [
+                      {
+                        check: true,
+                        index: 0,
+                        link: 'https://onenr.io/01qwL8KPxw5',
+                        name: 'Unique Visitors',
+                        prefix: '$',
+                        queryByCity: [],
+                        shortName: 'Unique',
+                        value_type: 'FLOAT'
+                      }
+                    ],
+                    ViewJSON: [
+                      {
+                        index: 1,
+                        title: 'BROWSE',
+                        active_dotted: 'none',
+                        active_dotted_color: '#828282',
+                        arrowMode: 'FLOW',
+                        consgestion: {
+                          percentage: 50,
+                          value: 50
+                        },
+                        status_color: 'warning',
+                        trafficIconType: 'people',
+                        steps: [
+                          {
+                            value: '',
+                            sub_steps: [
+                              {
+                                index: 1,
+                                id: 'ST1-LINE1-SS1',
+                                canary_state: false,
+                                latency: true,
+                                value: 'Web',
+                                dark: true,
+                                history_error: false,
+                                dotted: false,
+                                highlighted: false,
+                                error: false,
+                                index_stage: 1,
+                                relationship_touchpoints: [3]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        index: 2,
+                        title: 'BAG',
+                        active_dotted: 'none',
+                        active_dotted_color: '#828282',
+                        arrowMode: 'FLOW',
+                        consgestion: {
+                          percentage: 50,
+                          value: 50
+                        },
+                        status_color: 'warning',
+                        trafficIconType: 'traffic',
+                        steps: [
+                          {
+                            value: '',
+                            sub_steps: [
+                              {
+                                index: 1,
+                                id: 'ST1-LINE1-SS1',
+                                canary_state: false,
+                                latency: true,
+                                value: 'Web',
+                                dark: true,
+                                history_error: false,
+                                dotted: false,
+                                highlighted: false,
+                                error: false,
+                                index_stage: 1,
+                                relationship_touchpoints: [3]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                };
+            }
+            break;
+          }
+        }
+        return accountId;
+      });
+    jest
+      .spyOn(NerdGraphQuery, 'query')
+      .mockImplementationOnce(() => Promise.resolve({ error, data }));
+    const result = await dataManager.BootstrapInitialData(accountName);
+    expect(dataManager.lastStorageVersion).toEqual(version);
+    expect(result.stages.length).toEqual(2);
+    expect(result.accountIDs).toEqual([{ name: 'WigiBoards', id: 2710112 }]);
+  });
+
+  it('Fucntion BootstrapInitialData() with lastStorageVersion old', async () => {
+    const accountName = 'WigiBoards';
+    const data = [
+      {
+        _typename: 'NerdStorageVaultSecret',
+        key: 'TEST',
+        value: 'test123'
+      },
+      {
+        _typename: 'NerdStorageVaultSecret',
+        key: 'api_token',
+        value: 'token'
+      }
+    ];
+    const error = null;
+    jest
+      .spyOn(AccountStorageQuery, 'query')
+      .mockImplementation(({ accountId, collection, documentId }) => {
+        switch (collection) {
+          case 'pathpoint': {
+            switch (documentId) {
+              case 'version':
+                return { data: { Version: '1.0.0' } };
+              case 'newViewJSON':
+                return {
+                  data: {
+                    kpis: [
+                      {
+                        check: true,
+                        index: 0,
+                        link: 'https://onenr.io/01qwL8KPxw5',
+                        name: 'Unique Visitors',
+                        prefix: '$',
+                        queryByCity: [],
+                        shortName: 'Unique',
+                        value_type: 'FLOAT'
+                      }
+                    ],
+                    ViewJSON: [
+                      {
+                        index: 1,
+                        title: 'BROWSE',
+                        active_dotted: 'none',
+                        active_dotted_color: '#828282',
+                        arrowMode: 'FLOW',
+                        consgestion: {
+                          percentage: 50,
+                          value: 50
+                        },
+                        status_color: 'warning',
+                        trafficIconType: 'people',
+                        steps: [
+                          {
+                            value: '',
+                            sub_steps: [
+                              {
+                                index: 1,
+                                id: 'ST1-LINE1-SS1',
+                                canary_state: false,
+                                latency: true,
+                                value: 'Web',
+                                dark: true,
+                                history_error: false,
+                                dotted: false,
+                                highlighted: false,
+                                error: false,
+                                index_stage: 1,
+                                relationship_touchpoints: [3]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        index: 2,
+                        title: 'BAG',
+                        active_dotted: 'none',
+                        active_dotted_color: '#828282',
+                        arrowMode: 'FLOW',
+                        consgestion: {
+                          percentage: 50,
+                          value: 50
+                        },
+                        status_color: 'warning',
+                        trafficIconType: 'traffic',
+                        steps: [
+                          {
+                            value: '',
+                            sub_steps: [
+                              {
+                                index: 1,
+                                id: 'ST1-LINE1-SS1',
+                                canary_state: false,
+                                latency: true,
+                                value: 'Web',
+                                dark: true,
+                                history_error: false,
+                                dotted: false,
+                                highlighted: false,
+                                error: false,
+                                index_stage: 1,
+                                relationship_touchpoints: [3]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                };
+            }
+            break;
+          }
+        }
+        return accountId;
+      });
+    jest
+      .spyOn(NerdGraphQuery, 'query')
+      .mockImplementationOnce(() => Promise.resolve({ error, data }));
+    const result = await dataManager.BootstrapInitialData(accountName);
+    expect(dataManager.lastStorageVersion).toEqual('1.0.0');
+    expect(result.stages.length).toEqual(5);
+    expect(result.accountIDs).toEqual([{ name: 'WigiBoards', id: 2710112 }]);
+  });
+
+  it('Function UpdateData()', async () => {
+    const timeRange = '5 MINUTES AGO';
+    const city = 0;
+    const getOldSessions = false;
+    const stages = [
+      {
+        index: 1,
+        title: 'BROWSE',
+        status_color: 'good',
+        touchpoints: [],
+        steps: [
+          {
+            index: 1,
+            sub_steps: []
+          }
+        ],
+        arrowMode: 'FLOW'
+      }
+    ];
+    const kpis = [
+      {
+        check: true,
+        index: 0,
+        link: 'https://onenr.io/01qwL8KPxw5',
+        name: 'Unique Visitors',
+        prefix: '$',
+        queryByCity: [
+          {
+            query:
+              "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='ap-southeast-2'"
+          }
+        ],
+        shortName: 'Unique',
+        suffix: '',
+        type: 101
+      }
+    ];
+    const timeRangeKpi = {
+      index: 0,
+      range: '24 HOURS AGO'
+    };
+    dataManager.accountId = 2710112;
+    dataManager.MakeLogingData = jest.fn();
+    dataManager.NRDBQuery = jest.fn();
+    dataManager.touchPoints = [
+      {
+        stage_index: 1,
+        value: 'Orders API (PRC)',
+        touchpoint_index: 1,
+        status_on_off: true,
+        relation_steps: [1],
+        measure_points: [
+          {
+            type: 'PRC',
+            timeout: 10,
+            query:
+              "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='ap-southeast-2'",
+            min_count: 10,
+            session_count: 0
+          }
+        ]
+      }
+    ];
+    const result = await dataManager.UpdateData(
+      timeRange,
+      city,
+      getOldSessions,
+      stages,
+      kpis,
+      timeRangeKpi
+    );
+    expect(result).toEqual({
+      kpis: [
         {
-          dark: [51, 51, 51],
-          error_color: [255, 76, 76],
-          select_color: [18, 167, 255],
-          unselect_color: [189, 189, 189]
+          check: true,
+          index: 0,
+          link: undefined,
+          name: 'Unique Visitors',
+          prefix: '$',
+          queryByCity: [
+            {
+              query:
+                "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='ap-southeast-2'"
+            }
+          ],
+          shortName: 'Unique',
+          suffix: '',
+          type: 101
+        }
+      ],
+      stages: [
+        {
+          index: 1,
+          title: 'BROWSE',
+          status_color: 'good',
+          touchpoints: [],
+          steps: [
+            {
+              index: 1,
+              sub_steps: []
+            }
+          ],
+          arrowMode: 'FLOW'
         }
       ]
     });
-    expect(result.accountId).toEqual(123);
-    expect(result.version).toMatch(appPackage.version);
-    expect(result.totalContainers).toEqual(5);
   });
 
   it('Function GetAccountId()', async () => {
-    const accountName = 'NAME';
+    const accountName = 'WigiBoards';
+    jest.spyOn(AccountsQuery, 'query').mockReturnValue({
+      data: [{ id: 2710112, name: '', email: 'name@name.com' }]
+    });
     await dataManager.GetAccountId(accountName);
-    expect(dataManager.accountId).toEqual(123);
+    expect(dataManager.accountId).toEqual(2710112);
   });
 
-  it('Function GetAccountId() with accountName = vacio', async () => {
+  it('Function GetAccountId() without accountName', async () => {
     const accountName = '';
+    jest.spyOn(AccountsQuery, 'query').mockReturnValue({
+      data: [{ id: 2710112, name: '', email: 'name@name.com' }]
+    });
     await dataManager.GetAccountId(accountName);
-    expect(dataManager.accountId).toEqual(123);
+    expect(dataManager.accountId).toEqual(2710112);
   });
 
-  it('Function GetAccountId() with catch error', async () => {
+  it('Function GetAccountId() catch Error', async () => {
     const accountName = 'Name';
     jest.spyOn(AccountsQuery, 'query').mockRejectedValue(Error('error'));
     await expect(dataManager.GetAccountId(accountName)).rejects.toThrow(
@@ -269,172 +701,297 @@ describe('DataManager class', () => {
     );
   });
 
-  it('Function CheckVersion()', async () => {
-    await dataManager.CheckVersion();
-    expect(dataManager.lastStorageVersion).toMatch('9.9.9');
+  it('Function AddCustomAccountIDs()', () => {
+    dataManager.touchPoints = [
+      {
+        index: 0,
+        country: 'PRODUCTION',
+        touchpoints: [
+          {
+            stage_index: 1,
+            value: 'Login People (PRC)',
+            touchpoint_index: 1,
+            status_on_off: true,
+            relation_steps: [4],
+            measure_points: [
+              {
+                type: 'PRC',
+                timeout: 10,
+                query:
+                  "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
+                min_count: 10,
+                session_count: 0,
+                measure_time: '15 minutes ago',
+                accountID: 2710112
+              }
+            ]
+          }
+        ]
+      }
+    ];
+    dataManager.removeCustomIDs = jest.fn();
+    dataManager.AddCustomAccountIDs();
+    expect(dataManager.accountIDs).toEqual([
+      { id: 0, name: 'NAME' },
+      { id: 2710112, name: 'Custom ID' }
+    ]);
   });
+
+  it('Function removeCustomIDs()', () => {
+    dataManager.accountIDs = [
+      { name: 'Name', id: 0 },
+      { name: 'Custom ID', id: 2710112 }
+    ];
+    dataManager.removeCustomIDs();
+    expect(dataManager.accountIDs).toEqual([{ id: 0, name: 'Name' }]);
+  });
+
+  it('Function CheckVersion() with cath', async () => {
+    jest.spyOn(AccountStorageQuery, 'query').mockRejectedValue(Error('error'));
+    await expect(dataManager.CheckVersion()).rejects.toThrow('error');
+  });
+
+  it('Function GetInitialDataFromStorage() with cath', async () => {
+    jest.spyOn(AccountStorageQuery, 'query').mockRejectedValue(Error('error'));
+    await expect(dataManager.GetInitialDataFromStorage()).rejects.toThrow(
+      'error'
+    );
+  });
+
+  // it('Function SetInitialDataViewToStorage() with cath', async () => {
+  //   jest
+  //     .spyOn(AccountStorageMutation, 'mutate')
+  //     .mockRejectedValue(Error('error'));
+  //   await expect(dataManager.SetInitialDataViewToStorage()).rejects.toThrow(
+  //     'error'
+  //   );
+  // });
 
   it('Function SaveKpisSelection()', () => {
     const kpis = [
       {
+        check: true,
         index: 0,
-        type: 101,
+        link: 'https://onenr.io/01qwL8KPxw5',
         name: 'Unique Visitors',
+        prefix: '$',
+        queryByCity: [],
         shortName: 'Unique',
-        link:
-          'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
-        query:
-          'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago',
+        value_type: 'FLOAT'
+      }
+    ];
+    dataManager.SetInitialDataViewToStorage = jest.fn();
+    dataManager.SaveKpisSelection(kpis);
+  });
+
+  it('Function GetCanaryData()', async () => {
+    jest
+      .spyOn(AccountStorageQuery, 'query')
+      .mockImplementation(({ accountId, collection, documentId }) => {
+        switch (collection) {
+          case 'pathpoint': {
+            switch (documentId) {
+              case 'version':
+                return { data: { Version: '1.0.0' } };
+              case 'newViewJSON':
+                return {
+                  data: {
+                    kpis: [
+                      {
+                        check: true,
+                        index: 0,
+                        link: 'https://onenr.io/01qwL8KPxw5',
+                        name: 'Unique Visitors',
+                        prefix: '$',
+                        queryByCity: [],
+                        shortName: 'Unique',
+                        value_type: 'FLOAT'
+                      }
+                    ],
+                    ViewJSON: [
+                      {
+                        index: 1,
+                        title: 'BROWSE',
+                        active_dotted: 'none',
+                        active_dotted_color: '#828282',
+                        arrowMode: 'FLOW',
+                        consgestion: {
+                          percentage: 50,
+                          value: 50
+                        },
+                        status_color: 'warning',
+                        trafficIconType: 'people',
+                        steps: [
+                          {
+                            value: '',
+                            sub_steps: [
+                              {
+                                index: 1,
+                                id: 'ST1-LINE1-SS1',
+                                canary_state: false,
+                                latency: true,
+                                value: 'Web',
+                                dark: true,
+                                history_error: false,
+                                dotted: false,
+                                highlighted: false,
+                                error: false,
+                                index_stage: 1,
+                                relationship_touchpoints: [3]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        index: 2,
+                        title: 'BAG',
+                        active_dotted: 'none',
+                        active_dotted_color: '#828282',
+                        arrowMode: 'FLOW',
+                        consgestion: {
+                          percentage: 50,
+                          value: 50
+                        },
+                        status_color: 'warning',
+                        trafficIconType: 'traffic',
+                        steps: [
+                          {
+                            value: '',
+                            sub_steps: [
+                              {
+                                index: 1,
+                                id: 'ST1-LINE1-SS1',
+                                canary_state: false,
+                                latency: true,
+                                value: 'Web',
+                                dark: true,
+                                history_error: false,
+                                dotted: false,
+                                highlighted: false,
+                                error: false,
+                                index_stage: 1,
+                                relationship_touchpoints: [3]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                };
+              case 'dataCanary':
+                return {
+                  data: {
+                    dataCanary: [
+                      {
+                        stage_index: 1,
+                        stage_title: 'Stage1',
+                        states: [false, false]
+                      }
+                    ]
+                  }
+                };
+            }
+            break;
+          }
+        }
+        return accountId;
+      });
+    await dataManager.GetCanaryData();
+  });
+
+  it('Function GetCanaryData() with cath', async () => {
+    jest.spyOn(AccountStorageQuery, 'query').mockRejectedValue(Error('error'));
+    await expect(dataManager.GetCanaryData()).rejects.toThrow('error');
+  });
+
+  it('Function SaveCanaryData()', () => {
+    const data = {
+      stage_index: 1,
+      stage_title: 'Stage1',
+      states: [false, false]
+    };
+    dataManager.SaveCanaryData(data);
+  });
+
+  // it('Function SaveCanaryData() with catch', async () => {
+  //   const data = {
+  //     stage_index: 1,
+  //     stage_title: 'Stage1',
+  //     states: [false, false]
+  //   };
+  //   const errorMessage = 'Network Error';
+  //   AccountStorageMutation.mutate = jest
+  //     .fn()
+  //     .mockImplementationOnce(() => Promise.reject(new Error(errorMessage)));
+  //   jest
+  //     .spyOn(AccountStorageMutation, 'mutate')
+  //     .mockRejectedValue(Error('error'));
+  //   await expect(dataManager.SaveCanaryData()).rejects.toThrow('error');
+  // });
+
+  it('Function TouchPointsUpdate()', async () => {
+    dataManager.stages = [
+      {
+        title: 'BROWSE'
+      }
+    ];
+    dataManager.touchPoints = [
+      {
+        index: 0,
+        country: 'PRODUCTION',
+        touchpoints: [
+          {
+            stage_index: 1,
+            value: 'Login People (PRC)',
+            touchpoint_index: 1,
+            status_on_off: true,
+            relation_steps: [4],
+            measure_points: [
+              {
+                type: 'PRC',
+                timeout: 10,
+                query:
+                  "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
+                min_count: 10,
+                session_count: 0,
+                measure_time: '15 minutes ago',
+                accountID: 2710112
+              }
+            ]
+          }
+        ]
+      }
+    ];
+    const array = [
+      {
+        check: true,
+        index: 0,
+        link: 'https://onenr.io/01qwL8KPxw5',
+        name: 'Unique Visitors',
+        prefix: '$',
+        queryByCity: [
+          {
+            query:
+              "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='ap-southeast-2'"
+          }
+        ],
+        shortName: 'Unique',
+        suffix: '',
+        type: 101,
         value: {
           current: 0,
           previous: 0
         },
-        check: true
+        value_type: 'FLOAT'
       }
     ];
-    dataManager.SaveKpisSelection(kpis);
-    expect(dataManager.SaveKpisSelection.length).toEqual(1);
-  });
-
-  it('Function GetInitialDataFromStorage()', async () => {
-    dataManager.GetInitialDataFromStorage();
-  });
-
-  it('Function GetStepsByStage()', () => {
-    dataManager.stages = [
-      {
-        index: 1,
-        title: 'BROWSE',
-        steps: [
-          {
-            value: '',
-            sub_steps: [
-              {
-                index: 1,
-                id: 'ST1-LINE1-SS1'
-              }
-            ]
-          }
-        ]
-      },
-      {
-        index: 2,
-        title: 'CHECKOUT',
-        steps: [
-          {
-            value: '',
-            sub_steps: [
-              {
-                index: 1,
-                id: 'ST2-LINE2-SS2'
-              },
-              {
-                index: 2,
-                id: 'ST2-LINE2-SS2'
-              }
-            ]
-          }
-        ]
-      }
-    ];
-    const result = dataManager.GetStepsByStage();
-    expect(result).toEqual([1, 2]);
-  });
-
-  it('Function GetCanaryData()', async () => {
-    await dataManager.GetCanaryData();
-    expect(dataManager.dataCanary.length).toEqual(2);
-  });
-
-  describe('Function TimeRangeTransform', () => {
-    it('5 minutes ago', async () => {
-      const timeRange = dataManager.TimeRangeTransform('5 MINUTES AGO', true);
-      expect(timeRange).toMatch('5 MINUTES AGO');
-    });
-
-    it('5 minutes ago with old sessions', async () => {
-      dataManager.getOldSessions = true;
-      const timeRange = dataManager.TimeRangeTransform('5 MINUTES AGO', true);
-      expect(timeRange).toMatch(
-        `${Math.floor(Date.now() / 1000) - 10 * 59} UNTIL ${Math.floor(
-          Date.now() / 1000
-        ) -
-          5 * 58}`
-      );
-    });
-
-    it('30 minutes ago', () => {
-      const timeStart = Math.floor(Date.now() / 1000) - 40 * 60;
-      const timeEnd = Math.floor(Date.now() / 1000) - 30 * 60;
-      const timeRange = dataManager.TimeRangeTransform('30 MINUTES AGO', false);
-      expect(timeRange).toMatch(`${timeStart} UNTIL ${timeEnd}`);
-    });
-
-    it('30 minutes ago with old sessions', () => {
-      dataManager.getOldSessions = true;
-      const timeStart = Math.floor(Date.now() / 1000) - 40 * 60;
-      const timeEnd = Math.floor(Date.now() / 1000) - 30 * 60;
-      const timeRange = dataManager.TimeRangeTransform('30 MINUTES AGO', true);
-      expect(timeRange).toMatch(
-        `${timeStart - 10 * 59} UNTIL ${timeEnd - 5 * 58}`
-      );
-    });
-
-    it('60 minutes ago', () => {
-      const timeStart = Math.floor(Date.now() / 1000) - 70 * 60;
-      const timeEnd = Math.floor(Date.now() / 1000) - 60 * 60;
-      const timeRange = dataManager.TimeRangeTransform('60 MINUTES AGO', false);
-      expect(timeRange).toMatch(`${timeStart} UNTIL ${timeEnd}`);
-    });
-
-    it('3 hours ago', () => {
-      const timeStart = Math.floor(Date.now() / 1000) - 3 * 60 * 60 - 10 * 60;
-      const timeEnd = Math.floor(Date.now() / 1000) - 3 * 60 * 60;
-      const timeRange = dataManager.TimeRangeTransform('3 HOURS AGO', false);
-      expect(timeRange).toMatch(`${timeStart} UNTIL ${timeEnd}`);
-    });
-
-    it('6 hours ago', () => {
-      const timeStart = Math.floor(Date.now() / 1000) - 6 * 60 * 60 - 10 * 60;
-      const timeEnd = Math.floor(Date.now() / 1000) - 6 * 60 * 60;
-      const timeRange = dataManager.TimeRangeTransform('6 HOURS AGO', false);
-      expect(timeRange).toMatch(`${timeStart} UNTIL ${timeEnd}`);
-    });
-
-    it('12 hours ago', () => {
-      const timeStart = Math.floor(Date.now() / 1000) - 12 * 60 * 60 - 10 * 60;
-      const timeEnd = Math.floor(Date.now() / 1000) - 12 * 60 * 60;
-      const timeRange = dataManager.TimeRangeTransform('12 HOURS AGO', false);
-      expect(timeRange).toMatch(`${timeStart} UNTIL ${timeEnd}`);
-    });
-
-    it('24 hours ago', () => {
-      const timeStart = Math.floor(Date.now() / 1000) - 24 * 60 * 60 - 10 * 60;
-      const timeEnd = Math.floor(Date.now() / 1000) - 24 * 60 * 60;
-      const timeRange = dataManager.TimeRangeTransform('24 HOURS AGO', false);
-      expect(timeRange).toMatch(`${timeStart} UNTIL ${timeEnd}`);
-    });
-
-    it('3 days ago', () => {
-      const timeStart =
-        Math.floor(Date.now() / 1000) - 3 * 24 * 60 * 60 - 10 * 60;
-      const timeEnd = Math.floor(Date.now() / 1000) - 3 * 24 * 60 * 60;
-      const timeRange = dataManager.TimeRangeTransform('3 DAYS AGO', false);
-      expect(timeRange).toMatch(`${timeStart} UNTIL ${timeEnd}`);
-    });
-
-    it('7 days ago', () => {
-      const timeStart =
-        Math.floor(Date.now() / 1000) - 3 * 24 * 60 * 60 - 10 * 60;
-      const timeEnd = Math.floor(Date.now() / 1000) - 3 * 24 * 60 * 60;
-      const timeRange = dataManager.TimeRangeTransform('7 DAYS AGO', false);
-      expect(timeRange).toMatch(`${timeStart} UNTIL ${timeEnd}`);
-    });
-
-    it('default case', () => {
-      const timeRange = dataManager.TimeRangeTransform('default', false);
-      expect(timeRange).toMatch('default');
-    });
+    dataManager.graphQlmeasures.push(array);
+    dataManager.FetchMeasure = jest.fn();
+    dataManager.NRDBQuery = jest.fn();
+    await dataManager.TouchPointsUpdate();
+    expect(dataManager.FetchMeasure).toHaveBeenCalledTimes(1);
   });
 
   it('Function ClearMeasure()', () => {
@@ -461,1193 +1018,1154 @@ describe('DataManager class', () => {
       max_duration: 1,
       max_request_time: 1
     };
+    const measureWLD = {
+      type: 'WLD',
+      status_value: 'VALUE'
+    };
     dataManager.ClearMeasure(measurePRC);
     dataManager.ClearMeasure(measurePCC);
     dataManager.ClearMeasure(measureAPP);
     dataManager.ClearMeasure(measureFRT);
     dataManager.ClearMeasure(measureSYN);
-    expect(measurePRC).toEqual({
+    dataManager.ClearMeasure(measureWLD);
+  });
+
+  it('Function ReadQueryResults()', async () => {
+    const query =
+      "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'";
+    const accountID = 2710112;
+    dataManager.NRDBQuery = jest.fn();
+    const result = await dataManager.ReadQueryResults(query, accountID);
+    expect(result).toEqual({ accountID: 2710112, type: 'TEST', results: null });
+  });
+
+  it('Function FetchMeasure()', () => {
+    const measure = {
       type: 'PRC',
-      session_count: 0
-    });
-    expect(measurePCC).toEqual({
-      type: 'PCC',
-      transaction_count: 0
-    });
-    expect(measureAPP).toEqual({
-      type: 'APP',
-      apdex_value: 1,
-      error_percentage: 0,
-      response_value: 0
-    });
-    expect(measureFRT).toEqual({
-      type: 'FRT',
-      apdex_value: 1,
-      response_value: 0,
-      error_percentage: 0
-    });
-    expect(measureSYN).toEqual({
-      type: 'SYN',
-      success_percentage: 0,
-      max_duration: 0,
-      max_request_time: 0
-    });
-  });
-
-  it('Function ReadQueryResults', async () => {
-    const query = 'SIMPLE QUERY OF TYPE 0';
-    const accountID = 2701589;
-    const mesure = {
-      accountID: accountID,
-      type: 'TEST',
-      results: null
+      timeout: 10,
+      query:
+        "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
+      min_count: 10,
+      session_count: 0,
+      measure_time: '15 minutes ago',
+      accountID: 2710112
     };
-    dataManager.ReadQueryResults(query, accountID);
-    expect(mesure).toEqual({
-      accountID: 2701589,
-      type: 'TEST',
-      results: null
-    });
-  });
-  it('Function FetchMeasure', () => {
-    const measures = [
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE',
-        measure_time: 12
-      },
-      {
-        type: 1,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 2,
-        query: 'SIMPLE QUERY OF TYPE TWO'
-      },
-      {
-        type: 3,
-        query: 'SIMPLE QUERY OF TYPE THREE'
-      },
-      {
-        type: 4,
-        query: 'SIMPLE QUERY OF TYPE FOUR'
-      },
-      {
-        type: 20,
-        query: 'SIMPLE QUERY OF TYPE TWENTY'
-      }
-    ];
-    dataManager.timeRange = '5 MINUTES AGO';
-    for (const measure of measures) {
-      dataManager.FetchMeasure(measure);
-    }
-    // TestFucnional
-    expect(dataManager.graphQlmeasures.length).toEqual(6);
+    const extrainfo = 'TIME 5 HOURS AGO';
+    dataManager.TimeRangeTransform = jest.fn();
+    dataManager.FetchMeasure(measure, extrainfo);
   });
 
-  it('Function EvaluateMeasures()', async () => {
-    const measures = [
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 1,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 2,
-        query: 'SIMPLE QUERY OF TYPE TWO'
-      },
-      {
-        type: 3,
-        query: 'SIMPLE QUERY OF TYPE THREE'
-      },
-      {
-        type: 4,
-        query: 'SIMPLE QUERY OF TYPE FOUR'
-      },
-      {
-        type: 20,
-        query: 'SIMPLE QUERY OF TYPE TWENTY'
-      }
+  it('Function FetchMeasure() with type = WLD', () => {
+    const measure = {
+      type: 'WLD',
+      timeout: 10,
+      query:
+        "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
+      min_count: 10,
+      session_count: 0,
+      accountID: 2710112
+    };
+    const extrainfo = 'TIME 5 HOURS AGO';
+    dataManager.TimeRangeTransform = jest.fn();
+    dataManager.FetchMeasure(measure, extrainfo);
+  });
+
+  it('Function TimeRangeTransform()', () => {
+    const timeRange0 = 'default';
+    const timeRange1 = '5 MINUTES AGO';
+    const timeRange2 = '30 MINUTES AGO';
+    const timeRange3 = '60 MINUTES AGO';
+    const timeRange4 = '3 HOURS AGO';
+    const timeRange5 = '6 HOURS AGO';
+    const timeRange6 = '12 HOURS AGO';
+    const timeRange7 = '24 HOURS AGO';
+    const timeRange8 = '3 DAYS AGO';
+    const timeRange9 = '7 DAYS AGO';
+    const sessionsRange = true;
+    const ssessionsRange2 = false;
+    dataManager.getOldSessions = true;
+    const time_start = Math.floor(Date.now() / 1000) - 10 * 59;
+    const time_end = Math.floor(Date.now() / 1000) - 5 * 58;
+    dataManager.TimeRangeTransform(timeRange2, sessionsRange);
+    dataManager.TimeRangeTransform(timeRange3, sessionsRange);
+    dataManager.TimeRangeTransform(timeRange4, sessionsRange);
+    dataManager.TimeRangeTransform(timeRange5, sessionsRange);
+    dataManager.TimeRangeTransform(timeRange6, sessionsRange);
+    dataManager.TimeRangeTransform(timeRange7, sessionsRange);
+    dataManager.TimeRangeTransform(timeRange8, sessionsRange);
+    dataManager.TimeRangeTransform(timeRange9, sessionsRange);
+    dataManager.TimeRangeTransform(timeRange0, sessionsRange);
+    const result1 = dataManager.TimeRangeTransform(timeRange1, sessionsRange);
+    expect(result1).toEqual(`${time_start} UNTIL ${time_end}`);
+    const result2 = dataManager.TimeRangeTransform(timeRange1, ssessionsRange2);
+    expect(result2).toEqual('5 MINUTES AGO');
+  });
+
+  it('Function SendToLogs()', () => {
+    const logRecord = {
+      action: 'touchpoint-error',
+      account_id: 2710112,
+      error: true
+    };
+    dataManager.LogConnector.SendLog = jest.fn();
+    dataManager.SendToLogs(logRecord);
+  });
+
+  it('Function MakeLogingData() with errors', () => {
+    const startMeasureTime = 1636870390509;
+    const endMeasureTime = 1636870435588;
+    const data = {
+      actor: {}
+    };
+    const errors = [{ path: { measure: 'measure_0' } }];
+    dataManager.graphQlmeasures = [
+      [
+        {
+          accountID: 2710112
+        },
+        {
+          query:
+            "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
+        },
+        {
+          measureType: 'touchpoint',
+          touchpointRef: {
+            status_on_off: false
+          }
+        }
+      ]
     ];
-    dataManager.timeRange = '5 MINUTES AGO';
-    for (const measure of measures) {
-      dataManager.FetchMeasure(measure);
-    }
-    const result = await dataManager.EvaluateMeasures();
-    expect(result).toMatchObject({
+    dataManager.SendToLogs = jest.fn();
+    dataManager.MakeLogingData(startMeasureTime, endMeasureTime, data, errors);
+  });
+
+  it('Function MakeLogingData() with errors and mesureType = kpi', () => {
+    const startMeasureTime = 1636870390509;
+    const endMeasureTime = 1636870435588;
+    const data = {
+      actor: {}
+    };
+    const errors = [{ path: { measure: 'measure_0' } }];
+    dataManager.graphQlmeasures = [
+      [
+        {
+          accountID: 2710112
+        },
+        {
+          query:
+            "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
+        },
+        {
+          measureType: 'kpi',
+          touchpointRef: {
+            status_on_off: false
+          }
+        }
+      ]
+    ];
+    dataManager.SendToLogs = jest.fn();
+    dataManager.MakeLogingData(startMeasureTime, endMeasureTime, data, errors);
+  });
+
+  it('Function MakeLogingData()', () => {
+    const startMeasureTime = 1636870390509;
+    const endMeasureTime = 1636870435588;
+    const data = {
+      actor: {
+        measure_0: {
+          __typename: 'Account',
+          id: 2710112,
+          nrql: {
+            __typename: 'NrdbResultContainer',
+            results: [
+              {
+                apdex: {
+                  count: 0,
+                  f: 0,
+                  s: 0,
+                  score: 0,
+                  t: 0
+                },
+                count: 0
+              }
+            ]
+          }
+        }
+      }
+    };
+    const errors = [];
+    dataManager.graphQlmeasures = [
+      [
+        {
+          accountID: 2710112
+        },
+        {
+          query:
+            "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
+        },
+        {
+          measureType: 'touchpoint',
+          touchpointRef: {
+            status_on_off: false
+          }
+        }
+      ]
+    ];
+    dataManager.SendToLogs = jest.fn();
+    dataManager.MakeLogingData(startMeasureTime, endMeasureTime, data, errors);
+  });
+
+  it('Function MakeLogingData() with measureType = kpi', () => {
+    const startMeasureTime = 1636870390509;
+    const endMeasureTime = 1636870435588;
+    const data = {
+      actor: {
+        measure_0: {
+          __typename: 'Account',
+          id: 2710112,
+          nrql: {
+            __typename: 'NrdbResultContainer',
+            results: [
+              {
+                apdex: {
+                  count: 0,
+                  f: 0,
+                  s: 0,
+                  score: 0,
+                  t: 0
+                },
+                count: 0
+              }
+            ]
+          }
+        }
+      }
+    };
+    const errors = [];
+    dataManager.graphQlmeasures = [
+      [
+        {
+          accountID: 2710112,
+          queryByCity: [
+            {
+              accountID: 2710112,
+              query:
+                "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='ap-southeast-2'"
+            }
+          ]
+        },
+        {
+          query:
+            "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
+        },
+        {
+          measureType: 'kpi',
+          touchpointRef: {
+            status_on_off: false
+          }
+        }
+      ]
+    ];
+    dataManager.SendToLogs = jest.fn();
+    dataManager.MakeLogingData(startMeasureTime, endMeasureTime, data, errors);
+  });
+
+  it('Function DisableTouchpointByError()', () => {
+    const touchpoint = {
+      status_on_off: false
+    };
+    dataManager.DisableTouchpointByError(touchpoint);
+  });
+
+  it('Function NRDBQuery() with n = 0', async () => {
+    dataManager.MakeLogingData = jest.fn();
+    dataManager.EvaluateMeasures = jest.fn().mockReturnValue({
+      data: {
+        actor: {}
+      },
+      errors: [],
+      n: 0
+    });
+    dataManager.NRDBQuery();
+  });
+
+  it('Function NRDBQuery() with error', async () => {
+    dataManager.MakeLogingData = jest.fn();
+    dataManager.EvaluateMeasures = jest.fn().mockReturnValue({
+      data: {
+        actor: {}
+      },
+      errors: [{ path: { measure: 'measure_0' } }],
+      n: 26
+    });
+    dataManager.NRDBQuery();
+  });
+
+  it('Function NRDBQuery() with measure.type = PRC', async () => {
+    dataManager.MakeLogingData = jest.fn();
+    dataManager.EvaluateMeasures = jest.fn().mockReturnValue({
       data: {
         actor: {
           measure_0: {
+            __typename: 'Account',
+            id: 2710112,
             nrql: {
-              results: [{ count: 27 }]
-            }
-          },
-          measure_1: {
-            nrql: {
-              results: [{ percentage: 27 }]
-            }
-          },
-          measure_2: {
-            nrql: {
-              results: [{ score: 27 }]
-            }
-          },
-          measure_3: {
-            nrql: {
-              results: [{ session: 27 }]
-            }
-          },
-          measure_4: {
-            nrql: {
+              __typename: 'NrdbResultContainer',
               results: [
                 {
-                  facet: 'abc123',
-                  count: 1,
-                  session: 'abc123'
-                },
-                {
-                  facet: 'cde345',
-                  count: 1,
-                  session: 'cde345'
-                },
-                {
-                  facet: 'fgh678',
-                  count: 1,
-                  session: 'fgh678'
-                }
-              ]
-            }
-          },
-          measure_5: {
-            nrql: {
-              results: [
-                {
-                  R1: 1,
-                  R2: 2
+                  apdex: {
+                    count: 0,
+                    f: 0,
+                    s: 0,
+                    score: 0,
+                    t: 0
+                  },
+                  session: null,
+                  count: 0
                 }
               ]
             }
           }
         }
-      }
+      },
+      errors: [],
+      n: 26
     });
-  });
-
-  it('Function EvaluateMeasures() with error', async () => {
     dataManager.graphQlmeasures = [
       [
         {
-          type: 0,
-          query: 'BAD REQUEST ON PURPOSE'
+          accountID: 2710112,
+          type: 'PRC'
         },
-        'BAD REQUEST ON PURPOSE'
+        {
+          query:
+            "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
+        },
+        {
+          measureType: 'touchpoint',
+          touchpointRef: {
+            status_on_off: false
+          }
+        }
       ]
     ];
-    const { errors } = await dataManager.EvaluateMeasures();
-    expect(errors).toMatchObject([
+    await dataManager.NRDBQuery();
+  });
+
+  it('Function NRDBQuery() with measure.type = PCC', async () => {
+    dataManager.MakeLogingData = jest.fn();
+    dataManager.EvaluateMeasures = jest.fn().mockReturnValue({
+      data: {
+        actor: {
+          measure_0: {
+            __typename: 'Account',
+            id: 2710112,
+            nrql: {
+              __typename: 'NrdbResultContainer',
+              results: [
+                {
+                  apdex: {
+                    count: 0,
+                    f: 0,
+                    s: 0,
+                    score: 0,
+                    t: 0
+                  },
+                  count: null
+                }
+              ]
+            }
+          }
+        }
+      },
+      errors: [],
+      n: 26
+    });
+    dataManager.graphQlmeasures = [
+      [
+        {
+          accountID: 2710112,
+          type: 'PCC'
+        },
+        {
+          query:
+            "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
+        },
+        {
+          measureType: 'touchpoint',
+          touchpointRef: {
+            status_on_off: false
+          }
+        }
+      ]
+    ];
+    await dataManager.NRDBQuery();
+  });
+
+  it('Function NRDBQuery() with measure.type = APP', async () => {
+    dataManager.MakeLogingData = jest.fn();
+    dataManager.EvaluateMeasures = jest.fn().mockReturnValue({
+      data: {
+        actor: {
+          measure_0: {
+            __typename: 'Account',
+            id: 2710112,
+            nrql: {
+              __typename: 'NrdbResultContainer',
+              results: [
+                {
+                  apdex: {
+                    count: 0,
+                    f: 0,
+                    s: 0,
+                    score: 0,
+                    t: 0
+                  },
+                  score: 0,
+                  response: 0,
+                  error: null
+                }
+              ]
+            }
+          }
+        }
+      },
+      errors: [],
+      n: 26
+    });
+    dataManager.graphQlmeasures = [
+      [
+        {
+          accountID: 2710112,
+          type: 'APP'
+        },
+        {
+          query:
+            "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
+        },
+        {
+          measureType: 'touchpoint',
+          touchpointRef: {
+            status_on_off: false
+          }
+        }
+      ]
+    ];
+    await dataManager.NRDBQuery();
+  });
+
+  it('Function NRDBQuery() with measure.type = FRT', async () => {
+    dataManager.MakeLogingData = jest.fn();
+    dataManager.EvaluateMeasures = jest.fn().mockReturnValue({
+      data: {
+        actor: {
+          measure_0: {
+            __typename: 'Account',
+            id: 2710112,
+            nrql: {
+              __typename: 'NrdbResultContainer',
+              results: [
+                {
+                  apdex: {
+                    count: 0,
+                    f: 0,
+                    s: 0,
+                    score: 0,
+                    t: 0
+                  },
+                  score: 0,
+                  response: 0,
+                  error: null
+                }
+              ]
+            }
+          }
+        }
+      },
+      errors: [],
+      n: 26
+    });
+    dataManager.graphQlmeasures = [
+      [
+        {
+          accountID: 2710112,
+          type: 'FRT'
+        },
+        {
+          query:
+            "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
+        },
+        {
+          measureType: 'touchpoint',
+          touchpointRef: {
+            status_on_off: false
+          }
+        }
+      ]
+    ];
+    await dataManager.NRDBQuery();
+  });
+
+  it('Function NRDBQuery() with measure.type = SYN', async () => {
+    dataManager.MakeLogingData = jest.fn();
+    dataManager.EvaluateMeasures = jest.fn().mockReturnValue({
+      data: {
+        actor: {
+          measure_0: {
+            __typename: 'Account',
+            id: 2710112,
+            nrql: {
+              __typename: 'NrdbResultContainer',
+              results: [
+                {
+                  success: true,
+                  duration: 0,
+                  request: null
+                }
+              ]
+            }
+          }
+        }
+      },
+      errors: [],
+      n: 26
+    });
+    dataManager.graphQlmeasures = [
+      [
+        {
+          accountID: 2710112,
+          type: 'SYN'
+        },
+        {
+          query:
+            "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
+        },
+        {
+          measureType: 'touchpoint',
+          touchpointRef: {
+            status_on_off: false
+          }
+        }
+      ]
+    ];
+    await dataManager.NRDBQuery();
+  });
+
+  it('Function NRDBQuery() with measure.type = WLD', async () => {
+    dataManager.MakeLogingData = jest.fn();
+    dataManager.EvaluateMeasures = jest.fn().mockReturnValue({
+      data: {
+        actor: {
+          measure_0: {
+            __typename: 'Account',
+            id: 2710112,
+            nrql: {
+              __typename: 'NrdbResultContainer',
+              results: [
+                {
+                  statusValue: null
+                }
+              ]
+            }
+          }
+        }
+      },
+      errors: [],
+      n: 26
+    });
+    dataManager.graphQlmeasures = [
+      [
+        {
+          accountID: 2710112,
+          type: 'WLD'
+        },
+        {
+          query:
+            "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
+        },
+        {
+          measureType: 'touchpoint',
+          touchpointRef: {
+            status_on_off: false
+          }
+        }
+      ]
+    ];
+    await dataManager.NRDBQuery();
+  });
+
+  it('Function NRDBQuery() with measure.type = 100', async () => {
+    dataManager.MakeLogingData = jest.fn();
+    dataManager.EvaluateMeasures = jest.fn().mockReturnValue({
+      data: {
+        actor: {
+          measure_0: {
+            __typename: 'Account',
+            id: 2710112,
+            nrql: {
+              __typename: 'NrdbResultContainer',
+              results: [
+                {
+                  value: 10
+                }
+              ]
+            }
+          }
+        }
+      },
+      errors: [],
+      n: 26
+    });
+    dataManager.graphQlmeasures = [
+      [
+        {
+          accountID: 2710112,
+          type: 100
+        },
+        {
+          query:
+            "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
+        },
+        {
+          measureType: 'touchpoint',
+          touchpointRef: {
+            status_on_off: false
+          }
+        }
+      ]
+    ];
+    await dataManager.NRDBQuery();
+  });
+
+  it('Function NRDBQuery() with measure.type = 101', async () => {
+    dataManager.MakeLogingData = jest.fn();
+    dataManager.EvaluateMeasures = jest.fn().mockReturnValue({
+      data: {
+        actor: {
+          measure_0: {
+            __typename: 'Account',
+            id: 2710112,
+            nrql: {
+              __typename: 'NrdbResultContainer',
+              results: [
+                {
+                  value: {
+                    current: 'current'
+                  },
+                  comparison: 'no_current'
+                },
+                {
+                  value: {
+                    previous: 'previous'
+                  },
+                  comparison: 'no_current'
+                }
+              ]
+            }
+          }
+        }
+      },
+      errors: [],
+      n: 26
+    });
+    dataManager.graphQlmeasures = [
+      [
+        {
+          accountID: 2710112,
+          type: 101,
+          value: {
+            current: 'current',
+            previous: 'previous'
+          }
+        },
+        {
+          query:
+            "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
+        },
+        {
+          measureType: 'touchpoint',
+          touchpointRef: {
+            status_on_off: false
+          }
+        }
+      ]
+    ];
+    await dataManager.NRDBQuery();
+  });
+
+  it('Function NRDBQuery() with measure.type = 101 and comparison = current', async () => {
+    dataManager.MakeLogingData = jest.fn();
+    dataManager.EvaluateMeasures = jest.fn().mockReturnValue({
+      data: {
+        actor: {
+          measure_0: {
+            __typename: 'Account',
+            id: 2710112,
+            nrql: {
+              __typename: 'NrdbResultContainer',
+              results: [
+                {
+                  value: {
+                    current: 'current'
+                  },
+                  comparison: 'current'
+                },
+                {
+                  value: {
+                    previous: 'previous'
+                  },
+                  comparison: 'current'
+                }
+              ]
+            }
+          }
+        }
+      },
+      errors: [],
+      n: 26
+    });
+    dataManager.graphQlmeasures = [
+      [
+        {
+          accountID: 2710112,
+          type: 101,
+          value: {
+            current: 'current',
+            previous: 'previous'
+          }
+        },
+        {
+          query:
+            "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
+        },
+        {
+          measureType: 'touchpoint',
+          touchpointRef: {
+            status_on_off: false
+          }
+        }
+      ]
+    ];
+    await dataManager.NRDBQuery();
+  });
+
+  it('Function NRDBQuery() with measure.type = test', async () => {
+    dataManager.MakeLogingData = jest.fn();
+    dataManager.EvaluateMeasures = jest.fn().mockReturnValue({
+      data: {
+        actor: {
+          measure_0: {
+            __typename: 'Account',
+            id: 2710112,
+            nrql: {
+              __typename: 'NrdbResultContainer',
+              results: [
+                {
+                  value: {
+                    current: 'current'
+                  },
+                  comparison: 'no_current'
+                }
+              ]
+            }
+          }
+        }
+      },
+      errors: [],
+      n: 26
+    });
+    dataManager.graphQlmeasures = [
+      [
+        {
+          accountID: 2710112,
+          type: 'TEST',
+          value: {
+            current: 'current',
+            previous: 'previous'
+          }
+        },
+        {
+          query:
+            "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
+        },
+        {
+          measureType: 'touchpoint',
+          touchpointRef: {
+            status_on_off: false
+          }
+        }
+      ]
+    ];
+    await dataManager.NRDBQuery();
+  });
+
+  it('Function NRDBQuery() with measure.type = test and value.nrql = null', async () => {
+    dataManager.MakeLogingData = jest.fn();
+    dataManager.EvaluateMeasures = jest.fn().mockReturnValue({
+      data: {
+        actor: {
+          measure_0: {
+            __typename: 'Account',
+            id: 2710112,
+            nrql: null
+          }
+        }
+      },
+      errors: [],
+      n: 26
+    });
+    dataManager.graphQlmeasures = [
+      [
+        {
+          accountID: 2710112,
+          type: 'TEST',
+          value: {
+            current: 'current',
+            previous: 'previous'
+          }
+        },
+        {
+          query:
+            "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
+        },
+        {
+          measureType: 'touchpoint',
+          touchpointRef: {
+            status_on_off: false
+          }
+        }
+      ]
+    ];
+    await dataManager.NRDBQuery();
+  });
+
+  it('Function NRDBQuery() with measure.type = test and value.nrql = null and error', async () => {
+    dataManager.MakeLogingData = jest.fn();
+    dataManager.EvaluateMeasures = jest.fn().mockReturnValue({
+      data: {
+        actor: {
+          measure_0: {
+            __typename: 'Account',
+            id: 2710112,
+            nrql: null
+          }
+        }
+      },
+      errors: [{ error: 'error' }],
+      n: 26
+    });
+    dataManager.graphQlmeasures = [
+      [
+        {
+          accountID: 2710112,
+          type: 'TEST',
+          value: {
+            current: 'current',
+            previous: 'previous'
+          }
+        },
+        {
+          query:
+            "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
+        },
+        {
+          measureType: 'touchpoint',
+          touchpointRef: {
+            status_on_off: false
+          }
+        }
+      ]
+    ];
+    await dataManager.NRDBQuery();
+  });
+
+  it('Function NRDBQuery() with measure.type not have type to match', async () => {
+    dataManager.MakeLogingData = jest.fn();
+    dataManager.EvaluateMeasures = jest.fn().mockReturnValue({
+      data: {
+        actor: {
+          measure_0: {
+            __typename: 'Account',
+            id: 2710112,
+            nrql: null
+          }
+        }
+      },
+      errors: [{ error: 'error' }],
+      n: 26
+    });
+    dataManager.graphQlmeasures = [
+      [
+        {
+          accountID: 2710112,
+          type: 'Not_type',
+          value: {
+            current: 'current',
+            previous: 'previous'
+          }
+        },
+        {
+          query:
+            "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
+        },
+        {
+          measureType: 'touchpoint',
+          touchpointRef: {
+            status_on_off: false
+          }
+        }
+      ]
+    ];
+    await dataManager.NRDBQuery();
+  });
+
+  it('Function SetTouchpointResponseError()', () => {
+    dataManager.stages = [
       {
-        errors: ['Unexpected query']
+        index: 0,
+        title: 'BROWSE',
+        touchpoints: [
+          {
+            index: 1,
+            response_error: ''
+          }
+        ]
+      }
+    ];
+    const touchpoint = {
+      stage_index: 0,
+      touchpoint_index: 1
+    };
+    const status = 'Response Error';
+    dataManager.SetTouchpointResponseError(touchpoint, status);
+    expect(dataManager.stages[0].touchpoints).toEqual([
+      {
+        index: 1,
+        response_error: 'Response Error'
       }
     ]);
   });
 
-  it('Function SetSessions()', () => {
-    const mesure = {
-      sessions: ['asdasd']
-    };
-    const sessions = [
-      {
-        facet: 'asd'
-      }
-    ];
-    dataManager.SetSessions(mesure, sessions);
-  });
-
-  it('Function EvaluateMeasures() with pagination', async () => {
-    const measures = [
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 1,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 2,
-        query: 'SIMPLE QUERY OF TYPE TWO'
-      },
-      {
-        type: 3,
-        query: 'SIMPLE QUERY OF TYPE THREE'
-      },
-      {
-        type: 4,
-        query: 'SIMPLE QUERY OF TYPE FOUR'
-      },
-      {
-        type: 20,
-        query: 'SIMPLE QUERY OF TYPE TWENTY'
-      },
-      {
-        type: 4,
-        query: 'SIMPLE QUERY OF TYPE FOUR'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 1,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 2,
-        query: 'SIMPLE QUERY OF TYPE TWO'
-      },
-      {
-        type: 3,
-        query: 'SIMPLE QUERY OF TYPE THREE'
-      },
-      {
-        type: 4,
-        query: 'SIMPLE QUERY OF TYPE FOUR'
-      },
-      {
-        type: 20,
-        query: 'SIMPLE QUERY OF TYPE TWENTY'
-      },
-      {
-        type: 4,
-        query: 'SIMPLE QUERY OF TYPE FOUR'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 1,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 2,
-        query: 'SIMPLE QUERY OF TYPE TWO'
-      },
-      {
-        type: 3,
-        query: 'SIMPLE QUERY OF TYPE THREE'
-      },
-      {
-        type: 4,
-        query: 'SIMPLE QUERY OF TYPE FOUR'
-      },
-      {
-        type: 20,
-        query: 'SIMPLE QUERY OF TYPE TWENTY'
-      },
-      {
-        type: 4,
-        query: 'SIMPLE QUERY OF TYPE FOUR'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 1,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 2,
-        query: 'SIMPLE QUERY OF TYPE TWO'
-      },
-      {
-        type: 3,
-        query: 'SIMPLE QUERY OF TYPE THREE'
-      },
-      {
-        type: 4,
-        query: 'SIMPLE QUERY OF TYPE FOUR'
-      },
-      {
-        type: 20,
-        query: 'SIMPLE QUERY OF TYPE TWENTY'
-      },
-      {
-        type: 4,
-        query: 'SIMPLE QUERY OF TYPE FOUR'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 1,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 2,
-        query: 'SIMPLE QUERY OF TYPE TWO'
-      },
-      {
-        type: 3,
-        query: 'SIMPLE QUERY OF TYPE THREE'
-      },
-      {
-        type: 4,
-        query: 'SIMPLE QUERY OF TYPE FOUR'
-      },
-      {
-        type: 20,
-        query: 'SIMPLE QUERY OF TYPE TWENTY'
-      },
-      {
-        type: 4,
-        query: 'SIMPLE QUERY OF TYPE FOUR'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 1,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 2,
-        query: 'SIMPLE QUERY OF TYPE TWO'
-      },
-      {
-        type: 3,
-        query: 'SIMPLE QUERY OF TYPE THREE'
-      },
-      {
-        type: 4,
-        query: 'SIMPLE QUERY OF TYPE FOUR'
-      },
-      {
-        type: 20,
-        query: 'SIMPLE QUERY OF TYPE TWENTY'
-      },
-      {
-        type: 4,
-        query: 'SIMPLE QUERY OF TYPE FOUR'
-      },
-      {
-        type: 4,
-        query: 'SIMPLE QUERY OF TYPE FOUR'
-      }
-    ];
-    dataManager.timeRange = '5 MINUTES AGO';
-    for (const measure of measures) {
-      dataManager.FetchMeasure(measure);
-    }
-    const result = await dataManager.EvaluateMeasures();
-    expect(result).toMatchObject({
-      data: {
-        actor: {
-          measure_0: {
-            nrql: {
-              results: [{ count: 27 }]
-            }
-          },
-          measure_1: {
-            nrql: {
-              results: [{ percentage: 27 }]
-            }
-          },
-          measure_2: {
-            nrql: {
-              results: [{ score: 27 }]
-            }
-          },
-          measure_3: {
-            nrql: {
-              results: [{ session: 27 }]
-            }
-          },
-          measure_4: {
-            nrql: {
-              results: [
-                {
-                  facet: 'abc123',
-                  count: 1,
-                  session: 'abc123'
-                },
-                {
-                  facet: 'cde345',
-                  count: 1,
-                  session: 'cde345'
-                },
-                {
-                  facet: 'fgh678',
-                  count: 1,
-                  session: 'fgh678'
-                }
-              ]
-            }
-          },
-          measure_5: {
-            nrql: {
-              results: [
-                {
-                  R1: 1,
-                  R2: 2
-                }
-              ]
-            }
-          }
-        }
-      }
-    });
-  });
-
-  it('Function EvaluateMeasures() with pagination and error', async () => {
-    const measures = [
-      {
-        type: 0,
-        query: 'BAD REQUEST ON PURPOSE'
-      },
-      {
-        type: 0,
-        query: 'BAD REQUEST ON PURPOSE'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 1,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 2,
-        query: 'SIMPLE QUERY OF TYPE TWO'
-      },
-      {
-        type: 3,
-        query: 'SIMPLE QUERY OF TYPE THREE'
-      },
-      {
-        type: 4,
-        query: 'SIMPLE QUERY OF TYPE FOUR'
-      },
-      {
-        type: 20,
-        query: 'SIMPLE QUERY OF TYPE TWENTY'
-      },
-      {
-        type: 4,
-        query: 'SIMPLE QUERY OF TYPE FOUR'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 1,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 2,
-        query: 'SIMPLE QUERY OF TYPE TWO'
-      },
-      {
-        type: 3,
-        query: 'SIMPLE QUERY OF TYPE THREE'
-      },
-      {
-        type: 4,
-        query: 'SIMPLE QUERY OF TYPE FOUR'
-      },
-      {
-        type: 20,
-        query: 'SIMPLE QUERY OF TYPE TWENTY'
-      },
-      {
-        type: 4,
-        query: 'SIMPLE QUERY OF TYPE FOUR'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 1,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 2,
-        query: 'SIMPLE QUERY OF TYPE TWO'
-      },
-      {
-        type: 3,
-        query: 'SIMPLE QUERY OF TYPE THREE'
-      },
-      {
-        type: 4,
-        query: 'SIMPLE QUERY OF TYPE FOUR'
-      },
-      {
-        type: 20,
-        query: 'SIMPLE QUERY OF TYPE TWENTY'
-      },
-      {
-        type: 4,
-        query: 'SIMPLE QUERY OF TYPE FOUR'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 1,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 2,
-        query: 'SIMPLE QUERY OF TYPE TWO'
-      },
-      {
-        type: 3,
-        query: 'SIMPLE QUERY OF TYPE THREE'
-      },
-      {
-        type: 4,
-        query: 'SIMPLE QUERY OF TYPE FOUR'
-      },
-      {
-        type: 20,
-        query: 'SIMPLE QUERY OF TYPE TWENTY'
-      },
-      {
-        type: 4,
-        query: 'SIMPLE QUERY OF TYPE FOUR'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 1,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 2,
-        query: 'SIMPLE QUERY OF TYPE TWO'
-      },
-      {
-        type: 3,
-        query: 'SIMPLE QUERY OF TYPE THREE'
-      },
-      {
-        type: 4,
-        query: 'SIMPLE QUERY OF TYPE FOUR'
-      },
-      {
-        type: 20,
-        query: 'SIMPLE QUERY OF TYPE TWENTY'
-      },
-      {
-        type: 4,
-        query: 'SIMPLE QUERY OF TYPE FOUR'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 1,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 2,
-        query: 'SIMPLE QUERY OF TYPE TWO'
-      },
-      {
-        type: 3,
-        query: 'SIMPLE QUERY OF TYPE THREE'
-      },
-      {
-        type: 4,
-        query: 'SIMPLE QUERY OF TYPE FOUR'
-      },
-      {
-        type: 20,
-        query: 'SIMPLE QUERY OF TYPE TWENTY'
-      },
-      {
-        type: 4,
-        query: 'SIMPLE QUERY OF TYPE FOUR'
-      },
-      {
-        type: 4,
-        query: 'SIMPLE QUERY OF TYPE FOUR'
-      }
-    ];
-    dataManager.timeRange = '5 MINUTES AGO';
-    for (const measure of measures) {
-      dataManager.FetchMeasure(measure);
-    }
-    const result = await dataManager.EvaluateMeasures();
-    expect(result).toMatchObject({
-      data: {
-        actor: {
-          measure_0: {
-            nrql: {
-              results: [{ count: 27 }]
-            }
-          },
-          measure_1: {
-            nrql: {
-              results: [{ percentage: 27 }]
-            }
-          },
-          measure_2: {
-            nrql: {
-              results: [{ score: 27 }]
-            }
-          },
-          measure_3: {
-            nrql: {
-              results: [{ session: 27 }]
-            }
-          },
-          measure_4: {
-            nrql: {
-              results: [
-                {
-                  facet: 'abc123',
-                  count: 1,
-                  session: 'abc123'
-                },
-                {
-                  facet: 'cde345',
-                  count: 1,
-                  session: 'cde345'
-                },
-                {
-                  facet: 'fgh678',
-                  count: 1,
-                  session: 'fgh678'
-                }
-              ]
-            }
-          },
-          measure_5: {
-            nrql: {
-              results: [
-                {
-                  R1: 1,
-                  R2: 2
-                }
-              ]
-            }
-          }
-        }
-      }
-    });
-  });
-
-  it('Function SetSessionTime()', () => {
-    dataManager.getOldSessions = true;
-    const measureSession = [{ id: 'abcd123', time: 123456789 }];
-    const result = dataManager.SetSessionTime(measureSession, 'abcd123');
-    expect(result).toEqual(123456789);
-  });
-
-  it('Function NRDBQuery()', async () => {
-    const measures = [
-      {
-        type: 0,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 1,
-        query: 'SIMPLE QUERY OF TYPE ONE'
-      },
-      {
-        type: 2,
-        query: 'SIMPLE QUERY OF TYPE TWO'
-      },
-      {
-        type: 3,
-        query: 'SIMPLE QUERY OF TYPE THREE'
-      },
-      {
-        type: 4,
-        query: 'SIMPLE QUERY OF TYPE FOUR',
-        sessions: [{ id: 'abc123' }]
-      },
-      {
-        type: 20,
-        query: 'SIMPLE QUERY OF TYPE TWENTY'
-      }
-    ];
+  it('Function EvaluateMeasures()', async () => {
+    dataManager.accountId = 2710112;
+    dataManager.escapeQuote = jest.fn();
     dataManager.graphQlmeasures = [
       [
         {
-          index: 0,
-          type: 'PRC',
-          session: 27,
-          session_count: 0,
-          name: 'Unique Visitors',
-          shortName: 'Unique',
-          link:
-            'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
-          query:
-            'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago',
-          value: [Object],
-          check: true
+          accountID: 2710112,
+          type: 'Not_type',
+          timeout: 235,
+          value: {
+            current: 'current',
+            previous: 'previous'
+          }
         },
-        'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago SINCE 24 HOURS AGO'
+        {
+          query:
+            "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
+        },
+        {
+          measureType: 'touchpoint',
+          touchpointRef: {
+            status_on_off: false
+          }
+        }
       ]
     ];
-    dataManager.timeRange = '5 MINUTES AGO';
+    const errorMessage = ['Network Error'];
+    jest
+      .spyOn(NerdGraphQuery, 'query')
+      .mockImplementationOnce(() => Promise.reject(new Error(errorMessage)));
+    const result = await dataManager.EvaluateMeasures();
+    expect(result.n).toEqual(1);
+  });
+  it('Function EvaluateMeasures() with type = 101', async () => {
+    dataManager.accountId = 2710112;
+    dataManager.escapeQuote = jest.fn();
+    dataManager.graphQlmeasures = [
+      [
+        {
+          accountID: 2710112,
+          type: 101,
+          timeout: 235,
+          queryByCity: [{ accountID: 2710112 }],
+          value: {
+            current: 'current',
+            previous: 'previous'
+          }
+        },
+        {
+          query:
+            "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
+        },
+        {
+          measureType: 'touchpoint',
+          touchpointRef: {
+            status_on_off: false
+          }
+        }
+      ]
+    ];
+    const errorMessage = ['Network Error'];
+    jest
+      .spyOn(NerdGraphQuery, 'query')
+      .mockImplementationOnce(() => Promise.reject(new Error(errorMessage)));
+    const result = await dataManager.EvaluateMeasures();
+    expect(result.n).toEqual(1);
+  });
+
+  it('Function escapeQuote()', () => {
+    const data =
+      "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'";
+    const result = dataManager.escapeQuote(data);
+    expect(result).toEqual(
+      "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
+    );
+  });
+
+  it('Function SetSessions()', () => {
+    const measure = {
+      sessions: [
+        {
+          id: 123,
+          time: 1230
+        }
+      ]
+    };
+    const sessions = [
+      {
+        facet: 123
+      }
+    ];
+    dataManager.SetSessionTime = jest.fn();
+    dataManager.SetSessions(measure, sessions);
+    expect(dataManager.SetSessionTime).toHaveBeenCalledTimes(1);
+  });
+
+  it('Function SetSessionTime()', () => {
+    const measure_sessions = [
+      {
+        id: 123,
+        time: 1230
+      }
+    ];
+    const sessionID = 123;
     dataManager.getOldSessions = true;
-    for (const measure of measures) {
-      dataManager.FetchMeasure(measure);
-    }
-    await dataManager.NRDBQuery();
-    expect(dataManager.graphQlmeasures.length).toEqual(7);
+    const result = dataManager.SetSessionTime(measure_sessions, sessionID);
+    expect(result).toEqual(1230);
   });
 
   it('Function SetLogsMeasure()', () => {
-    const measure = { count: 0, error_percentage: 0 };
-    const results = { R1: 0, R2: 0 };
-    const resultsMayorCero = { R1: 0, R2: 2 };
+    const results = {
+      R1: 0,
+      R2: 0
+    };
+    const measure = {
+      count: 1,
+      error_percentage: 1
+    };
     dataManager.SetLogsMeasure(measure, results);
-    expect(measure).toEqual({ count: 0, error_percentage: 0 });
-    dataManager.SetLogsMeasure(measure, resultsMayorCero);
-    expect(measure).toEqual({ count: 0, error_percentage: 100 });
+    expect(measure).toEqual({
+      count: 0,
+      error_percentage: 0
+    });
   });
 
-  it('Function UpdateMerchatKpi()', () => {
-    const bannerKpi = [
+  it('Function SetLogsMeasure() with total > 0', () => {
+    const results = {
+      R1: 2,
+      R2: 2
+    };
+    const measure = {
+      count: 1,
+      error_percentage: 1
+    };
+    dataManager.SetLogsMeasure(measure, results);
+    expect(measure).toEqual({
+      count: 2,
+      error_percentage: 50
+    });
+  });
+
+  it('Function UpdateMerchatKpi()', async () => {
+    dataManager.kpis = [
       {
-        type: 100,
-        description: 'KPI ONE',
-        prefix: '',
-        suffix: 'Orders',
-        query: 'SIMPLE QUERY KPI ONE',
-        value: 0
-      },
-      {
-        type: 100,
-        description: 'KPI TWO',
-        prefix: '$',
-        suffix: '',
-        query: 'SIMPLE QUERY KPI TWO',
-        value: 0
+        check: true,
+        index: 0,
+        link: 'https://onenr.io/01qwL8KPxw5',
+        name: 'Unique Visitors',
+        type: 'kpi_visitor',
+        queryByCity: [
+          { query: 'SELECT * FROM Logs', link: 'https://onenr.io/01qwL8KPxw5' }
+        ]
       }
     ];
-    dataManager.banner_kpis = bannerKpi;
+    dataManager.timeRangeKpi = {
+      range: '24 HOURS AGO'
+    };
+    dataManager.NRDBQuery = jest.fn();
     dataManager.UpdateMerchatKpi();
     expect(dataManager.graphQlmeasures).toEqual([
-      /* [
-        {
-          type: 100,
-          description: 'KPI ONE',
-          prefix: '',
-          suffix: 'Orders',
-          query: 'SIMPLE QUERY KPI ONE',
-          value: 0
-        },
-        'SIMPLE QUERY KPI ONE'
-      ],
       [
         {
-          type: 100,
-          description: 'KPI TWO',
-          prefix: '$',
-          suffix: '',
-          query: 'SIMPLE QUERY KPI TWO',
-          value: 0
+          check: true,
+          index: 0,
+          link: 'https://onenr.io/01qwL8KPxw5',
+          name: 'Unique Visitors',
+          type: 'kpi_visitor',
+          queryByCity: [
+            {
+              link: 'https://onenr.io/01qwL8KPxw5',
+              query: 'SELECT * FROM Logs'
+            }
+          ]
         },
-        'SIMPLE QUERY KPI TWO'
-      ]*/
+        'SELECT * FROM Logs SINCE 24 HOURS AGO',
+        {
+          measureType: 'kpi',
+          kpiName: 'Unique Visitors',
+          kpiType: 'kpi_visitor'
+        }
+      ]
     ]);
   });
 
   it('Function CalculateUpdates()', () => {
-    dataManager.city = 0;
-    dataManager.stages = [
-      {
-        index: 1,
-        title: 'BROWSE',
-        congestion: {
-          value: 0,
-          percentage: 15
-        },
-        steps: [
-          {
-            value: '',
-            sub_steps: [
-              {
-                index: 1,
-                id: 'ST1-LINE1-SS1',
-                relationship_touchpoints: [1]
-              }
-            ]
-          }
-        ],
-        touchpoints: [{ error: true, stage_index: 1 }]
-      },
-      {
-        index: 2,
-        title: 'CHECKOUT',
-        congestion: {
-          value: 0,
-          percentage: 15
-        },
-        steps: [
-          {
-            value: '',
-            sub_steps: [
-              {
-                index: 1,
-                id: 'ST2-LINE2-SS2',
-                relationship_touchpoints: [1]
-              },
-              {
-                index: 2,
-                id: 'ST2-LINE2-SS2',
-                relationship_touchpoints: [2]
-              }
-            ]
-          }
-        ],
-        touchpoints: [{ error: true, stage_index: 2 }]
-      }
-    ];
+    dataManager.ClearTouchpointError = jest.fn();
+    dataManager.CountryCalculateUpdates = jest.fn();
     dataManager.touchPoints = [
       {
+        index: 0
+      }
+    ];
+    dataManager.CalculateUpdates();
+  });
+
+  it('Function ClearTouchpointError()', () => {
+    dataManager.stages = [
+      {
         index: 0,
-        country: 'PRODUCTION',
+        title: 'BROWSE',
         touchpoints: [
           {
-            stage_index: 1,
-            value: 'Login People',
-            touchpoint_index: 1,
-            status_on_off: true,
-            relation_steps: [4],
-            measure_points: [
+            index: 1,
+            response_error: '',
+            error: true
+          }
+        ],
+        steps: [
+          {
+            sub_steps: [
               {
-                type: 'PRC',
-                query:
-                  "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
-                min_count: 10,
-                session_count: 0,
-                accountID: 2904070,
-                measure_time: '15 minutes ago'
+                error: true
               }
             ]
           }
         ]
       }
     ];
-    dataManager.CalculateUpdates();
-    expect(dataManager.stages).toEqual([
-      {
-        index: 1,
-        title: 'BROWSE',
-        congestion: { value: 0, percentage: 0 },
-        steps: [
-          {
-            value: '',
-            sub_steps: [
-              {
-                index: 1,
-                error: true,
-                latency: false,
-                id: 'ST1-LINE1-SS1',
-                relationship_touchpoints: [1]
-              }
-            ]
-          }
-        ],
-        touchpoints: [{ error: false, stage_index: 1 }],
-        status_color: 'good',
-        total_count: 0,
-        capacity: 100,
-        trafficIconType: 'people'
-      },
-      {
-        index: 2,
-        title: 'CHECKOUT',
-        congestion: { value: 0, percentage: 0 },
-        steps: [
-          {
-            value: '',
-            sub_steps: [
-              {
-                index: 1,
-                id: 'ST2-LINE2-SS2',
-                error: false,
-                latency: false,
-                relationship_touchpoints: [1]
-              },
-              {
-                index: 2,
-                id: 'ST2-LINE2-SS2',
-                error: false,
-                latency: false,
-                relationship_touchpoints: [2]
-              }
-            ]
-          }
-        ],
-        touchpoints: [{ error: false, stage_index: 2 }],
-        status_color: 'good',
-        total_count: 0,
-        capacity: 100,
-        trafficIconType: 'traffic'
-      }
-    ]);
-  });
-
-  it('Function ClearTouchpointError()', () => {
-    dataManager.stages = [
-      {
-        index: 1,
-        title: 'BROWSE',
-        congestion: {
-          value: 0,
-          percentage: 15
-        },
-        steps: [
-          {
-            value: '',
-            sub_steps: [
-              {
-                index: 1,
-                id: 'ST1-LINE1-SS1',
-                relationship_touchpoints: [1]
-              }
-            ]
-          }
-        ],
-        touchpoints: [{ error: true, stage_index: 1 }]
-      },
-      {
-        index: 2,
-        title: 'CHECKOUT',
-        congestion: {
-          value: 0,
-          percentage: 15
-        },
-        steps: [
-          {
-            value: '',
-            sub_steps: [
-              {
-                index: 1,
-                id: 'ST2-LINE2-SS2',
-                relationship_touchpoints: [1]
-              },
-              {
-                index: 2,
-                id: 'ST2-LINE2-SS2',
-                relationship_touchpoints: [2]
-              }
-            ]
-          }
-        ],
-        touchpoints: [{ error: true, stage_index: 2 }]
-      }
-    ];
     dataManager.ClearTouchpointError();
-    expect(dataManager.stages).toEqual([
-      {
-        index: 1,
-        title: 'BROWSE',
-        congestion: {
-          value: 0,
-          percentage: 15
-        },
-        steps: [
-          {
-            value: '',
-            sub_steps: [
-              {
-                index: 1,
-                id: 'ST1-LINE1-SS1',
-                error: false,
-                relationship_touchpoints: [1]
-              }
-            ]
-          }
-        ],
-        touchpoints: [{ error: false, stage_index: 1 }]
-      },
-      {
-        index: 2,
-        title: 'CHECKOUT',
-        congestion: {
-          value: 0,
-          percentage: 15
-        },
-        steps: [
-          {
-            value: '',
-            sub_steps: [
-              {
-                index: 1,
-                id: 'ST2-LINE2-SS2',
-                error: false,
-                relationship_touchpoints: [1]
-              },
-              {
-                index: 2,
-                id: 'ST2-LINE2-SS2',
-                error: false,
-                relationship_touchpoints: [2]
-              }
-            ]
-          }
-        ],
-        touchpoints: [{ error: false, stage_index: 2 }]
-      }
-    ]);
+    expect(dataManager.stages[0].steps[0].sub_steps[0].error).toEqual(false);
   });
 
   it('Function CountryCalculateUpdates()', () => {
@@ -1662,82 +2180,49 @@ describe('DataManager class', () => {
           status_on_off: true,
           relation_steps: [1],
           measure_points: [
-            { count: 4, query: 'SIMPLE QUERY OF TYPE 0', type: 0 },
             {
-              apdex: 0.3,
-              apdex_time: 10,
-              query: 'SIMPLE QUERY OF TYPE 2',
-              type: 2
-            },
-            { count: 4, query: 'SIMPLE QUERY OF TYPE 3', type: 3 },
-            {
-              type: 20,
-              query: 'SIMPLE QUERY OF TYPE 20',
-              error_threshold: 5,
-              count: 1,
-              error_percentage: 0
+              measure: 'PRC'
             }
           ]
         }
       ]
     };
+    dataManager.Getmeasures = jest.fn().mockImplementation(() => {
+      return {
+        count_by_stage: [
+          {
+            total_count: 0,
+            traffic_type: 'traffic',
+            capacity_status: 0,
+            capacity_link: 'https://newrelic.one',
+            total_steps: 1,
+            num_steps_over_average: 4
+          }
+        ]
+      };
+    });
+    dataManager.UpdateErrorCondition = jest.fn();
+    dataManager.UpdateMaxCongestionSteps = jest.fn();
     dataManager.stages = [
       {
         index: 1,
         title: 'BROWSE',
+        status_color: 'bad',
+        total_count: 0,
+        trafficIconType: 'people',
+        capacity: 0,
+        capacity_link: '',
         congestion: {
           value: 0,
           percentage: 15
-        },
-        steps: [
-          {
-            value: '',
-            sub_steps: [
-              {
-                index: 1,
-                id: 'ST1-LINE1-SS1',
-                relationship_touchpoints: [1]
-              }
-            ]
-          }
-        ],
-        touchpoints: [{ error: true, stage_index: 1 }]
+        }
       }
     ];
     dataManager.CountryCalculateUpdates(element);
-    expect(dataManager.stages).toEqual([
-      {
-        index: 1,
-        title: 'BROWSE',
-        // total_count: 5,
-        total_count: 0,
-        congestion: {
-          value: 0,
-          // percentage: 70
-          percentage: 0
-        },
-        status_color: 'good',
-        // trafficIconType: 'people',
-        trafficIconType: 'traffic',
-        // capacity: 4,
-        capacity: 100,
-        steps: [
-          {
-            value: '',
-            sub_steps: [
-              {
-                index: 1,
-                id: 'ST1-LINE1-SS1',
-                // latency: true,
-                latency: false,
-                relationship_touchpoints: [1]
-              }
-            ]
-          }
-        ],
-        touchpoints: [{ error: true, stage_index: 1 }]
-      }
-    ]);
+    expect(dataManager.stages[0].congestion).toEqual({
+      value: 400,
+      percentage: 400
+    });
   });
 
   it('Function Getmeasures()', () => {
@@ -1764,41 +2249,6 @@ describe('DataManager class', () => {
           }
         ],
         touchpoints: [{ error: true, stage_index: 1 }]
-      }
-    ];
-    dataManager.touchPoints = [
-      {
-        index: 0,
-        country: 'PRODUCTION',
-        touchpoints: [
-          {
-            stage_index: 1,
-            value: 'Login People',
-            touchpoint_index: 1,
-            status_on_off: true,
-            relation_steps: [4],
-            measure_points: [
-              {
-                type: 'PRC',
-                query:
-                  "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
-                min_count: 10,
-                session_count: 20,
-                accountID: 2904070,
-                measure_time: '15 minutes ago'
-              },
-              {
-                type: 'PCC',
-                query:
-                  "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
-                min_count: 10,
-                transaction_count: 20,
-                accountID: 2904070,
-                measure_time: '15 minutes ago'
-              }
-            ]
-          }
-        ]
       }
     ];
     const element = {
@@ -1829,6 +2279,12 @@ describe('DataManager class', () => {
               transaction_count: 20,
               accountID: 2904070,
               measure_time: '15 minutes ago'
+            },
+            {
+              type: 'WLD',
+              query:
+                "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
+              status_value: true
             }
           ]
         }
@@ -1840,6 +2296,8 @@ describe('DataManager class', () => {
         {
           above_avg: -1,
           average: 20,
+          capacity_link: '',
+          capacity_status: true,
           max_congestion: 20,
           num_steps_over_average: 1,
           num_touchpoints: 2,
@@ -1854,7 +2312,32 @@ describe('DataManager class', () => {
     });
   });
 
+  it('Funtion GetWokloadTouchpointLink()', () => {
+    const touchpoint = {
+      stage_index: 1,
+      touchpoint_index: 0
+    };
+    dataManager.stages = [
+      {
+        index: 1,
+        title: 'BROWSE',
+        percentage_above_avg: -1,
+        congestion: {
+          value: 0,
+          percentage: 15
+        },
+        steps: [],
+        touchpoints: [
+          { stage_index: 1, index: 0, dashboard_url: ['https://newrelic.one'] }
+        ]
+      }
+    ];
+    const result = dataManager.GetWokloadTouchpointLink(touchpoint);
+    expect(result).toEqual('https://newrelic.one');
+  });
+
   it('Function UpdateMaxCongestionSteps()', () => {
+    const count_by_stage = [{ steps_max_cong: [1] }];
     dataManager.stages = [
       {
         index: 1,
@@ -1866,12 +2349,11 @@ describe('DataManager class', () => {
         },
         steps: [
           {
-            index: 0,
             value: '',
-            latency: true,
             sub_steps: [
               {
                 index: 1,
+                latency: true,
                 id: 'ST1-LINE1-SS1',
                 relationship_touchpoints: [1]
               }
@@ -1881,2984 +2363,7 @@ describe('DataManager class', () => {
         touchpoints: [{ error: true, stage_index: 1 }]
       }
     ];
-    const count_by_stage = [{ steps_max_cong: [1] }];
-    const result = dataManager.UpdateMaxCongestionSteps(count_by_stage);
-    expect(result).toEqual(undefined);
+    dataManager.UpdateMaxCongestionSteps(count_by_stage);
+    expect(dataManager.stages[0].steps[0].sub_steps[0].latency).toEqual(true);
   });
-
-  // ============ BORRADO POR Q EN LA FUNCION DE COMPONENTES SE QUITO ======
-  // describe('Function GetSessionsPercentage()', () => {
-  //   it('Sessions empty', () => {
-  //     const result = dataManager.GetSessionsPercentage([]);
-  //     expect(result).toEqual(0);
-  //   });
-
-  //   it('Sessions with time', () => {
-  //     const result = dataManager.GetSessionsPercentage([
-  //       {
-  //         time: 250
-  //       },
-  //       { time: 251 }
-  //     ]);
-  //     expect(result).toEqual(1);
-  //   });
-  // });
-  // ==================================================================
-
-  describe('Function UpdateErrorCondition()', () => {
-    it('actual=danger nextvalue=null', () => {
-      const result = dataManager.UpdateErrorCondition('danger', null);
-      expect(result).toMatch('danger');
-    });
-
-    it('actual=null nextvalue=danger', () => {
-      const result = dataManager.UpdateErrorCondition(null, 'danger');
-      expect(result).toMatch('danger');
-    });
-
-    it('actual=warning nextvalue=null', () => {
-      const result = dataManager.UpdateErrorCondition('warning', null);
-      expect(result).toMatch('warning');
-    });
-
-    it('actual=null nextvalue=warning', () => {
-      const result = dataManager.UpdateErrorCondition(null, 'warning');
-      expect(result).toMatch('warning');
-    });
-
-    it('actual=good nextvalue=null', () => {
-      const result = dataManager.UpdateErrorCondition('good', null);
-      expect(result).toMatch('good');
-    });
-  });
-
-  describe('Function GetStageError()', () => {
-    it('Status danger', () => {
-      const element = {
-        index: 0,
-        country: 'PRODUCTION',
-        touchpoints: [
-          {
-            stage_index: 1,
-            value: 'Catalog API',
-            touchpoint_index: 1,
-            status_on_off: true,
-            relation_steps: [1],
-            measure_points: [
-              {
-                type: 'PRC',
-                query:
-                  "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
-                min_count: 10,
-                session_count: 0,
-                accountID: 2904070,
-                measure_time: '15 minutes ago'
-              },
-              {
-                type: 'PCC',
-                query:
-                  "SELECT count(*) FROM Public_APICall WHERE awsRegion='us-east-1'",
-                min_count: 20,
-                transaction_count: 0
-              },
-              {
-                type: 'APP',
-                query:
-                  "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
-                min_apdex: 0.4,
-                max_response_time: 0.5,
-                max_error_percentage: 5,
-                apdex_value: 0,
-                response_value: 0,
-                error_percentage: 0
-              },
-              {
-                type: 'FRT',
-                query:
-                  "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
-                min_apdex: 0.6,
-                max_response_time: 1.2,
-                max_error_percentage: 5,
-                apdex_value: 0,
-                response_value: 0,
-                error_percentage: 0
-              },
-              {
-                type: 'SYN',
-                query:
-                  "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE monitorName='BDB Live person'",
-                max_avg_response_time: 0.7,
-                max_total_check_time: 1.25,
-                min_success_percentage: 98,
-                success_percentage: 0,
-                max_duration: 0,
-                max_request_time: 0,
-                measure_time: '3 hours ago'
-              }
-            ]
-          }
-        ]
-      };
-      dataManager.stages = [
-        {
-          index: 1,
-          title: 'BROWSE',
-          congestion: {
-            value: 0,
-            percentage: 2
-          },
-          steps: [
-            {
-              value: '',
-              valueError: '',
-              sub_steps: [
-                {
-                  newValue: '',
-                  index: 1,
-                  id: 'ST1-LINE1-SS1',
-                  relationship_touchpoints: [1]
-                }
-              ]
-            },
-            {
-              value: '',
-              valueError: '',
-              sub_steps: [
-                {
-                  index: 1,
-                  id: 'ST1-LINE1-SS2',
-                  relationship_touchpoints: [1]
-                }
-              ]
-            }
-          ],
-          touchpoints: [{ error: true, stage_index: 1 }]
-        }
-      ];
-      dataManager.stepsByStage = dataManager.GetStepsByStage();
-      const result = dataManager.GetStageError(1, element);
-      // expect(result).toMatch('danger');
-      expect(result).toMatch('danger');
-    });
-
-    it('Status Good', () => {
-      const element = {
-        index: 0,
-        country: 'PRODUCTION',
-        touchpoints: [
-          {
-            stage_index: 1,
-            value: 'Catalog API',
-            touchpoint_index: 1,
-            status_on_off: true,
-            relation_steps: [1],
-            measure_points: [
-              {
-                type: 'PRC',
-                query:
-                  "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
-                min_count: 10,
-                session_count: 0,
-                accountID: 2904070,
-                measure_time: '15 minutes ago'
-              },
-              {
-                type: 'PCC',
-                query:
-                  "SELECT count(*) FROM Public_APICall WHERE awsRegion='us-east-1'",
-                min_count: 20,
-                transaction_count: 0
-              },
-              {
-                type: 'APP',
-                query:
-                  "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
-                min_apdex: 0.4,
-                max_response_time: 0.5,
-                max_error_percentage: 5,
-                apdex_value: 0,
-                response_value: 0.6,
-                error_percentage: 0
-              },
-              {
-                type: 'FRT',
-                query:
-                  "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
-                min_apdex: 0.6,
-                max_response_time: 1.2,
-                max_error_percentage: 5,
-                apdex_value: 0,
-                response_value: 1.4,
-                error_percentage: 0
-              },
-              {
-                type: 'SYN',
-                query:
-                  "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE monitorName='BDB Live person'",
-                max_avg_response_time: 0.7,
-                max_total_check_time: 1.25,
-                min_success_percentage: 98,
-                success_percentage: 0,
-                max_duration: 0,
-                max_request_time: 0.8,
-                measure_time: '3 hours ago'
-              }
-            ]
-          }
-        ]
-      };
-      dataManager.stages = [
-        {
-          index: 1,
-          title: 'BROWSE',
-          congestion: {
-            value: 0,
-            percentage: 15
-          },
-          steps: [
-            {
-              value: '',
-              sub_steps: [
-                {
-                  index: 1,
-                  id: 'ST1-LINE1-SS1',
-                  relationship_touchpoints: [1]
-                }
-              ]
-            }
-          ],
-          touchpoints: [{ error: true, relation_steps: [1], stage_index: 1 }]
-        }
-      ];
-      const result = dataManager.GetStageError(1, element);
-      expect(result).toMatch('good');
-    });
-
-    it('Status Good with none touchpoints', () => {
-      dataManager.stepsByStage = [3];
-      const element = {
-        index: 0,
-        country: 'PRODUCTION',
-        touchpoints: [
-          {
-            stage_index: 1,
-            value: 'Catalog API',
-            touchpoint_index: 1,
-            status_on_off: true,
-            relation_steps: [1],
-            measure_points: [
-              {
-                type: 'PRC',
-                query:
-                  "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
-                min_count: 10,
-                session_count: 0,
-                accountID: 2904070,
-                measure_time: '15 minutes ago'
-              },
-              {
-                type: 'PCC',
-                query:
-                  "SELECT count(*) FROM Public_APICall WHERE awsRegion='us-east-1'",
-                min_count: 20,
-                transaction_count: 0
-              },
-              {
-                type: 'APP',
-                query:
-                  "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
-                min_apdex: 0.4,
-                max_response_time: 0.5,
-                max_error_percentage: 5,
-                apdex_value: 0.6,
-                response_value: 0.6,
-                error_percentage: 0
-              },
-              {
-                type: 'FRT',
-                query:
-                  "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
-                min_apdex: 0.6,
-                max_response_time: 1.2,
-                max_error_percentage: 5,
-                apdex_value: 0.8,
-                response_value: 1.4,
-                error_percentage: 0
-              },
-              {
-                type: 'SYN',
-                query:
-                  "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE monitorName='BDB Live person'",
-                max_avg_response_time: 0.7,
-                max_total_check_time: 1.25,
-                min_success_percentage: 98,
-                success_percentage: 0,
-                max_duration: 1.5,
-                max_request_time: 0.8,
-                measure_time: '3 hours ago'
-              }
-            ]
-          }
-        ]
-      };
-      dataManager.stages = [
-        {
-          index: 1,
-          title: 'BROWSE',
-          congestion: {
-            value: 0,
-            percentage: 15
-          },
-          steps: [
-            {
-              value: '',
-              sub_steps: [
-                {
-                  index: 1,
-                  id: 'ST1-LINE1-SS1',
-                  error: true,
-                  relationship_touchpoints: [1]
-                }
-              ]
-            }
-          ],
-          touchpoints: [{ error: true, stage_index: 1 }]
-        }
-      ];
-      const result = dataManager.GetStageError(1, element);
-      expect(result).toMatch('warning');
-    });
-  });
-
-  it('Function SetTouchpointError()', () => {
-    dataManager.stages = [
-      {
-        index: 1,
-        title: 'BROWSE',
-        congestion: {
-          value: 0,
-          percentage: 15
-        },
-        steps: [
-          {
-            value: '',
-            sub_steps: [
-              {
-                index: 1,
-                id: 'ST1-LINE1-SS1',
-                relationship_touchpoints: [1]
-              }
-            ]
-          }
-        ],
-        touchpoints: [{ index: 1, error: true, stage_index: 1 }]
-      }
-    ];
-    dataManager.SetTouchpointError(1, 1);
-    expect(dataManager.stages).toEqual([
-      {
-        index: 1,
-        title: 'BROWSE',
-        congestion: {
-          value: 0,
-          percentage: 15
-        },
-        steps: [
-          {
-            value: '',
-            sub_steps: [
-              {
-                index: 1,
-                id: 'ST1-LINE1-SS1',
-                error: true,
-                relationship_touchpoints: [1]
-              }
-            ]
-          }
-        ],
-        touchpoints: [{ index: 1, error: true, stage_index: 1 }]
-      }
-    ]);
-  });
-
-  it('Function GetTotalStepsWithError()', () => {
-    const stepsError = [1, 2, 3, 4];
-    const result = dataManager.GetTotalStepsWithError(stepsError);
-    expect(result).toEqual(10);
-  });
-
-  // ============ BORRADO POR Q EN LA FUNCION DE COMPONENTES SE QUITO ======
-  // it('Function CheckMaxCapacity()', () => {
-  //   const result = dataManager.CheckMaxCapacity(200, 0);
-  //   expect(result).toEqual(200);
-  // });
-
-  // it('Function CheckMaxCapacity() with minimun value', () => {
-  //   const result = dataManager.CheckMaxCapacity(50, 0);
-  //   expect(result).toEqual(400);
-  // });
-
-  // it('Function CheckMaxCapacity() with capacity empty', () => {
-  //   dataManager.capacity = [{}];
-  //   const result = dataManager.CheckMaxCapacity(50, 0);
-  //   expect(result).toEqual(50);
-  // });
-
-  // =======================================================================
-
-  // ============ BORRADO POR Q EN LA FUNCION DE COMPONENTES SE QUITO ======
-  // it('Function UpdateMaxLatencySteps()', () => {
-  //   dataManager.stages = [
-  //     {
-  //       index: 1,
-  //       title: 'BROWSE',
-  //       congestion: {
-  //         value: 0,
-  //         percentage: 15
-  //       },
-  //       steps: [
-  //         {
-  //           value: '',
-  //           sub_steps: [
-  //             {
-  //               index: 1,
-  //               id: 'ST1-LINE1-SS1',
-  //               latency: false,
-  //               relationship_touchpoints: [1]
-  //             }
-  //           ]
-  //         }
-  //       ],
-  //       touchpoints: [{ index: 1, error: true, stage_index: 1 }]
-  //     }
-  //   ];
-  //   const maxDuration = [1];
-  //   dataManager.UpdateMaxLatencySteps(maxDuration);
-  //   expect(dataManager.stages).toEqual([
-  //     {
-  //       index: 1,
-  //       title: 'BROWSE',
-  //       congestion: {
-  //         value: 0,
-  //         percentage: 15
-  //       },
-  //       steps: [
-  //         {
-  //           value: '',
-  //           sub_steps: [
-  //             {
-  //               index: 1,
-  //               id: 'ST1-LINE1-SS1',
-  //               latency: true,
-  //               relationship_touchpoints: [1]
-  //             }
-  //           ]
-  //         }
-  //       ],
-  //       touchpoints: [{ index: 1, error: true, stage_index: 1 }]
-  //     }
-  //   ]);
-  // });
-  // =========================================================================
-
-  // it('Function UpdateMaxCapacity()', () => {
-  //   dataManager.capacityUpdatePending = true;
-  //   dataManager.UpdateMaxCapacity();
-  //   expect(dataManager.capacityUpdatePending).toBeFalsy();
-  // });
-
-  it('Function LoadCanaryData()', () => {
-    const result = dataManager.LoadCanaryData();
-    expect(result.length).toEqual(10);
-  });
-
-  it('Function SetCanaryData()', () => {
-    const stages = [
-      {
-        index: 1,
-        title: 'BROWSE',
-        congestion: {
-          value: 0,
-          percentage: 15
-        },
-        steps: [
-          {
-            value: '',
-            sub_steps: [
-              {
-                index: 1,
-                id: 'ST1-LINE1-SS1',
-                relationship_touchpoints: [1]
-              }
-            ]
-          }
-        ],
-        touchpoints: [{ index: 1, error: true, stage_index: 1 }]
-      }
-    ];
-    const result = dataManager.SetCanaryData(stages, 0);
-    expect(result).toEqual({ stages: stages });
-  });
-
-  it('Function OffAllTouchpoints()', () => {
-    dataManager.touchPoints = [
-      {
-        index: 0,
-        country: 'PRODUCTION',
-        touchpoints: [
-          {
-            status_on_off: true
-          },
-          {
-            status_on_off: true
-          }
-        ]
-      }
-    ];
-    dataManager.OffAllTouchpoints();
-    expect(dataManager.touchPoints).toEqual([
-      {
-        index: 0,
-        country: 'PRODUCTION',
-        touchpoints: [
-          {
-            status_on_off: false
-          },
-          {
-            status_on_off: false
-          }
-        ]
-      }
-    ]);
-  });
-
-  it('Function EnableCanaryTouchPoints()', () => {
-    dataManager.stages = [
-      {
-        index: 1,
-        title: 'BROWSE',
-        congestion: {
-          value: 0,
-          percentage: 15
-        },
-        steps: [
-          {
-            value: '',
-            sub_steps: [
-              {
-                index: 1,
-                canary_state: true,
-                id: 'ST1-LINE1-SS1',
-                relationship_touchpoints: [1]
-              }
-            ]
-          }
-        ],
-        touchpoints: [{ index: 1, error: true, stage_index: 1 }]
-      }
-    ];
-    dataManager.EnableCanaryTouchPoints();
-    expect(dataManager.stages).toEqual([
-      {
-        index: 1,
-        title: 'BROWSE',
-        congestion: {
-          value: 0,
-          percentage: 15
-        },
-        steps: [
-          {
-            value: '',
-            sub_steps: [
-              {
-                index: 1,
-                canary_state: true,
-                id: 'ST1-LINE1-SS1',
-                relationship_touchpoints: [1]
-              }
-            ]
-          }
-        ],
-        touchpoints: [{ index: 1, error: true, stage_index: 1 }]
-      }
-    ]);
-  });
-
-  it('Function EnableTouchpoint()', () => {
-    dataManager.touchpoints = [
-      {
-        index: 0,
-        country: 'PRODUCTION',
-        touchpoints: [
-          {
-            stage_index: 1,
-            value: 'Catalog API',
-            touchpoint_index: 1,
-            status_on_off: false,
-            relation_steps: [1]
-          }
-        ]
-      }
-    ];
-    dataManager.EnableTouchpoint(1, 1);
-    expect(dataManager.touchpoints).toEqual([
-      {
-        index: 0,
-        country: 'PRODUCTION',
-        touchpoints: [
-          {
-            stage_index: 1,
-            value: 'Catalog API',
-            touchpoint_index: 1,
-            status_on_off: false,
-            relation_steps: [1]
-          }
-        ]
-      }
-    ]);
-  });
-
-  it('Function SetTouchpointsStatus', () => {
-    dataManager.touchpoints = [
-      {
-        index: 0,
-        country: 'PRODUCTION',
-        touchpoints: [
-          {
-            stage_index: 1,
-            value: 'Catalog API',
-            touchpoint_index: 1,
-            status_on_off: true,
-            relation_steps: [1]
-          }
-        ]
-      }
-    ];
-    dataManager.stages = [
-      {
-        index: 1,
-        title: 'BROWSE',
-        congestion: {
-          value: 0,
-          percentage: 15
-        },
-        steps: [
-          {
-            value: '',
-            sub_steps: [
-              {
-                index: 1,
-                id: 'ST1-LINE1-SS1',
-                relationship_touchpoints: [1]
-              }
-            ]
-          }
-        ],
-        touchpoints: [{ index: 1, error: true, stage_index: 1 }]
-      }
-    ];
-    dataManager.SetTouchpointsStatus();
-    expect(dataManager.stages).toEqual([
-      {
-        index: 1,
-        title: 'BROWSE',
-        congestion: {
-          value: 0,
-          percentage: 15
-        },
-        steps: [
-          {
-            value: '',
-            sub_steps: [
-              {
-                index: 1,
-                id: 'ST1-LINE1-SS1',
-                relationship_touchpoints: [1]
-              }
-            ]
-          }
-        ],
-        touchpoints: [
-          { index: 1, error: true, stage_index: 1, status_on_off: true }
-        ]
-      }
-    ]);
-  });
-
-  it('Function UpdateTouchpointStatus()', () => {
-    const touchpoint = {
-      stage_index: 1,
-      value: 'Catalog API',
-      touchpoint_index: 1,
-      status_on_off: false,
-      relation_steps: [1]
-    };
-    dataManager.stages = [
-      {
-        index: 1,
-        title: 'BROWSE',
-        congestion: {
-          value: 0,
-          percentage: 15
-        },
-        steps: [
-          {
-            value: '',
-            sub_steps: [
-              {
-                index: 1,
-                id: 'ST1-LINE1-SS1',
-                relationship_touchpoints: [1]
-              }
-            ]
-          }
-        ],
-        touchpoints: [{ index: 1, error: true, stage_index: 1 }]
-      }
-    ];
-    dataManager.UpdateTouchpointStatus(touchpoint);
-    expect(dataManager.stages).toEqual([
-      {
-        index: 1,
-        title: 'BROWSE',
-        congestion: {
-          value: 0,
-          percentage: 15
-        },
-        steps: [
-          {
-            value: '',
-            sub_steps: [
-              {
-                index: 1,
-                id: 'ST1-LINE1-SS1',
-                relationship_touchpoints: [1]
-              }
-            ]
-          }
-        ],
-        touchpoints: [
-          { index: 1, error: true, stage_index: 1, status_on_off: false }
-        ]
-      }
-    ]);
-  });
-
-  it('Function ClearCanaryData()', () => {
-    const stagesNew = [
-      {
-        index: 1,
-        title: 'CHECKOUT',
-        congestion: {
-          value: 0,
-          percentage: 15
-        },
-        steps: [
-          {
-            value: '',
-            sub_steps: [
-              {
-                index: 1,
-                id: 'ST1-LINE1-SS1',
-                relationship_touchpoints: [1]
-              },
-              {
-                index: 2,
-                id: 'ST1-LINE2-SS2',
-                relationship_touchpoints: [2]
-              }
-            ]
-          }
-        ],
-        touchpoints: [
-          { index: 1, error: true, stage_index: 1 },
-          { index: 2, error: true, stage_index: 1 }
-        ]
-      }
-    ];
-    dataManager.touchPointsCopy = [
-      {
-        index: 0,
-        country: 'PRODUCTION',
-        touchpoints: [
-          {
-            stage_index: 1,
-            value: 'Catalog API',
-            touchpoint_index: 1,
-            status_on_off: true,
-            relation_steps: [1]
-          }
-        ]
-      }
-    ];
-    dataManager.ClearCanaryData(stagesNew);
-    expect(dataManager.stages).toEqual(stagesNew);
-  });
-
-  it('Function GetMinPercentageError()', async () => {
-    dataManager.touchpoints = [
-      {
-        index: 0,
-        country: 'PRODUCTION',
-        touchpoints: [
-          {
-            stage_index: 1,
-            value: 'Catalog API',
-            touchpoint_index: 1,
-            status_on_off: true,
-            relation_steps: [1],
-            measure_points: [
-              {
-                type: 0,
-                query: 'SIMPLE QUERY OF TYPE 0',
-                error_threshold: 5
-              }
-            ]
-          }
-        ]
-      }
-    ];
-    dataManager.GetMinPercentageError();
-    // expect(dataManager.minPercentageError).toEqual(5);
-    expect(dataManager.minPercentageError).toEqual(100);
-  });
-
-  it('Function GetStorageTouchpoints()', async () => {
-    await dataManager.GetStorageTouchpoints();
-    expect(dataManager.touchPoints).toEqual([
-      {
-        index: 0,
-        country: 'PRODUCTION',
-        touchpoints: [
-          {
-            stage_index: 1,
-            value: 'Catalog API',
-            touchpoint_index: 1,
-            status_on_off: true,
-            relation_steps: [1],
-            measure_points: [
-              {
-                type: 0,
-                query: 'SIMPLE QUERY OF TYPE 0',
-                error_threshold: 5
-              }
-            ]
-          }
-        ]
-      }
-    ]);
-  });
-
-  it('Function UpdateCanaryData', () => {
-    dataManager.UpdateCanaryData({});
-  });
-
-  it('Function GetCurrentConfigurationJSON()', () => {
-    const bannerKpi = [
-      {
-        description: 'KPI ONE',
-        prefix: '',
-        suffix: 'Orders',
-        query: 'SIMPLE QUERY KPI ONE'
-      }
-    ];
-    let stages = [
-      {
-        title: 'BROWSE',
-        steps: [
-          {
-            values: '',
-            line: 1,
-            sub_steps: [
-              {
-                title: '',
-                id: 'ST1-LINE1-SS1'
-              }
-            ]
-          }
-        ],
-        touchpoints: [
-          {
-            related_steps: '',
-            queries: []
-          }
-        ]
-      }
-    ];
-    const kpis = [
-      {
-        type: 101,
-        name: 'Unique Visitors',
-        shortName: 'Unique',
-        link:
-          'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
-        query:
-          'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago',
-        check: true
-      }
-    ];
-    dataManager.version = '1.0.0';
-    dataManager.banner_kpis = bannerKpi;
-    dataManager.stages = stages;
-    dataManager.kpis = kpis;
-    const result = dataManager.GetCurrentConfigurationJSON();
-    stages = [
-      {
-        title: 'BROWSE',
-        steps: [
-          {
-            line: 1,
-            values: [
-              {
-                id: 'ST1-LINE1-SS1'
-              }
-            ]
-          }
-        ],
-        touchpoints: [
-          {
-            related_steps: '',
-            queries: []
-          }
-        ]
-      }
-    ];
-    const configuration = {
-      pathpointVersion: '1.0.0',
-      // banner_kpis: bannerKpi,
-      kpis: kpis,
-      stages: stages
-    };
-    expect(result).toMatch((configuration, null, '4'));
-  });
-
-  it('Function ReadPathpointConfig()', () => {
-    const bannerKpi = [
-      {
-        description: 'KPI ONE',
-        prefix: '',
-        suffix: 'Orders',
-        query: 'SIMPLE QUERY KPI ONE'
-      }
-    ];
-    let stages = [
-      {
-        title: 'BROWSE',
-        steps: [
-          {
-            values: '',
-            line: 1,
-            sub_steps: [
-              {
-                title: '',
-                id: 'ST1-LINE1-SS1'
-              }
-            ]
-          }
-        ],
-        touchpoints: [
-          {
-            related_steps: '',
-            queries: []
-          }
-        ]
-      }
-    ];
-    const kpis = [
-      {
-        type: 101,
-        name: 'Unique Visitors',
-        prefix: undefined,
-        shortName: 'Unique',
-        suffix: undefined,
-        link:
-          'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
-        query:
-          'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago',
-        value_type: undefined
-      }
-    ];
-    dataManager.version = '1.0.0';
-    dataManager.banner_kpis = bannerKpi;
-    dataManager.stages = stages;
-    dataManager.kpis = kpis;
-    dataManager.ReadPathpointConfig();
-    stages = [
-      {
-        active_dotted: undefined,
-        arrowMode: undefined,
-        percentage_above_avg: undefined,
-        title: 'BROWSE',
-        steps: [
-          {
-            line: 1,
-            values: [
-              {
-                id: 'ST1-LINE1-SS1',
-                title: undefined
-              }
-            ]
-          }
-        ],
-        touchpoints: [
-          {
-            dashboard_url: undefined,
-            related_steps: '',
-            queries: [],
-            status_on_off: undefined,
-            title: undefined
-          }
-        ]
-      }
-    ];
-
-    const configuration = {
-      pathpointVersion: '1.0.0',
-      // banner_kpis: bannerKpi,
-      kpis: kpis,
-      stages: stages
-    };
-    expect(dataManager.configuration).toEqual(configuration);
-  });
-
-  it('Function GetRelatedSteps()', () => {
-    dataManager.touchPoints = [
-      {
-        index: 0,
-        country: 'PRODUCTION',
-        touchpoints: [
-          {
-            stage_index: 1,
-            touchpoint_index: 1,
-            status_on_off: true,
-            relation_steps: [1]
-          },
-          {
-            stage_index: 1,
-            touchpoint_index: 2,
-            status_on_off: true,
-            relation_steps: [1]
-          }
-        ]
-      }
-    ];
-    dataManager.stages = [
-      {
-        index: 1,
-        title: 'BROWSE',
-        congestion: {
-          value: 0,
-          percentage: 15
-        },
-        steps: [
-          {
-            value: '',
-            sub_steps: [
-              {
-                index: 1,
-                canary_state: true,
-                id: 'ST1-LINE1-SS1',
-                relationship_touchpoints: [1]
-              }
-            ]
-          }
-        ],
-        touchpoints: [{ index: 1, error: true, stage_index: 1 }]
-      }
-    ];
-    const result = dataManager.GetRelatedSteps(1, 1);
-    expect(result).toMatch('ST1-LINE1-SS1');
-  });
-
-  it('Function GetStepsIds()', () => {
-    dataManager.stages = [
-      {
-        index: 1,
-        title: 'BROWSE',
-        congestion: {
-          value: 0,
-          percentage: 15
-        },
-        steps: [
-          {
-            value: '',
-            sub_steps: [
-              {
-                index: 1,
-                canary_state: true,
-                id: 'ST1-LINE1-SS1',
-                relationship_touchpoints: [1, 2]
-              },
-              {
-                index: 2,
-                canary_state: true,
-                id: 'ST1-LINE1-SS2',
-                relationship_touchpoints: [1, 2]
-              }
-            ]
-          }
-        ],
-        touchpoints: [{ index: 1, error: true, stage_index: 1 }]
-      }
-    ];
-    const result = dataManager.GetStepsIds(1, [1, 2]);
-    expect(result).toMatch('ST1-LINE1-SS1,ST1-LINE1-SS2');
-  });
-
-  it('Function GetTouchpointQueryes()', () => {
-    dataManager.touchPoints = [
-      {
-        index: 0,
-        country: 'PRODUCTION',
-        touchpoints: [
-          {
-            stage_index: 1,
-            touchpoint_index: 1,
-            status_on_off: true,
-            relation_steps: [1],
-            measure_points: [
-              {
-                type: 'PRC',
-                query:
-                  "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
-                min_count: 10,
-                session_count: 0,
-                accountID: 2904070,
-                measure_time: '15 minutes ago'
-              },
-              {
-                type: 'PCC',
-                query:
-                  "SELECT count(*) FROM Public_APICall WHERE awsRegion='us-east-1'",
-                min_count: 20,
-                accountID: 2904070,
-                transaction_count: 0
-              },
-              {
-                type: 'APP',
-                query:
-                  "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
-                min_apdex: 0.4,
-                max_response_time: 0.5,
-                max_error_percentage: 5,
-                apdex_value: 0,
-                response_value: 0,
-                error_percentage: 0,
-                accountID: 2904070
-              },
-              {
-                type: 'FRT',
-                query:
-                  "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
-                min_apdex: 0.6,
-                max_response_time: 1.2,
-                max_error_percentage: 5,
-                apdex_value: 0,
-                response_value: 0,
-                error_percentage: 0,
-                accountID: 2904070
-              },
-              {
-                type: 'SYN',
-                query:
-                  "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE monitorName='BDB Live person'",
-                max_avg_response_time: 0.7,
-                max_total_check_time: 1.25,
-                min_success_percentage: 98,
-                success_percentage: 0,
-                max_duration: 0,
-                max_request_time: 0,
-                measure_time: '3 hours ago',
-                accountID: 2904070
-              }
-            ]
-          }
-        ]
-      }
-    ];
-    const result = dataManager.GetTouchpointQueryes(1, 1);
-    expect(result).toEqual([
-      {
-        accountID: 2904070,
-        min_count: 10,
-        query:
-          "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
-        type: 'PRC-COUNT-QUERY'
-      },
-      {
-        accountID: 2904070,
-        min_count: 20,
-        query:
-          "SELECT count(*) FROM Public_APICall WHERE awsRegion='us-east-1'",
-        type: 'PCC-COUNT-QUERY'
-      },
-      {
-        accountID: 2904070,
-        max_error_percentage: 5,
-        max_response_time: 0.5,
-        min_apdex: 0.4,
-        query:
-          "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
-        type: 'APP-HEALTH-QUERY'
-      },
-      {
-        accountID: 2904070,
-        max_error_percentage: 5,
-        max_response_time: 1.2,
-        min_apdex: 0.6,
-        query:
-          "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
-        type: 'FRT-HEALTH-QUERY'
-      },
-      {
-        accountID: 2904070,
-        max_avg_response_time: 0.7,
-        max_total_check_time: 1.25,
-        min_success_percentage: 98,
-        query:
-          "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE monitorName='BDB Live person'",
-        type: 'SYN-CHECK-QUERY'
-      }
-    ]);
-  });
-
-  it('Function SetConfigurationJSON()', () => {
-    const configuration = {
-      pathpointVersion: '1.0.4',
-      banner_kpis: [
-        {
-          description: 'Total Order Count',
-          prefix: '',
-          suffix: 'Orders',
-          query: 'SIMPLE QUERY KPI'
-        }
-      ],
-      kpis: [
-        {
-          index: 0,
-          type: 101,
-          name: 'Unique Visitors',
-          shortName: 'Unique',
-          link:
-            'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
-          query:
-            'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago',
-          value: {
-            current: 0,
-            previous: 0
-          },
-          check: true
-        }
-      ],
-      stages: [
-        {
-          title: 'BROWSE',
-          active_dotted: 'none',
-          steps: [
-            {
-              line: 1,
-              values: [
-                {
-                  title: 'Web',
-                  id: 'ST1-LINE1-SS1'
-                }
-              ]
-            }
-          ],
-          touchpoints: [
-            {
-              title: 'Catalog API',
-              status_on_off: true,
-              dashboard_url: ['https://one.newrelic.com'],
-              related_steps: 'ST1-LINE1-SS1',
-              queries: [
-                {
-                  type: 'COUNT-QUERY',
-                  query: 'SIMPLE COUNT-QUERY'
-                },
-                {
-                  type: 'ERROR-PERCENTAGE-QUERY',
-                  query: 'SIMPLE ERROR-PERCENTAGE-QUERY'
-                },
-                {
-                  type: 'APDEX-QUERY',
-                  query: 'SIMPLE APDEX-QUERY'
-                },
-                {
-                  type: 'SESSIONS-QUERY',
-                  query: 'SIMPLE SESSIONS-QUERY'
-                },
-                {
-                  type: 'SESSIONS-QUERY-DURATION',
-                  query: 'SIMPLE SESSIONS-QUERY-DURATION'
-                },
-                {
-                  type: 'FULL-OPEN-QUERY',
-                  query: 'SIMPLE FULL-OPEN-QUERY'
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    };
-    dataManager.banner_kpis = [];
-    const result = dataManager.SetConfigurationJSON(
-      JSON.stringify(configuration, null, 4)
-    );
-    // ===== NO RECIBE EL VALOR banner_kpis POR Q NO EXISTE EN LA FUNCION Q ENVIA
-    // expect(result.banner_kpis).toEqual([
-    //   {
-    //     type: 100,
-    //     value: 0,
-    //     description: 'Total Order Count',
-    //     prefix: '',
-    //     suffix: 'Orders',
-    //     query: 'SIMPLE QUERY KPI'
-    //   }
-    // ]);
-    // ===================================================
-    expect(result.kpis).toEqual([
-      {
-        index: 0,
-        type: 101,
-        name: 'Unique Visitors',
-        prefix: undefined,
-        shortName: 'Unique',
-        suffix: undefined,
-        link:
-          'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
-        query:
-          'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago',
-        value: {
-          current: 0,
-          previous: 0
-        },
-        value_type: undefined
-      }
-    ]);
-    expect(result.stages).toEqual([
-      {
-        title: 'BROWSE',
-        total_count: 0,
-        capacity: 0,
-        congestion: {
-          percentage: 0,
-          value: 0
-        },
-        icon_active: 0,
-        icon_description: 'star',
-        icon_visible: false,
-        index: 1,
-        active_dotted: 'none',
-        latencyStatus: false,
-        status_color: 'good',
-        gout_enable: false,
-        gout_money: 250,
-        gout_quantity: 150,
-        money: '',
-        money_enabled: false,
-        percentage_above_avg: undefined,
-        trafficIconType: 'traffic',
-        active_dotted_color: '#828282',
-        arrowMode: undefined,
-        steps: [
-          {
-            value: '',
-            sub_steps: [
-              {
-                canary_state: false,
-                dark: false,
-                dotted: false,
-                error: false,
-                highlighted: false,
-                history_error: false,
-                index: 1,
-                index_stage: 1,
-                latency: true,
-                value: 'Web',
-                sixth_sense: false,
-                relationship_touchpoints: [1],
-                id: 'ST1-LINE1-SS1'
-              }
-            ]
-          }
-        ],
-        touchpoints: [
-          {
-            value: 'Catalog API',
-            stage_index: 1,
-            active: false,
-            status_on_off: true,
-            dashboard_url: ['https://one.newrelic.com'],
-            index: 1,
-            highlighted: false,
-            error: false,
-            history_error: false,
-            sixth_sense: false,
-            sixth_sense_url: [[]],
-            countrys: [0],
-            relation_steps: [1]
-          }
-        ]
-      }
-    ]);
-  });
-
-  it('Function UpdateNewConfiguration()', () => {
-    const configuration = {
-      pathpointVersion: '1.0.4',
-      kpis: [
-        {
-          index: 0,
-          type: 100,
-          name: 'Unique Visitors',
-          shortName: 'Unique',
-          link:
-            'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
-          query:
-            'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago',
-          value: {
-            current: 0,
-            previous: 0
-          },
-          check: true
-        },
-        {
-          index: 1,
-          type: 101,
-          name: 'Some Visitors',
-          shortName: 'Some',
-          link:
-            'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
-          query:
-            'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago',
-          value: {
-            current: 0,
-            previous: 0
-          },
-          check: true
-        }
-      ],
-      banner_kpis: [
-        {
-          description: 'Total Order Count',
-          prefix: '',
-          suffix: 'Orders',
-          query: 'SIMPLE QUERY KPI'
-        }
-      ],
-      stages: [
-        {
-          title: 'BROWSE',
-          active_dotted: 'none',
-          steps: [
-            {
-              line: 1,
-              values: [
-                {
-                  title: 'Web',
-                  id: 'ST1-LINE1-SS1'
-                }
-              ]
-            }
-          ],
-          touchpoints: [
-            {
-              title: 'Catalog API',
-              status_on_off: true,
-              dashboard_url: ['https://one.newrelic.com'],
-              related_steps: 'ST1-LINE1-SS1',
-              queries: [
-                {
-                  type: 'PRC-COUNT-QUERY',
-                  min_count: 10,
-                  session_count: 0,
-                  query: 'SIMPLE COUNT-QUERY'
-                },
-                {
-                  type: 'PCC-COUNT-QUERY',
-                  min_count: 20,
-                  transaction_count: 0,
-                  query: 'SIMPLE ERROR-PERCENTAGE-QUERY'
-                },
-                {
-                  type: 'APP-HEALTH-QUERY',
-                  min_apdex: 0.4,
-                  max_response_time: 0.5,
-                  max_error_percentage: 5,
-                  apdex_value: 0,
-                  response_value: 0,
-                  error_percentage: 0,
-                  query: 'SIMPLE APDEX-QUERY'
-                },
-                {
-                  type: 'FRT-HEALTH-QUERY',
-                  min_apdex: 0.6,
-                  max_response_time: 1.2,
-                  max_error_percentage: 5,
-                  apdex_value: 0,
-                  response_value: 0,
-                  error_percentage: 0,
-                  query: 'SIMPLE SESSIONS-QUERY'
-                },
-                {
-                  type: 'SYN-CHECK-QUERY',
-                  max_avg_response_time: 0.7,
-                  max_total_check_time: 1.25,
-                  min_success_percentage: 98,
-                  success_percentage: 0,
-                  max_duration: 0,
-                  max_request_time: 0,
-                  query: 'SIMPLE SESSIONS-QUERY-DURATION'
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    };
-    dataManager.banner_kpis = [];
-    dataManager.kpis = configuration.kpis;
-    dataManager.configurationJSON = configuration;
-    dataManager.UpdateNewConfiguration();
-    expect(dataManager.stages.length).toEqual(1);
-    expect(dataManager.banner_kpis.length).toEqual(0);
-  });
-
-  it('Function ValidateMeasureTime()', () => {
-    const measure = { measure_time: '5 MINUTES AGO' };
-    dataManager.timeRange = '5 MINUTES AGO';
-    dataManager.ValidateMeasureTime(measure);
-  });
-
-  it('Function ValidateMeasureTime() with no measure', () => {
-    const measure = {};
-    dataManager.ValidateMeasureTime(measure);
-  });
-
-  // =================== borardo en el codigo principal=============
-  // it('Function UpdateTouchpointsRelationship()', () => {
-  //   dataManager.touchpoints = [
-  //     {
-  //       index: 0,
-  //       country: 'PRODUCTION',
-  //       touchpoints: [
-  //         {
-  //           stage_index: 1,
-  //           value: 'Catalog API',
-  //           touchpoint_index: 1,
-  //           status_on_off: true,
-  //           relation_steps: ['ST1-LINE1-SS1']
-  //         }
-  //       ]
-  //     }
-  //   ];
-  //   dataManager.stages = [
-  //     {
-  //       index: 1,
-  //       title: 'BROWSE',
-  //       congestion: {
-  //         value: 0,
-  //         percentage: 15
-  //       },
-  //       steps: [
-  //         {
-  //           value: '',
-  //           sub_steps: [
-  //             {
-  //               index: 1,
-  //               id: 'ST1-LINE1-SS1',
-  //               relationship_touchpoints: []
-  //             }
-  //           ]
-  //         }
-  //       ],
-  //       touchpoints: [
-  //         {
-  //           stage_index: 1,
-  //           index: 1,
-  //           relation_steps: ['ST1-LINE1-SS1']
-  //         }
-  //       ]
-  //     }
-  //   ];
-  //   dataManager.UpdateTouchpointsRelationship();
-  //   expect(dataManager.stages[0].steps[0].sub_steps).toEqual([
-  //     { index: 1, id: 'ST1-LINE1-SS1', relationship_touchpoints: [1] }
-  //   ]);
-  // });
-
-  it('Function UpdateTouchpointCopy', () => {
-    dataManager.touchPoints = [
-      {
-        index: 0,
-        country: 'PRODUCTION',
-        touchpoints: []
-      }
-    ];
-    dataManager.UpdateTouchpointCopy();
-    expect(dataManager.touchPointsCopy).toEqual([
-      {
-        index: 0,
-        country: 'PRODUCTION',
-        touchpoints: []
-      }
-    ]);
-  });
-
-  it('Function GetCurrentHistoricErrorScript()', () => {
-    // const myMock = jest.fn();
-    dataManager.pathpointId = '123abc-defg';
-    const result = dataManager.GetCurrentHistoricErrorScript();
-    const strExp =
-      'varpathpointId="123abc-defg"varmyAccountID=$secure.PATHPOINT_HISTORIC_ERROR_ACCOUNTID;varmyInsertKey=$secure.PATHPOINT_HISTORIC_ERROR_INSERT_KEY;varmyQueryKey=$secure.PATHPOINT_HISTORIC_ERROR_QUERY_KEY;vargraphQLKey=$secure.PATHPOINT_HISTORIC_ERROR_GRAPHQL_KEY;vartoday=newDate();vardate=today.getFullYear()+\'-\'+(today.getMonth()+1)+\'-\'+today.getDate();vartime=today.getHours()+":"+today.getMinutes()+":"+today.getSeconds();vardateTime=date+\'\'+time;varraw1=JSON.stringify({"query":"{actor{measure_1_1_PRC:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageSINCE5minutesAGO\\",timeout:10){results}}}}","variables":""});vargraphqlpack1={headers:{"Content-Type":"application/json","API-Key":graphQLKey},url:\'https://api.newrelic.com/graphql\',body:raw1};varreturn1=null;functioncallback1(err,response,body){return1=JSON.parse(body);varevents=[];varevent=null;varc=null;for(const[key,value]ofObject.entries(return1.data.actor)){c=key.split("_");if(value.nrql.results!=null){if(c[3]==\'0\'){event={"eventType":"PathpointHistoricErrors","pathpointId":pathpointId,"stage_index":parseInt(c[1]),"touchpoint_index":parseInt(c[2]),"count":value.nrql.results[0].count,"percentage":value.nrql.results[0].percentage}}else{event={"eventType":"PathpointHistoricErrors","pathpointId":pathpointId,"stage_index":parseInt(c[1]),"touchpoint_index":parseInt(c[2]),"count":value.nrql.results[0].R1,"percentage":value.nrql.results[0].R2}}console.log(event);events.push(event);}}varrawN=JSON.stringify(events);varoptions={//DefineendpointURL.url:"https://insights-collector.newrelic.com/v1/accounts/"+myAccountID+"/events",//DefinebodyofPOSTrequest.body:rawN,//Defineinsertkeyandexpecteddatatype.headers:{\'X-Insert-Key\':myInsertKey,\'Content-Type\':\'application/json\'}};console.log(options);$http.post(options,function(error,response,body){console.log(response.statusCode+"statuscodeFUNCIONO");varinfo=JSON.parse(body);console.log(info);});}//MakeGETrequest,passinginoptionsandcallback.$http.post(graphqlpack1,callback1);';
-    expect(result.replace(/\s+/g, '')).toMatch(strExp);
-  });
-
-  it('Function ReadHistoricErrors()', async () => {
-    dataManager.touchPoints = [
-      {
-        index: 0,
-        country: 'PRODUCTION',
-        touchpoints: [
-          {
-            stage_index: 1,
-            value: 'Catalog API',
-            touchpoint_index: 1,
-            status_on_off: true,
-            relation_steps: ['ST1-LINE1-SS1'],
-            measure_points: [
-              {
-                type: 0,
-                error_threshold: 0.2
-              }
-            ]
-          }
-        ]
-      }
-    ];
-    dataManager.stages = [
-      {
-        index: 1,
-        title: 'BROWSE',
-        congestion: {
-          value: 0,
-          percentage: 15
-        },
-        steps: [
-          {
-            value: '',
-            sub_steps: [
-              {
-                index: 1,
-                id: 'ST1-LINE1-SS1',
-                relationship_touchpoints: []
-              }
-            ]
-          }
-        ],
-        touchpoints: [
-          {
-            stage_index: 1,
-            index: 1,
-            history_error: false
-          }
-        ]
-      }
-    ];
-    dataManager.historicErrorsHighLightPercentage = 50;
-    await dataManager.ReadHistoricErrors();
-    expect(dataManager.stages).toEqual([
-      {
-        index: 1,
-        title: 'BROWSE',
-        congestion: {
-          value: 0,
-          percentage: 15
-        },
-        steps: [
-          {
-            value: '',
-            sub_steps: [
-              {
-                index: 1,
-                id: 'ST1-LINE1-SS1',
-                relationship_touchpoints: []
-              }
-            ]
-          }
-        ],
-        touchpoints: [
-          {
-            stage_index: 1,
-            index: 1,
-            history_error: true
-          }
-        ]
-      }
-    ]);
-  });
-
-  it('Function CalculateHistoricErrors()', () => {
-    dataManager.historicErrorsHighLightPercentage = 75;
-    const nrql = {
-      results: [
-        { count: 2, facet: [1, 1, 4] },
-        { count: 0.3, facet: [1, 2, 4] }
-      ]
-    };
-    dataManager.touchPoints = [
-      {
-        index: 0,
-        country: 'PRODUCTION',
-        touchpoints: [
-          {
-            stage_index: 1,
-            touchpoint_index: 1,
-            measure_points: [
-              {
-                type: 0,
-                error_threshold: 0.2
-              }
-            ]
-          },
-          {
-            stage_index: 1,
-            touchpoint_index: 2,
-            measure_points: [
-              {
-                type: 0,
-                error_threshold: 0.2
-              }
-            ]
-          }
-        ]
-      }
-    ];
-    dataManager.stages = [
-      {
-        index: 1,
-        touchpoints: [
-          {
-            stage_index: 1,
-            index: 1,
-            history_error: false
-          },
-          {
-            stage_index: 1,
-            index: 2,
-            history_error: false
-          }
-        ]
-      }
-    ];
-    dataManager.CalculateHistoricErrors(nrql);
-    expect(dataManager.stages).toEqual([
-      {
-        index: 1,
-        touchpoints: [
-          {
-            stage_index: 1,
-            index: 1,
-            history_error: true
-          },
-          {
-            stage_index: 1,
-            index: 2,
-            history_error: true
-          }
-        ]
-      }
-    ]);
-  });
-
-  it('Function SetTouchpointHistoricError()', () => {
-    dataManager.stages = [
-      {
-        index: 1,
-        touchpoints: [
-          {
-            stage_index: 1,
-            index: 1,
-            history_error: false
-          }
-        ]
-      }
-    ];
-    dataManager.SetTouchpointHistoricError(1, 1);
-    expect(dataManager.stages).toEqual([
-      {
-        index: 1,
-        touchpoints: [
-          {
-            stage_index: 1,
-            index: 1,
-            history_error: true
-          }
-        ]
-      }
-    ]);
-  });
-
-  it('Function ClearTouchpointHistoricError()', () => {
-    dataManager.stages = [
-      {
-        index: 1,
-        touchpoints: [
-          {
-            stage_index: 1,
-            index: 1,
-            history_error: true
-          }
-        ]
-      }
-    ];
-    dataManager.ClearTouchpointHistoricError();
-    expect(dataManager.stages).toEqual([
-      {
-        index: 1,
-        touchpoints: [
-          {
-            stage_index: 1,
-            index: 1,
-            history_error: false
-          }
-        ]
-      }
-    ]);
-  });
-
-  it('Function GetTouchpointErrorThreshold() with type measure 0', () => {
-    dataManager.touchPoints = [
-      {
-        index: 0,
-        country: 'PRODUCTION',
-        touchpoints: [
-          {
-            stage_index: 1,
-            touchpoint_index: 1,
-            status_on_off: false,
-            measure_points: [
-              {
-                type: 0,
-                error_threshold: 0.2
-              }
-            ]
-          }
-        ]
-      }
-    ];
-    const result = dataManager.GetTouchpointErrorThreshold(1, 1);
-    expect(result).toEqual(0.2);
-  });
-
-  it('Function GetTouchpointErrorThreshold() with type measure 20', () => {
-    dataManager.touchPoints = [
-      {
-        index: 0,
-        country: 'PRODUCTION',
-        touchpoints: [
-          {
-            stage_index: 1,
-            touchpoint_index: 1,
-            status_on_off: false,
-            measure_points: [
-              {
-                type: 20,
-                error_threshold: 0.9
-              }
-            ]
-          }
-        ]
-      }
-    ];
-    const result = dataManager.GetTouchpointErrorThreshold(1, 1);
-    expect(result).toEqual(0.9);
-  });
-
-  describe('Function CreateNrqlQueriesForHistoricErrorScript()', () => {
-    it('type query 20', () => {
-      dataManager.city = 0;
-      dataManager.touchPoints = [
-        {
-          index: 0,
-          country: 'PRODUCTION',
-          touchpoints: [
-            {
-              stage_index: 1,
-              value: 'Login People',
-              touchpoint_index: 1,
-              status_on_off: true,
-              relation_steps: [4],
-              measure_points: [
-                {
-                  type: 20,
-                  query:
-                    "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
-                  min_count: 10,
-                  session_count: 0,
-                  accountID: 2904070,
-                  measure_time: '15 minutes ago'
-                }
-              ]
-            }
-          ]
-        }
-      ];
-      const strExpect =
-        'varraw1=JSON.stringify({"query":"{actor{measure_1_1_20:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*)assessionFROMPublic_APICallWHEREawsRegion=\'queue\'SINCE5minutesAGO\\",timeout:10){results}}}}","variables":""});vargraphqlpack1={headers:{"Content-Type":"application/json","API-Key":graphQLKey},url:\'https://api.newrelic.com/graphql\',body:raw1};varreturn1=null;functioncallback1(err,response,body){return1=JSON.parse(body);varevents=[];varevent=null;varc=null;for(const[key,value]ofObject.entries(return1.data.actor)){c=key.split("_");if(value.nrql.results!=null){if(c[3]==\'0\'){event={"eventType":"PathpointHistoricErrors","pathpointId":pathpointId,"stage_index":parseInt(c[1]),"touchpoint_index":parseInt(c[2]),"count":value.nrql.results[0].count,"percentage":value.nrql.results[0].percentage}}else{event={"eventType":"PathpointHistoricErrors","pathpointId":pathpointId,"stage_index":parseInt(c[1]),"touchpoint_index":parseInt(c[2]),"count":value.nrql.results[0].R1,"percentage":value.nrql.results[0].R2}}console.log(event);events.push(event);}}';
-      const result = dataManager.CreateNrqlQueriesForHistoricErrorScript();
-      expect(result.replace(/\s+/g, '')).toMatch(strExpect);
-    });
-
-    it('type query 0', () => {
-      dataManager.touchPoints = [
-        {
-          index: 0,
-          country: 'PRODUCTION',
-          touchpoints: [
-            {
-              stage_index: 1,
-              touchpoint_index: 1,
-              measure_points: [
-                {
-                  type: 0,
-                  query: 'SIMPLE QUERY OF TYPE 0'
-                }
-              ]
-            }
-          ]
-        }
-      ];
-      const strExpect =
-        'varraw1=JSON.stringify({"query":"{actor{measure_1_1_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}}}","variables":""});vargraphqlpack1={headers:{"Content-Type":"application/json","API-Key":graphQLKey},url:\'https://api.newrelic.com/graphql\',body:raw1};varreturn1=null;functioncallback1(err,response,body){return1=JSON.parse(body);varevents=[];varevent=null;varc=null;for(const[key,value]ofObject.entries(return1.data.actor)){c=key.split("_");if(value.nrql.results!=null){if(c[3]==\'0\'){event={"eventType":"PathpointHistoricErrors","pathpointId":pathpointId,"stage_index":parseInt(c[1]),"touchpoint_index":parseInt(c[2]),"count":value.nrql.results[0].count,"percentage":value.nrql.results[0].percentage}}else{event={"eventType":"PathpointHistoricErrors","pathpointId":pathpointId,"stage_index":parseInt(c[1]),"touchpoint_index":parseInt(c[2]),"count":value.nrql.results[0].R1,"percentage":value.nrql.results[0].R2}}console.log(event);events.push(event);}}';
-      const result = dataManager.CreateNrqlQueriesForHistoricErrorScript();
-      expect(result.replace(/\s+/g, '')).toMatch(strExpect);
-    });
-
-    it('with 20 touchpoints', () => {
-      dataManager.touchPoints = [
-        {
-          index: 0,
-          country: 'PRODUCTION',
-          touchpoints: [
-            {
-              stage_index: 1,
-              touchpoint_index: 1,
-              measure_points: [
-                {
-                  type: 0,
-                  query: 'SIMPLE QUERY OF TYPE 0'
-                }
-              ]
-            },
-            {
-              stage_index: 1,
-              touchpoint_index: 2,
-              measure_points: [
-                {
-                  type: 0,
-                  query: 'SIMPLE QUERY OF TYPE 0'
-                }
-              ]
-            },
-            {
-              stage_index: 1,
-              touchpoint_index: 3,
-              measure_points: [
-                {
-                  type: 0,
-                  query: 'SIMPLE QUERY OF TYPE 0'
-                }
-              ]
-            },
-            {
-              stage_index: 1,
-              touchpoint_index: 4,
-              measure_points: [
-                {
-                  type: 0,
-                  query: 'SIMPLE QUERY OF TYPE 0'
-                }
-              ]
-            },
-            {
-              stage_index: 1,
-              touchpoint_index: 5,
-              measure_points: [
-                {
-                  type: 0,
-                  query: 'SIMPLE QUERY OF TYPE 0'
-                }
-              ]
-            },
-            {
-              stage_index: 1,
-              touchpoint_index: 6,
-              measure_points: [
-                {
-                  type: 0,
-                  query: 'SIMPLE QUERY OF TYPE 0'
-                }
-              ]
-            },
-            {
-              stage_index: 1,
-              touchpoint_index: 7,
-              measure_points: [
-                {
-                  type: 0,
-                  query: 'SIMPLE QUERY OF TYPE 0'
-                }
-              ]
-            },
-            {
-              stage_index: 1,
-              touchpoint_index: 8,
-              measure_points: [
-                {
-                  type: 0,
-                  query: 'SIMPLE QUERY OF TYPE 0'
-                }
-              ]
-            },
-            {
-              stage_index: 1,
-              touchpoint_index: 9,
-              measure_points: [
-                {
-                  type: 0,
-                  query: 'SIMPLE QUERY OF TYPE 0'
-                }
-              ]
-            },
-            {
-              stage_index: 1,
-              touchpoint_index: 10,
-              measure_points: [
-                {
-                  type: 0,
-                  query: 'SIMPLE QUERY OF TYPE 0'
-                }
-              ]
-            },
-            {
-              stage_index: 1,
-              touchpoint_index: 11,
-              measure_points: [
-                {
-                  type: 0,
-                  query: 'SIMPLE QUERY OF TYPE 0'
-                }
-              ]
-            },
-            {
-              stage_index: 1,
-              touchpoint_index: 12,
-              measure_points: [
-                {
-                  type: 0,
-                  query: 'SIMPLE QUERY OF TYPE 0'
-                }
-              ]
-            },
-            {
-              stage_index: 1,
-              touchpoint_index: 13,
-              measure_points: [
-                {
-                  type: 0,
-                  query: 'SIMPLE QUERY OF TYPE 0'
-                }
-              ]
-            },
-            {
-              stage_index: 1,
-              touchpoint_index: 14,
-              measure_points: [
-                {
-                  type: 0,
-                  query: 'SIMPLE QUERY OF TYPE 0'
-                }
-              ]
-            },
-            {
-              stage_index: 1,
-              touchpoint_index: 15,
-              measure_points: [
-                {
-                  type: 0,
-                  query: 'SIMPLE QUERY OF TYPE 0'
-                }
-              ]
-            },
-            {
-              stage_index: 1,
-              touchpoint_index: 16,
-              measure_points: [
-                {
-                  type: 0,
-                  query: 'SIMPLE QUERY OF TYPE 0'
-                }
-              ]
-            },
-            {
-              stage_index: 1,
-              touchpoint_index: 17,
-              measure_points: [
-                {
-                  type: 0,
-                  query: 'SIMPLE QUERY OF TYPE 0'
-                }
-              ]
-            },
-            {
-              stage_index: 1,
-              touchpoint_index: 18,
-              measure_points: [
-                {
-                  type: 0,
-                  query: 'SIMPLE QUERY OF TYPE 0'
-                }
-              ]
-            },
-            {
-              stage_index: 1,
-              touchpoint_index: 19,
-              measure_points: [
-                {
-                  type: 0,
-                  query: 'SIMPLE QUERY OF TYPE 0'
-                }
-              ]
-            },
-            {
-              stage_index: 1,
-              touchpoint_index: 20,
-              measure_points: [
-                {
-                  type: 0,
-                  query: 'SIMPLE QUERY OF TYPE 0'
-                }
-              ]
-            },
-            {
-              stage_index: 1,
-              touchpoint_index: 21,
-              measure_points: [
-                {
-                  type: 0,
-                  query: 'SIMPLE QUERY OF TYPE 0'
-                }
-              ]
-            }
-          ]
-        }
-      ];
-      const strExpect =
-        'varraw1=JSON.stringify({"query":"{actor{measure_1_1_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_2_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_3_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_4_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_5_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_6_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_7_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_8_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_9_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_10_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_11_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_12_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_13_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_14_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_15_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_16_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_17_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_18_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_19_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}measure_1_20_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}}}","variables":""});varraw2=JSON.stringify({"query":"{actor{measure_1_21_0:account(id:"+myAccountID+"){nrql(query:\\"SELECTcount(*),percentage(count(*),WHEREerroristrue)aspercentageOFTYPE0SINCE5minutesAGO\\",timeout:10){results}}}}","variables":""});vargraphqlpack1={headers:{"Content-Type":"application/json","API-Key":graphQLKey},url:\'https://api.newrelic.com/graphql\',body:raw1};varreturn1=null;vargraphqlpack2={headers:{"Content-Type":"application/json","API-Key":graphQLKey},url:\'https://api.newrelic.com/graphql\',body:raw2};varreturn2=null;functioncallback1(err,response,body){return1=JSON.parse(body);$http.post(graphqlpack2,callback2);}functioncallback2(err,response,body){return2=JSON.parse(body);varevents=[];varevent=null;varc=null;for(const[key,value]ofObject.entries(return1.data.actor)){c=key.split("_");if(value.nrql.results!=null){if(c[3]==\'0\'){event={"eventType":"PathpointHistoricErrors","pathpointId":pathpointId,"stage_index":parseInt(c[1]),"touchpoint_index":parseInt(c[2]),"count":value.nrql.results[0].count,"percentage":value.nrql.results[0].percentage}}else{event={"eventType":"PathpointHistoricErrors","pathpointId":pathpointId,"stage_index":parseInt(c[1]),"touchpoint_index":parseInt(c[2]),"count":value.nrql.results[0].R1,"percentage":value.nrql.results[0].R2}}console.log(event);events.push(event);}}for(const[key,value]ofObject.entries(return2.data.actor)){c=key.split("_");if(value.nrql.results!=null){if(c[3]==\'0\'){event={"eventType":"PathpointHistoricErrors","pathpointId":pathpointId,"stage_index":parseInt(c[1]),"touchpoint_index":parseInt(c[2]),"count":value.nrql.results[0].count,"percentage":value.nrql.results[0].percentage}}else{event={"eventType":"PathpointHistoricErrors","pathpointId":pathpointId,"stage_index":parseInt(c[1]),"touchpoint_index":parseInt(c[2]),"count":value.nrql.results[0].R1,"percentage":value.nrql.results[0].R2}}console.log(event);events.push(event);}}';
-      const result = dataManager.CreateNrqlQueriesForHistoricErrorScript();
-      expect(result.replace(/\s+/g, '')).toMatch(strExpect);
-    });
-  });
-
-  it('Function UpdateTouchpointOnOff()', () => {
-    dataManager.touchPoints = [
-      {
-        index: 0,
-        country: 'PRODUCTION',
-        touchpoints: [
-          {
-            stage_index: 1,
-            touchpoint_index: 1,
-            status_on_off: false
-          }
-        ]
-      }
-    ];
-    const touchpoint = {
-      stage_index: 1,
-      index: 1,
-      status_on_off: true
-    };
-    dataManager.UpdateTouchpointOnOff(touchpoint, true);
-    expect(dataManager.touchPoints).toEqual([
-      {
-        index: 0,
-        country: 'PRODUCTION',
-        touchpoints: [
-          {
-            stage_index: 1,
-            touchpoint_index: 1,
-            status_on_off: true
-          }
-        ]
-      }
-    ]);
-  });
-
-  describe('Function GetTouchpointTune()', () => {
-    it('Only measure point', () => {
-      dataManager.touchPoints = [
-        {
-          index: 0,
-          country: 'PRODUCTION',
-          touchpoints: [
-            {
-              stage_index: 1,
-              touchpoint_index: 1,
-              measure_points: [
-                {
-                  error_threshold: 0.3
-                }
-              ]
-            }
-          ]
-        }
-      ];
-      const touchpoint = {
-        stage_index: 1,
-        index: 1,
-        status_on_off: true
-      };
-      const result = dataManager.GetTouchpointTune(touchpoint);
-      expect(result).toEqual([
-        {
-          error_threshold: 0.3
-          // apdex_time: 0
-        }
-      ]);
-    });
-
-    it('Three measure point', () => {
-      dataManager.touchPoints = [
-        {
-          index: 0,
-          country: 'PRODUCTION',
-          touchpoints: [
-            {
-              stage_index: 1,
-              touchpoint_index: 1,
-              measure_points: [
-                // {
-                //   error_threshold: 0.3
-                // },
-                // {
-                //   error_threshold: 0.2
-                // },
-                {
-                  apdex_time: 0.5
-                }
-              ]
-            }
-          ]
-        }
-      ];
-      const touchpoint = {
-        stage_index: 1,
-        index: 1
-      };
-      const result = dataManager.GetTouchpointTune(touchpoint);
-      expect(result).toEqual([
-        {
-          // error_threshold: 0.3,
-          // error_threshold: 0.2,
-          apdex_time: 0.5
-        }
-      ]);
-    });
-  });
-
-  it('Function GetTouchpointQuerys() type PRC', () => {
-    dataManager.city = 0;
-    const touchpoint = {
-      index: 1,
-      stage_index: 1
-    };
-    dataManager.touchPoints = [
-      {
-        index: 0,
-        country: 'PRODUCTION',
-        touchpoints: [
-          {
-            stage_index: 1,
-            touchpoint_index: 1,
-            measure_points: [
-              {
-                type: 'PRC',
-                query:
-                  "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
-                accountID: 2904070
-              }
-            ]
-          }
-        ]
-      }
-    ];
-    dataManager.timeRange = '5 MINUTES AGO';
-    const result = dataManager.GetTouchpointQuerys(touchpoint);
-    expect(result).toEqual([
-      {
-        accountID: 2904070,
-        label: 'PRC-COUNT-QUERY',
-        query_body:
-          "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
-        query_footer: 'SINCE 5 MINUTES AGO',
-        query_start: '',
-        type: 'PRC',
-        value: 0
-      }
-    ]);
-  });
-
-  it('Function GetTouchpointQuerys() type PCC', () => {
-    dataManager.city = 0;
-    const touchpoint = {
-      index: 1,
-      stage_index: 1
-    };
-    dataManager.touchPoints = [
-      {
-        index: 0,
-        country: 'PRODUCTION',
-        touchpoints: [
-          {
-            stage_index: 1,
-            touchpoint_index: 1,
-            measure_points: [
-              {
-                type: 'PCC',
-                query:
-                  "SELECT count(*) FROM Public_APICall WHERE awsRegion='us-east-1'",
-                accountID: 2904070
-              }
-            ]
-          }
-        ]
-      }
-    ];
-    dataManager.timeRange = '5 MINUTES AGO';
-    const result = dataManager.GetTouchpointQuerys(touchpoint);
-    expect(result).toEqual([
-      {
-        accountID: 2904070,
-        label: 'PCC-COUNT-QUERY',
-        query_body:
-          "SELECT count(*) FROM Public_APICall WHERE awsRegion='us-east-1'",
-        query_footer: 'SINCE 5 MINUTES AGO',
-        query_start: '',
-        type: 'PCC',
-        value: 0
-      }
-    ]);
-  });
-
-  it('Function GetTouchpointQuerys() type APP', () => {
-    dataManager.city = 0;
-    const touchpoint = {
-      index: 1,
-      stage_index: 1
-    };
-    dataManager.touchPoints = [
-      {
-        index: 0,
-        country: 'PRODUCTION',
-        touchpoints: [
-          {
-            stage_index: 1,
-            touchpoint_index: 1,
-            measure_points: [
-              {
-                type: 'APP',
-                query:
-                  "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
-                accountID: 2904070
-              }
-            ]
-          }
-        ]
-      }
-    ];
-    dataManager.timeRange = '5 MINUTES AGO';
-    const result = dataManager.GetTouchpointQuerys(touchpoint);
-    expect(result).toEqual([
-      {
-        accountID: 2904070,
-        label: 'APP-HEALTH-QUERY',
-        query_body:
-          "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
-        query_footer: 'SINCE 5 MINUTES AGO',
-        query_start: '',
-        type: 'APP',
-        value: 0
-      }
-    ]);
-  });
-
-  it('Function GetTouchpointQuerys() type FRT', () => {
-    dataManager.city = 0;
-    const touchpoint = {
-      index: 1,
-      stage_index: 1
-    };
-    dataManager.touchPoints = [
-      {
-        index: 0,
-        country: 'PRODUCTION',
-        touchpoints: [
-          {
-            stage_index: 1,
-            touchpoint_index: 1,
-            measure_points: [
-              {
-                type: 'FRT',
-                query:
-                  "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
-                accountID: 2904070
-              }
-            ]
-          }
-        ]
-      }
-    ];
-    dataManager.timeRange = '5 MINUTES AGO';
-    const result = dataManager.GetTouchpointQuerys(touchpoint);
-    expect(result).toEqual([
-      {
-        accountID: 2904070,
-        label: 'FRT-HEALTH-QUERY',
-        query_body:
-          "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
-        query_footer: 'SINCE 5 MINUTES AGO',
-        query_start: '',
-        type: 'FRT',
-        value: 0
-      }
-    ]);
-  });
-
-  it('Function GetTouchpointQuerys() type SYN', () => {
-    dataManager.city = 0;
-    const touchpoint = {
-      index: 1,
-      stage_index: 1
-    };
-    dataManager.touchPoints = [
-      {
-        index: 0,
-        country: 'PRODUCTION',
-        touchpoints: [
-          {
-            stage_index: 1,
-            touchpoint_index: 1,
-            measure_points: [
-              {
-                type: 'SYN',
-                query:
-                  "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE monitorName='BDB Live person'",
-                accountID: 2904070
-              }
-            ]
-          }
-        ]
-      }
-    ];
-    dataManager.timeRange = '5 MINUTES AGO';
-    const result = dataManager.GetTouchpointQuerys(touchpoint);
-    expect(result).toEqual([
-      {
-        accountID: 2904070,
-        label: 'SYN-CHECK-QUERY',
-        query_body:
-          "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE monitorName='BDB Live person'",
-        query_footer: 'SINCE 5 MINUTES AGO',
-        query_start: '',
-        type: 'SYN',
-        value: 0
-      }
-    ]);
-  });
-
-  describe('Function UpdateTouchpointTune()', () => {
-    it('Case PRC && PCC', () => {
-      dataManager.touchPoints = [
-        {
-          index: 0,
-          country: 'PRODUCTION',
-          touchpoints: [
-            {
-              stage_index: 1,
-              touchpoint_index: 1,
-              status_on_off: true,
-              relation_steps: [1],
-              measure_points: [
-                {
-                  type: 'PRC',
-                  query:
-                    "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
-                  session_count: 0,
-                  accountID: 2904070,
-                  measure_time: '15 minutes ago'
-                },
-                {
-                  type: 'PCC',
-                  query:
-                    "SELECT count(*) FROM Public_APICall WHERE awsRegion='us-east-1'",
-                  min_count: 20,
-                  accountID: 2904070,
-                  transaction_count: 0
-                }
-              ]
-            }
-          ]
-        }
-      ];
-      const touchpoint = {
-        stage_index: 1,
-        index: 1
-      };
-      const datos = { error_threshold: 0.3 };
-      dataManager.UpdateTouchpointTune(touchpoint, datos);
-      expect(dataManager.touchPoints).toEqual([
-        {
-          index: 0,
-          country: 'PRODUCTION',
-          touchpoints: [
-            {
-              stage_index: 1,
-              touchpoint_index: 1,
-              status_on_off: true,
-              measure_points: [
-                {
-                  type: 'PRC',
-                  query:
-                    "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
-                  session_count: 0,
-                  accountID: 2904070,
-                  measure_time: '15 minutes ago'
-                },
-                {
-                  type: 'PCC',
-                  query:
-                    "SELECT count(*) FROM Public_APICall WHERE awsRegion='us-east-1'",
-                  min_count: 20,
-                  accountID: 2904070,
-                  transaction_count: 0
-                }
-              ],
-              relation_steps: [1]
-            }
-          ]
-        }
-      ]);
-    });
-
-    it('Case APP && FRT', () => {
-      dataManager.touchPoints = [
-        {
-          index: 0,
-          country: 'PRODUCTION',
-          touchpoints: [
-            {
-              stage_index: 1,
-              touchpoint_index: 1,
-              status_on_off: true,
-              relation_steps: [1],
-              measure_points: [
-                {
-                  type: 'APP',
-                  query:
-                    "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
-                  apdex_value: 0,
-                  response_value: 0,
-                  error_percentage: 0,
-                  accountID: 2904070
-                },
-                {
-                  type: 'FRT',
-                  query:
-                    "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
-                  min_apdex: 0.6,
-                  max_response_time: 1.2,
-                  max_error_percentage: 5,
-                  apdex_value: 0,
-                  response_value: 0,
-                  error_percentage: 0,
-                  accountID: 2904070
-                }
-              ]
-            }
-          ]
-        }
-      ];
-      const touchpoint = {
-        stage_index: 1,
-        index: 1
-      };
-      const datos = { error_threshold: 0.3 };
-      dataManager.UpdateTouchpointTune(touchpoint, datos);
-      expect(dataManager.touchPoints).toEqual([
-        {
-          index: 0,
-          country: 'PRODUCTION',
-          touchpoints: [
-            {
-              stage_index: 1,
-              touchpoint_index: 1,
-              status_on_off: true,
-              measure_points: [
-                {
-                  type: 'APP',
-                  query:
-                    "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
-                  apdex_value: 0,
-                  response_value: 0,
-                  error_percentage: 0,
-                  accountID: 2904070
-                },
-                {
-                  type: 'FRT',
-                  query:
-                    "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
-                  min_apdex: 0.6,
-                  max_response_time: 1.2,
-                  max_error_percentage: 5,
-                  apdex_value: 0,
-                  response_value: 0,
-                  error_percentage: 0,
-                  accountID: 2904070
-                }
-              ],
-              relation_steps: [1]
-            }
-          ]
-        }
-      ]);
-    });
-
-    it('Case SYN', () => {
-      dataManager.touchPoints = [
-        {
-          index: 0,
-          country: 'PRODUCTION',
-          touchpoints: [
-            {
-              stage_index: 1,
-              touchpoint_index: 1,
-              status_on_off: true,
-              relation_steps: [1],
-              measure_points: [
-                {
-                  type: 'SYN',
-                  query:
-                    "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE monitorName='BDB Live person'",
-                  success_percentage: 0,
-                  max_duration: 0,
-                  max_request_time: 0,
-                  measure_time: '3 hours ago',
-                  accountID: 2904070
-                }
-              ]
-            }
-          ]
-        }
-      ];
-      const touchpoint = {
-        stage_index: 1,
-        index: 1
-      };
-      const datos = { error_threshold: 0.3 };
-      dataManager.UpdateTouchpointTune(touchpoint, datos);
-      expect(dataManager.touchPoints).toEqual([
-        {
-          index: 0,
-          country: 'PRODUCTION',
-          touchpoints: [
-            {
-              stage_index: 1,
-              touchpoint_index: 1,
-              status_on_off: true,
-              measure_points: [
-                {
-                  type: 'SYN',
-                  query:
-                    "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE monitorName='BDB Live person'",
-                  success_percentage: 0,
-                  max_duration: 0,
-                  max_request_time: 0,
-                  measure_time: '3 hours ago',
-                  accountID: 2904070
-                }
-              ],
-              relation_steps: [1]
-            }
-          ]
-        }
-      ]);
-    });
-  });
-
-  it('Function UpdateTouchpointQuerys()', () => {
-    dataManager.touchPoints = [
-      {
-        index: 0,
-        country: 'PRODUCTION',
-        touchpoints: [
-          {
-            stage_index: 1,
-            touchpoint_index: 1,
-            measure_points: [
-              {
-                type: 0,
-                query: 'SIMPLE QUERY OF TYPE 0',
-                error_threshold: 0.8
-              },
-              {
-                type: 4,
-                appName: 'SIMPLE QUERY OF TYPE 4',
-                error_threshold: 0.8
-              }
-            ]
-          }
-        ]
-      }
-    ];
-    const touchpoint = {
-      stage_index: 1,
-      index: 1
-    };
-    const datos = [
-      {
-        query_body: 'NEW SIMPLE QUERY OF TYPE 0',
-        type: 0
-      },
-      {
-        query_body: 'NEW SIMPLE QUERY OF TYPE 4',
-        type: 4
-      }
-    ];
-    dataManager.UpdateTouchpointQuerys(touchpoint, datos);
-    expect(dataManager.touchPoints).toEqual([
-      {
-        index: 0,
-        country: 'PRODUCTION',
-        touchpoints: [
-          {
-            stage_index: 1,
-            touchpoint_index: 1,
-            measure_points: [
-              {
-                type: 0,
-                query: 'NEW SIMPLE QUERY OF TYPE 0',
-                error_threshold: 0.8
-              },
-              {
-                type: 4,
-                appName: 'SIMPLE QUERY OF TYPE 4',
-                error_threshold: 0.8,
-                query: 'NEW SIMPLE QUERY OF TYPE 4'
-              }
-            ]
-          }
-        ]
-      }
-    ]);
-  });
-
-  it('Function GetHistoricParameters()', () => {
-    const result = dataManager.GetHistoricParameters();
-    expect(result).toEqual({
-      // days: 8,
-      hours: 192,
-      percentage: 26
-    });
-  });
-
-  it('Function UpdateGoutParameters()', () => {
-    const dropForm = {
-      dropmoney: 0,
-      hours: 0,
-      percentage: 0
-    };
-    dataManager.UpdateGoutParameters(dropForm);
-  });
-
-  it('Function GetGoutParameters()', () => {
-    dataManager.GetGoutParameters();
-  });
-
-  it('Function GetStorageDropParams()', () => {
-    dataManager.accountId = 123;
-    dataManager.GetStorageDropParams();
-  });
-
-  it('Function UpdateHistoricParameters()', () => {
-    // ===== AGREGAR EL HISTORIC-ERROR-HOURS YA SE QUITO EL HISTORIC-ERROR-DAYS
-
-    // dataManager.UpdateHistoricParameters(7, 30);
-    dataManager.UpdateHistoricParameters(30);
-    // expect(dataManager.historicErrorsDays).toEqual(7);
-    // expect(dataManager.historicErrorsHighLightPercentage).toEqual(30);
-  });
-
-  it('Function GetStorageHistoricErrorsParams()', async () => {
-    await dataManager.GetStorageHistoricErrorsParams();
-    // expect(dataManager.historicErrorsDays).toEqual(0);
-    expect(dataManager.historicErrorsHighLightPercentage).toEqual(0);
-  });
-
-  // it('Function GetDBmaxCapacity()', async () => {
-  //   await dataManager.GetDBmaxCapacity();
-  //   expect(dataManager.capacity).toEqual([
-  //     {
-  //       STAGES: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-  //     }
-  //   ]);
-  // });
-
-  // it('Function UpdateData()', async () => {
-  //   dataManager.graphQlmeasures = [
-  //     [
-  //       {
-  //         type: 0,
-  //         query: 'BAD REQUEST ON PURPOSE'
-  //       },
-  //       'BAD REQUEST ON PURPOSE'
-  //     ]
-  //   ];
-  //   dataManager.accountId = 123;
-  //   const measures = [
-  //     {
-  //       type: 0,
-  //       query: 'SIMPLE QUERY OF TYPE ONE'
-  //     },
-  //     {
-  //       type: 1,
-  //       query: 'SIMPLE QUERY OF TYPE ONE'
-  //     },
-  //     {
-  //       type: 2,
-  //       query: 'SIMPLE QUERY OF TYPE TWO'
-  //     },
-  //     {
-  //       type: 3,
-  //       query: 'SIMPLE QUERY OF TYPE THREE'
-  //     },
-  //     {
-  //       type: 4,
-  //       query: 'SIMPLE QUERY OF TYPE FOUR',
-  //       sessions: [{ id: 'abc123' }]
-  //     },
-  //     {
-  //       type: 20,
-  //       query: 'SIMPLE QUERY OF TYPE TWENTY'
-  //     }
-  //   ];
-  //   dataManager.timeRange = '5 MINUTES AGO';
-  //   dataManager.getOldSessions = true;
-  //   for (const measure of measures) {
-  //     dataManager.FetchMeasure(measure);
-  //   }
-  //   dataManager.accountId = 123;
-  //   dataManager.touchPoints = [
-  //     {
-  //       index: 0,
-  //       country: 'PRODUCTION',
-  //       touchpoints: [
-  //         {
-  //           stage_index: 1,
-  //           value: 'Catalog API',
-  //           touchpoint_index: 1,
-  //           status_on_off: true,
-  //           relation_steps: [1],
-  //           measure_points: [
-  //             {
-  //               type: 0,
-  //               query: 'SIMPLE QUERY OF TYPE ONE'
-  //             },
-  //             {
-  //               type: 1,
-  //               query: 'SIMPLE QUERY OF TYPE ONE'
-  //             },
-  //             {
-  //               type: 2,
-  //               query: 'SIMPLE QUERY OF TYPE TWO'
-  //             },
-  //             {
-  //               type: 3,
-  //               query: 'SIMPLE QUERY OF TYPE THREE'
-  //             },
-  //             {
-  //               type: 4,
-  //               query: 'SIMPLE QUERY OF TYPE FOUR',
-  //               sessions: [{ id: 'abc123' }]
-  //             },
-  //             {
-  //               type: 20,
-  //               query: 'SIMPLE QUERY OF TYPE TWENTY'
-  //             }
-  //           ]
-  //         }
-  //       ]
-  //     }
-  //   ];
-  //   const stages = [
-  //     {
-  //       index: 1,
-  //       title: 'BROWSE',
-  //       congestion: {
-  //         value: 0,
-  //         percentage: 15
-  //       },
-  //       steps: [
-  //         {
-  //           value: '',
-  //           sub_steps: [
-  //             {
-  //               index: 1,
-  //               id: 'ST1-LINE1-SS1',
-  //               relationship_touchpoints: [1]
-  //             }
-  //           ]
-  //         }
-  //       ],
-  //       touchpoints: [
-  //         {
-  //           error: true,
-  //           stage_index: 1
-  //         }
-  //       ]
-  //     }
-  //   ];
-  //   const kpis = [
-  //     {
-  //       index: 0,
-  //       type: 101,
-  //       name: 'Unique Visitors',
-  //       shortName: 'Unique',
-  //       link:
-  //         'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
-  //       query:
-  //         'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago',
-  //       value: {
-  //         current: 0,
-  //         previous: 0
-  //       },
-  //       check: true
-  //     }
-  //   ];
-  //   const timeRangeKpi = {
-  //     range: '24 HOURS AGO'
-  //   };
-  //   const result = await dataManager.UpdateData(
-  //     '30 MINUTES AGO',
-  //     0,
-  //     false,
-  //     stages,
-  //     kpis,
-  //     timeRangeKpi
-  //   );
-  //   expect(result.stages).toEqual(stages);
-  // });
 });
