@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/newrelic/nr1-pathpoint/compare/v1.2.0...v1.2.1) (2021-11-16)
+
+
+### Bug Fixes
+
+* force release ([6983516](https://github.com/newrelic/nr1-pathpoint/commit/6983516765fc49877fa81b0a4a46cb953b0b0b57))
+
 # [1.2.0](https://github.com/newrelic/nr1-pathpoint/compare/v1.1.1...v1.2.0) (2021-11-15)
 
 
