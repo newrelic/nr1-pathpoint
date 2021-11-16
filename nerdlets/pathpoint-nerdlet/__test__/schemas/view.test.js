@@ -180,6 +180,7 @@ describe('view schemas', () => {
       ]
     }
   ];
+  // The pathpointVersion needs to be updated when the minor version changes
   it('stages correct structure', () => {
     const result = CustomSchemaValidation({
       stages: stages,
