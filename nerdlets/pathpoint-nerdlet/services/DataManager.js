@@ -19,14 +19,14 @@ import {
 } from 'nr1';
 
 import LogConnector from './LogsConnector';
-import SynConnector from './SynConnector';
+// import SynConnector from './SynConnector';
 
 // DEFINE AND EXPORT CLASS
 export default class DataManager {
   constructor() {
     this.NerdStorageVault = new NerdStorageVault();
     this.LogConnector = new LogConnector();
-    this.SynConnector = new SynConnector();
+    // this.SynConnector = new SynConnector();
     this.minPercentageError = 100;
     this.historicErrorsHours = 192;
     this.historicErrorsHighLightPercentage = 26;
