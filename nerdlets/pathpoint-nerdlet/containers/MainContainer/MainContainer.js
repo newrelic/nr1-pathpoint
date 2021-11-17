@@ -64,6 +64,7 @@ export default class MainContainer extends React.Component {
       updating: false,
       queryModalShowing: false,
       generalConfigurationSaved: false,
+      disableGeneralConfigurationSubmit: false,
       accountName: 'Demotron V2',
       credentials: {
         accountId: null,
@@ -1409,26 +1410,72 @@ export default class MainContainer extends React.Component {
   };
 
   ValidateIngestLicense = async license => {
-    const valid = await this.DataManager.ValidateIngestLicense(license);
-    this.setState(state => {
-      return {
-        licenseValidations: {
-          ...state.licenseValidations,
-          ingestLicense: valid
+    if (license && license !== '') {
+      this.setState(
+        {
+          disableGeneralConfigurationSubmit: true
+        },
+        async () => {
+          const valid = await this.DataManager.ValidateIngestLicense(license);
+          this.setState(state => {
+            return {
+              disableGeneralConfigurationSubmit: false,
+              licenseValidations: {
+                ...state.licenseValidations,
+                ingestLicense: valid
+              }
+            };
+          });
         }
-      };
-    });
+      );
+    } else {
+      this.setState(state => {
+        return {
+          disableGeneralConfigurationSubmit: false,
+          licenseValidations: {
+            ...state.licenseValidations,
+            ingestLicense: true
+          }
+        };
+      });
+    }
   };
 
   ValidateUserApiKey = async userApiKey => {
-    const valid = await this.DataManager.ValidateUserApiKey(userApiKey);
-    this.setState(state => {
-      return {
-        licenseValidations: {
-          ...state.licenseValidations,
-          userApiKey: valid
+    if (userApiKey && userApiKey !== '') {
+      this.setState(
+        {
+          disableGeneralConfigurationSubmit: true
+        },
+        async () => {
+          const valid = await this.DataManager.ValidateUserApiKey(userApiKey);
+          this.setState(state => {
+            return {
+              disableGeneralConfigurationSubmit: false,
+              licenseValidations: {
+                ...state.licenseValidations,
+                userApiKey: valid
+              }
+            };
+          });
         }
-      };
+      );
+    } else {
+      this.setState(state => {
+        return {
+          disableGeneralConfigurationSubmit: false,
+          licenseValidations: {
+            ...state.licenseValidations,
+            userApiKey: true
+          }
+        };
+      });
+    }
+  };
+
+  ToggleEnableSubmit = param => {
+    this.setState({
+      disableGeneralConfigurationSubmit: param
     });
   };
 
@@ -2014,10 +2061,14 @@ export default class MainContainer extends React.Component {
             accountIDs={accountIDs}
             HandleCredentialsFormChange={this.HandleCredentialsFormChange}
             credentialsData={this.state.credentials}
+            disableGeneralConfigurationSubmit={
+              this.state.disableGeneralConfigurationSubmit
+            }
             licenseValidations={this.state.licenseValidations}
             resetCredentials={this.resetCredentials}
             ValidateIngestLicense={this.ValidateIngestLicense}
             ValidateUserApiKey={this.ValidateUserApiKey}
+            ToggleEnableSubmit={this.ToggleEnableSubmit}
             handleSaveUpdateGeneralConfiguration={
               this.handleSaveUpdateGeneralConfiguration
             }
