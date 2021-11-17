@@ -26,7 +26,9 @@ function BodyGeneralConfigurationFormModal(props) {
     handleOnChange,
     ValidateIngestLicense,
     licenseValidations,
-    ValidateUserApiKey
+    ValidateUserApiKey,
+    ToggleEnableSubmit,
+    disableGeneralConfigurationSubmit
   } = props;
   const datos = stageNameSelected.datos;
   return (
@@ -54,8 +56,12 @@ function BodyGeneralConfigurationFormModal(props) {
             bsClass="support-modal-input-text"
             value={props.credentialsData.ingestLicense}
             // onPaste={e => e.preventDefault()}
+            onFocus={() => ToggleEnableSubmit(true)}
             onCopy={e => e.preventDefault()}
-            onBlur={e => ValidateIngestLicense(e.target.value)}
+            onBlur={e => {
+              ToggleEnableSubmit(false);
+              ValidateIngestLicense(e.target.value);
+            }}
             onChange={e =>
               handleOnChange({
                 target: { name: 'ingestLicense', value: e.target.value }
@@ -76,9 +82,13 @@ function BodyGeneralConfigurationFormModal(props) {
             placeholder="Type your User API Key"
             bsClass="support-modal-input-text"
             value={props.credentialsData.userAPIKey}
+            onFocus={() => ToggleEnableSubmit(true)}
             // onPaste={e => e.preventDefault()}
             onCopy={e => e.preventDefault()}
-            onBlur={e => ValidateUserApiKey(e.target.value)}
+            onBlur={e => {
+              ToggleEnableSubmit(false);
+              ValidateUserApiKey(e.target.value);
+            }}
             onChange={e =>
               handleOnChange({
                 target: { name: 'userAPIKey', value: e.target.value }
@@ -190,6 +200,7 @@ function BodyGeneralConfigurationFormModal(props) {
               variant="contained"
               color="primary"
               disabled={
+                disableGeneralConfigurationSubmit ||
                 licenseValidations.ingestLicense === false ||
                 licenseValidations.userApiKey === false
               }
@@ -215,7 +226,9 @@ BodyGeneralConfigurationFormModal.propTypes = {
   resetCredentials: PropTypes.func.isRequired,
   ValidateIngestLicense: PropTypes.func.isRequired,
   licenseValidations: PropTypes.object.isRequired,
-  ValidateUserApiKey: PropTypes.func.isRequired
+  ValidateUserApiKey: PropTypes.func.isRequired,
+  ToggleEnableSubmit: PropTypes.func.isRequired,
+  disableGeneralConfigurationSubmit: PropTypes.object.isRequired
 };
 
 export {
