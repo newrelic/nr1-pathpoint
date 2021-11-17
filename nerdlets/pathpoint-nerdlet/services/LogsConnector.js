@@ -1,15 +1,14 @@
 import axios from 'axios';
 import nr1Json from '../../../nr1.json';
-import env from '../../../.env.json';
 import { UserQuery } from 'nr1';
 import { browserName, browserVersion } from 'react-device-detect';
 
 // clase que trabaja de manera independiente
 export default class LogConnector {
   constructor() {
-    this.enableDisable = true;
+    this.enableDisable = false;
     this.pathpointId = nr1Json.id;
-    this.licenseKey = env.newRelicLogLicense;
+    this.licenseKey = 'API-KEY-HERE';
     this.buffer = [];
     this.axiosInstance = axios.create();
     UserQuery.query().then(({ data }) => {
@@ -22,6 +21,10 @@ export default class LogConnector {
 
   EnableDisable(status) {
     this.enableDisable = status;
+  }
+
+  SetLicenseKey(key) {
+    this.licenseKey = key;
   }
 
   SendLog(datos) {
@@ -41,8 +44,10 @@ export default class LogConnector {
   CheckBuffer() {
     if (this.licenseKey === 'API-KEY-HERE' || !this.enableDisable) {
       this.buffer = [];
+      console.log('NO-LOGS');
       return null;
     }
+    console.log('SENDING-LOGS');
     const maxSizeBuffer = new Blob([JSON.stringify(this.buffer)]).size;
     const maxSixeSend = 999999;
     let ArrayResult = [];

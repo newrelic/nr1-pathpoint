@@ -109,7 +109,7 @@ function BodyGeneralConfigurationFormModal(props) {
                 })
               }
             />
-            <label className="label-checkbox"> Enable Pathoint Logging </label>
+            <label className="label-checkbox"> Enable Pathpoint Logging </label>
           </div>
           <div style={{ marginTop: '10px' }}>
             <input
