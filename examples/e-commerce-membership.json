@@ -1,29 +1,61 @@
 {
-    "pathpointVersion": "1.0.0",
-    "banner_kpis": [
+    "pathpointVersion": "1.5.0",
+    "kpis": [
         {
-            "description": "Total Order Count",
+            "type": 101,
+            "name": "Total Order Count",
+            "shortName": "Orders",
+            "measure": [
+                {
+                    "accountID": 1,
+                    "query": "SELECT count(*) as value FROM Transaction COMPARE WITH 1 week ago",
+                    "link": "https://onenr.io/08dQePr1dje"
+                }
+            ],
+            "value_type": "INT",
             "prefix": "",
-            "suffix": "Orders",
-            "query": "SELECT count(*) as value FROM Transaction SINCE 1 minute AGO"
+            "suffix": "Orders"
         },
         {
-            "description": "Total Order Value",
+            "type": 101,
+            "name": "Total Order Value",
+            "shortName": "Total Value",
+            "measure": [
+                {
+                    "accountID": 1,
+                    "query": "SELECT count(*) as value FROM Transaction COMPARE WITH 2 day ago",
+                    "link": "https://onenr.io/01qwL8KPxw5"
+                }
+            ],
+            "value_type": "FLOAT",
             "prefix": "$",
-            "suffix": "",
-            "query": "SELECT count(*) as value FROM Transaction SINCE 5 minutes AGO"
+            "suffix": ""
         },
         {
-            "description": "Max Duration",
+            "type": 100,
+            "name": "Max Duration",
+            "shortName": "Max Duration",
+            "measure": [
+                {
+                    "accountID": 1,
+                    "query": "SELECT max(duration) as value FROM Transaction",
+                    "link": "https://onenr.io/01qwL8KPxw5"
+                }
+            ],
+            "value_type": "FLOAT",
             "prefix": "",
-            "suffix": "",
-            "query": "SELECT max(duration) as value FROM Transaction SINCE 30 minutes AGO"
+            "suffix": "sec."
         }
     ],
     "stages": [
         {
             "title": "MEMBERSHIP",
             "active_dotted": "none",
+<<<<<<< HEAD
+=======
+            "arrowMode": "FLOW",
+            "percentage_above_avg": 20,
+>>>>>>> f6d5da8690519b0c2f2273ef43942e96dd2b54fa
             "steps": [
                 {
                     "line": 1,
@@ -93,7 +125,11 @@
             ],
             "touchpoints": [
                 {
+<<<<<<< HEAD
                     "title": "Ultron\r",
+=======
+                    "title": "Ultron (PRC)",
+>>>>>>> f6d5da8690519b0c2f2273ef43942e96dd2b54fa
                     "status_on_off": true,
                     "dashboard_url": [
                         "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NDg"
@@ -101,6 +137,7 @@
                     "related_steps": "ST1-LINE1-SS1,ST1-LINE3-SS3,ST1-LINE5-SS1",
                     "queries": [
                         {
+<<<<<<< HEAD
                             "type": "COUNT-QUERY",
                             "query": "SELECT count(*) from Transaction WHERE appName='QS'"
                         },
@@ -119,11 +156,43 @@
                         {
                             "type": "SESSIONS-QUERY-DURATION",
                             "query": "SELECT count(*) FROM PageView WHERE appName='QS' FACET session LIMIT MAX"
+=======
+                            "type": "PRC-COUNT-QUERY",
+                            "accountID": 1,
+                            "query": "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
+                            "query_timeout": 10,
+                            "min_count": 10,
+                            "measure_time": "15 minutes ago"
                         }
                     ]
                 },
                 {
+                    "title": "Ultron (APP)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/01qwL8KPxw5"
+                    ],
+                    "related_steps": "ST1-LINE1-SS1,ST1-LINE3-SS3,ST1-LINE5-SS1",
+                    "queries": [
+                        {
+                            "type": "APP-HEALTH-QUERY",
+                            "accountID": 1,
+                            "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
+                            "query_timeout": 10,
+                            "min_apdex": 0.4,
+                            "max_response_time": 0.5,
+                            "max_error_percentage": 5,
+                            "measure_time": "5 MINUTES AGO"
+>>>>>>> f6d5da8690519b0c2f2273ef43942e96dd2b54fa
+                        }
+                    ]
+                },
+                {
+<<<<<<< HEAD
                     "title": "Registration",
+=======
+                    "title": "Registration (PRC)",
+>>>>>>> f6d5da8690519b0c2f2273ef43942e96dd2b54fa
                     "status_on_off": true,
                     "dashboard_url": [
                         "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NDk"
@@ -131,6 +200,7 @@
                     "related_steps": "ST1-LINE2-SS2,ST1-LINE3-SS1,ST1-LINE4-SS1",
                     "queries": [
                         {
+<<<<<<< HEAD
                             "type": "COUNT-QUERY",
                             "query": "SELECT count(*) from Transaction WHERE appName='shipping-service'"
                         },
@@ -149,18 +219,54 @@
                         {
                             "type": "SESSIONS-QUERY-DURATION",
                             "query": ""
+=======
+                            "type": "PRC-COUNT-QUERY",
+                            "accountID": 1,
+                            "query": "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
+                            "query_timeout": 10,
+                            "min_count": 10,
+                            "measure_time": "15 minutes ago"
                         }
                     ]
                 },
                 {
+                    "title": "Registration (FRT)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/01qwL8KPxw5"
+                    ],
+                    "related_steps": "ST1-LINE2-SS2,ST1-LINE3-SS1,ST1-LINE4-SS1",
+                    "queries": [
+                        {
+                            "type": "FRT-HEALTH-QUERY",
+                            "accountID": 1,
+                            "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
+                            "query_timeout": 10,
+                            "min_apdex": 0.6,
+                            "max_response_time": 1.2,
+                            "max_error_percentage": 5,
+                            "measure_time": "5 MINUTES AGO"
+>>>>>>> f6d5da8690519b0c2f2273ef43942e96dd2b54fa
+                        }
+                    ]
+                },
+                {
+<<<<<<< HEAD
                     "title": "Membership",
                     "status_on_off": true,
                     "dashboard_url": [
                         "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTA"
+=======
+                    "title": "Membership (PRC)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/01qwL8KPxw5"
+>>>>>>> f6d5da8690519b0c2f2273ef43942e96dd2b54fa
                     ],
                     "related_steps": "ST1-LINE1-SS2,ST1-LINE2-SS1,ST1-LINE4-SS2,ST1-LINE3-SS2",
                     "queries": [
                         {
+<<<<<<< HEAD
                             "type": "COUNT-QUERY",
                             "query": "SELECT count(*) from Transaction WHERE appName='productCatalog-service'"
                         },
@@ -179,6 +285,14 @@
                         {
                             "type": "SESSIONS-QUERY-DURATION",
                             "query": ""
+=======
+                            "type": "PRC-COUNT-QUERY",
+                            "accountID": 1,
+                            "query": "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
+                            "query_timeout": 10,
+                            "min_count": 10,
+                            "measure_time": "15 minutes ago"
+>>>>>>> f6d5da8690519b0c2f2273ef43942e96dd2b54fa
                         }
                     ]
                 }
