@@ -23,8 +23,14 @@ export default class LogConnector {
     this.enableDisable = status;
   }
 
-  SetLicenseKey(key) {
-    this.licenseKey = key;
+  async SetLicenseKey(key) {
+    const valid = await this.ValidateIngestLicense(key);
+    if (valid) {
+      this.licenseKey = key;
+      console.log('LoggsConn:set-key:', key);
+    } else {
+      console.log('LoggsConn:set-key: [INVALID-KEY]', key);
+    }
   }
 
   SendLog(datos) {

@@ -85,6 +85,7 @@ export default class DataManager {
       this.TryToSetKeys(this.credentials.actor.nerdStorageVault.secrets);
     }
     await this.GetGeneralConfiguration();
+    this.TryToEnableServices();
     this.version = appPackage.version;
     if (this.lastStorageVersion === appPackage.version) {
       this.colors = ViewData.colors;
@@ -113,19 +114,51 @@ export default class DataManager {
   }
 
   TryToSetKeys(secrets) {
-    // Setting Log Key
     console.log('Secrets:',secrets);
     secrets.forEach(item => {
       if (
         item.key &&
         item.key === 'ingestLicense' &&
         item.value &&
-        item.value !== '_'
+        item.value !== '_' &&
+        item.value.indexOf('xxxxxx') === -1
       ) {
         this.LogConnector.SetLicenseKey(item.value);
         console.log('Setting Log KEY:',item.value);
       }
+      if (
+        item.key &&
+        item.key === 'userAPIKey' &&
+        item.value &&
+        item.value !== '_' &&
+        item.value.indexOf('xxxxxx') === -1
+      ) {
+        this.SynConnector.SetLicenseKey(item.value);
+        console.log('Setting Syn KEY:',item.value);
+      }
     });
+  }
+
+  TryToEnableServices() {
+    // TODO
+    console.log('General Configuration:',this.generalConfiguration);
+    if (Reflect.has(this.generalConfiguration, 'loggin')) {
+      this.LogConnector.EnableDisable(this.generalConfiguration.loggin);
+      // eslint-disable-next-line prettier/prettier
+      console.log('EBABLE/DISABLE-LOG-CONNECTOR:', this.generalConfiguration.loggin);
+    }
+    if (Reflect.has(this.generalConfiguration, 'dropTools')) {
+      this.SynConnector.EnableDisableDrop(this.generalConfiguration.dropTools);
+      // eslint-disable-next-line prettier/prettier
+      console.log('EBABLE/DISABLE-SYN-CONNECTOR-DROP:', this.generalConfiguration.loggin);
+    }
+    if (Reflect.has(this.generalConfiguration, 'flameTools')) {
+      this.SynConnector.EnableDisableFlame(
+        this.generalConfiguration.flameTools
+      );
+      // eslint-disable-next-line prettier/prettier
+      console.log('EBABLE/DISABLE-SYN-CONNECTOR-FLAME:', this.generalConfiguration.flameTools);
+    }
   }
 
   SetTotalContainers() {
@@ -2577,18 +2610,27 @@ for (const [key, value] of Object.entries(return` +
     this.LogConnector.EnableDisable(status);
   }
 
-  SaveCredentialsInVault(credentials) {
+  async SaveCredentialsInVault(credentials) {
+    // Only Save Valid Keys
+    console.log('Saving Credentials:', credentials);
     if (credentials.ingestLicense) {
-      this.NerdStorageVault.storeCredentialData(
-        'ingestLicense',
-        credentials.ingestLicense
-      );
+      const check = await this.ValidateIngestLicense(credentials.ingestLicense);
+      if (check) {
+        this.NerdStorageVault.storeCredentialData(
+          'ingestLicense',
+          credentials.ingestLicense
+        );
+        this.LogConnector.SetLicenseKey(credentials.ingestLicense);
+      }
     }
     if (credentials.userAPIKey) {
-      this.NerdStorageVault.storeCredentialData(
-        'userAPIKey',
-        credentials.userAPIKey
-      );
+      const check = await this.ValidateUserApiKey(credentials.userAPIKey);
+      if (check) {
+        this.NerdStorageVault.storeCredentialData(
+          'userAPIKey',
+          credentials.userAPIKey
+        );
+      }
     }
   }
 
@@ -2599,6 +2641,7 @@ for (const [key, value] of Object.entries(return` +
 
   SaveGeneralConfiguration(data) {
     try {
+      console.log('SavingGeneralConfiguration:',data);
       AccountStorageMutation.mutate({
         accountId: this.accountId,
         actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
@@ -2611,6 +2654,11 @@ for (const [key, value] of Object.entries(return` +
           accountId: data.accountId
         }
       });
+      if (Reflect.has(data, 'loggin')) {
+        this.EnableDisableLogsConnector(data.loggin);
+      } else {
+        console.log('BAD-generalCofiguration');
+      }
     } catch (error) {
       throw new Error(error);
     }
