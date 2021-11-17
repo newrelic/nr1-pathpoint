@@ -78,6 +78,12 @@ export default class DataManager {
     await this.GetStorageHistoricErrorsParams();
     await this.GetStorageDropParams();
     this.credentials = await this.NerdStorageVault.getCredentialsData();
+    if (
+      this.credentials &&
+      this.credentials.actor.nerdStorageVault.secrets.length > 0
+    ) {
+      this.TryToSetKeys(this.credentials.actor.nerdStorageVault.secrets);
+    }
     await this.GetGeneralConfiguration();
     this.version = appPackage.version;
     if (this.lastStorageVersion === appPackage.version) {
@@ -104,6 +110,22 @@ export default class DataManager {
       credentials: this.credentials,
       generalConfiguration: this.generalConfiguration
     };
+  }
+
+  TryToSetKeys(secrets) {
+    // Setting Log Key
+    console.log('Secrets:',secrets);
+    secrets.forEach(item => {
+      if (
+        item.key &&
+        item.key === 'ingestLicense' &&
+        item.value &&
+        item.value !== '_'
+      ) {
+        this.LogConnector.SetLicenseKey(item.value);
+        console.log('Setting Log KEY:',item.value);
+      }
+    });
   }
 
   SetTotalContainers() {
