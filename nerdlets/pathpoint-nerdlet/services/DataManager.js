@@ -91,7 +91,7 @@ export default class DataManager {
     if (this.lastStorageVersion === appPackage.version) {
       this.colors = ViewData.colors;
       await this.GetInitialDataFromStorage();
-      this.GetStorageTouchpoints();
+      await this.GetStorageTouchpoints();
     } else {
       this.stages = ViewData.stages;
       this.colors = ViewData.colors;
@@ -100,6 +100,7 @@ export default class DataManager {
       this.SetStorageTouchpoints();
       this.SetVersion();
     }
+    this.AddCustomAccountIDs();
     this.stepsByStage = this.GetStepsByStage();
     return {
       stages: [...this.stages],
@@ -211,7 +212,6 @@ export default class DataManager {
       const { data } = await AccountsQuery.query();
       if (data.length > 0) {
         this.FillAccountIDs(data);
-        this.AddCustomAccountIDs();
         if (accountName !== '') {
           data.some(account => {
             let found = false;
@@ -812,6 +812,17 @@ export default class DataManager {
               // the Touchpoint response is with ERROR
               this.CheckIfResponseErrorCanBeSet(extraInfo, true);
             }
+          }
+        } else if (c[0] === 'measure') {
+          const measure = this.graphQlmeasures[Number(c[1])][0];
+          if (measure.type === 'TEST' && errors && errors.length > 0) {
+            measure.results = {
+              error: errors[0].message
+            };
+          } else {
+            measure.results = {
+              error: 'INVALID QUERY'
+            };
           }
         }
       }
@@ -2477,6 +2488,7 @@ for (const [key, value] of Object.entries(return` +
   }
 
   UpdateTouchpointQuerys(touchpoint, datos) {
+    console.log('Updating Touchpoint',touchpoint,'DATOS',datos)
     this.touchPoints.some(element => {
       let found = false;
       if (element.index === this.city) {
@@ -2504,6 +2516,7 @@ for (const [key, value] of Object.entries(return` +
             datos.forEach(dato => {
               this.UpdateMeasure(dato, tp.measure_points);
             });
+            console.log("measures:",tp.measure_points);
             this.SetStorageTouchpoints();
           }
           return found2;
@@ -2518,9 +2531,8 @@ for (const [key, value] of Object.entries(return` +
       let found = false;
       if (measure.type === data.type) {
         found = true;
-        if (data.accountID !== this.accountId) {
-          measure.accountID = data.accountID;
-        }
+        console.log('Found AccountID:',data.accountID,'this.accid:',this.accountId, 'originalID:',measure.accountID)
+        measure.accountID = data.accountID;
         measure.query = data.query_body;
         measure.timeout = data.timeout;
       }

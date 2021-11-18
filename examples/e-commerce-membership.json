@@ -38,7 +38,7 @@
             "measure": [
                 {
                     "accountID": 1,
-                    "query": "SELECT count(*) as value  FROM  Public_APICall",
+                    "query": "SELECT max(duration) as value FROM Transaction",
                     "link": "https://onenr.io/01qwL8KPxw5"
                 }
             ],
