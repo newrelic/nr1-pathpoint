@@ -33,6 +33,7 @@ export default class DataManager {
     this.dropParams = null;
     this.version = null;
     this.accountId = null;
+    this.SyntheticAccountID = null;
     this.graphQlmeasures = [];
     this.touchPointsCopy = null;
     this.city = 0;
@@ -82,7 +83,7 @@ export default class DataManager {
       this.credentials &&
       this.credentials.actor.nerdStorageVault.secrets.length > 0
     ) {
-      this.TryToSetKeys(this.credentials.actor.nerdStorageVault.secrets);
+      await this.TryToSetKeys(this.credentials.actor.nerdStorageVault.secrets);
     }
     await this.GetGeneralConfiguration();
     this.TryToEnableServices();
@@ -113,8 +114,10 @@ export default class DataManager {
     };
   }
 
-  TryToSetKeys(secrets) {
-    console.log('Secrets:',secrets);
+  async TryToSetKeys(secrets) {
+    // console.log('Secrets:',secrets);
+    let licensekey = '';
+    let userApiKey = '';
     secrets.forEach(item => {
       if (
         item.key &&
@@ -123,8 +126,7 @@ export default class DataManager {
         item.value !== '_' &&
         item.value.indexOf('xxxxxx') === -1
       ) {
-        this.LogConnector.SetLicenseKey(item.value);
-        console.log('Setting Log KEY:',item.value);
+        licensekey = item.value;
       }
       if (
         item.key &&
@@ -133,31 +135,45 @@ export default class DataManager {
         item.value !== '_' &&
         item.value.indexOf('xxxxxx') === -1
       ) {
-        this.SynConnector.SetLicenseKey(item.value);
-        console.log('Setting Syn KEY:',item.value);
+        userApiKey = item.value;
       }
     });
+    if (licensekey !== '') {
+      const valid = await this.ValidateIngestLicense(licensekey);
+      if (valid) {
+        this.LogConnector.SetLicenseKey(licensekey);
+        this.SynConnector.SetLicenseKey(licensekey);
+      }
+    }
+    if (userApiKey !== '') {
+      const valid = await this.ValidateUserApiKey(userApiKey);
+      if (valid) {
+        this.SynConnector.SetUserApiKey(userApiKey);
+      }
+    }
   }
 
   TryToEnableServices() {
     // TODO
-    console.log('General Configuration:',this.generalConfiguration);
+    // console.log('General Configuration:',this.generalConfiguration);
     if (Reflect.has(this.generalConfiguration, 'loggin')) {
       this.LogConnector.EnableDisable(this.generalConfiguration.loggin);
-      // eslint-disable-next-line prettier/prettier
-      console.log('EBABLE/DISABLE-LOG-CONNECTOR:', this.generalConfiguration.loggin);
+      // console.log('ENABLE/DISABLE-LOG-CONNECTOR:', this.generalConfiguration.loggin);
     }
     if (Reflect.has(this.generalConfiguration, 'dropTools')) {
       this.SynConnector.EnableDisableDrop(this.generalConfiguration.dropTools);
-      // eslint-disable-next-line prettier/prettier
-      console.log('EBABLE/DISABLE-SYN-CONNECTOR-DROP:', this.generalConfiguration.loggin);
+      // console.log('ENABLE/DISABLE-SYN-CONNECTOR-DROP:', this.generalConfiguration.dropTools);
     }
     if (Reflect.has(this.generalConfiguration, 'flameTools')) {
       this.SynConnector.EnableDisableFlame(
         this.generalConfiguration.flameTools
       );
-      // eslint-disable-next-line prettier/prettier
-      console.log('EBABLE/DISABLE-SYN-CONNECTOR-FLAME:', this.generalConfiguration.flameTools);
+      // console.log('ENABLE/DISABLE-SYN-CONNECTOR-FLAME:', this.generalConfiguration.flameTools);
+    }
+    if (Reflect.has(this.generalConfiguration, 'accountId')) {
+      this.SyntheticAccountID = this.generalConfiguration.accountId;
+      this.SynConnector.SetAccountID(this.SyntheticAccountID);
+      // console.log('SETTIMNG-SYN-ACCOUNT-ID:', this.generalConfiguration.accountId);
     }
   }
 
@@ -182,7 +198,7 @@ export default class DataManager {
       await this.TouchPointsUpdate();
       await this.UpdateMerchatKpi();
       this.CalculateUpdates();
-      console.log("FINISH-Update")
+      console.log('FINISH-Update');
       return {
         stages: this.stages,
         kpis: this.kpis
@@ -2612,8 +2628,11 @@ for (const [key, value] of Object.entries(return` +
 
   async SaveCredentialsInVault(credentials) {
     // Only Save Valid Keys
-    console.log('Saving Credentials:', credentials);
-    if (credentials.ingestLicense) {
+    // console.log('Saving Credentials:', credentials);
+    if (
+      credentials.ingestLicense &&
+      credentials.ingestLicense.indexOf('xxxxxx') === -1
+    ) {
       const check = await this.ValidateIngestLicense(credentials.ingestLicense);
       if (check) {
         this.NerdStorageVault.storeCredentialData(
@@ -2621,9 +2640,13 @@ for (const [key, value] of Object.entries(return` +
           credentials.ingestLicense
         );
         this.LogConnector.SetLicenseKey(credentials.ingestLicense);
+        this.SynConnector.SetLicenseKey(credentials.ingestLicense);
       }
     }
-    if (credentials.userAPIKey) {
+    if (
+      credentials.userAPIKey &&
+      credentials.userAPIKey.indexOf('xxxxxx') === -1
+    ) {
       const check = await this.ValidateUserApiKey(credentials.userAPIKey);
       if (check) {
         this.NerdStorageVault.storeCredentialData(
@@ -2641,7 +2664,7 @@ for (const [key, value] of Object.entries(return` +
 
   SaveGeneralConfiguration(data) {
     try {
-      console.log('SavingGeneralConfiguration:',data);
+      // console.log('SavingGeneralConfiguration:', data);
       AccountStorageMutation.mutate({
         accountId: this.accountId,
         actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
@@ -2657,7 +2680,11 @@ for (const [key, value] of Object.entries(return` +
       if (Reflect.has(data, 'loggin')) {
         this.EnableDisableLogsConnector(data.loggin);
       } else {
-        console.log('BAD-generalCofiguration');
+        // console.log('BAD-generalCofiguration');
+      }
+      if (Reflect.has(data, 'accountId')) {
+        this.SyntheticAccountID = data.accountId;
+        this.SynConnector.SetAccountID(data.accountId);
       }
     } catch (error) {
       throw new Error(error);

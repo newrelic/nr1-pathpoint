@@ -8,7 +8,7 @@ export default class LogConnector {
   constructor() {
     this.enableDisable = false;
     this.pathpointId = nr1Json.id;
-    this.licenseKey = 'API-KEY-HERE';
+    this.ingestLicense = 'API-KEY-HERE';
     this.buffer = [];
     this.axiosInstance = axios.create();
     UserQuery.query().then(({ data }) => {
@@ -23,14 +23,9 @@ export default class LogConnector {
     this.enableDisable = status;
   }
 
-  async SetLicenseKey(key) {
-    const valid = await this.ValidateIngestLicense(key);
-    if (valid) {
-      this.licenseKey = key;
-      console.log('LoggsConn:set-key:', key);
-    } else {
-      console.log('LoggsConn:set-key: [INVALID-KEY]', key);
-    }
+  SetLicenseKey(key) {
+    this.ingestLicense = key;
+    // console.log('LoggsConn:set-key:', key);
   }
 
   SendLog(datos) {
@@ -48,7 +43,7 @@ export default class LogConnector {
   }
 
   CheckBuffer() {
-    if (this.licenseKey === 'API-KEY-HERE' || !this.enableDisable) {
+    if (this.ingestLicense === 'API-KEY-HERE' || !this.enableDisable) {
       this.buffer = [];
       console.log('NO-LOGS');
       return null;
@@ -71,7 +66,7 @@ export default class LogConnector {
           .post('https://log-api.newrelic.com/log/v1', logEnvio, {
             headers: {
               contentType: 'application/json',
-              'X-License-Key': this.licenseKey
+              'X-License-Key': this.ingestLicense
             }
           })
           .then(() => {

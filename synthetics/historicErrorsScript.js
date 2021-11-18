@@ -1,9 +1,9 @@
-//Insert API Credentials
-
-var myAccountID = $secure.PATHPOINT_HISTORIC_ERROR_ACCOUNTID;
-var myInsertKey = $secure.PATHPOINT_HISTORIC_ERROR_INSERT_KEY;
-var myQueryKey = $secure.PATHPOINT_HISTORIC_ERROR_QUERY_KEY;
-var graphQLKey = $secure.PATHPOINT_HISTORIC_ERROR_GRAPHQL_KEY;
+/* eslint-disable prefer-template */
+/* eslint-disable prettier/prettier */
+// Insert API Credentials
+const myAccountID = $secure.PATHPOINT_SYN_ACCOUNTID;
+const myInsertKey = $secure.PATHPOINT_INGEST_LICENSE;
+const graphQLKey =  $secure.PATHPOINT_USER_API_KEY;
 
 //Import the `assert` module to validate results.
 var today = new Date();
