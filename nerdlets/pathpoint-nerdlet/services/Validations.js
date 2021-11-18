@@ -19,7 +19,7 @@ export default class ValidationQuery {
      }`;
     let dataReturn = {};
     const { errors, data } = await NerdGraphQuery.query({ query: gql });
-    if (data) {
+    if (data && data.actor.account && data.actor.account.nrql) {
       dataReturn = data.actor.account.nrql
         ? data.actor.account.nrql.results
         : [];
