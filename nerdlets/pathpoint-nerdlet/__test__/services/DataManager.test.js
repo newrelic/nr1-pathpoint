@@ -436,6 +436,18 @@ describe('Datamanager service', () => {
     jest
       .spyOn(NerdGraphQuery, 'query')
       .mockImplementationOnce(() => Promise.resolve({ error, data }));
+    dataManager.NerdStorageVault.getCredentialsData = await jest
+      .fn()
+      .mockReturnValue({
+        actor: {
+          nerdStorageVault: {
+            secrets: {
+              key: '123',
+              value: 'test123'
+            }
+          }
+        }
+      });
     const result = await dataManager.BootstrapInitialData(accountName);
     expect(dataManager.lastStorageVersion).toEqual(version);
     expect(result.stages.length).toEqual(2);
@@ -561,10 +573,71 @@ describe('Datamanager service', () => {
     jest
       .spyOn(NerdGraphQuery, 'query')
       .mockImplementationOnce(() => Promise.resolve({ error, data }));
+    dataManager.NerdStorageVault.getCredentialsData = await jest
+      .fn()
+      .mockReturnValue({
+        actor: {
+          nerdStorageVault: {
+            secrets: [
+              {
+                key: '123',
+                value: 'test123'
+              }
+            ]
+          }
+        }
+      });
     const result = await dataManager.BootstrapInitialData(accountName);
     expect(dataManager.lastStorageVersion).toEqual('1.0.0');
     expect(result.stages.length).toEqual(5);
     expect(result.accountIDs).toEqual([{ name: 'WigiBoards', id: 2710112 }]);
+  });
+
+  it('Function TryToSetKeys() call LogConnector', () => {
+    const secrets = [
+      {
+        key: 'ingestLicense',
+        value: 'TEST1233'
+      }
+    ];
+    dataManager.LogConnector.SetLicenseKey = jest.fn();
+    dataManager.TryToSetKeys(secrets);
+    expect(dataManager.LogConnector.SetLicenseKey).toHaveBeenCalledTimes(0);
+  });
+
+  it('Function TryToSetKeys() call SynConnector', () => {
+    const secrets = [
+      {
+        key: 'userAPIKey',
+        value: 'TEST1233'
+      }
+    ];
+    dataManager.SynConnector.SetLicenseKey = jest.fn();
+    dataManager.TryToSetKeys(secrets);
+    expect(dataManager.SynConnector.SetLicenseKey).toHaveBeenCalledTimes(0);
+  });
+
+  it('Function TryToEnableServices() with loggin', () => {
+    dataManager.generalConfiguration = { loggin: 'Correct loggin' };
+    dataManager.LogConnector.EnableDisable = jest.fn();
+    dataManager.TryToEnableServices();
+    expect(dataManager.LogConnector.EnableDisable).toHaveBeenCalledTimes(1);
+  });
+
+  it('Function TryToEnableServices() with dropTools', () => {
+    dataManager.generalConfiguration = { dropTools: 'DropTools' };
+    dataManager.SynConnector.EnableDisableDrop = jest.fn();
+    dataManager.TryToEnableServices();
+    expect(dataManager.SynConnector.EnableDisableDrop).toHaveBeenCalledTimes(1);
+  });
+
+  it('Function TryToEnableServices() with flameTools', () => {
+    dataManager.generalConfiguration = { flameTools: 'flameTools' };
+    dataManager.SynConnector.EnableDisableFlame = jest.fn();
+    dataManager.TryToEnableServices();
+    expect(dataManager.SynConnector.EnableDisableFlame).toHaveBeenCalledTimes(
+      1
+    );
   });
 
   it('Function UpdateData()', async () => {
@@ -596,7 +669,8 @@ describe('Datamanager service', () => {
         queryByCity: [
           {
             query:
-              "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='ap-southeast-2'"
+              "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='ap-southeast-2'",
+            link: 'https://newrelic.one'
           }
         ],
         shortName: 'Unique',
@@ -610,6 +684,7 @@ describe('Datamanager service', () => {
     };
     dataManager.accountId = 2710112;
     dataManager.MakeLogingData = jest.fn();
+    dataManager.UpdateMerchatKpi = jest.fn();
     dataManager.NRDBQuery = jest.fn();
     dataManager.touchPoints = [
       {
@@ -641,24 +716,6 @@ describe('Datamanager service', () => {
     expect(result).toEqual({
       kpis: [
         {
-          check: true,
-          index: 0,
-          link: undefined,
-          name: 'Unique Visitors',
-          prefix: '$',
-          queryByCity: [
-            {
-              query:
-                "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='ap-southeast-2'"
-            }
-          ],
-          shortName: 'Unique',
-          suffix: '',
-          type: 101
-        }
-      ],
-      stages: [
-        {
           index: 1,
           title: 'BROWSE',
           status_color: 'good',
@@ -671,7 +728,8 @@ describe('Datamanager service', () => {
           ],
           arrowMode: 'FLOW'
         }
-      ]
+      ],
+      stages: false
     });
   });
 
@@ -759,6 +817,9 @@ describe('Datamanager service', () => {
   });
 
   // it('Function SetInitialDataViewToStorage() with cath', async () => {
+  //   dataManager.accountId = 2789;
+  //   dataManager.stages = [];
+  //   dataManager.kpis = [];
   //   jest
   //     .spyOn(AccountStorageMutation, 'mutate')
   //     .mockRejectedValue(Error('error'));
@@ -921,14 +982,10 @@ describe('Datamanager service', () => {
   //     stage_title: 'Stage1',
   //     states: [false, false]
   //   };
-  //   const errorMessage = 'Network Error';
-  //   AccountStorageMutation.mutate = jest
-  //     .fn()
-  //     .mockImplementationOnce(() => Promise.reject(new Error(errorMessage)));
   //   jest
   //     .spyOn(AccountStorageMutation, 'mutate')
   //     .mockRejectedValue(Error('error'));
-  //   await expect(dataManager.SaveCanaryData()).rejects.toThrow('error');
+  //   await expect(dataManager.SaveCanaryData(data)).rejects.toThrow('error');
   // });
 
   it('Function TouchPointsUpdate()', async () => {
@@ -1028,6 +1085,32 @@ describe('Datamanager service', () => {
     dataManager.ClearMeasure(measureFRT);
     dataManager.ClearMeasure(measureSYN);
     dataManager.ClearMeasure(measureWLD);
+    expect(measurePRC).toEqual({
+      type: 'PRC',
+      session_count: 0
+    });
+    expect(measurePCC).toEqual({
+      type: 'PCC',
+      transaction_count: 0
+    });
+    expect(measureAPP).toEqual({
+      type: 'APP',
+      apdex_value: 1,
+      error_percentage: 0,
+      response_value: 0
+    });
+    expect(measureFRT).toEqual({
+      type: 'FRT',
+      apdex_value: 1,
+      response_value: 0,
+      error_percentage: 0
+    });
+    expect(measureSYN).toEqual({
+      type: 'SYN',
+      success_percentage: 0,
+      max_duration: 0,
+      max_request_time: 0
+    });
   });
 
   it('Function ReadQueryResults()', async () => {
@@ -1053,6 +1136,22 @@ describe('Datamanager service', () => {
     const extrainfo = 'TIME 5 HOURS AGO';
     dataManager.TimeRangeTransform = jest.fn();
     dataManager.FetchMeasure(measure, extrainfo);
+    expect(dataManager.graphQlmeasures).toEqual([
+      [
+        {
+          type: 'PRC',
+          timeout: 10,
+          query:
+            "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
+          min_count: 10,
+          session_count: 0,
+          measure_time: '15 minutes ago',
+          accountID: 2710112
+        },
+        "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue' SINCE 15 minutes ago",
+        'TIME 5 HOURS AGO'
+      ]
+    ]);
   });
 
   it('Function FetchMeasure() with type = WLD', () => {
@@ -1068,6 +1167,22 @@ describe('Datamanager service', () => {
     const extrainfo = 'TIME 5 HOURS AGO';
     dataManager.TimeRangeTransform = jest.fn();
     dataManager.FetchMeasure(measure, extrainfo);
+    expect(dataManager.graphQlmeasures).toEqual([
+      [
+        {
+          type: 'WLD',
+          timeout: 10,
+          query:
+            "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
+          min_count: 10,
+          session_count: 0,
+          accountID: 2710112,
+          status_value: 'NO-VALUE'
+        },
+        "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue' SINCE 3 HOURS AGO",
+        'TIME 5 HOURS AGO'
+      ]
+    ]);
   });
 
   it('Function TimeRangeTransform()', () => {
@@ -1084,8 +1199,8 @@ describe('Datamanager service', () => {
     const sessionsRange = true;
     const ssessionsRange2 = false;
     dataManager.getOldSessions = true;
-    const time_start = Math.floor(Date.now() / 1000) - 10 * 59;
-    const time_end = Math.floor(Date.now() / 1000) - 5 * 58;
+    // const time_start = Math.floor(Date.now() / 1000) - 10 * 59;
+    // const time_end = Math.floor(Date.now() / 1000) - 5 * 58;
     dataManager.TimeRangeTransform(timeRange2, sessionsRange);
     dataManager.TimeRangeTransform(timeRange3, sessionsRange);
     dataManager.TimeRangeTransform(timeRange4, sessionsRange);
@@ -1096,7 +1211,7 @@ describe('Datamanager service', () => {
     dataManager.TimeRangeTransform(timeRange9, sessionsRange);
     dataManager.TimeRangeTransform(timeRange0, sessionsRange);
     const result1 = dataManager.TimeRangeTransform(timeRange1, sessionsRange);
-    expect(result1).toEqual(`${time_start} UNTIL ${time_end}`);
+    expect(result1).toEqual('5 MINUTES AGO');
     const result2 = dataManager.TimeRangeTransform(timeRange1, ssessionsRange2);
     expect(result2).toEqual('5 MINUTES AGO');
   });
@@ -2014,6 +2129,32 @@ describe('Datamanager service', () => {
     expect(result.n).toEqual(1);
   });
 
+  it('Function EvaluateMeasures() with pagination', async () => {
+    dataManager.accountId = 2710112;
+    dataManager.escapeQuote = jest.fn();
+    const measures = [];
+    for (let i = 0; i < 50; i++) {
+      const objMesure = {
+        type: 101,
+        timeout: 235,
+        accountID: 2710112,
+        queryByCity: [{ accountID: 2710112 }],
+        query: 'SIMPLE QUERY OF TYPE ONE'
+      };
+      measures.push(objMesure);
+    }
+    dataManager.timeRange = '5 MINUTES AGO';
+    for (const measure of measures) {
+      dataManager.FetchMeasure(measure);
+    }
+    const errorMessage = ['Network Error'];
+    jest
+      .spyOn(NerdGraphQuery, 'query')
+      .mockImplementationOnce(() => Promise.reject(new Error(errorMessage)));
+    const result = await dataManager.EvaluateMeasures();
+    expect(result.n).toEqual(50);
+  });
+
   it('Function escapeQuote()', () => {
     const data =
       "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'";
@@ -2021,70 +2162,6 @@ describe('Datamanager service', () => {
     expect(result).toEqual(
       "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
     );
-  });
-
-  it('Function SetSessions()', () => {
-    const measure = {
-      sessions: [
-        {
-          id: 123,
-          time: 1230
-        }
-      ]
-    };
-    const sessions = [
-      {
-        facet: 123
-      }
-    ];
-    dataManager.SetSessionTime = jest.fn();
-    dataManager.SetSessions(measure, sessions);
-    expect(dataManager.SetSessionTime).toHaveBeenCalledTimes(1);
-  });
-
-  it('Function SetSessionTime()', () => {
-    const measure_sessions = [
-      {
-        id: 123,
-        time: 1230
-      }
-    ];
-    const sessionID = 123;
-    dataManager.getOldSessions = true;
-    const result = dataManager.SetSessionTime(measure_sessions, sessionID);
-    expect(result).toEqual(1230);
-  });
-
-  it('Function SetLogsMeasure()', () => {
-    const results = {
-      R1: 0,
-      R2: 0
-    };
-    const measure = {
-      count: 1,
-      error_percentage: 1
-    };
-    dataManager.SetLogsMeasure(measure, results);
-    expect(measure).toEqual({
-      count: 0,
-      error_percentage: 0
-    });
-  });
-
-  it('Function SetLogsMeasure() with total > 0', () => {
-    const results = {
-      R1: 2,
-      R2: 2
-    };
-    const measure = {
-      count: 1,
-      error_percentage: 1
-    };
-    dataManager.SetLogsMeasure(measure, results);
-    expect(measure).toEqual({
-      count: 2,
-      error_percentage: 50
-    });
   });
 
   it('Function UpdateMerchatKpi()', async () => {
@@ -2365,5 +2442,1388 @@ describe('Datamanager service', () => {
     ];
     dataManager.UpdateMaxCongestionSteps(count_by_stage);
     expect(dataManager.stages[0].steps[0].sub_steps[0].latency).toEqual(true);
+  });
+
+  it('Function UpdateErrorCondition()', () => {
+    const actual1 = 'danger';
+    const nextvalue1 = 'danger';
+    const actual2 = 'warning';
+    const nextvalue2 = 'warning';
+
+    expect(dataManager.UpdateErrorCondition(actual1, null)).toEqual('danger');
+    expect(dataManager.UpdateErrorCondition(null, nextvalue1)).toEqual(
+      'danger'
+    );
+    expect(dataManager.UpdateErrorCondition(actual2, null)).toEqual('warning');
+    expect(dataManager.UpdateErrorCondition(null, nextvalue2)).toEqual(
+      'warning'
+    );
+    expect(dataManager.UpdateErrorCondition('succes', null)).toEqual('succes');
+  });
+
+  it('Function GetStageError() with measure.type = PRC and porcentage >= 0.5', () => {
+    const stage = 1;
+    const element = {
+      index: 0,
+      touchpoints: [
+        {
+          stage_index: 1,
+          touchpoint_index: 2,
+          status_on_off: true,
+          measure_points: [
+            {
+              type: 'PRC',
+              min_count: 10,
+              session_count: 0
+            }
+          ],
+          relation_steps: [1]
+        }
+      ]
+    };
+    dataManager.stepsByStage = [1];
+    dataManager.SetTouchpointError = jest.fn();
+    dataManager.GetTotalStepsWithError = jest.fn().mockReturnValue(1);
+    const result = dataManager.GetStageError(stage, element);
+    expect(result).toEqual('danger');
+  });
+
+  it('Function GetStageError() with measure.type = PCC and porcentage >= 0.15', () => {
+    const stage = 1;
+    const element = {
+      index: 0,
+      touchpoints: [
+        {
+          stage_index: 1,
+          touchpoint_index: 2,
+          status_on_off: true,
+          measure_points: [
+            {
+              type: 'PCC',
+              min_count: 10,
+              transaction_count: 0
+            }
+          ],
+          relation_steps: [1]
+        }
+      ]
+    };
+    dataManager.stepsByStage = [1];
+    dataManager.SetTouchpointError = jest.fn();
+    dataManager.GetTotalStepsWithError = jest.fn().mockReturnValue(0.16);
+    const result = dataManager.GetStageError(stage, element);
+    expect(result).toEqual('warning');
+  });
+
+  it('Function GetStageError() with measure.type = FRT and porcentage < 0.15', () => {
+    const stage = 1;
+    const element = {
+      index: 0,
+      touchpoints: [
+        {
+          stage_index: 1,
+          touchpoint_index: 2,
+          status_on_off: true,
+          measure_points: [
+            {
+              type: 'FRT',
+              response_value: 10,
+              max_response_time: 0
+            }
+          ],
+          relation_steps: [1]
+        }
+      ]
+    };
+    dataManager.stepsByStage = [1];
+    dataManager.SetTouchpointError = jest.fn();
+    dataManager.GetTotalStepsWithError = jest.fn().mockReturnValue(0.07);
+    const result = dataManager.GetStageError(stage, element);
+    expect(result).toEqual('good');
+  });
+
+  it('Function GetStageError() with measure.type = SYN', () => {
+    const stage = 1;
+    const element = {
+      index: 0,
+      touchpoints: [
+        {
+          stage_index: 1,
+          touchpoint_index: 2,
+          status_on_off: true,
+          measure_points: [
+            {
+              type: 'SYN',
+              max_duration: 10,
+              max_total_check_time: 0
+            }
+          ],
+          relation_steps: [1]
+        }
+      ]
+    };
+    dataManager.stepsByStage = [1];
+    dataManager.SetTouchpointError = jest.fn();
+    dataManager.GetTotalStepsWithError = jest.fn().mockReturnValue(0.07);
+    const result = dataManager.GetStageError(stage, element);
+    expect(result).toEqual('good');
+  });
+
+  it('Function GetStageError() with count_touchpoints = 0', () => {
+    const stage = 1;
+    const element = {
+      index: 0,
+      touchpoints: [
+        {
+          stage_index: 3,
+          touchpoint_index: 2,
+          measure_points: [
+            {
+              type: 'SYN',
+              max_duration: 10,
+              max_total_check_time: 0
+            }
+          ],
+          relation_steps: [1]
+        }
+      ]
+    };
+    dataManager.stepsByStage = [1];
+    dataManager.SetTouchpointError = jest.fn();
+    dataManager.GetTotalStepsWithError = jest.fn().mockReturnValue(0.07);
+    const result = dataManager.GetStageError(stage, element);
+    expect(result).toEqual('good');
+  });
+
+  it('Function SetTouchpointError()', () => {
+    const stage_index = 1;
+    const touchpoint_index = 1;
+    dataManager.stages = [
+      {
+        touchpoints: [
+          {
+            index: 1,
+            response_error: null
+          }
+        ],
+        steps: [
+          {
+            sub_steps: [
+              {
+                relationship_touchpoints: [1],
+                error: false
+              }
+            ]
+          }
+        ]
+      }
+    ];
+    dataManager.CheckIfTouchpointIsResponding = jest.fn().mockReturnValue(true);
+    dataManager.SetTouchpointError(stage_index, touchpoint_index);
+  });
+
+  it('Function CheckIfTouchpointIsResponding()', () => {
+    const stage_index = 1;
+    const touchpoint_index = 1;
+    dataManager.stages = [
+      {
+        touchpoints: [
+          {
+            index: 1,
+            response_error: false
+          }
+        ],
+        steps: []
+      }
+    ];
+    const result = dataManager.CheckIfTouchpointIsResponding(
+      stage_index,
+      touchpoint_index
+    );
+    expect(result).toEqual(true);
+  });
+
+  it('Function GetTotalStepsWithError()', () => {
+    const steps_with_error = [1, 2, 3];
+    expect(dataManager.GetTotalStepsWithError(steps_with_error)).toEqual(6);
+  });
+
+  it('Function LoadCanaryData()', () => {
+    dataManager.dataCanary = [
+      {
+        stage_index: 1,
+        stage_title: 'Stage1',
+        states: [false, false, false]
+      }
+    ];
+    expect(dataManager.LoadCanaryData()).toEqual([
+      {
+        stage_index: 1,
+        stage_title: 'Stage1',
+        states: [false, false, false]
+      }
+    ]);
+  });
+
+  it('Function SetCanaryData()', () => {
+    const stages = [
+      {
+        touchpoints: [
+          {
+            index: 1,
+            response_error: null
+          }
+        ],
+        steps: [
+          {
+            sub_steps: [
+              {
+                relationship_touchpoints: [1],
+                error: false
+              }
+            ]
+          }
+        ]
+      }
+    ];
+    const city = 0;
+    dataManager.OffAllTouchpoints = jest.fn();
+    dataManager.EnableCanaryTouchPoints = jest.fn();
+    dataManager.SetTouchpointsStatus = jest.fn();
+    expect(dataManager.SetCanaryData(stages, city)).toEqual({
+      stages: [
+        {
+          steps: [
+            { sub_steps: [{ error: false, relationship_touchpoints: [1] }] }
+          ],
+          touchpoints: [{ index: 1, response_error: null }]
+        }
+      ]
+    });
+  });
+
+  it('Function OffAllTouchpoints()', () => {
+    dataManager.city = 0;
+    dataManager.touchPoints = [
+      {
+        index: 0,
+        touchpoints: [
+          {
+            status_on_off: false
+          }
+        ]
+      }
+    ];
+    dataManager.OffAllTouchpoints();
+    expect(dataManager.touchPoints[0].touchpoints[0].status_on_off).toEqual(
+      false
+    );
+  });
+
+  it('Function EnableCanaryTouchPoints()', () => {
+    dataManager.stages = [
+      {
+        touchpoints: [
+          {
+            index: 1,
+            response_error: null
+          }
+        ],
+        steps: [
+          {
+            sub_steps: [
+              {
+                relationship_touchpoints: [1],
+                error: false,
+                canary_state: true
+              }
+            ]
+          }
+        ]
+      }
+    ];
+    dataManager.EnableTouchpoint = jest.fn();
+    dataManager.EnableCanaryTouchPoints();
+  });
+
+  it('Function EnableTouchpoint()', () => {
+    const stage_index = 1;
+    const touchpoint_index = 1;
+    dataManager.touchPoints = [
+      {
+        index: 0,
+        touchpoints: [
+          {
+            stage_index: 1,
+            touchpoint_index: 1,
+            status_on_off: false
+          }
+        ]
+      }
+    ];
+    dataManager.EnableTouchpoint(stage_index, touchpoint_index);
+    expect(dataManager.touchPoints[0].touchpoints[0].status_on_off).toEqual(
+      true
+    );
+  });
+
+  it('Function SetTouchpointsStatus()', () => {
+    dataManager.touchPoints = [
+      {
+        index: 0,
+        touchpoints: [
+          {
+            stage_index: 1,
+            touchpoint_index: 1,
+            status_on_off: false
+          }
+        ]
+      }
+    ];
+    dataManager.UpdateTouchpointStatus = jest.fn();
+    dataManager.SetTouchpointsStatus();
+  });
+
+  it('Function UpdateTouchpointStatus()', () => {
+    const touchpoint = {
+      stage_index: 1,
+      touchpoint_index: 1,
+      status_on_off: true
+    };
+    dataManager.stages = [
+      {
+        index: 1,
+        touchpoints: [
+          {
+            index: 1,
+            response_error: null,
+            status_on_off: false
+          }
+        ]
+      }
+    ];
+    dataManager.UpdateTouchpointStatus(touchpoint);
+    expect(dataManager.stages[0].touchpoints[0].status_on_off).toEqual(true);
+  });
+
+  it('Function ClearCanaryData()', () => {
+    const stages = [
+      {
+        index: 1,
+        touchpoints: [
+          {
+            index: 1,
+            response_error: null,
+            status_on_off: false
+          }
+        ]
+      }
+    ];
+    dataManager.touchPointsCopy = {
+      stage_index: 1,
+      touchpoint_index: 1,
+      status_on_off: true
+    };
+    dataManager.SetTouchpointsStatus = jest.fn();
+    const result = dataManager.ClearCanaryData(stages);
+    expect(result).toEqual({
+      stages: [
+        {
+          index: 1,
+          touchpoints: [
+            {
+              index: 1,
+              response_error: null,
+              status_on_off: false
+            }
+          ]
+        }
+      ]
+    });
+  });
+
+  it('Function SetStorageTouchpoints() with cath', async () => {
+    jest
+      .spyOn(AccountStorageMutation, 'mutate')
+      .mockRejectedValue(Error('error'));
+    await expect(dataManager.SetStorageTouchpoints()).rejects.toThrow('error');
+  });
+
+  it('Function GetMinPercentageError()', () => {
+    dataManager.touchPoints = [
+      {
+        index: 0,
+        touchpoints: [
+          {
+            index: 1,
+            measure_points: [
+              {
+                type: 20,
+                error_threshold: 7.21,
+                minPercentageError: 9.83
+              }
+            ]
+          }
+        ]
+      }
+    ];
+    dataManager.GetMinPercentageError();
+    expect(dataManager.minPercentageError).toEqual(7.21);
+  });
+
+  // it('Function SetVersion()', async () => {
+  //   jest
+  //     .spyOn(AccountStorageMutation, 'mutate')
+  //     .mockRejectedValue(Error('error'));
+  //   await expect(dataManager.SetVersion()).rejects.toThrow('error');
+  // });
+
+  it('Function GetStorageTouchpoints()', async () => {
+    jest.spyOn(AccountStorageQuery, 'query').mockImplementationOnce(() => {
+      return {
+        data: {
+          TouchPoints: [
+            {
+              index: 0,
+              touchpoints: [
+                {
+                  stage_index: 1,
+                  touchpoint_index: 1,
+                  status_on_off: false
+                }
+              ]
+            }
+          ]
+        }
+      };
+    });
+    dataManager.GetMinPercentageError = jest.fn();
+    dataManager.GetMinPercentageError = jest.fn();
+    await dataManager.GetStorageTouchpoints();
+    expect(dataManager.touchPoints).toEqual([
+      {
+        index: 0,
+        touchpoints: [
+          { stage_index: 1, status_on_off: false, touchpoint_index: 1 }
+        ]
+      }
+    ]);
+  });
+
+  it('Function GetStorageTouchpoints() with catch', async () => {
+    jest.spyOn(AccountStorageQuery, 'query').mockRejectedValue(Error('error'));
+    await expect(dataManager.GetStorageTouchpoints()).rejects.toThrow('error');
+  });
+
+  it('Function UpdateCanaryData()', () => {
+    const data = {
+      pathpoint: 'pathpoint',
+      accountId: 2710112
+    };
+    dataManager.SaveCanaryData = jest.fn();
+    dataManager.UpdateCanaryData(data);
+    expect(dataManager.SaveCanaryData).toHaveBeenCalledTimes(1);
+  });
+
+  it('Function GetCurrentConfigurationJSON()', () => {
+    dataManager.ReadPathpointConfig = jest.fn();
+    dataManager.configuration = {
+      pathpointVersion: '1.52.1',
+      kpis: [
+        {
+          index: 1
+        }
+      ],
+      stages: [
+        {
+          index: 1
+        }
+      ]
+    };
+    const aux = {
+      pathpointVersion: '1.52.1',
+      kpis: [
+        {
+          index: 1
+        }
+      ],
+      stages: [
+        {
+          index: 1
+        }
+      ]
+    };
+    const result = dataManager.GetCurrentConfigurationJSON();
+    expect(result).toEqual(JSON.stringify(aux, null, 4));
+  });
+
+  it('Function ReadPathpointConfig()', () => {
+    dataManager.accountId = 2710112;
+    dataManager.version = '1.5.14';
+    dataManager.kpis = [
+      {
+        type: 'PRC',
+        check: true,
+        index: 0,
+        link: 'https://onenr.io/01qwL8KPxw5',
+        name: 'Unique Visitors',
+        prefix: '$',
+        suffix: '',
+        queryByCity: [
+          {
+            accountID: 2710112,
+            link: 'https://onenr.io/01qwL8KPxw5',
+            query: 'SELECT * FROM Logs'
+          }
+        ],
+        shortName: 'Unique',
+        value_type: 'FLOAT'
+      }
+    ];
+    dataManager.stages = [
+      {
+        title: 'BROWSE',
+        active_dotted: 'none',
+        arrowMode: 'FLOW',
+        percentage_above_avg: 20,
+        touchpoints: [
+          {
+            index: 1,
+            stage_index: 1,
+            value: 'touchPoint-Web',
+            status_on_off: false,
+            dashboard_url: 'https://newrelic.one',
+            response_error: false
+          }
+        ],
+        steps: [
+          {
+            sub_steps: [
+              {
+                value: 'Web',
+                id: 'ST1-LINE1-SS1'
+              }
+            ]
+          }
+        ]
+      }
+    ];
+    dataManager.GetRelatedSteps = jest.fn();
+    dataManager.GetTouchpointQueryes = jest.fn();
+    dataManager.ReadPathpointConfig();
+    expect(dataManager.configuration.pathpointVersion).toEqual('1.5.14');
+  });
+
+  it('Function GetRelatedSteps()', () => {
+    const stage_index = 1;
+    const index = 1;
+    dataManager.touchPoints = [
+      {
+        index: 0,
+        touchpoints: [
+          {
+            stage_index: 1,
+            touchpoint_index: 1,
+            relation_steps: [4]
+          }
+        ]
+      }
+    ];
+    dataManager.GetStepsIds = jest.fn().mockReturnValue('ST1-LINE1-SS1');
+    const result = dataManager.GetRelatedSteps(stage_index, index);
+    expect(result).toEqual('ST1-LINE1-SS1');
+  });
+
+  it('Function GetStepsIds()', () => {
+    const stage_index = 1;
+    const related_steps = [1, 2];
+    dataManager.stages = [
+      {
+        steps: [
+          {
+            sub_steps: [
+              {
+                index: 1,
+                id: 'ST1-LINE1-SS1'
+              },
+              {
+                index: 2,
+                id: 'ST1-LINE1-SS2'
+              }
+            ]
+          }
+        ]
+      }
+    ];
+    expect(dataManager.GetStepsIds(stage_index, related_steps)).toEqual(
+      'ST1-LINE1-SS1,ST1-LINE1-SS2'
+    );
+  });
+
+  it('Function GetTouchpointQueryes() with measure_type = PRC', () => {
+    const stage_index = 1;
+    const index = 1;
+    dataManager.accountId = 2710112;
+    dataManager.TimeRangeTransform = jest.fn().mockReturnValue('5 MINUTES AGO');
+    dataManager.touchPoints = [
+      {
+        index: 0,
+        touchpoints: [
+          {
+            stage_index: 1,
+            touchpoint_index: 1,
+            measure_points: [
+              {
+                measure_time: '15 minutes ago',
+                accountID: 7777777,
+                timeout: 10,
+                type: 'PRC',
+                query:
+                  "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
+                min_count: 10
+              }
+            ]
+          }
+        ]
+      }
+    ];
+    const result = dataManager.GetTouchpointQueryes(stage_index, index);
+    expect(result).toEqual([
+      {
+        type: 'PRC-COUNT-QUERY',
+        accountID: 7777777,
+        query:
+          "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
+        query_timeout: 10,
+        min_count: 10,
+        measure_time: '15 minutes ago'
+      }
+    ]);
+  });
+
+  it('Function GetTouchpointQueryes() with measure_type = WLD', () => {
+    const stage_index = 1;
+    const index = 1;
+    dataManager.accountId = 2710112;
+    dataManager.TimeRangeTransform = jest.fn().mockReturnValue('5 MINUTES AGO');
+    dataManager.touchPoints = [
+      {
+        index: 0,
+        touchpoints: [
+          {
+            stage_index: 1,
+            touchpoint_index: 1,
+            measure_points: [
+              {
+                measure_time: '15 minutes ago',
+                accountID: 7777777,
+                timeout: 10,
+                type: 'PCC',
+                query:
+                  "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
+                min_count: 10
+              },
+              {
+                measure_time: '15 minutes ago',
+                accountID: 7777777,
+                min_apdex: 0.5,
+                max_response_time: 0.3,
+                max_error_percentage: 0.7,
+                type: 'APP',
+                query:
+                  "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
+              },
+              {
+                measure_time: '15 minutes ago',
+                accountID: 7777777,
+                type: 'FRT',
+                query:
+                  "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
+                min_apdex: 0.5,
+                max_response_time: 0.3,
+                max_error_percentage: 0.7
+              },
+              {
+                measure_time: '15 minutes ago',
+                accountID: 7777777,
+                timeout: 10,
+                type: 'SYN',
+                query:
+                  "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
+                max_avg_response_time: 0.9,
+                max_total_check_time: 20,
+                min_success_percentage: 25
+              },
+              {
+                measure_time: '15 minutes ago',
+                accountID: 7777777,
+                timeout: 10,
+                type: 'WLD',
+                query:
+                  "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
+              }
+            ]
+          }
+        ]
+      }
+    ];
+    const result = dataManager.GetTouchpointQueryes(stage_index, index);
+    expect(result[0]).toEqual({
+      type: 'PCC-COUNT-QUERY',
+      accountID: 7777777,
+      query:
+        "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
+      query_timeout: 10,
+      min_count: 10,
+      measure_time: '15 minutes ago'
+    });
+  });
+
+  it('Function SetConfigurationJSON()', () => {
+    const configuration = {
+      accountId: 2710112,
+      pathpointVersion: '1.52.1'
+    };
+    dataManager.kpis = [
+      {
+        name: 'Unique Visitors',
+        shortName: 'Unique'
+      }
+    ];
+    dataManager.stages = [
+      {
+        index: 1,
+        title: 'BROWSE'
+      }
+    ];
+    dataManager.UpdateNewConfiguration = jest.fn();
+    dataManager.AddCustomAccountIDs = jest.fn();
+    dataManager.SendToLogs = jest.fn();
+    const result = dataManager.SetConfigurationJSON(
+      JSON.stringify(configuration)
+    );
+    expect(result).toEqual({
+      stages: [{ index: 1, title: 'BROWSE' }],
+      kpis: [{ name: 'Unique Visitors', shortName: 'Unique' }]
+    });
+  });
+
+  it('Function UpdateNewConfiguration()', () => {
+    dataManager.accountId = 2710112;
+    dataManager.TimeRangeTransform = jest.fn().mockReturnValue('5 MINUTES AGO');
+    dataManager.UpdateTouchpointsRelationship = jest.fn();
+    dataManager.SetInitialDataViewToStorage = jest.fn();
+    dataManager.SetInitialDataTouchpointsToStorage = jest.fn();
+    dataManager.UpdateTouchpointCopy = jest.fn();
+    dataManager.configurationJSON = {
+      kpis: [
+        {
+          type: 101,
+          name: 'Unique Visitors',
+          shortName: 'Unique',
+          value_type: 'FLOAT',
+          prefix: '$',
+          suffix: '',
+          measure: [
+            {
+              accountID: 2710112,
+              query:
+                'SELECT count(*) as value  FROM  Public_APICall COMPARE WITH 2 day ago',
+              link: 'https://onenr.io/01qwL8KPxw5'
+            }
+          ]
+        },
+        {
+          type: 100,
+          name: 'Unique Visitors',
+          shortName: 'Unique',
+          value_type: 'FLOAT',
+          prefix: '$',
+          suffix: '',
+          measure: [
+            {
+              accountID: 777777,
+              query:
+                'SELECT count(*) as value  FROM  Public_APICall COMPARE WITH 2 day ago',
+              link: 'https://onenr.io/01qwL8KPxw5'
+            }
+          ]
+        }
+      ],
+      stages: [
+        {
+          stage: 'BROWSE',
+          active_dotted: 'none',
+          arrowMode: 'FLOW',
+          percentage_above_avg: 20,
+          steps: [
+            {
+              value: '',
+              values: [
+                {
+                  id: 1,
+                  title: 'BROWSE'
+                }
+              ]
+            }
+          ],
+          touchpoints: [
+            {
+              status_on_off: true,
+              title: 'BROWSE',
+              dashboard_url: 'htpps://dashboard.com',
+              related_steps: '1,2,3',
+              queries: [
+                {
+                  accountID: 2713654,
+                  query_timeout: true
+                },
+                {
+                  accountID: 2713654,
+                  type: 'PRC-COUNT-QUERY',
+                  min_count: 10,
+                  session_count: 0,
+                  measure_time: 12,
+                  query: 'SIMPLE COUNT-QUERY'
+                },
+                {
+                  accountID: 2713654,
+                  type: 'PCC-COUNT-QUERY',
+                  min_count: 10,
+                  session_count: 0,
+                  measure_time: 12,
+                  query: 'SIMPLE COUNT-QUERY'
+                },
+                {
+                  accountID: 2713654,
+                  type: 'APP-HEALTH-QUERY',
+                  min_count: 10,
+                  session_count: 0,
+                  measure_time: 12,
+                  query: 'SIMPLE COUNT-QUERY'
+                },
+                {
+                  accountID: 2713654,
+                  type: 'FRT-HEALTH-QUERY',
+                  min_count: 10,
+                  session_count: 0,
+                  measure_time: 12,
+                  query: 'SIMPLE COUNT-QUERY'
+                },
+                {
+                  accountID: 2713654,
+                  type: 'SYN-CHECK-QUERY',
+                  min_count: 10,
+                  session_count: 0,
+                  measure_time: 12,
+                  query: 'SIMPLE COUNT-QUERY'
+                },
+                {
+                  accountID: 2713654,
+                  type: 'WORKLOAD-QUERY',
+                  min_count: 10,
+                  session_count: 0,
+                  measure_time: 12,
+                  query: 'SIMPLE COUNT-QUERY'
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    };
+    dataManager.UpdateNewConfiguration();
+    expect(dataManager.stages[0].touchpoints[0].relation_steps).toEqual([
+      '1',
+      '2',
+      '3'
+    ]);
+  });
+
+  it('Function UpdateTouchpointsRelationship()', () => {
+    dataManager.touchPoints = [
+      {
+        stage_index: 1,
+        value: 'Orders API (PRC)',
+        touchpoints: [
+          {
+            stage_index: 1,
+            relation_steps: [1, 2, 3]
+          }
+        ]
+      }
+    ];
+    dataManager.stages = [
+      {
+        touchpoints: [
+          {
+            stage_index: 1,
+            relation_steps: [1, 2, 3]
+          }
+        ]
+      }
+    ];
+    dataManager.GetIndexStep = jest.fn().mockReturnValue(7);
+    dataManager.SetStepsRelationship = jest.fn();
+    dataManager.UpdateTouchpointsRelationship();
+  });
+
+  it('Function GetIndexStep()', () => {
+    const stage_index = 1;
+    const stepId = 123;
+    dataManager.stages = [
+      {
+        steps: [
+          {
+            sub_steps: [
+              {
+                id: 123,
+                index: 7
+              }
+            ]
+          }
+        ]
+      }
+    ];
+    expect(dataManager.GetIndexStep(stage_index, stepId)).toEqual(7);
+  });
+
+  it('Function SetStepsRelationship()', () => {
+    const stage_index = 1;
+    const touchpoint_index = 8;
+    const indexList = [1];
+    dataManager.stages = [
+      {
+        steps: [
+          {
+            sub_steps: [
+              {
+                id: 123,
+                index: 1,
+                relationship_touchpoints: [1]
+              }
+            ]
+          }
+        ]
+      }
+    ];
+    dataManager.SetStepsRelationship(stage_index, indexList, touchpoint_index);
+    expect(
+      dataManager.stages[0].steps[0].sub_steps[0].relationship_touchpoints
+    ).toEqual([1, 8]);
+  });
+
+  it('Function UpdateTouchpointCopy()', () => {
+    dataManager.touchPoints = [
+      {
+        stage_index: 1,
+        value: 'Orders API (PRC)',
+        touchpoints: [
+          {
+            stage_index: 1,
+            relation_steps: [1, 2, 3]
+          }
+        ]
+      }
+    ];
+    dataManager.UpdateTouchpointCopy(
+      JSON.stringify(dataManager.touchPoints, null, 4)
+    );
+    expect(dataManager.touchPointsCopy).toEqual([
+      {
+        stage_index: 1,
+        value: 'Orders API (PRC)',
+        touchpoints: [
+          {
+            stage_index: 1,
+            relation_steps: [1, 2, 3]
+          }
+        ]
+      }
+    ]);
+  });
+
+  it('Function GetCurrentHistoricErrorScript()', () => {
+    dataManager.pathpointId = '7d86cabe-5130-48ba-b2f8-ff9e9a395f66';
+    dataManager.CreateNrqlQueriesForHistoricErrorScript = jest.fn();
+    const result = dataManager.GetCurrentHistoricErrorScript();
+    expect(result).toBeTruthy();
+  });
+
+  // it('Function ReadHistoricErrors()', async () => {
+  //   dataManager.accountId = 2710112;
+  //   dataManager.CalculateHistoricErrors = jest.fn();
+  //   const data = {
+  //     data: {
+  //       actor: {
+  //         account: {
+  //           nrql: 'SELECT * FROM Transaction'
+  //         }
+  //       }
+  //     }
+  //   };
+  //   const error = ['Network Error'];
+  //   jest
+  //     .spyOn(NerdGraphQuery, 'query')
+  //     .mockImplementationOnce(() => Promise.resolve({ error, data }));
+  //   await dataManager.ReadHistoricErrors();
+  // });
+
+  it('Function CalculateHistoricErrors()', () => {
+    const nrql = {
+      results: [
+        {
+          facet: [10, 20, 30],
+          count: [77, 88]
+        },
+        {
+          facet: [10, 20, 30],
+          count: [77, 88]
+        },
+        {
+          facet: [40, 50, 60],
+          count: [101, 102]
+        }
+      ]
+    };
+    dataManager.GetTouchpointErrorThreshold = jest.fn().mockReturnValue(5);
+    dataManager.SetTouchpointHistoricError = jest.fn();
+    dataManager.ClearTouchpointHistoricError = jest.fn();
+    dataManager.historicErrorsHighLightPercentage = 150;
+    dataManager.CalculateHistoricErrors(nrql);
+    expect(dataManager.GetTouchpointErrorThreshold).toHaveBeenCalledTimes(3);
+  });
+
+  it('Function SetTouchpointHistoricError()', () => {
+    const stage_index = 1;
+    const touchpoint_index = 1;
+    dataManager.stages = [
+      {
+        index: 1,
+        touchpoints: [
+          {
+            index: 1,
+            history_error: false
+          }
+        ]
+      }
+    ];
+    dataManager.SetTouchpointHistoricError(stage_index, touchpoint_index);
+    expect(dataManager.stages[0].touchpoints[0].history_error).toEqual(true);
+  });
+
+  it('Function ClearTouchpointHistoricError()', () => {
+    dataManager.stages = [
+      {
+        touchpoints: [
+          {
+            history_error: true
+          }
+        ]
+      }
+    ];
+    dataManager.ClearTouchpointHistoricError();
+    expect(dataManager.stages[0].touchpoints[0].history_error).toEqual(false);
+  });
+
+  it('Function GetTouchpointErrorThreshold()', () => {
+    const stage_index = 1;
+    const touchpoint_index = 1;
+    dataManager.touchPoints = [
+      {
+        index: 0,
+        value: 'Orders API (PRC)',
+        touchpoints: [
+          {
+            stage_index: 1,
+            touchpoint_index: 1,
+            measure_points: [
+              {
+                type: 20,
+                error_threshold: 0.3
+              }
+            ]
+          }
+        ]
+      }
+    ];
+    expect(
+      dataManager.GetTouchpointErrorThreshold(stage_index, touchpoint_index)
+    ).toEqual(0.3);
+  });
+
+  it('Function CreateNrqlQueriesForHistoricErrorScript()', () => {
+    const touchpoint = [];
+    for (let i = 0; i < 21; i++) {
+      const obj = {
+        stage_index: i,
+        touchpoint_index: i,
+        measure_points: [
+          {
+            type: i,
+            query: 'SELECT * FROM Transaction'
+          }
+        ]
+      };
+      touchpoint.push(obj);
+    }
+    dataManager.touchPoints = [
+      {
+        index: 0,
+        value: 'Orders API (PRC)',
+        touchpoints: touchpoint
+      }
+    ];
+    const result = dataManager.CreateNrqlQueriesForHistoricErrorScript();
+    expect(result).toBeTruthy();
+  });
+
+  it('Function UpdateTouchpointOnOff()', () => {
+    const touchpoint = {
+      index: 1,
+      stage_index: 1,
+      value: 'ORDER COUNTS',
+      status_on_off: true
+    };
+    const updateStorage = true;
+    dataManager.stages = [
+      {
+        title: 'BROWSE'
+      }
+    ];
+    dataManager.touchPoints = [
+      {
+        index: 0,
+        value: 'Orders API (PRC)',
+        touchpoints: [
+          {
+            stage_index: 1,
+            touchpoint_index: 1,
+            measure_points: [
+              {
+                type: 101
+              }
+            ]
+          }
+        ]
+      }
+    ];
+    dataManager.SetStorageTouchpoints = jest.fn();
+    dataManager.SendToLogs = jest.fn();
+    dataManager.UpdateTouchpointOnOff(touchpoint, updateStorage);
+    expect(dataManager.SetStorageTouchpoints).toHaveBeenCalledTimes(1);
+  });
+
+  it('Function GetTouchpointTune()', () => {
+    const touchpoint = {
+      index: 1,
+      stage_index: 1
+    };
+    dataManager.touchPoints = [
+      {
+        index: 0,
+        value: 'Orders API (PRC)',
+        touchpoints: [
+          {
+            stage_index: 1,
+            touchpoint_index: 1,
+            measure_points: [
+              {
+                type: 101
+              }
+            ]
+          }
+        ]
+      }
+    ];
+    expect(dataManager.GetTouchpointTune(touchpoint)).toEqual([{ type: 101 }]);
+  });
+
+  it('Function GetTouchpointQuerys()', () => {
+    const touchpoint = {
+      index: 1,
+      stage_index: 1
+    };
+    dataManager.ValidateMeasureTime = jest
+      .fn()
+      .mockReturnValue('5 MINUTES AGO');
+    dataManager.touchPoints = [
+      {
+        index: 0,
+        value: 'Orders API (PRC)',
+        touchpoints: [
+          {
+            stage_index: 1,
+            touchpoint_index: 1,
+            measure_points: [
+              {
+                accountID: 2710112
+              },
+              {
+                type: 'PRC',
+                query: 'SELECT * FROM Transactions',
+                timeout: 10
+              },
+              {
+                type: 'PCC',
+                query: 'SELECT * FROM Transactions',
+                timeout: 10
+              },
+              {
+                type: 'APP',
+                query: 'SELECT * FROM Transactions',
+                timeout: 10
+              },
+              {
+                type: 'FRT',
+                query: 'SELECT * FROM Transactions',
+                timeout: 10
+              },
+              {
+                type: 'SYN',
+                query: 'SELECT * FROM Transactions',
+                timeout: 10
+              },
+              {
+                type: 'WLD',
+                query: 'SELECT * FROM Transactions',
+                timeout: 10
+              }
+            ]
+          }
+        ]
+      }
+    ];
+    const result = dataManager.GetTouchpointQuerys(touchpoint);
+    expect(result.length).toEqual(6);
+  });
+
+  it('Function ValidateMeasureTime()', () => {
+    const measure = {
+      measure_time: '5 MINUTES AGO'
+    };
+    expect(dataManager.ValidateMeasureTime(measure)).toEqual(
+      'SINCE 5 MINUTES AGO'
+    );
+  });
+
+  it('Function ValidateMeasureTime() without measure_time', () => {
+    const measure = {
+      measure_time: false
+    };
+    dataManager.TimeRangeTransform = jest
+      .fn()
+      .mockReturnValue('30 MINUTES AGO');
+    expect(dataManager.ValidateMeasureTime(measure)).toEqual(
+      'SINCE 30 MINUTES AGO'
+    );
+  });
+
+  it('Fucntion UpdateTouchpointTune()', () => {
+    const touchpoint = {
+      index: 1,
+      stage_index: 1,
+      value: 'ORDER COUNTS',
+      status_on_off: true
+    };
+    const datos = {
+      min_count: 0.1,
+      min_apdex: 0.3,
+      max_response_time: 7.32,
+      max_error_percentage: 62,
+      max_avg_response_time: 13.5,
+      max_total_check_time: 52.3,
+      min_success_percentage: 4
+    };
+    dataManager.SetStorageTouchpoints = jest.fn();
+    dataManager.SendToLogs = jest.fn();
+    dataManager.stages = [
+      {
+        title: 'BROWSE'
+      }
+    ];
+    dataManager.touchPoints = [
+      {
+        index: 0,
+        value: 'Orders API (PRC)',
+        touchpoints: [
+          {
+            stage_index: 1,
+            touchpoint_index: 1,
+            measure_points: [
+              {
+                stage_index: 1,
+                type: 'PRC'
+              },
+              {
+                stage_index: 1,
+                type: 'PCC'
+              },
+              {
+                stage_index: 1,
+                type: 'APP'
+              },
+              {
+                stage_index: 1,
+                type: 'FRT'
+              },
+              {
+                stage_index: 1,
+                type: 'SYN'
+              }
+            ]
+          },
+          {
+            stage_index: 1,
+            touchpoint_index: 1,
+            measure_points: [
+              {
+                stage_index: 1,
+                type: 'PCC',
+                min_count: 0
+              }
+            ]
+          },
+          {
+            stage_index: 1,
+            touchpoint_index: 1,
+            measure_points: [
+              {
+                stage_index: 1,
+                type: 'APP'
+              }
+            ]
+          },
+          {
+            stage_index: 1,
+            touchpoint_index: 1,
+            measure_points: [
+              {
+                stage_index: 1,
+                type: 'FRT',
+                min_apdex: 0,
+                max_response_time: 0,
+                max_error_percentage: 0
+              }
+            ]
+          },
+          {
+            stage_index: 1,
+            touchpoint_index: 1,
+            measure_points: [
+              {
+                stage_index: 1,
+                type: 'SYN',
+                max_avg_response_time: 0,
+                max_total_check_time: 0,
+                min_success_percentage: 0
+              }
+            ]
+          }
+        ]
+      }
+    ];
+    dataManager.UpdateTouchpointTune(touchpoint, datos);
+    expect(dataManager.SetStorageTouchpoints).toHaveBeenCalledTimes(1);
   });
 });
