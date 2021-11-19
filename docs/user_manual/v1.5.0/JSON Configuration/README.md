@@ -212,7 +212,9 @@ These detail the more granular entities of the PathPoint model. TouchPoints beha
                             "type": "PRC-COUNT-QUERY",
                             "accountID": 1606862,
                             "query": "SELECT count(*) as session FROM Transaction WHERE appName='WebPortal'",
-                            "min_count": 100
+			    "query_timeout": 10,
+                            "min_count": 100,
+			    "measure_time": "5 MINUTES AGO"
                         }
                     ]
                 }
@@ -233,6 +235,9 @@ Where:
 - ***Query***: *Displays the query that actually determines the tocuhpoint.* <br>
 ![example_queries_TP](Examples_queries_TP_1.png) <br>
 ![example_queries_TP](Examples_queries_TP_2.png) <br><br>
+- ***Query_timeout***: *Determines the maximum time of activity in which the query will be executing.* <br>
+- ***Min_count***: *The query will present a minimum of 100 records.* <br>
+- ***Measure_time***: *Determines from when I want the query to collect information to perform the measurement. Example, 5 minutes ago* <br>
 
 #### - Examples Touchpoint <br>
 Example 1<br>
