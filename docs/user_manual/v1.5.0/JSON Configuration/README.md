@@ -233,11 +233,11 @@ Where:
 - ***Type***: *Identify the type of query. For the example, it is a session count, hence the abbreviation PRC-People Count (Vew section "Different Touchpoint Types Explained")* <br>
 - ***AccountID***: *Determines the code with which the query is identified.* <br>
 - ***Query***: *Displays the query that actually determines the tocuhpoint.* <br>
-![example_queries_TP](Examples_queries_TP_1.png) <br>
-![example_queries_TP](Examples_queries_TP_2.png) <br><br>
 - ***Query_timeout***: *Determines the maximum time of activity in which the query will be executing.* <br>
 - ***Min_count***: *The query will present a minimum of 100 records.* <br>
 - ***Measure_time***: *Determines from when I want the query to collect information to perform the measurement. Example, 5 minutes ago* <br>
+![example_queries_TP](Examples_queries_TP_1.png) <br>
+![example_queries_TP](Examples_queries_TP_2.png) <br><br>
 
 #### - Examples Touchpoint <br>
 Example 1<br>
