@@ -128,7 +128,9 @@ export default class TouchPoint extends React.Component {
 
   ColorSquare = (touchpoint, colors) => {
     const { good, error_color, unselect_color } = colors.steps_touchpoints[0];
-    if (touchpoint.response_error) {
+    if (touchpoint.show_grey_square) {
+      return `rgb(${unselect_color[0]},${unselect_color[1]},${unselect_color[2]})`;
+    } else if (touchpoint.response_error) {
       return `rgb(${unselect_color[0]},${unselect_color[1]},${unselect_color[2]})`;
     } else if (touchpoint.error) {
       return `rgb(${error_color[0]},${error_color[1]},${error_color[2]})`;

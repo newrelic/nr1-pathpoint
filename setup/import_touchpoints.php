@@ -256,6 +256,7 @@ function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touc
         "stage_index" => $stage_index + 1,
         "status_on_off" => true,
         "response_error" => false,
+        "show_grey_square" => false,
         "active" => false,
         "value" => $touchpoint,
         "highlighted" => false,

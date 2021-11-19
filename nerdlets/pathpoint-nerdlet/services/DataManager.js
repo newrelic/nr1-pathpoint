@@ -393,6 +393,7 @@ export default class DataManager {
         });
       }
     });
+    this.RemoveGreySquare();
     if (this.graphQlmeasures.length > 0) {
       await this.NRDBQuery();
     }
@@ -605,9 +606,30 @@ export default class DataManager {
   }
 
   DisableTouchpointByError(touchpoint) {
-    touchpoint.status_on_off = false;
-    this.UpdateTouchpointStatus(touchpoint);
-    this.SetStorageTouchpoints();
+    // touchpoint.status_on_off = false;
+    this.stages.some(stage => {
+      let found = false;
+      if (stage.index === touchpoint.stage_index) {
+        stage.touchpoints.some(tp => {
+          let foundTp = false;
+          if (tp.index === touchpoint.touchpoint_index) {
+            tp.show_grey_square = true;
+            foundTp = true;
+          }
+          return foundTp;
+        });
+        found = true;
+      }
+      return found;
+    });
+  }
+
+  RemoveGreySquare() {
+    this.stages.forEach(stage => {
+      stage.touchpoints.forEach(tp => {
+        tp.show_grey_square = false;
+      });
+    });
   }
 
   async NRDBQuery() {
