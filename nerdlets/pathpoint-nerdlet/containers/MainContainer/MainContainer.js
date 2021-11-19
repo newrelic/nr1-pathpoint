@@ -1224,6 +1224,11 @@ export default class MainContainer extends React.Component {
     this.openModalParent('null', 9);
   };
 
+  _handleClickProcesses2 = () => {
+    this._onCloseBackdrop();
+    this.openModalParent('null', 11);
+  };
+
   _handleClickSupport = () => {
     this._onCloseBackdrop();
     this.openModalParent('null', 5);
@@ -1609,6 +1614,13 @@ export default class MainContainer extends React.Component {
                       style={{ padding: '5px' }}
                     >
                       Json configuration
+                    </div>
+                    <div
+                      className="subItem"
+                      onClick={this._handleClickProcesses2}
+                      style={{ padding: '5px' }}
+                    >
+                      Background processes
                     </div>
                     <div
                       className="subItem"

@@ -1,65 +1,28 @@
-/* eslint-disable prefer-template */
-/* eslint-disable prettier/prettier */
-// Insert API Credentials
-const myAccountID = $secure.PATHPOINT_SYN_ACCOUNTID;
-const pathpointID = 'XXXXXXXXX';
-const graphQLKey =  $secure.PATHPOINT_USER_API_KEY;
-const myInsertKey = $secure.PATHPOINT_INGEST_LICENSE;
-const touchpoints = [
-  [
-    {
-      stage_index: 1,
-      touchpoint_index: 1,
-      type: 'PRC',
-      timeout: 10,
-      query: "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
-      min_count: 10,
-      measure_time: '15 minutes ago'
-    },
-    {
-      stage_index: 1,
-      touchpoint_index: 2,
-      type: 'APP',
-      timeout: 10,
-      query: "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction",
-      min_apdex: 0.4,
-      max_response_time: 0.5,
-      max_error_percentage: 5,
-      measure_time: '5 minutes ago'
-    }
-  ],
-  [
-    {
-      stage_index: 1,
-      touchpoint_index: 3,
-      type: 'FRT',
-      timeout: 10,
-      query: "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView",
-      min_apdex: 0.6,
-      max_response_time: 1.2,
-      max_error_percentage: 5,
-      measure_time: '5 minutes ago'
-    },
-    {
-      stage_index: 1,
-      touchpoint_index: 4,
-      type: 'SYN',
-      timeout: 10,
-      query: "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE monitorName='Register Account'",
-      max_avg_response_time: 0.7,
-      max_total_check_time: 1.25,
-      min_success_percentage: 98,
-      measure_time: '3 hours ago'
-    }
-  ]
-];
+function historicErrorScript(pathpointID) {
+  const data = {
+    header: null,
+    footer: null
+  };
+  data.header = `
+  // Insert API Credentials
+  const myAccountID = $secure.PATHPOINT_SYN_ACCOUNTID;
+  const pathpointID = '${pathpointID}';
+  const graphQLKey = $secure.PATHPOINT_USER_API_KEY;
+  const myInsertKey = $secure.PATHPOINT_INGEST_LICENSE;
 
-const graphQLdata = [];
+`;
+  data.footer = `
+
+  const graphQLdata = [];
 
 touchpoints.forEach( tp_group => {
   let data = '{ actor { ';
   tp_group.forEach( tp =>{
-    data += `measure_${tp.stage_index}_${tp.touchpoint_index}: account(id: ${myAccountID}) { nrql(query: "${tp.query} SINCE ${tp.measure_time}", timeout:${tp.timeout}) {results}} `;
+    data +=  `;
+  data.footer += String.fromCharCode(96);
+  data.footer += 'measure_${tp.stage_index}_${tp.touchpoint_index}: account(id: ${myAccountID}) { nrql(query: "${tp.query} SINCE ${tp.measure_time}", timeout:${tp.timeout}) {results}} ';
+  data.footer += String.fromCharCode(96);
+  data.footer += `;
   });
   data +='}}';
   const gql = { query: data , variables: ''};
@@ -185,4 +148,9 @@ function GetTouchpoint(stage_index,touchpoint_index){
   });
   return touchpoint;
 }
+`;
 
+  return data;
+}
+
+export { historicErrorScript };
