@@ -123,7 +123,7 @@ All the information related to the stage, including the errors for each one of t
 Where:
  - ***Title ***: *Corresponds to the name that identifies the stage* <br>
  ![example_titles](Examples_Titles_Stages.png)<br> 
- - ***Active_dotted***: *Defines the display of the start or end of a flow. It only handles two values: "none" or "dotted". By default it takes the value "none". When the value is changed to "dotted", it adds some dotted lines to the left of the stage where it is defined* <br>
+ - ***Active_dotted***: *Defines the display of the start or end of a flow. It only handles three values: "none", "dotted" or "dashed". By default it takes the value "none". When the value is changed to "dotted", it adds some dotted lines to the left of the stage where it is defined. When the value is changed to "dashed", it adds some dashed lines to the left of the stage where it is defined.* <br>
  Here is an example when activating "dotted" <br>
  ![example_active_dotted](Example_active_dotted.png)<br>
  - ***ArrowMode***: *Defines the shape of the arrow on the header of the Stages. It only handles two values: "FLOW" and "STATIC". By default it is "FLOW"* <br>
