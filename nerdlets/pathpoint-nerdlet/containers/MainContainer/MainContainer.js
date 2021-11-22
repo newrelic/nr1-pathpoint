@@ -63,6 +63,7 @@ export default class MainContainer extends React.Component {
     this.state = {
       updating: false,
       queryModalShowing: false,
+      updateBackgroundScript: false,
       generalConfigurationSaved: false,
       disableGeneralConfigurationSubmit: false,
       accountName: 'Demotron V2',
@@ -730,7 +731,8 @@ export default class MainContainer extends React.Component {
     touchpoint.status_on_off = !touchpoint.status_on_off;
     this.setState(state => {
       return {
-        stages: state.stages
+        stages: state.stages,
+        updateBackgroundScript: true
       };
     });
   }
@@ -753,7 +755,8 @@ export default class MainContainer extends React.Component {
       datos = {
         credentials: this.state.credentials,
         accountIDs: this.state.accountIDs,
-        accountId: this.state.accountId
+        accountId: this.state.accountId,
+        updateBackgroundScript: this.state.updateBackgroundScript
       };
     }
     this.setState({
@@ -1059,7 +1062,7 @@ export default class MainContainer extends React.Component {
       this.state.stageNameSelected.touchpoint,
       this.state.stageNameSelected.datos
     );
-    this.setState({ updating: false });
+    this.setState({ updating: false, updateBackgroundScript: true });
     this._onClose();
   };
 
@@ -1085,6 +1088,7 @@ export default class MainContainer extends React.Component {
       this.state.stageNameSelected.touchpoint,
       datos
     );
+    this.setState({ updateBackgroundScript: true });
     this._onClose();
   };
 
@@ -1144,12 +1148,20 @@ export default class MainContainer extends React.Component {
     });
     this.setState(
       {
-        generalConfigurationSaved: true
+        generalConfigurationSaved: true,
+        updateBackgroundScript: true
       },
       () => {
         this._onClose();
       }
     );
+  };
+
+  installUpdateBackgroundScripts = () => {
+    // TODO
+    this.DataManager.InstallUpdateBackGroundScript();
+    this.setState({ updateBackgroundScript: false });
+    this._onClose();
   };
 
   handleSaveUpdateFire = event => {
@@ -1325,7 +1337,8 @@ export default class MainContainer extends React.Component {
     const data = this.DataManager.SetConfigurationJSON(payload);
     this.setState({
       stages: data.stages,
-      kpis: data.kpis ?? []
+      kpis: data.kpis ?? [],
+      updateBackgroundScript: true
     });
   };
 
@@ -2084,6 +2097,7 @@ export default class MainContainer extends React.Component {
             handleSaveUpdateGeneralConfiguration={
               this.handleSaveUpdateGeneralConfiguration
             }
+            installUpdateBackgroundScripts={this.installUpdateBackgroundScripts}
           />
           <div id="cover-spin" style={{ display: loading ? '' : 'none' }} />
         </div>
