@@ -131,15 +131,22 @@ function ProcessData() {
 function MakeEvent(results,stage_index,touchpoint_index) {
     const tp = GetTouchpoint(stage_index,touchpoint_index);
     let error = true;
+    let measure_results = null;
     switch (tp.type) {
       case 'PRC':
         if (Object.prototype.hasOwnProperty.call(results,'session')){
           error =  results.session < tp.min_count;
+          measure_results = {
+            session_count: results.session
+          }
         }
         break;
       case 'PCC':
         if (Object.prototype.hasOwnProperty.call(results,'count')){
           error = results.count < tp.min_count;
+          measure_results = {
+            transaction_count: results.count
+          }
         }
         break;
       case 'APP':
@@ -150,6 +157,11 @@ function MakeEvent(results,stage_index,touchpoint_index) {
           Object.prototype.hasOwnProperty.call(results,'error')
         ) {
           error = results.error > tp.max_error_percentage || results.score < tp.min_apdex || results.response > tp.max_response_time;
+          measure_results = {
+            apdex_value: results.score,
+            response_value: results.response,
+            error_percentage: results.error
+          }
         }
         break;
       case 'SYN':
@@ -158,6 +170,11 @@ function MakeEvent(results,stage_index,touchpoint_index) {
         Object.prototype.hasOwnProperty.call(results,'request')
         ) {
           error = results.success < tp.min_success_percentage || results.request > tp.max_avg_response_time || results.duration > tp.max_total_check_time;
+          measure_results = {
+            success_percentage: results.success,
+            max_duration: results.duration,
+            max_request_time: results.request,
+          }
         }
         break;
     }
@@ -166,7 +183,9 @@ function MakeEvent(results,stage_index,touchpoint_index) {
       pathpoint_id: pathpointID,
       stage_index: stage_index,
       touchpoint_index: touchpoint_index,
-      error: error
+      touchpoint_type: tp.type,
+      error: error,
+      ...measure_results
     };
 }
 

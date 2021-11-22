@@ -28,9 +28,15 @@ function BodyGeneralConfigurationFormModal(props) {
     licenseValidations,
     ValidateUserApiKey,
     ToggleEnableSubmit,
-    disableGeneralConfigurationSubmit
+    disableGeneralConfigurationSubmit,
+    installUpdateBackgroundScripts
   } = props;
   const datos = stageNameSelected.datos;
+  const showUpdateButton =
+    datos.updateBackgroundScript &&
+    props.credentialsData.ingestLicense &&
+    props.credentialsData.userAPIKey &&
+    datos.credentials.flameTools;
   return (
     <div style={{ width: '400px', paddingTop: '20px' }}>
       <Form onSubmit={handleFormSubmit}>
@@ -187,6 +193,18 @@ function BodyGeneralConfigurationFormModal(props) {
             }}
           >
             <Button
+              onClick={installUpdateBackgroundScripts}
+              style={{
+                visibility: showUpdateButton ? 'visible' : 'hidden',
+                marginRight: '20px',
+                background: '#09af76',
+                color: 'white'
+              }}
+            >
+              Install/Update Job
+            </Button>
+
+            <Button
               variant="outline-danger"
               onClick={resetCredentials}
               style={{
@@ -228,7 +246,8 @@ BodyGeneralConfigurationFormModal.propTypes = {
   licenseValidations: PropTypes.object.isRequired,
   ValidateUserApiKey: PropTypes.func.isRequired,
   ToggleEnableSubmit: PropTypes.func.isRequired,
-  disableGeneralConfigurationSubmit: PropTypes.object.isRequired
+  disableGeneralConfigurationSubmit: PropTypes.object.isRequired,
+  installUpdateBackgroundScripts: PropTypes.func.isRequired
 };
 
 export {

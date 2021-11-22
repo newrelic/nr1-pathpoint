@@ -27,6 +27,7 @@ export default class DataManager {
     this.NerdStorageVault = new NerdStorageVault();
     this.LogConnector = new LogConnector();
     this.SynConnector = new SynConnector();
+    this.SecureCredentialsExist = false;
     this.minPercentageError = 100;
     this.historicErrorsHours = 192;
     this.historicErrorsHighLightPercentage = 26;
@@ -175,6 +176,9 @@ export default class DataManager {
       this.SyntheticAccountID = this.generalConfiguration.accountId;
       this.SynConnector.SetAccountID(this.SyntheticAccountID);
       // console.log('SETTIMNG-SYN-ACCOUNT-ID:', this.generalConfiguration.accountId);
+    } else {
+      this.SyntheticAccountID = this.accountId;
+      this.SynConnector.SetAccountID(this.SyntheticAccountID);
     }
   }
 
@@ -2030,7 +2034,18 @@ export default class DataManager {
   }
 
   GetCurrentHistoricErrorScript() {
-    const data = historicErrorScript(this.pathpointId);
+    // console.log('Synthetic-AccountID:', this.SyntheticAccountID);
+    const data = historicErrorScript(this.SyntheticAccountID);
+    if (!this.SecureCredentialsExist) {
+      data.header = `
+      // Insert API Credentials
+      const myAccountID = ${this.SyntheticAccountID};
+      const pathpointID = '${this.pathpointId}';
+      const graphQLKey = '${this.SynConnector.userApiKey}';
+      const myInsertKey = '${this.SynConnector.ingestLicense}';
+    
+    `;
+    }
     const response = `
     ${data.header}
     ${this.InserTouchpointsToScript()}
@@ -2701,5 +2716,12 @@ export default class DataManager {
   async ValidateUserApiKey(userApiKey) {
     const valid = await this.SynConnector.ValidateUserApiKey(userApiKey);
     return valid;
+  }
+
+  InstallUpdateBackGroundScript() {
+    // TODO Validate secure credentials
+    const dataScript = this.GetCurrentHistoricErrorScript();
+    const encodedScript = Buffer.from(dataScript).toString('base64');
+    this.SynConnector.UpdateFlameMonitor(encodedScript);
   }
 }
