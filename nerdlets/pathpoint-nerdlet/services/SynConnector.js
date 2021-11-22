@@ -95,6 +95,7 @@ export default class SynConnector {
     }
     if (response === 204) {
       // TODO informar al cliente que se termino de actualizar el script
+      console.log('Synthetic Script was Updated.');
     }
   }
 
@@ -162,13 +163,14 @@ export default class SynConnector {
             }
           }
         );
-        // console.log('Creation Rersults:', response);
+        console.log('Creation Rersults:', response);
         const arrayLocation = response.headers.location.split(
           'https://synthetics.newrelic.com/synthetics/api/v3/monitors/'
         );
         const monitorID = arrayLocation[1];
         return monitorID;
       } catch (error) {
+        console.log('Creation Script Error:',error);
         throw new Error(error);
       }
     }

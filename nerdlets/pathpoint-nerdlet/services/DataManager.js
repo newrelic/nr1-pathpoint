@@ -2039,6 +2039,9 @@ export default class DataManager {
     if (!this.SecureCredentialsExist) {
       data.header = `
       // Insert API Credentials
+      // When the script was generated we were not able add secure credentials for your ingest and API key.
+      // We strongly suggest you move these keys into the secure crendential store.
+      //-----------------------------------------------------
       const myAccountID = ${this.SyntheticAccountID};
       const pathpointID = '${this.pathpointId}';
       const graphQLKey = '${this.SynConnector.userApiKey}';
