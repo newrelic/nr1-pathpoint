@@ -2655,6 +2655,7 @@ export default class DataManager {
           'userAPIKey',
           credentials.userAPIKey
         );
+        this.SynConnector.SetUserApiKey(credentials.userAPIKey);
       }
     }
   }
@@ -2687,6 +2688,12 @@ export default class DataManager {
       if (Reflect.has(data, 'accountId')) {
         this.SyntheticAccountID = data.accountId;
         this.SynConnector.SetAccountID(data.accountId);
+      }
+      if (Reflect.has(data, 'flameTools')) {
+        this.SynConnector.EnableDisableFlame(data.flameTools);
+      }
+      if (Reflect.has(data, 'dropTools')) {
+        this.SynConnector.EnableDisableDrop(data.dropTools);
       }
     } catch (error) {
       throw new Error(error);

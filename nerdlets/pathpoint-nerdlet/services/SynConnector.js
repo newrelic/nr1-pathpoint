@@ -57,6 +57,9 @@ export default class SynConnector {
   }
 
   async UpdateFlameMonitor(encodedScript) {
+    console.log('this.FlameStatus',this.FlameStatus);
+    console.log('this.userApiKey',this.userApiKey);
+    console.log('this.ingestLicense',this.ingestLicense);
     if (
       !this.FlameStatus ||
       this.userApiKey === '' ||
@@ -164,9 +167,6 @@ export default class SynConnector {
           'https://synthetics.newrelic.com/synthetics/api/v3/monitors/'
         );
         const monitorID = arrayLocation[1];
-        if (monitorID) {
-          await this.SetSyntheticMonitor(FlameMonitor.name, monitorID);
-        }
         return monitorID;
       } catch (error) {
         throw new Error(error);
