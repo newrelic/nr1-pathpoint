@@ -22,7 +22,7 @@
             "message_stages_01": "These are the highest level business stages.   At the actual system level, there will be a rollup of many services and methods.  PathPoint will give us a view of Latency, Utilization, and Errors for each high-level business stage.  The Borderfree customization models the following stages: PRE-PROCESSING, PRE-ORDER, CHECKOUT, ORDER MANAGEMENT, DISTRIBUTION & RETURNS.",
             "message_stages_02": "For each stage, there will be some useful stats shown beneath the stage description.  In addition, there will be an arrow graphic depicting the overall aggregate performance of that stage.  (See our main documentation for how this is computed.)",
             "message_stages_03": "View real-time User or Transaction traffic and measure Congestion by the percentage of a person or process taking longer than expected to go from one stage to the other.    (See our main documentation for how this is computed.)",
-            "message_stages_04": "This shows an aggregate APDEX score that is designed to represent the worst performance of touchpoints in this stage.  (See our main documentation for how this is computed.)",
+            "message_stages_04": "ALL: Congestion",
             "message_stages_05": "This shows the level of utilization of infrastructure associated with this stage.  (See our main documentation for how this is computed.)",
             "message_stages_06": "A simple indicator of stage health  This is derived from a set of aggregate signals. (See our main documentation for how this is computed.)"
         },
