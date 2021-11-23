@@ -3,12 +3,13 @@ function historicErrorScript(pathpointID) {
     header: null,
     footer: null
   };
+  const ppId = pathpointID.toUpperCase().replaceAll('-', '');
   data.header = `
   // Insert API Credentials
-  const myAccountID = $secure.PATHPOINT_SYN_ACCOUNTID;
+  const myAccountID = $secure.PATHPOINT_${ppId}_ACCOUNTID;
   const pathpointID = '${pathpointID}';
-  const graphQLKey = $secure.PATHPOINT_USER_API_KEY;
-  const myInsertKey = $secure.PATHPOINT_INGEST_LICENSE;
+  const graphQLKey = $secure.PATHPOINT_${ppId}_USER_API_KEY;
+  const myInsertKey = $secure.PATHPOINT_${ppId}_INGEST_LICENSE;
 
 `;
   data.footer = `

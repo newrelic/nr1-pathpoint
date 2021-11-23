@@ -43,10 +43,11 @@ const Header = ({
   timeRangeKpi,
   changeTimeRangeKpi,
   kpis,
-  updateDataKpisChecked
+  updateDataKpisChecked,
+  credentials
 }) => {
   const filterKpis = kpis.filter(kpi => kpi.check);
-  const showLogsLink = true; // TODO logic to hidden
+  const showLogsLink = credentials.loggin; // TODO logic to hidden
   return (
     <div className="containerHeader">
       <div className="quantityDinner">
@@ -151,7 +152,7 @@ const Header = ({
               src={iconFireStatus ? fireIconOn : fireIcon}
             />
           </div>
-          <div
+          {/* <div
             className="fireIconContainer"
             onClick={() => {
               ToggleHeaderButtons('iconGoutStatus');
@@ -162,7 +163,7 @@ const Header = ({
               style={{ height: '18px' }}
               src={iconGoutStatus ? goutIconOn : goutIcon}
             />
-          </div>
+          </div> */}
           <Select
             name="header"
             handleOnChange={changeTimeRange}
@@ -348,5 +349,6 @@ Header.propTypes = {
   timeRangeKpi: PropTypes.object.isRequired,
   changeTimeRangeKpi: PropTypes.func.isRequired,
   kpis: PropTypes.array.isRequired,
-  updateDataKpisChecked: PropTypes.func.isRequired
+  updateDataKpisChecked: PropTypes.func.isRequired,
+  credentials: PropTypes.object.isRequired
 };

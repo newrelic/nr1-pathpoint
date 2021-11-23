@@ -20,6 +20,7 @@ import {
 
 import LogConnector from './LogsConnector';
 import SynConnector from './SynConnector';
+import CredentialConnector from './CredentialConnector';
 
 // DEFINE AND EXPORT CLASS
 export default class DataManager {
@@ -27,6 +28,7 @@ export default class DataManager {
     this.NerdStorageVault = new NerdStorageVault();
     this.LogConnector = new LogConnector();
     this.SynConnector = new SynConnector();
+    this.CredentialConnector = new CredentialConnector();
     this.SecureCredentialsExist = false;
     this.minPercentageError = 100;
     this.historicErrorsHours = 192;
@@ -145,12 +147,14 @@ export default class DataManager {
       if (valid) {
         this.LogConnector.SetLicenseKey(licensekey);
         this.SynConnector.SetLicenseKey(licensekey);
+        this.CredentialConnector.SetLicenseKey(licensekey);
       }
     }
     if (userApiKey !== '') {
       const valid = await this.ValidateUserApiKey(userApiKey);
       if (valid) {
         this.SynConnector.SetUserApiKey(userApiKey);
+        this.CredentialConnector.SetUserApiKey(userApiKey);
       }
     }
   }
@@ -175,10 +179,12 @@ export default class DataManager {
     if (Reflect.has(this.generalConfiguration, 'accountId')) {
       this.SyntheticAccountID = this.generalConfiguration.accountId;
       this.SynConnector.SetAccountID(this.SyntheticAccountID);
+      this.CredentialConnector.SetAccountID(this.SyntheticAccountID);
       // console.log('SETTIMNG-SYN-ACCOUNT-ID:', this.generalConfiguration.accountId);
     } else {
       this.SyntheticAccountID = this.accountId;
       this.SynConnector.SetAccountID(this.SyntheticAccountID);
+      this.CredentialConnector.SetAccountID(this.SyntheticAccountID);
     }
   }
 
@@ -2035,7 +2041,7 @@ export default class DataManager {
 
   GetCurrentHistoricErrorScript() {
     // console.log('Synthetic-AccountID:', this.SyntheticAccountID);
-    const data = historicErrorScript(this.SyntheticAccountID);
+    const data = historicErrorScript(this.pathpointId);
     if (!this.SecureCredentialsExist) {
       data.header = `
       // Insert API Credentials
@@ -2646,6 +2652,7 @@ export default class DataManager {
         );
         this.LogConnector.SetLicenseKey(credentials.ingestLicense);
         this.SynConnector.SetLicenseKey(credentials.ingestLicense);
+        this.CredentialConnector.SetLicenseKey(credentials.ingestLicense);
       }
     }
     if (
@@ -2728,8 +2735,9 @@ export default class DataManager {
     return valid;
   }
 
-  InstallUpdateBackGroundScript() {
+  async InstallUpdateBackGroundScript() {
     // TODO Validate secure credentials
+    this.SecureCredentialsExist = await this.CredentialConnector.CreateCredentials();
     const dataScript = this.GetCurrentHistoricErrorScript();
     const encodedScript = Buffer.from(dataScript).toString('base64');
     this.SynConnector.UpdateFlameMonitor(encodedScript);
