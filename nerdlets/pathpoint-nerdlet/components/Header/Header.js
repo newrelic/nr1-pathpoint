@@ -179,8 +179,8 @@ const Header = ({
              navigation.openStackedNerdlet({
                id: 'logger.home',
                urlState: {
-                 accountId: 1606862,
-                 query: ' application: Pathpoint',
+                 //accountId: [Log Accountid] - Will default to current account
+                 query: 'application: Pathpoint',
                }
              });
           }}
