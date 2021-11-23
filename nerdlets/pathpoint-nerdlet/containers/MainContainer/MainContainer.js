@@ -63,7 +63,9 @@ export default class MainContainer extends React.Component {
     this.state = {
       updating: false,
       queryModalShowing: false,
+      updateBackgroundScript: false,
       generalConfigurationSaved: false,
+      disableGeneralConfigurationSubmit: false,
       accountName: 'Demotron V2',
       credentials: {
         accountId: null,
@@ -729,7 +731,8 @@ export default class MainContainer extends React.Component {
     touchpoint.status_on_off = !touchpoint.status_on_off;
     this.setState(state => {
       return {
-        stages: state.stages
+        stages: state.stages,
+        updateBackgroundScript: true
       };
     });
   }
@@ -752,7 +755,8 @@ export default class MainContainer extends React.Component {
       datos = {
         credentials: this.state.credentials,
         accountIDs: this.state.accountIDs,
-        accountId: this.state.accountId
+        accountId: this.state.accountId,
+        updateBackgroundScript: this.state.updateBackgroundScript
       };
     }
     this.setState({
@@ -1058,7 +1062,7 @@ export default class MainContainer extends React.Component {
       this.state.stageNameSelected.touchpoint,
       this.state.stageNameSelected.datos
     );
-    this.setState({ updating: false });
+    this.setState({ updating: false, updateBackgroundScript: true });
     this._onClose();
   };
 
@@ -1084,6 +1088,7 @@ export default class MainContainer extends React.Component {
       this.state.stageNameSelected.touchpoint,
       datos
     );
+    this.setState({ updateBackgroundScript: true });
     this._onClose();
   };
 
@@ -1143,12 +1148,20 @@ export default class MainContainer extends React.Component {
     });
     this.setState(
       {
-        generalConfigurationSaved: true
+        generalConfigurationSaved: true,
+        updateBackgroundScript: true
       },
       () => {
         this._onClose();
       }
     );
+  };
+
+  installUpdateBackgroundScripts = () => {
+    // TODO
+    this.DataManager.InstallUpdateBackGroundScript();
+    this.setState({ updateBackgroundScript: false });
+    this._onClose();
   };
 
   handleSaveUpdateFire = event => {
@@ -1221,6 +1234,11 @@ export default class MainContainer extends React.Component {
   _handleClickProcesses = () => {
     this._onCloseBackdrop();
     this.openModalParent('null', 9);
+  };
+
+  _handleClickProcesses2 = () => {
+    this._onCloseBackdrop();
+    this.openModalParent('null', 11);
   };
 
   _handleClickSupport = () => {
@@ -1319,7 +1337,8 @@ export default class MainContainer extends React.Component {
     const data = this.DataManager.SetConfigurationJSON(payload);
     this.setState({
       stages: data.stages,
-      kpis: data.kpis ?? []
+      kpis: data.kpis ?? [],
+      updateBackgroundScript: true
     });
   };
 
@@ -1409,26 +1428,72 @@ export default class MainContainer extends React.Component {
   };
 
   ValidateIngestLicense = async license => {
-    const valid = await this.DataManager.ValidateIngestLicense(license);
-    this.setState(state => {
-      return {
-        licenseValidations: {
-          ...state.licenseValidations,
-          ingestLicense: valid
+    if (license && license !== '') {
+      this.setState(
+        {
+          disableGeneralConfigurationSubmit: true
+        },
+        async () => {
+          const valid = await this.DataManager.ValidateIngestLicense(license);
+          this.setState(state => {
+            return {
+              disableGeneralConfigurationSubmit: false,
+              licenseValidations: {
+                ...state.licenseValidations,
+                ingestLicense: valid
+              }
+            };
+          });
         }
-      };
-    });
+      );
+    } else {
+      this.setState(state => {
+        return {
+          disableGeneralConfigurationSubmit: false,
+          licenseValidations: {
+            ...state.licenseValidations,
+            ingestLicense: true
+          }
+        };
+      });
+    }
   };
 
   ValidateUserApiKey = async userApiKey => {
-    const valid = await this.DataManager.ValidateUserApiKey(userApiKey);
-    this.setState(state => {
-      return {
-        licenseValidations: {
-          ...state.licenseValidations,
-          userApiKey: valid
+    if (userApiKey && userApiKey !== '') {
+      this.setState(
+        {
+          disableGeneralConfigurationSubmit: true
+        },
+        async () => {
+          const valid = await this.DataManager.ValidateUserApiKey(userApiKey);
+          this.setState(state => {
+            return {
+              disableGeneralConfigurationSubmit: false,
+              licenseValidations: {
+                ...state.licenseValidations,
+                userApiKey: valid
+              }
+            };
+          });
         }
-      };
+      );
+    } else {
+      this.setState(state => {
+        return {
+          disableGeneralConfigurationSubmit: false,
+          licenseValidations: {
+            ...state.licenseValidations,
+            userApiKey: true
+          }
+        };
+      });
+    }
+  };
+
+  ToggleEnableSubmit = param => {
+    this.setState({
+      disableGeneralConfigurationSubmit: param
     });
   };
 
@@ -1562,6 +1627,13 @@ export default class MainContainer extends React.Component {
                       style={{ padding: '5px' }}
                     >
                       Json configuration
+                    </div>
+                    <div
+                      className="subItem"
+                      onClick={this._handleClickProcesses2}
+                      style={{ padding: '5px' }}
+                    >
+                      Background processes
                     </div>
                     <div
                       className="subItem"
@@ -2014,13 +2086,18 @@ export default class MainContainer extends React.Component {
             accountIDs={accountIDs}
             HandleCredentialsFormChange={this.HandleCredentialsFormChange}
             credentialsData={this.state.credentials}
+            disableGeneralConfigurationSubmit={
+              this.state.disableGeneralConfigurationSubmit
+            }
             licenseValidations={this.state.licenseValidations}
             resetCredentials={this.resetCredentials}
             ValidateIngestLicense={this.ValidateIngestLicense}
             ValidateUserApiKey={this.ValidateUserApiKey}
+            ToggleEnableSubmit={this.ToggleEnableSubmit}
             handleSaveUpdateGeneralConfiguration={
               this.handleSaveUpdateGeneralConfiguration
             }
+            installUpdateBackgroundScripts={this.installUpdateBackgroundScripts}
           />
           <div id="cover-spin" style={{ display: loading ? '' : 'none' }} />
         </div>

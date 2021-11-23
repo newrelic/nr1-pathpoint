@@ -17,6 +17,7 @@ import { BodySupportFormModal } from './SupportFormModal';
 import { BodyFileErrorFormModal } from './FileErrorFormModal';
 import { BodyJsonConfigurationFormModal } from './JsonConfigurationFormModal';
 import { BodyGeneralConfigurationFormModal } from './GeneralConfigurationFormModal';
+import { BodyBackgroundProcessesFormModal } from './BackgroundProcessesFormModal';
 
 export default class ShowBody extends Component {
   constructor(props) {
@@ -204,6 +205,8 @@ export default class ShowBody extends Component {
             type={type}
           />
         );
+      case 11:
+        return <BodyBackgroundProcessesFormModal {...this.props} />;
     }
   };
 
