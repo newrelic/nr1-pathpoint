@@ -79,6 +79,28 @@ describe('NerdStorageVault', () => {
     await nerdStorageVault.getCredentialsData();
   });
 
+  it('Function getCredentialsData() with error', async () => {
+    const data = [
+      {
+        _typename: 'NerdStorageVaultSecret',
+        key: 'TEST',
+        value: 'test123'
+      },
+      {
+        _typename: 'NerdStorageVaultSecret',
+        key: 'api_token',
+        value: 'token'
+      }
+    ];
+    const error = 'Network Error';
+    jest
+      .spyOn(NerdGraphQuery, 'query')
+      .mockImplementationOnce(() => Promise.resolve({ error, data }));
+    await expect(nerdStorageVault.getCredentialsData()).rejects.toThrow(
+      'Network Error'
+    );
+  });
+
   it('Function getCredentialsData() with no data', async () => {
     const error = 'Network Error';
     jest
