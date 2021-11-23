@@ -200,7 +200,7 @@ export default class DataManager {
 
   async UpdateData(timeRange, city, stages, kpis, timeRangeKpi) {
     if (this.accountId !== null) {
-      console.log(`UPDATING-DATA: ${this.accountId}`);
+      // console.log(`UPDATING-DATA: ${this.accountId}`);
       this.timeRange = timeRange;
       this.city = city;
       this.stages = stages;
@@ -209,7 +209,7 @@ export default class DataManager {
       await this.TouchPointsUpdate();
       await this.UpdateMerchatKpi();
       this.CalculateUpdates();
-      console.log('FINISH-Update');
+      // console.log('FINISH-Update');
       return {
         stages: this.stages,
         kpis: this.kpis
@@ -651,7 +651,7 @@ export default class DataManager {
       return 0;
     }
     if (errors && errors.length > 0) {
-      console.log('NRDB-Error:', errors);
+      // console.log('NRDB-Error:', errors);
     }
     if (data && data.actor) {
       for (const [key, value] of Object.entries(data.actor)) {
@@ -2261,7 +2261,7 @@ export default class DataManager {
       }
       return found;
     });
-    if (totalTouchpoints % tp_per_group === 0){
+    if (totalTouchpoints % tp_per_group === 0) {
       data += `
     ];`;
     } else {
@@ -2487,7 +2487,7 @@ export default class DataManager {
   }
 
   UpdateTouchpointQuerys(touchpoint, datos) {
-    console.log('Updating Touchpoint',touchpoint,'DATOS',datos)
+    // console.log('Updating Touchpoint',touchpoint,'DATOS',datos)
     this.touchPoints.some(element => {
       let found = false;
       if (element.index === this.city) {
@@ -2515,7 +2515,7 @@ export default class DataManager {
             datos.forEach(dato => {
               this.UpdateMeasure(dato, tp.measure_points);
             });
-            console.log("measures:",tp.measure_points);
+            // console.log("measures:",tp.measure_points);
             this.SetStorageTouchpoints();
           }
           return found2;
@@ -2530,7 +2530,7 @@ export default class DataManager {
       let found = false;
       if (measure.type === data.type) {
         found = true;
-        console.log('Found AccountID:',data.accountID,'this.accid:',this.accountId, 'originalID:',measure.accountID)
+        // console.log('Found AccountID:',data.accountID,'this.accid:',this.accountId, 'originalID:',measure.accountID)
         measure.accountID = data.accountID;
         measure.query = data.query_body;
         measure.timeout = data.timeout;
@@ -2666,6 +2666,7 @@ export default class DataManager {
           credentials.userAPIKey
         );
         this.SynConnector.SetUserApiKey(credentials.userAPIKey);
+        this.CredentialConnector.SetUserApiKey(credentials.userAPIKey);
       }
     }
   }
@@ -2673,6 +2674,7 @@ export default class DataManager {
   ResetCredentialsInVault() {
     this.NerdStorageVault.storeCredentialData('ingestLicense', '_');
     this.NerdStorageVault.storeCredentialData('userAPIKey', '_');
+    this.CredentialConnector.DeleteCredentials();
   }
 
   SaveGeneralConfiguration(data) {

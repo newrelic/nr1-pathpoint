@@ -45,10 +45,10 @@ export default class LogConnector {
   CheckBuffer() {
     if (this.ingestLicense === 'API-KEY-HERE' || !this.enableDisable) {
       this.buffer = [];
-      console.log('NO-LOGS');
+      // console.log('NO-LOGS');
       return null;
     }
-    console.log('SENDING-LOGS');
+    // console.log('SENDING-LOGS');
     const maxSizeBuffer = new Blob([JSON.stringify(this.buffer)]).size;
     const maxSixeSend = 999999;
     let ArrayResult = [];

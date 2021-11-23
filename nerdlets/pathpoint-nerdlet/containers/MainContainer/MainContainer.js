@@ -284,7 +284,7 @@ export default class MainContainer extends React.Component {
 
   ExecuteUpdateData = changeLoading => {
     const { updating, queryModalShowing } = this.state;
-    console.log('updating:', updating, 'QueryModal:', queryModalShowing);
+    // console.log('updating:', updating, 'QueryModal:', queryModalShowing);
     if (!updating && !queryModalShowing) {
       this.setState(
         {
@@ -1581,6 +1581,7 @@ export default class MainContainer extends React.Component {
               changeTimeRangeKpi={this.changeTimeRangeKpi}
               timeRangeKpi={timeRangeKpi}
               kpis={kpis}
+              accountId={accountId}
               updateDataKpisChecked={this.updateDataKpisChecked}
               credentials={credentials}
             />
@@ -1632,13 +1633,13 @@ export default class MainContainer extends React.Component {
                     >
                       Json configuration
                     </div>
-                    <div
+                    {/* <div
                       className="subItem"
                       onClick={this._handleClickProcesses2}
                       style={{ padding: '5px' }}
                     >
                       Background processes
-                    </div>
+                    </div> */}
                     <div
                       className="subItem"
                       onClick={this._handleClickProcesses}
@@ -2088,7 +2089,6 @@ export default class MainContainer extends React.Component {
             GetCurrentHistoricErrorScript={this.GetCurrentHistoricErrorScript}
             modifiedQuery={modifiedQuery}
             accountIDs={accountIDs}
-            accountID={accountId}
             HandleCredentialsFormChange={this.HandleCredentialsFormChange}
             credentialsData={this.state.credentials}
             disableGeneralConfigurationSubmit={

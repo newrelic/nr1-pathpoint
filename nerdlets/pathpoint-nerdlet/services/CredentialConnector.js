@@ -10,20 +10,35 @@ export default class CredentialConnector {
     this.ingestLicense = '';
     this.axiosInstance = axios.create();
     this.uriCredential = env.synCredentialsApiURL;
-    // 'https://long-meadow-1713.rsamanez.workers.dev?https://synthetics.newrelic.com/synthetics/api/v1/secure-credentials';
   }
 
   SetUserApiKey(key) {
+    if (this.userApiKey !== '' && this.userApiKey !== key) {
+      this.UpdateUserApiKeyCredential(key);
+      console.log('UPDATING-API-USER-KEY');
+    } else {
+      console.log('Setting-API-USER-KEY');
+    }
     this.userApiKey = key;
-    console.log('Syn-Credentials:set-user-key:', key);
   }
 
   SetLicenseKey(key) {
+    if (this.ingestLicense !== '' && this.ingestLicense !== key) {
+      this.UpdateLicenseCredential(key);
+      console.log('UPDATING-LICENSE-KEY');
+    } else {
+      console.log('Setting-LICENSE-KEY');
+    }
     this.ingestLicense = key;
-    console.log('Syn-Credentials:set-license-key:', key);
   }
 
   SetAccountID(accountId) {
+    if (this.accountId !== 1 && this.accountId !== accountId) {
+      this.UpdateAccountIdCredential(accountId);
+      console.log('UPDATING-AccountID');
+    } else {
+      console.log('Setting-AccountID');
+    }
     this.accountId = accountId;
   }
 
@@ -106,7 +121,7 @@ export default class CredentialConnector {
         console.log('Successfull credential created');
         return true;
       }
-      console.log('Check the CODE...: response:', response);
+      // console.log('Check the CODE...: response:', response);
       return false;
     } catch (error) {
       console.log('ERROR CREATING SECURE-KEY:', credentialName);
@@ -147,41 +162,130 @@ export default class CredentialConnector {
     }
     return accountIdKey && useApiKey && ingestLicenseKey;
   }
-// ===================================================
 
-  updateCredential(credential) {
-    const apiKey = 'XXXX';
-    this.axiosInstance
-      .put(this.uriCredential + '/' + credential.key, credential.update, {
-        headers: {
-          contentType: 'application/json',
-          'Api-Key': apiKey
+  async DeleteCredential(credentialName) {
+    try {
+      const response = await this.axiosInstance.delete(
+        `${this.uriCredential}/${credentialName}`,
+        {
+          headers: {
+            contentType: 'application/json',
+            'Api-Key': this.userApiKey
+          }
         }
-      })
-      .then(resp => {
-        console.log('entro then update');
-        console.log('resp update:', resp);
-      })
-      .catch(error => {
-        console.log('error update:', error);
-      });
+      );
+      if (response && response.status && response.status === 204) {
+        console.log('Credential Removed:', credentialName);
+        return true;
+      }
+      console.log('Validar CODE:removing credentials:', credentialName);
+      return false;
+    } catch (error) {
+      console.log('ERROR-removing-secure-credential:', credentialName);
+      return false;
+    }
   }
 
-  deleteCredential(credential) {
-    const apiKey = 'XXXX';
-    this.axiosInstance
-      .delete(this.uriCredential + '/' + credential.key, {
-        headers: {
-          contentType: 'application/json',
-          'Api-Key': apiKey
+  async DeleteCredentials() {
+    console.log('Removing Credentials...');
+    let delAccId = false;
+    let delUserKey = false;
+    let delLicenseKey = false;
+    const ppId = this.pathpoint_id.toUpperCase().replaceAll('-', '');
+    if (await this.FindCredential(`PATHPOINT_${ppId}_ACCOUNTID`)) {
+      delAccId = await this.DeleteCredential(`PATHPOINT_${ppId}_ACCOUNTID`);
+    }
+    if (await this.FindCredential(`PATHPOINT_${ppId}_USER_API_KEY`)) {
+      delUserKey = await this.DeleteCredential(
+        `PATHPOINT_${ppId}_USER_API_KEY`
+      );
+    }
+    if (await this.FindCredential(`PATHPOINT_${ppId}_INGEST_LICENSE`)) {
+      delLicenseKey = await this.DeleteCredential(
+        `PATHPOINT_${ppId}_INGEST_LICENSE`
+      );
+    }
+    if (delAccId) {
+      this.accountId = 1;
+    }
+    if (delUserKey) {
+      this.userApiKey = '';
+    }
+    if (delLicenseKey) {
+      this.ingestLicense = '';
+    }
+  }
+
+  async UpdateCredential(credentialName, credentialValue) {
+    const newCredential = {
+      key: credentialName,
+      value: credentialValue,
+      description: 'Pathpopint Synthetics API Automation Credential'
+    };
+    try {
+      const response = await this.axiosInstance.put(
+        `${this.uriCredential}/${credentialName}`,
+        newCredential,
+        {
+          headers: {
+            contentType: 'application/json',
+            'Api-Key': this.userApiKey
+          }
         }
-      })
-      .then(resp => {
-        console.log('entro then delete');
-        console.log('resp delete:', resp);
-      })
-      .catch(error => {
-        console.log('error delete:', error);
-      });
+      );
+      if (response && response.status && response.status === 204) {
+        console.log('Credential Updated:', credentialName);
+        return true;
+      }
+      console.log('Validar CODE:Updating credentials:', credentialName);
+      return false;
+    } catch (error) {
+      console.log('ERROR-updating-secure-credential:', credentialName);
+      return false;
+    }
+  }
+
+  async UpdateUserApiKeyCredential(newKey) {
+    const ppId = this.pathpoint_id.toUpperCase().replaceAll('-', '');
+    if (await this.FindCredential(`PATHPOINT_${ppId}_USER_API_KEY`)) {
+      await this.UpdateCredential(`PATHPOINT_${ppId}_USER_API_KEY`, newKey);
+    }
+  }
+
+  async UpdateAccountIdCredential(newKey) {
+    const ppId = this.pathpoint_id.toUpperCase().replaceAll('-', '');
+    if (await this.FindCredential(`PATHPOINT_${ppId}_ACCOUNTID`)) {
+      await this.UpdateCredential(`PATHPOINT_${ppId}_ACCOUNTID`, newKey);
+    }
+  }
+
+  async UpdateLicenseCredential(newKey) {
+    const ppId = this.pathpoint_id.toUpperCase().replaceAll('-', '');
+    if (await this.FindCredential(`PATHPOINT_${ppId}_INGEST_LICENSE`)) {
+      await this.UpdateCredential(`PATHPOINT_${ppId}_INGEST_LICENSE`, newKey);
+    }
+  }
+
+  async UpdateCredentials() {
+    console.log('Updating Credentials...');
+    const ppId = this.pathpoint_id.toUpperCase().replaceAll('-', '');
+    if (await this.FindCredential(`PATHPOINT_${ppId}_ACCOUNTID`)) {
+      await this.UpdateCredential(
+        `PATHPOINT_${ppId}_ACCOUNTID`,
+        this.accountId
+      );
+    }
+    if (await this.FindCredential(`PATHPOINT_${ppId}_USER_API_KEY`)) {
+      await this.UpdateCredential(
+        `PATHPOINT_${ppId}_USER_API_KEY`,
+        this.userApiKey
+      );
+    }
+    if (await this.FindCredential(`PATHPOINT_${ppId}_INGEST_LICENSE`)) {
+      await this.UpdateCredential(
+        `PATHPOINT_${ppId}_INGEST_LICENSE`,
+        this.ingestLicense
+      );
+    }
   }
 }

@@ -14,8 +14,8 @@ import canaryIcon from '../../images/CanaryIcon.svg';
 import canaryIconOn from '../../images/CanaryIconOn.svg';
 import sixthSenseIcon from '../../images/SixthSense.svg';
 import sixthSenseIconOn from '../../images/SixthSenseOn.svg';
-import goutIcon from '../../images/GoutIcon.svg';
-import goutIconOn from '../../images/goutBlack.svg';
+// import goutIcon from '../../images/GoutIcon.svg';
+// import goutIconOn from '../../images/goutBlack.svg';
 
 // New KPI Tool Components
 import RangeDateSelector from '../RangeTime';
@@ -35,7 +35,7 @@ const Header = ({
   showLeftPanel,
   openLeftMenu,
   handleContextMenuFire,
-  handleContextMenuGout,
+  // handleContextMenuGout,
   ToggleHeaderButtons,
   logoSetup,
   // KPI PROPS
@@ -48,7 +48,6 @@ const Header = ({
 }) => {
   const filterKpis = kpis.filter(kpi => kpi.check);
   const showLogsLink = credentials.loggin; // TODO logic to hidden
-  
   return (
     <div className="containerHeader">
       <div className="quantityDinner">
@@ -336,7 +335,7 @@ Header.propTypes = {
   showLeftPanel: PropTypes.bool.isRequired,
   openLeftMenu: PropTypes.func.isRequired,
   handleContextMenuFire: PropTypes.func.isRequired,
-  handleContextMenuGout: PropTypes.func.isRequired,
+  // handleContextMenuGout: PropTypes.func.isRequired,
   ToggleHeaderButtons: PropTypes.func.isRequired,
   logoSetup: PropTypes.object.isRequired,
   timeRangeKpi: PropTypes.object.isRequired,

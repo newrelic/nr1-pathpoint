@@ -13,7 +13,6 @@ export default class SynConnector {
     this.DropStatus = false;
     this.FlameStatus = false;
     this.uriSyntetic = env.synApiURL;
-    //  'https://long-meadow-1713.rsamanez.workers.dev?https://synthetics.newrelic.com/synthetics/api/v3/monitors';
   }
 
   async ValidateUserApiKey(userApiKey) {
@@ -36,12 +35,10 @@ export default class SynConnector {
 
   SetUserApiKey(key) {
     this.userApiKey = key;
-    console.log('SynConn:set-key:', key);
   }
 
   SetLicenseKey(key) {
     this.ingestLicense = key;
-    console.log('SynConn:set-license-key:', key);
   }
 
   SetAccountID(accountId) {
@@ -57,9 +54,6 @@ export default class SynConnector {
   }
 
   async UpdateFlameMonitor(encodedScript) {
-    console.log('this.FlameStatus',this.FlameStatus);
-    console.log('this.userApiKey',this.userApiKey);
-    console.log('this.ingestLicense',this.ingestLicense);
     if (
       !this.FlameStatus ||
       this.userApiKey === '' ||
@@ -191,7 +185,7 @@ export default class SynConnector {
           }
         }
       );
-      // console.log('UPDATE SCRIPT RERSULT:', response);
+      console.log('UPDATE SCRIPT RERSULT:', response);
       if (response.status) {
         return response.status;
       } else {
