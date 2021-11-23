@@ -23,7 +23,6 @@ import SelectorKpis from '../SelectorKpis';
 import kpiStatusEqual from '../../images/kpiStatusEqual.svg';
 import kpiStatusUpper from '../../images/kpiStatusUpper.svg';
 import kpiStatusLower from '../../images/kpiStatusLower.svg';
-// import { navigation } from 'nr1';
 
 const Header = ({
   iconSixthSenseStatus,
@@ -44,10 +43,12 @@ const Header = ({
   changeTimeRangeKpi,
   kpis,
   updateDataKpisChecked,
-  credentials
+  credentials,
+  accountId
 }) => {
   const filterKpis = kpis.filter(kpi => kpi.check);
   const showLogsLink = credentials.loggin; // TODO logic to hidden
+  
   return (
     <div className="containerHeader">
       <div className="quantityDinner">
@@ -177,13 +178,13 @@ const Header = ({
             cursor: 'pointer'
           }}
           onClick={() => {
-             navigation.openStackedNerdlet({
-               id: 'logger.home',
-               urlState: {
-                 //accountId: [Log Accountid] - Will default to current account
-                 query: 'application: Pathpoint',
-               }
-             });
+            navigation.openStackedNerdlet({
+              id: 'logger.home',
+              urlState: {
+                accountId: accountId,
+                query: 'application: Pathpoint'
+              }
+            });
           }}
         >
           <Icon type={Icon.TYPE.HARDWARE_AND_SOFTWARE__SOFTWARE__LOGS} />
@@ -342,5 +343,6 @@ Header.propTypes = {
   changeTimeRangeKpi: PropTypes.func.isRequired,
   kpis: PropTypes.array.isRequired,
   updateDataKpisChecked: PropTypes.func.isRequired,
-  credentials: PropTypes.object.isRequired
+  credentials: PropTypes.object.isRequired,
+  accountId: PropTypes.number.isRequired
 };
