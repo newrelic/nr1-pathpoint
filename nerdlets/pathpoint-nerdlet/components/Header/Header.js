@@ -186,7 +186,7 @@ const Header = ({
           }}
         >
           <Icon type={Icon.TYPE.HARDWARE_AND_SOFTWARE__SOFTWARE__LOGS} />
-          See Logs
+          See logs
         </div>
       </div>
     </div>
