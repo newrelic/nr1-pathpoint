@@ -1531,7 +1531,8 @@ export default class MainContainer extends React.Component {
       // KPI Properties
       timeRangeKpi,
       kpis,
-      accountIDs
+      accountIDs,
+      credentials
     } = this.state;
     if (this.state.waiting) {
       return (
@@ -1579,6 +1580,7 @@ export default class MainContainer extends React.Component {
               timeRangeKpi={timeRangeKpi}
               kpis={kpis}
               updateDataKpisChecked={this.updateDataKpisChecked}
+              credentials={credentials}
             />
           </div>
           <div
