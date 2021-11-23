@@ -176,21 +176,13 @@ const Header = ({
             cursor: 'pointer'
           }}
           onClick={() => {
-            window.open(
-              'https://one.newrelic.com/launcher/logger.log-launcher'
-            );
-            // navigation.openStackedNerdlet({
-            //   id: 'logger.home',
-            //   state: {
-            //     accountId: 1606862,
-            //     query: 'pathpoint_id: a7502d17-db69-4a6a-9353-885267740c84',
-            //     timeRange: {
-            //       begin_time: 1635881674,
-            //       end_time: 1635886674,
-            //       duration: undefined
-            //     }
-            //   }
-            // });
+             navigation.openStackedNerdlet({
+               id: 'logger.home',
+               urlState: {
+                 accountId: 1606862,
+                 query: ' application: Pathpoint',
+               }
+             });
           }}
         >
           <Icon type={Icon.TYPE.HARDWARE_AND_SOFTWARE__SOFTWARE__LOGS} />
