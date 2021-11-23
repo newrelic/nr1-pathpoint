@@ -17,6 +17,7 @@ import { HeaderSupportFormModal } from './SupportFormModal';
 import { HeaderFileErrorFormModal } from './FileErrorFormModal';
 import { HeaderJsonConfigurationFormModal } from './JsonConfigurationFormModal';
 import { HeaderGeneralConfigurationFormModal } from './GeneralConfigurationFormModal';
+import { HeaderBackgroundProcessesFormModal } from './BackgroundProcessesFormModal';
 
 export default function ShowHeader(props) {
   const {
@@ -92,6 +93,8 @@ export default function ShowHeader(props) {
       return <HeaderGeneralConfigurationFormModal />;
     case 10:
       return <HeaderLogoFormModal />;
+    case 11:
+      return <HeaderBackgroundProcessesFormModal />;
   }
 }
 

@@ -634,6 +634,17 @@ describe('Validations class', () => {
       });
     });
 
+    it('Validate query type WORKLOAD-QUERY', async () => {
+      const validateQuery = await validations.validateQuery(
+        'WORKLOAD-QUERY',
+        'Full Open Query'
+      );
+      expect(validateQuery).toEqual({
+        goodQuery: false,
+        testText: 'Incorrect validated'
+      });
+    });
+
     it('Validate query type KPI-101', async () => {
       const validateQuery = await validations.validateQuery(
         'KPI-101',
@@ -744,12 +755,17 @@ describe('Validations class', () => {
         { session: 'data1', value: 'value', comparison: 'comparison' },
         { session: 'data1', value: 'value', comparison: 'comparison' }
       ];
+      const data2 = [
+        { value: 2789, comparison: 'comp', test: 123 },
+        { value: 5698 }
+      ];
       const query =
         'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago';
       const validateErrors = validations.kpi101Validation('error', '');
       expect(validateErrors).toEqual(false);
       const validateData = validations.kpi101Validation(errors, query, data);
       expect(validateData).toEqual(false);
+      expect(validations.kpi101Validation(errors, query, data2)).toEqual(false);
     });
 
     it('Function kpiQueryValidation()', () => {
@@ -849,6 +865,29 @@ describe('Validations class', () => {
         data6
       );
       expect(validateDataElseQuantityRequest).toEqual(false);
+    });
+
+    it('Function checkWLDQueryValidation()', () => {
+      const errors = [];
+      const data = [
+        {
+          statusValue: 'statusValue',
+          session: 'session',
+          comparison: 'comparison'
+        }
+      ];
+      const data2 = [
+        {
+          statusValue: 'statusValue'
+        },
+        {
+          session: 'session',
+          comparison: 'comparison'
+        }
+      ];
+      expect(validations.checkWLDQueryValidation('error', '')).toEqual(false);
+      expect(validations.checkWLDQueryValidation(errors, data)).toEqual(false);
+      expect(validations.checkWLDQueryValidation(errors, data2)).toEqual(false);
     });
   });
 });

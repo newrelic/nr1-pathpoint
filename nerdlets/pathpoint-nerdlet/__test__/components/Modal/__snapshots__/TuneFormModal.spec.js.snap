@@ -16,6 +16,56 @@ exports[`TuneFormModal component Render body with default data 1`] = `
       style={
         Object {
           "display": "flex",
+          "justifyContent": "end",
+          "marginBottom": "1px",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "display": "flex",
+            "flexDirection": "row",
+            "width": "47%",
+          }
+        }
+      >
+        <div
+          style={
+            Object {
+              "display": "flex",
+              "justifyContent": "center",
+              "width": "60%",
+            }
+          }
+        >
+          <label
+            className="headerSubtitleTune"
+          >
+            Configured
+          </label>
+        </div>
+        <div
+          style={
+            Object {
+              "display": "flex",
+              "justifyContent": "center",
+              "width": "40%",
+            }
+          }
+        >
+          <label
+            className="headerSubtitleTune"
+          >
+            Last 5 min
+          </label>
+        </div>
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
           "justifyContent": "flex-end",
         }
       }

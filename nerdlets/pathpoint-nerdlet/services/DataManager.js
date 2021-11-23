@@ -9,7 +9,7 @@ import Canary from '../config/canary_states.json';
 import ViewData from '../config/view.json';
 import appPackage from '../../../package.json';
 import NerdStorageVault from './NerdStorageVault';
-import { historicErrorScript } from '../../../synthetics/createHistoricErrorScript';
+import { historicErrorScript } from '../../../synthetics/createHistoricErrorScript2';
 import {
   AccountStorageMutation,
   AccountsQuery,
@@ -19,20 +19,22 @@ import {
 } from 'nr1';
 
 import LogConnector from './LogsConnector';
-// import SynConnector from './SynConnector';
+import SynConnector from './SynConnector';
 
 // DEFINE AND EXPORT CLASS
 export default class DataManager {
   constructor() {
     this.NerdStorageVault = new NerdStorageVault();
     this.LogConnector = new LogConnector();
-    // this.SynConnector = new SynConnector();
+    this.SynConnector = new SynConnector();
+    this.SecureCredentialsExist = false;
     this.minPercentageError = 100;
     this.historicErrorsHours = 192;
     this.historicErrorsHighLightPercentage = 26;
     this.dropParams = null;
     this.version = null;
     this.accountId = null;
+    this.SyntheticAccountID = null;
     this.graphQlmeasures = [];
     this.touchPointsCopy = null;
     this.city = 0;
@@ -78,12 +80,19 @@ export default class DataManager {
     await this.GetStorageHistoricErrorsParams();
     await this.GetStorageDropParams();
     this.credentials = await this.NerdStorageVault.getCredentialsData();
+    if (
+      this.credentials &&
+      this.credentials.actor.nerdStorageVault.secrets.length > 0
+    ) {
+      await this.TryToSetKeys(this.credentials.actor.nerdStorageVault.secrets);
+    }
     await this.GetGeneralConfiguration();
+    this.TryToEnableServices();
     this.version = appPackage.version;
     if (this.lastStorageVersion === appPackage.version) {
       this.colors = ViewData.colors;
       await this.GetInitialDataFromStorage();
-      this.GetStorageTouchpoints();
+      await this.GetStorageTouchpoints();
     } else {
       this.stages = ViewData.stages;
       this.colors = ViewData.colors;
@@ -92,6 +101,7 @@ export default class DataManager {
       this.SetStorageTouchpoints();
       this.SetVersion();
     }
+    this.AddCustomAccountIDs();
     this.stepsByStage = this.GetStepsByStage();
     return {
       stages: [...this.stages],
@@ -104,6 +114,72 @@ export default class DataManager {
       credentials: this.credentials,
       generalConfiguration: this.generalConfiguration
     };
+  }
+
+  async TryToSetKeys(secrets) {
+    // console.log('Secrets:',secrets);
+    let licensekey = '';
+    let userApiKey = '';
+    secrets.forEach(item => {
+      if (
+        item.key &&
+        item.key === 'ingestLicense' &&
+        item.value &&
+        item.value !== '_' &&
+        item.value.indexOf('xxxxxx') === -1
+      ) {
+        licensekey = item.value;
+      }
+      if (
+        item.key &&
+        item.key === 'userAPIKey' &&
+        item.value &&
+        item.value !== '_' &&
+        item.value.indexOf('xxxxxx') === -1
+      ) {
+        userApiKey = item.value;
+      }
+    });
+    if (licensekey !== '') {
+      const valid = await this.ValidateIngestLicense(licensekey);
+      if (valid) {
+        this.LogConnector.SetLicenseKey(licensekey);
+        this.SynConnector.SetLicenseKey(licensekey);
+      }
+    }
+    if (userApiKey !== '') {
+      const valid = await this.ValidateUserApiKey(userApiKey);
+      if (valid) {
+        this.SynConnector.SetUserApiKey(userApiKey);
+      }
+    }
+  }
+
+  TryToEnableServices() {
+    // TODO
+    // console.log('General Configuration:',this.generalConfiguration);
+    if (Reflect.has(this.generalConfiguration, 'loggin')) {
+      this.LogConnector.EnableDisable(this.generalConfiguration.loggin);
+      // console.log('ENABLE/DISABLE-LOG-CONNECTOR:', this.generalConfiguration.loggin);
+    }
+    if (Reflect.has(this.generalConfiguration, 'dropTools')) {
+      this.SynConnector.EnableDisableDrop(this.generalConfiguration.dropTools);
+      // console.log('ENABLE/DISABLE-SYN-CONNECTOR-DROP:', this.generalConfiguration.dropTools);
+    }
+    if (Reflect.has(this.generalConfiguration, 'flameTools')) {
+      this.SynConnector.EnableDisableFlame(
+        this.generalConfiguration.flameTools
+      );
+      // console.log('ENABLE/DISABLE-SYN-CONNECTOR-FLAME:', this.generalConfiguration.flameTools);
+    }
+    if (Reflect.has(this.generalConfiguration, 'accountId')) {
+      this.SyntheticAccountID = this.generalConfiguration.accountId;
+      this.SynConnector.SetAccountID(this.SyntheticAccountID);
+      // console.log('SETTIMNG-SYN-ACCOUNT-ID:', this.generalConfiguration.accountId);
+    } else {
+      this.SyntheticAccountID = this.accountId;
+      this.SynConnector.SetAccountID(this.SyntheticAccountID);
+    }
   }
 
   SetTotalContainers() {
@@ -127,7 +203,7 @@ export default class DataManager {
       await this.TouchPointsUpdate();
       await this.UpdateMerchatKpi();
       this.CalculateUpdates();
-      console.log("FINISH-Update")
+      console.log('FINISH-Update');
       return {
         stages: this.stages,
         kpis: this.kpis
@@ -140,7 +216,6 @@ export default class DataManager {
       const { data } = await AccountsQuery.query();
       if (data.length > 0) {
         this.FillAccountIDs(data);
-        this.AddCustomAccountIDs();
         if (accountName !== '') {
           data.some(account => {
             let found = false;
@@ -322,6 +397,7 @@ export default class DataManager {
         });
       }
     });
+    this.RemoveGreySquare();
     if (this.graphQlmeasures.length > 0) {
       await this.NRDBQuery();
     }
@@ -534,9 +610,30 @@ export default class DataManager {
   }
 
   DisableTouchpointByError(touchpoint) {
-    touchpoint.status_on_off = false;
-    this.UpdateTouchpointStatus(touchpoint);
-    this.SetStorageTouchpoints();
+    // touchpoint.status_on_off = false;
+    this.stages.some(stage => {
+      let found = false;
+      if (stage.index === touchpoint.stage_index) {
+        stage.touchpoints.some(tp => {
+          let foundTp = false;
+          if (tp.index === touchpoint.touchpoint_index) {
+            tp.show_grey_square = true;
+            foundTp = true;
+          }
+          return foundTp;
+        });
+        found = true;
+      }
+      return found;
+    });
+  }
+
+  RemoveGreySquare() {
+    this.stages.forEach(stage => {
+      stage.touchpoints.forEach(tp => {
+        tp.show_grey_square = false;
+      });
+    });
   }
 
   async NRDBQuery() {
@@ -741,6 +838,17 @@ export default class DataManager {
               // the Touchpoint response is with ERROR
               this.CheckIfResponseErrorCanBeSet(extraInfo, true);
             }
+          }
+        } else if (c[0] === 'measure') {
+          const measure = this.graphQlmeasures[Number(c[1])][0];
+          if (measure.type === 'TEST' && errors && errors.length > 0) {
+            measure.results = {
+              error: errors[0].message
+            };
+          } else {
+            measure.results = {
+              error: 'INVALID QUERY'
+            };
           }
         }
       }
@@ -1926,11 +2034,25 @@ export default class DataManager {
   }
 
   GetCurrentHistoricErrorScript() {
-    const data = historicErrorScript();
-    const pathpointId = `var pathpointId = "${this.pathpointId}"`;
-    const response = `${pathpointId}${
-      data.header
-    }${this.CreateNrqlQueriesForHistoricErrorScript()}${data.footer}`;
+    // console.log('Synthetic-AccountID:', this.SyntheticAccountID);
+    const data = historicErrorScript(this.SyntheticAccountID);
+    if (!this.SecureCredentialsExist) {
+      data.header = `
+      // Insert API Credentials
+      // When the script was generated we were not able add secure credentials for your ingest and API key.
+      // We strongly suggest you move these keys into the secure crendential store.
+      //-----------------------------------------------------
+      const myAccountID = ${this.SyntheticAccountID};
+      const pathpointID = '${this.pathpointId}';
+      const graphQLKey = '${this.SynConnector.userApiKey}';
+      const myInsertKey = '${this.SynConnector.ingestLicense}';
+    
+    `;
+    }
+    const response = `
+    ${data.header}
+    ${this.InserTouchpointsToScript()}
+    ${data.footer}`;
     return response;
   }
 
@@ -2055,138 +2177,91 @@ export default class DataManager {
     return value;
   }
 
-  CreateNrqlQueriesForHistoricErrorScript() {
-    let data = 'var raw1 = JSON.stringify({"query":"{ actor {';
-    let i = 0;
-    let n = 1;
-    let query = '';
-    let query2 = '';
-    const countBreak = 20;
-    this.touchPoints.forEach(element => {
+  InserTouchpointsToScript() {
+    let totalTouchpoints = 0;
+    const tp_per_group = 20;
+    let newgroup = false;
+    let data = `
+    const touchpoints = [`;
+    this.touchPoints.some(element => {
+      let found = false;
       if (element.index === this.city) {
+        let first_item = true;
         element.touchpoints.forEach(touchpoint => {
-          data +=
-            ' measure_' +
-            touchpoint.stage_index +
-            '_' +
-            touchpoint.touchpoint_index +
-            '_' +
-            touchpoint.measure_points[0].type +
-            ': account(id: "+myAccountID+") { nrql(query: \\"';
-          if (touchpoint.measure_points[0].type === 20) {
-            query2 = touchpoint.measure_points[0].query;
-          } else {
-            query = touchpoint.measure_points[0].query.split(' ');
-            query2 =
-              'SELECT count(*), percentage(count(*), WHERE error is true) as percentage';
-            for (let wi = 2; wi < query.length; wi++) {
-              query2 += ' ' + query[wi];
+          if (
+            touchpoint.status_on_off &&
+            (touchpoint.measure_points[0].type === 'PRC' ||
+              touchpoint.measure_points[0].type === 'PCC' ||
+              touchpoint.measure_points[0].type === 'APP' ||
+              touchpoint.measure_points[0].type === 'FRT' ||
+              touchpoint.measure_points[0].type === 'SYN')
+          ) {
+            totalTouchpoints++;
+            if (first_item) {
+              if (newgroup) {
+                data += `,`;
+              }
+              data += `
+      [`;
+              first_item = false;
+            } else {
+              data += `,`;
             }
-          }
-          data += query2;
-          data += ' SINCE 5 minutes AGO';
-          data += '\\", timeout: 10) {results }}';
-          i++;
-          if (i === countBreak) {
-            i = 0;
-            data += '}}","variables":""});';
             data += `
-`;
-            n++;
-            data += 'var raw' + n + ' = JSON.stringify({"query":"{ actor {';
+        {
+          stage_index: ${touchpoint.stage_index},
+          touchpoint_index: ${touchpoint.touchpoint_index},
+          type: '${touchpoint.measure_points[0].type}',
+          timeout: ${touchpoint.measure_points[0].timeout},
+          query: "${touchpoint.measure_points[0].query}",`;
+            let measureTime = '5 minutes ago';
+            if (touchpoint.measure_points[0].measure_time) {
+              measureTime = touchpoint.measure_points[0].measure_time;
+            }
+            data += `
+          measure_time: '${measureTime}',`;
+            switch (touchpoint.measure_points[0].type) {
+              case 'PRC':
+              case 'PCC':
+                data += `
+          min_count: ${touchpoint.measure_points[0].min_count}
+        }`;
+                break;
+              case 'APP':
+              case 'FRT':
+                data += `
+          min_apdex: ${touchpoint.measure_points[0].min_apdex},
+          max_response_time: ${touchpoint.measure_points[0].max_response_time},
+          max_error_percentage: ${touchpoint.measure_points[0].max_error_percentage}
+        }`;
+                break;
+              case 'SYN':
+                data += `
+          max_avg_response_time: ${touchpoint.measure_points[0].max_avg_response_time},
+          max_total_check_time: ${touchpoint.measure_points[0].max_total_check_time},
+          min_success_percentage: ${touchpoint.measure_points[0].min_success_percentage},
+        }`;
+                break;
+            }
+            if (totalTouchpoints % tp_per_group === 0) {
+              first_item = true;
+              newgroup = true;
+              data += `
+      ]`;
+            }
           }
         });
-        data += '}}","variables":""});';
-        data += `
-`;
+        found = true;
       }
+      return found;
     });
-    for (let w = 1; w <= n; w++) {
-      data +=
-        `
-var graphqlpack` +
-        w +
-        ` = {
-headers: {
-    "Content-Type": "application/json",
-    "API-Key": graphQLKey
-},
-url: 'https://api.newrelic.com/graphql',
-body: raw` +
-        w +
-        `
-};
-
-var return` +
-        w +
-        ` = null;
-
-`;
-    }
-    for (let w = 1; w < n; w++) {
-      data +=
-        `
-function callback` +
-        w +
-        `(err, response, body) {
-return` +
-        w +
-        ` = JSON.parse(body);
-$http.post(graphqlpack` +
-        (w + 1) +
-        `, callback` +
-        (w + 1) +
-        `);
-} 
-
-`;
-    }
-    data +=
-      `
-function callback` +
-      n +
-      `(err, response, body) {
-return` +
-      n +
-      ` = JSON.parse(body);
-var events = [];
-var event = null;
-var c = null;
-`;
-    for (let w = 1; w <= n; w++) {
-      data +=
-        `
-for (const [key, value] of Object.entries(return` +
-        w +
-        `.data.actor)) {
-    c = key.split("_");
-    if (value.nrql.results != null) {
-        if(c[3]=='0'){
-            event = {
-                "eventType": "PathpointHistoricErrors",
-                "pathpointId": pathpointId,
-                "stage_index": parseInt(c[1]),
-                "touchpoint_index": parseInt(c[2]),
-                "count": value.nrql.results[0].count,
-                "percentage": value.nrql.results[0].percentage
-            }
-        }else{
-            event = {
-                "eventType": "PathpointHistoricErrors",
-                "pathpointId": pathpointId,
-                "stage_index": parseInt(c[1]),
-                "touchpoint_index": parseInt(c[2]),
-                "count": value.nrql.results[0].R1,
-                "percentage": value.nrql.results[0].R2
-            }
-        }
-        
-        console.log(event);
-        events.push(event);
-    }
-}
-
-`;
+    if (totalTouchpoints % tp_per_group === 0){
+      data += `
+    ];`;
+    } else {
+      data += `
+      ]
+    ];`;
     }
     return data;
   }
@@ -2406,6 +2481,7 @@ for (const [key, value] of Object.entries(return` +
   }
 
   UpdateTouchpointQuerys(touchpoint, datos) {
+    console.log('Updating Touchpoint',touchpoint,'DATOS',datos)
     this.touchPoints.some(element => {
       let found = false;
       if (element.index === this.city) {
@@ -2433,6 +2509,7 @@ for (const [key, value] of Object.entries(return` +
             datos.forEach(dato => {
               this.UpdateMeasure(dato, tp.measure_points);
             });
+            console.log("measures:",tp.measure_points);
             this.SetStorageTouchpoints();
           }
           return found2;
@@ -2447,9 +2524,8 @@ for (const [key, value] of Object.entries(return` +
       let found = false;
       if (measure.type === data.type) {
         found = true;
-        if (data.accountID !== this.accountId) {
-          measure.accountID = data.accountID;
-        }
+        console.log('Found AccountID:',data.accountID,'this.accid:',this.accountId, 'originalID:',measure.accountID)
+        measure.accountID = data.accountID;
         measure.query = data.query_body;
         measure.timeout = data.timeout;
       }
@@ -2555,18 +2631,35 @@ for (const [key, value] of Object.entries(return` +
     this.LogConnector.EnableDisable(status);
   }
 
-  SaveCredentialsInVault(credentials) {
-    if (credentials.ingestLicense) {
-      this.NerdStorageVault.storeCredentialData(
-        'ingestLicense',
-        credentials.ingestLicense
-      );
+  async SaveCredentialsInVault(credentials) {
+    // Only Save Valid Keys
+    // console.log('Saving Credentials:', credentials);
+    if (
+      credentials.ingestLicense &&
+      credentials.ingestLicense.indexOf('xxxxxx') === -1
+    ) {
+      const check = await this.ValidateIngestLicense(credentials.ingestLicense);
+      if (check) {
+        this.NerdStorageVault.storeCredentialData(
+          'ingestLicense',
+          credentials.ingestLicense
+        );
+        this.LogConnector.SetLicenseKey(credentials.ingestLicense);
+        this.SynConnector.SetLicenseKey(credentials.ingestLicense);
+      }
     }
-    if (credentials.userAPIKey) {
-      this.NerdStorageVault.storeCredentialData(
-        'userAPIKey',
-        credentials.userAPIKey
-      );
+    if (
+      credentials.userAPIKey &&
+      credentials.userAPIKey.indexOf('xxxxxx') === -1
+    ) {
+      const check = await this.ValidateUserApiKey(credentials.userAPIKey);
+      if (check) {
+        this.NerdStorageVault.storeCredentialData(
+          'userAPIKey',
+          credentials.userAPIKey
+        );
+        this.SynConnector.SetUserApiKey(credentials.userAPIKey);
+      }
     }
   }
 
@@ -2577,6 +2670,7 @@ for (const [key, value] of Object.entries(return` +
 
   SaveGeneralConfiguration(data) {
     try {
+      // console.log('SavingGeneralConfiguration:', data);
       AccountStorageMutation.mutate({
         accountId: this.accountId,
         actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
@@ -2589,6 +2683,21 @@ for (const [key, value] of Object.entries(return` +
           accountId: data.accountId
         }
       });
+      if (Reflect.has(data, 'loggin')) {
+        this.EnableDisableLogsConnector(data.loggin);
+      } else {
+        // console.log('BAD-generalCofiguration');
+      }
+      if (Reflect.has(data, 'accountId')) {
+        this.SyntheticAccountID = data.accountId;
+        this.SynConnector.SetAccountID(data.accountId);
+      }
+      if (Reflect.has(data, 'flameTools')) {
+        this.SynConnector.EnableDisableFlame(data.flameTools);
+      }
+      if (Reflect.has(data, 'dropTools')) {
+        this.SynConnector.EnableDisableDrop(data.dropTools);
+      }
     } catch (error) {
       throw new Error(error);
     }
@@ -2617,5 +2726,12 @@ for (const [key, value] of Object.entries(return` +
   async ValidateUserApiKey(userApiKey) {
     const valid = await this.SynConnector.ValidateUserApiKey(userApiKey);
     return valid;
+  }
+
+  InstallUpdateBackGroundScript() {
+    // TODO Validate secure credentials
+    const dataScript = this.GetCurrentHistoricErrorScript();
+    const encodedScript = Buffer.from(dataScript).toString('base64');
+    this.SynConnector.UpdateFlameMonitor(encodedScript);
   }
 }
