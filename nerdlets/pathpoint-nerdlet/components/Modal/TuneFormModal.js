@@ -94,7 +94,8 @@ const RenderForm = (datos, handleOnChange) => {
             id: 'min_count',
             onChange: handleOnChange,
             name: 'min_count',
-            key: 'Min'
+            key: 'Min',
+            compare: datos[0].compare
           })}
         </div>
       );
@@ -112,7 +113,8 @@ const RenderForm = (datos, handleOnChange) => {
             id: 'min_count',
             onChange: handleOnChange,
             name: 'min_count',
-            key: 'Min'
+            key: 'Min',
+            compare: datos[0].compare
           })}
         </div>
       );
@@ -127,7 +129,8 @@ const RenderForm = (datos, handleOnChange) => {
               id: 'min_apdex',
               onChange: handleOnChange,
               name: 'min_apdex',
-              key: 'Min'
+              key: 'Min',
+              compare: datos[0].compare
             })}
           </div>
           <div style={{ height: '40px', width: '320px' }}>
@@ -137,7 +140,8 @@ const RenderForm = (datos, handleOnChange) => {
               id: 'max_response_time',
               onChange: handleOnChange,
               name: 'max_response_time',
-              key: 'Max'
+              key: 'Max',
+              compare: datos[0].compare
             })}
           </div>
           <div style={{ height: '40px', width: '320px' }}>
@@ -147,7 +151,8 @@ const RenderForm = (datos, handleOnChange) => {
               id: 'max_error_percentage',
               onChange: handleOnChange,
               name: 'max_error_percentage',
-              key: 'Max'
+              key: 'Max',
+              compare: datos[0].compare
             })}
           </div>
         </>
@@ -162,7 +167,8 @@ const RenderForm = (datos, handleOnChange) => {
               id: 'max_avg_response_time',
               onChange: handleOnChange,
               name: 'max_avg_response_time',
-              key: 'Max'
+              key: 'Max',
+              compare: datos[0].compare
             })}
           </div>
           <div style={{ height: '40px', width: '320px' }}>
@@ -172,7 +178,8 @@ const RenderForm = (datos, handleOnChange) => {
               id: 'max_total_check_time',
               onChange: handleOnChange,
               name: 'max_total_check_time',
-              key: 'Max'
+              key: 'Max',
+              compare: datos[0].compare
             })}
           </div>
           <div style={{ height: '40px', width: '320px' }}>
@@ -182,7 +189,8 @@ const RenderForm = (datos, handleOnChange) => {
               id: 'min_success_percentage',
               onChange: handleOnChange,
               name: 'min_success_percentage',
-              key: 'Min'
+              key: 'Min',
+              compare: datos[0].compare
             })}
           </div>
         </>
@@ -198,10 +206,15 @@ const RenderForm = (datos, handleOnChange) => {
   }
 };
 
-const renderField = ({ name, label, defaultValue, id, onChange, key }) => {
-  // valor que compara con el default value y si es mayor o menor
-  const compare = 5;
-  // adicionalmente cree un key para que pueda saber si el valor es 'Min' o 'Max'
+const renderField = ({
+  name,
+  label,
+  defaultValue,
+  id,
+  onChange,
+  key,
+  compare
+}) => {
   return (
     <>
       <label
