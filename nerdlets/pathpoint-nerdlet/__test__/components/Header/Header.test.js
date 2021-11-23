@@ -15,7 +15,7 @@ jest.mock(
       open: jest.fn()
     };
     const Icon = {
-      type: {
+      TYPE: {
         HARDWARE_AND_SOFTWARE__SOFTWARE__LOGS:
           'hardware-and-software--software--logs'
       }
@@ -90,14 +90,14 @@ describe('<Header/>', () => {
           check: false
         }
       ];
-      const Icon = {
-        TYPE: {
-          HARDWARE_AND_SOFTWARE__SOFTWARE__LOGS: 'logs'
-        }
-      };
-      jest
-        .spyOn(Icon, 'TYPE')
-        .mockReturnValue({ HARDWARE_AND_SOFTWARE__SOFTWARE__LOGS: 'data' });
+      // jest.spyOn(Icon, 'TYPE').mockImplementationOnce({
+      //   HARDWARE_AND_SOFTWARE__SOFTWARE__LOGS: 'data'
+      // });
+      // Icon = jest.fn().mockReturnValue({
+      //   TYPE: {
+      //     HARDWARE_AND_SOFTWARE__SOFTWARE__LOGS: 'test'
+      //   }
+      // });
       const header = mount(
         <Header
           iconSixthSenseStatus
@@ -121,7 +121,7 @@ describe('<Header/>', () => {
           }}
           changeTimeRangeKpi={jest.fn()}
           kpis={kpis}
-          type={Icon}
+          // type={Icon}
           updateDataKpisChecked={jest.fn()}
           // ---- quitar este atributo
           DisplayConsole={jest.fn()}

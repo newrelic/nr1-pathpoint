@@ -35,6 +35,7 @@ describe('LogsConnector', () => {
       .fn()
       .mockImplementationOnce(() => Promise.resolve(data));
     credentialConnector.createCredential(credential);
+    expect(credentialConnector.axiosInstance.post).toHaveBeenCalledTimes(1);
   });
 
   it('Function createCredential() with cath', () => {
@@ -48,6 +49,7 @@ describe('LogsConnector', () => {
       .fn()
       .mockImplementationOnce(() => Promise.reject(new Error(errorMessage)));
     credentialConnector.createCredential(credential);
+    expect(credentialConnector.axiosInstance.post).toHaveBeenCalledTimes(1);
   });
 
   it('Function updateCredential()', () => {
@@ -62,6 +64,20 @@ describe('LogsConnector', () => {
       .fn()
       .mockImplementationOnce(() => Promise.resolve(data));
     credentialConnector.updateCredential(credential);
+    expect(credentialConnector.axiosInstance.put).toHaveBeenCalledTimes(1);
+  });
+
+  it('Function updateCredential() with catch', () => {
+    const credential = {
+      name: 'INGESTKEY',
+      value: '23ef89f9'
+    };
+    const error = 'Newtwork error';
+    credentialConnector.axiosInstance.put = jest
+      .fn()
+      .mockImplementationOnce(() => Promise.reject(error));
+    credentialConnector.updateCredential(credential);
+    expect(credentialConnector.axiosInstance.put).toHaveBeenCalledTimes(1);
   });
 
   it('Function deleteCredential()', () => {
@@ -69,16 +85,27 @@ describe('LogsConnector', () => {
       name: 'INGESTKEY',
       value: '23ef89f9'
     };
-    credentialConnector.deleteCredential(credential);
+    const data = {
+      status: 202
+    };
+
     jest
       .spyOn(credentialConnector.axiosInstance, 'delete')
-      .mockReturnValue({ resp: { status: 202 } });
-    credentialConnector.axiosInstance.delete.then = jest.fn().mockReturnValue({
-      message: 'entro then delete'
-    });
-    // expect(credentialConnector.axiosInstance.delete.then).toEqual(
-    //   'entro then delete'
-    // );
-    expect(credentialConnector.axiosInstance.delete).toHaveBeenCalledTimes(0);
+      .mockImplementationOnce(() => Promise.resolve(data));
+    credentialConnector.deleteCredential(credential);
+    expect(credentialConnector.axiosInstance.delete).toHaveBeenCalledTimes(1);
+  });
+
+  it('Function deleteCredential() with catch', () => {
+    const credential = {
+      name: 'INGESTKEY',
+      value: '23ef89f9'
+    };
+    const error = 'Newtwork error';
+    credentialConnector.axiosInstance.delete = jest
+      .fn()
+      .mockImplementationOnce(() => Promise.reject(error));
+    credentialConnector.deleteCredential(credential);
+    expect(credentialConnector.axiosInstance.delete).toHaveBeenCalledTimes(1);
   });
 });

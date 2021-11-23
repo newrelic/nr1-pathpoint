@@ -1,4 +1,5 @@
 import LogConnector from '../../services/LogsConnector';
+import { UserQuery } from 'nr1';
 
 jest.mock(
   'nr1',
@@ -21,20 +22,34 @@ describe('LogsConnector', () => {
 
   beforeEach(() => {
     logConnector = new LogConnector();
-    // eslint-disable-next-line no-console
-    console.log(logConnector);
   });
+
+  it('Function EnableDisable()', () => {
+    const status = 'ENABLED';
+    logConnector.EnableDisable(status);
+    expect(logConnector.enableDisable).toEqual('ENABLED');
+  });
+
+  it('Function SetLicenseKey()', () => {
+    const key = '3658efa26da6';
+    logConnector.SetLicenseKey(key);
+    expect(logConnector.ingestLicense).toEqual('3658efa26da6');
+  });
+
   it('Function SendLog()', () => {
+    const data = {
+      name: 'wigiboards',
+      id: 2710112,
+      email: 'test@test.com'
+    };
+    jest
+      .spyOn(UserQuery, 'query')
+      .mockImplementationOnce(() => Promise.resolve({ data }));
+    logConnector.setInterval = jest
+      .fn()
+      .mockImplementationOnce(() => Promise.resolve());
     logConnector.userData = { name: 'NAME', id: 123, email: 'NAME@NAME.COM' };
-    // logConnector.userData = {
-    //   query: jest.fn().mockReturnValue({
-    //     then: jest.fn().mockReturnValue({
-    //       data: { name: 'NAME', id: 123, email: 'NAME@NAME.COM' }
-    //     })
-    //   })
-    // };
     const datos = {
-      // nuevo valor
       pathpointID: '12587',
       application: 'Pathpoint',
       mesagge: 'log enviado',
@@ -48,14 +63,19 @@ describe('LogsConnector', () => {
     expect(logConnector.buffer.length).toEqual(1);
   });
 
-  it('Function checkbuffer() with licenseKey', () => {
-    logConnector.licenseKey = 'API-KEY-HERE';
+  it('Function checkbuffer() with licenseKey and enableDisabled', () => {
+    logConnector.ingestLicense = 'testLicense';
+    logConnector.enableDisable = false;
     logConnector.CheckBuffer();
     expect(logConnector.buffer.length).toEqual(0);
   });
 
   it('Function checkbuffer() without licenseKey', () => {
-    logConnector.licenseKey = '';
+    logConnector.ingestLicense = 'TestIngest';
+    logConnector.enableDisable = true;
+    jest
+      .spyOn(logConnector.axiosInstance, 'post')
+      .mockImplementationOnce(() => Promise.reject());
     logConnector.buffer = [
       {
         pathpointID: '12587',
@@ -74,7 +94,11 @@ describe('LogsConnector', () => {
   });
 
   it('Function checkbuffer() without licenseKey and max buffer', () => {
-    logConnector.licenseKey = '';
+    logConnector.ingestLicense = 'TestIngest';
+    logConnector.enableDisable = true;
+    jest
+      .spyOn(logConnector.axiosInstance, 'post')
+      .mockImplementationOnce(() => Promise.resolve());
     for (let i = 0; i < 23000; i++) {
       const obj = {
         pathpointID: '12587',
@@ -91,5 +115,19 @@ describe('LogsConnector', () => {
     logConnector.axiosInstance.post.then = jest.fn();
     logConnector.CheckBuffer();
     expect(logConnector.buffer.length).toEqual(0);
+  });
+
+  it('Function ValidateIngestLicense()', async () => {
+    jest.spyOn(logConnector.axiosInstance, 'post').mockReturnValue(true);
+    const result = await logConnector.ValidateIngestLicense();
+    expect(result).toEqual(true);
+  });
+
+  it('Function ValidateIngestLicense() with catch', async () => {
+    jest
+      .spyOn(logConnector.axiosInstance, 'post')
+      .mockRejectedValue(Error('error'));
+    const result = await logConnector.ValidateIngestLicense();
+    expect(result).toEqual(false);
   });
 });

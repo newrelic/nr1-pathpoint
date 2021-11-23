@@ -314,6 +314,33 @@ describe('Datamanager service', () => {
 
   beforeEach(() => {
     dataManager = new DataManager();
+    dataManager.touchPoints = [
+      {
+        index: 0,
+        country: 'PRODUCTION',
+        touchpoints: [
+          {
+            stage_index: 1,
+            value: 'Login People (PRC)',
+            touchpoint_index: 1,
+            status_on_off: true,
+            relation_steps: [4],
+            measure_points: [
+              {
+                type: 'PRC',
+                timeout: 10,
+                query:
+                  "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
+                min_count: 10,
+                session_count: 0,
+                measure_time: '15 minutes ago',
+                accountID: 2710112
+              }
+            ]
+          }
+        ]
+      }
+    ];
   });
 
   it('Function BootstrapInitialData() with lastStorageVersion = appPackager.version', async () => {
@@ -593,28 +620,31 @@ describe('Datamanager service', () => {
     expect(result.accountIDs).toEqual([{ name: 'WigiBoards', id: 2710112 }]);
   });
 
-  it('Function TryToSetKeys() call LogConnector', () => {
+  it('Function TryToSetKeys() call LogConnector', async () => {
     const secrets = [
       {
         key: 'ingestLicense',
         value: 'TEST1233'
       }
     ];
+    dataManager.ValidateIngestLicense = await jest.fn().mockReturnValue(true);
     dataManager.LogConnector.SetLicenseKey = jest.fn();
-    dataManager.TryToSetKeys(secrets);
-    expect(dataManager.LogConnector.SetLicenseKey).toHaveBeenCalledTimes(0);
+    dataManager.SynConnector.SetLicenseKey = jest.fn();
+    await dataManager.TryToSetKeys(secrets);
+    expect(dataManager.ValidateIngestLicense).toHaveBeenCalledTimes(1);
   });
 
-  it('Function TryToSetKeys() call SynConnector', () => {
+  it('Function TryToSetKeys() call SynConnector', async () => {
     const secrets = [
       {
         key: 'userAPIKey',
         value: 'TEST1233'
       }
     ];
-    dataManager.SynConnector.SetLicenseKey = jest.fn();
-    dataManager.TryToSetKeys(secrets);
-    expect(dataManager.SynConnector.SetLicenseKey).toHaveBeenCalledTimes(0);
+    dataManager.ValidateUserApiKey = await jest.fn().mockReturnValue(true);
+    dataManager.SynConnector.SetUserApiKey = jest.fn();
+    await dataManager.TryToSetKeys(secrets);
+    expect(dataManager.ValidateUserApiKey).toHaveBeenCalledTimes(1);
   });
 
   it('Function TryToEnableServices() with loggin', () => {
@@ -638,6 +668,13 @@ describe('Datamanager service', () => {
     expect(dataManager.SynConnector.EnableDisableFlame).toHaveBeenCalledTimes(
       1
     );
+  });
+
+  it('Function TryToEnableServices() with accountId', () => {
+    dataManager.generalConfiguration = { accountId: 'accountId' };
+    dataManager.SynConnector.SetAccountID = jest.fn();
+    dataManager.TryToEnableServices();
+    expect(dataManager.SynConnector.SetAccountID).toHaveBeenCalledTimes(1);
   });
 
   it('Function UpdateData()', async () => {
@@ -683,28 +720,9 @@ describe('Datamanager service', () => {
       range: '24 HOURS AGO'
     };
     dataManager.accountId = 2710112;
-    dataManager.MakeLogingData = jest.fn();
+    dataManager.TouchPointsUpdate = jest.fn();
     dataManager.UpdateMerchatKpi = jest.fn();
-    dataManager.NRDBQuery = jest.fn();
-    dataManager.touchPoints = [
-      {
-        stage_index: 1,
-        value: 'Orders API (PRC)',
-        touchpoint_index: 1,
-        status_on_off: true,
-        relation_steps: [1],
-        measure_points: [
-          {
-            type: 'PRC',
-            timeout: 10,
-            query:
-              "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='ap-southeast-2'",
-            min_count: 10,
-            session_count: 0
-          }
-        ]
-      }
-    ];
+    dataManager.CalculateUpdates = jest.fn();
     const result = await dataManager.UpdateData(
       timeRange,
       city,
@@ -760,33 +778,6 @@ describe('Datamanager service', () => {
   });
 
   it('Function AddCustomAccountIDs()', () => {
-    dataManager.touchPoints = [
-      {
-        index: 0,
-        country: 'PRODUCTION',
-        touchpoints: [
-          {
-            stage_index: 1,
-            value: 'Login People (PRC)',
-            touchpoint_index: 1,
-            status_on_off: true,
-            relation_steps: [4],
-            measure_points: [
-              {
-                type: 'PRC',
-                timeout: 10,
-                query:
-                  "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
-                min_count: 10,
-                session_count: 0,
-                measure_time: '15 minutes ago',
-                accountID: 2710112
-              }
-            ]
-          }
-        ]
-      }
-    ];
     dataManager.removeCustomIDs = jest.fn();
     dataManager.AddCustomAccountIDs();
     expect(dataManager.accountIDs).toEqual([
@@ -994,33 +985,6 @@ describe('Datamanager service', () => {
         title: 'BROWSE'
       }
     ];
-    dataManager.touchPoints = [
-      {
-        index: 0,
-        country: 'PRODUCTION',
-        touchpoints: [
-          {
-            stage_index: 1,
-            value: 'Login People (PRC)',
-            touchpoint_index: 1,
-            status_on_off: true,
-            relation_steps: [4],
-            measure_points: [
-              {
-                type: 'PRC',
-                timeout: 10,
-                query:
-                  "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
-                min_count: 10,
-                session_count: 0,
-                measure_time: '15 minutes ago',
-                accountID: 2710112
-              }
-            ]
-          }
-        ]
-      }
-    ];
     const array = [
       {
         check: true,
@@ -1046,6 +1010,7 @@ describe('Datamanager service', () => {
     ];
     dataManager.graphQlmeasures.push(array);
     dataManager.FetchMeasure = jest.fn();
+    dataManager.RemoveGreySquare = jest.fn();
     dataManager.NRDBQuery = jest.fn();
     await dataManager.TouchPointsUpdate();
     expect(dataManager.FetchMeasure).toHaveBeenCalledTimes(1);
@@ -1387,9 +1352,40 @@ describe('Datamanager service', () => {
 
   it('Function DisableTouchpointByError()', () => {
     const touchpoint = {
+      stage_index: 1,
+      touchpoint_index: 1,
       status_on_off: false
     };
+    dataManager.stages = [
+      {
+        index: 1,
+        touchpoints: [
+          {
+            index: 1,
+            show_grey_square: false
+          }
+        ]
+      }
+    ];
     dataManager.DisableTouchpointByError(touchpoint);
+    expect(dataManager.stages[0].touchpoints[0].show_grey_square).toEqual(true);
+  });
+
+  it('Function RemoveGreySquare()', () => {
+    dataManager.stages = [
+      {
+        index: 1,
+        touchpoints: [
+          {
+            show_grey_square: true
+          }
+        ]
+      }
+    ];
+    dataManager.RemoveGreySquare();
+    expect(dataManager.stages[0].touchpoints[0].show_grey_square).toEqual(
+      false
+    );
   });
 
   it('Function NRDBQuery() with n = 0', async () => {
@@ -1401,7 +1397,8 @@ describe('Datamanager service', () => {
       errors: [],
       n: 0
     });
-    dataManager.NRDBQuery();
+    const result = await dataManager.NRDBQuery();
+    expect(result).toEqual(0);
   });
 
   it('Function NRDBQuery() with error', async () => {
@@ -1413,7 +1410,7 @@ describe('Datamanager service', () => {
       errors: [{ path: { measure: 'measure_0' } }],
       n: 26
     });
-    dataManager.NRDBQuery();
+    await dataManager.NRDBQuery();
   });
 
   it('Function NRDBQuery() with measure.type = PRC', async () => {
@@ -1465,6 +1462,7 @@ describe('Datamanager service', () => {
       ]
     ];
     await dataManager.NRDBQuery();
+    expect(dataManager.MakeLogingData).toHaveBeenCalledTimes(1);
   });
 
   it('Function NRDBQuery() with measure.type = PCC', async () => {
@@ -1515,6 +1513,7 @@ describe('Datamanager service', () => {
       ]
     ];
     await dataManager.NRDBQuery();
+    expect(dataManager.MakeLogingData).toHaveBeenCalledTimes(1);
   });
 
   it('Function NRDBQuery() with measure.type = APP', async () => {
@@ -1567,6 +1566,7 @@ describe('Datamanager service', () => {
       ]
     ];
     await dataManager.NRDBQuery();
+    expect(dataManager.MakeLogingData).toHaveBeenCalledTimes(1);
   });
 
   it('Function NRDBQuery() with measure.type = FRT', async () => {
@@ -1619,6 +1619,7 @@ describe('Datamanager service', () => {
       ]
     ];
     await dataManager.NRDBQuery();
+    expect(dataManager.MakeLogingData).toHaveBeenCalledTimes(1);
   });
 
   it('Function NRDBQuery() with measure.type = SYN', async () => {
@@ -1664,6 +1665,7 @@ describe('Datamanager service', () => {
       ]
     ];
     await dataManager.NRDBQuery();
+    expect(dataManager.MakeLogingData).toHaveBeenCalledTimes(1);
   });
 
   it('Function NRDBQuery() with measure.type = WLD', async () => {
@@ -1707,6 +1709,7 @@ describe('Datamanager service', () => {
       ]
     ];
     await dataManager.NRDBQuery();
+    expect(dataManager.MakeLogingData).toHaveBeenCalledTimes(1);
   });
 
   it('Function NRDBQuery() with measure.type = 100', async () => {
@@ -1750,6 +1753,7 @@ describe('Datamanager service', () => {
       ]
     ];
     await dataManager.NRDBQuery();
+    expect(dataManager.MakeLogingData).toHaveBeenCalledTimes(1);
   });
 
   it('Function NRDBQuery() with measure.type = 101', async () => {
@@ -1806,6 +1810,7 @@ describe('Datamanager service', () => {
       ]
     ];
     await dataManager.NRDBQuery();
+    expect(dataManager.MakeLogingData).toHaveBeenCalledTimes(1);
   });
 
   it('Function NRDBQuery() with measure.type = 101 and comparison = current', async () => {
@@ -1862,6 +1867,7 @@ describe('Datamanager service', () => {
       ]
     ];
     await dataManager.NRDBQuery();
+    expect(dataManager.MakeLogingData).toHaveBeenCalledTimes(1);
   });
 
   it('Function NRDBQuery() with measure.type = test', async () => {
@@ -1912,6 +1918,7 @@ describe('Datamanager service', () => {
       ]
     ];
     await dataManager.NRDBQuery();
+    expect(dataManager.MakeLogingData).toHaveBeenCalledTimes(1);
   });
 
   it('Function NRDBQuery() with measure.type = test and value.nrql = null', async () => {
@@ -1952,6 +1959,7 @@ describe('Datamanager service', () => {
       ]
     ];
     await dataManager.NRDBQuery();
+    expect(dataManager.MakeLogingData).toHaveBeenCalledTimes(1);
   });
 
   it('Function NRDBQuery() with measure.type = test and value.nrql = null and error', async () => {
@@ -1992,6 +2000,7 @@ describe('Datamanager service', () => {
       ]
     ];
     await dataManager.NRDBQuery();
+    expect(dataManager.MakeLogingData).toHaveBeenCalledTimes(1);
   });
 
   it('Function NRDBQuery() with measure.type not have type to match', async () => {
@@ -2032,6 +2041,81 @@ describe('Datamanager service', () => {
       ]
     ];
     await dataManager.NRDBQuery();
+    expect(dataManager.MakeLogingData).toHaveBeenCalledTimes(1);
+  });
+
+  it('Function NRDBQuery() with value = null', async () => {
+    dataManager.MakeLogingData = jest.fn();
+    dataManager.EvaluateMeasures = jest.fn().mockReturnValue({
+      data: {
+        actor: {
+          measure_0: null
+        }
+      },
+      errors: ['Network Error for value'],
+      n: 26
+    });
+    dataManager.graphQlmeasures = [
+      [
+        {
+          accountID: 2710112,
+          type: 'TEST',
+          value: {
+            current: 'current',
+            previous: 'previous'
+          }
+        },
+        {
+          query:
+            "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
+        },
+        {
+          measureType: 'touchpoint',
+          touchpointRef: {
+            status_on_off: false
+          }
+        }
+      ]
+    ];
+    await dataManager.NRDBQuery();
+    expect(dataManager.MakeLogingData).toHaveBeenCalledTimes(1);
+  });
+
+  it('Function NRDBQuery() with value = null and measure.type != TEST', async () => {
+    dataManager.MakeLogingData = jest.fn();
+    dataManager.EvaluateMeasures = jest.fn().mockReturnValue({
+      data: {
+        actor: {
+          measure_0: null
+        }
+      },
+      errors: [],
+      n: 26
+    });
+    dataManager.graphQlmeasures = [
+      [
+        {
+          accountID: 2710112,
+          type: 'NO_TEST',
+          value: {
+            current: 'current',
+            previous: 'previous'
+          }
+        },
+        {
+          query:
+            "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
+        },
+        {
+          measureType: 'touchpoint',
+          touchpointRef: {
+            status_on_off: false
+          }
+        }
+      ]
+    ];
+    await dataManager.NRDBQuery();
+    expect(dataManager.MakeLogingData).toHaveBeenCalledTimes(1);
   });
 
   it('Function SetTouchpointResponseError()', () => {
@@ -2091,6 +2175,43 @@ describe('Datamanager service', () => {
     jest
       .spyOn(NerdGraphQuery, 'query')
       .mockImplementationOnce(() => Promise.reject(new Error(errorMessage)));
+    const result = await dataManager.EvaluateMeasures();
+    expect(result.n).toEqual(1);
+  });
+
+  it('Function EvaluateMeasures() with data.actor', async () => {
+    dataManager.accountId = 2710112;
+    dataManager.escapeQuote = jest.fn();
+    dataManager.graphQlmeasures = [
+      [
+        {
+          accountID: 2710112,
+          type: 'Not_type',
+          timeout: 235,
+          value: {
+            current: 'current',
+            previous: 'previous'
+          }
+        },
+        {
+          query:
+            "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
+        },
+        {
+          measureType: 'touchpoint',
+          touchpointRef: {
+            status_on_off: false
+          }
+        }
+      ]
+    ];
+    const data = {
+      actor: 'new Actor'
+    };
+    const errorMessage = [];
+    jest
+      .spyOn(NerdGraphQuery, 'query')
+      .mockImplementationOnce(() => Promise.resolve({ data, errorMessage }));
     const result = await dataManager.EvaluateMeasures();
     expect(result.n).toEqual(1);
   });
@@ -2210,11 +2331,6 @@ describe('Datamanager service', () => {
   it('Function CalculateUpdates()', () => {
     dataManager.ClearTouchpointError = jest.fn();
     dataManager.CountryCalculateUpdates = jest.fn();
-    dataManager.touchPoints = [
-      {
-        index: 0
-      }
-    ];
     dataManager.CalculateUpdates();
   });
 
@@ -2704,16 +2820,6 @@ describe('Datamanager service', () => {
 
   it('Function OffAllTouchpoints()', () => {
     dataManager.city = 0;
-    dataManager.touchPoints = [
-      {
-        index: 0,
-        touchpoints: [
-          {
-            status_on_off: false
-          }
-        ]
-      }
-    ];
     dataManager.OffAllTouchpoints();
     expect(dataManager.touchPoints[0].touchpoints[0].status_on_off).toEqual(
       false
@@ -2749,18 +2855,6 @@ describe('Datamanager service', () => {
   it('Function EnableTouchpoint()', () => {
     const stage_index = 1;
     const touchpoint_index = 1;
-    dataManager.touchPoints = [
-      {
-        index: 0,
-        touchpoints: [
-          {
-            stage_index: 1,
-            touchpoint_index: 1,
-            status_on_off: false
-          }
-        ]
-      }
-    ];
     dataManager.EnableTouchpoint(stage_index, touchpoint_index);
     expect(dataManager.touchPoints[0].touchpoints[0].status_on_off).toEqual(
       true
@@ -2768,18 +2862,6 @@ describe('Datamanager service', () => {
   });
 
   it('Function SetTouchpointsStatus()', () => {
-    dataManager.touchPoints = [
-      {
-        index: 0,
-        touchpoints: [
-          {
-            stage_index: 1,
-            touchpoint_index: 1,
-            status_on_off: false
-          }
-        ]
-      }
-    ];
     dataManager.UpdateTouchpointStatus = jest.fn();
     dataManager.SetTouchpointsStatus();
   });
@@ -3017,18 +3099,6 @@ describe('Datamanager service', () => {
   it('Function GetRelatedSteps()', () => {
     const stage_index = 1;
     const index = 1;
-    dataManager.touchPoints = [
-      {
-        index: 0,
-        touchpoints: [
-          {
-            stage_index: 1,
-            touchpoint_index: 1,
-            relation_steps: [4]
-          }
-        ]
-      }
-    ];
     dataManager.GetStepsIds = jest.fn().mockReturnValue('ST1-LINE1-SS1');
     const result = dataManager.GetRelatedSteps(stage_index, index);
     expect(result).toEqual('ST1-LINE1-SS1');
@@ -3552,29 +3622,127 @@ describe('Datamanager service', () => {
     ).toEqual(0.3);
   });
 
-  it('Function CreateNrqlQueriesForHistoricErrorScript()', () => {
-    const touchpoint = [];
-    for (let i = 0; i < 21; i++) {
-      const obj = {
-        stage_index: i,
-        touchpoint_index: i,
-        measure_points: [
-          {
-            type: i,
-            query: 'SELECT * FROM Transaction'
-          }
-        ]
-      };
-      touchpoint.push(obj);
-    }
+  // it('Function CreateNrqlQueriesForHistoricErrorScript()', () => {
+  //   const touchpoint = [];
+  //   for (let i = 0; i < 21; i++) {
+  //     const obj = {
+  //       stage_index: i,
+  //       touchpoint_index: i,
+  //       measure_points: [
+  //         {
+  //           type: i,
+  //           query: 'SELECT * FROM Transaction'
+  //         }
+  //       ]
+  //     };
+  //     touchpoint.push(obj);
+  //   }
+  //   dataManager.touchPoints = [
+  //     {
+  //       index: 0,
+  //       value: 'Orders API (PRC)',
+  //       touchpoints: touchpoint
+  //     }
+  //   ];
+  //   const result = dataManager.CreateNrqlQueriesForHistoricErrorScript();
+  //   expect(result).toBeTruthy();
+  // });
+
+  it('Function InserTouchpointsToScript() with type = PRC and PCC', () => {
     dataManager.touchPoints = [
       {
         index: 0,
-        value: 'Orders API (PRC)',
-        touchpoints: touchpoint
+        stage_index: 1,
+        touchpoint_index: 1,
+        touchpoints: [
+          {
+            status_on_off: true,
+            measure_points: [
+              {
+                type: 'PRC',
+                timeout: 10,
+                query: 'SELECT * FROM Transaction',
+                measure_time: 0.36,
+                min_count: 0.12
+              },
+              {
+                type: 'PCC',
+                timeout: 10,
+                query: 'SELECT * FROM Transaction',
+                measure_time: 0.36,
+                min_count: 0.12
+              }
+            ]
+          }
+        ]
       }
     ];
-    const result = dataManager.CreateNrqlQueriesForHistoricErrorScript();
+    const result = dataManager.InserTouchpointsToScript();
+    expect(result).toBeTruthy();
+  });
+
+  it('Function InserTouchpointsToScript() with type APP and FRT', () => {
+    dataManager.touchPoints = [
+      {
+        index: 0,
+        stage_index: 1,
+        touchpoint_index: 1,
+        touchpoints: [
+          {
+            status_on_off: true,
+            measure_points: [
+              {
+                type: 'APP',
+                timeout: 10,
+                query: 'SELECT * FROM Transaction',
+                measure_time: 0.36,
+                min_apdex: 0.12,
+                max_response_time: 12.6,
+                max_error_percentage: 24
+              },
+              {
+                type: 'FRT',
+                timeout: 10,
+                query: 'SELECT * FROM Transaction',
+                measure_time: 0.36,
+                min_apdex: 0.12,
+                max_response_time: 12.6,
+                max_error_percentage: 24
+              }
+            ]
+          }
+        ]
+      }
+    ];
+    const result = dataManager.InserTouchpointsToScript();
+    expect(result).toBeTruthy();
+  });
+
+  it('Function InserTouchpointsToScript() with type = SYN', () => {
+    dataManager.touchPoints = [
+      {
+        index: 0,
+        stage_index: 1,
+        touchpoint_index: 1,
+        touchpoints: [
+          {
+            status_on_off: true,
+            measure_points: [
+              {
+                type: 'SYN',
+                timeout: 10,
+                query: 'SELECT * FROM Transaction',
+                measure_time: 0.36,
+                max_avg_response_time: 12.3,
+                max_total_check_time: 24.6,
+                min_success_percentage: 0.3
+              }
+            ]
+          }
+        ]
+      }
+    ];
+    const result = dataManager.InserTouchpointsToScript();
     expect(result).toBeTruthy();
   });
 
@@ -3719,7 +3887,7 @@ describe('Datamanager service', () => {
     );
   });
 
-  it('Fucntion UpdateTouchpointTune()', () => {
+  it('Fucntion UpdateTouchpointTune() with type = PRC and PCC', () => {
     const touchpoint = {
       index: 1,
       stage_index: 1,
@@ -3825,5 +3993,337 @@ describe('Datamanager service', () => {
     ];
     dataManager.UpdateTouchpointTune(touchpoint, datos);
     expect(dataManager.SetStorageTouchpoints).toHaveBeenCalledTimes(1);
+  });
+
+  it('Fucntion UpdateTouchpointTune() with type = APP and FRT', () => {
+    const touchpoint = {
+      index: 1,
+      stage_index: 1,
+      value: 'ORDER COUNTS',
+      status_on_off: true
+    };
+    const datos = {
+      min_count: 0.1,
+      min_apdex: 0.3,
+      max_response_time: 7.32,
+      max_error_percentage: 62,
+      max_avg_response_time: 13.5,
+      max_total_check_time: 52.3,
+      min_success_percentage: 4
+    };
+    dataManager.SetStorageTouchpoints = jest.fn();
+    dataManager.SendToLogs = jest.fn();
+    dataManager.stages = [
+      {
+        title: 'BROWSE'
+      }
+    ];
+    dataManager.touchPoints = [
+      {
+        index: 0,
+        value: 'Orders API (PRC)',
+        touchpoints: [
+          {
+            stage_index: 1,
+            touchpoint_index: 1,
+            measure_points: [
+              {
+                stage_index: 1,
+                type: 'APP'
+              }
+            ]
+          },
+          {
+            stage_index: 1,
+            touchpoint_index: 1,
+            measure_points: [
+              {
+                stage_index: 1,
+                type: 'FRT',
+                min_apdex: 0,
+                max_response_time: 0,
+                max_error_percentage: 0
+              }
+            ]
+          }
+        ]
+      }
+    ];
+    dataManager.UpdateTouchpointTune(touchpoint, datos);
+    expect(dataManager.SetStorageTouchpoints).toHaveBeenCalledTimes(1);
+  });
+
+  it('Fucntion UpdateTouchpointTune() with type = SYN', () => {
+    const touchpoint = {
+      index: 1,
+      stage_index: 1,
+      value: 'ORDER COUNTS',
+      status_on_off: true
+    };
+    const datos = {
+      min_count: 0.1,
+      min_apdex: 0.3,
+      max_response_time: 7.32,
+      max_error_percentage: 62,
+      max_avg_response_time: 13.5,
+      max_total_check_time: 52.3,
+      min_success_percentage: 4
+    };
+    dataManager.SetStorageTouchpoints = jest.fn();
+    dataManager.SendToLogs = jest.fn();
+    dataManager.stages = [
+      {
+        title: 'BROWSE'
+      }
+    ];
+    dataManager.touchPoints = [
+      {
+        index: 0,
+        value: 'Orders API (PRC)',
+        touchpoints: [
+          {
+            stage_index: 1,
+            touchpoint_index: 1,
+            measure_points: [
+              {
+                stage_index: 1,
+                type: 'SYN',
+                max_avg_response_time: 0,
+                max_total_check_time: 0,
+                min_success_percentage: 0
+              }
+            ]
+          }
+        ]
+      }
+    ];
+    dataManager.UpdateTouchpointTune(touchpoint, datos);
+    expect(dataManager.SetStorageTouchpoints).toHaveBeenCalledTimes(1);
+  });
+
+  it('Function UpdateTouchpointQuerys()', () => {
+    const datos = [
+      {
+        query_body: 'SELECT * FROM Transaction',
+        timeout: 10
+      }
+    ];
+    const touchpoint = {
+      stage_index: 1,
+      index: 1,
+      value: 'PRC',
+      status_on_off: true
+    };
+    dataManager.stages = [
+      {
+        title: 'BROWSE'
+      }
+    ];
+    dataManager.SendToLogs = jest.fn();
+    dataManager.UpdateMeasure = jest.fn();
+    dataManager.SetStorageTouchpoints = jest.fn();
+    dataManager.UpdateTouchpointQuerys(touchpoint, datos);
+  });
+
+  it('Function UpdateMeasure()', () => {
+    const data = {
+      type: 101,
+      accountID: 2710112,
+      query_body: 'SELECT * FROM Transactions',
+      timeout: 11.2
+    };
+    const measure_points = [
+      {
+        type: 101,
+        accountID: 0,
+        query: '',
+        timeout: 0
+      }
+    ];
+    dataManager.UpdateMeasure(data, measure_points);
+    expect(measure_points).toEqual([
+      {
+        type: 101,
+        accountID: 2710112,
+        query: 'SELECT * FROM Transactions',
+        timeout: 11.2
+      }
+    ]);
+  });
+
+  it('Function UpdateGoutParameters()', () => {
+    const dropForm = {
+      id: 2710112
+    };
+    dataManager.setStorageDropParams = jest.fn();
+    dataManager.UpdateGoutParameters(dropForm);
+    expect(dataManager.dropParams).toEqual({
+      id: 2710112
+    });
+  });
+
+  it('Function GetGoutParameters()', () => {
+    dataManager.dropParams = { data: 'new dropParams' };
+    expect(dataManager.GetGoutParameters()).toEqual({ data: 'new dropParams' });
+  });
+
+  // it('Function setStorageDropParams()', () => {});
+
+  it('Function GetStorageDropParams()', async () => {
+    jest.spyOn(AccountStorageQuery, 'query').mockReturnValue({
+      data: { dropParams: { dropmoney: 200, hours: 24, percentage: 75 } }
+    });
+    await dataManager.GetStorageDropParams();
+  });
+
+  it('Function GetStorageDropParams() with catch', async () => {
+    jest.spyOn(AccountStorageQuery, 'query').mockRejectedValue(Error('error'));
+    await expect(dataManager.GetStorageDropParams()).rejects.toThrow('error');
+  });
+
+  it('Function GetHistoricParameters()', () => {
+    expect(dataManager.GetHistoricParameters()).toEqual({
+      hours: 192,
+      percentage: 26
+    });
+  });
+
+  it('Function UpdateHistoricParameters()', () => {
+    const hours = 72;
+    const percentage = 48;
+    dataManager.SetStorageHistoricErrorsParams = jest.fn();
+    dataManager.UpdateHistoricParameters(hours, percentage);
+    expect(dataManager.historicErrorsHours).toEqual(72);
+  });
+
+  // it('Function SetStorageHistoricErrorsParams()', () => {});
+
+  it('Function GetStorageHistoricErrorsParams()', async () => {
+    jest.spyOn(AccountStorageQuery, 'query').mockReturnValue({
+      data: {
+        historicErrorsHours: 96,
+        historicErrorsHighLightPercentage: 37
+      }
+    });
+    await dataManager.GetStorageHistoricErrorsParams();
+    expect(dataManager.historicErrorsHighLightPercentage).toEqual(37);
+  });
+
+  it('Function GetStorageHistoricErrorsParams() with catch', async () => {
+    jest.spyOn(AccountStorageQuery, 'query').mockRejectedValue(Error('error'));
+    await expect(dataManager.GetStorageHistoricErrorsParams()).rejects.toThrow(
+      'error'
+    );
+  });
+
+  it('Function EnableDisableLogsConnector()', () => {
+    const status = 'ENABLED';
+    dataManager.LogConnector.EnableDisable = jest.fn();
+    dataManager.EnableDisableLogsConnector(status);
+    expect(dataManager.LogConnector.EnableDisable).toHaveBeenCalledTimes(1);
+  });
+
+  it('Function SaveCredentialsInVault() with ingestLicense', async () => {
+    const credentials = {
+      ingestLicense: 'TEST1235'
+    };
+    dataManager.ValidateIngestLicense = jest.fn().mockReturnValue(true);
+    dataManager.NerdStorageVault.storeCredentialData = jest.fn();
+    dataManager.LogConnector.SetLicenseKey = jest.fn();
+    dataManager.SynConnector.SetLicenseKey = jest.fn();
+    dataManager.SaveCredentialsInVault(credentials);
+    expect(dataManager.ValidateIngestLicense).toHaveBeenCalledTimes(1);
+  });
+
+  it('Function SaveCredentialsInVault() with userAPIKey', async () => {
+    const credentials = {
+      userAPIKey: 'TEST1235'
+    };
+    dataManager.ValidateUserApiKey = jest.fn().mockReturnValue(true);
+    dataManager.NerdStorageVault.storeCredentialData = jest.fn();
+    dataManager.SaveCredentialsInVault(credentials);
+    expect(dataManager.ValidateUserApiKey).toHaveBeenCalledTimes(1);
+  });
+
+  it('Function ResetCredentialsInVault()', () => {
+    dataManager.NerdStorageVault.storeCredentialData = jest.fn();
+    dataManager.ResetCredentialsInVault();
+    expect(
+      dataManager.NerdStorageVault.storeCredentialData
+    ).toHaveBeenCalledTimes(2);
+  });
+
+  it('Function SaveGeneralConfiguration()', async () => {
+    const data = {
+      dropTools: 'dropTools',
+      flameTools: 'flameTools',
+      loggin: true,
+      accountId: 2710112
+    };
+    jest.spyOn(AccountStorageMutation, 'mutate').mockReturnValue({
+      data: {}
+    });
+    dataManager.EnableDisableLogsConnector = jest.fn();
+    dataManager.SaveGeneralConfiguration(data);
+    expect(dataManager.EnableDisableLogsConnector).toHaveBeenCalledTimes(1);
+  });
+
+  // it('Function SaveGeneralConfiguration() with catch', async () => {
+  //   const data = {
+  //     dropTools: 'dropTools',
+  //     flameTools: 'flameTools',
+  //     loggin: true,
+  //     accountId: 2710112
+  //   };
+  //   dataManager.EnableDisableLogsConnector = jest.fn();
+  //   jest
+  //     .spyOn(AccountStorageMutation, 'mutate')
+  //     .mockRejectedValue(Error('error'));
+  //   await expect(dataManager.SaveGeneralConfiguration(data)).rejects.toThrow(
+  //     'error'
+  //   );
+  // });
+
+  it('Function GetGeneralConfiguration()', async () => {
+    jest.spyOn(AccountStorageQuery, 'query').mockReturnValue({
+      data: { accountId: 'accountId' }
+    });
+    await dataManager.GetGeneralConfiguration();
+    expect(dataManager.generalConfiguration).toEqual({
+      accountId: 'accountId'
+    });
+  });
+
+  it('Function GetGeneralConfiguration() with catch', async () => {
+    jest.spyOn(AccountStorageQuery, 'query').mockRejectedValue(Error('error'));
+    await expect(dataManager.GetGeneralConfiguration()).rejects.toThrow(
+      'error'
+    );
+  });
+
+  it('Function ValidateIngestLicense()', async () => {
+    const license = '1259LICENSE';
+    dataManager.LogConnector.ValidateIngestLicense = jest
+      .fn()
+      .mockReturnValue(true);
+    const result = await dataManager.ValidateIngestLicense(license);
+    expect(result).toEqual(true);
+  });
+
+  it('Function ValidateUserApiKey()', async () => {
+    const userApiKey = '1259USERKEY';
+    dataManager.SynConnector.ValidateUserApiKey = jest
+      .fn()
+      .mockReturnValue(true);
+    const result = await dataManager.ValidateUserApiKey(userApiKey);
+    expect(result).toEqual(true);
+  });
+
+  it('Function InstallUpdateBackGroundScript()', () => {
+    dataManager.SynConnector.UpdateFlameMonitor = jest.fn();
+    dataManager.InstallUpdateBackGroundScript();
+    expect(dataManager.SynConnector.UpdateFlameMonitor).toHaveBeenCalledTimes(
+      1
+    );
   });
 });
