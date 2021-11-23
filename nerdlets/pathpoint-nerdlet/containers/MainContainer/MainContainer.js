@@ -148,6 +148,7 @@ export default class MainContainer extends React.Component {
       },
       kpis: [],
       accountIDs: [],
+      accountId: 0,
       credentialsBackup: false,
       sendingLogsEnableDisable: true
     };
@@ -1532,6 +1533,7 @@ export default class MainContainer extends React.Component {
       timeRangeKpi,
       kpis,
       accountIDs,
+      accountId,
       credentials
     } = this.state;
     if (this.state.waiting) {
@@ -2086,6 +2088,7 @@ export default class MainContainer extends React.Component {
             GetCurrentHistoricErrorScript={this.GetCurrentHistoricErrorScript}
             modifiedQuery={modifiedQuery}
             accountIDs={accountIDs}
+            accountID={accountId}
             HandleCredentialsFormChange={this.HandleCredentialsFormChange}
             credentialsData={this.state.credentials}
             disableGeneralConfigurationSubmit={
