@@ -177,6 +177,7 @@ const Header = ({
             cursor: 'pointer'
           }}
           onClick={() => {
+            console.log('ACCOUNT-ID:', accountId);
             navigation.openStackedNerdlet({
               id: 'logger.home',
               urlState: {
