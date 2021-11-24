@@ -81,7 +81,7 @@ export default class CredentialConnector {
       console.log('No hay Credenciales para Buscar Llaves');
       return 0;
     }
-    const ppId = this.pathpoint_id.toUpperCase().replaceAll('-', '');
+    const ppId = this.pathpoint_id.toUpperCase().replace(/-/g, '');
     const accountIdKey = await this.FindCredential(
       `PATHPOINT_${ppId}_ACCOUNTID`
     );
@@ -138,7 +138,7 @@ export default class CredentialConnector {
       console.log('No hay Credenciales para Crear Llaves');
       return 0;
     }
-    const ppId = this.pathpoint_id.toUpperCase().replaceAll('-', '');
+    const ppId = this.pathpoint_id.toUpperCase().replace(/-/g, '');
     const accountIdKeyName = `PATHPOINT_${ppId}_ACCOUNTID`;
     let accountIdKey = await this.FindCredential(accountIdKeyName);
     if (!accountIdKey) {
@@ -191,7 +191,7 @@ export default class CredentialConnector {
     let delAccId = false;
     let delUserKey = false;
     let delLicenseKey = false;
-    const ppId = this.pathpoint_id.toUpperCase().replaceAll('-', '');
+    const ppId = this.pathpoint_id.toUpperCase().replace(/-/g, '');
     if (await this.FindCredential(`PATHPOINT_${ppId}_ACCOUNTID`)) {
       delAccId = await this.DeleteCredential(`PATHPOINT_${ppId}_ACCOUNTID`);
     }
@@ -246,21 +246,21 @@ export default class CredentialConnector {
   }
 
   async UpdateUserApiKeyCredential(newKey) {
-    const ppId = this.pathpoint_id.toUpperCase().replaceAll('-', '');
+    const ppId = this.pathpoint_id.toUpperCase().replace(/-/g, '');
     if (await this.FindCredential(`PATHPOINT_${ppId}_USER_API_KEY`)) {
       await this.UpdateCredential(`PATHPOINT_${ppId}_USER_API_KEY`, newKey);
     }
   }
 
   async UpdateAccountIdCredential(newKey) {
-    const ppId = this.pathpoint_id.toUpperCase().replaceAll('-', '');
+    const ppId = this.pathpoint_id.toUpperCase().replace(/-/g, '');
     if (await this.FindCredential(`PATHPOINT_${ppId}_ACCOUNTID`)) {
       await this.UpdateCredential(`PATHPOINT_${ppId}_ACCOUNTID`, newKey);
     }
   }
 
   async UpdateLicenseCredential(newKey) {
-    const ppId = this.pathpoint_id.toUpperCase().replaceAll('-', '');
+    const ppId = this.pathpoint_id.toUpperCase().replace(/-/g, '');
     if (await this.FindCredential(`PATHPOINT_${ppId}_INGEST_LICENSE`)) {
       await this.UpdateCredential(`PATHPOINT_${ppId}_INGEST_LICENSE`, newKey);
     }
@@ -268,7 +268,7 @@ export default class CredentialConnector {
 
   async UpdateCredentials() {
     console.log('Updating Credentials...');
-    const ppId = this.pathpoint_id.toUpperCase().replaceAll('-', '');
+    const ppId = this.pathpoint_id.toUpperCase().replace(/-/g, '');
     if (await this.FindCredential(`PATHPOINT_${ppId}_ACCOUNTID`)) {
       await this.UpdateCredential(
         `PATHPOINT_${ppId}_ACCOUNTID`,
