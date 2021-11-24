@@ -3,7 +3,7 @@ function historicErrorScript(pathpointID) {
     header: null,
     footer: null
   };
-  const ppId = pathpointID.toUpperCase().replaceAll('-', '');
+  const ppId = pathpointID.toUpperCase().replace(/-/g, '');
   data.header = `
   // Insert API Credentials
   const myAccountID = $secure.PATHPOINT_${ppId}_ACCOUNTID;
