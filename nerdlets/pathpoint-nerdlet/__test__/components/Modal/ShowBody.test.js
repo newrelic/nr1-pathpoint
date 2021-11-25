@@ -46,6 +46,9 @@ describe('<ShowBody/>', () => {
             }
           ]
         }}
+        HandleCredentialsFormChange={jest.fn()}
+        handleSaveUpdateGeneralConfiguration={jest.fn()}
+        resetCredentials={jest.fn()}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -82,6 +85,9 @@ describe('<ShowBody/>', () => {
         viewModal={1}
         width="230px"
         accountIDs={accountIDs}
+        HandleCredentialsFormChange={jest.fn()}
+        handleSaveUpdateGeneralConfiguration={jest.fn()}
+        resetCredentials={jest.fn()}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -114,6 +120,9 @@ describe('<ShowBody/>', () => {
         handleSaveUpdateTune={jest.fn()}
         viewModal={2}
         width="230px"
+        HandleCredentialsFormChange={jest.fn()}
+        handleSaveUpdateGeneralConfiguration={jest.fn()}
+        resetCredentials={jest.fn()}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -144,6 +153,9 @@ describe('<ShowBody/>', () => {
             }
           ]
         }}
+        HandleCredentialsFormChange={jest.fn()}
+        handleSaveUpdateGeneralConfiguration={jest.fn()}
+        resetCredentials={jest.fn()}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -179,6 +191,9 @@ describe('<ShowBody/>', () => {
             }
           ]
         }}
+        HandleCredentialsFormChange={jest.fn()}
+        handleSaveUpdateGeneralConfiguration={jest.fn()}
+        resetCredentials={jest.fn()}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -199,6 +214,9 @@ describe('<ShowBody/>', () => {
             apdex_time: 0
           }
         }}
+        HandleCredentialsFormChange={jest.fn()}
+        handleSaveUpdateGeneralConfiguration={jest.fn()}
+        resetCredentials={jest.fn()}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -220,6 +238,9 @@ describe('<ShowBody/>', () => {
             apdex_time: 0
           }
         }}
+        HandleCredentialsFormChange={jest.fn()}
+        handleSaveUpdateGeneralConfiguration={jest.fn()}
+        resetCredentials={jest.fn()}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -241,6 +262,9 @@ describe('<ShowBody/>', () => {
             apdex_time: 0
           }
         }}
+        HandleCredentialsFormChange={jest.fn()}
+        handleSaveUpdateGeneralConfiguration={jest.fn()}
+        resetCredentials={jest.fn()}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -267,6 +291,9 @@ describe('<ShowBody/>', () => {
             apdex_time: 0
           }
         }}
+        HandleCredentialsFormChange={jest.fn()}
+        handleSaveUpdateGeneralConfiguration={jest.fn()}
+        resetCredentials={jest.fn()}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -299,6 +326,9 @@ describe('<ShowBody/>', () => {
           }
         }}
         options={{ options: ['options'] }}
+        HandleCredentialsFormChange={jest.fn()}
+        handleSaveUpdateGeneralConfiguration={jest.fn()}
+        resetCredentials={jest.fn()}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -320,6 +350,9 @@ describe('<ShowBody/>', () => {
             apdex_time: 0
           }
         }}
+        HandleCredentialsFormChange={jest.fn()}
+        handleSaveUpdateGeneralConfiguration={jest.fn()}
+        resetCredentials={jest.fn()}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -341,6 +374,9 @@ describe('<ShowBody/>', () => {
           }
         }}
         viewModal={10}
+        HandleCredentialsFormChange={jest.fn()}
+        handleSaveUpdateGeneralConfiguration={jest.fn()}
+        resetCredentials={jest.fn()}
       />
     );
     bodyRender.instance().handleOnChange({
@@ -370,6 +406,9 @@ describe('<ShowBody/>', () => {
             apdex_time: 0
           }
         }}
+        HandleCredentialsFormChange={jest.fn()}
+        handleSaveUpdateGeneralConfiguration={jest.fn()}
+        resetCredentials={jest.fn()}
       />
     );
     bodyRender.instance().handleSubmitLogo({
@@ -395,6 +434,9 @@ describe('<ShowBody/>', () => {
             apdex_time: 0
           }
         }}
+        HandleCredentialsFormChange={jest.fn()}
+        handleSaveUpdateGeneralConfiguration={jest.fn()}
+        resetCredentials={jest.fn()}
       />
     );
     bodyRender.instance().handleSubmitTune({
@@ -420,6 +462,9 @@ describe('<ShowBody/>', () => {
             apdex_time: 0
           }
         }}
+        HandleCredentialsFormChange={jest.fn()}
+        handleSaveUpdateGeneralConfiguration={jest.fn()}
+        resetCredentials={jest.fn()}
       />
     );
     bodyRender.instance().handleSubmitSupport({

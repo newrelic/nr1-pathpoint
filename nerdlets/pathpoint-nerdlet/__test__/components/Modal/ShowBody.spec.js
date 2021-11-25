@@ -54,6 +54,9 @@ describe('ShowBody component', () => {
         _onClose={jest.fn()}
         LogoFormSubmit={jest.fn()}
         accountIDs={accountIDs}
+        HandleCredentialsFormChange={jest.fn()}
+        handleSaveUpdateGeneralConfiguration={jest.fn()}
+        resetCredentials={jest.fn()}
       />
     );
     expect(body.toJSON()).toMatchSnapshot();

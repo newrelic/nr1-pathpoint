@@ -209,13 +209,21 @@ jest.mock(
       log: jest.fn(),
       warn: jest.fn()
     };
+    const UserQuery = {
+      query: jest.fn().mockReturnValue({
+        then: jest.fn().mockReturnValue({
+          data: { name: 'NAME', id: 123, email: 'NAME@NAME.COM' }
+        })
+      })
+    };
     return {
       AccountsQuery: AccountsQuery,
       AccountStorageQuery: AccountStorageQuery,
       AccountStorageMutation: AccountStorageMutation,
       NerdGraphQuery: NerdGraphQuery,
       nerdlet: nerdlet,
-      logger
+      logger,
+      UserQuery: UserQuery
     };
   },
   { virtual: true }
@@ -439,18 +447,18 @@ describe('<MainContainer/>', () => {
     instance.componentWillUnmount();
   });
 
-  it('BoootstrapApplication', () => {
+  it('BoootstrapApplication', async () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
-    instance.setState({
-      stages: stages,
-      colors: colors,
-      version: '1.0.0',
-      accountId: 123,
-      kpis: kpis,
-      totalContainers: 0,
-      accountIDs: [{ name: 'NAME', id: 0 }]
-    });
+    // instance.setState({
+    //   stages: stages,
+    //   colors: colors,
+    //   version: '1.0.0',
+    //   accountId: 123,
+    //   kpis: kpis,
+    //   totalContainers: 0,
+    //   accountIDs: [{ name: 'NAME', id: 0 }]
+    // });
     instance.DataManager = {
       BootstrapInitialData: jest.fn().mockReturnValue({
         stages,

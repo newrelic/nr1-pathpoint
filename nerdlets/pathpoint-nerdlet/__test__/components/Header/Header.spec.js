@@ -19,33 +19,6 @@ jest.mock(
   { virtual: true }
 );
 
-const banner_kpis = [
-  {
-    type: 100,
-    description: 'Total Order Count',
-    prefix: '',
-    suffix: 'Orders',
-    query: 'SELECT count(*) as value FROM Transaction SINCE 1 minute AGO',
-    value: 0
-  },
-  {
-    type: 100,
-    description: 'Total Order Value',
-    prefix: '$',
-    suffix: '',
-    query: 'SELECT count(*) as value FROM Transaction SINCE 5 minutes AGO',
-    value: 0
-  },
-  {
-    type: 100,
-    description: 'Max Duration',
-    prefix: '',
-    suffix: '',
-    query:
-      'SELECT max(duration) as value FROM Transaction SINCE 30 minutes AGO',
-    value: 0
-  }
-];
 const kpis = [
   {
     index: 0,
@@ -76,6 +49,9 @@ const kpis = [
     check: false
   }
 ];
+const credentials = {
+  login: true
+};
 describe('Header component', () => {
   test('Header component with default data', async () => {
     const header = create(
@@ -91,9 +67,6 @@ describe('Header component', () => {
         openLeftMenu={jest.fn()}
         handleContextMenuFire={jest.fn()}
         handleContextMenuGout={jest.fn()}
-        // ---- quitar este atributo
-        banner_kpis={banner_kpis}
-        // --------------------------
         ToggleHeaderButtons={jest.fn()}
         logoSetup={{ type: 'default' }}
         timeRangeKpi={{
@@ -105,6 +78,8 @@ describe('Header component', () => {
         // ---- quitar este atributo
         DisplayConsole={jest.fn()}
         // --------------------------
+        credentials={credentials}
+        accountId={2710112}
       />
     );
     expect(header.toJSON()).toMatchSnapshot();
@@ -124,9 +99,6 @@ describe('Header component', () => {
         openLeftMenu={jest.fn()}
         handleContextMenuFire={jest.fn()}
         handleContextMenuGout={jest.fn()}
-        // ---- quitar este atributo
-        banner_kpis={banner_kpis}
-        // --------------------------
         ToggleHeaderButtons={jest.fn()}
         logoSetup={{ type: 'default' }}
         timeRangeKpi={{
@@ -138,6 +110,8 @@ describe('Header component', () => {
         // ---- quitar este atributo
         DisplayConsole={jest.fn()}
         // --------------------------
+        credentials={credentials}
+        accountId={2710112}
       />
     );
     expect(header.toJSON()).toMatchSnapshot();
@@ -157,9 +131,6 @@ describe('Header component', () => {
         openLeftMenu={jest.fn()}
         handleContextMenuFire={jest.fn()}
         handleContextMenuGout={jest.fn()}
-        // ---- quitar este atributo
-        banner_kpis={banner_kpis}
-        // --------------------------
         ToggleHeaderButtons={jest.fn()}
         logoSetup={{ type: 'default' }}
         timeRangeKpi={{
@@ -171,6 +142,8 @@ describe('Header component', () => {
         // ---- quitar este atributo
         DisplayConsole={jest.fn()}
         // --------------------------
+        credentials={credentials}
+        accountId={2710112}
       />
     );
     expect(header.toJSON()).toMatchSnapshot();
@@ -190,9 +163,6 @@ describe('Header component', () => {
         openLeftMenu={jest.fn()}
         handleContextMenuFire={jest.fn()}
         handleContextMenuGout={jest.fn()}
-        // ---- quitar este atributo
-        banner_kpis={banner_kpis}
-        // --------------------------
         ToggleHeaderButtons={jest.fn()}
         logoSetup={{ type: 'default' }}
         timeRangeKpi={{
@@ -204,6 +174,8 @@ describe('Header component', () => {
         // ---- quitar este atributo
         DisplayConsole={jest.fn()}
         // --------------------------
+        credentials={credentials}
+        accountId={2710112}
       />
     );
     expect(header.toJSON()).toMatchSnapshot();
@@ -223,9 +195,6 @@ describe('Header component', () => {
         openLeftMenu={jest.fn()}
         handleContextMenuFire={jest.fn()}
         handleContextMenuGout={jest.fn()}
-        // ---- quitar este atributo
-        banner_kpis={banner_kpis}
-        // --------------------------
         ToggleHeaderButtons={jest.fn()}
         logoSetup={{ type: 'default' }}
         timeRangeKpi={{
@@ -237,6 +206,8 @@ describe('Header component', () => {
         // ---- quitar este atributo
         DisplayConsole={jest.fn()}
         // --------------------------
+        credentials={credentials}
+        accountId={2710112}
       />
     );
     expect(header.toJSON()).toMatchSnapshot();
@@ -256,9 +227,6 @@ describe('Header component', () => {
         openLeftMenu={jest.fn()}
         handleContextMenuFire={jest.fn()}
         handleContextMenuGout={jest.fn()}
-        // ---- quitar este atributo
-        banner_kpis={banner_kpis}
-        // --------------------------
         ToggleHeaderButtons={jest.fn()}
         logoSetup={{ type: 'default' }}
         timeRangeKpi={{
@@ -270,6 +238,8 @@ describe('Header component', () => {
         // ---- quitar este atributo
         DisplayConsole={jest.fn()}
         // --------------------------
+        credentials={credentials}
+        accountId={2710112}
       />
     );
     expect(header.toJSON()).toMatchSnapshot();
@@ -289,9 +259,6 @@ describe('Header component', () => {
         openLeftMenu={jest.fn()}
         handleContextMenuFire={jest.fn()}
         handleContextMenuGout={jest.fn()}
-        // ---- quitar este atributo
-        banner_kpis={banner_kpis}
-        // --------------------------
         ToggleHeaderButtons={jest.fn()}
         logoSetup={{ type: 'default' }}
         timeRangeKpi={{
@@ -303,6 +270,8 @@ describe('Header component', () => {
         // ---- quitar este atributo
         DisplayConsole={jest.fn()}
         // --------------------------
+        credentials={credentials}
+        accountId={2710112}
       />
     );
     expect(header.toJSON()).toMatchSnapshot();
@@ -322,9 +291,6 @@ describe('Header component', () => {
         openLeftMenu={jest.fn()}
         handleContextMenuFire={jest.fn()}
         handleContextMenuGout={jest.fn()}
-        // ---- quitar este atributo
-        banner_kpis={banner_kpis}
-        // --------------------------
         ToggleHeaderButtons={jest.fn()}
         logoSetup={{
           type: 'text',
@@ -339,6 +305,8 @@ describe('Header component', () => {
         // ---- quitar este atributo
         DisplayConsole={jest.fn()}
         // --------------------------
+        credentials={credentials}
+        accountId={2710112}
       />
     );
     expect(header.toJSON()).toMatchSnapshot();
@@ -358,9 +326,6 @@ describe('Header component', () => {
         openLeftMenu={jest.fn()}
         handleContextMenuFire={jest.fn()}
         handleContextMenuGout={jest.fn()}
-        // ---- quitar este atributo
-        banner_kpis={banner_kpis}
-        // --------------------------
         ToggleHeaderButtons={jest.fn()}
         logoSetup={{
           type: 'url',
@@ -376,6 +341,8 @@ describe('Header component', () => {
         // ---- quitar este atributo
         DisplayConsole={jest.fn()}
         // --------------------------
+        credentials={credentials}
+        accountId={2710112}
       />
     );
     expect(header.toJSON()).toMatchSnapshot();
@@ -396,9 +363,6 @@ describe('Header component', () => {
         openLeftMenu={jest.fn()}
         handleContextMenuFire={jest.fn()}
         handleContextMenuGout={jest.fn()}
-        // ---- quitar este atributo
-        banner_kpis={banner_kpis}
-        // --------------------------
         ToggleHeaderButtons={jest.fn()}
         logoSetup={{
           type: 'url',
@@ -414,6 +378,8 @@ describe('Header component', () => {
         // ---- quitar este atributo
         DisplayConsole={jest.fn()}
         // --------------------------
+        credentials={credentials}
+        accountId={2710112}
       />
     );
     expect(header.toJSON()).toMatchSnapshot();

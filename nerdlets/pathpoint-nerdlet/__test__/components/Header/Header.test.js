@@ -1,12 +1,11 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import Header, {
   transformK,
   FormatMoney,
   RenderLogo,
   PrintKPI
 } from '../../../components/Header/Header';
-import { Icon } from 'nr1';
 
 jest.mock(
   'nr1',
@@ -27,77 +26,43 @@ jest.mock(
   },
   { virtual: true }
 );
+
+const credentials = {
+  login: true
+};
+const kpis = [
+  {
+    index: 0,
+    type: 101,
+    name: 'Unique Visitors',
+    shortName: 'Unique',
+    link:
+      'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
+    query: 'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago',
+    value: {
+      current: 0,
+      previous: 0
+    },
+    check: true
+  },
+  {
+    index: 1,
+    type: 101,
+    name: '1 Account',
+    shortName: '1 Acc.',
+    link:
+      'https://chart-embed.service.newrelic.com/herald/5817c955-7920-4367-86e5-e8a998852863?height=400px&timepicker=true',
+    query: 'SELECT count(*) as value  FROM Transaction COMPARE WITH 2 day ago',
+    value: {
+      current: 0,
+      previous: 0
+    },
+    check: false
+  }
+];
 describe('<Header/>', () => {
   describe('Mount component', () => {
     it('Banner kpis initial', () => {
-      const banner_kpis = [
-        {
-          type: 100,
-          description: 'Total Order Count',
-          prefix: '',
-          suffix: 'Orders',
-          query: 'SELECT count(*) as value FROM Transaction SINCE 1 minute AGO',
-          value: 0
-        },
-        {
-          type: 100,
-          description: 'Total Order Value',
-          prefix: '$',
-          suffix: '',
-          query:
-            'SELECT count(*) as value FROM Transaction SINCE 5 minutes AGO',
-          value: 0
-        },
-        {
-          type: 100,
-          description: 'Max Duration',
-          prefix: '',
-          suffix: '',
-          query:
-            'SELECT max(duration) as value FROM Transaction SINCE 30 minutes AGO',
-          value: 0
-        }
-      ];
-      const kpis = [
-        {
-          index: 0,
-          type: 101,
-          name: 'Unique Visitors',
-          shortName: 'Unique',
-          link:
-            'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
-          query:
-            'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago',
-          value: {
-            current: 0,
-            previous: 0
-          },
-          check: true
-        },
-        {
-          index: 1,
-          type: 101,
-          name: '1 Account',
-          shortName: '1 Acc.',
-          link:
-            'https://chart-embed.service.newrelic.com/herald/5817c955-7920-4367-86e5-e8a998852863?height=400px&timepicker=true',
-          query:
-            'SELECT count(*) as value  FROM Transaction COMPARE WITH 2 day ago',
-          value: {
-            current: 0,
-            previous: 0
-          },
-          check: false
-        }
-      ];
-      // jest.spyOn(Icon, 'TYPE').mockImplementationOnce({
-      //   HARDWARE_AND_SOFTWARE__SOFTWARE__LOGS: 'data'
-      // });
-      // Icon = jest.fn().mockReturnValue({
-      //   TYPE: {
-      //     HARDWARE_AND_SOFTWARE__SOFTWARE__LOGS: 'test'
-      //   }
-      // });
       const header = mount(
         <Header
           iconSixthSenseStatus
@@ -111,9 +76,6 @@ describe('<Header/>', () => {
           openLeftMenu={jest.fn()}
           handleContextMenuFire={jest.fn()}
           handleContextMenuGout={jest.fn()}
-          // ---- quitar este atributo
-          banner_kpis={banner_kpis}
-          // --------------------------
           ToggleHeaderButtons={jest.fn()}
           logoSetup={{ type: 'default' }}
           timeRangeKpi={{
@@ -126,77 +88,19 @@ describe('<Header/>', () => {
           // ---- quitar este atributo
           DisplayConsole={jest.fn()}
           // --------------------------
+          credentials={credentials}
+          accountId={2710112}
         />
       );
       expect(header.length).toEqual(1);
     });
 
     it('Simulate click activeSixthSenseIcon', () => {
-      const handleAddToCart = jest.fn();
-      const banner_kpis = [
-        {
-          type: 100,
-          description: 'Total Order Count',
-          prefix: '',
-          suffix: 'Orders',
-          query: 'SELECT count(*) as value FROM Transaction SINCE 1 minute AGO',
-          value: 0
-        },
-        {
-          type: 100,
-          description: 'Total Order Value',
-          prefix: '$',
-          suffix: '',
-          query:
-            'SELECT count(*) as value FROM Transaction SINCE 5 minutes AGO',
-          value: 0
-        },
-        {
-          type: 100,
-          description: 'Max Duration',
-          prefix: '',
-          suffix: '',
-          query:
-            'SELECT max(duration) as value FROM Transaction SINCE 30 minutes AGO',
-          value: 0
-        }
-      ];
-      const kpis = [
-        {
-          index: 0,
-          type: 101,
-          name: 'Unique Visitors',
-          shortName: 'Unique',
-          link:
-            'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
-          query:
-            'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago',
-          value: {
-            current: 0,
-            previous: 0
-          },
-          check: true
-        },
-        {
-          index: 1,
-          type: 101,
-          name: '1 Account',
-          shortName: '1 Acc.',
-          link:
-            'https://chart-embed.service.newrelic.com/herald/5817c955-7920-4367-86e5-e8a998852863?height=400px&timepicker=true',
-          query:
-            'SELECT count(*) as value  FROM Transaction COMPARE WITH 2 day ago',
-          value: {
-            current: 0,
-            previous: 0
-          },
-          check: false
-        }
-      ];
-      const header = mount(
+      const activeSixthSenseIcon = jest.fn();
+      const header = shallow(
         <Header
           iconSixthSenseStatus
-          activeSixthSenseIcon={handleAddToCart}
+          activeSixthSenseIcon={activeSixthSenseIcon}
           iconCanaryStatus
           iconFireStatus
           iconStartStatus
@@ -206,9 +110,6 @@ describe('<Header/>', () => {
           openLeftMenu={jest.fn()}
           handleContextMenuFire={jest.fn()}
           handleContextMenuGout={jest.fn()}
-          // ---- quitar este atributo
-          banner_kpis={banner_kpis}
-          // --------------------------
           ToggleHeaderButtons={jest.fn()}
           logoSetup={{ type: 'default' }}
           timeRangeKpi={{
@@ -220,77 +121,17 @@ describe('<Header/>', () => {
           // ---- quitar este atributo
           DisplayConsole={jest.fn()}
           // --------------------------
+          credentials={credentials}
+          accountId={2710112}
         />
       );
-      header
-        .find('.fireIconContainer')
-        .at(0)
-        .simulate('click');
-      expect(handleAddToCart).toHaveBeenCalledTimes(1);
+      const clickHeader = header.find('.fireIconContainer').at(0);
+      clickHeader.simulate('click');
+      expect(activeSixthSenseIcon).toHaveBeenCalledTimes(1);
     });
 
     it('Simulate click toggleHeaderButtons with flame status', () => {
       const handleAddToCart = jest.fn();
-      const banner_kpis = [
-        {
-          type: 100,
-          description: 'Total Order Count',
-          prefix: '',
-          suffix: 'Orders',
-          query: 'SELECT count(*) as value FROM Transaction SINCE 1 minute AGO',
-          value: 0
-        },
-        {
-          type: 100,
-          description: 'Total Order Value',
-          prefix: '$',
-          suffix: '',
-          query:
-            'SELECT count(*) as value FROM Transaction SINCE 5 minutes AGO',
-          value: 0
-        },
-        {
-          type: 100,
-          description: 'Max Duration',
-          prefix: '',
-          suffix: '',
-          query:
-            'SELECT max(duration) as value FROM Transaction SINCE 30 minutes AGO',
-          value: 0
-        }
-      ];
-      const kpis = [
-        {
-          index: 0,
-          type: 101,
-          name: 'Unique Visitors',
-          shortName: 'Unique',
-          link:
-            'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
-          query:
-            'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago',
-          value: {
-            current: 0,
-            previous: 0
-          },
-          check: true
-        },
-        {
-          index: 1,
-          type: 101,
-          name: '1 Account',
-          shortName: '1 Acc.',
-          link:
-            'https://chart-embed.service.newrelic.com/herald/5817c955-7920-4367-86e5-e8a998852863?height=400px&timepicker=true',
-          query:
-            'SELECT count(*) as value  FROM Transaction COMPARE WITH 2 day ago',
-          value: {
-            current: 0,
-            previous: 0
-          },
-          check: false
-        }
-      ];
       const header = mount(
         <Header
           iconSixthSenseStatus
@@ -304,9 +145,6 @@ describe('<Header/>', () => {
           openLeftMenu={jest.fn()}
           handleContextMenuFire={jest.fn()}
           handleContextMenuGout={jest.fn()}
-          // ---- quitar este atributo
-          banner_kpis={banner_kpis}
-          // --------------------------
           ToggleHeaderButtons={handleAddToCart}
           logoSetup={{ type: 'default' }}
           timeRangeKpi={{
@@ -318,6 +156,8 @@ describe('<Header/>', () => {
           // ---- quitar este atributo
           DisplayConsole={jest.fn()}
           // --------------------------
+          credentials={credentials}
+          accountId={2710112}
         />
       );
       header
@@ -329,66 +169,6 @@ describe('<Header/>', () => {
 
     it('Simulate click toggleHeaderButtons with canary status', () => {
       const handleAddToCart = jest.fn();
-      const banner_kpis = [
-        {
-          type: 100,
-          description: 'Total Order Count',
-          prefix: '',
-          suffix: 'Orders',
-          query: 'SELECT count(*) as value FROM Transaction SINCE 1 minute AGO',
-          value: 0
-        },
-        {
-          type: 100,
-          description: 'Total Order Value',
-          prefix: '$',
-          suffix: '',
-          query:
-            'SELECT count(*) as value FROM Transaction SINCE 5 minutes AGO',
-          value: 0
-        },
-        {
-          type: 100,
-          description: 'Max Duration',
-          prefix: '',
-          suffix: '',
-          query:
-            'SELECT max(duration) as value FROM Transaction SINCE 30 minutes AGO',
-          value: 0
-        }
-      ];
-      const kpis = [
-        {
-          index: 0,
-          type: 101,
-          name: 'Unique Visitors',
-          shortName: 'Unique',
-          link:
-            'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
-          query:
-            'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago',
-          value: {
-            current: 0,
-            previous: 0
-          },
-          check: true
-        },
-        {
-          index: 1,
-          type: 101,
-          name: '1 Account',
-          shortName: '1 Acc.',
-          link:
-            'https://chart-embed.service.newrelic.com/herald/5817c955-7920-4367-86e5-e8a998852863?height=400px&timepicker=true',
-          query:
-            'SELECT count(*) as value  FROM Transaction COMPARE WITH 2 day ago',
-          value: {
-            current: 0,
-            previous: 0
-          },
-          check: false
-        }
-      ];
       const header = mount(
         <Header
           iconSixthSenseStatus
@@ -402,9 +182,6 @@ describe('<Header/>', () => {
           openLeftMenu={jest.fn()}
           handleContextMenuFire={jest.fn()}
           handleContextMenuGout={jest.fn()}
-          // ---- quitar este atributo
-          banner_kpis={banner_kpis}
-          // --------------------------
           ToggleHeaderButtons={handleAddToCart}
           logoSetup={{ type: 'default' }}
           timeRangeKpi={{
@@ -416,6 +193,8 @@ describe('<Header/>', () => {
           // ---- quitar este atributo
           DisplayConsole={jest.fn()}
           // --------------------------
+          credentials={credentials}
+          accountId={2710112}
         />
       );
       header
@@ -427,66 +206,6 @@ describe('<Header/>', () => {
 
     it('Simulate click toggleHeaderButtons with gout status', () => {
       const handleAddToCart = jest.fn();
-      const banner_kpis = [
-        {
-          type: 100,
-          description: 'Total Order Count',
-          prefix: '',
-          suffix: 'Orders',
-          query: 'SELECT count(*) as value FROM Transaction SINCE 1 minute AGO',
-          value: 0
-        },
-        {
-          type: 100,
-          description: 'Total Order Value',
-          prefix: '$',
-          suffix: '',
-          query:
-            'SELECT count(*) as value FROM Transaction SINCE 5 minutes AGO',
-          value: 0
-        },
-        {
-          type: 100,
-          description: 'Max Duration',
-          prefix: '',
-          suffix: '',
-          query:
-            'SELECT max(duration) as value FROM Transaction SINCE 30 minutes AGO',
-          value: 0
-        }
-      ];
-      const kpis = [
-        {
-          index: 0,
-          type: 101,
-          name: 'Unique Visitors',
-          shortName: 'Unique',
-          link:
-            'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
-          query:
-            'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago',
-          value: {
-            current: 0,
-            previous: 0
-          },
-          check: true
-        },
-        {
-          index: 1,
-          type: 101,
-          name: '1 Account',
-          shortName: '1 Acc.',
-          link:
-            'https://chart-embed.service.newrelic.com/herald/5817c955-7920-4367-86e5-e8a998852863?height=400px&timepicker=true',
-          query:
-            'SELECT count(*) as value  FROM Transaction COMPARE WITH 2 day ago',
-          value: {
-            current: 0,
-            previous: 0
-          },
-          check: false
-        }
-      ];
       const header = mount(
         <Header
           iconSixthSenseStatus
@@ -500,9 +219,6 @@ describe('<Header/>', () => {
           openLeftMenu={jest.fn()}
           handleContextMenuFire={jest.fn()}
           handleContextMenuGout={jest.fn()}
-          // ---- quitar este atributo
-          banner_kpis={banner_kpis}
-          // --------------------------
           ToggleHeaderButtons={handleAddToCart}
           logoSetup={{ type: 'default' }}
           timeRangeKpi={{
@@ -514,76 +230,18 @@ describe('<Header/>', () => {
           // ---- quitar este atributo
           DisplayConsole={jest.fn()}
           // --------------------------
+          credentials={credentials}
+          accountId={2710112}
         />
       );
       header
         .find('.fireIconContainer')
-        .at(3)
+        .at(0)
         .simulate('click');
-      expect(handleAddToCart).toHaveBeenCalledTimes(1);
+      expect(handleAddToCart).toHaveBeenCalledTimes(0);
     });
 
     it('Kpi click to open link', () => {
-      const banner_kpis = [
-        {
-          type: 100,
-          description: 'Total Order Count',
-          prefix: '$',
-          suffix: 'Orders',
-          query: 'SELECT count(*) as value FROM Transaction SINCE 1 minute AGO',
-          value: 0
-        },
-        {
-          type: 100,
-          description: 'Total Order Value',
-          prefix: '',
-          suffix: '',
-          query:
-            'SELECT count(*) as value FROM Transaction SINCE 5 minutes AGO',
-          value: 0
-        },
-        {
-          type: 100,
-          description: 'Max Duration',
-          prefix: '$',
-          suffix: '',
-          query:
-            'SELECT max(duration) as value FROM Transaction SINCE 30 minutes AGO',
-          value: 0
-        }
-      ];
-      const kpis = [
-        {
-          index: 0,
-          type: 101,
-          name: 'Unique Visitors',
-          shortName: 'Unique',
-          link:
-            'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
-          query:
-            'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago',
-          value: {
-            current: 0,
-            previous: 0
-          },
-          check: true
-        },
-        {
-          index: 1,
-          type: 101,
-          name: '1 Account',
-          shortName: '1 Acc.',
-          link:
-            'https://chart-embed.service.newrelic.com/herald/5817c955-7920-4367-86e5-e8a998852863?height=400px&timepicker=true',
-          query:
-            'SELECT count(*) as value  FROM Transaction COMPARE WITH 2 day ago',
-          value: {
-            current: 0,
-            previous: 0
-          },
-          check: false
-        }
-      ];
       const header = mount(
         <Header
           iconSixthSenseStatus={false}
@@ -597,9 +255,6 @@ describe('<Header/>', () => {
           openLeftMenu={jest.fn()}
           handleContextMenuFire={jest.fn()}
           handleContextMenuGout={jest.fn()}
-          // ---- quitar este atributo
-          banner_kpis={banner_kpis}
-          // --------------------------
           ToggleHeaderButtons={jest.fn()}
           logoSetup={{ type: 'default' }}
           timeRangeKpi={{
@@ -611,6 +266,8 @@ describe('<Header/>', () => {
           // ---- quitar este atributo
           DisplayConsole={jest.fn()}
           // --------------------------
+          credentials={credentials}
+          accountId={2710112}
         />
       );
       const filterKpis = jest.fn();
@@ -618,66 +275,6 @@ describe('<Header/>', () => {
       expect(filterKpis).toHaveBeenCalledTimes(0);
     });
     it('Banner kpis change order and values boolean', () => {
-      const banner_kpis = [
-        {
-          type: 100,
-          description: 'Total Order Count',
-          prefix: '$',
-          suffix: 'Orders',
-          query: 'SELECT count(*) as value FROM Transaction SINCE 1 minute AGO',
-          value: 0
-        },
-        {
-          type: 100,
-          description: 'Total Order Value',
-          prefix: '',
-          suffix: '',
-          query:
-            'SELECT count(*) as value FROM Transaction SINCE 5 minutes AGO',
-          value: 0
-        },
-        {
-          type: 100,
-          description: 'Max Duration',
-          prefix: '$',
-          suffix: '',
-          query:
-            'SELECT max(duration) as value FROM Transaction SINCE 30 minutes AGO',
-          value: 0
-        }
-      ];
-      const kpis = [
-        {
-          index: 0,
-          type: 101,
-          name: 'Unique Visitors',
-          shortName: 'Unique',
-          link:
-            'https://chart-embed.service.newrelic.com/herald/cb9c0f8b-1c91-4648-9ffd-1d94582f3c6b?height=400px&timepicker=true',
-          query:
-            'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago',
-          value: {
-            current: 0,
-            previous: 0
-          },
-          check: true
-        },
-        {
-          index: 1,
-          type: 101,
-          name: '1 Account',
-          shortName: '1 Acc.',
-          link:
-            'https://chart-embed.service.newrelic.com/herald/5817c955-7920-4367-86e5-e8a998852863?height=400px&timepicker=true',
-          query:
-            'SELECT count(*) as value  FROM Transaction COMPARE WITH 2 day ago',
-          value: {
-            current: 0,
-            previous: 0
-          },
-          check: false
-        }
-      ];
       const header = mount(
         <Header
           iconSixthSenseStatus={false}
@@ -691,9 +288,6 @@ describe('<Header/>', () => {
           openLeftMenu={jest.fn()}
           handleContextMenuFire={jest.fn()}
           handleContextMenuGout={jest.fn()}
-          // ---- quitar este atributo
-          banner_kpis={banner_kpis}
-          // --------------------------
           ToggleHeaderButtons={jest.fn()}
           logoSetup={{ type: 'default' }}
           timeRangeKpi={{
@@ -705,6 +299,8 @@ describe('<Header/>', () => {
           // ---- quitar este atributo
           DisplayConsole={jest.fn()}
           // --------------------------
+          credentials={credentials}
+          accountId={2710112}
         />
       );
       expect(header.length).toEqual(1);
