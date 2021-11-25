@@ -2,6 +2,17 @@ import React from 'react';
 import { mount, shallow } from 'enzyme';
 import Stage from '../../../components/Stage/Stage';
 
+jest.mock(
+  'window',
+  () => {
+    const window = {
+      open: jest.fn()
+    };
+    return { window };
+  },
+  { virtual: true }
+);
+
 describe('<Stage/>', () => {
   const colors = {
     status_color: {
