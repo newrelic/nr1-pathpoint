@@ -240,7 +240,7 @@ BodyGeneralConfigurationFormModal.propTypes = {
   stageNameSelected: PropTypes.object.isRequired,
   handleOnChange: PropTypes.func.isRequired,
   handleFormSubmit: PropTypes.func.isRequired,
-  credentialsData: PropTypes.func.isRequired,
+  credentialsData: PropTypes.object.isRequired,
   resetCredentials: PropTypes.func.isRequired,
   ValidateIngestLicense: PropTypes.func.isRequired,
   licenseValidations: PropTypes.object.isRequired,
