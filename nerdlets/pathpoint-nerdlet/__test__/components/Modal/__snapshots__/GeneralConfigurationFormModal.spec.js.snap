@@ -1,0 +1,307 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<GeneralConfigurationFormModal/> BodyGeneralConfiguration Component 1`] = `
+<div
+  style={
+    Object {
+      "paddingTop": "20px",
+      "width": "400px",
+    }
+  }
+>
+  <form
+    className=""
+    onSubmit={[MockFunction]}
+  >
+    <div
+      className="form-group"
+    >
+      <label
+        style={
+          Object {
+            "margin": "0px",
+          }
+        }
+      >
+        Account ID
+      </label>
+      <div
+        className="custom-select-wrapper_SelectID"
+        onClick={[Function]}
+      >
+        <div
+          className="custom-select_SelectID"
+          style={Object {}}
+        >
+          <div
+            className="custom-select__trigger_SelectID"
+          >
+            <span
+              style={
+                Object {
+                  "overflow": "hidden",
+                  "textOverflow": "ellipsis",
+                  "whiteSpace": "nowrap",
+                  "width": "80px",
+                }
+              }
+            />
+            <div
+              className="arrow"
+            />
+          </div>
+          <div
+            className="custom-options-SelectID"
+            style={Object {}}
+          >
+            <span
+              className="custom-option selected"
+              onClick={[Function]}
+            >
+              <div
+                style={
+                  Object {
+                    "display": "flex",
+                    "flexDirection": "row",
+                  }
+                }
+              >
+                <div
+                  className="id-custom-options"
+                />
+                <div
+                  className="name-custom-options"
+                />
+              </div>
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              <div
+                style={
+                  Object {
+                    "display": "flex",
+                    "flexDirection": "row",
+                  }
+                }
+              >
+                <div
+                  className="id-custom-options"
+                />
+                <div
+                  className="name-custom-options"
+                />
+              </div>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="form-group"
+    >
+      <label
+        style={
+          Object {
+            "margin": "0px",
+          }
+        }
+      >
+        Ingest License
+      </label>
+      <input
+        className="support-modal-input-text"
+        id="ingestLicense"
+        name="ingestLicense"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onCopy={[Function]}
+        onFocus={[Function]}
+        placeholder="Type your ingest license"
+        type="text"
+      />
+      <span
+        style={
+          Object {
+            "color": "#C62828",
+          }
+        }
+      >
+        Ingest License is not valid
+      </span>
+    </div>
+    <div
+      className="form-group"
+    >
+      <label
+        style={
+          Object {
+            "margin": "0px",
+          }
+        }
+      >
+        User API Key
+      </label>
+      <input
+        className="support-modal-input-text"
+        id="userAPIKey"
+        name="userAPIKey"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onCopy={[Function]}
+        onFocus={[Function]}
+        placeholder="Type your User API Key"
+        type="text"
+      />
+      <span
+        style={
+          Object {
+            "color": "#C62828",
+          }
+        }
+      >
+        User API Key is not valid
+      </span>
+      <div
+        style={
+          Object {
+            "marginTop": "25px",
+          }
+        }
+      >
+        <input
+          defaultChecked={false}
+          disabled={true}
+          id="logginCheck"
+          onChange={[Function]}
+          type="checkbox"
+          value={false}
+        />
+        <label
+          className="label-checkbox"
+        >
+           Enable Pathpoint Logging 
+        </label>
+      </div>
+      <div
+        style={
+          Object {
+            "marginTop": "10px",
+          }
+        }
+      >
+        <input
+          defaultChecked={true}
+          disabled={true}
+          id="flameToolsCheck"
+          onChange={[Function]}
+          type="checkbox"
+          value={true}
+        />
+        <label
+          className="label-checkbox"
+        >
+          Enable Flame Filter Background Script
+        </label>
+      </div>
+      <div
+        style={
+          Object {
+            "marginTop": "10px",
+          }
+        }
+      >
+        <input
+          defaultChecked={false}
+          disabled={true}
+          id="dropToolsCheck"
+          onChange={[Function]}
+          type="checkbox"
+          value={false}
+        />
+        <label
+          className="label-checkbox"
+        >
+          Enable Drop Filter Background Script
+        </label>
+      </div>
+      <div
+        style={
+          Object {
+            "display": "flex",
+            "justifyContent": "flex-end",
+            "marginTop": "20px",
+          }
+        }
+      >
+        <button
+          className="btn btn-default"
+          disabled={false}
+          onClick={[MockFunction]}
+          style={
+            Object {
+              "background": "#09af76",
+              "color": "white",
+              "marginRight": "20px",
+              "visibility": "hidden",
+            }
+          }
+          type="button"
+        >
+          Install/Update Job
+        </button>
+        <button
+          className="btn btn-default"
+          disabled={false}
+          onClick={[MockFunction]}
+          style={
+            Object {
+              "marginRight": "20px",
+            }
+          }
+          type="button"
+          variant="outline-danger"
+        >
+          Reset Credentials
+        </button>
+        <button
+          className="btn btn-default"
+          color="primary"
+          disabled={true}
+          style={
+            Object {
+              "background": "#0178bf",
+              "color": "white",
+            }
+          }
+          type="submit"
+          variant="contained"
+        >
+          Save / Update
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`<GeneralConfigurationFormModal/> Render HeaderGeneralConfigurationFormModal 1`] = `
+<div
+  style={
+    Object {
+      "display": "flex",
+    }
+  }
+>
+  <div
+    className="titleModal"
+  >
+    <img
+      src={Object {}}
+      width="18"
+    />
+     Credentials and General Configuration
+  </div>
+</div>
+`;

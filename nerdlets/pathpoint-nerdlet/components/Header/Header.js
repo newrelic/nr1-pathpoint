@@ -187,7 +187,7 @@ const Header = ({
             });
           }}
         >
-          <Icon type={Icon.TYPE.HARDWARE_AND_SOFTWARE__SOFTWARE__LOGS} />
+          {/* <Icon type={Icon.TYPE.HARDWARE_AND_SOFTWARE__SOFTWARE__LOGS} /> */}
           See logs
         </div>
       </div>

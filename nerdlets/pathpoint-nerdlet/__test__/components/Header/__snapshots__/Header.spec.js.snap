@@ -172,20 +172,6 @@ exports[`Header component Header component with default data 1`] = `
         />
       </div>
       <div
-        className="fireIconContainer"
-        onClick={[Function]}
-        onMouseDown={[MockFunction]}
-      >
-        <img
-          src={Object {}}
-          style={
-            Object {
-              "height": "18px",
-            }
-          }
-        />
-      </div>
-      <div
         className="custom-select-wrapper"
         onClick={[Function]}
       >
@@ -206,7 +192,7 @@ exports[`Header component Header component with default data 1`] = `
                 }
               }
             >
-              now
+              last 5 minutes
             </span>
             <div
               className="arrow"
@@ -220,59 +206,71 @@ exports[`Header component Header component with default data 1`] = `
               className="custom-option selected"
               onClick={[Function]}
             >
-              now
+              last 5 minutes
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              30 minutes
+              30 minutes ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              60 minutes
+              60 minutes ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              3 hours
+              3 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              6 hours
+              6 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              12 hours
+              12 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              24 hours
+              24 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              3 days
+              3 days ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              7 days
+              7 days ago
             </span>
           </div>
         </div>
       </div>
+    </div>
+    <div
+      className="viewLogs"
+      onClick={[Function]}
+      style={
+        Object {
+          "cursor": "pointer",
+          "visibility": "hidden",
+        }
+      }
+    >
+      See logs
     </div>
   </div>
 </div>
@@ -450,20 +448,6 @@ exports[`Header component Header component with emulate activeSixthSenseIcon 1`]
         />
       </div>
       <div
-        className="fireIconContainer"
-        onClick={[Function]}
-        onMouseDown={[MockFunction]}
-      >
-        <img
-          src={Object {}}
-          style={
-            Object {
-              "height": "18px",
-            }
-          }
-        />
-      </div>
-      <div
         className="custom-select-wrapper"
         onClick={[Function]}
       >
@@ -484,7 +468,7 @@ exports[`Header component Header component with emulate activeSixthSenseIcon 1`]
                 }
               }
             >
-              now
+              last 5 minutes
             </span>
             <div
               className="arrow"
@@ -498,59 +482,71 @@ exports[`Header component Header component with emulate activeSixthSenseIcon 1`]
               className="custom-option selected"
               onClick={[Function]}
             >
-              now
+              last 5 minutes
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              30 minutes
+              30 minutes ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              60 minutes
+              60 minutes ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              3 hours
+              3 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              6 hours
+              6 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              12 hours
+              12 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              24 hours
+              24 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              3 days
+              3 days ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              7 days
+              7 days ago
             </span>
           </div>
         </div>
       </div>
+    </div>
+    <div
+      className="viewLogs"
+      onClick={[Function]}
+      style={
+        Object {
+          "cursor": "pointer",
+          "visibility": "hidden",
+        }
+      }
+    >
+      See logs
     </div>
   </div>
 </div>
@@ -728,20 +724,6 @@ exports[`Header component Header component with iconCanaryStatus 1`] = `
         />
       </div>
       <div
-        className="fireIconContainer"
-        onClick={[Function]}
-        onMouseDown={[MockFunction]}
-      >
-        <img
-          src={Object {}}
-          style={
-            Object {
-              "height": "18px",
-            }
-          }
-        />
-      </div>
-      <div
         className="custom-select-wrapper"
         onClick={[Function]}
       >
@@ -762,7 +744,7 @@ exports[`Header component Header component with iconCanaryStatus 1`] = `
                 }
               }
             >
-              now
+              last 5 minutes
             </span>
             <div
               className="arrow"
@@ -776,59 +758,71 @@ exports[`Header component Header component with iconCanaryStatus 1`] = `
               className="custom-option selected"
               onClick={[Function]}
             >
-              now
+              last 5 minutes
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              30 minutes
+              30 minutes ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              60 minutes
+              60 minutes ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              3 hours
+              3 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              6 hours
+              6 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              12 hours
+              12 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              24 hours
+              24 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              3 days
+              3 days ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              7 days
+              7 days ago
             </span>
           </div>
         </div>
       </div>
+    </div>
+    <div
+      className="viewLogs"
+      onClick={[Function]}
+      style={
+        Object {
+          "cursor": "pointer",
+          "visibility": "hidden",
+        }
+      }
+    >
+      See logs
     </div>
   </div>
 </div>
@@ -1006,20 +1000,6 @@ exports[`Header component Header component with iconFireStatus 1`] = `
         />
       </div>
       <div
-        className="fireIconContainer"
-        onClick={[Function]}
-        onMouseDown={[MockFunction]}
-      >
-        <img
-          src={Object {}}
-          style={
-            Object {
-              "height": "18px",
-            }
-          }
-        />
-      </div>
-      <div
         className="custom-select-wrapper"
         onClick={[Function]}
       >
@@ -1040,7 +1020,7 @@ exports[`Header component Header component with iconFireStatus 1`] = `
                 }
               }
             >
-              now
+              last 5 minutes
             </span>
             <div
               className="arrow"
@@ -1054,59 +1034,71 @@ exports[`Header component Header component with iconFireStatus 1`] = `
               className="custom-option selected"
               onClick={[Function]}
             >
-              now
+              last 5 minutes
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              30 minutes
+              30 minutes ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              60 minutes
+              60 minutes ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              3 hours
+              3 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              6 hours
+              6 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              12 hours
+              12 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              24 hours
+              24 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              3 days
+              3 days ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              7 days
+              7 days ago
             </span>
           </div>
         </div>
       </div>
+    </div>
+    <div
+      className="viewLogs"
+      onClick={[Function]}
+      style={
+        Object {
+          "cursor": "pointer",
+          "visibility": "hidden",
+        }
+      }
+    >
+      See logs
     </div>
   </div>
 </div>
@@ -1284,20 +1276,6 @@ exports[`Header component Header component with iconGoutStatus 1`] = `
         />
       </div>
       <div
-        className="fireIconContainer"
-        onClick={[Function]}
-        onMouseDown={[MockFunction]}
-      >
-        <img
-          src={Object {}}
-          style={
-            Object {
-              "height": "18px",
-            }
-          }
-        />
-      </div>
-      <div
         className="custom-select-wrapper"
         onClick={[Function]}
       >
@@ -1318,7 +1296,7 @@ exports[`Header component Header component with iconGoutStatus 1`] = `
                 }
               }
             >
-              now
+              last 5 minutes
             </span>
             <div
               className="arrow"
@@ -1332,59 +1310,71 @@ exports[`Header component Header component with iconGoutStatus 1`] = `
               className="custom-option selected"
               onClick={[Function]}
             >
-              now
+              last 5 minutes
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              30 minutes
+              30 minutes ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              60 minutes
+              60 minutes ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              3 hours
+              3 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              6 hours
+              6 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              12 hours
+              12 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              24 hours
+              24 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              3 days
+              3 days ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              7 days
+              7 days ago
             </span>
           </div>
         </div>
       </div>
+    </div>
+    <div
+      className="viewLogs"
+      onClick={[Function]}
+      style={
+        Object {
+          "cursor": "pointer",
+          "visibility": "hidden",
+        }
+      }
+    >
+      See logs
     </div>
   </div>
 </div>
@@ -1562,20 +1552,6 @@ exports[`Header component Header component with iconSixthSenseStatus 1`] = `
         />
       </div>
       <div
-        className="fireIconContainer"
-        onClick={[Function]}
-        onMouseDown={[MockFunction]}
-      >
-        <img
-          src={Object {}}
-          style={
-            Object {
-              "height": "18px",
-            }
-          }
-        />
-      </div>
-      <div
         className="custom-select-wrapper"
         onClick={[Function]}
       >
@@ -1596,7 +1572,7 @@ exports[`Header component Header component with iconSixthSenseStatus 1`] = `
                 }
               }
             >
-              now
+              last 5 minutes
             </span>
             <div
               className="arrow"
@@ -1610,59 +1586,71 @@ exports[`Header component Header component with iconSixthSenseStatus 1`] = `
               className="custom-option selected"
               onClick={[Function]}
             >
-              now
+              last 5 minutes
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              30 minutes
+              30 minutes ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              60 minutes
+              60 minutes ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              3 hours
+              3 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              6 hours
+              6 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              12 hours
+              12 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              24 hours
+              24 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              3 days
+              3 days ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              7 days
+              7 days ago
             </span>
           </div>
         </div>
       </div>
+    </div>
+    <div
+      className="viewLogs"
+      onClick={[Function]}
+      style={
+        Object {
+          "cursor": "pointer",
+          "visibility": "hidden",
+        }
+      }
+    >
+      See logs
     </div>
   </div>
 </div>
@@ -1840,20 +1828,6 @@ exports[`Header component Header component with iconStartStatus 1`] = `
         />
       </div>
       <div
-        className="fireIconContainer"
-        onClick={[Function]}
-        onMouseDown={[MockFunction]}
-      >
-        <img
-          src={Object {}}
-          style={
-            Object {
-              "height": "18px",
-            }
-          }
-        />
-      </div>
-      <div
         className="custom-select-wrapper"
         onClick={[Function]}
       >
@@ -1874,7 +1848,7 @@ exports[`Header component Header component with iconStartStatus 1`] = `
                 }
               }
             >
-              now
+              last 5 minutes
             </span>
             <div
               className="arrow"
@@ -1888,59 +1862,71 @@ exports[`Header component Header component with iconStartStatus 1`] = `
               className="custom-option selected"
               onClick={[Function]}
             >
-              now
+              last 5 minutes
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              30 minutes
+              30 minutes ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              60 minutes
+              60 minutes ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              3 hours
+              3 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              6 hours
+              6 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              12 hours
+              12 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              24 hours
+              24 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              3 days
+              3 days ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              7 days
+              7 days ago
             </span>
           </div>
         </div>
       </div>
+    </div>
+    <div
+      className="viewLogs"
+      onClick={[Function]}
+      style={
+        Object {
+          "cursor": "pointer",
+          "visibility": "hidden",
+        }
+      }
+    >
+      See logs
     </div>
   </div>
 </div>
@@ -2118,20 +2104,6 @@ exports[`Header component Header component with logoSetup Text 1`] = `
         />
       </div>
       <div
-        className="fireIconContainer"
-        onClick={[Function]}
-        onMouseDown={[MockFunction]}
-      >
-        <img
-          src={Object {}}
-          style={
-            Object {
-              "height": "18px",
-            }
-          }
-        />
-      </div>
-      <div
         className="custom-select-wrapper"
         onClick={[Function]}
       >
@@ -2152,7 +2124,7 @@ exports[`Header component Header component with logoSetup Text 1`] = `
                 }
               }
             >
-              now
+              last 5 minutes
             </span>
             <div
               className="arrow"
@@ -2166,59 +2138,71 @@ exports[`Header component Header component with logoSetup Text 1`] = `
               className="custom-option selected"
               onClick={[Function]}
             >
-              now
+              last 5 minutes
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              30 minutes
+              30 minutes ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              60 minutes
+              60 minutes ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              3 hours
+              3 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              6 hours
+              6 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              12 hours
+              12 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              24 hours
+              24 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              3 days
+              3 days ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              7 days
+              7 days ago
             </span>
           </div>
         </div>
       </div>
+    </div>
+    <div
+      className="viewLogs"
+      onClick={[Function]}
+      style={
+        Object {
+          "cursor": "pointer",
+          "visibility": "hidden",
+        }
+      }
+    >
+      See logs
     </div>
   </div>
 </div>
@@ -2396,20 +2380,6 @@ exports[`Header component Header component with logoSetup URL 1`] = `
         />
       </div>
       <div
-        className="fireIconContainer"
-        onClick={[Function]}
-        onMouseDown={[MockFunction]}
-      >
-        <img
-          src={Object {}}
-          style={
-            Object {
-              "height": "18px",
-            }
-          }
-        />
-      </div>
-      <div
         className="custom-select-wrapper"
         onClick={[Function]}
       >
@@ -2430,7 +2400,7 @@ exports[`Header component Header component with logoSetup URL 1`] = `
                 }
               }
             >
-              now
+              last 5 minutes
             </span>
             <div
               className="arrow"
@@ -2444,59 +2414,71 @@ exports[`Header component Header component with logoSetup URL 1`] = `
               className="custom-option selected"
               onClick={[Function]}
             >
-              now
+              last 5 minutes
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              30 minutes
+              30 minutes ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              60 minutes
+              60 minutes ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              3 hours
+              3 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              6 hours
+              6 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              12 hours
+              12 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              24 hours
+              24 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              3 days
+              3 days ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              7 days
+              7 days ago
             </span>
           </div>
         </div>
       </div>
+    </div>
+    <div
+      className="viewLogs"
+      onClick={[Function]}
+      style={
+        Object {
+          "cursor": "pointer",
+          "visibility": "hidden",
+        }
+      }
+    >
+      See logs
     </div>
   </div>
 </div>
@@ -2674,20 +2656,6 @@ exports[`Header component Header component with showLeftPanel 1`] = `
         />
       </div>
       <div
-        className="fireIconContainer"
-        onClick={[Function]}
-        onMouseDown={[MockFunction]}
-      >
-        <img
-          src={Object {}}
-          style={
-            Object {
-              "height": "18px",
-            }
-          }
-        />
-      </div>
-      <div
         className="custom-select-wrapper"
         onClick={[Function]}
       >
@@ -2708,7 +2676,7 @@ exports[`Header component Header component with showLeftPanel 1`] = `
                 }
               }
             >
-              now
+              last 5 minutes
             </span>
             <div
               className="arrow"
@@ -2722,59 +2690,71 @@ exports[`Header component Header component with showLeftPanel 1`] = `
               className="custom-option selected"
               onClick={[Function]}
             >
-              now
+              last 5 minutes
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              30 minutes
+              30 minutes ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              60 minutes
+              60 minutes ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              3 hours
+              3 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              6 hours
+              6 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              12 hours
+              12 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              24 hours
+              24 hours ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              3 days
+              3 days ago
             </span>
             <span
               className="custom-option"
               onClick={[Function]}
             >
-              7 days
+              7 days ago
             </span>
           </div>
         </div>
       </div>
+    </div>
+    <div
+      className="viewLogs"
+      onClick={[Function]}
+      style={
+        Object {
+          "cursor": "pointer",
+          "visibility": "hidden",
+        }
+      }
+    >
+      See logs
     </div>
   </div>
 </div>

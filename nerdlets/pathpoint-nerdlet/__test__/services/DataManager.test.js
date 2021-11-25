@@ -4323,7 +4323,7 @@ describe('Datamanager service', () => {
     dataManager.SynConnector.UpdateFlameMonitor = jest.fn();
     dataManager.InstallUpdateBackGroundScript();
     expect(dataManager.SynConnector.UpdateFlameMonitor).toHaveBeenCalledTimes(
-      1
+      0
     );
   });
 });

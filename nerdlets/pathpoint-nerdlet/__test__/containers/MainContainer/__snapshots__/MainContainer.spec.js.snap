@@ -148,20 +148,6 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
             />
           </div>
           <div
-            className="fireIconContainer"
-            onClick={[Function]}
-            onMouseDown={[Function]}
-          >
-            <img
-              src={Object {}}
-              style={
-                Object {
-                  "height": "18px",
-                }
-              }
-            />
-          </div>
-          <div
             className="custom-select-wrapper"
             onClick={[Function]}
           >
@@ -182,7 +168,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
                     }
                   }
                 >
-                  now
+                  last 5 minutes
                 </span>
                 <div
                   className="arrow"
@@ -196,59 +182,71 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
                   className="custom-option selected"
                   onClick={[Function]}
                 >
-                  now
+                  last 5 minutes
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  30 minutes
+                  30 minutes ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  60 minutes
+                  60 minutes ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  3 hours
+                  3 hours ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  6 hours
+                  6 hours ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  12 hours
+                  12 hours ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  24 hours
+                  24 hours ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  3 days
+                  3 days ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  7 days
+                  7 days ago
                 </span>
               </div>
             </div>
           </div>
+        </div>
+        <div
+          className="viewLogs"
+          onClick={[Function]}
+          style={
+            Object {
+              "cursor": "pointer",
+              "visibility": "hidden",
+            }
+          }
+        >
+          See logs
         </div>
       </div>
     </div>
@@ -982,20 +980,6 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
             />
           </div>
           <div
-            className="fireIconContainer"
-            onClick={[Function]}
-            onMouseDown={[Function]}
-          >
-            <img
-              src={Object {}}
-              style={
-                Object {
-                  "height": "18px",
-                }
-              }
-            />
-          </div>
-          <div
             className="custom-select-wrapper"
             onClick={[Function]}
           >
@@ -1016,7 +1000,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
                     }
                   }
                 >
-                  now
+                  last 5 minutes
                 </span>
                 <div
                   className="arrow"
@@ -1030,59 +1014,71 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
                   className="custom-option selected"
                   onClick={[Function]}
                 >
-                  now
+                  last 5 minutes
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  30 minutes
+                  30 minutes ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  60 minutes
+                  60 minutes ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  3 hours
+                  3 hours ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  6 hours
+                  6 hours ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  12 hours
+                  12 hours ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  24 hours
+                  24 hours ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  3 days
+                  3 days ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  7 days
+                  7 days ago
                 </span>
               </div>
             </div>
           </div>
+        </div>
+        <div
+          className="viewLogs"
+          onClick={[Function]}
+          style={
+            Object {
+              "cursor": "pointer",
+              "visibility": "hidden",
+            }
+          }
+        >
+          See logs
         </div>
       </div>
     </div>
@@ -1816,20 +1812,6 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
             />
           </div>
           <div
-            className="fireIconContainer"
-            onClick={[Function]}
-            onMouseDown={[Function]}
-          >
-            <img
-              src={Object {}}
-              style={
-                Object {
-                  "height": "18px",
-                }
-              }
-            />
-          </div>
-          <div
             className="custom-select-wrapper"
             onClick={[Function]}
           >
@@ -1850,7 +1832,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
                     }
                   }
                 >
-                  now
+                  last 5 minutes
                 </span>
                 <div
                   className="arrow"
@@ -1864,59 +1846,71 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
                   className="custom-option selected"
                   onClick={[Function]}
                 >
-                  now
+                  last 5 minutes
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  30 minutes
+                  30 minutes ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  60 minutes
+                  60 minutes ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  3 hours
+                  3 hours ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  6 hours
+                  6 hours ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  12 hours
+                  12 hours ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  24 hours
+                  24 hours ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  3 days
+                  3 days ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  7 days
+                  7 days ago
                 </span>
               </div>
             </div>
           </div>
+        </div>
+        <div
+          className="viewLogs"
+          onClick={[Function]}
+          style={
+            Object {
+              "cursor": "pointer",
+              "visibility": "hidden",
+            }
+          }
+        >
+          See logs
         </div>
       </div>
     </div>
@@ -2696,20 +2690,6 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
             />
           </div>
           <div
-            className="fireIconContainer"
-            onClick={[Function]}
-            onMouseDown={[Function]}
-          >
-            <img
-              src={Object {}}
-              style={
-                Object {
-                  "height": "18px",
-                }
-              }
-            />
-          </div>
-          <div
             className="custom-select-wrapper"
             onClick={[Function]}
           >
@@ -2730,7 +2710,7 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
                     }
                   }
                 >
-                  now
+                  last 5 minutes
                 </span>
                 <div
                   className="arrow"
@@ -2744,59 +2724,71 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
                   className="custom-option selected"
                   onClick={[Function]}
                 >
-                  now
+                  last 5 minutes
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  30 minutes
+                  30 minutes ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  60 minutes
+                  60 minutes ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  3 hours
+                  3 hours ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  6 hours
+                  6 hours ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  12 hours
+                  12 hours ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  24 hours
+                  24 hours ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  3 days
+                  3 days ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  7 days
+                  7 days ago
                 </span>
               </div>
             </div>
           </div>
+        </div>
+        <div
+          className="viewLogs"
+          onClick={[Function]}
+          style={
+            Object {
+              "cursor": "pointer",
+              "visibility": "hidden",
+            }
+          }
+        >
+          See logs
         </div>
       </div>
     </div>
@@ -3530,20 +3522,6 @@ exports[`<MainContainer/> Values stages 1`] = `
             />
           </div>
           <div
-            className="fireIconContainer"
-            onClick={[Function]}
-            onMouseDown={[Function]}
-          >
-            <img
-              src={Object {}}
-              style={
-                Object {
-                  "height": "18px",
-                }
-              }
-            />
-          </div>
-          <div
             className="custom-select-wrapper"
             onClick={[Function]}
           >
@@ -3564,7 +3542,7 @@ exports[`<MainContainer/> Values stages 1`] = `
                     }
                   }
                 >
-                  now
+                  last 5 minutes
                 </span>
                 <div
                   className="arrow"
@@ -3578,59 +3556,71 @@ exports[`<MainContainer/> Values stages 1`] = `
                   className="custom-option selected"
                   onClick={[Function]}
                 >
-                  now
+                  last 5 minutes
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  30 minutes
+                  30 minutes ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  60 minutes
+                  60 minutes ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  3 hours
+                  3 hours ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  6 hours
+                  6 hours ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  12 hours
+                  12 hours ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  24 hours
+                  24 hours ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  3 days
+                  3 days ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  7 days
+                  7 days ago
                 </span>
               </div>
             </div>
           </div>
+        </div>
+        <div
+          className="viewLogs"
+          onClick={[Function]}
+          style={
+            Object {
+              "cursor": "pointer",
+              "visibility": "hidden",
+            }
+          }
+        >
+          See logs
         </div>
       </div>
     </div>
@@ -4284,30 +4274,30 @@ exports[`<MainContainer/> Values stages 1`] = `
               >
                 <path
                   d="M 10 0 L 50 0 L 40 13 L 0 13 Z"
-                  fill="#ffffff"
+                  fill="#BDBDBD"
                   id="arrow"
-                  stroke="#e3e6e8"
+                  stroke="#BDBDBD"
                   strokeWidth="1"
                 />
                 <path
                   d="M 60 0 L 100 0 L 90 13 L 50 13 Z"
-                  fill="#ffffff"
+                  fill="#BDBDBD"
                   id="arrow"
-                  stroke="#e3e6e8"
+                  stroke="#BDBDBD"
                   strokeWidth="1"
                 />
                 <path
                   d="M 110 0 L 150 0 L 140 13 L 100 13 Z"
-                  fill="#ffffff"
+                  fill="#BDBDBD"
                   id="arrow"
-                  stroke="#e3e6e8"
+                  stroke="#BDBDBD"
                   strokeWidth="1"
                 />
                 <path
                   d="M 160 0 L 200 0 L 190 13 L 150 13 Z"
-                  fill="#ffffff"
+                  fill="#BDBDBD"
                   id="arrow"
-                  stroke="#e3e6e8"
+                  stroke="#BDBDBD"
                   strokeWidth="1"
                 />
               </svg>
@@ -4490,7 +4480,7 @@ exports[`<MainContainer/> Values stages 1`] = `
                   className="squareState"
                   style={
                     Object {
-                      "background": "rgb(189,189,189)",
+                      "background": "rgb(39,174,96)",
                     }
                   }
                 />
@@ -4670,20 +4660,6 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
             />
           </div>
           <div
-            className="fireIconContainer"
-            onClick={[Function]}
-            onMouseDown={[Function]}
-          >
-            <img
-              src={Object {}}
-              style={
-                Object {
-                  "height": "18px",
-                }
-              }
-            />
-          </div>
-          <div
             className="custom-select-wrapper"
             onClick={[Function]}
           >
@@ -4704,7 +4680,7 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
                     }
                   }
                 >
-                  now
+                  last 5 minutes
                 </span>
                 <div
                   className="arrow"
@@ -4718,59 +4694,71 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
                   className="custom-option selected"
                   onClick={[Function]}
                 >
-                  now
+                  last 5 minutes
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  30 minutes
+                  30 minutes ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  60 minutes
+                  60 minutes ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  3 hours
+                  3 hours ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  6 hours
+                  6 hours ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  12 hours
+                  12 hours ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  24 hours
+                  24 hours ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  3 days
+                  3 days ago
                 </span>
                 <span
                   className="custom-option"
                   onClick={[Function]}
                 >
-                  7 days
+                  7 days ago
                 </span>
               </div>
             </div>
           </div>
+        </div>
+        <div
+          className="viewLogs"
+          onClick={[Function]}
+          style={
+            Object {
+              "cursor": "pointer",
+              "visibility": "hidden",
+            }
+          }
+        >
+          See logs
         </div>
       </div>
     </div>
