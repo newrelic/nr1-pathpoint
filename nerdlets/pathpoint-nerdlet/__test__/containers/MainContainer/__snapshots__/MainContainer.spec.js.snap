@@ -246,6 +246,26 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
             }
           }
         >
+          <svg
+            focusable="false"
+            role="img"
+            style={
+              Object {
+                "height": "20px",
+                "marginBottom": "-5px",
+                "width": "20px",
+              }
+            }
+            viewBox="0 0 16 16"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M7.7 0H2v15h11V5.3L7.7 0zm3.6 5H8V1.7L11.3 5zM3 14V1h4v5h5v8H3z"
+            />
+            <path
+              d="M5 8h5v1H5zM5 11h3v1H5z"
+            />
+          </svg>
           See logs
         </div>
       </div>
@@ -1078,6 +1098,26 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
             }
           }
         >
+          <svg
+            focusable="false"
+            role="img"
+            style={
+              Object {
+                "height": "20px",
+                "marginBottom": "-5px",
+                "width": "20px",
+              }
+            }
+            viewBox="0 0 16 16"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M7.7 0H2v15h11V5.3L7.7 0zm3.6 5H8V1.7L11.3 5zM3 14V1h4v5h5v8H3z"
+            />
+            <path
+              d="M5 8h5v1H5zM5 11h3v1H5z"
+            />
+          </svg>
           See logs
         </div>
       </div>
@@ -1910,6 +1950,26 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
             }
           }
         >
+          <svg
+            focusable="false"
+            role="img"
+            style={
+              Object {
+                "height": "20px",
+                "marginBottom": "-5px",
+                "width": "20px",
+              }
+            }
+            viewBox="0 0 16 16"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M7.7 0H2v15h11V5.3L7.7 0zm3.6 5H8V1.7L11.3 5zM3 14V1h4v5h5v8H3z"
+            />
+            <path
+              d="M5 8h5v1H5zM5 11h3v1H5z"
+            />
+          </svg>
           See logs
         </div>
       </div>
@@ -2788,6 +2848,26 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
             }
           }
         >
+          <svg
+            focusable="false"
+            role="img"
+            style={
+              Object {
+                "height": "20px",
+                "marginBottom": "-5px",
+                "width": "20px",
+              }
+            }
+            viewBox="0 0 16 16"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M7.7 0H2v15h11V5.3L7.7 0zm3.6 5H8V1.7L11.3 5zM3 14V1h4v5h5v8H3z"
+            />
+            <path
+              d="M5 8h5v1H5zM5 11h3v1H5z"
+            />
+          </svg>
           See logs
         </div>
       </div>
@@ -3620,6 +3700,26 @@ exports[`<MainContainer/> Values stages 1`] = `
             }
           }
         >
+          <svg
+            focusable="false"
+            role="img"
+            style={
+              Object {
+                "height": "20px",
+                "marginBottom": "-5px",
+                "width": "20px",
+              }
+            }
+            viewBox="0 0 16 16"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M7.7 0H2v15h11V5.3L7.7 0zm3.6 5H8V1.7L11.3 5zM3 14V1h4v5h5v8H3z"
+            />
+            <path
+              d="M5 8h5v1H5zM5 11h3v1H5z"
+            />
+          </svg>
           See logs
         </div>
       </div>
@@ -4758,6 +4858,26 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
             }
           }
         >
+          <svg
+            focusable="false"
+            role="img"
+            style={
+              Object {
+                "height": "20px",
+                "marginBottom": "-5px",
+                "width": "20px",
+              }
+            }
+            viewBox="0 0 16 16"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M7.7 0H2v15h11V5.3L7.7 0zm3.6 5H8V1.7L11.3 5zM3 14V1h4v5h5v8H3z"
+            />
+            <path
+              d="M5 8h5v1H5zM5 11h3v1H5z"
+            />
+          </svg>
           See logs
         </div>
       </div>
