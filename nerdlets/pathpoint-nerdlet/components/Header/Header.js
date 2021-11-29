@@ -187,7 +187,16 @@ const Header = ({
             });
           }}
         >
-          {/* <Icon type={Icon.TYPE.HARDWARE_AND_SOFTWARE__SOFTWARE__LOGS} /> */}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 16 16"
+            focusable="false"
+            role="img"
+            style={{ width: '20px', height: '20px', marginBottom: '-5px' }}
+          >
+            <path d="M7.7 0H2v15h11V5.3L7.7 0zm3.6 5H8V1.7L11.3 5zM3 14V1h4v5h5v8H3z" />
+            <path d="M5 8h5v1H5zM5 11h3v1H5z" />
+          </svg>
           See logs
         </div>
       </div>
