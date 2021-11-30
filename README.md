@@ -7,7 +7,11 @@
 [![Release](https://github.com/newrelic/nr1-pathpoint/actions/workflows/release.yml/badge.svg)](https://github.com/newrelic/nr1-pathpoint/actions/workflows/release.yml)
 
 
+
+
 # Pathpoint
+
+##NEW RELIC STAFF: For a working e-commerce example compatible with Demotron use [this one](examples/nr-demotron-order-processing.json)
 
 ![UI Overview](screenshots/main-ui.png)
 
