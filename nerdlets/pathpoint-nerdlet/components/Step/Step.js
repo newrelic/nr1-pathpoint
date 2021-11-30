@@ -111,9 +111,11 @@ const StyleSubStep = (step, colors, iconFireStatus) => {
   const errorColor = `rgb(${error_color[0]},${error_color[1]},${error_color[2]})`;
   const selectStepColor = `rgb(${select_color[0]},${select_color[1]},${select_color[2]})`;
   const unselectStepColor = `rgb(${unselect_color[0]},${unselect_color[1]},${unselect_color[2]})`;
-  if (step.highlighted) {
+  if (iconFireStatus && step.history_error) {
+    return `2px solid ${errorColor}`;
+  } else if (step.highlighted) {
     return `2px solid ${selectStepColor}`;
-  } else if (step.error | (iconFireStatus && step.history_error)) {
+  } else if (step.error && !iconFireStatus) {
     return `2px solid ${errorColor}`;
   } else if (step.dotted) {
     return `1px dashed ${unselectStepColor}`;

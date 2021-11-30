@@ -2063,7 +2063,7 @@ export default class DataManager {
   }
 
   async ReadHistoricErrors() {
-    const query = `SELECT count(*) FROM PathpointHistoricErrors WHERE pathpoint_id=${this.pathpointId} percentage>${this.minPercentageError} FACET stage_index,touchpoint_index,percentage LIMIT MAX SINCE ${this.historicErrorsHours} hours ago`;
+    const query = `SELECT count(*) FROM PathpointHistoricErrors WHERE pathpoint_id='${this.pathpointId}' AND error is true FACET stage_index,touchpoint_index LIMIT MAX SINCE ${this.historicErrorsHours} hours ago`;
     const gql = `{
         actor { account(id: ${this.accountId}) {
             nrql(query: "${query}", timeout: 10) {
@@ -2089,20 +2089,8 @@ export default class DataManager {
     let errorLength = 0;
     for (let i = 0; i < results.length; i++) {
       key = `tp_${results[i].facet[0]}_${results[i].facet[1]}`;
-      if (
-        results[i].facet[2] >=
-        this.GetTouchpointErrorThreshold(
-          results[i].facet[0],
-          results[i].facet[1]
-        )
-      ) {
-        if (!(key in historicErrors)) {
-          errorLength++;
-          historicErrors[key] = results[i].count;
-        } else {
-          historicErrors[key] += results[i].count;
-        }
-      }
+      errorLength++;
+      historicErrors[key] = results[i].count;
     }
     const sortable = Object.fromEntries(
       Object.entries(historicErrors).sort(([, a], [, b]) => b - a)
@@ -2151,36 +2139,6 @@ export default class DataManager {
         touchpoint.history_error = false;
       });
     });
-  }
-
-  GetTouchpointErrorThreshold(stage_index, touchpoint_index) {
-    let value = 0;
-    this.touchPoints.some(element => {
-      let found1 = false;
-      if (element.index === this.city) {
-        element.touchpoints.some(touchpoint => {
-          let found2 = false;
-          if (
-            touchpoint.stage_index === stage_index &&
-            touchpoint.touchpoint_index === touchpoint_index
-          ) {
-            touchpoint.measure_points.some(measure => {
-              let found3 = false;
-              if (measure.type === 0 || measure.type === 20) {
-                value = measure.error_threshold;
-                found3 = true;
-              }
-              return found3;
-            });
-            found2 = true;
-          }
-          return found2;
-        });
-        found1 = true;
-      }
-      return found1;
-    });
-    return value;
   }
 
   InserTouchpointsToScript() {
