@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Select from '../Select/Select';
-import { Icon, navigation } from 'nr1';
+import { navigation } from 'nr1';
 
 // IMPORT IMAGES AND STATIC FILES
 import lines from '../../images/lines.svg';
@@ -193,8 +193,11 @@ const Header = ({
             role="img"
             style={{ width: '20px', height: '20px', marginBottom: '-5px' }}
           >
-            <path d="M7.7 0H2v15h11V5.3L7.7 0zm3.6 5H8V1.7L11.3 5zM3 14V1h4v5h5v8H3z" />
-            <path d="M5 8h5v1H5zM5 11h3v1H5z" />
+            <path
+              d="M7.7 0H2v15h11V5.3L7.7 0zm3.6 5H8V1.7L11.3 5zM3 14V1h4v5h5v8H3z"
+              fill="#007e8a"
+            />
+            <path d="M5 8h5v1H5zM5 11h3v1H5z" fill="#007e8a" />
           </svg>
           See logs
         </div>
