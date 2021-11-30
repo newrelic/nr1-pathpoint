@@ -2,6 +2,8 @@
   "tagline": "Pathpoint Core",
   "repository": "https://github.com/newrelic/nr1-pathpoint.git",
   "details": "Pathpoint is an enterprise platform tracker that models system health in relation to actual user-impacting business stages.",
+  "categoryTerms": ["logs", "browser agent", "language agent"],
+  "keywords": ["apm", "browser"],
   "support": {
     "issues": {
       "url": "https://github.com/newrelic/nr1-pathpoint/issues"
