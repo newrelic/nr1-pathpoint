@@ -200,7 +200,7 @@ export default {
 export const CustomSchemaValidation = target => {
   let errors = [];
   const ids = [];
-  target.stages.forEach((stage, c) => {
+  target.stages.forEach(stage => {
     let counter = stage.steps[0].line;
     stage.steps.forEach((step, i) => {
       if (i > 0) {
@@ -208,7 +208,8 @@ export const CustomSchemaValidation = target => {
           counter += 1;
         } else {
           errors.push({
-            dataPath: `The stage '${stage.title}', in step at position ${i + 1}, `,
+            dataPath: `The stage '${stage.title}', in step at position ${i +
+              1}, `,
             message: `the property 'line' must be consecutive`
           });
           counter += 1;
@@ -220,7 +221,8 @@ export const CustomSchemaValidation = target => {
           if (id === value.id) {
             finded = true;
             errors.push({
-              dataPath: `The stage '${stage.title}', in step at position ${i + 1}, in substep at position ${x + 1}, `,
+              dataPath: `The stage '${stage.title}', in step at position ${i +
+                1}, in substep at position ${x + 1}, `,
               message: `the following id '${id}' already exist`
             });
           }
