@@ -1,0 +1,654 @@
+{
+    "pathpointVersion": "1.5.21",
+    "kpis": [
+        {
+            "type": 101,
+            "name": "Total Purchases",
+            "shortName": "PURCH",
+            "link": "https://onenr.io/08dQePr1dje",
+            "query": "SELECT count(*) as value FROM Transaction where appName = 'Order-Processing' where name = 'Controller/Sinatra//purchase' and http.statusCode = 200 COMPARE WITH 1 week ago",
+            "measure": [
+                {
+                    "accountID": 1606862,
+                    "query": "SELECT count(*) as value FROM Transaction where appName = 'Order-Processing' where name = 'Controller/Sinatra//purchase' and http.statusCode = 200 COMPARE WITH 1 week ago",
+                    "link": "https://onenr.io/08dQePr1dje"
+                }
+            ],
+            "value_type": "FLOAT",
+            "prefix": "",
+            "suffix": ""
+        },
+        {
+            "type": 101,
+            "name": "Total Delivered",
+            "shortName": "DEL",
+            "link": "https://onenr.io/0dBj3o4y2jX",
+            "query": "SELECT count(*) as value FROM Transaction where appName = 'Delivery' where name = 'Controller/Sinatra//deliver' and http.statusCode = 200 COMPARE WITH 1 week ago",
+            "measure": [
+                {
+                    "accountID": 1606862,
+                    "query": "SELECT count(*) as value FROM Transaction where appName = 'Delivery' where name = 'Controller/Sinatra//deliver' and http.statusCode = 200 COMPARE WITH 1 week ago",
+                    "link": "https://onenr.io/0dBj3o4y2jX"
+                }
+            ],
+            "value_type": "FLOAT",
+            "prefix": "",
+            "suffix": ""
+        },
+        {
+            "type": 101,
+            "name": "Total Returns",
+            "shortName": "RET",
+            "link": "https://onenr.io/0z7wkVa1GQL",
+            "query": "SELECT count(*) as value FROM Transaction where appName = 'Order-Processing' where name = 'Controller/Sinatra//return_purchase' and http.statusCode = 200 COMPARE WITH 1 week ago",
+            "measure": [
+                {
+                    "accountID": 1606862,
+                    "query": "SELECT count(*) as value FROM Transaction where appName = 'Order-Processing' where name = 'Controller/Sinatra//return_purchase' and http.statusCode = 200 COMPARE WITH 1 week ago",
+                    "link": "https://onenr.io/0z7wkVa1GQL"
+                }
+            ],
+            "value_type": "FLOAT",
+            "prefix": "",
+            "suffix": ""
+        },
+        {
+            "type": 101,
+            "name": "Total Slow Orders",
+            "shortName": "SLOW",
+            "link": "https://onenr.io/0JBQrBPpNQZ",
+            "query": "select count(*) as value from Transaction where duration > 2 and appName in ('Order-Processing') and name = 'Controller/Sinatra//purchase' COMPARE WITH 1 week ago",
+            "measure": [
+                {
+                    "accountID": 1606862,
+                    "query": "select count(*) as value from Transaction where duration > 2 and appName in ('Order-Processing') and name = 'Controller/Sinatra//purchase' COMPARE WITH 1 week ago",
+                    "link": "https://onenr.io/0JBQrBPpNQZ"
+                }
+            ],
+            "value_type": "FLOAT",
+            "prefix": "",
+            "suffix": ""
+        },
+        {
+            "type": 101,
+            "name": "Total Errors During Order",
+            "shortName": "ERR",
+            "link": "https://onenr.io/0eqwy9LJOwn",
+            "query": "SELECT count(*) as value FROM Transaction WHERE appName = 'Order-Processing' and httpResponseCode != '200' COMPARE WITH 1 week ago",
+            "measure": [
+                {
+                    "accountID": 1606862,
+                    "query": "SELECT count(*) as value FROM Transaction WHERE appName = 'Order-Processing' and httpResponseCode != '200' COMPARE WITH 1 week ago",
+                    "link": "https://onenr.io/0eqwy9LJOwn"
+                }
+            ],
+            "value_type": "FLOAT",
+            "prefix": "",
+            "suffix": ""
+        }
+    ],
+    "stages": [
+        {
+            "title": "LOGIN",
+            "active_dotted": "none",
+            "arrowMode": "FLOW",
+            "percentage_above_avg": 20,
+            "steps": [
+                {
+                    "line": 1,
+                    "values": [
+                        {
+                            "title": "LOGIN",
+                            "id": "ST0-LINE1-SS1"
+                        }
+                    ]
+                }
+            ],
+            "touchpoints": [
+                {
+                    "title": "Login Infra (WORKLOAD)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/0DvwBYrBEQp"
+                    ],
+                    "related_steps": "",
+                    "queries": [
+                        {
+                            "type": "WORKLOAD-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='SHIPPING INFRA (Pathpoint Demo)'"
+                        }
+                    ]
+                },
+                {
+                    "title": "Login Service Throughput",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/037jb1b03Ry"
+                    ],
+                    "related_steps": "ST0-LINE1-SS1",
+                    "queries": [
+                        {
+                            "type": "PRC-COUNT-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT count(*) as session FROM Transaction WHERE appName = 'Login Service' and name = 'WebTransaction/Go/POST /login' AND http.statusCode = 200",
+                            "min_count": 40
+                        }
+                    ]
+                },
+                {
+                    "title": "Login Performance",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/0eqwyyEZdwn"
+                    ],
+                    "related_steps": "ST0-LINE1-SS1",
+                    "queries": [
+                        {
+                            "type": "APP-HEALTH-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT filter(apdex(duration, t:0.5), WHERE 1=1) as apdex, filter( max(duration), WHERE request.method = 'POST') as response,filter(percentage(count(*), WHERE error is true), WHERE request.method = 'POST') as error from Transaction WHERE appName = 'Login Service' and name = 'WebTransaction/Go/POST /login' AND http.statusCode = 200",
+                            "min_apdex": 0.9,
+                            "max_response_time": 0.2,
+                            "max_error_percentage": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "ORDER",
+            "active_dotted": "none",
+            "arrowMode": "FLOW",
+            "percentage_above_avg": 20,
+            "steps": [
+                {
+                    "line": 1,
+                    "values": [
+                        {
+                            "title": "Order Proc",
+                            "id": "ST1-LINE1-SS1"
+                        }
+                    ]
+                },
+                {
+                    "line": 2,
+                    "values": [
+                        {
+                            "title": "Billing",
+                            "id": "ST1-LINE2-SS1"
+                        }
+                    ]
+                },
+                {
+                    "line": 3,
+                    "values": [
+                        {
+                            "title": "Inventory",
+                            "id": "ST1-LINE3-SS1"
+                        }
+                    ]
+                }
+            ],
+            "touchpoints": [
+                {
+                    "title": "Order Infra (WORKLOAD)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/0LZQWBe9pjW"
+                    ],
+                    "related_steps": "",
+                    "queries": [
+                        {
+                            "type": "WORKLOAD-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='ORDER INFRA (Pathpoint Demo)'"
+                        }
+                    ]
+                },
+                {
+                    "title": "Order Processing Throughput",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/0JBQrWYzrwZ"
+                    ],
+                    "related_steps": "ST1-LINE1-SS1",
+                    "queries": [
+                        {
+                            "type": "PCC-COUNT-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT count(*)  FROM Transaction where appName = 'Order-Processing' where name = 'Controller/Sinatra//purchase' and http.statusCode = 200",
+                            "min_count": 80
+                        }
+                    ]
+                },
+                {
+                    "title": "Order Composer & Processing Health",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/0e1wZZkGbw6"
+                    ],
+                    "related_steps": "ST1-LINE1-SS1",
+                    "queries": [
+                        {
+                            "type": "APP-HEALTH-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE request.method = 'POST') as response,filter(percentage(count(*), WHERE error is true), WHERE request.method = 'POST') as error from Transaction WHERE appName = 'Order-Composer' or appName = 'Order-Processing'",
+                            "min_apdex": 0.6,
+                            "max_response_time": 2.25,
+                            "max_error_percentage": 1
+                        }
+                    ]
+                },
+                {
+                    "title": "Billing Health",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/0bEjOZWvpR6"
+                    ],
+                    "related_steps": "ST1-LINE2-SS1",
+                    "queries": [
+                        {
+                            "type": "APP-HEALTH-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE request.method = 'POST') as response,filter(percentage(count(*), WHERE error is true), WHERE request.method = 'POST') as error from Transaction WHERE appName = 'Billing Service'",
+                            "min_apdex": 0.6,
+                            "max_response_time": 1,
+                            "max_error_percentage": 1
+                        }
+                    ]
+                },
+                {
+                    "title": "Inventory Health",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/0xVwg6zD8QJ"
+                    ],
+                    "related_steps": "ST1-LINE3-SS1",
+                    "queries": [
+                        {
+                            "type": "APP-HEALTH-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE request.method = 'POST') as response,filter(percentage(count(*), WHERE error is true), WHERE request.method = 'POST') as error from Transaction WHERE appName like 'Inventory%'",
+                            "min_apdex": 0.6,
+                            "max_response_time": 1,
+                            "max_error_percentage": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "PACKAGE",
+            "active_dotted": "none",
+            "arrowMode": "FLOW",
+            "percentage_above_avg": 20,
+            "steps": [
+                {
+                    "line": 1,
+                    "values": [
+                        {
+                            "title": "Boxing",
+                            "id": "ST2-LINE1-SS1"
+                        },
+                        {
+                            "title": "Wrapping",
+                            "id": "ST2-LINE1-SS2"
+                        }
+                    ]
+                },
+                {
+                    "line": 2,
+                    "values": [
+                        {
+                            "title": "Packaging Service",
+                            "id": "ST2-LINE2-SS1"
+                        }
+                    ]
+                }
+            ],
+            "touchpoints": [
+                {
+                    "title": "Packaging Infra (WORKLOAD)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/0e1wZ8o9aj6"
+                    ],
+                    "related_steps": "",
+                    "queries": [
+                        {
+                            "type": "WORKLOAD-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='PACKAGE INFRA (Pathpoint Demo)'"
+                        }
+                    ]
+                },
+                {
+                    "title": "Order Packaging Throughput",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/0LZQWZkJMjW"
+                    ],
+                    "related_steps": "ST2-LINE2-SS1",
+                    "queries": [
+                        {
+                            "type": "PCC-COUNT-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT count(*) FROM Transaction where appName = 'Order-Packaging' where name = 'Controller/Sinatra//package_order' and http.statusCode = 200",
+                            "min_count": 75
+                        }
+                    ]
+                },
+                {
+                    "title": "Order Packaging Health",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/0xZw090p3Rv"
+                    ],
+                    "related_steps": "ST2-LINE2-SS1",
+                    "queries": [
+                        {
+                            "type": "APP-HEALTH-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='Order-Packaging'",
+                            "min_apdex": 0.65,
+                            "max_response_time": 0.3,
+                            "max_error_percentage": 1
+                        }
+                    ]
+                },
+                {
+                    "title": "Box Service Health",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/0GbRmdzkgwy"
+                    ],
+                    "related_steps": "ST2-LINE1-SS1",
+                    "queries": [
+                        {
+                            "type": "APP-HEALTH-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE request.method = 'POST') as error from Transaction WHERE appName = 'Box'",
+                            "min_apdex": 0.65,
+                            "max_response_time": 0.3,
+                            "max_error_percentage": 1
+                        }
+                    ]
+                },
+                {
+                    "title": "Wrap Service Health",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/0DvwB96A2Qp"
+                    ],
+                    "related_steps": "ST2-LINE1-SS2",
+                    "queries": [
+                        {
+                            "type": "APP-HEALTH-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE request.method = 'POST') as error from Transaction WHERE appName = 'Bubble-Wrap'",
+                            "min_apdex": 0.65,
+                            "max_response_time": 0.3,
+                            "max_error_percentage": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "SHIP",
+            "active_dotted": "none",
+            "arrowMode": "FLOW",
+            "percentage_above_avg": 20,
+            "steps": [
+                {
+                    "line": 1,
+                    "values": [
+                        {
+                            "title": "Labeling",
+                            "id": "ST3-LINE1-SS1"
+                        }
+                    ]
+                },
+                {
+                    "line": 2,
+                    "values": [
+                        {
+                            "title": "Shipping",
+                            "id": "ST3-LINE2-SS1"
+                        },
+                        {
+                            "title": "Delivery",
+                            "id": "ST3-LINE2-SS2"
+                        }
+                    ]
+                }
+            ],
+            "touchpoints": [
+                {
+                    "title": "Shipping Infra (WORKLOAD)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/0oqQaq496Q1"
+                    ],
+                    "related_steps": "",
+                    "queries": [
+                        {
+                            "type": "WORKLOAD-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='SHIPPING INFRA (Pathpoint Demo)'"
+                        }
+                    ]
+                },
+                {
+                    "title": "Orders Delivered Throughput",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/0JBQrWYxpwZ"
+                    ],
+                    "related_steps": "ST3-LINE2-SS2",
+                    "queries": [
+                        {
+                            "type": "PCC-COUNT-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT count(*) from Transaction WHERE appName = 'Delivery' and name = 'Controller/Sinatra//deliver' and errorMessage is NULL",
+                            "min_count": 50
+                        }
+                    ]
+                },
+                {
+                    "title": "Delivery Service Health",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/01OwvyqOWQv"
+                    ],
+                    "related_steps": "ST3-LINE2-SS2",
+                    "queries": [
+                        {
+                            "type": "APP-HEALTH-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT filter(apdex(duration, t:0.5), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='Delivery' and name = 'Controller/Sinatra//deliver'",
+                            "min_apdex": 0.7,
+                            "max_response_time": 1,
+                            "max_error_percentage": 2
+                        }
+                    ]
+                },
+                {
+                    "title": "Shipping Service Health",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/0nVjYZJ60Q0"
+                    ],
+                    "related_steps": "ST3-LINE2-SS1",
+                    "queries": [
+                        {
+                            "type": "APP-HEALTH-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT filter(apdex(duration, t:0.5), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='Shipping Service' and transactionType = 'Web'",
+                            "min_apdex": 0.7,
+                            "max_response_time": 1,
+                            "max_error_percentage": 2
+                        }
+                    ]
+                },
+                {
+                    "title": "Label Service Health",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/0dBj39JM2wX"
+                    ],
+                    "related_steps": "ST3-LINE1-SS1",
+                    "queries": [
+                        {
+                            "type": "APP-HEALTH-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT filter(apdex(duration, t:0.5), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='Shipment-Label' and name ='Controller/Sinatra//print_shipping_label'",
+                            "min_apdex": 0.9,
+                            "max_response_time": 0.5,
+                            "max_error_percentage": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "NOTIFY",
+            "active_dotted": "none",
+            "arrowMode": "FLOW",
+            "percentage_above_avg": 20,
+            "steps": [
+                {
+                    "line": 1,
+                    "values": [
+                        {
+                            "title": "Email",
+                            "id": "ST4-LINE1-SS1"
+                        },
+                        {
+                            "title": "SMS",
+                            "id": "ST4-LINE1-SS2"
+                        }
+                    ]
+                }
+            ],
+            "touchpoints": [
+                {
+                    "title": "Notification Infra (WORKLOAD)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/0DvwBYrgEQp"
+                    ],
+                    "related_steps": "",
+                    "queries": [
+                        {
+                            "type": "WORKLOAD-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='NOTIFICATION INFRA (Pathpoint Demo)'"
+                        }
+                    ]
+                },
+                {
+                    "title": "Email Throughput",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/0oqQaZd5Zw1"
+                    ],
+                    "related_steps": "ST4-LINE1-SS1",
+                    "queries": [
+                        {
+                            "type": "PCC-COUNT-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT count(*) from Transaction WHERE appName = 'Email-Notification' and name = 'Controller/Sinatra//send_email' and errorMessage is NULL",
+                            "min_count": 50
+                        }
+                    ]
+                },
+                {
+                    "title": "SMS Throughput",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/0LZQWZkYrjW"
+                    ],
+                    "related_steps": "ST4-LINE1-SS2",
+                    "queries": [
+                        {
+                            "type": "PCC-COUNT-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT count(*) from Transaction WHERE appName = 'Sms-Notification' and name = 'Controller/Sinatra//send_sms' and errorMessage is NULL",
+                            "min_count": 50
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "RETURN",
+            "active_dotted": "none",
+            "arrowMode": "FLOW",
+            "percentage_above_avg": 20,
+            "steps": [
+                {
+                    "line": 1,
+                    "values": [
+                        {
+                            "title": "RETURN",
+                            "id": "ST5-LINE1-SS1"
+                        }
+                    ]
+                }
+            ],
+            "touchpoints": [
+                {
+                    "title": "Return Infra (WORKLOAD)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/0oqQaq496Q1"
+                    ],
+                    "related_steps": "",
+                    "queries": [
+                        {
+                            "type": "WORKLOAD-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='SHIPPING INFRA (Pathpoint Demo)'"
+                        }
+                    ]
+                },
+                {
+                    "title": "Return Throughput",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/0Zyw490aLR3"
+                    ],
+                    "related_steps": "ST5-LINE1-SS1",
+                    "queries": [
+                        {
+                            "type": "PCC-COUNT-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT count(*) FROM Transaction where appName = 'Order-Processing' where name = 'Controller/Sinatra//return_purchase' and http.statusCode = 200",
+                            "min_count": 1
+                        }
+                    ]
+                },
+                {
+                    "title": "Return Performance",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/0WBQ190zWQx"
+                    ],
+                    "related_steps": "ST5-LINE1-SS1",
+                    "queries": [
+                        {
+                            "type": "APP-HEALTH-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT filter(apdex(duration, t:0.5), WHERE 1=1) as apdex, filter( max(duration), WHERE request.method = 'POST') as response,filter(percentage(count(*), WHERE error is true), WHERE request.method = 'POST') as error from Transaction WHERE appName = 'Order-Processing' where name = 'Controller/Sinatra//return_purchase' and http.statusCode = 200",
+                            "min_apdex": 0.9,
+                            "max_response_time": 0.7,
+                            "max_error_percentage": 1
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
