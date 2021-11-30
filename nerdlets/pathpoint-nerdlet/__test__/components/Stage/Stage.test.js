@@ -14,6 +14,14 @@ jest.mock(
 );
 
 describe('<Stage/>', () => {
+  const { open } = window;
+  beforeAll(() => {
+    delete window.open;
+    window.open = jest.fn();
+  });
+  afterAll(() => {
+    window.open = open;
+  });
   const colors = {
     status_color: {
       danger: [255, 76, 76],

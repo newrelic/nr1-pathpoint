@@ -246,7 +246,7 @@ BodyGeneralConfigurationFormModal.propTypes = {
   licenseValidations: PropTypes.object.isRequired,
   ValidateUserApiKey: PropTypes.func.isRequired,
   ToggleEnableSubmit: PropTypes.func.isRequired,
-  disableGeneralConfigurationSubmit: PropTypes.object.isRequired,
+  disableGeneralConfigurationSubmit: PropTypes.bool.isRequired,
   installUpdateBackgroundScripts: PropTypes.func.isRequired
 };
 

@@ -32,7 +32,14 @@ describe('<GeneralConfigurationFormModal/>', () => {
         }}
         handleOnChange={jest.fn()}
         handleFormSubmit={jest.fn()}
-        credentialsData={credentialsData}
+        credentialsData={{
+          accountId: null,
+          ingestLicense: null,
+          userAPIKey: null,
+          dropTools: null,
+          flameTools: null,
+          loggin: null
+        }}
         resetCredentials={jest.fn()}
         ValidateIngestLicense={jest.fn()}
         licenseValidations={{ ingestLicense: false, userApiKey: false }}
@@ -61,7 +68,14 @@ describe('<GeneralConfigurationFormModal/>', () => {
         }}
         handleOnChange={jest.fn()}
         handleFormSubmit={jest.fn()}
-        credentialsData={credentialsData}
+        credentialsData={{
+          accountId: null,
+          ingestLicense: null,
+          userAPIKey: null,
+          dropTools: null,
+          flameTools: null,
+          loggin: null
+        }}
         resetCredentials={jest.fn()}
         ValidateIngestLicense={jest.fn()}
         licenseValidations={{ ingestLicense: false, userApiKey: false }}
@@ -94,7 +108,14 @@ describe('<GeneralConfigurationFormModal/>', () => {
         }}
         handleOnChange={jest.fn()}
         handleFormSubmit={jest.fn()}
-        credentialsData={credentialsData}
+        credentialsData={{
+          accountId: null,
+          ingestLicense: null,
+          userAPIKey: null,
+          dropTools: null,
+          flameTools: null,
+          loggin: null
+        }}
         resetCredentials={jest.fn()}
         ValidateIngestLicense={jest.fn()}
         licenseValidations={{ ingestLicense: false, userApiKey: false }}
@@ -129,7 +150,14 @@ describe('<GeneralConfigurationFormModal/>', () => {
         }}
         handleOnChange={jest.fn()}
         handleFormSubmit={jest.fn()}
-        credentialsData={credentialsData}
+        credentialsData={{
+          accountId: null,
+          ingestLicense: null,
+          userAPIKey: null,
+          dropTools: null,
+          flameTools: null,
+          loggin: null
+        }}
         resetCredentials={jest.fn()}
         ValidateIngestLicense={jest.fn()}
         licenseValidations={{ ingestLicense: false, userApiKey: false }}
@@ -166,7 +194,14 @@ describe('<GeneralConfigurationFormModal/>', () => {
         }}
         handleOnChange={jest.fn()}
         handleFormSubmit={jest.fn()}
-        credentialsData={credentialsData}
+        credentialsData={{
+          accountId: null,
+          ingestLicense: null,
+          userAPIKey: null,
+          dropTools: null,
+          flameTools: null,
+          loggin: null
+        }}
         resetCredentials={jest.fn()}
         ValidateIngestLicense={jest.fn()}
         licenseValidations={{ ingestLicense: false, userApiKey: false }}
@@ -200,7 +235,14 @@ describe('<GeneralConfigurationFormModal/>', () => {
         }}
         handleOnChange={handleOnChange}
         handleFormSubmit={jest.fn()}
-        credentialsData={credentialsData}
+        credentialsData={{
+          accountId: null,
+          ingestLicense: null,
+          userAPIKey: null,
+          dropTools: null,
+          flameTools: null,
+          loggin: null
+        }}
         resetCredentials={jest.fn()}
         ValidateIngestLicense={jest.fn()}
         licenseValidations={{ ingestLicense: false, userApiKey: false }}

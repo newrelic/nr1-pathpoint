@@ -47,7 +47,8 @@ describe('<Modal/>', () => {
         HandleCredentialsFormChange={jest.fn()}
         resetCredentials={jest.fn()}
         handleSaveUpdateGeneralConfiguration={jest.fn()}
-        disableGeneralConfigurationSubmit={{
+        disableGeneralConfigurationSubmit={false}
+        licenseValidations={{
           ingestLicense: false,
           userApiKey: false
         }}
@@ -101,7 +102,8 @@ describe('<Modal/>', () => {
         HandleCredentialsFormChange={jest.fn()}
         resetCredentials={jest.fn()}
         handleSaveUpdateGeneralConfiguration={jest.fn()}
-        disableGeneralConfigurationSubmit={{
+        disableGeneralConfigurationSubmit={false}
+        licenseValidations={{
           ingestLicense: false,
           userApiKey: false
         }}
@@ -155,7 +157,16 @@ describe('<Modal/>', () => {
         HandleCredentialsFormChange={jest.fn()}
         resetCredentials={jest.fn()}
         handleSaveUpdateGeneralConfiguration={jest.fn()}
-        disableGeneralConfigurationSubmit={{
+        disableGeneralConfigurationSubmit={false}
+        credentialsData={{
+          accountId: null,
+          ingestLicense: null,
+          userAPIKey: null,
+          dropTools: null,
+          flameTools: null,
+          loggin: null
+        }}
+        licenseValidations={{
           ingestLicense: false,
           userApiKey: false
         }}
