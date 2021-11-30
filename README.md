@@ -11,7 +11,7 @@
 
 # Pathpoint
 
-##NEW RELIC STAFF: For a working e-commerce example compatible with Demotron use [this one](examples/nr-demotron-order-processing.json)
+## NEW RELIC STAFF: For a working e-commerce config example compatible with Demotron use [this one](examples/nr-demotron-order-processing.json)
 
 ![UI Overview](screenshots/main-ui.png)
 
