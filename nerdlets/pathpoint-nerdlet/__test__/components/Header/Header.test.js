@@ -61,6 +61,14 @@ const kpis = [
   }
 ];
 describe('<Header/>', () => {
+  const { open } = window;
+  beforeAll(() => {
+    delete window.open;
+    window.open = jest.fn();
+  });
+  afterAll(() => {
+    window.open = open;
+  });
   describe('Mount component', () => {
     it('Banner kpis initial', () => {
       const header = mount(
@@ -308,6 +316,14 @@ describe('<Header/>', () => {
   });
 
   describe('Function FormatMoney', () => {
+    const { open } = window;
+    beforeAll(() => {
+      delete window.open;
+      window.open = jest.fn();
+    });
+    afterAll(() => {
+      window.open = open;
+    });
     it('Positive quantity', () => {
       const result = FormatMoney(1000);
       expect(result).toMatch('$1,000.00');
@@ -340,6 +356,14 @@ describe('<Header/>', () => {
   });
 
   describe('Function RenderLogo', () => {
+    const { open } = window;
+    beforeAll(() => {
+      delete window.open;
+      window.open = jest.fn();
+    });
+    afterAll(() => {
+      window.open = open;
+    });
     it('Logo type default', () => {
       const logo = {
         type: 'default'
@@ -379,6 +403,14 @@ describe('<Header/>', () => {
     });
   });
   describe('Function transformK', () => {
+    const { open } = window;
+    beforeAll(() => {
+      delete window.open;
+      window.open = jest.fn();
+    });
+    afterAll(() => {
+      window.open = open;
+    });
     it('Type is float', () => {
       const value = 10000;
       const type = 'FLOAT';
@@ -403,6 +435,14 @@ describe('<Header/>', () => {
   });
 
   describe('Function PrintKPI', () => {
+    const { open } = window;
+    beforeAll(() => {
+      delete window.open;
+      window.open = jest.fn();
+    });
+    afterAll(() => {
+      window.open = open;
+    });
     it('kpi = 100', () => {
       const kpi = {
         index: 0,

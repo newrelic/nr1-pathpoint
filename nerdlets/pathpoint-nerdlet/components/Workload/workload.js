@@ -25,6 +25,7 @@ const Workload = ({ workloadWidth, workloadValue }) => {
               stroke="#BDBDBD"
               strokeWidth="1"
               fill="#BDBDBD"
+              key={index}
             />
           );
         } else if (index < workloadValue) {
@@ -35,6 +36,7 @@ const Workload = ({ workloadWidth, workloadValue }) => {
               stroke="#0aaf77"
               strokeWidth="1"
               fill="#0aaf77"
+              key={index}
             />
           );
         } else {
@@ -45,6 +47,7 @@ const Workload = ({ workloadWidth, workloadValue }) => {
               stroke="#e3e6e8"
               strokeWidth="1"
               fill="#ffffff"
+              key={index}
             />
           );
         }
