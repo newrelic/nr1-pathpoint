@@ -285,9 +285,11 @@ exports[`Header component Header component with default data 1`] = `
       >
         <path
           d="M7.7 0H2v15h11V5.3L7.7 0zm3.6 5H8V1.7L11.3 5zM3 14V1h4v5h5v8H3z"
+          fill="#007e8a"
         />
         <path
           d="M5 8h5v1H5zM5 11h3v1H5z"
+          fill="#007e8a"
         />
       </svg>
       See logs
@@ -581,9 +583,11 @@ exports[`Header component Header component with emulate activeSixthSenseIcon 1`]
       >
         <path
           d="M7.7 0H2v15h11V5.3L7.7 0zm3.6 5H8V1.7L11.3 5zM3 14V1h4v5h5v8H3z"
+          fill="#007e8a"
         />
         <path
           d="M5 8h5v1H5zM5 11h3v1H5z"
+          fill="#007e8a"
         />
       </svg>
       See logs
@@ -877,9 +881,11 @@ exports[`Header component Header component with iconCanaryStatus 1`] = `
       >
         <path
           d="M7.7 0H2v15h11V5.3L7.7 0zm3.6 5H8V1.7L11.3 5zM3 14V1h4v5h5v8H3z"
+          fill="#007e8a"
         />
         <path
           d="M5 8h5v1H5zM5 11h3v1H5z"
+          fill="#007e8a"
         />
       </svg>
       See logs
@@ -1173,9 +1179,11 @@ exports[`Header component Header component with iconFireStatus 1`] = `
       >
         <path
           d="M7.7 0H2v15h11V5.3L7.7 0zm3.6 5H8V1.7L11.3 5zM3 14V1h4v5h5v8H3z"
+          fill="#007e8a"
         />
         <path
           d="M5 8h5v1H5zM5 11h3v1H5z"
+          fill="#007e8a"
         />
       </svg>
       See logs
@@ -1469,9 +1477,11 @@ exports[`Header component Header component with iconGoutStatus 1`] = `
       >
         <path
           d="M7.7 0H2v15h11V5.3L7.7 0zm3.6 5H8V1.7L11.3 5zM3 14V1h4v5h5v8H3z"
+          fill="#007e8a"
         />
         <path
           d="M5 8h5v1H5zM5 11h3v1H5z"
+          fill="#007e8a"
         />
       </svg>
       See logs
@@ -1765,9 +1775,11 @@ exports[`Header component Header component with iconSixthSenseStatus 1`] = `
       >
         <path
           d="M7.7 0H2v15h11V5.3L7.7 0zm3.6 5H8V1.7L11.3 5zM3 14V1h4v5h5v8H3z"
+          fill="#007e8a"
         />
         <path
           d="M5 8h5v1H5zM5 11h3v1H5z"
+          fill="#007e8a"
         />
       </svg>
       See logs
@@ -2061,9 +2073,11 @@ exports[`Header component Header component with iconStartStatus 1`] = `
       >
         <path
           d="M7.7 0H2v15h11V5.3L7.7 0zm3.6 5H8V1.7L11.3 5zM3 14V1h4v5h5v8H3z"
+          fill="#007e8a"
         />
         <path
           d="M5 8h5v1H5zM5 11h3v1H5z"
+          fill="#007e8a"
         />
       </svg>
       See logs
@@ -2357,9 +2371,11 @@ exports[`Header component Header component with logoSetup Text 1`] = `
       >
         <path
           d="M7.7 0H2v15h11V5.3L7.7 0zm3.6 5H8V1.7L11.3 5zM3 14V1h4v5h5v8H3z"
+          fill="#007e8a"
         />
         <path
           d="M5 8h5v1H5zM5 11h3v1H5z"
+          fill="#007e8a"
         />
       </svg>
       See logs
@@ -2653,9 +2669,11 @@ exports[`Header component Header component with logoSetup URL 1`] = `
       >
         <path
           d="M7.7 0H2v15h11V5.3L7.7 0zm3.6 5H8V1.7L11.3 5zM3 14V1h4v5h5v8H3z"
+          fill="#007e8a"
         />
         <path
           d="M5 8h5v1H5zM5 11h3v1H5z"
+          fill="#007e8a"
         />
       </svg>
       See logs
@@ -2949,9 +2967,11 @@ exports[`Header component Header component with showLeftPanel 1`] = `
       >
         <path
           d="M7.7 0H2v15h11V5.3L7.7 0zm3.6 5H8V1.7L11.3 5zM3 14V1h4v5h5v8H3z"
+          fill="#007e8a"
         />
         <path
           d="M5 8h5v1H5zM5 11h3v1H5z"
+          fill="#007e8a"
         />
       </svg>
       See logs
