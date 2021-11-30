@@ -5,7 +5,7 @@
     "scripts": {
         "start": "nr1 nerdpack:serve",
         "samanez": "nr1 nerdpack:serve --profile=samanez",
-        "test": "jest -w 1 -u",
+        "test": "jest -w 1",
         "eslint-check": "eslint nerdlets/",
         "eslint-fix": "eslint nerdlets/ --fix",
         "coverage": "jest --coverage",
