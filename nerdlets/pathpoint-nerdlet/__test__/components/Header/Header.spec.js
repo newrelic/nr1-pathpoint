@@ -53,6 +53,14 @@ const credentials = {
   login: true
 };
 describe('Header component', () => {
+  const { open } = window;
+  beforeAll(() => {
+    delete window.open;
+    window.open = jest.fn();
+  });
+  afterAll(() => {
+    window.open = open;
+  });
   test('Header component with default data', async () => {
     const header = create(
       <Header

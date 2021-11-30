@@ -49,6 +49,14 @@ describe('<ShowBody/>', () => {
         HandleCredentialsFormChange={jest.fn()}
         handleSaveUpdateGeneralConfiguration={jest.fn()}
         resetCredentials={jest.fn()}
+        ValidateIngestLicense={jest.fn()}
+        ValidateUserApiKey={jest.fn()}
+        ToggleEnableSubmit={jest.fn()}
+        installUpdateBackgroundScripts={jest.fn()}
+        disableGeneralConfigurationSubmit={{
+          ingestLicense: false,
+          userApiKey: false
+        }}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -88,6 +96,14 @@ describe('<ShowBody/>', () => {
         HandleCredentialsFormChange={jest.fn()}
         handleSaveUpdateGeneralConfiguration={jest.fn()}
         resetCredentials={jest.fn()}
+        ValidateIngestLicense={jest.fn()}
+        ValidateUserApiKey={jest.fn()}
+        ToggleEnableSubmit={jest.fn()}
+        installUpdateBackgroundScripts={jest.fn()}
+        disableGeneralConfigurationSubmit={{
+          ingestLicense: false,
+          userApiKey: false
+        }}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -123,6 +139,14 @@ describe('<ShowBody/>', () => {
         HandleCredentialsFormChange={jest.fn()}
         handleSaveUpdateGeneralConfiguration={jest.fn()}
         resetCredentials={jest.fn()}
+        ValidateIngestLicense={jest.fn()}
+        ValidateUserApiKey={jest.fn()}
+        ToggleEnableSubmit={jest.fn()}
+        installUpdateBackgroundScripts={jest.fn()}
+        disableGeneralConfigurationSubmit={{
+          ingestLicense: false,
+          userApiKey: false
+        }}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -156,6 +180,14 @@ describe('<ShowBody/>', () => {
         HandleCredentialsFormChange={jest.fn()}
         handleSaveUpdateGeneralConfiguration={jest.fn()}
         resetCredentials={jest.fn()}
+        ValidateIngestLicense={jest.fn()}
+        ValidateUserApiKey={jest.fn()}
+        ToggleEnableSubmit={jest.fn()}
+        installUpdateBackgroundScripts={jest.fn()}
+        disableGeneralConfigurationSubmit={{
+          ingestLicense: false,
+          userApiKey: false
+        }}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -194,6 +226,14 @@ describe('<ShowBody/>', () => {
         HandleCredentialsFormChange={jest.fn()}
         handleSaveUpdateGeneralConfiguration={jest.fn()}
         resetCredentials={jest.fn()}
+        ValidateIngestLicense={jest.fn()}
+        ValidateUserApiKey={jest.fn()}
+        ToggleEnableSubmit={jest.fn()}
+        installUpdateBackgroundScripts={jest.fn()}
+        disableGeneralConfigurationSubmit={{
+          ingestLicense: false,
+          userApiKey: false
+        }}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -217,6 +257,14 @@ describe('<ShowBody/>', () => {
         HandleCredentialsFormChange={jest.fn()}
         handleSaveUpdateGeneralConfiguration={jest.fn()}
         resetCredentials={jest.fn()}
+        ValidateIngestLicense={jest.fn()}
+        ValidateUserApiKey={jest.fn()}
+        ToggleEnableSubmit={jest.fn()}
+        installUpdateBackgroundScripts={jest.fn()}
+        disableGeneralConfigurationSubmit={{
+          ingestLicense: false,
+          userApiKey: false
+        }}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -241,6 +289,14 @@ describe('<ShowBody/>', () => {
         HandleCredentialsFormChange={jest.fn()}
         handleSaveUpdateGeneralConfiguration={jest.fn()}
         resetCredentials={jest.fn()}
+        ValidateIngestLicense={jest.fn()}
+        ValidateUserApiKey={jest.fn()}
+        ToggleEnableSubmit={jest.fn()}
+        installUpdateBackgroundScripts={jest.fn()}
+        disableGeneralConfigurationSubmit={{
+          ingestLicense: false,
+          userApiKey: false
+        }}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -265,6 +321,14 @@ describe('<ShowBody/>', () => {
         HandleCredentialsFormChange={jest.fn()}
         handleSaveUpdateGeneralConfiguration={jest.fn()}
         resetCredentials={jest.fn()}
+        ValidateIngestLicense={jest.fn()}
+        ValidateUserApiKey={jest.fn()}
+        ToggleEnableSubmit={jest.fn()}
+        installUpdateBackgroundScripts={jest.fn()}
+        disableGeneralConfigurationSubmit={{
+          ingestLicense: false,
+          userApiKey: false
+        }}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -294,6 +358,14 @@ describe('<ShowBody/>', () => {
         HandleCredentialsFormChange={jest.fn()}
         handleSaveUpdateGeneralConfiguration={jest.fn()}
         resetCredentials={jest.fn()}
+        ValidateIngestLicense={jest.fn()}
+        ValidateUserApiKey={jest.fn()}
+        ToggleEnableSubmit={jest.fn()}
+        installUpdateBackgroundScripts={jest.fn()}
+        disableGeneralConfigurationSubmit={{
+          ingestLicense: false,
+          userApiKey: false
+        }}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -329,6 +401,14 @@ describe('<ShowBody/>', () => {
         HandleCredentialsFormChange={jest.fn()}
         handleSaveUpdateGeneralConfiguration={jest.fn()}
         resetCredentials={jest.fn()}
+        ValidateIngestLicense={jest.fn()}
+        ValidateUserApiKey={jest.fn()}
+        ToggleEnableSubmit={jest.fn()}
+        installUpdateBackgroundScripts={jest.fn()}
+        disableGeneralConfigurationSubmit={{
+          ingestLicense: false,
+          userApiKey: false
+        }}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -353,6 +433,14 @@ describe('<ShowBody/>', () => {
         HandleCredentialsFormChange={jest.fn()}
         handleSaveUpdateGeneralConfiguration={jest.fn()}
         resetCredentials={jest.fn()}
+        ValidateIngestLicense={jest.fn()}
+        ValidateUserApiKey={jest.fn()}
+        ToggleEnableSubmit={jest.fn()}
+        installUpdateBackgroundScripts={jest.fn()}
+        disableGeneralConfigurationSubmit={{
+          ingestLicense: false,
+          userApiKey: false
+        }}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -377,6 +465,14 @@ describe('<ShowBody/>', () => {
         HandleCredentialsFormChange={jest.fn()}
         handleSaveUpdateGeneralConfiguration={jest.fn()}
         resetCredentials={jest.fn()}
+        ValidateIngestLicense={jest.fn()}
+        ValidateUserApiKey={jest.fn()}
+        ToggleEnableSubmit={jest.fn()}
+        installUpdateBackgroundScripts={jest.fn()}
+        disableGeneralConfigurationSubmit={{
+          ingestLicense: false,
+          userApiKey: false
+        }}
       />
     );
     bodyRender.instance().handleOnChange({
@@ -409,6 +505,14 @@ describe('<ShowBody/>', () => {
         HandleCredentialsFormChange={jest.fn()}
         handleSaveUpdateGeneralConfiguration={jest.fn()}
         resetCredentials={jest.fn()}
+        ValidateIngestLicense={jest.fn()}
+        ValidateUserApiKey={jest.fn()}
+        ToggleEnableSubmit={jest.fn()}
+        installUpdateBackgroundScripts={jest.fn()}
+        disableGeneralConfigurationSubmit={{
+          ingestLicense: false,
+          userApiKey: false
+        }}
       />
     );
     bodyRender.instance().handleSubmitLogo({
@@ -437,6 +541,14 @@ describe('<ShowBody/>', () => {
         HandleCredentialsFormChange={jest.fn()}
         handleSaveUpdateGeneralConfiguration={jest.fn()}
         resetCredentials={jest.fn()}
+        ValidateIngestLicense={jest.fn()}
+        ValidateUserApiKey={jest.fn()}
+        ToggleEnableSubmit={jest.fn()}
+        installUpdateBackgroundScripts={jest.fn()}
+        disableGeneralConfigurationSubmit={{
+          ingestLicense: false,
+          userApiKey: false
+        }}
       />
     );
     bodyRender.instance().handleSubmitTune({
@@ -465,6 +577,14 @@ describe('<ShowBody/>', () => {
         HandleCredentialsFormChange={jest.fn()}
         handleSaveUpdateGeneralConfiguration={jest.fn()}
         resetCredentials={jest.fn()}
+        ValidateIngestLicense={jest.fn()}
+        ValidateUserApiKey={jest.fn()}
+        ToggleEnableSubmit={jest.fn()}
+        installUpdateBackgroundScripts={jest.fn()}
+        disableGeneralConfigurationSubmit={{
+          ingestLicense: false,
+          userApiKey: false
+        }}
       />
     );
     bodyRender.instance().handleSubmitSupport({

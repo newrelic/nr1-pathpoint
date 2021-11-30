@@ -40,6 +40,17 @@ describe('<Modal/>', () => {
         SetConfigurationJSON={jest.fn()}
         GetCurrentHistoricErrorScript={jest.fn()}
         modifiedQuery={false}
+        ValidateIngestLicense={jest.fn()}
+        ValidateUserApiKey={jest.fn()}
+        ToggleEnableSubmit={jest.fn()}
+        installUpdateBackgroundScripts={jest.fn()}
+        HandleCredentialsFormChange={jest.fn()}
+        resetCredentials={jest.fn()}
+        handleSaveUpdateGeneralConfiguration={jest.fn()}
+        disableGeneralConfigurationSubmit={{
+          ingestLicense: false,
+          userApiKey: false
+        }}
       />
     );
     expect(modal.length).toEqual(1);
@@ -83,6 +94,17 @@ describe('<Modal/>', () => {
         SetConfigurationJSON={jest.fn()}
         GetCurrentHistoricErrorScript={jest.fn()}
         modifiedQuery={false}
+        ValidateIngestLicense={jest.fn()}
+        ValidateUserApiKey={jest.fn()}
+        ToggleEnableSubmit={jest.fn()}
+        installUpdateBackgroundScripts={jest.fn()}
+        HandleCredentialsFormChange={jest.fn()}
+        resetCredentials={jest.fn()}
+        handleSaveUpdateGeneralConfiguration={jest.fn()}
+        disableGeneralConfigurationSubmit={{
+          ingestLicense: false,
+          userApiKey: false
+        }}
       />
     );
     modal.find('div.selectIcon').simulate('click');
@@ -126,6 +148,17 @@ describe('<Modal/>', () => {
         SetConfigurationJSON={jest.fn()}
         GetCurrentHistoricErrorScript={jest.fn()}
         modifiedQuery={false}
+        ValidateIngestLicense={jest.fn()}
+        ValidateUserApiKey={jest.fn()}
+        ToggleEnableSubmit={jest.fn()}
+        installUpdateBackgroundScripts={jest.fn()}
+        HandleCredentialsFormChange={jest.fn()}
+        resetCredentials={jest.fn()}
+        handleSaveUpdateGeneralConfiguration={jest.fn()}
+        disableGeneralConfigurationSubmit={{
+          ingestLicense: false,
+          userApiKey: false
+        }}
       />
     );
     expect(modal.length).toEqual(1);
