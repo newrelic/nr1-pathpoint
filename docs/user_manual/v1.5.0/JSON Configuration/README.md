@@ -72,8 +72,8 @@ Where:
  - ***Name***: *Corresponds to the long name of the KPI.*
  - ***ShortName***: *Corresponds to the short name of the KPI.*<br><br>
  ![KPI_display](KPI2.png) <br><br>
- - ***Measure***: Se visualizan los datos que permiten hacer la medida.
- - ***accountID***: *Corresponde al número que identifica la medición realizada*. 
+ - ***Measure***: *The data that allow the measurement to be made is displayed*.
+ - ***accountID***: *Corresponds to the number that identifies the measurement performed*. 
  - ***Query***: *Corresponds to the query that is used to perform the measurement*. 
  - ***Link***: *Corresponds to the link that directs to the KPI dashboard.*<br><br>
  ![link_KPI](linkKPI.png) <br><br>
