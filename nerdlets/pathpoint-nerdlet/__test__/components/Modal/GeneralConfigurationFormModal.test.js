@@ -5,10 +5,6 @@ import {
   BodyGeneralConfigurationFormModal
 } from '../../../components/Modal/GeneralConfigurationFormModal';
 
-const credentialsData = {
-  ingestLicense: true,
-  userAPIKey: true
-};
 describe('<GeneralConfigurationFormModal/>', () => {
   it('Render HeaderGeneralConfigurationFormModal', () => {
     const component = shallow(<HeaderGeneralConfigurationFormModal />);
