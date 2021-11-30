@@ -1,3 +1,15 @@
+## [1.2.2](https://github.com/newrelic/nr1-pathpoint/compare/v1.2.1...v1.2.2) (2021-11-30)
+
+
+### Bug Fixes
+
+* **catalog:** Merge pull request [#9](https://github.com/newrelic/nr1-pathpoint/issues/9) from jbeveland27/chore/catalog ([4521c50](https://github.com/newrelic/nr1-pathpoint/commit/4521c5081a7e26c08fd7db0b1dc81779282d7f18))
+
+
+### Reverts
+
+* Revert "Configuration Jest" ([0cda77a](https://github.com/newrelic/nr1-pathpoint/commit/0cda77ac1460dc04e9e6cfea05a0c4bce0500e86))
+
 ## [1.2.1](https://github.com/newrelic/nr1-pathpoint/compare/v1.2.0...v1.2.1) (2021-11-16)
 
 
