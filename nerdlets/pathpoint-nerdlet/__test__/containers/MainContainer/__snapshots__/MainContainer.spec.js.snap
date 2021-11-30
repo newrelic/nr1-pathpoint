@@ -261,9 +261,11 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
           >
             <path
               d="M7.7 0H2v15h11V5.3L7.7 0zm3.6 5H8V1.7L11.3 5zM3 14V1h4v5h5v8H3z"
+              fill="#007e8a"
             />
             <path
               d="M5 8h5v1H5zM5 11h3v1H5z"
+              fill="#007e8a"
             />
           </svg>
           See logs
@@ -1113,9 +1115,11 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
           >
             <path
               d="M7.7 0H2v15h11V5.3L7.7 0zm3.6 5H8V1.7L11.3 5zM3 14V1h4v5h5v8H3z"
+              fill="#007e8a"
             />
             <path
               d="M5 8h5v1H5zM5 11h3v1H5z"
+              fill="#007e8a"
             />
           </svg>
           See logs
@@ -1965,9 +1969,11 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
           >
             <path
               d="M7.7 0H2v15h11V5.3L7.7 0zm3.6 5H8V1.7L11.3 5zM3 14V1h4v5h5v8H3z"
+              fill="#007e8a"
             />
             <path
               d="M5 8h5v1H5zM5 11h3v1H5z"
+              fill="#007e8a"
             />
           </svg>
           See logs
@@ -2863,9 +2869,11 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
           >
             <path
               d="M7.7 0H2v15h11V5.3L7.7 0zm3.6 5H8V1.7L11.3 5zM3 14V1h4v5h5v8H3z"
+              fill="#007e8a"
             />
             <path
               d="M5 8h5v1H5zM5 11h3v1H5z"
+              fill="#007e8a"
             />
           </svg>
           See logs
@@ -3715,9 +3723,11 @@ exports[`<MainContainer/> Values stages 1`] = `
           >
             <path
               d="M7.7 0H2v15h11V5.3L7.7 0zm3.6 5H8V1.7L11.3 5zM3 14V1h4v5h5v8H3z"
+              fill="#007e8a"
             />
             <path
               d="M5 8h5v1H5zM5 11h3v1H5z"
+              fill="#007e8a"
             />
           </svg>
           See logs
@@ -4873,9 +4883,11 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
           >
             <path
               d="M7.7 0H2v15h11V5.3L7.7 0zm3.6 5H8V1.7L11.3 5zM3 14V1h4v5h5v8H3z"
+              fill="#007e8a"
             />
             <path
               d="M5 8h5v1H5zM5 11h3v1H5z"
+              fill="#007e8a"
             />
           </svg>
           See logs
