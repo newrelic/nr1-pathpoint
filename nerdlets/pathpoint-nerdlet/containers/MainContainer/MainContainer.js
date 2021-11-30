@@ -43,12 +43,8 @@ import flame_icon from '../../images/flame_icon.svg';
 import gout_icon from '../../images/gout_icon.svg';
 import star_icon from '../../images/star_icon.svg';
 
-// UNUSED
-// import Emulator from '../../helpers/Emulator.js';
-
 /**
  *Main container component
- *
  * @export
  * @class MainContainer
  * @extends {React.Component}
