@@ -59,37 +59,37 @@ export default class SynConnector {
       this.userApiKey === '' ||
       this.ingestLicense === ''
     ) {
-      console.log('No hay Credenciales para actualizar el script');
+      // console.log('No hay Credenciales para actualizar el script');
       return 0;
     }
     const { searchResult, monitorID, error } = await this.ExistFlameScript();
     if (error) {
-      console.log('Se produjo un ERROR y no se pudo continuar');
+      // console.log('Se produjo un ERROR y no se pudo continuar');
       return 0;
     }
-    console.log('UpdateMonitor:', searchResult, '::', monitorID);
+    // console.log('UpdateMonitor:', searchResult, '::', monitorID);
     let flameMonitorId = monitorID;
     if (!searchResult) {
       flameMonitorId = await this.CreateFlameScript();
       if (!flameMonitorId) {
         // intenta crearlo nuevamente
-        console.log('Segundo Intento para crear Flame Script');
+        // console.log('Segundo Intento para crear Flame Script');
         flameMonitorId = await this.CreateFlameScript();
       }
-      console.log('flameMonitorId:', flameMonitorId);
+      // console.log('flameMonitorId:', flameMonitorId);
     }
     let response = '';
     if (flameMonitorId) {
       response = await this.UpdateFlameScript(encodedScript, flameMonitorId);
       if (response === 'ERROR') {
         // intenta una segunda vez
-        console.log('Segundo Intento para actualizar Flame Script');
+        // console.log('Segundo Intento para actualizar Flame Script');
         response = await this.UpdateFlameScript(encodedScript, flameMonitorId);
       }
     }
     if (response === 204) {
       // TODO informar al cliente que se termino de actualizar el script
-      console.log('Synthetic Script was Updated.');
+      // console.log('Synthetic Script was Updated.');
     }
   }
 
@@ -125,7 +125,7 @@ export default class SynConnector {
       } else {
         error = true;
       }
-      console.log('Validating MonitorID:', response);
+      // console.log('Validating MonitorID:', response);
       // remove the Fail entry from Nerdlet Storage
     } catch (error) {
       throw new Error(error);
@@ -135,7 +135,7 @@ export default class SynConnector {
   }
 
   async CreateFlameScript() {
-    console.log('Creating New Flame Script...');
+    // console.log('Creating New Flame Script...');
     const FlameMonitor = {
       name: `Pathpoint-${this.pathpoint_id} Flame Script`,
       type: 'SCRIPT_API',
@@ -157,14 +157,14 @@ export default class SynConnector {
             }
           }
         );
-        console.log('Creation Rersults:', response);
+        // console.log('Creation Rersults:', response);
         const arrayLocation = response.headers.location.split(
           'https://synthetics.newrelic.com/synthetics/api/v3/monitors/'
         );
         const monitorID = arrayLocation[1];
         return monitorID;
       } catch (error) {
-        console.log('Creation Script Error:',error);
+        // console.log('Creation Script Error:',error);
         throw new Error(error);
       }
     }
@@ -185,7 +185,7 @@ export default class SynConnector {
           }
         }
       );
-      console.log('UPDATE SCRIPT RERSULT:', response);
+      // console.log('UPDATE SCRIPT RERSULT:', response);
       if (response.status) {
         return response.status;
       } else {

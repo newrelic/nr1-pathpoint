@@ -15,9 +15,9 @@ export default class CredentialConnector {
   SetUserApiKey(key) {
     if (this.userApiKey !== '' && this.userApiKey !== key) {
       this.UpdateUserApiKeyCredential(key);
-      console.log('UPDATING-API-USER-KEY');
+      // console.log('UPDATING-API-USER-KEY');
     } else {
-      console.log('Setting-API-USER-KEY');
+      // console.log('Setting-API-USER-KEY');
     }
     this.userApiKey = key;
   }
@@ -25,9 +25,9 @@ export default class CredentialConnector {
   SetLicenseKey(key) {
     if (this.ingestLicense !== '' && this.ingestLicense !== key) {
       this.UpdateLicenseCredential(key);
-      console.log('UPDATING-LICENSE-KEY');
+      // console.log('UPDATING-LICENSE-KEY');
     } else {
-      console.log('Setting-LICENSE-KEY');
+      // console.log('Setting-LICENSE-KEY');
     }
     this.ingestLicense = key;
   }
@@ -35,15 +35,15 @@ export default class CredentialConnector {
   SetAccountID(accountId) {
     if (this.accountId !== 1 && this.accountId !== accountId) {
       this.UpdateAccountIdCredential(accountId);
-      console.log('UPDATING-AccountID');
+      // console.log('UPDATING-AccountID');
     } else {
-      console.log('Setting-AccountID');
+      // console.log('Setting-AccountID');
     }
     this.accountId = accountId;
   }
 
   async FindCredential(credentialName) {
-    console.log('Finding:', credentialName);
+    // console.log('Finding:', credentialName);
     try {
       const response = await this.axiosInstance.get(
         `${this.uriCredential}/${credentialName}`,
@@ -66,7 +66,7 @@ export default class CredentialConnector {
       return false;
     } catch (error) {
       if (error.response.status === 404) {
-        console.log('SECURE-KEY-NOT-FOUND:', credentialName);
+        // console.log('SECURE-KEY-NOT-FOUND:', credentialName);
       }
       return false;
     }
@@ -78,7 +78,7 @@ export default class CredentialConnector {
       this.userApiKey === '' ||
       this.ingestLicense === ''
     ) {
-      console.log('No hay Credenciales para Buscar Llaves');
+      // console.log('No hay Credenciales para Buscar Llaves');
       return 0;
     }
     const ppId = this.pathpoint_id.toUpperCase().replace(/-/g, '');
@@ -95,7 +95,7 @@ export default class CredentialConnector {
   }
 
   async CreateCredential(credentialName, credentialValue) {
-    console.log('Creating new Key:', credentialName);
+    // console.log('Creating new Key:', credentialName);
     const newCredential = {
       key: credentialName,
       value: credentialValue,
@@ -118,13 +118,13 @@ export default class CredentialConnector {
         response.status === 201 &&
         response.data === ''
       ) {
-        console.log('Successfull credential created');
+        // console.log('Successfull credential created');
         return true;
       }
       // console.log('Check the CODE...: response:', response);
       return false;
     } catch (error) {
-      console.log('ERROR CREATING SECURE-KEY:', credentialName);
+      // console.log('ERROR CREATING SECURE-KEY:', credentialName);
       return false;
     }
   }
@@ -135,7 +135,7 @@ export default class CredentialConnector {
       this.userApiKey === '' ||
       this.ingestLicense === ''
     ) {
-      console.log('No hay Credenciales para Crear Llaves');
+      // console.log('No hay Credenciales para Crear Llaves');
       return 0;
     }
     const ppId = this.pathpoint_id.toUpperCase().replace(/-/g, '');
@@ -175,19 +175,19 @@ export default class CredentialConnector {
         }
       );
       if (response && response.status && response.status === 204) {
-        console.log('Credential Removed:', credentialName);
+        // console.log('Credential Removed:', credentialName);
         return true;
       }
-      console.log('Validar CODE:removing credentials:', credentialName);
+      // console.log('Validar CODE:removing credentials:', credentialName);
       return false;
     } catch (error) {
-      console.log('ERROR-removing-secure-credential:', credentialName);
+      // console.log('ERROR-removing-secure-credential:', credentialName);
       return false;
     }
   }
 
   async DeleteCredentials() {
-    console.log('Removing Credentials...');
+    // console.log('Removing Credentials...');
     let delAccId = false;
     let delUserKey = false;
     let delLicenseKey = false;
@@ -234,13 +234,13 @@ export default class CredentialConnector {
         }
       );
       if (response && response.status && response.status === 204) {
-        console.log('Credential Updated:', credentialName);
+        // console.log('Credential Updated:', credentialName);
         return true;
       }
-      console.log('Validar CODE:Updating credentials:', credentialName);
+      // console.log('Validar CODE:Updating credentials:', credentialName);
       return false;
     } catch (error) {
-      console.log('ERROR-updating-secure-credential:', credentialName);
+      // console.log('ERROR-updating-secure-credential:', credentialName);
       return false;
     }
   }
@@ -267,7 +267,7 @@ export default class CredentialConnector {
   }
 
   async UpdateCredentials() {
-    console.log('Updating Credentials...');
+    // console.log('Updating Credentials...');
     const ppId = this.pathpoint_id.toUpperCase().replace(/-/g, '');
     if (await this.FindCredential(`PATHPOINT_${ppId}_ACCOUNTID`)) {
       await this.UpdateCredential(

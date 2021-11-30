@@ -7,7 +7,6 @@ export default class Emulator {
     this.kpis = kpis;
     this.firstLoad = true;
     this.accountId = 1211212;
-    console.log('KPIS',kpis);
   }
 
   init = () => {
