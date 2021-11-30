@@ -66,28 +66,6 @@ export default class ValidationQuery {
     return { testText, goodQuery };
   }
 
-  // errorPercentageQuery(errors, query, data) {
-  //   let validate = true;
-  //   let quantity = 0;
-  //   if (errors && errors.length > 0) {
-  //     validate = false;
-  //   } else if (!`${query}`.toLowerCase().includes('percentage')) {
-  //     validate = false;
-  //   } else {
-  //     for (const [, value] of Object.entries(data[0])) {
-  //       if (typeof value === 'string') {
-  //         validate = false;
-  //         break;
-  //       }
-  //       quantity++;
-  //     }
-  //     if (quantity > 1) {
-  //       validate = false;
-  //     }
-  //   }
-  //   return validate;
-  // }
-
   countPRCQueryValidation(errors, data) {
     let validate = true;
     let quantity = 0;
@@ -279,64 +257,4 @@ export default class ValidationQuery {
     }
     return validate;
   }
-
-  // sessionQueryValidation(errors, data) {
-  //   let validate = true;
-  //   let quantity = 0;
-  //   if (errors && errors.length > 0) {
-  //     validate = false;
-  //   } else if (data instanceof Array && data.length === 1) {
-  //     for (const [, value] of Object.entries(data[0])) {
-  //       if (typeof value !== 'number') {
-  //         validate = false;
-  //         break;
-  //       }
-  //       quantity++;
-  //     }
-  //     if (quantity > 1) {
-  //       validate = false;
-  //     }
-  //   } else {
-  //     validate = false;
-  //   }
-  //   return validate;
-  // }
-
-  // sessionDurationValidation(errors, query) {
-  //   let validate = true;
-  //   if (errors && errors.length > 0) {
-  //     validate = false;
-  //   } else if (!query.includes('FACET') && !query.includes('facet')) {
-  //     validate = false;
-  //   }
-  //   return validate;
-  // }
-
-  // fullOpenValidation(errors, data) {
-  //   let validate = true;
-  //   let quantity = 0;
-  //   let containR1 = false;
-  //   let containR2 = false;
-  //   if (errors && errors.length > 0) {
-  //     validate = false;
-  //   } else if (data instanceof Array && data.length === 1) {
-  //     for (const [key, value] of Object.entries(data[0])) {
-  //       if (typeof value !== 'number') {
-  //         validate = false;
-  //         break;
-  //       }
-  //       if (key === 'R1') containR1 = true;
-  //       if (key === 'R2') containR2 = true;
-  //       quantity++;
-  //     }
-  //     if (quantity > 2) {
-  //       validate = false;
-  //     } else if (!containR1 || !containR2) {
-  //       validate = false;
-  //     }
-  //   } else {
-  //     validate = false;
-  //   }
-  //   return validate;
-  // }
 }

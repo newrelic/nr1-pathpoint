@@ -83,9 +83,6 @@ describe('Header component', () => {
         changeTimeRangeKpi={jest.fn()}
         kpis={kpis}
         updateDataKpisChecked={jest.fn()}
-        // ---- quitar este atributo
-        DisplayConsole={jest.fn()}
-        // --------------------------
         credentials={credentials}
         accountId={2710112}
       />

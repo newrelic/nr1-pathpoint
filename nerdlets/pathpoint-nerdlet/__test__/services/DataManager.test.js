@@ -3519,48 +3519,28 @@ describe('Datamanager service', () => {
     expect(result).toBeTruthy();
   });
 
-  // it('Function ReadHistoricErrors()', async () => {
-  //   dataManager.accountId = 2710112;
-  //   dataManager.CalculateHistoricErrors = jest.fn();
-  //   const data = {
-  //     data: {
-  //       actor: {
-  //         account: {
-  //           nrql: 'SELECT * FROM Transaction'
-  //         }
-  //       }
-  //     }
-  //   };
-  //   const error = ['Network Error'];
-  //   jest
-  //     .spyOn(NerdGraphQuery, 'query')
-  //     .mockImplementationOnce(() => Promise.resolve({ error, data }));
-  //   await dataManager.ReadHistoricErrors();
-  // });
-
   it('Function CalculateHistoricErrors()', () => {
     const nrql = {
       results: [
         {
-          facet: [10, 20, 30],
-          count: [77, 88]
+          facet: [1, 1],
+          count: 88
         },
         {
-          facet: [10, 20, 30],
-          count: [77, 88]
+          facet: [1, 2],
+          count: 100
         },
         {
-          facet: [40, 50, 60],
-          count: [101, 102]
+          facet: [2, 1],
+          count: 50
         }
       ]
     };
-    dataManager.GetTouchpointErrorThreshold = jest.fn().mockReturnValue(5);
     dataManager.SetTouchpointHistoricError = jest.fn();
     dataManager.ClearTouchpointHistoricError = jest.fn();
-    dataManager.historicErrorsHighLightPercentage = 150;
+    dataManager.historicErrorsHighLightPercentage = 100;
     dataManager.CalculateHistoricErrors(nrql);
-    expect(dataManager.GetTouchpointErrorThreshold).toHaveBeenCalledTimes(3);
+    expect(dataManager.SetTouchpointHistoricError).toHaveBeenCalledTimes(3);
   });
 
   it('Function SetTouchpointHistoricError()', () => {
@@ -3594,58 +3574,6 @@ describe('Datamanager service', () => {
     dataManager.ClearTouchpointHistoricError();
     expect(dataManager.stages[0].touchpoints[0].history_error).toEqual(false);
   });
-
-  it('Function GetTouchpointErrorThreshold()', () => {
-    const stage_index = 1;
-    const touchpoint_index = 1;
-    dataManager.touchPoints = [
-      {
-        index: 0,
-        value: 'Orders API (PRC)',
-        touchpoints: [
-          {
-            stage_index: 1,
-            touchpoint_index: 1,
-            measure_points: [
-              {
-                type: 20,
-                error_threshold: 0.3
-              }
-            ]
-          }
-        ]
-      }
-    ];
-    expect(
-      dataManager.GetTouchpointErrorThreshold(stage_index, touchpoint_index)
-    ).toEqual(0.3);
-  });
-
-  // it('Function CreateNrqlQueriesForHistoricErrorScript()', () => {
-  //   const touchpoint = [];
-  //   for (let i = 0; i < 21; i++) {
-  //     const obj = {
-  //       stage_index: i,
-  //       touchpoint_index: i,
-  //       measure_points: [
-  //         {
-  //           type: i,
-  //           query: 'SELECT * FROM Transaction'
-  //         }
-  //       ]
-  //     };
-  //     touchpoint.push(obj);
-  //   }
-  //   dataManager.touchPoints = [
-  //     {
-  //       index: 0,
-  //       value: 'Orders API (PRC)',
-  //       touchpoints: touchpoint
-  //     }
-  //   ];
-  //   const result = dataManager.CreateNrqlQueriesForHistoricErrorScript();
-  //   expect(result).toBeTruthy();
-  // });
 
   it('Function InserTouchpointsToScript() with type = PRC and PCC', () => {
     dataManager.touchPoints = [
