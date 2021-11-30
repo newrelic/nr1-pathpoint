@@ -16,10 +16,17 @@ import { HeaderCanaryFormModal } from './CanaryFormModal';
 import { HeaderSupportFormModal } from './SupportFormModal';
 import { HeaderFileErrorFormModal } from './FileErrorFormModal';
 import { HeaderJsonConfigurationFormModal } from './JsonConfigurationFormModal';
+import { HeaderGeneralConfigurationFormModal } from './GeneralConfigurationFormModal';
 import { HeaderBackgroundProcessesFormModal } from './BackgroundProcessesFormModal';
 
 export default function ShowHeader(props) {
-  const { viewModal, stageNameSelected, changeMessage } = props;
+  const {
+    viewModal,
+    stageNameSelected,
+    changeMessage
+    // accountIDs,
+    // changeID
+  } = props;
   switch (viewModal) {
     case 0:
       return (
@@ -56,6 +63,8 @@ export default function ShowHeader(props) {
         <HeaderQueryFormModal
           stageNameSelected={stageNameSelected}
           changeMessage={changeMessage}
+          // accountIDs={accountIDs}
+          // changeID={changeID}
         />
       );
     case 2:
@@ -81,9 +90,11 @@ export default function ShowHeader(props) {
     case 8:
       return <HeaderFileErrorFormModal />;
     case 9:
-      return <HeaderBackgroundProcessesFormModal />;
+      return <HeaderGeneralConfigurationFormModal />;
     case 10:
       return <HeaderLogoFormModal />;
+    case 11:
+      return <HeaderBackgroundProcessesFormModal />;
   }
 }
 
@@ -95,4 +106,6 @@ ShowHeader.propTypes = {
     PropTypes.number.isRequired
   ]),
   changeMessage: PropTypes.func.isRequired
+  // accountIDs: PropTypes.array.isRequired,
+  // changeID: PropTypes.number.isRequired
 };

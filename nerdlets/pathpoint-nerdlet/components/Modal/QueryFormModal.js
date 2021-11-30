@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Form } from 'react-bootstrap';
 import Select from '../Select/Select';
+import SelectIDs from '../SelectIDs/SelectIDs';
 
 function HeaderQueryFormModal(props) {
   const { stageNameSelected, changeMessage } = props;
@@ -32,6 +33,35 @@ HeaderQueryFormModal.propTypes = {
   changeMessage: PropTypes.func.isRequired
 };
 
+function isObject(val) {
+  return val instanceof Object;
+}
+
+function objToString(obj) {
+  return Object.entries(obj).reduce((str, [p, val]) => {
+    if (isObject(val)) {
+      val = objToString(val);
+      return `${str}${p}[${val}]\n`;
+    } else {
+      return `${str}${p}=${val}\n`;
+    }
+  }, '');
+}
+
+function validateAccountIDByDefault(id, accountIDs) {
+  const result = accountIDs.some(account => {
+    let found = false;
+    if (account.id === id) {
+      found = true;
+    }
+    return found;
+  });
+  if (!result) {
+    id = accountIDs[0].id;
+  }
+  return id;
+}
+
 function BodyQueryFormModal(props) {
   const {
     stageNameSelected,
@@ -40,20 +70,106 @@ function BodyQueryFormModal(props) {
     testQuery,
     handleSaveUpdateQuery,
     testText,
+    testingNow,
+    resultsTestQuery,
     goodQuery,
-    modifiedQuery
+    modifiedQuery,
+    accountIDs
   } = props;
   const value = stageNameSelected.selectedCase
     ? stageNameSelected.selectedCase
     : 0;
+  const idSeleccionado = validateAccountIDByDefault(
+    stageNameSelected.datos[value].accountID,
+    accountIDs
+  );
+  stageNameSelected.datos[value].accountID = idSeleccionado;
+  const handleChange = childData => {
+    /* istanbul ignore next */
+    stageNameSelected.datos[value].accountID = childData.target.value;
+  };
+  const handleTimeoutChange = childData => {
+    stageNameSelected.datos[value].timeout = childData.target.value;
+  };
   const query_body = stageNameSelected.datos[value].query_body;
   const query_footer = stageNameSelected.datos[value].query_footer;
+  const timeout = stageNameSelected.datos[value].timeout;
   return (
     <div
       style={{
         width: '600px'
       }}
     >
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          marginBottom: '4px'
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'start',
+            flexDirection: 'row',
+            marginBottom: '4px'
+          }}
+        >
+          <div
+            className="selectIDModal"
+            style={{
+              display: 'flex',
+              width: '80px',
+              alignItems: 'center'
+            }}
+          >
+            AccountId
+          </div>
+          <div>
+            <SelectIDs
+              name="query"
+              handleOnChange={handleChange}
+              options={accountIDs}
+              idSeleccionado={idSeleccionado}
+            />
+          </div>
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'end',
+            flexDirection: 'row',
+            marginBottom: '4px'
+          }}
+        >
+          <div
+            className="selectIDModal"
+            style={{
+              display: 'flex',
+              width: '65px',
+              alignItems: 'center'
+            }}
+          >
+            Timeout
+          </div>
+          <div>
+            <input
+              id="Timeout"
+              name="Timeout"
+              type="text"
+              defaultValue={timeout}
+              onChange={handleTimeoutChange}
+              className="inputText"
+              style={{
+                width: '50px',
+                border: '1px solid gray',
+                padding: '5px'
+              }}
+            />
+          </div>
+        </div>
+      </div>
+
       <div>
         <Form onSubmit={event => handleSaveUpdateQuery(event)}>
           {renderTextArea({
@@ -61,6 +177,20 @@ function BodyQueryFormModal(props) {
             query_body: query_body
           })}
           <strong>{query_footer}</strong>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              paddingTop: '15px',
+              backgroundColor: '#333333',
+              color: '#00EC64',
+              height: '60px',
+              padding: '15px'
+            }}
+          >
+            <strong>{objToString(resultsTestQuery)}</strong>
+          </div>
           <div
             style={{
               display: 'flex',
@@ -91,6 +221,7 @@ function BodyQueryFormModal(props) {
               </a>
               <div>
                 <Button
+                  disabled={testingNow}
                   variant="contained"
                   color="primary"
                   style={{
@@ -101,7 +232,9 @@ function BodyQueryFormModal(props) {
                   }}
                   onClick={
                     /* istanbul ignore next */ () => {
-                      testQuery(query_body, value);
+                      if (query_body !== '') {
+                        testQuery(`${query_body} ${query_footer}`, value);
+                      }
                     }
                   }
                 >
@@ -211,8 +344,11 @@ BodyQueryFormModal.propTypes = {
   testQuery: PropTypes.func.isRequired,
   handleSaveUpdateQuery: PropTypes.func.isRequired,
   testText: PropTypes.string.isRequired,
+  resultsTestQuery: PropTypes.object.isRequired,
   goodQuery: PropTypes.bool.isRequired,
-  modifiedQuery: PropTypes.bool
+  modifiedQuery: PropTypes.bool,
+  accountIDs: PropTypes.array.isRequired,
+  testingNow: PropTypes.bool
 };
 
 export { HeaderQueryFormModal, BodyQueryFormModal };

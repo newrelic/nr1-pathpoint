@@ -127,15 +127,15 @@ export default class TouchPoint extends React.Component {
   };
 
   ColorSquare = (touchpoint, colors) => {
-    const {
-      select_color,
-      unselect_color,
-      error_color
-    } = colors.steps_touchpoints[0];
-    if (touchpoint.highlighted && !touchpoint.error) {
-      return `rgb(${select_color[0]},${select_color[1]},${select_color[2]})`;
+    const { good, error_color, unselect_color } = colors.steps_touchpoints[0];
+    if (touchpoint.show_grey_square) {
+      return `rgb(${unselect_color[0]},${unselect_color[1]},${unselect_color[2]})`;
+    } else if (touchpoint.response_error) {
+      return `rgb(${unselect_color[0]},${unselect_color[1]},${unselect_color[2]})`;
     } else if (touchpoint.error) {
       return `rgb(${error_color[0]},${error_color[1]},${error_color[2]})`;
+    } else if (touchpoint.status_on_off) {
+      return `rgb(${good[0]},${good[1]},${good[2]})`;
     } else {
       return `rgb(${unselect_color[0]},${unselect_color[1]},${unselect_color[2]})`;
     }
@@ -185,7 +185,7 @@ export default class TouchPoint extends React.Component {
                 iconSixthSenseStatus,
                 iconFireStatus
               ),
-              cursor: 'pointer',
+              cursor: this.ActivateCursor(touchpoint, city),
               background: this.BackgroundTouchPoint(status_on_off, active)
             }}
             onMouseDown={this.HandleContextMenu}

@@ -107,7 +107,7 @@
   font-size: 16px;
   line-height: 22px;
   font-weight: 600;
-  color: #40007c;
+  color: black;
   width: 90%;
   justify-content: space-between;
 }
@@ -141,11 +141,33 @@
   line-height: 25px;
   margin-left: 10px;
 }
+.selectIDModal {
+  font-family: sans-serif;
+  font-style: normal;
+  font-weight: inherit;
+  font-size: 16px;
+  line-height: 25px;
+  margin-left: 1px;
+}
 .bodySubTitle {
   font-family: sans-serif;
   font-style: normal;
   font-weight: normal;
   font-size: 18px;
+  text-align: end;
+}
+.textLast5MinTune {
+  font-family: sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  text-align: center;
+}
+.headerSubtitleTune {
+  font-family: sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
 }
 .inputText {
   width: 100px;
@@ -384,6 +406,16 @@ input.input_mr {
   text-align: center;
   margin-right: 5px !important;
 }
+input.input_mrw {
+  width: 65px !important;
+  border: 0px solid #bdbdbd !important;
+  padding: 5px !important;
+  background-color: #f2f2f2 !important;
+  height: 28px;
+  color: #333333;
+  text-align: left;
+  margin-right: 5px !important;
+}
 
 a.vertical li:hover {
   color: #0078bf;
@@ -396,6 +428,17 @@ a.vertical li:hover {
   padding: 10px;
   border-radius: 3px;
   margin-bottom: 15px;
+}
+
+.goutTxt {
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 20px;
+  text-align: right;
+  text-transform: capitalize;
+  margin-left: 5px;
 }
 
 .error-alert-modal p {
@@ -738,4 +781,10 @@ textarea.contact {
 	100% {
 		opacity: 0;
 	}
+}
+
+
+.label-checkbox {
+  transform: translateY(-3px);
+  margin-left: 6px;
 }

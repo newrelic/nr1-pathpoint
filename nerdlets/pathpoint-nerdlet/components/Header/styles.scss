@@ -19,7 +19,6 @@
 
 .logo-container {
   width: 82px;
-  height: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,7 +32,6 @@
 
 .logo-text-container {
   width: 82px;
-  height: 60px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -44,13 +42,22 @@
   margin: 0 !important;
   font-weight: bold;
 }
-
+.containerRigthtHand {
+  display: flex;
+  margin-right: 10px;
+  align-items: center;
+}
 .distributionIcons {
   display: grid;
   grid-template: 1fr / 15% 15% 15% 15% 15% 1fr;
   align-items: center;
   justify-content: space-between;
-  margin-right: 10%;
+}
+.viewLogs {
+  font-family: Open Sans, Segoe UI, Tahoma, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: #007e8a;
 }
 .budgetLoss {
   font-family: Open Sans;
@@ -99,6 +106,12 @@
 
 .kpi {
   display: flex;
+}
+
+.kpi-status {
+  padding-left: 3px;
+  width: 10px;
+  height: 10px;
 }
 
 .kpicontent {

@@ -9,6 +9,7 @@ describe('<Select/>', () => {
         options={[{ label: 'option one' }]}
         name=""
         handleOnChange={jest.fn()}
+        width="230px"
       />
     );
     expect(wrapper.length).toEqual(1);
@@ -21,6 +22,7 @@ describe('<Select/>', () => {
         options={[{ label: 'option one' }]}
         name=""
         handleOnChange={jest.fn()}
+        width="230px"
       />
     );
     wrapper.instance().clickAction();
@@ -34,6 +36,7 @@ describe('<Select/>', () => {
         options={[{ label: 'option one' }, { label: 'option two' }]}
         name=""
         handleOnChange={handleOnChange}
+        width="230px"
       />
     );
     wrapper.instance().clickSelected(1, { value: 1 });
@@ -47,6 +50,7 @@ describe('<Select/>', () => {
         options={[{ label: 'option one' }]}
         name=""
         handleOnChange={jest.fn()}
+        width="230px"
       />
     );
     wrapper

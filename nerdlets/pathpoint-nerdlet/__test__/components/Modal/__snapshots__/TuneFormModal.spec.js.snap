@@ -4,7 +4,7 @@ exports[`TuneFormModal component Render body with default data 1`] = `
 <div
   style={
     Object {
-      "width": "250px",
+      "width": "auto",
     }
   }
 >
@@ -15,68 +15,52 @@ exports[`TuneFormModal component Render body with default data 1`] = `
     <div
       style={
         Object {
-          "height": "40px",
+          "display": "flex",
+          "justifyContent": "end",
+          "marginBottom": "1px",
         }
       }
     >
-      <input
-        className="inputText"
-        id="threshold"
-        name="threshold"
-        onChange={[Function]}
+      <div
         style={
           Object {
-            "border": "1px solid gray",
-            "padding": "5px",
-            "width": "60px",
-          }
-        }
-        type="text"
-      />
-      <label
-        className="bodySubTitle"
-        style={
-          Object {
-            "fontSize": "14px",
-            "marginLeft": "10px",
+            "display": "flex",
+            "flexDirection": "row",
+            "width": "47%",
           }
         }
       >
-        % Error threshold
-      </label>
-    </div>
-    <div
-      style={
-        Object {
-          "height": "40px",
-        }
-      }
-    >
-      <input
-        className="inputText"
-        id="apdex"
-        name="apdex"
-        onChange={[Function]}
-        style={
-          Object {
-            "border": "1px solid gray",
-            "padding": "5px",
-            "width": "60px",
+        <div
+          style={
+            Object {
+              "display": "flex",
+              "justifyContent": "center",
+              "width": "60%",
+            }
           }
-        }
-        type="text"
-      />
-      <label
-        className="bodySubTitle"
-        style={
-          Object {
-            "fontSize": "14px",
-            "marginLeft": "10px",
+        >
+          <label
+            className="headerSubtitleTune"
+          >
+            Configured
+          </label>
+        </div>
+        <div
+          style={
+            Object {
+              "display": "flex",
+              "justifyContent": "center",
+              "width": "40%",
+            }
           }
-        }
-      >
-        % Apdex Min. Score
-      </label>
+        >
+          <label
+            className="headerSubtitleTune"
+          >
+            Last 5 min
+          </label>
+        </div>
+      </div>
     </div>
     <div
       style={

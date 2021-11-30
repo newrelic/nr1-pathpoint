@@ -2,7 +2,6 @@
 import React from 'react';
 import { nerdlet, logger } from 'nr1';
 import Setup from '../../config/setup.json';
-import DownloadLink from 'react-download-link';
 import messages from '../../config/messages.json';
 import {
   mainContainerStyle,
@@ -43,7 +42,6 @@ import right_icon from '../../images/right.svg';
 import flame_icon from '../../images/flame_icon.svg';
 import gout_icon from '../../images/gout_icon.svg';
 import star_icon from '../../images/star_icon.svg';
-import down from '../../images/down.svg';
 
 /**
  *Main container component
@@ -59,6 +57,25 @@ export default class MainContainer extends React.Component {
       header: false
     });
     this.state = {
+      updating: false,
+      queryModalShowing: false,
+      updateBackgroundScript: false,
+      generalConfigurationSaved: false,
+      disableGeneralConfigurationSubmit: false,
+      accountName: '',
+      credentials: {
+        accountId: null,
+        ingestLicense: null,
+        userAPIKey: null,
+        dropTools: null,
+        flameTools: null,
+        loggin: null
+      },
+      licenseValidations: {
+        ingestLicense: null,
+        userApiKey: null
+      },
+      totalContainers: 1,
       waiting: true,
       stages: null,
       iconFireStatus: false,
@@ -67,12 +84,11 @@ export default class MainContainer extends React.Component {
       iconCanaryStatus: false,
       iconSixthSenseStatus: false,
       hidden: false,
-      stageNameSelected: '',
+      stageNameSelected: null,
       viewModal: 0,
       checkMoney: false,
       city: 0,
       timeRange: '5 MINUTES AGO',
-      getOldSessions: true,
       loading: false,
       canaryData: null,
       colors: {},
@@ -96,7 +112,7 @@ export default class MainContainer extends React.Component {
       showRightPanel: false,
       MenuRightDefault: 0,
       flameForm: {
-        days: 0,
+        hours: 0,
         percentage: 0
       },
       errorsList: [],
@@ -107,68 +123,84 @@ export default class MainContainer extends React.Component {
         starTransactions: 400
       },
       dropForm: {
-        money: 0,
-        fileContent: 'demo file json ....'
+        dropmoney: 0,
+        hours: 0,
+        percentage: 0
       },
       logoSetupData: null,
       configuration: null,
       updateData: null,
       testText: '',
+      testingNow: false,
+      resultsTestQuery: '',
       goodQuery: true,
       logoSetup: {
         type: 'Default'
       },
-      banner_kpis: null,
-      modifiedQuery: false
+      modifiedQuery: false,
+      timeRangeKpi: {
+        index: 0,
+        range: '24 HOURS AGO'
+      },
+      kpis: [],
+      accountIDs: [],
+      accountId: 0,
+      credentialsBackup: false,
+      sendingLogsEnableDisable: true
     };
   }
 
   // =========================================================== EMULATOR
+  /*
+  componentDidMount() {
+    this.BoootstrapApplication();
+  }
 
-  // componentDidMount() {
-  //   this.BoootstrapApplication();
-  // }
+  componentWillUnmount() {
+    clearInterval(this.interval);
+    this.emulator.closeConnections();
+  }
 
-  // componentWillUnmount() {
-  //   clearInterval(this.interval);
-  //   this.emulator.closeConnections();
-  // }
+  BoootstrapApplication = async () => {
+    this.DataManager = new DataManager();
+    const { accountName } = this.state;
+    const data = await this.DataManager.BootstrapInitialData(accountName);
+    this.setState(
+      {
+        stages: data.stages,
+        colors: data.colors,
+        version: data.version,
+        accountId: data.accountId,
+        kpis: data.kpis,
+        totalContainers: data.totalContainers
+      },
+      async () => {
+        this.emulator = new Emulator(this.state.stages, data.kpis);
+        this.emulator.init();
+        this.setState({
+          initialized: true,
+          stages: this.emulator.getDataState(),
+          waiting: false
+        });
+        setInterval(() => {
+          this.setState({ 
+            stages: this.emulator.getDataState(), 
+            kpis: this.emulator.getKpis() 
+          });
+        }, Setup.time_refresh);
+        this.validationQuery = new ValidationQuery(this.state.accountId);
+        this.InitLogoSetupData(this.state.accountId);
+      }
+    );
+  };
 
-  // BoootstrapApplication = async () => {
-  //   this.DataManager = new DataManager();
-  //   const data = await this.DataManager.BootstrapInitialData();
-  //   this.setState(
-  //     {
-  //       stages: data.stages,
-  //       banner_kpis: data.banner_kpis,
-  //       colors: data.colors,
-  //       version: data.version,
-  //       accountId: data.accountId
-  //     },
-  //     async () => {
-  //       this.emulator = new Emulator(this.state.stages);
-  //       this.emulator.init();
-  //       this.setState({
-  //         initialized: true,
-  //         stages: this.emulator.getDataState(),
-  //         waiting: false
-  //       });
-  //       setInterval(() => {
-  //         this.setState({ stages: this.emulator.getDataState() });
-  //       }, Setup.time_refresh);
-  //       this.validationQuery = new ValidationQuery(this.state.accountId);
-  //       this.InitLogoSetupData(this.state.accountId);
-  //     }
-  //   );
-  // };
-
-  // updateDataNow() {
-  //   this.setState({ loading: true });
-  //   setTimeout(() => {
-  //     this.setState({ loading: false });
-  //   }, 2000);
-  // }
-
+  updateDataNow() {
+    this.setState({ loading: true });
+    setTimeout(() => {
+      this.setState({ loading: false });
+    }, 2000);
+  }
+  */
   // =========================================================== UPDATE DATA API
 
   componentDidMount() {
@@ -176,12 +208,14 @@ export default class MainContainer extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    // console.log('Execute  this...');
     if (
       prevState.updating &&
       !this.state.updating &&
       this.state.pending &&
       this.state.loading
     ) {
+      // console.log('Order to Execute Update Data');
       this.ExecuteUpdateData(true);
     }
   }
@@ -192,14 +226,44 @@ export default class MainContainer extends React.Component {
 
   BoootstrapApplication = async () => {
     this.DataManager = new DataManager();
-    const data = await this.DataManager.BootstrapInitialData();
+    const { accountName } = this.state;
+    const data = await this.DataManager.BootstrapInitialData(accountName);
+    let credentials = {};
+    if (
+      data.credentials &&
+      data.credentials.actor.nerdStorageVault.secrets.length > 0
+    ) {
+      data.credentials.actor.nerdStorageVault.secrets.forEach(item => {
+        let value = '';
+        if (item.value !== '_') {
+          item.value.split('').forEach((char, i) => {
+            if (i <= 3) {
+              value = `${value}${char}`;
+            } else {
+              value = `${value}x`;
+            }
+          });
+        }
+        credentials[item.key] = value;
+      });
+    }
+    if (data.generalConfiguration) {
+      credentials = {
+        ...credentials,
+        ...data.generalConfiguration
+      };
+    }
     this.setState(
       {
         stages: data.stages,
-        banner_kpis: data.banner_kpis,
         colors: data.colors,
         version: data.version,
-        accountId: data.accountId
+        accountId: data.accountId,
+        kpis: data.kpis,
+        totalContainers: data.totalContainers,
+        accountIDs: data.accountIDs,
+        credentials,
+        credentialsBackup: credentials
       },
       async () => {
         this.validationQuery = new ValidationQuery(this.state.accountId);
@@ -215,45 +279,42 @@ export default class MainContainer extends React.Component {
   };
 
   ExecuteUpdateData = changeLoading => {
-    this.setState(
-      {
-        updating: true
-      },
-      async () => {
-        const {
-          timeRange,
-          city,
-          getOldSessions,
-          stages,
-          banner_kpis
-        } = this.state;
-        const data = await this.DataManager.UpdateData(
-          timeRange,
-          city,
-          getOldSessions,
-          stages,
-          banner_kpis
-        );
-        this.setState(
-          {
-            stages: data.stages,
-            banner_kpis: data.banner_kpis,
-            getOldSessions: false,
-            waiting: false
-          },
-          () => {
-            this.setState({
-              updating: false
-            });
-            if (changeLoading) {
+    const { updating, queryModalShowing } = this.state;
+    // console.log('updating:', updating, 'QueryModal:', queryModalShowing);
+    if (!updating && !queryModalShowing) {
+      this.setState(
+        {
+          updating: true
+        },
+        async () => {
+          const { timeRange, city, stages, kpis, timeRangeKpi } = this.state;
+          const data = await this.DataManager.UpdateData(
+            timeRange,
+            city,
+            stages,
+            kpis,
+            timeRangeKpi
+          );
+          this.setState(
+            {
+              stages: data.stages,
+              kpis: data.kpis ?? [],
+              waiting: false
+            },
+            () => {
               this.setState({
-                loading: false
+                updating: false
               });
+              if (changeLoading) {
+                this.setState({
+                  loading: false
+                });
+              }
             }
-          }
-        );
-      }
-    );
+          );
+        }
+      );
+    }
   };
 
   updateDataNow() {
@@ -268,19 +329,23 @@ export default class MainContainer extends React.Component {
   ToggleHeaderButtons = target => {
     let previousIconCanaryStatus = null;
     let previousIconFireStatus = null;
+    let previousIconGoutStatus = null;
     this.setState(
       state => {
         previousIconCanaryStatus = state.iconCanaryStatus;
         previousIconFireStatus = state.iconFireStatus;
+        previousIconGoutStatus = state.iconGoutStatus;
         return {
           iconCanaryStatus: false,
           iconFireStatus: false,
+          iconGoutStatus: false,
           [target]: !state[target]
         };
       },
       () => {
         this.ToggleCanaryIcon(previousIconCanaryStatus);
         this.ToggleFireIcon(previousIconFireStatus);
+        this.ToggleGoutIcon(previousIconGoutStatus);
       }
     );
   };
@@ -353,6 +418,11 @@ export default class MainContainer extends React.Component {
           } else {
             flag = step.highlighted;
             step.highlighted = !step.highlighted;
+            // for (const id_touchpoint of step.sub_steps[0]
+            //   .relationship_touchpoints) {
+            //   touchpoint.push(id_touchpoint);
+            // }
+            // =====> Definir bien la funcion, (antigua funcion)
             for (const id_touchpoint of step.relationship_touchpoints) {
               touchpoint.push(id_touchpoint);
             }
@@ -422,7 +492,33 @@ export default class MainContainer extends React.Component {
 
   _onClose = errors => {
     const actualValue = this.state.hidden;
-    this.setState({ hidden: !actualValue });
+    this.setState({ hidden: !actualValue, queryModalShowing: false });
+    if (!this.state.generalConfigurationSaved) {
+      this.setState(state => {
+        let credentials = {};
+        if (state.credentialsBackup !== false) {
+          credentials = {
+            ...state.credentialsBackup
+          };
+        } else {
+          credentials = {
+            ...state.credentials,
+            ingestLicense: null,
+            userAPIKey: null,
+            dropTools: false,
+            flameTools: false,
+            loggin: false
+          };
+        }
+        return {
+          licenseValidations: {
+            userApiKey: null,
+            ingestLicense: null
+          },
+          credentials
+        };
+      });
+    }
     this.restoreTouchPoints();
     if (errors) {
       this.setState({
@@ -539,19 +635,19 @@ export default class MainContainer extends React.Component {
     });
   }
 
-  // setStepsHistoricError(stage_index, relation_steps) {
-  //   const rsteps = JSON.stringify(relation_steps).replace(/[,[\]]/g, '-');
-  //   this.setState(state => {
-  //     const stages = { state };
-  //     stages[stage_index - 1].steps.forEach(step => {
-  //       step.sub_steps.forEach(sub_step => {
-  //         if (rsteps.indexOf(`-${sub_step.index}-`) !== -1) {
-  //           sub_step.history_error = true;
-  //         }
-  //       });
-  //     });
-  //   });
-  // }
+  setStepsHistoricError(stage_index, relation_steps) {
+    const rsteps = JSON.stringify(relation_steps).replace(/[,[\]]/g, '-');
+    this.setState(state => {
+      const { stages } = state;
+      stages[stage_index - 1].steps.forEach(step => {
+        step.sub_steps.forEach(sub_step => {
+          if (rsteps.indexOf(`-${sub_step.index}-`) !== -1) {
+            sub_step.history_error = true;
+          }
+        });
+      });
+    });
+  }
 
   updateHistoricErrors() {
     this.clearStepsHistoricError();
@@ -588,6 +684,22 @@ export default class MainContainer extends React.Component {
     }
   };
 
+  ToggleGoutIcon = async previousIconGoutStatus => {
+    const { iconGoutStatus } = this.state;
+    // if (iconGoutStatus && this.state.showFireWelcomeMat) {
+    //   this.setState({
+    //     viewModal: 7,
+    //     stageNameSelected: null
+    //   });
+    //   this._onClose();
+    // }
+    if (iconGoutStatus) {
+      // TODO
+    } else if (previousIconGoutStatus && !iconGoutStatus) {
+      // TODO
+    }
+  };
+
   removeDuplicates(originalArray) {
     const newArray = [];
     const lookupObject = {};
@@ -616,7 +728,8 @@ export default class MainContainer extends React.Component {
     touchpoint.status_on_off = !touchpoint.status_on_off;
     this.setState(state => {
       return {
-        stages: state.stages
+        stages: state.stages,
+        updateBackgroundScript: true
       };
     });
   }
@@ -630,26 +743,33 @@ export default class MainContainer extends React.Component {
 
   openModalParent = (touchpoint, view) => {
     let datos = null;
+    const queryModalShowing = true; // DO NOT Update Data while Modals is Showing
     if (view === 2) {
       datos = this.DataManager.GetTouchpointTune(touchpoint);
     } else if (view === 1) {
       datos = this.DataManager.GetTouchpointQuerys(touchpoint);
+    } else if (view === 9) {
+      datos = {
+        credentials: this.state.credentials,
+        accountIDs: this.state.accountIDs,
+        accountId: this.state.accountId,
+        updateBackgroundScript: this.state.updateBackgroundScript
+      };
     }
     this.setState({
       viewModal: view,
       stageNameSelected: { touchpoint, datos },
       testText: '',
+      resultsTestQuery: '',
       modifiedQuery: false,
-      goodQuery: true
+      goodQuery: true,
+      queryModalShowing: queryModalShowing,
+      hidden: true
     });
-    this._onClose();
   };
 
   changeTimeRange = event => {
-    this.setState(
-      { timeRange: event.target.value, getOldSessions: true },
-      this.updateDataNow
-    );
+    this.setState({ timeRange: event.target.value }, this.updateDataNow);
   };
 
   resetIcons = (statusStar, statusFire, statusGot, statusCanary) => {
@@ -736,7 +856,7 @@ export default class MainContainer extends React.Component {
             )}
           </div>
           <div className="cashStage" style={{ color: '#C59400' }}>
-            {element.money}
+            ${element.money}
           </div>
         </div>
       );
@@ -748,8 +868,8 @@ export default class MainContainer extends React.Component {
             <img src={goutBlack} height="15px" width="11px" />
             <span className="goutTxt">{element.gout_quantity}</span>
           </div>
-          <div className="cashStage" style={{ color: '#333333' }}>
-            {element.money}
+          <div className="cashStage">
+            {this.FormatMoney(element.gout_money, this.DisplayConsole)}
           </div>
         </div>
       );
@@ -758,7 +878,7 @@ export default class MainContainer extends React.Component {
       return (
         <div className="moneyStageHistoryError">
           <div className="cashStage" style={{ color: 'red' }}>
-            {element.money}
+            ${element.money}
           </div>
         </div>
       );
@@ -816,13 +936,15 @@ export default class MainContainer extends React.Component {
     ) {
       this.setState({
         stageNameSelected,
-        testText: ''
+        testText: '',
+        resultsTestQuery: ''
       });
     } else {
       stageNameSelected.selectedCase = parseInt(event.target.value);
       this.setState({
         stageNameSelected,
         testText: '',
+        resultsTestQuery: '',
         modifiedQuery: false,
         goodQuery: true
       });
@@ -833,23 +955,23 @@ export default class MainContainer extends React.Component {
     let querySample = '';
     const { stageNameSelected } = this.state;
     switch (stageNameSelected.datos[value].label) {
-      case 'Count Query':
-        querySample = messages.sample_querys.count;
+      case 'PRC-COUNT-QUERY':
+        querySample = messages.sample_querys.prc;
         break;
-      case 'Error Percentage Query':
-        querySample = messages.sample_querys.percentage;
+      case 'PCC-COUNT-QUERY':
+        querySample = messages.sample_querys.pcc;
         break;
-      case 'Apdex Query':
-        querySample = messages.sample_querys.apdex;
+      case 'APP-HEALTH-QUERY':
+        querySample = messages.sample_querys.app;
         break;
-      case 'Session Query':
-        querySample = messages.sample_querys.session;
+      case 'FRT-HEALTH-QUERY':
+        querySample = messages.sample_querys.frt;
         break;
-      case 'Session Query Duration':
-        querySample = messages.sample_querys.sessionDuration;
+      case 'SYN-CHECK-QUERY':
+        querySample = messages.sample_querys.syn;
         break;
-      case 'Full Open Query':
-        querySample = messages.sample_querys.fullOpenQuery;
+      case 'WORKLOAD-QUERY':
+        querySample = messages.sample_querys.wld;
         break;
     }
     if (stageNameSelected.selectedCase) {
@@ -861,18 +983,33 @@ export default class MainContainer extends React.Component {
     }
     this.setState({
       testText: '',
+      resultsTestQuery: '',
       stageNameSelected
     });
   };
 
   testQuery = async (query, value) => {
+    this.setState({ testingNow: true });
     const { stageNameSelected } = this.state;
     const type = stageNameSelected.datos[value].label;
+    const accountID = stageNameSelected.datos[value].accountID;
     const { testText, goodQuery } = await this.validationQuery.validateQuery(
       type,
-      query
+      query,
+      accountID
     );
-    this.setState({ testText, modifiedQuery: false, goodQuery });
+    let results = '';
+    // if (goodQuery) {
+    const data = await this.DataManager.ReadQueryResults(query, accountID);
+    results = data.results;
+    // }
+    this.setState({
+      testText,
+      testingNow: false,
+      modifiedQuery: false,
+      goodQuery,
+      resultsTestQuery: results
+    });
   };
 
   handleChangeTexarea = query => {
@@ -885,9 +1022,19 @@ export default class MainContainer extends React.Component {
       } else {
         stageNameSelected.datos[0].query_body = query;
       }
+      if (query === '') {
+        return {
+          stageNameSelected,
+          testText: '',
+          resultsTestQuery: '',
+          modifiedQuery: false,
+          goodQuery: true
+        };
+      }
       return {
         stageNameSelected,
         testText: '',
+        resultsTestQuery: '',
         modifiedQuery: true
       };
     });
@@ -905,24 +1052,40 @@ export default class MainContainer extends React.Component {
     this.setState(supportForm);
   };
 
+  // se le tiene que quitar el async por q esta demas
   handleSaveUpdateQuery = async event => {
     event.preventDefault();
     await this.DataManager.UpdateTouchpointQuerys(
       this.state.stageNameSelected.touchpoint,
       this.state.stageNameSelected.datos
     );
+    this.setState({ updating: false, updateBackgroundScript: true });
     this._onClose();
   };
 
-  handleSaveUpdateTune = async ({ threshold, apdex }) => {
+  handleSaveUpdateTune = async ({
+    min_count,
+    min_apdex,
+    max_response_time,
+    max_error_percentage,
+    max_avg_response_time,
+    max_total_check_time,
+    min_success_percentage
+  }) => {
     const datos = {
-      error_threshold: threshold,
-      apdex_time: apdex
+      min_count: min_count,
+      min_apdex: min_apdex,
+      max_response_time: max_response_time,
+      max_error_percentage: max_error_percentage,
+      max_avg_response_time: max_avg_response_time,
+      max_total_check_time: max_total_check_time,
+      min_success_percentage: min_success_percentage
     };
     await this.DataManager.UpdateTouchpointTune(
       this.state.stageNameSelected.touchpoint,
       datos
     );
+    this.setState({ updateBackgroundScript: true });
     this._onClose();
   };
 
@@ -931,6 +1094,70 @@ export default class MainContainer extends React.Component {
     this.setState({
       showCanaryWelcomeMat: !event.target.elements.checkbox_canary.checked
     });
+    this._onClose();
+  };
+
+  HandleCredentialsFormChange = event => {
+    this.setState(state => {
+      return {
+        credentials: {
+          ...state.credentials,
+          [event.target.name]: event.target.value
+        }
+      };
+    });
+  };
+
+  handleSaveUpdateGeneralConfiguration = e => {
+    e.preventDefault();
+    this.DataManager.SaveCredentialsInVault(this.state.credentials);
+    this.DataManager.SaveGeneralConfiguration(this.state.credentials);
+    this.setState(state => {
+      const userApiKey = state.credentials.userAPIKey;
+      const ingestLicense = state.credentials.ingestLicense;
+      let formatedUserApiKey = '';
+      let formatedIngestLicense = '';
+      if (ingestLicense) {
+        ingestLicense.split('').forEach((char, i) => {
+          if (i <= 3) {
+            formatedIngestLicense = `${formatedIngestLicense}${char}`;
+          } else {
+            formatedIngestLicense = `${formatedIngestLicense}x`;
+          }
+        });
+      }
+      if (userApiKey) {
+        userApiKey.split('').forEach((char, i) => {
+          if (i <= 3) {
+            formatedUserApiKey = `${formatedUserApiKey}${char}`;
+          } else {
+            formatedUserApiKey = `${formatedUserApiKey}x`;
+          }
+        });
+      }
+      return {
+        credentials: {
+          ...state.credentials,
+          userAPIKey: formatedUserApiKey,
+          ingestLicense: formatedIngestLicense
+        }
+      };
+    });
+    this.setState(
+      {
+        generalConfigurationSaved: true,
+        updateBackgroundScript: true
+      },
+      () => {
+        this._onClose();
+      }
+    );
+  };
+
+  installUpdateBackgroundScripts = () => {
+    // TODO
+    this.DataManager.InstallUpdateBackGroundScript();
+    this.setState({ updateBackgroundScript: false });
     this._onClose();
   };
 
@@ -1006,9 +1233,9 @@ export default class MainContainer extends React.Component {
     this.openModalParent('null', 9);
   };
 
-  _handleClickSupport = () => {
+  _handleClickProcesses2 = () => {
     this._onCloseBackdrop();
-    this.openModalParent('null', 5);
+    this.openModalParent('null', 11);
   };
 
   _handleClickSupport = () => {
@@ -1023,10 +1250,12 @@ export default class MainContainer extends React.Component {
 
   _handleContextMenuGout = event => {
     if (event.button === 2) {
+      const values = this.DataManager.GetGoutParameters();
       this.setState({
         backdrop: true,
         showRightPanel: true,
-        MenuRightDefault: 1
+        MenuRightDefault: 1,
+        dropForm: values
       });
     }
   };
@@ -1054,7 +1283,7 @@ export default class MainContainer extends React.Component {
   };
 
   _onCloseMenuRight = () => {
-    const { MenuRightDefault, flameForm } = this.state;
+    const { MenuRightDefault, flameForm, dropForm } = this.state;
     this.setState({
       backdrop: false,
       showRightPanel: false,
@@ -1063,7 +1292,7 @@ export default class MainContainer extends React.Component {
     });
     if (MenuRightDefault === 3) {
       this.DataManager.UpdateHistoricParameters(
-        flameForm.days,
+        flameForm.hours,
         flameForm.percentage
       );
     }
@@ -1071,7 +1300,7 @@ export default class MainContainer extends React.Component {
       // TO-DO
     }
     if (MenuRightDefault === 1) {
-      // TO-DO
+      this.DataManager.UpdateGoutParameters(dropForm);
     }
   };
 
@@ -1105,13 +1334,43 @@ export default class MainContainer extends React.Component {
     const data = this.DataManager.SetConfigurationJSON(payload);
     this.setState({
       stages: data.stages,
-      banner_kpis: data.banner_kpis
+      kpis: data.kpis ?? [],
+      updateBackgroundScript: true
     });
   };
 
   GetCurrentHistoricErrorScript = () => {
     const data = this.DataManager.GetCurrentHistoricErrorScript();
     return data;
+  };
+
+  FormatMoney = (
+    amount,
+    DisplayConsole,
+    decimalCount = 2,
+    decimal = '.',
+    thousands = ','
+  ) => {
+    try {
+      decimalCount = Math.abs(decimalCount);
+      decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
+      const i = parseInt(
+        (amount = Math.abs(Number(amount) || 0).toFixed(decimalCount))
+      ).toString();
+      const j = i.length > 3 ? i.length % 3 : 0;
+      return `${amount < 0 ? '-' : ''}$${
+        j ? i.substr(0, j) + thousands : ''
+      }${i.substr(j).replace(/(\d{3})(?=\d)/g, `$1${thousands}`)}${
+        decimalCount
+          ? decimal +
+            Math.abs(amount - i)
+              .toFixed(decimalCount)
+              .slice(2)
+          : ''
+      }`;
+    } catch (e) {
+      DisplayConsole('error', `Error in format money ${e}`);
+    }
   };
 
   DisplayConsole = (type, message) => {
@@ -1126,6 +1385,113 @@ export default class MainContainer extends React.Component {
         logger.warn(`${message}`);
         break;
     }
+  };
+
+  changeTimeRangeKpi = ({ value }, index) => {
+    this.setState(
+      { timeRangeKpi: { index: index, range: value } },
+      this.updateDataNow
+    );
+  };
+
+  updateDataKpisChecked = kpis => {
+    this.DataManager.SaveKpisSelection(kpis);
+    this.setState({ kpis });
+  };
+
+  resetCredentials = () => {
+    this.DataManager.ResetCredentialsInVault();
+    this.DataManager.SaveGeneralConfiguration({
+      loggin: false,
+      flameTools: false,
+      dropTools: false
+    });
+    document.getElementById('logginCheck').checked = false;
+    document.getElementById('flameToolsCheck').checked = false;
+    document.getElementById('dropToolsCheck').checked = false;
+    this.setState(state => {
+      return {
+        generalConfigurationSaved: true,
+        credentials: {
+          accountId: state.accountId,
+          ingestLicense: '',
+          userAPIKey: '',
+          dropTools: false,
+          flameTools: false,
+          loggin: false
+        }
+      };
+    });
+  };
+
+  ValidateIngestLicense = async license => {
+    if (license && license !== '') {
+      this.setState(
+        {
+          disableGeneralConfigurationSubmit: true
+        },
+        async () => {
+          const valid = await this.DataManager.ValidateIngestLicense(license);
+          this.setState(state => {
+            return {
+              disableGeneralConfigurationSubmit: false,
+              licenseValidations: {
+                ...state.licenseValidations,
+                ingestLicense: valid
+              }
+            };
+          });
+        }
+      );
+    } else {
+      this.setState(state => {
+        return {
+          disableGeneralConfigurationSubmit: false,
+          licenseValidations: {
+            ...state.licenseValidations,
+            ingestLicense: true
+          }
+        };
+      });
+    }
+  };
+
+  ValidateUserApiKey = async userApiKey => {
+    if (userApiKey && userApiKey !== '') {
+      this.setState(
+        {
+          disableGeneralConfigurationSubmit: true
+        },
+        async () => {
+          const valid = await this.DataManager.ValidateUserApiKey(userApiKey);
+          this.setState(state => {
+            return {
+              disableGeneralConfigurationSubmit: false,
+              licenseValidations: {
+                ...state.licenseValidations,
+                userApiKey: valid
+              }
+            };
+          });
+        }
+      );
+    } else {
+      this.setState(state => {
+        return {
+          disableGeneralConfigurationSubmit: false,
+          licenseValidations: {
+            ...state.licenseValidations,
+            userApiKey: true
+          }
+        };
+      });
+    }
+  };
+
+  ToggleEnableSubmit = param => {
+    this.setState({
+      disableGeneralConfigurationSubmit: param
+    });
   };
 
   render() {
@@ -1154,9 +1520,17 @@ export default class MainContainer extends React.Component {
       starForm,
       flameForm,
       testText,
+      testingNow,
+      resultsTestQuery,
       goodQuery,
-      banner_kpis,
-      modifiedQuery
+      modifiedQuery,
+      totalContainers,
+      // KPI Properties
+      timeRangeKpi,
+      kpis,
+      accountIDs,
+      accountId,
+      credentials
     } = this.state;
     if (this.state.waiting) {
       return (
@@ -1192,16 +1566,20 @@ export default class MainContainer extends React.Component {
               iconCanaryStatus={iconCanaryStatus}
               iconGoutStatus={iconGoutStatus}
               loading={loading}
-              tune={tune}
               showLeftPanel={showLeftPanel}
               openLeftMenu={this.openLeftMenu}
               handleContextMenuGout={this._handleContextMenuGout}
               handleContextMenuStar={this._handleContextMenuStar}
               handleContextMenuFire={this._handleContextMenuFire}
               logoSetup={this.state.logoSetup}
-              banner_kpis={banner_kpis}
               ToggleHeaderButtons={this.ToggleHeaderButtons}
-              DisplayConsole={this.DisplayConsole}
+              // KPI properties
+              changeTimeRangeKpi={this.changeTimeRangeKpi}
+              timeRangeKpi={timeRangeKpi}
+              kpis={kpis}
+              accountId={accountId}
+              updateDataKpisChecked={this.updateDataKpisChecked}
+              credentials={credentials}
             />
           </div>
           <div
@@ -1251,12 +1629,19 @@ export default class MainContainer extends React.Component {
                     >
                       Json configuration
                     </div>
+                    {/* <div
+                      className="subItem"
+                      onClick={this._handleClickProcesses2}
+                      style={{ padding: '5px' }}
+                    >
+                      Background processes
+                    </div> */}
                     <div
                       className="subItem"
                       onClick={this._handleClickProcesses}
                       style={{ padding: '5px' }}
                     >
-                      Background processes
+                      Credentials and General Configuration
                     </div>
                   </div>
                 </div>
@@ -1312,55 +1697,48 @@ export default class MainContainer extends React.Component {
                 </div>
                 <div className="content_rmenu">
                   <div className="col3_rmenu">
-                    <div className="subTitleBlack_container">XXX-XXX</div>
                     <div className="subTitleRight_container">
                       <input
                         id="dropmoney"
                         name="dropmoney"
                         type="text"
-                        value={dropForm.money}
+                        value={dropForm.dropmoney}
+                        onChange={this._DropHandleChange}
+                        className="input_mrw"
+                      />
+                      $
+                    </div>
+                    <div className="subTitleRight_container">
+                      average order value
+                    </div>
+                    <div className="subTitle_container">In the last </div>
+                    <div className="subTitleRight_container add50height">
+                      <input
+                        id="hours"
+                        name="hours"
+                        type="text"
+                        value={dropForm.hours}
                         onChange={this._DropHandleChange}
                         className="input_mr"
                       />
-                      USD
+                      Hours
+                    </div>
+
+                    <div className="subTitle_container">Highlight </div>
+                    <div className="subTitleRight_container">
+                      <input
+                        id="percentage"
+                        name="percentage"
+                        type="text"
+                        value={dropForm.percentage}
+                        onChange={this._DropHandleChange}
+                        className="input_mr"
+                      />{' '}
+                      %{' '}
                     </div>
                     <div className="subTitleRight_container">
-                      average order value{' '}
+                      of the Steps with most Drops
                     </div>
-                  </div>
-                </div>
-
-                <div className="content_rmenu">
-                  <div className="col4_rmenu">
-                    <div className="subTitle_container">
-                      <img src={down} height="14" />
-                      <DownloadLink
-                        label="All Merchants"
-                        filename="All_Merchants.json"
-                        className="formDrop"
-                        style={{ cursor: 'pointer' }}
-                        exportFile={() => dropForm.fileContent}
-                      />
-                    </div>
-                  </div>
-                  <div className="col5_rmenu" />
-                </div>
-                <div className="content_rmenu">
-                  <div className="col3_rmenu">
-                    <label
-                      htmlFor="file-upload2"
-                      className="button"
-                      color="primary"
-                    >
-                      Update
-                    </label>
-                    <input
-                      id="file-upload2"
-                      type="file"
-                      accept=".json"
-                      onChange={this.handleFiles}
-                      style={{ display: 'none' }}
-                    />
                   </div>
                 </div>
               </div>
@@ -1483,14 +1861,14 @@ export default class MainContainer extends React.Component {
                     <div className="subTitle_container">In the last </div>
                     <div className="subTitleRight_container add50height">
                       <input
-                        id="days"
-                        name="days"
+                        id="hours"
+                        name="hours"
                         type="text"
-                        value={flameForm.days}
+                        value={flameForm.hours}
                         onChange={this._FlameHandleChange}
                         className="input_mr"
                       />
-                      Days
+                      Hours
                     </div>
 
                     <div className="subTitle_container">Highlight </div>
@@ -1528,27 +1906,7 @@ export default class MainContainer extends React.Component {
                     element.active_dotted_color
                   )}
                 >
-                  <Stage
-                    index={element.index}
-                    onClickStage={this.onClickStage}
-                    title={element.title}
-                    circleColor={element.errors}
-                    percentageCongestion={element.congestion.percentage}
-                    valueCongestion={element.congestion.value}
-                    capacityPercentage={element.capacity}
-                    totalCountStage={element.total_count}
-                    goutActive={element.gout_enable}
-                    goutQuantity={element.gout_quantity}
-                    status={element.status_color}
-                    tune={tune}
-                    url={
-                      element.dashboard_url === false
-                        ? 'false'
-                        : element.dashboard_url
-                    }
-                    colors={colors}
-                    trafficIconType={element.trafficIconType}
-                  />
+                  <Stage stage={element} onClickStage={this.onClickStage} />
                 </div>
               ))}
             </div>
@@ -1589,18 +1947,12 @@ export default class MainContainer extends React.Component {
                       )}
                     >
                       {element.money_enabled |
-                      element.gout_enable |
+                      iconGoutStatus |
                       iconFireStatus ? (
-                        <div
-                          style={{
-                            display: 'grid',
-                            gridTemplate: '5% 1fr/ 1fr',
-                            width: '100%'
-                          }}
-                        >
+                        <div>
                           {this.renderContentAboveStep(
                             element.money_enabled,
-                            element.gout_enable,
+                            iconGoutStatus,
                             iconFireStatus,
                             element
                           )}
@@ -1614,7 +1966,7 @@ export default class MainContainer extends React.Component {
                               colors={colors}
                               iconFireStatus={iconFireStatus}
                               iconSixthSenseStatus={iconSixthSenseStatus}
-                              tune={tune}
+                              totalContainers={totalContainers}
                             />
                           </div>
                         </div>
@@ -1630,7 +1982,7 @@ export default class MainContainer extends React.Component {
                             colors={colors}
                             iconFireStatus={iconFireStatus}
                             iconSixthSenseStatus={iconSixthSenseStatus}
-                            tune={tune}
+                            totalContainers={totalContainers}
                           />
                         </div>
                       )}
@@ -1711,6 +2063,8 @@ export default class MainContainer extends React.Component {
             stageNameSelected={stageNameSelected}
             viewModal={viewModal}
             testText={testText}
+            testingNow={testingNow}
+            resultsTestQuery={resultsTestQuery}
             goodQuery={goodQuery}
             changeMessage={this.changeMessage}
             chargueSample={this.chargueSample}
@@ -1730,6 +2084,21 @@ export default class MainContainer extends React.Component {
             SetConfigurationJSON={this.SetConfigurationJSON}
             GetCurrentHistoricErrorScript={this.GetCurrentHistoricErrorScript}
             modifiedQuery={modifiedQuery}
+            accountIDs={accountIDs}
+            HandleCredentialsFormChange={this.HandleCredentialsFormChange}
+            credentialsData={this.state.credentials}
+            disableGeneralConfigurationSubmit={
+              this.state.disableGeneralConfigurationSubmit
+            }
+            licenseValidations={this.state.licenseValidations}
+            resetCredentials={this.resetCredentials}
+            ValidateIngestLicense={this.ValidateIngestLicense}
+            ValidateUserApiKey={this.ValidateUserApiKey}
+            ToggleEnableSubmit={this.ToggleEnableSubmit}
+            handleSaveUpdateGeneralConfiguration={
+              this.handleSaveUpdateGeneralConfiguration
+            }
+            installUpdateBackgroundScripts={this.installUpdateBackgroundScripts}
           />
           <div id="cover-spin" style={{ display: loading ? '' : 'none' }} />
         </div>
