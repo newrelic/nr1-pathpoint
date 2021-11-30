@@ -29,7 +29,7 @@ These are “sub-stages” of a parent stage.  that represent a more granular ag
 
 ### Touchpoints
 
-These are the most granular entities in the PathPoint model.  With this version of PathPoint TouchPoints are usually a specific APM or Browser application.  The health status of a TouchPoint will be tied to error rate and latency.
+These are the most granular entities in the PathPoint model.  PathPoint TouchPoints are often a specific APM or Browser application, but you can use any NRQL query as a touchpoint.  The health status of a TouchPoint will be tied to error rate and latency.
 
 ![Touchpoints](screenshots/touchpoints.png)
 
