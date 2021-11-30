@@ -30,14 +30,14 @@ export default class Emulator {
   };
 
   getKpis() {
-    for(let i=0;i<this.kpis.length;i++){
-      if(this.kpis[i].type === 101){
-        this.kpis[i].value ={
-          current: Math.floor(Math.random() * (10000)),
-          previous: Math.floor(Math.random() * (10000))
+    for (let i = 0; i < this.kpis.length; i++) {
+      if (this.kpis[i].type === 101) {
+        this.kpis[i].value = {
+          current: Math.floor(Math.random() * 10000),
+          previous: Math.floor(Math.random() * 10000)
         };
-      }else{
-        this.kpis[i].value = Math.floor(Math.random() * (10000));
+      } else {
+        this.kpis[i].value = Math.floor(Math.random() * 10000);
       }
     }
     return this.kpis;
@@ -136,8 +136,12 @@ export default class Emulator {
         ? true
         : this._randomIntFromInterval(1, 25, 50) < 80;
       if (update) {
-        stage.gout_quantity = this._randomIntFromInterval(1, 15, stage.gout_quantity);
-        stage.gout_money = stage.gout_quantity*125;
+        stage.gout_quantity = this._randomIntFromInterval(
+          1,
+          15,
+          stage.gout_quantity
+        );
+        stage.gout_money = stage.gout_quantity * 125;
       }
     }
   };

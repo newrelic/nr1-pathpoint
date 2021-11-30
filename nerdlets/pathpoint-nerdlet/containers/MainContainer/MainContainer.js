@@ -66,7 +66,7 @@ export default class MainContainer extends React.Component {
       updateBackgroundScript: false,
       generalConfigurationSaved: false,
       disableGeneralConfigurationSubmit: false,
-      accountName: 'Demotron V2',
+      accountName: '',
       credentials: {
         accountId: null,
         ingestLicense: null,
