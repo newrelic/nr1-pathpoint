@@ -221,8 +221,8 @@ ShowBody.propTypes = {
   _onClose: PropTypes.func.isRequired,
   handleSaveUpdateTune: PropTypes.func.isRequired,
   handleSaveUpdateSupport: PropTypes.func.isRequired,
-  HandleCredentialsFormChange: PropTypes.func.isRequired,
-  resetCredentials: PropTypes.func.isRequired,
+  HandleCredentialsFormChange: PropTypes.func,
+  resetCredentials: PropTypes.func,
   stageNameSelected: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  handleSaveUpdateGeneralConfiguration: PropTypes.func.isRequired
+  handleSaveUpdateGeneralConfiguration: PropTypes.func
 };

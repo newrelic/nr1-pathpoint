@@ -53,7 +53,16 @@ describe('<ShowBody/>', () => {
         ValidateUserApiKey={jest.fn()}
         ToggleEnableSubmit={jest.fn()}
         installUpdateBackgroundScripts={jest.fn()}
-        disableGeneralConfigurationSubmit={{
+        disableGeneralConfigurationSubmit={false}
+        credentialsData={{
+          accountId: null,
+          ingestLicense: null,
+          userAPIKey: null,
+          dropTools: null,
+          flameTools: null,
+          loggin: null
+        }}
+        licenseValidations={{
           ingestLicense: false,
           userApiKey: false
         }}
@@ -100,7 +109,16 @@ describe('<ShowBody/>', () => {
         ValidateUserApiKey={jest.fn()}
         ToggleEnableSubmit={jest.fn()}
         installUpdateBackgroundScripts={jest.fn()}
-        disableGeneralConfigurationSubmit={{
+        disableGeneralConfigurationSubmit={false}
+        credentialsData={{
+          accountId: null,
+          ingestLicense: null,
+          userAPIKey: null,
+          dropTools: null,
+          flameTools: null,
+          loggin: null
+        }}
+        licenseValidations={{
           ingestLicense: false,
           userApiKey: false
         }}
@@ -143,7 +161,16 @@ describe('<ShowBody/>', () => {
         ValidateUserApiKey={jest.fn()}
         ToggleEnableSubmit={jest.fn()}
         installUpdateBackgroundScripts={jest.fn()}
-        disableGeneralConfigurationSubmit={{
+        disableGeneralConfigurationSubmit={false}
+        credentialsData={{
+          accountId: null,
+          ingestLicense: null,
+          userAPIKey: null,
+          dropTools: null,
+          flameTools: null,
+          loggin: null
+        }}
+        licenseValidations={{
           ingestLicense: false,
           userApiKey: false
         }}
@@ -184,7 +211,16 @@ describe('<ShowBody/>', () => {
         ValidateUserApiKey={jest.fn()}
         ToggleEnableSubmit={jest.fn()}
         installUpdateBackgroundScripts={jest.fn()}
-        disableGeneralConfigurationSubmit={{
+        disableGeneralConfigurationSubmit={false}
+        credentialsData={{
+          accountId: null,
+          ingestLicense: null,
+          userAPIKey: null,
+          dropTools: null,
+          flameTools: null,
+          loggin: null
+        }}
+        licenseValidations={{
           ingestLicense: false,
           userApiKey: false
         }}
@@ -230,7 +266,16 @@ describe('<ShowBody/>', () => {
         ValidateUserApiKey={jest.fn()}
         ToggleEnableSubmit={jest.fn()}
         installUpdateBackgroundScripts={jest.fn()}
-        disableGeneralConfigurationSubmit={{
+        disableGeneralConfigurationSubmit={false}
+        credentialsData={{
+          accountId: null,
+          ingestLicense: null,
+          userAPIKey: null,
+          dropTools: null,
+          flameTools: null,
+          loggin: null
+        }}
+        licenseValidations={{
           ingestLicense: false,
           userApiKey: false
         }}
@@ -261,7 +306,8 @@ describe('<ShowBody/>', () => {
         ValidateUserApiKey={jest.fn()}
         ToggleEnableSubmit={jest.fn()}
         installUpdateBackgroundScripts={jest.fn()}
-        disableGeneralConfigurationSubmit={{
+        disableGeneralConfigurationSubmit={false}
+        licenseValidations={{
           ingestLicense: false,
           userApiKey: false
         }}
@@ -293,7 +339,16 @@ describe('<ShowBody/>', () => {
         ValidateUserApiKey={jest.fn()}
         ToggleEnableSubmit={jest.fn()}
         installUpdateBackgroundScripts={jest.fn()}
-        disableGeneralConfigurationSubmit={{
+        disableGeneralConfigurationSubmit={false}
+        credentialsData={{
+          accountId: null,
+          ingestLicense: null,
+          userAPIKey: null,
+          dropTools: null,
+          flameTools: null,
+          loggin: null
+        }}
+        licenseValidations={{
           ingestLicense: false,
           userApiKey: false
         }}
@@ -325,7 +380,16 @@ describe('<ShowBody/>', () => {
         ValidateUserApiKey={jest.fn()}
         ToggleEnableSubmit={jest.fn()}
         installUpdateBackgroundScripts={jest.fn()}
-        disableGeneralConfigurationSubmit={{
+        disableGeneralConfigurationSubmit={false}
+        credentialsData={{
+          accountId: null,
+          ingestLicense: null,
+          userAPIKey: null,
+          dropTools: null,
+          flameTools: null,
+          loggin: null
+        }}
+        licenseValidations={{
           ingestLicense: false,
           userApiKey: false
         }}
@@ -362,7 +426,16 @@ describe('<ShowBody/>', () => {
         ValidateUserApiKey={jest.fn()}
         ToggleEnableSubmit={jest.fn()}
         installUpdateBackgroundScripts={jest.fn()}
-        disableGeneralConfigurationSubmit={{
+        disableGeneralConfigurationSubmit={false}
+        credentialsData={{
+          accountId: null,
+          ingestLicense: null,
+          userAPIKey: null,
+          dropTools: null,
+          flameTools: null,
+          loggin: null
+        }}
+        licenseValidations={{
           ingestLicense: false,
           userApiKey: false
         }}
@@ -405,10 +478,7 @@ describe('<ShowBody/>', () => {
         ValidateUserApiKey={jest.fn()}
         ToggleEnableSubmit={jest.fn()}
         installUpdateBackgroundScripts={jest.fn()}
-        disableGeneralConfigurationSubmit={{
-          ingestLicense: false,
-          userApiKey: false
-        }}
+        disableGeneralConfigurationSubmit={false}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -437,7 +507,16 @@ describe('<ShowBody/>', () => {
         ValidateUserApiKey={jest.fn()}
         ToggleEnableSubmit={jest.fn()}
         installUpdateBackgroundScripts={jest.fn()}
-        disableGeneralConfigurationSubmit={{
+        disableGeneralConfigurationSubmit={false}
+        credentialsData={{
+          accountId: null,
+          ingestLicense: null,
+          userAPIKey: null,
+          dropTools: null,
+          flameTools: null,
+          loggin: null
+        }}
+        licenseValidations={{
           ingestLicense: false,
           userApiKey: false
         }}
@@ -469,7 +548,16 @@ describe('<ShowBody/>', () => {
         ValidateUserApiKey={jest.fn()}
         ToggleEnableSubmit={jest.fn()}
         installUpdateBackgroundScripts={jest.fn()}
-        disableGeneralConfigurationSubmit={{
+        disableGeneralConfigurationSubmit={false}
+        credentialsData={{
+          accountId: null,
+          ingestLicense: null,
+          userAPIKey: null,
+          dropTools: null,
+          flameTools: null,
+          loggin: null
+        }}
+        licenseValidations={{
           ingestLicense: false,
           userApiKey: false
         }}
@@ -509,7 +597,16 @@ describe('<ShowBody/>', () => {
         ValidateUserApiKey={jest.fn()}
         ToggleEnableSubmit={jest.fn()}
         installUpdateBackgroundScripts={jest.fn()}
-        disableGeneralConfigurationSubmit={{
+        disableGeneralConfigurationSubmit={false}
+        credentialsData={{
+          accountId: null,
+          ingestLicense: null,
+          userAPIKey: null,
+          dropTools: null,
+          flameTools: null,
+          loggin: null
+        }}
+        licenseValidations={{
           ingestLicense: false,
           userApiKey: false
         }}
@@ -545,7 +642,16 @@ describe('<ShowBody/>', () => {
         ValidateUserApiKey={jest.fn()}
         ToggleEnableSubmit={jest.fn()}
         installUpdateBackgroundScripts={jest.fn()}
-        disableGeneralConfigurationSubmit={{
+        disableGeneralConfigurationSubmit={false}
+        credentialsData={{
+          accountId: null,
+          ingestLicense: null,
+          userAPIKey: null,
+          dropTools: null,
+          flameTools: null,
+          loggin: null
+        }}
+        licenseValidations={{
           ingestLicense: false,
           userApiKey: false
         }}
@@ -581,7 +687,16 @@ describe('<ShowBody/>', () => {
         ValidateUserApiKey={jest.fn()}
         ToggleEnableSubmit={jest.fn()}
         installUpdateBackgroundScripts={jest.fn()}
-        disableGeneralConfigurationSubmit={{
+        disableGeneralConfigurationSubmit={false}
+        credentialsData={{
+          accountId: null,
+          ingestLicense: null,
+          userAPIKey: null,
+          dropTools: null,
+          flameTools: null,
+          loggin: null
+        }}
+        licenseValidations={{
           ingestLicense: false,
           userApiKey: false
         }}

@@ -22,10 +22,14 @@ describe('<GeneralConfigurationFormModal/>', () => {
         }}
         handleOnChange={jest.fn()}
         handleFormSubmit={jest.fn()}
-        credentialsData={jest.fn().mockReturnValue({
-          ingestLicense: true,
-          userAPIKey: true
-        })}
+        credentialsData={{
+          accountId: null,
+          ingestLicense: null,
+          userAPIKey: null,
+          dropTools: null,
+          flameTools: null,
+          loggin: null
+        }}
         resetCredentials={jest.fn()}
         ValidateIngestLicense={jest.fn()}
         licenseValidations={{ ingestLicense: false, userApiKey: false }}

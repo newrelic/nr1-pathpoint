@@ -120,6 +120,7 @@ exports[`<GeneralConfigurationFormModal/> BodyGeneralConfiguration Component 1`]
         onFocus={[Function]}
         placeholder="Type your ingest license"
         type="text"
+        value={null}
       />
       <span
         style={
@@ -153,6 +154,7 @@ exports[`<GeneralConfigurationFormModal/> BodyGeneralConfiguration Component 1`]
         onFocus={[Function]}
         placeholder="Type your User API Key"
         type="text"
+        value={null}
       />
       <span
         style={
