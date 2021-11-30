@@ -2,6 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Select from '../Select/Select';
+import { navigation } from 'nr1';
 
 // IMPORT IMAGES AND STATIC FILES
 import lines from '../../images/lines.svg';
@@ -13,6 +14,15 @@ import canaryIcon from '../../images/CanaryIcon.svg';
 import canaryIconOn from '../../images/CanaryIconOn.svg';
 import sixthSenseIcon from '../../images/SixthSense.svg';
 import sixthSenseIconOn from '../../images/SixthSenseOn.svg';
+// import goutIcon from '../../images/GoutIcon.svg';
+// import goutIconOn from '../../images/goutBlack.svg';
+
+// New KPI Tool Components
+import RangeDateSelector from '../RangeTime';
+import SelectorKpis from '../SelectorKpis';
+import kpiStatusEqual from '../../images/kpiStatusEqual.svg';
+import kpiStatusUpper from '../../images/kpiStatusUpper.svg';
+import kpiStatusLower from '../../images/kpiStatusLower.svg';
 
 const Header = ({
   iconSixthSenseStatus,
@@ -25,32 +35,19 @@ const Header = ({
   showLeftPanel,
   openLeftMenu,
   handleContextMenuFire,
-  banner_kpis,
+  // handleContextMenuGout,
   ToggleHeaderButtons,
   logoSetup,
-  DisplayConsole
+  // KPI PROPS
+  timeRangeKpi,
+  changeTimeRangeKpi,
+  kpis,
+  updateDataKpisChecked,
+  credentials,
+  accountId
 }) => {
-  const bannerLeftMessage = banner_kpis[0].description;
-  const bannerCenterMessage = banner_kpis[1].description;
-  const bannerRightMessage = banner_kpis[2].description;
-  const bannerLeftValue =
-    banner_kpis[0].prefix === '$'
-      ? `${FormatMoney(banner_kpis[0].value, DisplayConsole)} ${
-          banner_kpis[0].suffix
-        }`
-      : `${banner_kpis[0].prefix} ${banner_kpis[0].value} ${banner_kpis[0].suffix}`;
-  const bannerCenterValue =
-    banner_kpis[1].prefix === '$'
-      ? `${FormatMoney(banner_kpis[1].value, DisplayConsole)} ${
-          banner_kpis[1].suffix
-        }`
-      : `${banner_kpis[1].prefix} ${banner_kpis[1].value} ${banner_kpis[1].suffix}`;
-  const bannerRightValue =
-    banner_kpis[2].prefix === '$'
-      ? `${FormatMoney(banner_kpis[2].value, DisplayConsole)} ${
-          banner_kpis[2].suffix
-        }`
-      : `${banner_kpis[2].prefix} ${banner_kpis[2].value} ${banner_kpis[2].suffix}`;
+  const filterKpis = kpis.filter(kpi => kpi.check);
+  const showLogsLink = credentials.loggin; // TODO logic to hidden
   return (
     <div className="containerHeader">
       <div className="quantityDinner">
@@ -60,30 +57,53 @@ const Header = ({
         {RenderLogo(logoSetup)}
       </div>
       <div className="kpi">
-        <div className="kpicontent">
-          <div className="kpicontent--colorgrey kpicontent--size12">
-            {bannerLeftMessage}
-          </div>
-          <div className="kpicontent--colorblack  kpicontent--size16">
-            {bannerLeftValue}
-          </div>
-        </div>
-        <div className="kpicontent">
-          <div className="kpicontent--colorgrey kpicontent--size12">
-            {bannerCenterMessage}
-          </div>
-          <div className="kpicontent--colorblack  kpicontent--size16">
-            {bannerCenterValue}
-          </div>
-        </div>
-        <div className="kpicontent">
-          <div className="kpicontent--colorgrey kpicontent--size12">
-            {bannerRightMessage}
-          </div>
-          <div className="kpicontent--colorblack  kpicontent--size16">
-            {bannerRightValue}
-          </div>
-        </div>
+        <RangeDateSelector
+          timeRangeKpi={timeRangeKpi}
+          additionalAction={changeTimeRangeKpi}
+          options={[
+            {
+              label: 'DAY',
+              value: '24 HOURS AGO'
+            },
+            {
+              label: 'WEEK',
+              value: '7 DAYS AGO'
+            },
+            {
+              label: 'MONTH',
+              value: '30 DAYS AGO'
+            },
+            {
+              label: 'YDT',
+              value: '365 DAYS AGO'
+            }
+          ]}
+        />
+        <>
+          {filterKpis.map((kpi, index) => {
+            return (
+              <div
+                key={index}
+                style={{ cursor: kpi.link !== '' ? 'pointer' : 'default' }}
+                onClick={() => {
+                  kpi.link !== '' && window.open(kpi.link);
+                }}
+                className="kpicontent"
+              >
+                <div className="kpicontent--colorgrey kpicontent--size10">
+                  {kpi.shortName}
+                </div>
+                <div className="kpicontent--colorblack kpicontent--size12">
+                  {PrintKPI(kpi)}
+                </div>
+              </div>
+            );
+          })}
+        </>
+        <SelectorKpis
+          listKpis={kpis}
+          updateDataKpisChecked={updateDataKpisChecked}
+        />
       </div>
       <span
         className="budgetLoss"
@@ -95,74 +115,126 @@ const Header = ({
           color: iconFireStatus && 'red'
         }}
       />
-      <div className="distributionIcons">
-        <div
-          style={{ visibility: 'hidden' }}
-          className="fireIconContainer"
-          onClick={() => {
-            activeSixthSenseIcon();
-          }}
-        >
-          <img
-            style={{ height: '18px' }}
-            src={iconSixthSenseStatus ? sixthSenseIconOn : sixthSenseIcon}
+      <div className="containerRigthtHand">
+        <div className="distributionIcons">
+          <div
+            style={{ visibility: 'hidden' }}
+            className="fireIconContainer"
+            onClick={() => {
+              activeSixthSenseIcon();
+            }}
+          >
+            <img
+              style={{ height: '18px' }}
+              src={iconSixthSenseStatus ? sixthSenseIconOn : sixthSenseIcon}
+            />
+          </div>
+          <div
+            className="fireIconContainer"
+            onClick={() => {
+              ToggleHeaderButtons('iconCanaryStatus');
+            }}
+          >
+            <img
+              style={{ height: '18px' }}
+              src={iconCanaryStatus ? canaryIconOn : canaryIcon}
+            />
+          </div>
+          <div
+            className="fireIconContainer"
+            onClick={() => {
+              ToggleHeaderButtons('iconFireStatus');
+            }}
+            onMouseDown={handleContextMenuFire}
+          >
+            <img
+              style={{ height: '18px' }}
+              src={iconFireStatus ? fireIconOn : fireIcon}
+            />
+          </div>
+          {/* <div
+            className="fireIconContainer"
+            onClick={() => {
+              ToggleHeaderButtons('iconGoutStatus');
+            }}
+            onMouseDown={handleContextMenuGout}
+          >
+            <img
+              style={{ height: '18px' }}
+              src={iconGoutStatus ? goutIconOn : goutIcon}
+            />
+          </div> */}
+          <Select
+            name="header"
+            handleOnChange={changeTimeRange}
+            options={options}
           />
         </div>
         <div
-          className="fireIconContainer"
+          className="viewLogs"
+          style={{
+            visibility: showLogsLink ? 'visible' : 'hidden',
+            cursor: 'pointer'
+          }}
           onClick={() => {
-            ToggleHeaderButtons('iconCanaryStatus');
+            navigation.openStackedNerdlet({
+              id: 'logger.home',
+              urlState: {
+                accountId: accountId,
+                query: 'application: Pathpoint'
+              }
+            });
           }}
         >
-          <img
-            style={{ height: '18px' }}
-            src={iconCanaryStatus ? canaryIconOn : canaryIcon}
-          />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 16 16"
+            focusable="false"
+            role="img"
+            style={{ width: '20px', height: '20px', marginBottom: '-5px' }}
+          >
+            <path
+              d="M7.7 0H2v15h11V5.3L7.7 0zm3.6 5H8V1.7L11.3 5zM3 14V1h4v5h5v8H3z"
+              fill="#007e8a"
+            />
+            <path d="M5 8h5v1H5zM5 11h3v1H5z" fill="#007e8a" />
+          </svg>
+          See logs
         </div>
-        <div
-          className="fireIconContainer"
-          onClick={() => {
-            ToggleHeaderButtons('iconFireStatus');
-          }}
-          onMouseDown={handleContextMenuFire}
-        >
-          <img
-            style={{ height: '18px' }}
-            src={iconFireStatus ? fireIconOn : fireIcon}
-          />
-        </div>
-        <Select
-          name="header"
-          handleOnChange={changeTimeRange}
-          options={options}
-        />
-        {/* <Select
-          onChange={changeTimeRange}
-          placeholder="now"
-          isSearchable={false}
-          classNamePrefix="react-select"
-          options={options}
-          theme={theme => ({
-            ...theme,
-            borderRadius: 0
-          })}
-        /> */}
       </div>
     </div>
   );
 };
 
 const options = [
-  { label: 'now', value: '5 MINUTES AGO' },
-  { label: '30 minutes', value: '30 MINUTES AGO' },
-  { label: '60 minutes', value: '60 MINUTES AGO' },
-  { label: '3 hours', value: '3 HOURS AGO' },
-  { label: '6 hours', value: '6 HOURS AGO' },
-  { label: '12 hours', value: '12 HOURS AGO' },
-  { label: '24 hours', value: '24 HOURS AGO' },
-  { label: '3 days', value: '3 DAYS AGO' },
-  { label: '7 days', value: '7 DAYS AGO' }
+  { label: 'last 5 minutes', value: '5 MINUTES AGO' },
+  { label: '30 minutes ago', value: '30 MINUTES AGO' },
+  { label: '60 minutes ago', value: '60 MINUTES AGO' },
+  { label: '3 hours ago', value: '3 HOURS AGO' },
+  { label: '6 hours ago', value: '6 HOURS AGO' },
+  { label: '12 hours ago', value: '12 HOURS AGO' },
+  { label: '24 hours ago', value: '24 HOURS AGO' },
+  { label: '3 days ago', value: '3 DAYS AGO' },
+  { label: '7 days ago', value: '7 DAYS AGO' }
 ];
+
+const transformK = (value, type) => {
+  let decimalCount = 1;
+  let million = 1000000;
+  let millar = 1000;
+  if (type === 'FLOAT') {
+    decimalCount = 100;
+    million = 10000;
+    millar = 10;
+  }
+  if (value > 1000000) {
+    return `${Math.round(value / million) / decimalCount} M`;
+  }
+  if (value > 1000) {
+    return `${Math.round(value / millar) / decimalCount} K`;
+  }
+  return `${Math.round(value * decimalCount) / decimalCount}`;
+};
 
 const FormatMoney = (
   amount,
@@ -189,6 +261,7 @@ const FormatMoney = (
         : ''
     }`;
   } catch (e) {
+    /* istanbul ignore next */
     DisplayConsole('error', `Error in format money ${e}`);
   }
 };
@@ -216,7 +289,51 @@ const RenderLogo = logoSetup => {
   }
 };
 
-export { RenderLogo, FormatMoney };
+const CurrentAndPreviousStatus = kpi => {
+  return (
+    <div className="kpi">
+      {kpi.prefix}
+      {transformK(kpi.value.current, kpi.value_type)}
+      {kpi.suffix}
+      <span>{PrintStatus(kpi.value.current - kpi.value.previous)}</span>
+    </div>
+  );
+};
+
+const PrintStatus = value => {
+  let printStatus = kpiStatusLower;
+  printStatus = value === 0 ? kpiStatusEqual : printStatus;
+  printStatus = value > 0 ? kpiStatusUpper : printStatus;
+  return (
+    <div className="kpi-status">
+      <img src={printStatus} />
+    </div>
+  );
+};
+
+const PrintKPI = kpi => {
+  if (kpi.type === 100) {
+    return (
+      <div className="kpi">
+        {kpi.prefix}
+        {transformK(kpi.value, kpi.value_type)}
+        {kpi.suffix}
+      </div>
+    );
+  } else if (kpi.type === 101) {
+    return CurrentAndPreviousStatus(kpi);
+  } else {
+    return `NONE`;
+  }
+};
+
+export {
+  CurrentAndPreviousStatus,
+  RenderLogo,
+  FormatMoney,
+  transformK,
+  PrintKPI
+};
 export default Header;
 
 Header.propTypes = {
@@ -230,8 +347,13 @@ Header.propTypes = {
   showLeftPanel: PropTypes.bool.isRequired,
   openLeftMenu: PropTypes.func.isRequired,
   handleContextMenuFire: PropTypes.func.isRequired,
-  banner_kpis: PropTypes.array.isRequired,
+  // handleContextMenuGout: PropTypes.func.isRequired,
   ToggleHeaderButtons: PropTypes.func.isRequired,
   logoSetup: PropTypes.object.isRequired,
-  DisplayConsole: PropTypes.func.isRequired
+  timeRangeKpi: PropTypes.object.isRequired,
+  changeTimeRangeKpi: PropTypes.func.isRequired,
+  kpis: PropTypes.array.isRequired,
+  updateDataKpisChecked: PropTypes.func.isRequired,
+  credentials: PropTypes.object.isRequired,
+  accountId: PropTypes.number.isRequired
 };

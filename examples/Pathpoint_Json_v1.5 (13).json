@@ -1,0 +1,1166 @@
+{
+    "pathpointVersion": "1.5.45",
+    "kpis": [
+        {
+            "type": 101,
+            "name": "Unique Visitors",
+            "shortName": "Unique",
+            "measure": [
+                {
+                    "accountID": 1606862,
+                    "query": "SELECT count(*) as value  FROM  Public_APICall COMPARE WITH 2 day ago",
+                    "link": "https://onenr.io/01qwL8KPxw5"
+                }
+            ],
+            "value_type": "FLOAT",
+            "prefix": "$",
+            "suffix": ""
+        },
+        {
+            "type": 101,
+            "name": "1 Account",
+            "shortName": "1 Acc.",
+            "measure": [
+                {
+                    "accountID": 1606862,
+                    "query": "SELECT count(*) as value  FROM  Public_APICall COMPARE WITH 2 day ago",
+                    "link": "https://onenr.io/01qwL8KPxw5"
+                }
+            ],
+            "value_type": "FLOAT",
+            "prefix": "",
+            "suffix": "%"
+        },
+        {
+            "type": 100,
+            "name": "1+ Account",
+            "shortName": "1+ Acc.",
+            "measure": [
+                {
+                    "accountID": 1606862,
+                    "query": "SELECT count(*) as value  FROM  Public_APICall",
+                    "link": "https://onenr.io/01qwL8KPxw5"
+                }
+            ],
+            "value_type": "FLOAT",
+            "prefix": "R$",
+            "suffix": ""
+        },
+        {
+            "type": 100,
+            "name": "Customers",
+            "shortName": "Cust.",
+            "measure": [
+                {
+                    "accountID": 1606862,
+                    "query": "SELECT count(*) as value  FROM  Public_APICall",
+                    "link": "https://onenr.io/01qwL8KPxw5"
+                }
+            ],
+            "value_type": "INT",
+            "prefix": "#",
+            "suffix": "ACC"
+        },
+        {
+            "type": 100,
+            "name": "All Accounts",
+            "shortName": "All Acc.",
+            "measure": [
+                {
+                    "accountID": 1606862,
+                    "query": "SELECT count(*) as value  FROM  Public_APICall",
+                    "link": "https://onenr.io/01qwL8KPxw5"
+                }
+            ],
+            "value_type": "INT",
+            "prefix": "",
+            "suffix": ""
+        },
+        {
+            "type": 100,
+            "name": "Monthly vs Annual Pay",
+            "shortName": "MvsA",
+            "measure": [
+                {
+                    "accountID": 1606862,
+                    "query": "SELECT count(*) as value  FROM  Public_APICall",
+                    "link": "https://onenr.io/01qwL8KPxw5"
+                }
+            ],
+            "value_type": "INT",
+            "prefix": "",
+            "suffix": ""
+        },
+        {
+            "type": 100,
+            "name": "Autopay",
+            "shortName": "Autopay",
+            "measure": [
+                {
+                    "accountID": 1606862,
+                    "query": "SELECT count(*) as value  FROM  Public_APICall",
+                    "link": "https://onenr.io/01qwL8KPxw5"
+                }
+            ],
+            "value_type": "INT",
+            "prefix": "",
+            "suffix": ""
+        },
+        {
+            "type": 100,
+            "name": "eStatement",
+            "shortName": "eStat.",
+            "measure": [
+                {
+                    "accountID": 1606862,
+                    "query": "SELECT count(*) as value  FROM  Public_APICall",
+                    "link": "https://onenr.io/01qwL8KPxw5"
+                }
+            ],
+            "value_type": "INT",
+            "prefix": "",
+            "suffix": ""
+        },
+        {
+            "type": 100,
+            "name": "1 loan Signed-in",
+            "shortName": "1_loan",
+            "measure": [
+                {
+                    "accountID": 1606862,
+                    "query": "SELECT count(*) as value  FROM  Public_APICall",
+                    "link": "https://onenr.io/01qwL8KPxw5"
+                }
+            ],
+            "value_type": "INT",
+            "prefix": "",
+            "suffix": ""
+        },
+        {
+            "type": 100,
+            "name": "1+ loan Signed-in",
+            "shortName": "1+loan",
+            "measure": [
+                {
+                    "accountID": 1606862,
+                    "query": "SELECT count(*) as value  FROM  Public_APICall",
+                    "link": "https://onenr.io/01qwL8KPxw5"
+                }
+            ],
+            "value_type": "INT",
+            "prefix": "",
+            "suffix": ""
+        },
+        {
+            "type": 100,
+            "name": "Consumer Loans Signed-in",
+            "shortName": "Cust L",
+            "measure": [
+                {
+                    "accountID": 1606862,
+                    "query": "SELECT count(*) as value  FROM  Public_APICall",
+                    "link": "https://onenr.io/01qwL8KPxw5"
+                }
+            ],
+            "value_type": "INT",
+            "prefix": "",
+            "suffix": ""
+        },
+        {
+            "type": 100,
+            "name": "green orders",
+            "shortName": "Green orders (max)",
+            "measure": [
+                {
+                    "accountID": 1606862,
+                    "query": "SELECT count(*) as value  FROM  Public_APICall",
+                    "link": "https://onenr.io/01qwL8KPxw5"
+                }
+            ],
+            "value_type": "INT",
+            "prefix": "",
+            "suffix": ""
+        },
+        {
+            "type": 100,
+            "name": "Past Due",
+            "shortName": "Past_Due",
+            "measure": [
+                {
+                    "accountID": 1606862,
+                    "query": "SELECT count(*) as value  FROM  Public_APICall",
+                    "link": "https://onenr.io/01qwL8KPxw5"
+                }
+            ],
+            "value_type": "INT",
+            "prefix": "",
+            "suffix": ""
+        },
+        {
+            "type": 100,
+            "name": "Auto-Dialer",
+            "shortName": "Auto-Dialer",
+            "measure": [
+                {
+                    "accountID": 1606862,
+                    "query": "SELECT count(*) as value  FROM  Public_APICall",
+                    "link": "https://onenr.io/01qwL8KPxw5"
+                }
+            ],
+            "value_type": "INT",
+            "prefix": "",
+            "suffix": ""
+        }
+    ],
+    "stages": [
+        {
+            "title": "BROWSE",
+            "active_dotted": "none",
+            "arrowMode": "FLOW",
+            "percentage_above_avg": 20,
+            "steps": [
+                {
+                    "line": 1,
+                    "values": [
+                        {
+                            "title": "Web",
+                            "id": "ST1-LINE1-SS1"
+                        },
+                        {
+                            "title": "Mobile Web",
+                            "id": "ST1-LINE1-SS2"
+                        },
+                        {
+                            "title": "App",
+                            "id": "ST1-LINE1-SS3"
+                        }
+                    ]
+                },
+                {
+                    "line": 2,
+                    "values": [
+                        {
+                            "title": "Login",
+                            "id": "ST1-LINE2-SS1"
+                        },
+                        {
+                            "title": "Signup",
+                            "id": "ST1-LINE2-SS2"
+                        },
+                        {
+                            "title": "Guest",
+                            "id": "ST1-LINE2-SS3"
+                        }
+                    ]
+                },
+                {
+                    "line": 3,
+                    "values": [
+                        {
+                            "title": "Search",
+                            "id": "ST1-LINE3-SS1"
+                        },
+                        {
+                            "title": "Menu",
+                            "id": "ST1-LINE3-SS2"
+                        },
+                        {
+                            "title": "Gift Card",
+                            "id": "ST1-LINE3-SS3"
+                        },
+                        {
+                            "title": "Rewards",
+                            "id": "ST1-LINE3-SS4"
+                        }
+                    ]
+                },
+                {
+                    "line": 4,
+                    "values": [
+                        {
+                            "title": "Rewards",
+                            "id": "ST1-LINE4-SS1"
+                        },
+                        {
+                            "title": "Pick-Up Item",
+                            "id": "ST1-LINE4-SS2"
+                        },
+                        {
+                            "title": "Reward Item",
+                            "id": "ST1-LINE4-SS3"
+                        }
+                    ]
+                },
+                {
+                    "line": 5,
+                    "values": [
+                        {
+                            "title": "Add to Bag",
+                            "id": "ST1-LINE5-SS1"
+                        }
+                    ]
+                }
+            ],
+            "touchpoints": [
+                {
+                    "title": "Login People (PRC)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/01qwL8KPxw5"
+                    ],
+                    "related_steps": "ST1-LINE2-SS1",
+                    "queries": [
+                        {
+                            "type": "PRC-COUNT-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
+                            "query_timeout": 10,
+                            "min_count": 10,
+                            "measure_time": "15 minutes ago"
+                        }
+                    ]
+                },
+                {
+                    "title": "App Backend Health (APP)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/01qwL8KPxw5"
+                    ],
+                    "related_steps": "ST1-LINE1-SS3",
+                    "queries": [
+                        {
+                            "type": "APP-HEALTH-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
+                            "query_timeout": 10,
+                            "min_apdex": 0.4,
+                            "max_response_time": 0.5,
+                            "max_error_percentage": 5,
+                            "measure_time": "5 MINUTES AGO"
+                        }
+                    ]
+                },
+                {
+                    "title": "App Frontend Health (FRT)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/01qwL8KPxw5"
+                    ],
+                    "related_steps": "ST1-LINE1-SS1",
+                    "queries": [
+                        {
+                            "type": "FRT-HEALTH-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
+                            "query_timeout": 10,
+                            "min_apdex": 0.6,
+                            "max_response_time": 1.2,
+                            "max_error_percentage": 5,
+                            "measure_time": "5 MINUTES AGO"
+                        }
+                    ]
+                },
+                {
+                    "title": "Login Check (SYN)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/01qwL8KPxw5"
+                    ],
+                    "related_steps": "ST1-LINE2-SS1",
+                    "queries": [
+                        {
+                            "type": "SYN-CHECK-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE monitorName='BDB Live person'",
+                            "query_timeout": 10,
+                            "max_avg_response_time": 0.7,
+                            "max_total_check_time": 1.25,
+                            "min_success_percentage": 98,
+                            "measure_time": "3 hours ago"
+                        }
+                    ]
+                },
+                {
+                    "title": "Signup People (PRC)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/01qwL8KPxw5"
+                    ],
+                    "related_steps": "ST1-LINE2-SS2",
+                    "queries": [
+                        {
+                            "type": "PRC-COUNT-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='us-east-1'",
+                            "query_timeout": 10,
+                            "min_count": 36,
+                            "measure_time": "5 MINUTES AGO"
+                        }
+                    ]
+                },
+                {
+                    "title": "Workload (WLD)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        false
+                    ],
+                    "related_steps": "",
+                    "queries": [
+                        {
+                            "type": "WORKLOAD-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='ACME Banking'",
+                            "query_timeout": 10,
+                            "measure_time": "5 MINUTES AGO"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "BAG",
+            "active_dotted": "none",
+            "arrowMode": "FLOW",
+            "percentage_above_avg": 20,
+            "steps": [
+                {
+                    "line": 1,
+                    "values": [
+                        {
+                            "title": "Pay Items",
+                            "id": "ST2-LINE1-SS1"
+                        },
+                        {
+                            "title": "Reward Items",
+                            "id": "ST2-LINE1-SS2"
+                        },
+                        {
+                            "title": "Saved items",
+                            "id": "ST2-LINE1-SS3"
+                        }
+                    ]
+                },
+                {
+                    "line": 2,
+                    "values": [
+                        {
+                            "title": "Add/Remove Item",
+                            "id": "ST2-LINE2-SS1"
+                        },
+                        {
+                            "title": "Promo Code",
+                            "id": "ST2-LINE2-SS2"
+                        }
+                    ]
+                },
+                {
+                    "line": 3,
+                    "values": [
+                        {
+                            "title": "PAY Calculation",
+                            "id": "ST2-LINE3-SS1"
+                        },
+                        {
+                            "title": "POINTS Calculation",
+                            "id": "ST2-LINE3-SS2"
+                        }
+                    ]
+                },
+                {
+                    "line": 4,
+                    "values": [
+                        {
+                            "title": "Checkout",
+                            "id": "ST2-LINE4-SS1"
+                        },
+                        {
+                            "title": "Continue Shopping",
+                            "id": "ST2-LINE4-SS2"
+                        },
+                        {
+                            "title": "Save For Later",
+                            "id": "ST2-LINE4-SS3"
+                        }
+                    ]
+                }
+            ],
+            "touchpoints": [
+                {
+                    "title": "Catalog API USE (PCC)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/01qwL8KPxw5"
+                    ],
+                    "related_steps": "ST2-LINE1-SS1",
+                    "queries": [
+                        {
+                            "type": "PCC-COUNT-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT count(*) FROM Public_APICall WHERE awsRegion='us-east-1'",
+                            "query_timeout": 10,
+                            "min_count": 20,
+                            "measure_time": "5 MINUTES AGO"
+                        }
+                    ]
+                },
+                {
+                    "title": "Pricing API (APP)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/01qwL8KPxw5"
+                    ],
+                    "related_steps": "ST2-LINE2-SS1",
+                    "queries": [
+                        {
+                            "type": "APP-HEALTH-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
+                            "query_timeout": 10,
+                            "min_apdex": 0.4,
+                            "max_response_time": 0.5,
+                            "max_error_percentage": 5,
+                            "measure_time": "5 MINUTES AGO"
+                        }
+                    ]
+                },
+                {
+                    "title": "Master Data API (FRT)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/01qwL8KPxw5"
+                    ],
+                    "related_steps": "ST2-LINE3-SS1",
+                    "queries": [
+                        {
+                            "type": "FRT-HEALTH-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
+                            "query_timeout": 10,
+                            "min_apdex": 0.6,
+                            "max_response_time": 1.2,
+                            "max_error_percentage": 5,
+                            "measure_time": "5 MINUTES AGO"
+                        }
+                    ]
+                },
+                {
+                    "title": "Subscriptions API (PCC)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/01qwL8KPxw5"
+                    ],
+                    "related_steps": "ST2-LINE4-SS1",
+                    "queries": [
+                        {
+                            "type": "PCC-COUNT-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name='WebTransaction/Action/login'",
+                            "query_timeout": 10,
+                            "min_count": 36,
+                            "measure_time": "5 MINUTES AGO"
+                        }
+                    ]
+                },
+                {
+                    "title": "Workload (WLD)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/0a7j9pBB3RO"
+                    ],
+                    "related_steps": "",
+                    "queries": [
+                        {
+                            "type": "WORKLOAD-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='Acme Telco - Ecommerce'",
+                            "query_timeout": 10,
+                            "measure_time": "5 MINUTES AGO"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "CHECKOUT",
+            "active_dotted": "none",
+            "arrowMode": "FLOW",
+            "percentage_above_avg": 20,
+            "steps": [
+                {
+                    "line": 1,
+                    "values": [
+                        {
+                            "title": "Customer info.",
+                            "id": "ST3-LINE1-SS1"
+                        }
+                    ]
+                },
+                {
+                    "line": 2,
+                    "values": [
+                        {
+                            "title": "Delivery Options",
+                            "id": "ST3-LINE2-SS1"
+                        },
+                        {
+                            "title": "Pick-Up Options",
+                            "id": "ST3-LINE2-SS2"
+                        },
+                        {
+                            "title": "Gift Option",
+                            "id": "ST3-LINE2-SS3"
+                        }
+                    ]
+                },
+                {
+                    "line": 3,
+                    "values": [
+                        {
+                            "title": "Credit Card",
+                            "id": "ST3-LINE3-SS1"
+                        },
+                        {
+                            "title": "Paypal",
+                            "id": "ST3-LINE3-SS2"
+                        },
+                        {
+                            "title": "Afterpay",
+                            "id": "ST3-LINE3-SS3"
+                        },
+                        {
+                            "title": "Gift Card ",
+                            "id": "ST3-LINE3-SS4"
+                        }
+                    ]
+                },
+                {
+                    "line": 4,
+                    "values": [
+                        {
+                            "title": "Submit Order",
+                            "id": "ST3-LINE4-SS1"
+                        }
+                    ]
+                }
+            ],
+            "touchpoints": [
+                {
+                    "title": "Session Manager API (PCC)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/01qwL8KPxw5"
+                    ],
+                    "related_steps": "ST3-LINE1-SS1",
+                    "queries": [
+                        {
+                            "type": "PCC-COUNT-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name='WebTransaction/Action/login'",
+                            "query_timeout": 10,
+                            "min_count": 36,
+                            "measure_time": "5 MINUTES AGO"
+                        }
+                    ]
+                },
+                {
+                    "title": "Checkout Check (SYN)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/01qwL8KPxw5"
+                    ],
+                    "related_steps": "ST3-LINE2-SS2",
+                    "queries": [
+                        {
+                            "type": "SYN-CHECK-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE monitorName='BDB Live person'",
+                            "query_timeout": 10,
+                            "max_avg_response_time": 0.7,
+                            "max_total_check_time": 1.25,
+                            "min_success_percentage": 98,
+                            "measure_time": "2 hours ago"
+                        }
+                    ]
+                },
+                {
+                    "title": "Customer Credit API (PCC)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/01qwL8KPxw5"
+                    ],
+                    "related_steps": "ST3-LINE3-SS1",
+                    "queries": [
+                        {
+                            "type": "PCC-COUNT-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name LIKE 'WebTransaction/Action/App%'",
+                            "query_timeout": 10,
+                            "min_count": 20,
+                            "measure_time": "5 MINUTES AGO"
+                        }
+                    ]
+                },
+                {
+                    "title": "Gift Card API (APP)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/01qwL8KPxw5"
+                    ],
+                    "related_steps": "ST3-LINE4-SS1",
+                    "queries": [
+                        {
+                            "type": "APP-HEALTH-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
+                            "query_timeout": 10,
+                            "min_apdex": 0.4,
+                            "max_response_time": 0.5,
+                            "max_error_percentage": 5,
+                            "measure_time": "5 MINUTES AGO"
+                        }
+                    ]
+                },
+                {
+                    "title": "Gift Card Hub API (FRT)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/01qwL8KPxw5"
+                    ],
+                    "related_steps": "ST3-LINE2-SS1",
+                    "queries": [
+                        {
+                            "type": "FRT-HEALTH-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
+                            "query_timeout": 10,
+                            "min_apdex": 0.6,
+                            "max_response_time": 1.2,
+                            "max_error_percentage": 5,
+                            "measure_time": "5 MINUTES AGO"
+                        }
+                    ]
+                },
+                {
+                    "title": "Catalog API (PCC)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/01qwL8KPxw5"
+                    ],
+                    "related_steps": "ST3-LINE2-SS3",
+                    "queries": [
+                        {
+                            "type": "PCC-COUNT-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name='WebTransaction/Action/login'",
+                            "query_timeout": 10,
+                            "min_count": 36,
+                            "measure_time": "5 MINUTES AGO"
+                        }
+                    ]
+                },
+                {
+                    "title": "Workload (WLD)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/0YBR6kKKqjO"
+                    ],
+                    "related_steps": "",
+                    "queries": [
+                        {
+                            "type": "WORKLOAD-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='Demotron V2 - Acme Dev'",
+                            "query_timeout": 10,
+                            "measure_time": "5 MINUTES AGO"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "ORDER",
+            "active_dotted": "none",
+            "arrowMode": "FLOW",
+            "percentage_above_avg": 20,
+            "steps": [
+                {
+                    "line": 1,
+                    "values": [
+                        {
+                            "title": "Delivery Items",
+                            "id": "ST4-LINE1-SS1"
+                        },
+                        {
+                            "title": "Pick-Up Items",
+                            "id": "ST4-LINE1-SS2"
+                        },
+                        {
+                            "title": "Item Not Available",
+                            "id": "ST4-LINE1-SS3"
+                        }
+                    ]
+                },
+                {
+                    "line": 2,
+                    "values": [
+                        {
+                            "title": "Order Processing",
+                            "id": "ST4-LINE2-SS1"
+                        },
+                        {
+                            "title": "Order Canceled",
+                            "id": "ST4-LINE2-SS2"
+                        },
+                        {
+                            "title": "Order Delayed",
+                            "id": "ST4-LINE2-SS3"
+                        }
+                    ]
+                },
+                {
+                    "line": 3,
+                    "values": [
+                        {
+                            "title": "Delivery Label Generated",
+                            "id": "ST4-LINE3-SS1"
+                        },
+                        {
+                            "title": "Pick-up Prep",
+                            "id": "ST4-LINE3-SS2"
+                        }
+                    ]
+                },
+                {
+                    "line": 4,
+                    "values": [
+                        {
+                            "title": "Order Tracking #",
+                            "id": "ST4-LINE4-SS1"
+                        },
+                        {
+                            "title": "Pick-up Date and Locatioon",
+                            "id": "ST4-LINE4-SS2"
+                        }
+                    ]
+                }
+            ],
+            "touchpoints": [
+                {
+                    "title": "Orders API (PRC)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/01qwL8KPxw5"
+                    ],
+                    "related_steps": "ST4-LINE1-SS1",
+                    "queries": [
+                        {
+                            "type": "PRC-COUNT-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='ap-southeast-2'",
+                            "query_timeout": 10,
+                            "min_count": 10,
+                            "measure_time": "5 MINUTES AGO"
+                        }
+                    ]
+                },
+                {
+                    "title": "Customer Credit API (APP)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/01qwL8KPxw5"
+                    ],
+                    "related_steps": "ST4-LINE2-SS1",
+                    "queries": [
+                        {
+                            "type": "APP-HEALTH-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
+                            "query_timeout": 10,
+                            "min_apdex": 0.4,
+                            "max_response_time": 0.5,
+                            "max_error_percentage": 5,
+                            "measure_time": "5 MINUTES AGO"
+                        }
+                    ]
+                },
+                {
+                    "title": "Gift Card API (FRT)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/01qwL8KPxw5"
+                    ],
+                    "related_steps": "ST4-LINE3-SS1",
+                    "queries": [
+                        {
+                            "type": "FRT-HEALTH-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
+                            "query_timeout": 10,
+                            "min_apdex": 0.6,
+                            "max_response_time": 1.2,
+                            "max_error_percentage": 5,
+                            "measure_time": "5 MINUTES AGO"
+                        }
+                    ]
+                },
+                {
+                    "title": "Gift Card Hub API (SYN)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/01qwL8KPxw5"
+                    ],
+                    "related_steps": "ST4-LINE4-SS1",
+                    "queries": [
+                        {
+                            "type": "SYN-CHECK-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE monitorName='BDB Live person'",
+                            "query_timeout": 10,
+                            "max_avg_response_time": 0.7,
+                            "max_total_check_time": 1.25,
+                            "min_success_percentage": 98,
+                            "measure_time": "1 hour ago"
+                        }
+                    ]
+                },
+                {
+                    "title": "Logistics API (PRC)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/01qwL8KPxw5"
+                    ],
+                    "related_steps": "ST4-LINE4-SS2",
+                    "queries": [
+                        {
+                            "type": "PRC-COUNT-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='us-west-1'",
+                            "query_timeout": 10,
+                            "min_count": 36,
+                            "measure_time": "5 MINUTES AGO"
+                        }
+                    ]
+                },
+                {
+                    "title": "Workload (WLD)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/0x0jlDzz7jW"
+                    ],
+                    "related_steps": "",
+                    "queries": [
+                        {
+                            "type": "WORKLOAD-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='Databases'",
+                            "query_timeout": 10,
+                            "measure_time": "5 MINUTES AGO"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "DISTRIBUTION",
+            "active_dotted": "none",
+            "arrowMode": "FLOW",
+            "percentage_above_avg": 20,
+            "steps": [
+                {
+                    "line": 1,
+                    "values": [
+                        {
+                            "title": "Ready for Store Pick-Up",
+                            "id": "ST5-LINE1-SS1"
+                        },
+                        {
+                            "title": "Ready for Carrier",
+                            "id": "ST5-LINE1-SS2"
+                        }
+                    ]
+                },
+                {
+                    "line": 2,
+                    "values": [
+                        {
+                            "title": "Carrier Pick-Up",
+                            "id": "ST5-LINE2-SS1"
+                        },
+                        {
+                            "title": "Customer Pick-Up",
+                            "id": "ST5-LINE2-SS2"
+                        }
+                    ]
+                },
+                {
+                    "line": 3,
+                    "values": [
+                        {
+                            "title": " Carrier Update",
+                            "id": "ST5-LINE3-SS1"
+                        }
+                    ]
+                },
+                {
+                    "line": 4,
+                    "values": [
+                        {
+                            "title": "Delivered",
+                            "id": "ST5-LINE4-SS1"
+                        },
+                        {
+                            "title": "Returned",
+                            "id": "ST5-LINE4-SS2"
+                        }
+                    ]
+                },
+                {
+                    "line": 5,
+                    "values": [
+                        {
+                            "title": "Proof of Delivery",
+                            "id": "ST5-LINE5-SS1"
+                        },
+                        {
+                            "title": "Proof of Store Pick-up",
+                            "id": "ST5-LINE5-SS2"
+                        }
+                    ]
+                }
+            ],
+            "touchpoints": [
+                {
+                    "title": "VTEX Do API (PCC)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/01qwL8KPxw5"
+                    ],
+                    "related_steps": "ST5-LINE1-SS1",
+                    "queries": [
+                        {
+                            "type": "PCC-COUNT-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name='WebTransaction/Action/login'",
+                            "query_timeout": 10,
+                            "min_count": 36,
+                            "measure_time": "5 MINUTES AGO"
+                        }
+                    ]
+                },
+                {
+                    "title": "Subscriptions API (SYN)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/01qwL8KPxw5"
+                    ],
+                    "related_steps": "ST5-LINE1-SS2",
+                    "queries": [
+                        {
+                            "type": "SYN-CHECK-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE monitorName='BDB Live person'",
+                            "query_timeout": 10,
+                            "max_avg_response_time": 0.7,
+                            "max_total_check_time": 1.25,
+                            "min_success_percentage": 98,
+                            "measure_time": "1 week ago"
+                        }
+                    ]
+                },
+                {
+                    "title": "Session Manager API (PCC)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/01qwL8KPxw5"
+                    ],
+                    "related_steps": "ST5-LINE2-SS1",
+                    "queries": [
+                        {
+                            "type": "PCC-COUNT-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name LIKE 'WebTransaction/Action/App%'",
+                            "query_timeout": 10,
+                            "min_count": 20,
+                            "measure_time": "5 MINUTES AGO"
+                        }
+                    ]
+                },
+                {
+                    "title": "Checkout API (APP)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/01qwL8KPxw5"
+                    ],
+                    "related_steps": "ST5-LINE3-SS1",
+                    "queries": [
+                        {
+                            "type": "APP-HEALTH-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
+                            "query_timeout": 10,
+                            "min_apdex": 0.4,
+                            "max_response_time": 0.5,
+                            "max_error_percentage": 5,
+                            "measure_time": "5 MINUTES AGO"
+                        }
+                    ]
+                },
+                {
+                    "title": "Customer Credit API (FRT)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/01qwL8KPxw5"
+                    ],
+                    "related_steps": "ST5-LINE4-SS1",
+                    "queries": [
+                        {
+                            "type": "FRT-HEALTH-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
+                            "query_timeout": 10,
+                            "min_apdex": 0.6,
+                            "max_response_time": 1.2,
+                            "max_error_percentage": 5,
+                            "measure_time": "5 MINUTES AGO"
+                        }
+                    ]
+                },
+                {
+                    "title": "Gift Card API (PCC)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/01qwL8KPxw5"
+                    ],
+                    "related_steps": "ST5-LINE5-SS1",
+                    "queries": [
+                        {
+                            "type": "PCC-COUNT-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name='WebTransaction/Action/login'",
+                            "query_timeout": 10,
+                            "min_count": 36,
+                            "measure_time": "5 MINUTES AGO"
+                        }
+                    ]
+                },
+                {
+                    "title": "Workload (WLD)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/04ERPDJqaRW"
+                    ],
+                    "related_steps": "",
+                    "queries": [
+                        {
+                            "type": "WORKLOAD-QUERY",
+                            "accountID": 1606862,
+                            "query": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='Demotron V2 - Telco'",
+                            "query_timeout": 10,
+                            "measure_time": "5 MINUTES AGO"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

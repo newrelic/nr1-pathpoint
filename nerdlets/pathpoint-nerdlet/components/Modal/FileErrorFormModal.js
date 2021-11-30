@@ -2,6 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Ajv from 'ajv';
 
+// IMPORT UTILS
+import { TranslateAJVErrors } from './JsonConfigurationFormModal';
+
 // IMPORT SCHEMA VALIDATION
 import viewSchema, { CustomSchemaValidation } from '../../schemas/view';
 
@@ -32,7 +35,7 @@ function BodyFileErrorFormModal(props) {
         {errorsList.map((error, i) => {
           return (
             <div className="error-alert-modal" key={i}>
-              <p>{`${error.dataPath} - ${error.message}`}</p>
+              <p>{`${error.dataPath} ${error.message}`}</p>
             </div>
           );
         })}
@@ -83,17 +86,25 @@ function handleUploadJSONFile(
       const valid = await validate(JSON.parse(eX.target.result));
       if (valid) {
         let parsed = JSON.parse(eX.target.result);
-        parsed = parsed.banner_kpis;
+        parsed = parsed.kpis;
         const queryErrors = [];
+        let tested = false;
         for (let i = 0; i < parsed.length; i++) {
-          const tested = await validateKpiQuery.validateQuery(
-            'Count Query',
-            parsed[i].query
-          );
+          if (parsed[i].type === 100) {
+            tested = await validateKpiQuery.validateQuery(
+              'KPI-100',
+              parsed[i].measure[0].query
+            );
+          } else if (parsed[i].type === 101) {
+            tested = await validateKpiQuery.validateQuery(
+              'KPI-101',
+              parsed[i].measure[0].query
+            );
+          }
           if (!tested.goodQuery) {
             queryErrors.push({
-              dataPath: `banner_kpis/${i}/query`,
-              message: `Bad query structure`
+              dataPath: `Error at KPI '${parsed[i].name}', in measure at position 1, in property 'query', `,
+              message: `bad query structure`
             });
           }
         }
@@ -115,7 +126,11 @@ function handleUploadJSONFile(
         }
         onClose(totalErrrors);
       } else {
-        onClose(validate.errors);
+        const errors = TranslateAJVErrors(
+          validate.errors,
+          JSON.parse(eX.target.result)
+        );
+        onClose(errors);
       }
     } catch (error) {
       onClose([

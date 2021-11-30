@@ -5,89 +5,288 @@
 // IMPORT LIBRARIES DEPENDENCIES
 import NerdletData from '../../../nr1.json';
 import TouchPoints from '../config/touchPoints.json';
-import Capacity from '../config/capacity.json';
 import Canary from '../config/canary_states.json';
 import ViewData from '../config/view.json';
 import appPackage from '../../../package.json';
-import { historicErrorScript } from '../../../synthetics/createHistoricErrorScript';
+import NerdStorageVault from './NerdStorageVault';
+import { historicErrorScript } from '../../../synthetics/createHistoricErrorScript2';
 import {
   AccountStorageMutation,
   AccountsQuery,
   AccountStorageQuery,
-  NerdGraphQuery
+  NerdGraphQuery,
+  logger
 } from 'nr1';
+
+import LogConnector from './LogsConnector';
+import SynConnector from './SynConnector';
+import CredentialConnector from './CredentialConnector';
 
 // DEFINE AND EXPORT CLASS
 export default class DataManager {
   constructor() {
+    this.NerdStorageVault = new NerdStorageVault();
+    this.LogConnector = new LogConnector();
+    this.SynConnector = new SynConnector();
+    this.CredentialConnector = new CredentialConnector();
+    this.SecureCredentialsExist = false;
     this.minPercentageError = 100;
-    this.historicErrorsDays = 8;
+    this.historicErrorsHours = 192;
     this.historicErrorsHighLightPercentage = 26;
+    this.dropParams = null;
     this.version = null;
     this.accountId = null;
+    this.SyntheticAccountID = null;
     this.graphQlmeasures = [];
     this.touchPointsCopy = null;
     this.city = 0;
-    this.capacityUpdatePending = false;
     this.pathpointId = NerdletData.id;
-    this.capacity = Capacity;
     this.touchPoints = TouchPoints;
     this.stages = [];
     this.lastStorageVersion = null;
     this.stepsByStage = [];
+    this.credentials = {};
+    this.generalConfiguration = {};
     this.dataCanary = Canary;
     this.configuration = {
       pathpointVersion: null,
-      banner_kpis: [],
+      kpis: [],
       stages: []
     };
     this.configurationJSON = {};
     this.measureNames = [
-      'COUNT-QUERY',
-      'ERROR-PERCENTAGE-QUERY',
-      'APDEX-QUERY',
-      'SESSIONS-QUERY',
-      'SESSIONS-QUERY-DURATION',
-      'FULL-OPEN-QUERY'
+      'PRC-COUNT-QUERY',
+      'PCC-COUNT-QUERY',
+      'APP-HEALTH-QUERY',
+      'FRT-HEALTH-QUERY',
+      'SYN-CHECK-QUERY',
+      'WORKLOAD-QUERY'
     ];
+    this.accountIDs = [
+      {
+        name: 'NAME',
+        id: 0
+      }
+    ];
+    this.detaultTimeout = 10;
   }
 
-  async BootstrapInitialData() {
-    await this.GetAccountId();
-    await this.GetDBmaxCapacity();
+  async BootstrapInitialData(accountName) {
+    await this.GetAccountId(accountName);
+    logger.log('Accounts::');
+    this.accountIDs.forEach(account => {
+      logger.log(`AccountName:${account.name}   ID:${account.id} `);
+    });
     await this.CheckVersion();
     await this.GetCanaryData();
     await this.GetStorageHistoricErrorsParams();
+    await this.GetStorageDropParams();
+    this.credentials = await this.NerdStorageVault.getCredentialsData();
+    if (
+      this.credentials &&
+      this.credentials.actor.nerdStorageVault.secrets.length > 0
+    ) {
+      await this.TryToSetKeys(this.credentials.actor.nerdStorageVault.secrets);
+    }
+    await this.GetGeneralConfiguration();
+    this.TryToEnableServices();
     this.version = appPackage.version;
-    /* istanbul ignore next */
     if (this.lastStorageVersion === appPackage.version) {
       this.colors = ViewData.colors;
       await this.GetInitialDataFromStorage();
-      this.GetStorageTouchpoints();
+      await this.GetStorageTouchpoints();
     } else {
       this.stages = ViewData.stages;
-      this.banner_kpis = ViewData.banner_kpis;
       this.colors = ViewData.colors;
+      this.kpis = ViewData.kpis ?? [];
       this.SetInitialDataViewToStorage();
       this.SetStorageTouchpoints();
       this.SetVersion();
     }
+    this.AddCustomAccountIDs();
     this.stepsByStage = this.GetStepsByStage();
     return {
       stages: [...this.stages],
-      banner_kpis: [...this.banner_kpis],
+      kpis: [...this.kpis],
       colors: this.colors,
       accountId: this.accountId,
-      version: this.version
+      version: this.version,
+      totalContainers: this.SetTotalContainers(),
+      accountIDs: this.accountIDs,
+      credentials: this.credentials,
+      generalConfiguration: this.generalConfiguration
     };
   }
 
-  async GetAccountId() {
+  async TryToSetKeys(secrets) {
+    // console.log('Secrets:',secrets);
+    let licensekey = '';
+    let userApiKey = '';
+    secrets.forEach(item => {
+      if (
+        item.key &&
+        item.key === 'ingestLicense' &&
+        item.value &&
+        item.value !== '_' &&
+        item.value.indexOf('xxxxxx') === -1
+      ) {
+        licensekey = item.value;
+      }
+      if (
+        item.key &&
+        item.key === 'userAPIKey' &&
+        item.value &&
+        item.value !== '_' &&
+        item.value.indexOf('xxxxxx') === -1
+      ) {
+        userApiKey = item.value;
+      }
+    });
+    if (licensekey !== '') {
+      const valid = await this.ValidateIngestLicense(licensekey);
+      if (valid) {
+        this.LogConnector.SetLicenseKey(licensekey);
+        this.SynConnector.SetLicenseKey(licensekey);
+        this.CredentialConnector.SetLicenseKey(licensekey);
+      }
+    }
+    if (userApiKey !== '') {
+      const valid = await this.ValidateUserApiKey(userApiKey);
+      if (valid) {
+        this.SynConnector.SetUserApiKey(userApiKey);
+        this.CredentialConnector.SetUserApiKey(userApiKey);
+      }
+    }
+  }
+
+  TryToEnableServices() {
+    // TODO
+    // console.log('General Configuration:',this.generalConfiguration);
+    if (Reflect.has(this.generalConfiguration, 'loggin')) {
+      this.LogConnector.EnableDisable(this.generalConfiguration.loggin);
+      // console.log('ENABLE/DISABLE-LOG-CONNECTOR:', this.generalConfiguration.loggin);
+    }
+    if (Reflect.has(this.generalConfiguration, 'dropTools')) {
+      this.SynConnector.EnableDisableDrop(this.generalConfiguration.dropTools);
+      // console.log('ENABLE/DISABLE-SYN-CONNECTOR-DROP:', this.generalConfiguration.dropTools);
+    }
+    if (Reflect.has(this.generalConfiguration, 'flameTools')) {
+      this.SynConnector.EnableDisableFlame(
+        this.generalConfiguration.flameTools
+      );
+      // console.log('ENABLE/DISABLE-SYN-CONNECTOR-FLAME:', this.generalConfiguration.flameTools);
+    }
+    if (Reflect.has(this.generalConfiguration, 'accountId')) {
+      this.SyntheticAccountID = this.generalConfiguration.accountId;
+      this.SynConnector.SetAccountID(this.SyntheticAccountID);
+      this.CredentialConnector.SetAccountID(this.SyntheticAccountID);
+      // console.log('SETTIMNG-SYN-ACCOUNT-ID:', this.generalConfiguration.accountId);
+    } else {
+      this.SyntheticAccountID = this.accountId;
+      this.SynConnector.SetAccountID(this.SyntheticAccountID);
+      this.CredentialConnector.SetAccountID(this.SyntheticAccountID);
+    }
+  }
+
+  SetTotalContainers() {
+    let total = 0;
+    this.stages.forEach(stage => {
+      if (stage.steps.length > total) {
+        total = stage.steps.length;
+      }
+    });
+    return total;
+  }
+
+  async UpdateData(timeRange, city, stages, kpis, timeRangeKpi) {
+    if (this.accountId !== null) {
+      // console.log(`UPDATING-DATA: ${this.accountId}`);
+      this.timeRange = timeRange;
+      this.city = city;
+      this.stages = stages;
+      this.kpis = kpis;
+      this.timeRangeKpi = timeRangeKpi;
+      await this.TouchPointsUpdate();
+      await this.UpdateMerchatKpi();
+      this.CalculateUpdates();
+      // console.log('FINISH-Update');
+      return {
+        stages: this.stages,
+        kpis: this.kpis
+      };
+    }
+  }
+
+  async GetAccountId(accountName) {
     try {
       const { data } = await AccountsQuery.query();
-      this.accountId = data[0].id;
+      if (data.length > 0) {
+        this.FillAccountIDs(data);
+        if (accountName !== '') {
+          data.some(account => {
+            let found = false;
+            if (account.name === accountName) {
+              this.accountId = account.id;
+              found = true;
+            }
+            if (!found) {
+              // If AccountName is not found use the first account
+              this.accountId = data[0].id;
+            }
+            return found;
+          });
+        } else {
+          // By default capture the First Account in the List
+          this.accountId = data[0].id;
+        }
+      }
     } catch (error) {
       throw new Error(error);
+    }
+  }
+
+  FillAccountIDs(data) {
+    this.accountIDs.length = 0;
+    data.forEach(account => {
+      this.accountIDs.push({
+        name: account.name,
+        id: account.id
+      });
+    });
+  }
+
+  AddCustomAccountIDs() {
+    this.removeCustomIDs();
+    let ids = '--';
+    this.accountIDs.forEach(acc => {
+      ids += acc.id + '--';
+    });
+    const initial_length = ids.length;
+    this.touchPoints.forEach(element => {
+      element.touchpoints.forEach(touchpoint => {
+        touchpoint.measure_points.forEach(measure => {
+          if (measure.accountID) {
+            if (ids.indexOf('--' + measure.accountID + '--') === -1) {
+              ids += measure.accountID + '--';
+            }
+          }
+        });
+      });
+    });
+    if (ids.length > initial_length) {
+      const newIds = ids.substring(initial_length, ids.length - 2).split('--');
+      newIds.forEach(newId => {
+        this.accountIDs.push({
+          name: 'Custom ID',
+          id: parseInt(newId)
+        });
+      });
+    }
+  }
+
+  removeCustomIDs() {
+    while (this.accountIDs[this.accountIDs.length - 1].name === 'Custom ID') {
+      this.accountIDs.pop();
     }
   }
 
@@ -115,7 +314,7 @@ export default class DataManager {
       });
       if (data) {
         this.stages = data.ViewJSON;
-        this.banner_kpis = data.BannerKpis;
+        this.kpis = data.Kpis ?? [];
       }
     } catch (error) {
       throw new Error(error);
@@ -131,12 +330,17 @@ export default class DataManager {
         documentId: 'newViewJSON',
         document: {
           ViewJSON: this.stages,
-          BannerKpis: this.banner_kpis
+          Kpis: this.kpis
         }
       });
     } catch (error) {
       throw new Error(error);
     }
+  }
+
+  SaveKpisSelection(kpis) {
+    this.kpis = kpis;
+    this.SetInitialDataViewToStorage();
   }
 
   GetStepsByStage() {
@@ -180,24 +384,6 @@ export default class DataManager {
     }
   }
 
-  async UpdateData(timeRange, city, getOldSessions, stages, banner_kpis) {
-    if (this.accountId !== null) {
-      this.timeRange = timeRange;
-      this.city = city;
-      this.getOldSessions = getOldSessions;
-      this.stages = stages;
-      this.banner_kpis = banner_kpis;
-      await this.TouchPointsUpdate();
-      await this.UpdateMerchatKpi();
-      await this.CalculateUpdates();
-      await this.UpdateMaxCapacity();
-      return {
-        stages: this.stages,
-        banner_kpis: this.banner_kpis
-      };
-    }
-  }
-
   async TouchPointsUpdate() {
     this.graphQlmeasures.length = 0;
     this.touchPoints.forEach(element => {
@@ -205,12 +391,19 @@ export default class DataManager {
         element.touchpoints.forEach(touchpoint => {
           if (touchpoint.status_on_off) {
             touchpoint.measure_points.forEach(measure => {
-              this.FetchMeasure(measure);
+              const extraInfo = {
+                touchpointRef: touchpoint,
+                measureType: 'touchpoint',
+                touchpointName: touchpoint.value,
+                stageName: this.stages[touchpoint.stage_index - 1].title
+              };
+              this.FetchMeasure(measure, extraInfo);
             });
           }
         });
       }
     });
+    this.RemoveGreySquare();
     if (this.graphQlmeasures.length > 0) {
       await this.NRDBQuery();
     }
@@ -218,170 +411,484 @@ export default class DataManager {
 
   ClearMeasure(measure) {
     switch (measure.type) {
-      case 0:
-      case 3:
-        measure.count = 0;
+      case 'PRC':
+        measure.session_count = 0;
         break;
-      case 1:
+      case 'PCC':
+        measure.transaction_count = 0;
+        break;
+      case 'APP':
+      case 'FRT':
+        measure.apdex_value = 1;
+        measure.response_value = 0;
         measure.error_percentage = 0;
         break;
-      case 2:
-        measure.apdex = 1;
+      case 'SYN':
+        measure.success_percentage = 0;
+        measure.max_duration = 0;
+        measure.max_request_time = 0;
         break;
-      case 4:
-        measure.sessions = [];
-        break;
-      case 20:
-        measure.count = 0;
-        measure.error_percentage = 0;
-        break;
-      case 100:
-        measure.value = 0;
+      case 'WLD':
+        measure.status_value = 'NO-VALUE';
         break;
     }
   }
 
-  FetchMeasure(measure) {
+  async ReadQueryResults(query, accountID) {
+    const measure = {
+      accountID: accountID,
+      type: 'TEST',
+      results: null
+    };
+    this.graphQlmeasures.length = 0;
+    this.graphQlmeasures.push([measure, query, null]);
+    await this.NRDBQuery();
+    return measure;
+  }
+
+  FetchMeasure(measure, extraInfo = null) {
     this.ClearMeasure(measure);
     if (measure.query !== '') {
-      const query = `${measure.query} SINCE ${this.TimeRangeTransform(
-        this.timeRange,
-        false
+      let query = `${measure.query} SINCE ${this.TimeRangeTransform(
+        this.timeRange
       )}`;
-      this.graphQlmeasures.push([measure, query]);
+      if (measure.measure_time) {
+        query = `${measure.query} SINCE ${measure.measure_time}`;
+      } else if (measure.type === 'WLD') {
+        query = `${measure.query} SINCE 3 HOURS AGO`;
+      }
+      this.graphQlmeasures.push([measure, query, extraInfo]);
     }
   }
 
-  TimeRangeTransform(timeRange, sessionsRange) {
+  TimeRangeTransform(timeRange) {
     let time_start = 0;
     let time_end = 0;
     if (timeRange === '5 MINUTES AGO') {
-      if (sessionsRange && this.getOldSessions) {
-        time_start = Math.floor(Date.now() / 1000) - 10 * 59;
-        time_end = Math.floor(Date.now() / 1000) - 5 * 58;
-        return `${time_start} UNTIL ${time_end}`;
-      }
       return timeRange;
     }
     switch (timeRange) {
       case '30 MINUTES AGO':
-        time_start = Math.floor(Date.now() / 1000) - 40 * 60;
+        time_start = Math.floor(Date.now() / 1000) - 35 * 60;
         time_end = Math.floor(Date.now() / 1000) - 30 * 60;
         break;
       case '60 MINUTES AGO':
-        time_start = Math.floor(Date.now() / 1000) - 70 * 60;
+        time_start = Math.floor(Date.now() / 1000) - 65 * 60;
         time_end = Math.floor(Date.now() / 1000) - 60 * 60;
         break;
       case '3 HOURS AGO':
-        time_start = Math.floor(Date.now() / 1000) - 3 * 60 * 60 - 10 * 60;
+        time_start = Math.floor(Date.now() / 1000) - 3 * 60 * 60 - 5 * 60;
         time_end = Math.floor(Date.now() / 1000) - 3 * 60 * 60;
         break;
       case '6 HOURS AGO':
-        time_start = Math.floor(Date.now() / 1000) - 6 * 60 * 60 - 10 * 60;
+        time_start = Math.floor(Date.now() / 1000) - 6 * 60 * 60 - 5 * 60;
         time_end = Math.floor(Date.now() / 1000) - 6 * 60 * 60;
         break;
       case '12 HOURS AGO':
-        time_start = Math.floor(Date.now() / 1000) - 12 * 60 * 60 - 10 * 60;
+        time_start = Math.floor(Date.now() / 1000) - 12 * 60 * 60 - 5 * 60;
         time_end = Math.floor(Date.now() / 1000) - 12 * 60 * 60;
         break;
       case '24 HOURS AGO':
-        time_start = Math.floor(Date.now() / 1000) - 24 * 60 * 60 - 10 * 60;
+        time_start = Math.floor(Date.now() / 1000) - 24 * 60 * 60 - 5 * 60;
         time_end = Math.floor(Date.now() / 1000) - 24 * 60 * 60;
         break;
       case '3 DAYS AGO':
-        time_start = Math.floor(Date.now() / 1000) - 3 * 24 * 60 * 60 - 10 * 60;
+        time_start = Math.floor(Date.now() / 1000) - 3 * 24 * 60 * 60 - 5 * 60;
         time_end = Math.floor(Date.now() / 1000) - 3 * 24 * 60 * 60;
         break;
       case '7 DAYS AGO':
-        time_start = Math.floor(Date.now() / 1000) - 3 * 24 * 60 * 60 - 10 * 60;
+        time_start = Math.floor(Date.now() / 1000) - 3 * 24 * 60 * 60 - 5 * 60;
         time_end = Math.floor(Date.now() / 1000) - 3 * 24 * 60 * 60;
         break;
       default:
         return timeRange;
     }
-    if (sessionsRange && this.getOldSessions) {
-      time_start = time_start - 10 * 59;
-      time_end = time_end - 5 * 58;
-    }
     return `${time_start} UNTIL ${time_end}`;
   }
 
-  async NRDBQuery() {
-    const { data, errors, n } = await this.EvaluateMeasures();
-    if (n === 0) {
-      return 0;
-    }
+  SendToLogs(logRecord) {
+    this.LogConnector.SendLog(logRecord);
+  }
+
+  MakeLogingData(startMeasureTime, endMeasureTime, data, errors) {
     if (errors && errors.length > 0) {
-      // TO DO
+      errors.forEach(error => {
+        if (Reflect.has(error, 'path')) {
+          for (const [, value] of Object.entries(error.path)) {
+            const c = value.split('_');
+            if (c[0] === 'measure') {
+              const measure = this.graphQlmeasures[Number(c[1])][0];
+              const query = this.graphQlmeasures[Number(c[1])][1];
+              const extraInfo = this.graphQlmeasures[Number(c[1])][2];
+              let accountID = this.accountId;
+              if (Reflect.has(measure, 'accountID')) {
+                accountID = measure.accountID;
+              }
+              if (extraInfo) {
+                if (extraInfo.measureType === 'touchpoint') {
+                  const logRecord = {
+                    action: 'touchpoint-error',
+                    account_id: accountID,
+                    error: true,
+                    error_message: JSON.stringify(error),
+                    query: query,
+                    touchpoint_name: extraInfo.touchpointName,
+                    touchpoint_type: measure.type,
+                    stage_name: extraInfo.stageName
+                  };
+                  // DISABLE Touchpoints with ERRORS
+                  this.DisableTouchpointByError(extraInfo.touchpointRef);
+                  this.SendToLogs(logRecord);
+                }
+                if (extraInfo.measureType === 'kpi') {
+                  const logRecord = {
+                    action: 'kpi-error',
+                    account_id: accountID,
+                    error: true,
+                    error_message: JSON.stringify(error),
+                    query: query,
+                    kpi_name: extraInfo.kpiName,
+                    kpi_type: extraInfo.kpiType
+                  };
+                  this.SendToLogs(logRecord);
+                }
+              }
+            }
+          }
+        }
+      });
     }
     if (data && data.actor) {
       for (const [key, value] of Object.entries(data.actor)) {
         const c = key.split('_');
-        if (c[0] === 'measure') {
+        if (
+          c[0] === 'measure' &&
+          value &&
+          value.nrql &&
+          Reflect.has(value, 'nrql') &&
+          Reflect.has(value.nrql, 'results')
+        ) {
           const measure = this.graphQlmeasures[Number(c[1])][0];
-          if (
-            measure.type === 0 &&
-            value.nrql !== null &&
-            value.nrql.results &&
-            value.nrql.results[0] &&
-            value.nrql.results[0].count
-          ) {
-            measure.count = value.nrql.results[0].count;
-          } else if (
-            measure.type === 1 &&
-            value.nrql !== null &&
-            value.nrql.results &&
-            value.nrql.results[0] &&
-            value.nrql.results[0].percentage
-          ) {
-            measure.error_percentage =
-              value.nrql.results[0].percentage == null
-                ? 0
-                : value.nrql.results[0].percentage;
-          } else if (
-            measure.type === 2 &&
-            value.nrql !== null &&
-            value.nrql.results &&
-            value.nrql.results[0] &&
-            value.nrql.results[0].score
-          ) {
-            measure.apdex = value.nrql.results[0].score;
-          } else if (
-            measure.type === 3 &&
-            value.nrql !== null &&
-            value.nrql.results &&
-            value.nrql.results[0] &&
-            value.nrql.results[0].session
-          ) {
-            measure.count = value.nrql.results[0].session;
-          } else if (
-            measure.type === 4 &&
-            value.nrql !== null &&
-            value.nrql.results
-          ) {
-            this.SetSessions(measure, value.nrql.results);
-          } else if (
-            measure.type === 20 &&
-            value.nrql !== null &&
-            value.nrql.results &&
-            value.nrql.results[0]
-          ) {
-            this.SetLogsMeasure(measure, value.nrql.results[0]);
-          } else if (
-            measure.type === 100 &&
-            value.nrql != null &&
-            value.nrql.results &&
-            value.nrql.results[0] &&
-            value.nrql.results[0].value
-          ) {
-            measure.value = value.nrql.results[0].value;
+          const query = this.graphQlmeasures[Number(c[1])][1];
+          const extraInfo = this.graphQlmeasures[Number(c[1])][2];
+          const totalMeasures = this.graphQlmeasures.length;
+          const timeByMeasure =
+            (endMeasureTime - startMeasureTime) / totalMeasures;
+          if (extraInfo !== null) {
+            let accountID = this.accountId;
+            if (Reflect.has(measure, 'accountID')) {
+              accountID = measure.accountID;
+            }
+            if (extraInfo.measureType === 'touchpoint') {
+              const logRecord = {
+                action: 'touchpoint-query',
+                account_id: accountID,
+                error: false,
+                query: query,
+                results: JSON.stringify(value.nrql.results),
+                duration: timeByMeasure,
+                touchpoint_name: extraInfo.touchpointName,
+                touchpoint_type: measure.type,
+                stage_name: extraInfo.stageName
+              };
+              this.SendToLogs(logRecord);
+            }
+            if (extraInfo.measureType === 'kpi') {
+              if (Reflect.has(measure.queryByCity[this.city], 'accountID')) {
+                accountID = measure.queryByCity[this.city].accountID;
+              }
+              const logRecord = {
+                action: 'kpi-query',
+                account_id: accountID,
+                error: false,
+                query: query,
+                results: JSON.stringify(value.nrql.results),
+                duration: timeByMeasure,
+                kpi_name: extraInfo.kpiName,
+                kpi_type: extraInfo.kpiType
+              };
+              this.SendToLogs(logRecord);
+            }
           }
         }
       }
     }
   }
 
+  DisableTouchpointByError(touchpoint) {
+    // touchpoint.status_on_off = false;
+    this.stages.some(stage => {
+      let found = false;
+      if (stage.index === touchpoint.stage_index) {
+        stage.touchpoints.some(tp => {
+          let foundTp = false;
+          if (tp.index === touchpoint.touchpoint_index) {
+            tp.show_grey_square = true;
+            foundTp = true;
+          }
+          return foundTp;
+        });
+        found = true;
+      }
+      return found;
+    });
+  }
+
+  RemoveGreySquare() {
+    this.stages.forEach(stage => {
+      stage.touchpoints.forEach(tp => {
+        tp.show_grey_square = false;
+      });
+    });
+  }
+
+  async NRDBQuery() {
+    const startMeasureTime = Date.now();
+    const { data, errors, n } = await this.EvaluateMeasures();
+    const endMeasureTime = Date.now();
+    this.MakeLogingData(startMeasureTime, endMeasureTime, data, errors);
+    if (n === 0) {
+      return 0;
+    }
+    if (errors && errors.length > 0) {
+      // console.log('NRDB-Error:', errors);
+    }
+    if (data && data.actor) {
+      for (const [key, value] of Object.entries(data.actor)) {
+        const c = key.split('_');
+        if (value !== null) {
+          if (c[0] === 'measure') {
+            const measure = this.graphQlmeasures[Number(c[1])][0];
+            const extraInfo = this.graphQlmeasures[Number(c[1])][2];
+            this.CheckIfResponseErrorCanBeSet(extraInfo, false);
+            // const query = this.graphQlmeasures[Number(c[1])][1];
+            // console.log('Query:',query);
+            // console.log('Result',value);
+            if (
+              measure.type === 'PRC' &&
+              value.nrql !== null &&
+              value.nrql.results &&
+              value.nrql.results[0] &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'session'
+              )
+            ) {
+              if (value.nrql.results[0].session == null) {
+                this.CheckIfResponseErrorCanBeSet(extraInfo, true);
+              }
+              measure.session_count = value.nrql.results[0].session;
+            } else if (
+              measure.type === 'PCC' &&
+              value.nrql !== null &&
+              value.nrql.results &&
+              value.nrql.results[0] &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'count'
+              )
+            ) {
+              if (value.nrql.results[0].count == null) {
+                this.CheckIfResponseErrorCanBeSet(extraInfo, true);
+              }
+              measure.transaction_count = value.nrql.results[0].count;
+            } else if (
+              measure.type === 'APP' &&
+              value.nrql !== null &&
+              value.nrql.results &&
+              value.nrql.results[0] &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'apdex'
+              ) &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'score'
+              ) &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'response'
+              ) &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'error'
+              )
+            ) {
+              if (
+                value.nrql.results[0].response === null ||
+                value.nrql.results[0].error === null
+              ) {
+                this.CheckIfResponseErrorCanBeSet(extraInfo, true);
+              }
+              measure.apdex_value = value.nrql.results[0].score;
+              measure.response_value = value.nrql.results[0].response;
+              measure.error_percentage = value.nrql.results[0].error;
+            } else if (
+              measure.type === 'FRT' &&
+              value.nrql !== null &&
+              value.nrql.results &&
+              value.nrql.results[0] &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'apdex'
+              ) &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'score'
+              ) &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'response'
+              ) &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'error'
+              )
+            ) {
+              if (
+                value.nrql.results[0].response === null ||
+                value.nrql.results[0].error === null
+              ) {
+                this.CheckIfResponseErrorCanBeSet(extraInfo, true);
+              }
+              measure.apdex_value = value.nrql.results[0].score;
+              measure.response_value = value.nrql.results[0].response;
+              measure.error_percentage = value.nrql.results[0].error;
+            } else if (
+              measure.type === 'SYN' &&
+              value.nrql !== null &&
+              value.nrql.results &&
+              value.nrql.results[0] &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'success'
+              ) &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'duration'
+              ) &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'request'
+              )
+            ) {
+              if (
+                value.nrql.results[0].success === null ||
+                value.nrql.results[0].duration === null ||
+                value.nrql.results[0].request === null
+              ) {
+                this.CheckIfResponseErrorCanBeSet(extraInfo, true);
+              }
+              measure.success_percentage = value.nrql.results[0].success;
+              measure.max_duration = value.nrql.results[0].duration;
+              measure.max_request_time = value.nrql.results[0].request;
+            } else if (
+              measure.type === 'WLD' &&
+              value.nrql !== null &&
+              value.nrql.results &&
+              value.nrql.results[0] &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'statusValue'
+              )
+            ) {
+              if (value.nrql.results[0].statusValue == null) {
+                this.CheckIfResponseErrorCanBeSet(extraInfo, true);
+              }
+              measure.status_value = value.nrql.results[0].statusValue;
+            } else if (
+              measure.type === 100 &&
+              value.nrql != null &&
+              value.nrql.results &&
+              value.nrql.results[0] &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'value'
+              )
+            ) {
+              measure.value = value.nrql.results[0].value;
+            } else if (
+              measure.type === 101 &&
+              value.nrql != null &&
+              value.nrql.results &&
+              value.nrql.results.length === 2 &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'value'
+              ) &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'comparison'
+              )
+            ) {
+              if (value.nrql.results[0].comparison === 'current') {
+                measure.value.current = value.nrql.results[0].value;
+                measure.value.previous = value.nrql.results[1].value;
+              } else {
+                measure.value.current = value.nrql.results[1].value;
+                measure.value.previous = value.nrql.results[0].value;
+              }
+            } else if (measure.type === 'TEST') {
+              if (value.nrql != null && value.nrql.results) {
+                measure.results = value.nrql.results[0];
+              } else if (errors && errors.length > 0) {
+                measure.results = {
+                  error: errors[0].message
+                };
+              } else {
+                measure.results = {
+                  error: 'INVALID QUERY'
+                };
+              }
+            } else {
+              // the Touchpoint response is with ERROR
+              this.CheckIfResponseErrorCanBeSet(extraInfo, true);
+            }
+          }
+        } else if (c[0] === 'measure') {
+          const measure = this.graphQlmeasures[Number(c[1])][0];
+          if (measure.type === 'TEST' && errors && errors.length > 0) {
+            measure.results = {
+              error: errors[0].message
+            };
+          } else {
+            measure.results = {
+              error: 'INVALID QUERY'
+            };
+          }
+        }
+      }
+    }
+  }
+
+  CheckIfResponseErrorCanBeSet(extraInfo, status) {
+    if (extraInfo !== null) {
+      if (extraInfo.measureType === 'touchpoint') {
+        this.SetTouchpointResponseError(extraInfo.touchpointRef, status);
+      }
+    }
+  }
+
+  SetTouchpointResponseError(touchpoint, status) {
+    this.stages.some(stage => {
+      let found = false;
+      if (stage.index === touchpoint.stage_index) {
+        stage.touchpoints.some(tp => {
+          let foundTp = false;
+          if (tp.index === touchpoint.touchpoint_index) {
+            tp.response_error = status;
+            foundTp = true;
+          }
+          return foundTp;
+        });
+        found = true;
+      }
+      return found;
+    });
+  }
+
   async EvaluateMeasures() {
+    let accountID = this.accountId;
     let gql = `{
      actor {`;
     let alias = '';
@@ -400,10 +907,25 @@ export default class DataManager {
           control + itemsByPage
         );
         dataSplit.forEach(nrql => {
+          accountID = this.accountId;
+          if (Reflect.has(nrql[0], 'accountID')) {
+            accountID = nrql[0].accountID;
+          }
+          // Special Change ONLY for KPI-MULTI-ACCOINT-MEASURES
+          if (nrql[0].type === 100 || nrql[0].type === 101) {
+            if (Reflect.has(nrql[0].queryByCity[this.city], 'accountID')) {
+              accountID = nrql[0].queryByCity[this.city].accountID;
+            }
+          }
+          // Check if the Measure have a Timeout Defined
+          let timeOut = this.detaultTimeout;
+          if (Reflect.has(nrql[0], 'timeout')) {
+            timeOut = nrql[0].timeout;
+          }
           alias = `measure_${n}`;
           n += 1;
-          gql += `${alias}: account(id: ${this.accountId}) {
-              nrql(query: "${nrql[1]}", timeout: 10) {
+          gql += `${alias}: account(id: ${accountID}) {
+              nrql(query: "${this.escapeQuote(nrql[1])}", timeout: ${timeOut}) {
                   results
               }
           }`;
@@ -429,10 +951,26 @@ export default class DataManager {
       };
     } else {
       this.graphQlmeasures.forEach(nrql => {
+        // check if the measure is MULTI-ACCOUNT
+        accountID = this.accountId;
+        if (Reflect.has(nrql[0], 'accountID')) {
+          accountID = nrql[0].accountID;
+        }
+        // Special Change ONLY for KPI-MULTI-ACCOINT-MEASURES
+        if (nrql[0].type === 100 || nrql[0].type === 101) {
+          if (Reflect.has(nrql[0].queryByCity[this.city], 'accountID')) {
+            accountID = nrql[0].queryByCity[this.city].accountID;
+          }
+        }
+        // Check if the Measure have a Timeout Defined
+        let timeOut = this.detaultTimeout;
+        if (Reflect.has(nrql[0], 'timeout')) {
+          timeOut = nrql[0].timeout;
+        }
         alias = `measure_${n}`;
         n += 1;
-        gql += `${alias}: account(id: ${this.accountId}) {
-            nrql(query: "${nrql[1]}", timeout: 10) {
+        gql += `${alias}: account(id: ${accountID}) {
+            nrql(query: "${this.escapeQuote(nrql[1])}", timeout: ${timeOut}) {
                 results
             }
         }`;
@@ -447,50 +985,28 @@ export default class DataManager {
     }
   }
 
-  SetSessions(measure, sessions) {
-    const new_sessions = [];
-    sessions.forEach(session => {
-      new_sessions.push({
-        id: session.facet,
-        time: this.SetSessionTime(measure.sessions, session.facet)
-      });
-    });
-    measure.sessions = new_sessions;
-  }
-
-  SetSessionTime(measure_sessions, sessionID) {
-    let session_time = Math.floor(Date.now() / 1000);
-    if (this.getOldSessions) {
-      session_time = session_time - 5 * 58;
-    }
-    measure_sessions.some(m_sess => {
-      let found = false;
-      if (m_sess.id === sessionID) {
-        session_time = m_sess.time;
-        found = true;
-      }
-      return found;
-    });
-    return session_time;
-  }
-
-  SetLogsMeasure(measure, results) {
-    const total = results.R1 + results.R2;
-    measure.count = results.R1;
-    if (total === 0) {
-      measure.error_percentage = 0;
-    } else {
-      measure.error_percentage = Math.round((results.R2 / total) * 10000) / 100;
-    }
+  escapeQuote(data) {
+    return data.replace(/["]/g, '\\"');
   }
 
   async UpdateMerchatKpi() {
     this.graphQlmeasures.length = 0;
-    for (let i = 0; i < this.banner_kpis.length; i++) {
-      this.graphQlmeasures.push([
-        this.banner_kpis[i],
-        this.banner_kpis[i].query
-      ]);
+    for (let i = 0; i < this.kpis.length; i++) {
+      if (this.kpis[i].check) {
+        const extraInfo = {
+          measureType: 'kpi',
+          kpiName: this.kpis[i].name,
+          kpiType: this.kpis[i].type
+        };
+        this.graphQlmeasures.push([
+          this.kpis[i],
+          this.kpis[i].queryByCity[this.city].query +
+            ' SINCE ' +
+            this.timeRangeKpi.range,
+          extraInfo
+        ]);
+      }
+      this.kpis[i].link = this.kpis[i].queryByCity[this.city].link;
     }
     await this.NRDBQuery();
   }
@@ -519,96 +1035,169 @@ export default class DataManager {
 
   CountryCalculateUpdates(element) {
     const values = this.Getmeasures(element);
-    let totalUse = values.total_count;
-    totalUse = totalUse === 0 ? 1 : totalUse;
     for (let i = 0; i < this.stages.length; i++) {
       this.stages[i].status_color = 'good';
       this.stages[i].status_color = this.UpdateErrorCondition(
         this.stages[i].status_color,
         this.GetStageError(i + 1, element)
       );
-      this.stages[i].total_count = values.count_by_stage[i];
-      this.stages[i].congestion.value =
-        Math.round((values.count_by_stage[i] / totalUse) * 10000) / 100;
-      this.stages[i].capacity =
-        (values.count_by_stage[i] /
-          this.CheckMaxCapacity(values.count_by_stage[i], i)) *
-        100;
-      this.stages[i].congestion.percentage =
-        (1 - values.apdex_by_stage[i]) * 100;
-      if (values.sessions_by_stage[i] !== 0) {
-        this.stages[i].trafficIconType = 'people';
-        this.stages[i].total_count = values.sessions_by_stage[i];
-        this.stages[i].congestion.value =
-          Math.round(values.session_percentage_by_stage[i] * 10000) / 100;
-      } else {
-        this.stages[i].trafficIconType = 'traffic';
+      this.stages[i].total_count = values.count_by_stage[i].total_count;
+      this.stages[i].trafficIconType = values.count_by_stage[i].traffic_type;
+
+      this.stages[i].capacity = values.count_by_stage[i].capacity_status;
+      this.stages[i].capacity_link = values.count_by_stage[i].capacity_link;
+
+      let congestion = 0;
+      if (values.count_by_stage[i].total_steps !== 0) {
+        congestion =
+          values.count_by_stage[i].num_steps_over_average /
+          values.count_by_stage[i].total_steps;
+        congestion = Math.floor(congestion * 10000) / 100;
       }
-      if (values.logmeasure_by_stage[i] !== 0) {
-        this.stages[i].total_count =
-          this.stages[i].total_count + values.logmeasure_by_stage[i];
-      }
+      this.stages[i].congestion.value = congestion;
+      this.stages[i].congestion.percentage = congestion;
     }
-    this.UpdateMaxLatencySteps(values.min_apdex_touchpoint_index_by_stage);
+    this.UpdateMaxCongestionSteps(values.count_by_stage);
   }
 
-  Getmeasures(element) {
-    let total_count = 0;
-    const count_by_stage = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    const sessions_by_stage = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    const session_percentage_by_stage = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    const apdex_by_stage = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
-    const min_apdex_touchpoint_index_by_stage = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    const logmeasure_by_stage = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    element.touchpoints.forEach(touchpoint => {
+  Getmeasures(touchpoints_by_country) {
+    const tpc = []; // Count Touchpoints totals by Stage
+    this.stages.forEach(stage => {
+      const rec = {
+        traffic_type: 'traffic',
+        num_touchpoints: 0,
+        average: 0,
+        total_count: 0,
+        steps_indexes: [],
+        total_steps: 0,
+        num_steps_over_average: 0,
+        max_congestion: 0,
+        steps_max_cong: [],
+        above_avg: stage.percentage_above_avg,
+        steps_over_percentage_indexes: [],
+        capacity_status: 'NO-VALUE',
+        capacity_link: ''
+      };
+      tpc.push(rec);
+    });
+    touchpoints_by_country.touchpoints.forEach(touchpoint => {
       if (touchpoint.status_on_off) {
+        const idx = touchpoint.stage_index - 1;
         touchpoint.measure_points.forEach(measure => {
-          if (measure.type === 0) {
-            total_count += measure.count;
-            count_by_stage[touchpoint.stage_index - 1] += measure.count;
-          } else if (
-            measure.type === 2 &&
-            apdex_by_stage[touchpoint.stage_index - 1] > measure.apdex
-          ) {
-            apdex_by_stage[touchpoint.stage_index - 1] = measure.apdex;
-            min_apdex_touchpoint_index_by_stage[touchpoint.stage_index - 1] =
-              touchpoint.touchpoint_index;
-          } else if (measure.type === 3) {
-            sessions_by_stage[touchpoint.stage_index - 1] += measure.count;
-          } else if (measure.type === 4) {
-            session_percentage_by_stage[
-              touchpoint.stage_index - 1
-            ] = this.GetSessionsPercentage(measure.sessions);
-          } else if (measure.type === 20) {
-            logmeasure_by_stage[touchpoint.stage_index - 1] += measure.count;
+          let count = 0;
+          if (measure.type === 'PRC' || measure.type === 'PCC') {
+            count =
+              measure.type === 'PRC'
+                ? measure.session_count
+                : measure.transaction_count;
+            tpc[idx].traffic_type =
+              measure.type === 'PRC' ? 'people' : 'traffic';
+            tpc[idx].num_touchpoints++;
+            tpc[idx].total_count += count;
+            tpc[idx].average = tpc[idx].total_count / tpc[idx].num_touchpoints;
+            this.UpdateStepsIndexes(
+              touchpoint.relation_steps,
+              tpc[idx].steps_indexes
+            );
+            tpc[idx].total_steps = tpc[idx].steps_indexes.length;
+          }
+          if (measure.type === 'WLD') {
+            tpc[idx].capacity_status = measure.status_value;
+            tpc[idx].capacity_link = this.GetWokloadTouchpointLink(touchpoint);
           }
         });
       }
     });
+    // Setting Count Steps Over Average
+    touchpoints_by_country.touchpoints.forEach(touchpoint => {
+      if (touchpoint.status_on_off) {
+        const idx = touchpoint.stage_index - 1;
+        touchpoint.measure_points.forEach(measure => {
+          let count = 0;
+          if (measure.type === 'PRC' || measure.type === 'PCC') {
+            count =
+              measure.type === 'PRC'
+                ? measure.session_count
+                : measure.transaction_count;
+            if (count > tpc[idx].average * (1 + tpc[idx].above_avg / 100)) {
+              this.UpdateStepsIndexes(
+                touchpoint.relation_steps,
+                tpc[idx].steps_over_percentage_indexes
+              );
+              tpc[idx].num_steps_over_average =
+                tpc[idx].steps_over_percentage_indexes.length;
+              if (tpc[idx].max_congestion < count) {
+                tpc[idx].max_congestion = count;
+                tpc[idx].steps_max_cong = touchpoint.relation_steps;
+              }
+            }
+          }
+        });
+      }
+    });
+    // console.log('TPC:', tpc);
     return {
-      total_count: total_count,
-      count_by_stage: count_by_stage,
-      sessions_by_stage: sessions_by_stage,
-      session_percentage_by_stage: session_percentage_by_stage,
-      apdex_by_stage: apdex_by_stage,
-      min_apdex_touchpoint_index_by_stage: min_apdex_touchpoint_index_by_stage,
-      logmeasure_by_stage: logmeasure_by_stage
+      count_by_stage: tpc
     };
   }
 
-  GetSessionsPercentage(sessions) {
-    if (sessions.length === 0) {
-      return 0;
-    }
-    let count = 0;
-    const currentTime = Math.floor(Date.now() / 1000);
-    sessions.forEach(session => {
-      if (currentTime - session.time > 5 * 60) {
-        count++;
+  GetWokloadTouchpointLink(touchpoint) {
+    let link = '';
+    this.stages[touchpoint.stage_index - 1].touchpoints.some(tp => {
+      let found = false;
+      if (tp.index === touchpoint.touchpoint_index) {
+        found = true;
+        link = tp.dashboard_url[0];
+      }
+      return found;
+    });
+    return link;
+  }
+
+  UpdateStepsIndexes(relation_steps, list) {
+    let list_string = '';
+    list.forEach(index => {
+      list_string += '-' + index + '-';
+    });
+    relation_steps.forEach(index => {
+      if (!list_string.includes('-' + index + '-')) {
+        list_string += '-' + index + '-';
+        list.push(index);
       }
     });
-    return count / sessions.length;
   }
+
+  UpdateMaxCongestionSteps(count_by_stage) {
+    for (let i = 0; i < this.stages.length; i++) {
+      this.stages[i].steps.forEach(step => {
+        step.sub_steps.forEach(sub_step => {
+          sub_step.latency = false;
+          count_by_stage[i].steps_max_cong.some(index => {
+            let found = false;
+            if (index === sub_step.index) {
+              found = true;
+              sub_step.latency = true;
+            }
+            return found;
+          });
+        });
+      });
+    }
+  }
+
+  // GetSessionsPercentage(sessions) {
+  //   if (sessions.length === 0) {
+  //     return 0;
+  //   }
+  //   let count = 0;
+  //   const currentTime = Math.floor(Date.now() / 1000);
+  //   sessions.forEach(session => {
+  //     if (currentTime - session.time > 5 * 60) {
+  //       count++;
+  //     }
+  //   });
+  //   return count / sessions.length;
+  // }
 
   UpdateErrorCondition(actual, nextvalue) {
     if (actual === 'danger') {
@@ -636,36 +1225,42 @@ export default class DataManager {
       if (touchpoint.stage_index === stage && touchpoint.status_on_off) {
         count_touchpoints += 1;
         touchpoint.measure_points.forEach(measure => {
-          if (measure.type === 1) {
-            if (measure.error_percentage > measure.error_threshold) {
-              touchpoint.relation_steps.forEach(rel => {
-                steps_with_error[rel - 1] = 1;
-              });
-              this.SetTouchpointError(
-                touchpoint.stage_index,
-                touchpoint.touchpoint_index
-              );
+          let setError = false;
+          if (
+            measure.type === 'PRC' &&
+            measure.session_count < measure.min_count
+          ) {
+            setError = true;
+          } else if (
+            measure.type === 'PCC' &&
+            measure.transaction_count < measure.min_count
+          ) {
+            setError = true;
+          } else if (measure.type === 'APP' || measure.type === 'FRT') {
+            if (
+              measure.error_percentage > measure.max_error_percentage ||
+              measure.apdex_value < measure.min_apdex ||
+              measure.response_value > measure.max_response_time
+            ) {
+              setError = true;
             }
-          } else if (measure.type === 2) {
-            if (measure.apdex < measure.apdex_time / 100) {
-              touchpoint.relation_steps.forEach(rel => {
-                steps_with_error[rel - 1] = 1;
-              });
-              this.SetTouchpointError(
-                touchpoint.stage_index,
-                touchpoint.touchpoint_index
-              );
+          } else if (measure.type === 'SYN') {
+            if (
+              measure.success_percentage < measure.min_success_percentage ||
+              measure.max_request_time > measure.max_avg_response_time ||
+              measure.max_duration > measure.max_total_check_time
+            ) {
+              setError = true;
             }
-          } else if (measure.type === 20) {
-            if (measure.error_percentage > measure.error_threshold) {
-              touchpoint.relation_steps.forEach(rel => {
-                steps_with_error[rel - 1] = 1;
-              });
-              this.SetTouchpointError(
-                touchpoint.stage_index,
-                touchpoint.touchpoint_index
-              );
-            }
+          }
+          if (setError) {
+            touchpoint.relation_steps.forEach(rel => {
+              steps_with_error[rel - 1] = 1;
+            });
+            this.SetTouchpointError(
+              touchpoint.stage_index,
+              touchpoint.touchpoint_index
+            );
           }
         });
       }
@@ -681,14 +1276,13 @@ export default class DataManager {
         return 'warning';
       }
       return 'good';
-    } else {
-      return 'good';
     }
+    return 'good';
   }
 
   SetTouchpointError(stage_index, touchpoint_index) {
     this.stages[stage_index - 1].touchpoints.forEach(touchpoint => {
-      if (touchpoint.index === touchpoint_index) {
+      if (touchpoint.index === touchpoint_index && !touchpoint.response_error) {
         touchpoint.error = true;
       }
     });
@@ -696,11 +1290,28 @@ export default class DataManager {
       step.sub_steps.forEach(sub_step => {
         sub_step.relationship_touchpoints.forEach(value => {
           if (value === touchpoint_index) {
-            sub_step.error = true;
+            if (
+              this.CheckIfTouchpointIsResponding(stage_index, touchpoint_index)
+            ) {
+              sub_step.error = true;
+            }
           }
         });
       });
     });
+  }
+
+  CheckIfTouchpointIsResponding(stage_index, touchpoint_index) {
+    let response = false;
+    this.stages[stage_index - 1].touchpoints.some(tp => {
+      let found = false;
+      if (tp.index === touchpoint_index) {
+        found = true;
+        response = !tp.response_error;
+      }
+      return found;
+    });
+    return response;
   }
 
   GetTotalStepsWithError(steps_with_error) {
@@ -711,59 +1322,6 @@ export default class DataManager {
       i++;
     }
     return count;
-  }
-
-  CheckMaxCapacity(currentValue, stage) {
-    const timeRange = 'STAGES';
-    for (const [key, value] of Object.entries(this.capacity[this.city])) {
-      if (key === timeRange) {
-        const result = Math.max(value[stage], currentValue);
-        if (value[stage] < currentValue) {
-          this.capacityUpdatePending = true;
-          value[stage] = currentValue * 2;
-        }
-        return result;
-      }
-    }
-    return currentValue;
-  }
-
-  UpdateMaxLatencySteps(max_duration_touchpoint_index_by_stage) {
-    for (let i = 0; i < this.stages.length; i++) {
-      this.stages[i].steps.forEach(step => {
-        step.sub_steps.forEach(sub_step => {
-          sub_step.latency = false;
-          sub_step.relationship_touchpoints.forEach(touchPointIndex => {
-            if (touchPointIndex === max_duration_touchpoint_index_by_stage[i]) {
-              sub_step.latency = true;
-            }
-          });
-        });
-      });
-    }
-  }
-
-  UpdateMaxCapacity() {
-    if (this.capacityUpdatePending) {
-      this.capacityUpdatePending = false;
-      this.SetDBmaxCapacity();
-    }
-  }
-
-  SetDBmaxCapacity() {
-    try {
-      AccountStorageMutation.mutate({
-        accountId: this.accountId,
-        actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
-        collection: 'pathpoint',
-        documentId: 'maxCapacity',
-        document: {
-          Capacity: this.capacity
-        }
-      });
-    } catch (error) {
-      throw new Error(error);
-    }
   }
 
   LoadCanaryData() {
@@ -877,9 +1435,10 @@ export default class DataManager {
         accountId: this.accountId,
         actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
         collection: 'pathpoint',
-        documentId: 'touchpoints',
+        documentId: 'touchpoints', // syntetics
         document: {
           TouchPoints: this.touchPoints
+          // identificador de la lista q se esta creando junto con los id's
         }
       });
       if (data) {
@@ -956,22 +1515,40 @@ export default class DataManager {
     let i = 0;
     let line = 0;
     let kpi = null;
+    let multyQuery = null;
+    let accountID = this.accountId;
     this.configuration.pathpointVersion = this.version;
-    this.configuration.banner_kpis.length = 0;
-    for (let i = 0; i < this.banner_kpis.length; i++) {
+    this.configuration.kpis.length = 0;
+    for (let i = 0; i < this.kpis.length; i++) {
+      accountID = this.accountId;
+      if (Reflect.has(this.kpis[i].queryByCity[this.city], 'accountID')) {
+        accountID = this.kpis[i].queryByCity[this.city].accountID;
+      }
+      multyQuery = [
+        {
+          accountID: accountID,
+          query: this.kpis[i].queryByCity[this.city].query,
+          link: this.kpis[i].queryByCity[this.city].link
+        }
+      ];
       kpi = {
-        description: this.banner_kpis[i].description,
-        prefix: this.banner_kpis[i].prefix,
-        suffix: this.banner_kpis[i].suffix,
-        query: this.banner_kpis[i].query
+        type: this.kpis[i].type,
+        name: this.kpis[i].name,
+        shortName: this.kpis[i].shortName,
+        measure: multyQuery,
+        value_type: this.kpis[i].value_type,
+        prefix: this.kpis[i].prefix,
+        suffix: this.kpis[i].suffix
       };
-      this.configuration.banner_kpis.push(kpi);
+      this.configuration.kpis.push(kpi);
     }
     this.configuration.stages.length = 0;
     this.stages.forEach(stage => {
       this.configuration.stages.push({
         title: stage.title,
         active_dotted: stage.active_dotted,
+        arrowMode: stage.arrowMode,
+        percentage_above_avg: stage.percentage_above_avg,
         steps: [],
         touchpoints: []
       });
@@ -1045,6 +1622,9 @@ export default class DataManager {
 
   GetTouchpointQueryes(stage_index, index) {
     const queries = [];
+    let accountID = this.accountId;
+    let timeout = 10;
+    let measure_time = this.TimeRangeTransform(this.timeRange);
     this.touchPoints.forEach(element => {
       if (element.index === this.city) {
         element.touchpoints.some(touchpoint => {
@@ -1055,38 +1635,74 @@ export default class DataManager {
           ) {
             found = true;
             touchpoint.measure_points.forEach(measure => {
-              if (measure.type === 0) {
+              accountID = this.accountId;
+              if (measure.measure_time) {
+                measure_time = measure.measure_time;
+              }
+              if (measure.accountID) {
+                accountID = measure.accountID;
+              }
+              if (measure.timeout) {
+                timeout = measure.timeout;
+              }
+              if (measure.type === 'PRC') {
                 queries.push({
                   type: this.measureNames[0],
+                  accountID: accountID,
                   query: measure.query,
-                  error_threshold: measure.error_threshold
+                  query_timeout: timeout,
+                  min_count: measure.min_count,
+                  measure_time: measure_time
                 });
-              } else if (measure.type === 1) {
+              } else if (measure.type === 'PCC') {
                 queries.push({
                   type: this.measureNames[1],
+                  accountID: accountID,
                   query: measure.query,
-                  apdex_time: measure.apdex_time
+                  query_timeout: timeout,
+                  min_count: measure.min_count,
+                  measure_time: measure_time
                 });
-              } else if (measure.type === 2) {
+              } else if (measure.type === 'APP') {
                 queries.push({
                   type: this.measureNames[2],
-                  query: measure.query
+                  accountID: accountID,
+                  query: measure.query,
+                  query_timeout: timeout,
+                  min_apdex: measure.min_apdex,
+                  max_response_time: measure.max_response_time,
+                  max_error_percentage: measure.max_error_percentage,
+                  measure_time: measure_time
                 });
-              } else if (measure.type === 3) {
+              } else if (measure.type === 'FRT') {
                 queries.push({
                   type: this.measureNames[3],
-                  query: measure.query
+                  accountID: accountID,
+                  query: measure.query,
+                  query_timeout: timeout,
+                  min_apdex: measure.min_apdex,
+                  max_response_time: measure.max_response_time,
+                  max_error_percentage: measure.max_error_percentage,
+                  measure_time: measure_time
                 });
-              } else if (measure.type === 4) {
+              } else if (measure.type === 'SYN') {
                 queries.push({
                   type: this.measureNames[4],
-                  query: measure.query
+                  accountID: accountID,
+                  query: measure.query,
+                  query_timeout: timeout,
+                  max_avg_response_time: measure.max_avg_response_time,
+                  max_total_check_time: measure.max_total_check_time,
+                  min_success_percentage: measure.min_success_percentage,
+                  measure_time: measure_time
                 });
-              } else if (measure.type === 20) {
+              } else if (measure.type === 'WLD') {
                 queries.push({
                   type: this.measureNames[5],
+                  accountID: accountID,
                   query: measure.query,
-                  error_threshold: measure.error_threshold
+                  query_timeout: timeout,
+                  measure_time: measure_time
                 });
               }
             });
@@ -1101,9 +1717,16 @@ export default class DataManager {
   SetConfigurationJSON(configuration) {
     this.configurationJSON = JSON.parse(configuration);
     this.UpdateNewConfiguration();
+    this.AddCustomAccountIDs();
+    const logRecord = {
+      action: 'json-update',
+      error: false,
+      json_file: configuration
+    };
+    this.SendToLogs(logRecord);
     return {
       stages: this.stages,
-      banner_kpis: this.banner_kpis
+      kpis: this.kpis
     };
   }
 
@@ -1119,23 +1742,60 @@ export default class DataManager {
     let substepIndex = 1;
     this.stages.length = 0;
     this.touchPoints.length = 0;
-    this.banner_kpis.length = 0;
+    this.kpis = [];
+    this.kpis.length = 0;
+    let query_timeout = 10;
     this.touchPoints.push({
       index: 0,
       country: 'PRODUCTION',
       touchpoints: []
     });
-    let kpi = null;
-    this.configurationJSON.banner_kpis.forEach(banner_kpi => {
-      kpi = {
-        description: banner_kpi.description,
-        prefix: banner_kpi.prefix,
-        suffix: banner_kpi.suffix,
-        query: banner_kpi.query,
-        type: 100,
-        value: 0
+    let ikpi = null;
+    let index = 0;
+    let queryByCity = null;
+    this.configurationJSON.kpis.forEach(kpi => {
+      ikpi = {
+        index: index,
+        type: kpi.type,
+        name: kpi.name,
+        shortName: kpi.shortName,
+        value_type: kpi.value_type,
+        prefix: kpi.prefix,
+        suffix: kpi.suffix
       };
-      this.banner_kpis.push(kpi);
+      if (kpi.measure[0].accountID !== this.accountId) {
+        queryByCity = [
+          {
+            accountID: kpi.measure[0].accountID,
+            query: kpi.measure[0].query,
+            link: kpi.measure[0].link
+          }
+        ];
+      } else {
+        queryByCity = [
+          {
+            query: kpi.measure[0].query,
+            link: kpi.measure[0].link
+          }
+        ];
+      }
+      ikpi = { ...ikpi, queryByCity: queryByCity };
+      index++;
+      if (kpi.type === 100) {
+        ikpi = { ...ikpi, value: 0 };
+      } else {
+        ikpi = {
+          ...ikpi,
+          value: {
+            current: 0,
+            previous: 0
+          }
+        };
+      }
+      if (index < 4) {
+        ikpi = { ...ikpi, check: true };
+      }
+      this.kpis.push(ikpi);
     });
     this.configurationJSON.stages.forEach(stage => {
       stageDef = {
@@ -1145,6 +1805,7 @@ export default class DataManager {
         status_color: 'good',
         gout_enable: false,
         gout_quantity: 150,
+        gout_money: 250,
         money_enabled: false,
         trafficIconType: 'traffic',
         money: '',
@@ -1159,6 +1820,8 @@ export default class DataManager {
         total_count: 0,
         active_dotted: stage.active_dotted,
         active_dotted_color: '#828282',
+        arrowMode: stage.arrowMode,
+        percentage_above_avg: stage.percentage_above_avg,
         steps: [],
         touchpoints: []
       };
@@ -1214,46 +1877,75 @@ export default class DataManager {
           measure_points: []
         };
         tp.queries.forEach(query => {
+          query_timeout = 10;
+          if (query.query_timeout) {
+            query_timeout = query.query_timeout;
+          }
           if (query.type === this.measureNames[0]) {
             measure = {
-              type: 0,
+              type: 'PRC',
               query: query.query,
-              count: 0
+              timeout: query_timeout,
+              min_count: query.min_count,
+              session_count: 0
             };
           } else if (query.type === this.measureNames[1]) {
             measure = {
-              type: 1,
+              type: 'PCC',
               query: query.query,
-              error_threshold: 5,
-              error_percentage: 0
+              timeout: query_timeout,
+              min_count: query.min_count,
+              transaction_count: 0
             };
           } else if (query.type === this.measureNames[2]) {
             measure = {
-              type: 2,
+              type: 'APP',
               query: query.query,
-              apdex: 0,
-              apdex_time: 0.4
+              timeout: query_timeout,
+              min_apdex: query.min_apdex,
+              max_response_time: query.max_response_time,
+              max_error_percentage: query.max_error_percentage,
+              apdex_value: 0,
+              response_value: 0,
+              error_percentage: 0
             };
           } else if (query.type === this.measureNames[3]) {
             measure = {
-              type: 3,
+              type: 'FRT',
               query: query.query,
-              count: 0
+              timeout: query_timeout,
+              min_apdex: query.min_apdex,
+              max_response_time: query.max_response_time,
+              max_error_percentage: query.max_error_percentage,
+              apdex_value: 0,
+              response_value: 0,
+              error_percentage: 0
             };
           } else if (query.type === this.measureNames[4]) {
             measure = {
-              type: 4,
+              type: 'SYN',
               query: query.query,
-              sessions: []
+              timeout: query_timeout,
+              max_avg_response_time: query.max_avg_response_time,
+              max_total_check_time: query.max_total_check_time,
+              min_success_percentage: query.min_success_percentage,
+              success_percentage: 0,
+              max_duration: 0,
+              max_request_time: 0
             };
           } else if (query.type === this.measureNames[5]) {
             measure = {
-              type: 20,
+              type: 'WLD',
               query: query.query,
-              error_threshold: query.error_threshold,
-              count: 0,
-              error_percentage: 0
+              timeout: query_timeout,
+              status_value: 'NO-VALUE'
             };
+          }
+          if (query.accountID !== this.accountId) {
+            measure = { accountID: query.accountID, ...measure };
+          }
+          if (query.measure_time !== this.TimeRangeTransform(this.timeRange)) {
+            measure = { ...measure, measure_time: query.measure_time };
           }
           tpDef2.measure_points.push(measure);
         });
@@ -1348,16 +2040,30 @@ export default class DataManager {
   }
 
   GetCurrentHistoricErrorScript() {
-    const data = historicErrorScript();
-    const pathpointId = `var pathpointId = "${this.pathpointId}"`;
-    const response = `${pathpointId}${
-      data.header
-    }${this.CreateNrqlQueriesForHistoricErrorScript()}${data.footer}`;
+    // console.log('Synthetic-AccountID:', this.SyntheticAccountID);
+    const data = historicErrorScript(this.pathpointId);
+    if (!this.SecureCredentialsExist) {
+      data.header = `
+      // Insert API Credentials
+      // When the script was generated we were not able add secure credentials for your ingest and API key.
+      // We strongly suggest you move these keys into the secure crendential store.
+      //-----------------------------------------------------
+      const myAccountID = ${this.SyntheticAccountID};
+      const pathpointID = '${this.pathpointId}';
+      const graphQLKey = '${this.SynConnector.userApiKey}';
+      const myInsertKey = '${this.SynConnector.ingestLicense}';
+    
+    `;
+    }
+    const response = `
+    ${data.header}
+    ${this.InserTouchpointsToScript()}
+    ${data.footer}`;
     return response;
   }
 
   async ReadHistoricErrors() {
-    const query = `SELECT count(*) FROM PathpointHistoricErrors WHERE pathpoint_id=${this.pathpointId} percentage>${this.minPercentageError} FACET stage_index,touchpoint_index,percentage LIMIT MAX SINCE ${this.historicErrorsDays} days ago`;
+    const query = `SELECT count(*) FROM PathpointHistoricErrors WHERE pathpoint_id='${this.pathpointId}' AND error is true FACET stage_index,touchpoint_index LIMIT MAX SINCE ${this.historicErrorsHours} hours ago`;
     const gql = `{
         actor { account(id: ${this.accountId}) {
             nrql(query: "${query}", timeout: 10) {
@@ -1383,20 +2089,8 @@ export default class DataManager {
     let errorLength = 0;
     for (let i = 0; i < results.length; i++) {
       key = `tp_${results[i].facet[0]}_${results[i].facet[1]}`;
-      if (
-        results[i].facet[2] >=
-        this.GetTouchpointErrorThreshold(
-          results[i].facet[0],
-          results[i].facet[1]
-        )
-      ) {
-        if (!(key in historicErrors)) {
-          errorLength++;
-          historicErrors[key] = results[i].count;
-        } else {
-          historicErrors[key] += results[i].count;
-        }
-      }
+      errorLength++;
+      historicErrors[key] = results[i].count;
     }
     const sortable = Object.fromEntries(
       Object.entries(historicErrors).sort(([, a], [, b]) => b - a)
@@ -1447,168 +2141,91 @@ export default class DataManager {
     });
   }
 
-  GetTouchpointErrorThreshold(stage_index, touchpoint_index) {
-    let value = 0;
+  InserTouchpointsToScript() {
+    let totalTouchpoints = 0;
+    const tp_per_group = 20;
+    let newgroup = false;
+    let data = `
+    const touchpoints = [`;
     this.touchPoints.some(element => {
-      let found1 = false;
+      let found = false;
       if (element.index === this.city) {
-        element.touchpoints.some(touchpoint => {
-          let found2 = false;
-          if (
-            touchpoint.stage_index === stage_index &&
-            touchpoint.touchpoint_index === touchpoint_index
-          ) {
-            touchpoint.measure_points.some(measure => {
-              let found3 = false;
-              if (measure.type === 0 || measure.type === 20) {
-                value = measure.error_threshold;
-                found3 = true;
-              }
-              return found3;
-            });
-            found2 = true;
-          }
-          return found2;
-        });
-        found1 = true;
-      }
-      return found1;
-    });
-    return value;
-  }
-
-  CreateNrqlQueriesForHistoricErrorScript() {
-    let data = 'var raw1 = JSON.stringify({"query":"{ actor {';
-    let i = 0;
-    let n = 1;
-    let query = '';
-    let query2 = '';
-    const countBreak = 20;
-    this.touchPoints.forEach(element => {
-      if (element.index === this.city) {
+        let first_item = true;
         element.touchpoints.forEach(touchpoint => {
-          data +=
-            ' measure_' +
-            touchpoint.stage_index +
-            '_' +
-            touchpoint.touchpoint_index +
-            '_' +
-            touchpoint.measure_points[0].type +
-            ': account(id: "+myAccountID+") { nrql(query: \\"';
-          if (touchpoint.measure_points[0].type === 20) {
-            query2 = touchpoint.measure_points[0].query;
-          } else {
-            query = touchpoint.measure_points[0].query.split(' ');
-            query2 =
-              'SELECT count(*), percentage(count(*), WHERE error is true) as percentage';
-            for (let wi = 2; wi < query.length; wi++) {
-              query2 += ' ' + query[wi];
+          if (
+            touchpoint.status_on_off &&
+            (touchpoint.measure_points[0].type === 'PRC' ||
+              touchpoint.measure_points[0].type === 'PCC' ||
+              touchpoint.measure_points[0].type === 'APP' ||
+              touchpoint.measure_points[0].type === 'FRT' ||
+              touchpoint.measure_points[0].type === 'SYN')
+          ) {
+            totalTouchpoints++;
+            if (first_item) {
+              if (newgroup) {
+                data += `,`;
+              }
+              data += `
+      [`;
+              first_item = false;
+            } else {
+              data += `,`;
             }
-          }
-          data += query2;
-          data += ' SINCE 5 minutes AGO';
-          data += '\\", timeout: 10) {results }}';
-          i++;
-          if (i === countBreak) {
-            i = 0;
-            data += '}}","variables":""});';
             data += `
-`;
-            n++;
-            data += 'var raw' + n + ' = JSON.stringify({"query":"{ actor {';
+        {
+          stage_index: ${touchpoint.stage_index},
+          touchpoint_index: ${touchpoint.touchpoint_index},
+          type: '${touchpoint.measure_points[0].type}',
+          timeout: ${touchpoint.measure_points[0].timeout},
+          query: "${touchpoint.measure_points[0].query}",`;
+            let measureTime = '5 minutes ago';
+            if (touchpoint.measure_points[0].measure_time) {
+              measureTime = touchpoint.measure_points[0].measure_time;
+            }
+            data += `
+          measure_time: '${measureTime}',`;
+            switch (touchpoint.measure_points[0].type) {
+              case 'PRC':
+              case 'PCC':
+                data += `
+          min_count: ${touchpoint.measure_points[0].min_count}
+        }`;
+                break;
+              case 'APP':
+              case 'FRT':
+                data += `
+          min_apdex: ${touchpoint.measure_points[0].min_apdex},
+          max_response_time: ${touchpoint.measure_points[0].max_response_time},
+          max_error_percentage: ${touchpoint.measure_points[0].max_error_percentage}
+        }`;
+                break;
+              case 'SYN':
+                data += `
+          max_avg_response_time: ${touchpoint.measure_points[0].max_avg_response_time},
+          max_total_check_time: ${touchpoint.measure_points[0].max_total_check_time},
+          min_success_percentage: ${touchpoint.measure_points[0].min_success_percentage},
+        }`;
+                break;
+            }
+            if (totalTouchpoints % tp_per_group === 0) {
+              first_item = true;
+              newgroup = true;
+              data += `
+      ]`;
+            }
           }
         });
-        data += '}}","variables":""});';
-        data += `
-`;
+        found = true;
       }
+      return found;
     });
-    for (let w = 1; w <= n; w++) {
-      data +=
-        `
-var graphqlpack` +
-        w +
-        ` = {
-headers: {
-    "Content-Type": "application/json",
-    "API-Key": graphQLKey
-},
-url: 'https://api.newrelic.com/graphql',
-body: raw` +
-        w +
-        `
-};
-
-var return` +
-        w +
-        ` = null;
-
-`;
-    }
-    for (let w = 1; w < n; w++) {
-      data +=
-        `
-function callback` +
-        w +
-        `(err, response, body) {
-return` +
-        w +
-        ` = JSON.parse(body);
-$http.post(graphqlpack` +
-        (w + 1) +
-        `, callback` +
-        (w + 1) +
-        `);
-} 
-
-`;
-    }
-    data +=
-      `
-function callback` +
-      n +
-      `(err, response, body) {
-return` +
-      n +
-      ` = JSON.parse(body);
-var events = [];
-var event = null;
-var c = null;
-`;
-    for (let w = 1; w <= n; w++) {
-      data +=
-        `
-for (const [key, value] of Object.entries(return` +
-        w +
-        `.data.actor)) {
-    c = key.split("_");
-    if (value.nrql.results != null) {
-        if(c[3]=='0'){
-            event = {
-                "eventType": "PathpointHistoricErrors",
-                "pathpointId": pathpointId,
-                "stage_index": parseInt(c[1]),
-                "touchpoint_index": parseInt(c[2]),
-                "count": value.nrql.results[0].count,
-                "percentage": value.nrql.results[0].percentage
-            }
-        }else{
-            event = {
-                "eventType": "PathpointHistoricErrors",
-                "pathpointId": pathpointId,
-                "stage_index": parseInt(c[1]),
-                "touchpoint_index": parseInt(c[2]),
-                "count": value.nrql.results[0].R1,
-                "percentage": value.nrql.results[0].R2
-            }
-        }
-        
-        console.log(event);
-        events.push(event);
-    }
-}
-
-`;
+    if (totalTouchpoints % tp_per_group === 0) {
+      data += `
+    ];`;
+    } else {
+      data += `
+      ]
+    ];`;
     }
     return data;
   }
@@ -1625,6 +2242,15 @@ for (const [key, value] of Object.entries(return` +
             tp.touchpoint_index === touchpoint.index
           ) {
             found2 = true;
+            const logRecord = {
+              action: 'touchpoint-enable-disable',
+              error: false,
+              touchpoint_name: touchpoint.value,
+              touchpoint_type: tp.measure_points[0].type,
+              stage_name: this.stages[tp.stage_index - 1].title,
+              touchpoint_enabled: touchpoint.status_on_off
+            };
+            this.SendToLogs(logRecord);
             tp.status_on_off = touchpoint.status_on_off;
             if (updateStorage) {
               this.SetStorageTouchpoints();
@@ -1650,17 +2276,7 @@ for (const [key, value] of Object.entries(return` +
             tp.touchpoint_index === touchpoint.index
           ) {
             found2 = true;
-            if (tp.measure_points.length > 1) {
-              datos = {
-                error_threshold: tp.measure_points[1].error_threshold,
-                apdex_time: tp.measure_points[2].apdex_time
-              };
-            } else {
-              datos = {
-                error_threshold: tp.measure_points[0].error_threshold,
-                apdex_time: 0
-              };
-            }
+            datos = tp.measure_points;
           }
           return found2;
         });
@@ -1672,6 +2288,7 @@ for (const [key, value] of Object.entries(return` +
 
   GetTouchpointQuerys(touchpoint) {
     const datos = [];
+    let accountID = this.accountId;
     this.touchPoints.some(element => {
       let found1 = false;
       if (element.index === this.city) {
@@ -1685,77 +2302,75 @@ for (const [key, value] of Object.entries(return` +
             found2 = true;
             let actualValue = 0;
             tp.measure_points.forEach(measure => {
-              if (measure.type === 0) {
+              accountID = this.accountId;
+              if (measure.accountID) {
+                accountID = measure.accountID;
+              }
+              if (measure.type === 'PRC') {
                 datos.push({
-                  label: 'Count Query',
+                  accountID: accountID,
+                  label: this.measureNames[0],
                   value: actualValue,
-                  type: 0,
+                  type: 'PRC',
                   query_start: '',
                   query_body: measure.query,
-                  query_footer: `SINCE ${this.TimeRangeTransform(
-                    this.timeRange,
-                    false
-                  )}`
+                  query_footer: this.ValidateMeasureTime(measure),
+                  timeout: measure.timeout
                 });
-              } else if (measure.type === 1) {
+              } else if (measure.type === 'PCC') {
                 datos.push({
-                  label: 'Error Percentage Query',
+                  accountID: accountID,
+                  label: this.measureNames[1],
                   value: actualValue,
-                  type: 1,
+                  type: 'PCC',
                   query_start: '',
                   query_body: measure.query,
-                  query_footer: `SINCE ${this.TimeRangeTransform(
-                    this.timeRange,
-                    false
-                  )}`
+                  query_footer: this.ValidateMeasureTime(measure),
+                  timeout: measure.timeout
                 });
-              } else if (measure.type === 2) {
+              } else if (measure.type === 'APP') {
                 datos.push({
-                  label: 'Apdex Query',
+                  accountID: accountID,
+                  label: this.measureNames[2],
                   value: actualValue,
-                  type: 2,
+                  type: 'APP',
                   query_start: '',
                   query_body: measure.query,
-                  query_footer: `SINCE ${this.TimeRangeTransform(
-                    this.timeRange,
-                    false
-                  )}`
+                  query_footer: this.ValidateMeasureTime(measure),
+                  timeout: measure.timeout
                 });
-              } else if (measure.type === 3) {
+              } else if (measure.type === 'FRT') {
                 datos.push({
-                  label: 'Session Query',
+                  accountID: accountID,
+                  label: this.measureNames[3],
                   value: actualValue,
-                  type: 3,
+                  type: 'FRT',
                   query_start: '',
                   query_body: measure.query,
-                  query_footer: `SINCE ${this.TimeRangeTransform(
-                    this.timeRange,
-                    false
-                  )}`
+                  query_footer: this.ValidateMeasureTime(measure),
+                  timeout: measure.timeout
                 });
-              } else if (measure.type === 4) {
+              } else if (measure.type === 'SYN') {
                 datos.push({
-                  label: 'Session Query Duration',
+                  accountID: accountID,
+                  label: this.measureNames[4],
                   value: actualValue,
-                  type: 4,
+                  type: 'SYN',
                   query_start: '',
                   query_body: measure.query,
-                  query_footer: `SINCE ${this.TimeRangeTransform(
-                    this.timeRange,
-                    false
-                  )}`
+                  query_footer: this.ValidateMeasureTime(measure),
+                  timeout: measure.timeout
                 });
-              } else if (measure.type === 20) {
+              } else if (measure.type === 'WLD') {
                 datos.push({
-                  label: 'Full Open Query',
+                  accountID: accountID,
+                  label: this.measureNames[5],
                   value: actualValue,
-                  type: 20,
+                  type: 'WLD',
                   query_start: '',
                   query_body: measure.query,
-                  query_footer: `SINCE ${this.TimeRangeTransform(
-                    this.timeRange,
-                    false
-                  )}`
+                  query_footer: '',
+                  timeout: measure.timeout
                 });
               }
               actualValue++;
@@ -1767,6 +2382,13 @@ for (const [key, value] of Object.entries(return` +
       return found1;
     });
     return datos;
+  }
+
+  ValidateMeasureTime(measure) {
+    if (measure.measure_time) {
+      return `SINCE ${measure.measure_time}`;
+    }
+    return `SINCE ${this.TimeRangeTransform(this.timeRange)}`;
   }
 
   UpdateTouchpointTune(touchpoint, datos) {
@@ -1781,11 +2403,37 @@ for (const [key, value] of Object.entries(return` +
             tp.touchpoint_index === touchpoint.index
           ) {
             found2 = true;
-            if (tp.measure_points.length > 1) {
-              tp.measure_points[1].error_threshold = datos.error_threshold;
-              tp.measure_points[2].apdex_time = datos.apdex_time;
-            } else {
-              tp.measure_points[0].error_threshold = datos.error_threshold;
+            const logRecord = {
+              action: 'touchpoint-tune',
+              message: datos,
+              error: false,
+              touchpoint_name: touchpoint.value,
+              touchpoint_type: tp.measure_points[0].type,
+              stage_name: this.stages[tp.stage_index - 1].title,
+              touchpoint_enabled: touchpoint.status_on_off
+            };
+            this.SendToLogs(logRecord);
+            switch (tp.measure_points[0].type) {
+              case 'PRC':
+              case 'PCC':
+                tp.measure_points[0].min_count = datos.min_count;
+                break;
+              case 'APP':
+              case 'FRT':
+                tp.measure_points[0].min_apdex = datos.min_apdex;
+                tp.measure_points[0].max_response_time =
+                  datos.max_response_time;
+                tp.measure_points[0].max_error_percentage =
+                  datos.max_error_percentage;
+                break;
+              case 'SYN':
+                tp.measure_points[0].max_avg_response_time =
+                  datos.max_avg_response_time;
+                tp.measure_points[0].max_total_check_time =
+                  datos.max_total_check_time;
+                tp.measure_points[0].min_success_percentage =
+                  datos.min_success_percentage;
+                break;
             }
             this.SetStorageTouchpoints();
           }
@@ -1797,6 +2445,7 @@ for (const [key, value] of Object.entries(return` +
   }
 
   UpdateTouchpointQuerys(touchpoint, datos) {
+    // console.log('Updating Touchpoint',touchpoint,'DATOS',datos)
     this.touchPoints.some(element => {
       let found = false;
       if (element.index === this.city) {
@@ -1808,9 +2457,23 @@ for (const [key, value] of Object.entries(return` +
             tp.touchpoint_index === touchpoint.index
           ) {
             found2 = true;
+            const logRecord = {
+              action: 'touchpoint-update',
+              message: datos,
+              account_id: datos[0].accountID,
+              query: datos[0].query_body,
+              error: false,
+              timeout: datos[0].timeout,
+              touchpoint_name: touchpoint.value,
+              touchpoint_type: tp.measure_points[0].type,
+              stage_name: this.stages[tp.stage_index - 1].title,
+              touchpoint_enabled: touchpoint.status_on_off
+            };
+            this.SendToLogs(logRecord);
             datos.forEach(dato => {
               this.UpdateMeasure(dato, tp.measure_points);
             });
+            // console.log("measures:",tp.measure_points);
             this.SetStorageTouchpoints();
           }
           return found2;
@@ -1825,25 +2488,70 @@ for (const [key, value] of Object.entries(return` +
       let found = false;
       if (measure.type === data.type) {
         found = true;
-        if (measure.type === 4) {
-          measure.appName = data.query_body;
-        } else {
-          measure.query = data.query_body;
-        }
+        // console.log('Found AccountID:',data.accountID,'this.accid:',this.accountId, 'originalID:',measure.accountID)
+        measure.accountID = data.accountID;
+        measure.query = data.query_body;
+        measure.timeout = data.timeout;
       }
       return found;
     });
   }
 
+  UpdateGoutParameters(dropForm) {
+    this.dropParams = dropForm;
+    this.setStorageDropParams();
+  }
+
+  GetGoutParameters() {
+    return this.dropParams;
+  }
+
+  setStorageDropParams() {
+    try {
+      AccountStorageMutation.mutate({
+        accountId: this.accountId,
+        actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
+        collection: 'pathpoint',
+        documentId: 'DropParams',
+        document: {
+          dropParams: this.dropParams
+        }
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async GetStorageDropParams() {
+    try {
+      const { data } = await AccountStorageQuery.query({
+        accountId: this.accountId,
+        collection: 'pathpoint',
+        documentId: 'DropParams'
+      });
+      if (data) {
+        this.dropParams = data.dropParams;
+      } else {
+        this.dropParams = {
+          dropmoney: 100,
+          hours: 48,
+          percentage: 30
+        };
+      }
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
   GetHistoricParameters() {
-    const values = { days: 0, percentage: 0 };
-    values.days = this.historicErrorsDays;
+    const values = { hours: 0, percentage: 0 };
+    values.hours = this.historicErrorsHours;
     values.percentage = this.historicErrorsHighLightPercentage;
     return values;
   }
 
-  UpdateHistoricParameters(days, percentage) {
-    this.historicErrorsDays = days;
+  UpdateHistoricParameters(hours, percentage) {
+    this.historicErrorsHours = hours;
     this.historicErrorsHighLightPercentage = percentage;
     this.SetStorageHistoricErrorsParams();
   }
@@ -1856,7 +2564,7 @@ for (const [key, value] of Object.entries(return` +
         collection: 'pathpoint',
         documentId: 'HistoricErrorsParams',
         document: {
-          historicErrorsDays: this.historicErrorsDays,
+          historicErrorsHours: this.historicErrorsHours,
           historicErrorsHighLightPercentage: this
             .historicErrorsHighLightPercentage
         }
@@ -1874,7 +2582,7 @@ for (const [key, value] of Object.entries(return` +
         documentId: 'HistoricErrorsParams'
       });
       if (data) {
-        this.historicErrorsDays = data.historicErrorsDays;
+        this.historicErrorsHours = data.historicErrorsHours;
         this.historicErrorsHighLightPercentage =
           data.historicErrorsHighLightPercentage;
       }
@@ -1883,20 +2591,115 @@ for (const [key, value] of Object.entries(return` +
     }
   }
 
-  async GetDBmaxCapacity() {
+  EnableDisableLogsConnector(status) {
+    this.LogConnector.EnableDisable(status);
+  }
+
+  async SaveCredentialsInVault(credentials) {
+    // Only Save Valid Keys
+    // console.log('Saving Credentials:', credentials);
+    if (
+      credentials.ingestLicense &&
+      credentials.ingestLicense.indexOf('xxxxxx') === -1
+    ) {
+      const check = await this.ValidateIngestLicense(credentials.ingestLicense);
+      if (check) {
+        this.NerdStorageVault.storeCredentialData(
+          'ingestLicense',
+          credentials.ingestLicense
+        );
+        this.LogConnector.SetLicenseKey(credentials.ingestLicense);
+        this.SynConnector.SetLicenseKey(credentials.ingestLicense);
+        this.CredentialConnector.SetLicenseKey(credentials.ingestLicense);
+      }
+    }
+    if (
+      credentials.userAPIKey &&
+      credentials.userAPIKey.indexOf('xxxxxx') === -1
+    ) {
+      const check = await this.ValidateUserApiKey(credentials.userAPIKey);
+      if (check) {
+        this.NerdStorageVault.storeCredentialData(
+          'userAPIKey',
+          credentials.userAPIKey
+        );
+        this.SynConnector.SetUserApiKey(credentials.userAPIKey);
+        this.CredentialConnector.SetUserApiKey(credentials.userAPIKey);
+      }
+    }
+  }
+
+  ResetCredentialsInVault() {
+    this.NerdStorageVault.storeCredentialData('ingestLicense', '_');
+    this.NerdStorageVault.storeCredentialData('userAPIKey', '_');
+    this.CredentialConnector.DeleteCredentials();
+  }
+
+  SaveGeneralConfiguration(data) {
     try {
-      const { data } = await AccountStorageQuery.query({
+      // console.log('SavingGeneralConfiguration:', data);
+      AccountStorageMutation.mutate({
         accountId: this.accountId,
+        actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
         collection: 'pathpoint',
-        documentId: 'maxCapacity'
+        documentId: 'generalConfiguration',
+        document: {
+          dropTools: data.dropTools,
+          flameTools: data.flameTools,
+          loggin: data.loggin,
+          accountId: data.accountId
+        }
       });
-      if (data) {
-        this.capacity = data.Capacity;
+      if (Reflect.has(data, 'loggin')) {
+        this.EnableDisableLogsConnector(data.loggin);
       } else {
-        this.SetDBmaxCapacity();
+        // console.log('BAD-generalCofiguration');
+      }
+      if (Reflect.has(data, 'accountId')) {
+        this.SyntheticAccountID = data.accountId;
+        this.SynConnector.SetAccountID(data.accountId);
+      }
+      if (Reflect.has(data, 'flameTools')) {
+        this.SynConnector.EnableDisableFlame(data.flameTools);
+      }
+      if (Reflect.has(data, 'dropTools')) {
+        this.SynConnector.EnableDisableDrop(data.dropTools);
       }
     } catch (error) {
       throw new Error(error);
     }
+  }
+
+  async GetGeneralConfiguration() {
+    try {
+      const { data } = await AccountStorageQuery.query({
+        accountId: this.accountId,
+        collection: 'pathpoint',
+        documentId: 'generalConfiguration'
+      });
+      if (data) {
+        this.generalConfiguration = data;
+      }
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async ValidateIngestLicense(license) {
+    const response = await this.LogConnector.ValidateIngestLicense(license);
+    return response;
+  }
+
+  async ValidateUserApiKey(userApiKey) {
+    const valid = await this.SynConnector.ValidateUserApiKey(userApiKey);
+    return valid;
+  }
+
+  async InstallUpdateBackGroundScript() {
+    // TODO Validate secure credentials
+    this.SecureCredentialsExist = await this.CredentialConnector.CreateCredentials();
+    const dataScript = this.GetCurrentHistoricErrorScript();
+    const encodedScript = Buffer.from(dataScript).toString('base64');
+    this.SynConnector.UpdateFlameMonitor(encodedScript);
   }
 }

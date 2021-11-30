@@ -2,8 +2,9 @@
  * Clase helper para actualizar los datos al nerdlet
  */
 export default class Emulator {
-  constructor(data) {
+  constructor(data, kpis) {
     this.data = data;
+    this.kpis = kpis;
     this.firstLoad = true;
     this.accountId = 1211212;
   }
@@ -27,6 +28,20 @@ export default class Emulator {
   getDataState = () => {
     return this.data;
   };
+
+  getKpis() {
+    for (let i = 0; i < this.kpis.length; i++) {
+      if (this.kpis[i].type === 101) {
+        this.kpis[i].value = {
+          current: Math.floor(Math.random() * 10000),
+          previous: Math.floor(Math.random() * 10000)
+        };
+      } else {
+        this.kpis[i].value = Math.floor(Math.random() * 10000);
+      }
+    }
+    return this.kpis;
+  }
 
   closeConnections() {
     clearInterval(this.intervalLevel);
@@ -121,7 +136,12 @@ export default class Emulator {
         ? true
         : this._randomIntFromInterval(1, 25, 50) < 80;
       if (update) {
-        stage.level = this._randomIntFromInterval(1, 15, stage.level);
+        stage.gout_quantity = this._randomIntFromInterval(
+          1,
+          15,
+          stage.gout_quantity
+        );
+        stage.gout_money = stage.gout_quantity * 125;
       }
     }
   };

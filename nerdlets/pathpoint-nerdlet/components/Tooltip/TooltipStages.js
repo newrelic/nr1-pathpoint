@@ -1,10 +1,10 @@
 import React from 'react';
-import imagen1 from '../../images/imagesStages/imagen1.svg';
-import imagen2 from '../../images/imagesStages/imagen2.svg';
-import imagen3 from '../../images/imagesStages/imagen3.svg';
-import imagen4 from '../../images/imagesStages/imagen4.svg';
-import imagen5 from '../../images/imagesStages/imagen5.svg';
-import imagen6 from '../../images/imagesStages/imagen6.svg';
+import imagen1 from '../../images/imagesStages/imagen1.png';
+import imagen2 from '../../images/imagesStages/imagen2.png';
+import imagen3 from '../../images/imagesStages/imagen3.png';
+import imagen4 from '../../images/imagesStages/imagen4.png';
+import imagen5 from '../../images/imagesStages/imagen5.png';
+import imagen6 from '../../images/imagesStages/imagen6.png';
 import messages from '../../config/messages.json';
 
 const TooltipStages = () => {

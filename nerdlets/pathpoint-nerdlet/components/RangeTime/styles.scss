@@ -1,0 +1,71 @@
+.options {
+    position: fixed;
+    background: white;
+    box-shadow: 0px 2px 10px #999999;
+    display: flex;
+    margin-top: 5px;
+    height: 50px;
+    &--option {
+        width: 50px;
+        height: 40px;
+        font-size: 9px;
+        margin: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        line-height: 25px;
+        color: #bdbdbd;
+        background: #828282;
+        cursor: pointer;
+    }
+    &--optionselected {
+        width: 50px;
+        font-size: 9px;
+        height: 40px;
+        margin: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        line-height: 25px;
+        color: white;
+        background: black;
+        cursor: pointer;
+    }
+    &--option:hover {
+        color: white;
+        background: black;
+    }
+}
+
+.timeRangeContent {
+    line-height: 25px;
+    margin-right: 10px;
+    align-items: center;
+    display: flex;
+    background: black;
+    width: 50px;
+    font-size: 9px;
+    height: 90%;
+    justify-content: center;
+    font-weight: bold;
+    color: #ffffff;
+    flex-direction: column;
+    cursor: pointer;
+    &--colorgrey {
+        color: #bdbdbd;
+    }
+
+    &--colorblack {
+        color: #333333;
+    }
+
+    &--size12 {
+        font-size: 12px;
+    }
+
+    &--size16 {
+        font-size: 16px;
+    }
+}

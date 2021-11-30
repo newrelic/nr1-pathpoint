@@ -25,4 +25,19 @@ describe('<FileErrorFormModal/>', () => {
     const headerFileError = mount(<HeaderFileErrorFormModal />);
     expect(headerFileError.length).toEqual(1);
   });
+
+  it('TranslateAJVErrors', () => {
+    const bodyFileError = mount(
+      <BodyFileErrorFormModal
+        SetConfigurationJSON={jest.fn()}
+        validateKpiQuery={{}}
+        _onClose={jest.fn()}
+        errorsList={[
+          { dataPath: '/data/0', message: 'message error 1' },
+          { dataPath: '/data/1', message: 'message error 2' }
+        ]}
+      />
+    );
+    expect(bodyFileError.instance()).toEqual(null);
+  });
 });

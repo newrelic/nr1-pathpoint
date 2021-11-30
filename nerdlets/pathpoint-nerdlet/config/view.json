@@ -11,21 +11,9 @@
       255
     ],
     "status_color": {
-      "danger": [
-        255,
-        76,
-        76
-      ],
-      "warning": [
-        242,
-        201,
-        76
-      ],
-      "good": [
-        39,
-        174,
-        96
-      ]
+      "danger": 1,
+      "warning": 2,
+      "good": 3
     },
     "steps_touchpoints": [
       {
@@ -48,35 +36,267 @@
           51,
           51,
           51
+        ],
+        "good": [
+          10,
+          175,
+          119
         ]
       }
     ]
   },
   "canary_status": false,
-  "banner_kpis": [
+  "kpis": [
     {
-      "type": 100,
-      "description": "Total Order Count",
-      "prefix": "",
-      "suffix": "Orders",
-      "query": "SELECT count(*) as value FROM Transaction SINCE 1 minute AGO",
-      "value": 0
-    },
-    {
-      "type": 100,
-      "description": "Total Order Value",
+      "index": 0,
+      "type": 101,
+      "name": "Unique Visitors",
+      "shortName": "Unique",
+      "queryByCity": [
+        {
+          "accountID": 1606862,
+          "query": "SELECT count(*) as value  FROM  Public_APICall COMPARE WITH 2 day ago",
+          "link": "https://onenr.io/01qwL8KPxw5"
+        }
+      ],
+      "value": {
+        "current": 0,
+        "previous": 0
+      },
+      "value_type": "FLOAT",
       "prefix": "$",
       "suffix": "",
-      "query": "SELECT count(*) as value FROM Transaction SINCE 5 minutes AGO",
-      "value": 0
+      "check": true
     },
     {
+      "index": 1,
+      "type": 101,
+      "name": "1 Account",
+      "shortName": "1 Acc.",
+      "queryByCity": [
+        {
+          "query": "SELECT count(*) as value  FROM  Public_APICall COMPARE WITH 2 day ago",
+          "link": "https://onenr.io/01qwL8KPxw5"
+        }
+      ],
+      "value": {
+        "current": 0,
+        "previous": 0
+      },
+      "value_type": "FLOAT",
+      "prefix": "",
+      "suffix": "%",
+      "check": false
+    },
+    {
+      "index": 2,
       "type": 100,
-      "description": "Max Duration",
+      "name": "1+ Account",
+      "shortName": "1+ Acc.",
+      "queryByCity": [
+        {
+          "accountID": 1606862,
+          "query": "SELECT count(*) as value  FROM  Public_APICall",
+          "link": "https://onenr.io/01qwL8KPxw5"
+        }
+      ],
+      "value": 0,
+      "value_type": "FLOAT",
+      "prefix": "R$",
+      "suffix": "",
+      "check": false
+    },
+    {
+      "index": 3,
+      "type": 100,
+      "name": "Customers",
+      "shortName": "Cust.",
+      "queryByCity": [
+        {
+          "query": "SELECT count(*) as value  FROM  Public_APICall",
+          "link": "https://onenr.io/01qwL8KPxw5"
+        }
+      ],
+      "value": 0,
+      "value_type": "INT",
+      "prefix": "#",
+      "suffix": "ACC",
+      "check": false
+    },
+    {
+      "index": 4,
+      "type": 100,
+      "name": "All Accounts",
+      "shortName": "All Acc.",
+      "queryByCity": [
+        {
+          "accountID": 1606862,
+          "query": "SELECT count(*) as value  FROM  Public_APICall",
+          "link": "https://onenr.io/01qwL8KPxw5"
+        }
+      ],
+      "value": 0,
+      "value_type": "INT",
       "prefix": "",
       "suffix": "",
-      "query": "SELECT max(duration) as value FROM Transaction SINCE 30 minutes AGO",
-      "value": 0
+      "check": false
+    },
+    {
+      "index": 5,
+      "type": 100,
+      "name": "Monthly vs Annual Pay",
+      "shortName": "MvsA",
+      "queryByCity": [
+        {
+          "accountID": 1606862,
+          "query": "SELECT count(*) as value  FROM  Public_APICall",
+          "link": "https://onenr.io/01qwL8KPxw5"
+        }
+      ],
+      "value": 0,
+      "value_type": "INT",
+      "prefix": "",
+      "suffix": "",
+      "check": false
+    },
+    {
+      "index": 6,
+      "type": 100,
+      "name": "Autopay",
+      "shortName": "Autopay",
+      "queryByCity": [
+        {
+          "query": "SELECT count(*) as value  FROM  Public_APICall",
+          "link": "https://onenr.io/01qwL8KPxw5"
+        }
+      ],
+      "value": 0,
+      "value_type": "INT",
+      "prefix": "",
+      "suffix": "",
+      "check": false
+    },
+    {
+      "index": 7,
+      "type": 100,
+      "name": "eStatement",
+      "shortName": "eStat.",
+      "queryByCity": [
+        {
+          "accountID": 1606862,
+          "query": "SELECT count(*) as value  FROM  Public_APICall",
+          "link": "https://onenr.io/01qwL8KPxw5"
+        }
+      ],
+      "value": 0,
+      "value_type": "INT",
+      "prefix": "",
+      "suffix": "",
+      "check": false
+    },
+    {
+      "index": 8,
+      "type": 100,
+      "name": "1 loan Signed-in",
+      "shortName": "1_loan",
+      "queryByCity": [
+        {
+          "accountID": 1606862,
+          "query": "SELECT count(*) as value  FROM  Public_APICall",
+          "link": "https://onenr.io/01qwL8KPxw5"
+        }
+      ],
+      "value": 0,
+      "value_type": "INT",
+      "prefix": "",
+      "suffix": "",
+      "check": false
+    },
+    {
+      "index": 9,
+      "type": 100,
+      "name": "1+ loan Signed-in",
+      "shortName": "1+loan",
+      "queryByCity": [
+        {
+          "accountID": 1606862,
+          "query": "SELECT count(*) as value  FROM  Public_APICall",
+          "link": "https://onenr.io/01qwL8KPxw5"
+        }
+      ],
+      "value": 0,
+      "value_type": "INT",
+      "prefix": "",
+      "suffix": "",
+      "check": false
+    },
+    {
+      "index": 10,
+      "type": 100,
+      "name": "Consumer Loans Signed-in",
+      "shortName": "Cust L",
+      "queryByCity": [
+        {
+          "query": "SELECT count(*) as value  FROM  Public_APICall",
+          "link": "https://onenr.io/01qwL8KPxw5"
+        }
+      ],
+      "value": 0,
+      "value_type": "INT",
+      "prefix": "",
+      "suffix": "",
+      "check": false
+    },
+    {
+      "index": 11,
+      "type": 100,
+      "name": "green orders",
+      "shortName": "Green orders (max)",
+      "queryByCity": [
+        {
+          "query": "SELECT count(*) as value  FROM  Public_APICall",
+          "link": "https://onenr.io/01qwL8KPxw5"
+        }
+      ],
+      "value": 0,
+      "value_type": "INT",
+      "prefix": "",
+      "suffix": "",
+      "check": false
+    },
+    {
+      "index": 12,
+      "type": 100,
+      "name": "Past Due",
+      "shortName": "Past_Due",
+      "queryByCity": [
+        {
+          "query": "SELECT count(*) as value  FROM  Public_APICall",
+          "link": "https://onenr.io/01qwL8KPxw5"
+        }
+      ],
+      "value": 0,
+      "value_type": "INT",
+      "prefix": "",
+      "suffix": "",
+      "check": false
+    },
+    {
+      "index": 13,
+      "type": 100,
+      "name": "Auto-Dialer",
+      "shortName": "Auto-Dialer",
+      "queryByCity": [
+        {
+          "query": "SELECT count(*) as value  FROM  Public_APICall",
+          "link": "https://onenr.io/01qwL8KPxw5"
+        }
+      ],
+      "value": 0,
+      "value_type": "INT",
+      "prefix": "",
+      "suffix": "",
+      "check": false
     }
   ],
   "stages": [
@@ -87,6 +307,7 @@
       "status_color": "good",
       "gout_enable": false,
       "gout_quantity": 150,
+      "gout_money": 250,
       "money_enabled": false,
       "trafficIconType": "traffic",
       "money": "",
@@ -98,9 +319,12 @@
         "percentage": 15
       },
       "capacity": 0,
+      "capacity_link": "",
       "total_count": 0,
       "active_dotted": "none",
       "active_dotted_color": "#828282",
+      "arrowMode": "FLOW",
+      "percentage_above_avg": 20,
       "steps": [
         {
           "value": "",
@@ -118,24 +342,22 @@
               "error": false,
               "index_stage": 1,
               "relationship_touchpoints": [
-                1
+                3
               ]
             },
             {
               "index": 2,
               "id": "ST1-LINE1-SS2",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Mobile Web",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
               "error": false,
               "index_stage": 1,
-              "relationship_touchpoints": [
-                2
-              ]
+              "relationship_touchpoints": []
             },
             {
               "index": 3,
@@ -149,7 +371,9 @@
               "highlighted": false,
               "error": false,
               "index_stage": 1,
-              "relationship_touchpoints": []
+              "relationship_touchpoints": [
+                2
+              ]
             }
           ]
         },
@@ -169,7 +393,8 @@
               "error": false,
               "index_stage": 1,
               "relationship_touchpoints": [
-                3
+                1,
+                4
               ]
             },
             {
@@ -178,14 +403,14 @@
               "canary_state": false,
               "latency": false,
               "value": "Signup",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
               "error": false,
               "index_stage": 1,
               "relationship_touchpoints": [
-                4
+                5
               ]
             },
             {
@@ -227,7 +452,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Menu",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -261,9 +486,7 @@
               "highlighted": false,
               "error": false,
               "index_stage": 1,
-              "relationship_touchpoints": [
-                5
-              ]
+              "relationship_touchpoints": []
             }
           ]
         },
@@ -282,9 +505,7 @@
               "highlighted": false,
               "error": false,
               "index_stage": 1,
-              "relationship_touchpoints": [
-                6
-              ]
+              "relationship_touchpoints": []
             },
             {
               "index": 12,
@@ -323,17 +544,15 @@
               "index": 14,
               "id": "ST1-LINE5-SS1",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Add to Bag",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
               "error": false,
               "index_stage": 1,
-              "relationship_touchpoints": [
-                7
-              ]
+              "relationship_touchpoints": []
             }
           ]
         }
@@ -343,8 +562,10 @@
           "index": 1,
           "stage_index": 1,
           "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
           "active": false,
-          "value": "Catalog API",
+          "value": "Login People (PRC)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -352,56 +573,20 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NDg"
-          ],
-          "relation_steps": [
-            1
-          ]
-        },
-        {
-          "index": 2,
-          "stage_index": 1,
-          "status_on_off": true,
-          "active": false,
-          "value": "Master Data API",
-          "highlighted": false,
-          "error": false,
-          "history_error": false,
-          "countrys": [
-            0
-          ],
-          "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NDk"
-          ],
-          "relation_steps": [
-            2
-          ]
-        },
-        {
-          "index": 3,
-          "stage_index": 1,
-          "status_on_off": true,
-          "active": false,
-          "value": "Pricing API",
-          "highlighted": false,
-          "error": false,
-          "history_error": false,
-          "countrys": [
-            0
-          ],
-          "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTA"
+            "https://onenr.io/01qwL8KPxw5"
           ],
           "relation_steps": [
             4
           ]
         },
         {
-          "index": 4,
+          "index": 2,
           "stage_index": 1,
           "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
           "active": false,
-          "value": "Search API",
+          "value": "App Backend Health (APP)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -409,18 +594,62 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTE"
+            "https://onenr.io/01qwL8KPxw5"
           ],
           "relation_steps": [
-            5
+            3
+          ]
+        },
+        {
+          "index": 3,
+          "stage_index": 1,
+          "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
+          "active": false,
+          "value": "App Frontend Health (FRT)",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://onenr.io/01qwL8KPxw5"
+          ],
+          "relation_steps": [
+            1
+          ]
+        },
+        {
+          "index": 4,
+          "stage_index": 1,
+          "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
+          "active": false,
+          "value": "Login Check (SYN)",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://onenr.io/01qwL8KPxw5"
+          ],
+          "relation_steps": [
+            4
           ]
         },
         {
           "index": 5,
           "stage_index": 1,
           "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
           "active": false,
-          "value": "Session Manager API",
+          "value": "Signup People (PRC)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -428,18 +657,20 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTI"
+            "https://onenr.io/01qwL8KPxw5"
           ],
           "relation_steps": [
-            10
+            5
           ]
         },
         {
           "index": 6,
           "stage_index": 1,
           "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
           "active": false,
-          "value": "Subscriptions API",
+          "value": "Workload (WLD)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -447,30 +678,9 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTM"
+            false
           ],
-          "relation_steps": [
-            11
-          ]
-        },
-        {
-          "index": 7,
-          "stage_index": 1,
-          "status_on_off": true,
-          "active": false,
-          "value": "Suggestions API",
-          "highlighted": false,
-          "error": false,
-          "history_error": false,
-          "countrys": [
-            0
-          ],
-          "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTQ"
-          ],
-          "relation_steps": [
-            14
-          ]
+          "relation_steps": []
         }
       ]
     },
@@ -481,6 +691,7 @@
       "status_color": "good",
       "gout_enable": false,
       "gout_quantity": 150,
+      "gout_money": 250,
       "money_enabled": false,
       "trafficIconType": "traffic",
       "money": "",
@@ -492,9 +703,12 @@
         "percentage": 15
       },
       "capacity": 0,
+      "capacity_link": "",
       "total_count": 0,
       "active_dotted": "none",
       "active_dotted_color": "#828282",
+      "arrowMode": "FLOW",
+      "percentage_above_avg": 20,
       "steps": [
         {
           "value": "",
@@ -519,7 +733,7 @@
               "index": 2,
               "id": "ST2-LINE1-SS2",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Reward Items",
               "dark": false,
               "history_error": false,
@@ -533,7 +747,7 @@
               "index": 3,
               "id": "ST2-LINE1-SS3",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Saved items",
               "dark": false,
               "history_error": false,
@@ -552,7 +766,7 @@
               "index": 4,
               "id": "ST2-LINE2-SS1",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Add/Remove Item",
               "dark": false,
               "history_error": false,
@@ -670,8 +884,10 @@
           "index": 1,
           "stage_index": 2,
           "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
           "active": false,
-          "value": "Catalog API",
+          "value": "Catalog API USE (PCC)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -679,7 +895,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTU"
+            "https://onenr.io/01qwL8KPxw5"
           ],
           "relation_steps": [
             1
@@ -689,8 +905,10 @@
           "index": 2,
           "stage_index": 2,
           "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
           "active": false,
-          "value": "Pricing API",
+          "value": "Pricing API (APP)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -698,7 +916,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTY"
+            "https://onenr.io/01qwL8KPxw5"
           ],
           "relation_steps": [
             4
@@ -708,8 +926,10 @@
           "index": 3,
           "stage_index": 2,
           "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
           "active": false,
-          "value": "Master Data API",
+          "value": "Master Data API (FRT)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -717,7 +937,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTc"
+            "https://onenr.io/01qwL8KPxw5"
           ],
           "relation_steps": [
             6
@@ -727,8 +947,10 @@
           "index": 4,
           "stage_index": 2,
           "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
           "active": false,
-          "value": "Subscriptions API",
+          "value": "Subscriptions API (PCC)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -736,11 +958,30 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTg"
+            "https://onenr.io/01qwL8KPxw5"
           ],
           "relation_steps": [
             8
           ]
+        },
+        {
+          "index": 5,
+          "stage_index": 2,
+          "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
+          "active": false,
+          "value": "Workload (WLD)",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://onenr.io/0a7j9pBB3RO"
+          ],
+          "relation_steps": []
         }
       ]
     },
@@ -751,6 +992,7 @@
       "status_color": "good",
       "gout_enable": false,
       "gout_quantity": 150,
+      "gout_money": 250,
       "money_enabled": false,
       "trafficIconType": "traffic",
       "money": "",
@@ -762,9 +1004,12 @@
         "percentage": 15
       },
       "capacity": 0,
+      "capacity_link": "",
       "total_count": 0,
       "active_dotted": "none",
       "active_dotted_color": "#828282",
+      "arrowMode": "FLOW",
+      "percentage_above_avg": 20,
       "steps": [
         {
           "value": "",
@@ -796,7 +1041,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Delivery Options",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -877,7 +1122,7 @@
               "index": 7,
               "id": "ST3-LINE3-SS3",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Afterpay",
               "dark": false,
               "history_error": false,
@@ -910,7 +1155,7 @@
               "index": 9,
               "id": "ST3-LINE4-SS1",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Submit Order",
               "dark": false,
               "history_error": false,
@@ -930,8 +1175,10 @@
           "index": 1,
           "stage_index": 3,
           "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
           "active": false,
-          "value": "Session Manager API",
+          "value": "Session Manager API (PCC)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -939,7 +1186,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NTk"
+            "https://onenr.io/01qwL8KPxw5"
           ],
           "relation_steps": [
             1
@@ -949,8 +1196,10 @@
           "index": 2,
           "stage_index": 3,
           "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
           "active": false,
-          "value": "Checkout API",
+          "value": "Checkout Check (SYN)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -958,7 +1207,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjE"
+            "https://onenr.io/01qwL8KPxw5"
           ],
           "relation_steps": [
             3
@@ -968,8 +1217,10 @@
           "index": 3,
           "stage_index": 3,
           "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
           "active": false,
-          "value": "Customer Credit API",
+          "value": "Customer Credit API (PCC)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -977,7 +1228,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjI"
+            "https://onenr.io/01qwL8KPxw5"
           ],
           "relation_steps": [
             5
@@ -987,8 +1238,10 @@
           "index": 4,
           "stage_index": 3,
           "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
           "active": false,
-          "value": "Gift Card API",
+          "value": "Gift Card API (APP)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -996,7 +1249,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjM"
+            "https://onenr.io/01qwL8KPxw5"
           ],
           "relation_steps": [
             9
@@ -1006,8 +1259,10 @@
           "index": 5,
           "stage_index": 3,
           "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
           "active": false,
-          "value": "Gift Card Hub API",
+          "value": "Gift Card Hub API (FRT)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1015,7 +1270,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjQ"
+            "https://onenr.io/01qwL8KPxw5"
           ],
           "relation_steps": [
             2
@@ -1025,8 +1280,10 @@
           "index": 6,
           "stage_index": 3,
           "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
           "active": false,
-          "value": "Catalog API",
+          "value": "Catalog API (PCC)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1034,11 +1291,30 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjU"
+            "https://onenr.io/01qwL8KPxw5"
           ],
           "relation_steps": [
             4
           ]
+        },
+        {
+          "index": 7,
+          "stage_index": 3,
+          "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
+          "active": false,
+          "value": "Workload (WLD)",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://onenr.io/0YBR6kKKqjO"
+          ],
+          "relation_steps": []
         }
       ]
     },
@@ -1049,6 +1325,7 @@
       "status_color": "danger",
       "gout_enable": false,
       "gout_quantity": 150,
+      "gout_money": 250,
       "money_enabled": false,
       "trafficIconType": "traffic",
       "money": "",
@@ -1060,9 +1337,12 @@
         "percentage": 15
       },
       "capacity": 0,
+      "capacity_link": "",
       "total_count": 0,
       "active_dotted": "none",
       "active_dotted_color": "#828282",
+      "arrowMode": "FLOW",
+      "percentage_above_avg": 20,
       "steps": [
         {
           "value": "",
@@ -1122,7 +1402,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Order Processing",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1136,7 +1416,7 @@
               "index": 5,
               "id": "ST4-LINE2-SS2",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Order Canceled",
               "dark": false,
               "history_error": false,
@@ -1187,7 +1467,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Pick-up Prep",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1240,8 +1520,10 @@
           "index": 1,
           "stage_index": 4,
           "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
           "active": false,
-          "value": "Orders API",
+          "value": "Orders API (PRC)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1249,7 +1531,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjY"
+            "https://onenr.io/01qwL8KPxw5"
           ],
           "relation_steps": [
             1
@@ -1259,8 +1541,10 @@
           "index": 2,
           "stage_index": 4,
           "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
           "active": false,
-          "value": "Customer Credit API",
+          "value": "Customer Credit API (APP)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1268,7 +1552,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjU"
+            "https://onenr.io/01qwL8KPxw5"
           ],
           "relation_steps": [
             4
@@ -1278,8 +1562,10 @@
           "index": 3,
           "stage_index": 4,
           "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
           "active": false,
-          "value": "Gift Card API",
+          "value": "Gift Card API (FRT)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1287,7 +1573,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjU"
+            "https://onenr.io/01qwL8KPxw5"
           ],
           "relation_steps": [
             7
@@ -1297,8 +1583,10 @@
           "index": 4,
           "stage_index": 4,
           "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
           "active": false,
-          "value": "Gift Card Hub API",
+          "value": "Gift Card Hub API (SYN)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1306,7 +1594,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3Njk"
+            "https://onenr.io/01qwL8KPxw5"
           ],
           "relation_steps": [
             9
@@ -1316,8 +1604,10 @@
           "index": 5,
           "stage_index": 4,
           "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
           "active": false,
-          "value": "Logistics API",
+          "value": "Logistics API (PRC)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1325,11 +1615,30 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NzA"
+            "https://onenr.io/01qwL8KPxw5"
           ],
           "relation_steps": [
             10
           ]
+        },
+        {
+          "index": 6,
+          "stage_index": 4,
+          "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
+          "active": false,
+          "value": "Workload (WLD)",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://onenr.io/0x0jlDzz7jW"
+          ],
+          "relation_steps": []
         }
       ]
     },
@@ -1340,6 +1649,7 @@
       "status_color": "warning",
       "gout_enable": false,
       "gout_quantity": 150,
+      "gout_money": 250,
       "money_enabled": false,
       "trafficIconType": "traffic",
       "money": "",
@@ -1351,9 +1661,12 @@
         "percentage": 15
       },
       "capacity": 0,
+      "capacity_link": "",
       "total_count": 0,
       "active_dotted": "none",
       "active_dotted_color": "#828282",
+      "arrowMode": "FLOW",
+      "percentage_above_avg": 20,
       "steps": [
         {
           "value": "",
@@ -1506,7 +1819,7 @@
               "index": 9,
               "id": "ST5-LINE5-SS2",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Proof of Store Pick-up",
               "dark": false,
               "history_error": false,
@@ -1524,8 +1837,10 @@
           "index": 1,
           "stage_index": 5,
           "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
           "active": false,
-          "value": "VTEX Do API",
+          "value": "VTEX Do API (PCC)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1533,7 +1848,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NzE"
+            "https://onenr.io/01qwL8KPxw5"
           ],
           "relation_steps": [
             1
@@ -1543,8 +1858,10 @@
           "index": 2,
           "stage_index": 5,
           "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
           "active": false,
-          "value": "Subscriptions API",
+          "value": "Subscriptions API (SYN)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1552,7 +1869,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NzI"
+            "https://onenr.io/01qwL8KPxw5"
           ],
           "relation_steps": [
             2
@@ -1562,8 +1879,10 @@
           "index": 3,
           "stage_index": 5,
           "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
           "active": false,
-          "value": "Session Manager API",
+          "value": "Session Manager API (PCC)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1571,7 +1890,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NzQ"
+            "https://onenr.io/01qwL8KPxw5"
           ],
           "relation_steps": [
             3
@@ -1581,8 +1900,10 @@
           "index": 4,
           "stage_index": 5,
           "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
           "active": false,
-          "value": "Checkout API",
+          "value": "Checkout API (APP)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1590,7 +1911,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NzU"
+            "https://onenr.io/01qwL8KPxw5"
           ],
           "relation_steps": [
             5
@@ -1600,8 +1921,10 @@
           "index": 5,
           "stage_index": 5,
           "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
           "active": false,
-          "value": "Customer Credit API",
+          "value": "Customer Credit API (FRT)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1609,7 +1932,7 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjU"
+            "https://onenr.io/01qwL8KPxw5"
           ],
           "relation_steps": [
             6
@@ -1619,8 +1942,10 @@
           "index": 6,
           "stage_index": 5,
           "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
           "active": false,
-          "value": "Gift Card API",
+          "value": "Gift Card API (PCC)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1628,11 +1953,30 @@
             0
           ],
           "dashboard_url": [
-            "https://one.newrelic.com/redirect/entity/Mjg0NzMzMnxWSVp8REFTSEJPQVJEfDE2NzQ3NjU"
+            "https://onenr.io/01qwL8KPxw5"
           ],
           "relation_steps": [
             8
           ]
+        },
+        {
+          "index": 7,
+          "stage_index": 5,
+          "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
+          "active": false,
+          "value": "Workload (WLD)",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://onenr.io/04ERPDJqaRW"
+          ],
+          "relation_steps": []
         }
       ]
     }

@@ -8,9 +8,8 @@
 
 .separator{
   padding-top: 3px;
-  margin-left: 10px;
-  margin-right: 10px;
-  border-right: 1px solid #C0C0C0;
+  margin-left: 40px;
+  margin-right: 40px;
 }
 .titleStage {
   margin-bottom: 5px;
@@ -24,19 +23,7 @@
   justify-content: space-between;
 }
 
-.goutTxt {
-  font-family: Open Sans;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 15px;
-  line-height: 20px;
-  text-align: right;
-  text-transform: capitalize;
-  margin-left: 5px;
-}
 .quantiyTitleStage {
-  margin-bottom: 5px;
-  margin-left: 0px;
   font-size: 1.2rem;
   font-family: Open Sans;
   line-height: 19px;
@@ -46,11 +33,30 @@
 
 .quantiyIcon{
   position: relative;
-  top: -2px;
   margin-left: 4px;
   margin-right: 4px;
   cursor: pointer;
-  
+}
+.brakeTittle{
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  display: inline-block;
+  width: 130px;
+  vertical-align: middle;
+  margin-left: 2px;
+}
+
+.contentHealth{
+  display: flex;
+  width: 89%;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.growFlex4{
+  flex-grow: 4;
+  align-items: center;
 }
 
 .arrowStage {
@@ -58,9 +64,12 @@
   height: 100px;
 }
 .capacityBar {
-  display: grid;
-  margin-left: 5% 2%;
-  grid-template: 1fr / repeat(13, 7%);
+  // display: grid;
+  // grid-template: 1fr / repeat(13, 7%);
+  display: flex;
+  justify-content: start;
+  width: 100%;
+  height: 15px;
 }
 .percentText {
   display: grid;

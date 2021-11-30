@@ -7,10 +7,14 @@ describe('Arrow component', () => {
     const arrow = create(
       <Arrow
         arrowWidth={12}
+        valueCongestion={10}
+        percentageCongestion={10}
+        trafficIconType="traffic"
         lightColor="blue"
         latencyPercentage={0}
         textLevelBar="Dummy Text"
         showHealth
+        arrowMode="FLOW"
       />
     );
     expect(arrow.toJSON()).toMatchSnapshot();
@@ -20,10 +24,14 @@ describe('Arrow component', () => {
     const arrow = create(
       <Arrow
         arrowWidth={12}
-        lightColor="red"
-        latencyPercentage={100}
+        valueCongestion={10}
+        percentageCongestion={10}
+        trafficIconType="traffic"
+        lightColor="blue"
+        latencyPercentage={0}
         textLevelBar="Dummy Text"
         showHealth
+        arrowMode="FLOW"
       />
     );
     expect(arrow.toJSON()).toMatchSnapshot();

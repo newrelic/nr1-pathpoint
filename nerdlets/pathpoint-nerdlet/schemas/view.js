@@ -4,31 +4,70 @@ import appPackage from '../../../package.json';
 // EXPORT SCHEMA
 export default {
   type: 'object',
-  required: ['stages', 'pathpointVersion', 'banner_kpis'],
+  required: ['stages', 'pathpointVersion', 'kpis'],
   properties: {
     pathpointVersion: {
       type: 'string'
     },
-    banner_kpis: {
+    kpis: {
       type: 'array',
-      minItems: 3,
-      maxItems: 3,
+      minItems: 0,
+      maxItems: 50,
       additionalItems: true,
       items: [
         {
           type: 'object',
-          required: ['description', 'prefix', 'suffix', 'query'],
+          required: [
+            'type',
+            'name',
+            'shortName',
+            'measure',
+            'value_type',
+            'prefix',
+            'suffix'
+          ],
           properties: {
-            description: {
+            type: {
+              type: 'number',
+              enum: [100, 101]
+            },
+            name: {
               type: 'string'
+            },
+            shortName: {
+              type: 'string'
+            },
+            measure: {
+              type: 'array',
+              minItems: 0,
+              maxItems: 20,
+              additionalItems: true,
+              items: [
+                {
+                  type: 'object',
+                  required: ['accountID', 'query', 'link'],
+                  properties: {
+                    accountID: {
+                      type: 'number'
+                    },
+                    query: {
+                      type: 'string'
+                    },
+                    link: {
+                      type: 'string'
+                    }
+                  }
+                }
+              ]
+            },
+            value_type: {
+              type: 'string',
+              enum: ['INT', 'FLOAT']
             },
             prefix: {
               type: 'string'
             },
             suffix: {
-              type: 'string'
-            },
-            query: {
               type: 'string'
             }
           }
@@ -132,13 +171,16 @@ export default {
                       items: [
                         {
                           type: 'object',
-                          required: ['type'],
+                          required: ['type', 'query', 'accountID'],
                           properties: {
                             type: {
                               type: 'string'
                             },
                             query: {
                               type: 'string'
+                            },
+                            accountID: {
+                              type: 'number'
                             }
                           }
                         }
@@ -166,8 +208,8 @@ export const CustomSchemaValidation = target => {
           counter += 1;
         } else {
           errors.push({
-            dataPath: `stages/${c}/steps/${i}/line`,
-            message: 'Line must be consecutive'
+            dataPath: `The stage '${stage.title}', in step at position ${i + 1}, `,
+            message: `the property 'line' must be consecutive`
           });
           counter += 1;
         }
@@ -178,8 +220,8 @@ export const CustomSchemaValidation = target => {
           if (id === value.id) {
             finded = true;
             errors.push({
-              dataPath: `stages/${c}/steps/${i}/values/${x}/id`,
-              message: 'This ID already exist'
+              dataPath: `The stage '${stage.title}', in step at position ${i + 1}, in substep at position ${x + 1}, `,
+              message: `the following id '${id}' already exist`
             });
           }
         });
@@ -189,16 +231,15 @@ export const CustomSchemaValidation = target => {
       });
     });
   });
-  target.stages.forEach((stage, i) => {
-    stage.touchpoints.forEach((touchpoint, c) => {
+  target.stages.forEach(stage => {
+    stage.touchpoints.forEach(touchpoint => {
       if (
         touchpoint.dashboard_url[0] !== false &&
-        !touchpoint.dashboard_url[0].includes('https://one.newrelic.com') &&
-        !touchpoint.dashboard_url[0].includes('https://one.nr')
+        !touchpoint.dashboard_url[0].includes('https://')
       ) {
         errors.push({
-          dataPath: `stages/${i}/touchpoints/${c}/dashboard_url/0`,
-          message: `URL must match with new relic domain`
+          dataPath: `The stage '${stage.title}', in touchpoint ${touchpoint.title}, in dashboard_url at position 1, `,
+          message: `the URL must match with new relic domain`
         });
       }
       if (touchpoint.related_steps !== '') {
@@ -212,8 +253,8 @@ export const CustomSchemaValidation = target => {
           });
           if (!finded) {
             errors.push({
-              dataPath: `stages/${i}/touchpoints/${c}/related_steps`,
-              message: `ID doesn't exist`
+              dataPath: `The stage ${stage.title}, in touchpoint ${touchpoint.title}, in property 'related_steps, '`,
+              message: `the following id '${related}' doesn't exist`
             });
           }
         });
@@ -222,8 +263,10 @@ export const CustomSchemaValidation = target => {
       touchpoint.queries.forEach((query, x) => {
         if (!regex.test(query.type)) {
           errors.push({
-            dataPath: `stages/${i}/touchpoints/${c}/queries/${x}/type`,
-            message: `Type must only contains letters, numbers, dashes and underscores`
+            dataPath: `The stage ${stage.title}, in touchpoint ${
+              touchpoint.title
+            }, in query at position ${x + 1}, in property 'type', `,
+            message: `must only contains letters, numbers, dashes and underscores`
           });
         }
       });
@@ -237,8 +280,8 @@ export const CustomSchemaValidation = target => {
     currentVersion[1] !== targetVersion[1]
   ) {
     errors.push({
-      dataPath: `pathpointVersion`,
-      message: `The version you attemp upload is not compatible with the application`
+      dataPath: `Error in the property 'pathpointVersion', `,
+      message: `the version you attemp upload is not compatible with the application`
     });
   }
   if (errors.length === 0) {

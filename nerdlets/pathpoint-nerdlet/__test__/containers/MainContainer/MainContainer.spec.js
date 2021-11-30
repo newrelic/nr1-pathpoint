@@ -312,6 +312,7 @@ describe('<MainContainer/>', () => {
     },
     steps_touchpoints: [
       {
+        good: [39, 174, 96],
         select_color: [18, 167, 255],
         unselect_color: [189, 189, 189],
         error_color: [255, 76, 76],

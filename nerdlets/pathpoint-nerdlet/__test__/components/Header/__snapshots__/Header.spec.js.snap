@@ -29,46 +29,85 @@ exports[`Header component Header component with default data 1`] = `
   <div
     className="kpi"
   >
-    <div
-      className="kpicontent"
-    >
+    <div>
       <div
-        className="kpicontent--colorgrey kpicontent--size12"
+        className="timeRangeContent "
+        onClick={[Function]}
       >
-        Total Order Count
-      </div>
-      <div
-        className="kpicontent--colorblack  kpicontent--size16"
-      >
-         0 Orders
+        DAY
       </div>
     </div>
     <div
       className="kpicontent"
+      onClick={[Function]}
+      style={
+        Object {
+          "cursor": "pointer",
+        }
+      }
     >
       <div
-        className="kpicontent--colorgrey kpicontent--size12"
+        className="kpicontent--colorgrey kpicontent--size10"
       >
-        Total Order Value
+        Unique
       </div>
       <div
-        className="kpicontent--colorblack  kpicontent--size16"
+        className="kpicontent--colorblack kpicontent--size12"
       >
-        $0.00 
+        <div
+          className="kpi"
+        >
+          0
+          <span>
+            <div
+              className="kpi-status"
+            >
+              <img
+                src={Object {}}
+              />
+            </div>
+          </span>
+        </div>
       </div>
     </div>
-    <div
-      className="kpicontent"
-    >
+    <div>
       <div
-        className="kpicontent--colorgrey kpicontent--size12"
+        onClick={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "cursor": "pointer",
+            "display": "flex",
+            "height": "90%",
+          }
+        }
       >
-        Max Duration
-      </div>
-      <div
-        className="kpicontent--colorblack  kpicontent--size16"
-      >
-         0 
+        <svg
+          fill="none"
+          height="22"
+          viewBox="0 0 5 27"
+          width="5"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            cx="2.5"
+            cy="2.5"
+            fill="#828282"
+            r="2.5"
+          />
+          <circle
+            cx="2.5"
+            cy="13.5"
+            fill="#828282"
+            r="2.5"
+          />
+          <circle
+            cx="2.5"
+            cy="24.5"
+            fill="#828282"
+            r="2.5"
+          />
+        </svg>
       </div>
     </div>
   </div>
@@ -82,140 +121,178 @@ exports[`Header component Header component with default data 1`] = `
     }
   />
   <div
-    className="distributionIcons"
+    className="containerRigthtHand"
   >
     <div
-      className="fireIconContainer"
+      className="distributionIcons"
+    >
+      <div
+        className="fireIconContainer"
+        onClick={[Function]}
+        style={
+          Object {
+            "visibility": "hidden",
+          }
+        }
+      >
+        <img
+          src={Object {}}
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
+        className="fireIconContainer"
+        onClick={[Function]}
+      >
+        <img
+          src={Object {}}
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
+        className="fireIconContainer"
+        onClick={[Function]}
+        onMouseDown={[MockFunction]}
+      >
+        <img
+          src={Object {}}
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
+        className="custom-select-wrapper"
+        onClick={[Function]}
+      >
+        <div
+          className="custom-select"
+          style={Object {}}
+        >
+          <div
+            className="custom-select__trigger"
+          >
+            <span
+              style={
+                Object {
+                  "overflow": "hidden",
+                  "textOverflow": "ellipsis",
+                  "whiteSpace": "nowrap",
+                  "width": "230px",
+                }
+              }
+            >
+              last 5 minutes
+            </span>
+            <div
+              className="arrow"
+            />
+          </div>
+          <div
+            className="custom-options"
+            style={Object {}}
+          >
+            <span
+              className="custom-option selected"
+              onClick={[Function]}
+            >
+              last 5 minutes
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              30 minutes ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              60 minutes ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              3 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              6 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              12 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              24 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              3 days ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              7 days ago
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="viewLogs"
       onClick={[Function]}
       style={
         Object {
+          "cursor": "pointer",
           "visibility": "hidden",
         }
       }
     >
-      <img
-        src={Object {}}
+      <svg
+        focusable="false"
+        role="img"
         style={
           Object {
-            "height": "18px",
+            "height": "20px",
+            "marginBottom": "-5px",
+            "width": "20px",
           }
         }
-      />
-    </div>
-    <div
-      className="fireIconContainer"
-      onClick={[Function]}
-    >
-      <img
-        src={Object {}}
-        style={
-          Object {
-            "height": "18px",
-          }
-        }
-      />
-    </div>
-    <div
-      className="fireIconContainer"
-      onClick={[Function]}
-      onMouseDown={[MockFunction]}
-    >
-      <img
-        src={Object {}}
-        style={
-          Object {
-            "height": "18px",
-          }
-        }
-      />
-    </div>
-    <div
-      className="custom-select-wrapper"
-      onClick={[Function]}
-    >
-      <div
-        className="custom-select"
-        style={Object {}}
+        viewBox="0 0 16 16"
+        xmlns="http://www.w3.org/2000/svg"
       >
-        <div
-          className="custom-select__trigger"
-        >
-          <span
-            style={
-              Object {
-                "overflow": "hidden",
-                "textOverflow": "ellipsis",
-                "whiteSpace": "nowrap",
-                "width": "230px",
-              }
-            }
-          >
-            now
-          </span>
-          <div
-            className="arrow"
-          />
-        </div>
-        <div
-          className="custom-options"
-          style={Object {}}
-        >
-          <span
-            className="custom-option selected"
-            onClick={[Function]}
-          >
-            now
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            30 minutes
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            60 minutes
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            3 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            6 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            12 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            24 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            3 days
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            7 days
-          </span>
-        </div>
-      </div>
+        <path
+          d="M7.7 0H2v15h11V5.3L7.7 0zm3.6 5H8V1.7L11.3 5zM3 14V1h4v5h5v8H3z"
+          fill="#007e8a"
+        />
+        <path
+          d="M5 8h5v1H5zM5 11h3v1H5z"
+          fill="#007e8a"
+        />
+      </svg>
+      See logs
     </div>
   </div>
 </div>
@@ -250,46 +327,85 @@ exports[`Header component Header component with emulate activeSixthSenseIcon 1`]
   <div
     className="kpi"
   >
-    <div
-      className="kpicontent"
-    >
+    <div>
       <div
-        className="kpicontent--colorgrey kpicontent--size12"
+        className="timeRangeContent "
+        onClick={[Function]}
       >
-        Total Order Count
-      </div>
-      <div
-        className="kpicontent--colorblack  kpicontent--size16"
-      >
-         0 Orders
+        DAY
       </div>
     </div>
     <div
       className="kpicontent"
+      onClick={[Function]}
+      style={
+        Object {
+          "cursor": "pointer",
+        }
+      }
     >
       <div
-        className="kpicontent--colorgrey kpicontent--size12"
+        className="kpicontent--colorgrey kpicontent--size10"
       >
-        Total Order Value
+        Unique
       </div>
       <div
-        className="kpicontent--colorblack  kpicontent--size16"
+        className="kpicontent--colorblack kpicontent--size12"
       >
-        $0.00 
+        <div
+          className="kpi"
+        >
+          0
+          <span>
+            <div
+              className="kpi-status"
+            >
+              <img
+                src={Object {}}
+              />
+            </div>
+          </span>
+        </div>
       </div>
     </div>
-    <div
-      className="kpicontent"
-    >
+    <div>
       <div
-        className="kpicontent--colorgrey kpicontent--size12"
+        onClick={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "cursor": "pointer",
+            "display": "flex",
+            "height": "90%",
+          }
+        }
       >
-        Max Duration
-      </div>
-      <div
-        className="kpicontent--colorblack  kpicontent--size16"
-      >
-         0 
+        <svg
+          fill="none"
+          height="22"
+          viewBox="0 0 5 27"
+          width="5"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            cx="2.5"
+            cy="2.5"
+            fill="#828282"
+            r="2.5"
+          />
+          <circle
+            cx="2.5"
+            cy="13.5"
+            fill="#828282"
+            r="2.5"
+          />
+          <circle
+            cx="2.5"
+            cy="24.5"
+            fill="#828282"
+            r="2.5"
+          />
+        </svg>
       </div>
     </div>
   </div>
@@ -303,140 +419,178 @@ exports[`Header component Header component with emulate activeSixthSenseIcon 1`]
     }
   />
   <div
-    className="distributionIcons"
+    className="containerRigthtHand"
   >
     <div
-      className="fireIconContainer"
+      className="distributionIcons"
+    >
+      <div
+        className="fireIconContainer"
+        onClick={[Function]}
+        style={
+          Object {
+            "visibility": "hidden",
+          }
+        }
+      >
+        <img
+          src={Object {}}
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
+        className="fireIconContainer"
+        onClick={[Function]}
+      >
+        <img
+          src={Object {}}
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
+        className="fireIconContainer"
+        onClick={[Function]}
+        onMouseDown={[MockFunction]}
+      >
+        <img
+          src={Object {}}
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
+        className="custom-select-wrapper"
+        onClick={[Function]}
+      >
+        <div
+          className="custom-select"
+          style={Object {}}
+        >
+          <div
+            className="custom-select__trigger"
+          >
+            <span
+              style={
+                Object {
+                  "overflow": "hidden",
+                  "textOverflow": "ellipsis",
+                  "whiteSpace": "nowrap",
+                  "width": "230px",
+                }
+              }
+            >
+              last 5 minutes
+            </span>
+            <div
+              className="arrow"
+            />
+          </div>
+          <div
+            className="custom-options"
+            style={Object {}}
+          >
+            <span
+              className="custom-option selected"
+              onClick={[Function]}
+            >
+              last 5 minutes
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              30 minutes ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              60 minutes ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              3 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              6 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              12 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              24 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              3 days ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              7 days ago
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="viewLogs"
       onClick={[Function]}
       style={
         Object {
+          "cursor": "pointer",
           "visibility": "hidden",
         }
       }
     >
-      <img
-        src={Object {}}
+      <svg
+        focusable="false"
+        role="img"
         style={
           Object {
-            "height": "18px",
+            "height": "20px",
+            "marginBottom": "-5px",
+            "width": "20px",
           }
         }
-      />
-    </div>
-    <div
-      className="fireIconContainer"
-      onClick={[Function]}
-    >
-      <img
-        src={Object {}}
-        style={
-          Object {
-            "height": "18px",
-          }
-        }
-      />
-    </div>
-    <div
-      className="fireIconContainer"
-      onClick={[Function]}
-      onMouseDown={[MockFunction]}
-    >
-      <img
-        src={Object {}}
-        style={
-          Object {
-            "height": "18px",
-          }
-        }
-      />
-    </div>
-    <div
-      className="custom-select-wrapper"
-      onClick={[Function]}
-    >
-      <div
-        className="custom-select"
-        style={Object {}}
+        viewBox="0 0 16 16"
+        xmlns="http://www.w3.org/2000/svg"
       >
-        <div
-          className="custom-select__trigger"
-        >
-          <span
-            style={
-              Object {
-                "overflow": "hidden",
-                "textOverflow": "ellipsis",
-                "whiteSpace": "nowrap",
-                "width": "230px",
-              }
-            }
-          >
-            now
-          </span>
-          <div
-            className="arrow"
-          />
-        </div>
-        <div
-          className="custom-options"
-          style={Object {}}
-        >
-          <span
-            className="custom-option selected"
-            onClick={[Function]}
-          >
-            now
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            30 minutes
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            60 minutes
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            3 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            6 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            12 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            24 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            3 days
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            7 days
-          </span>
-        </div>
-      </div>
+        <path
+          d="M7.7 0H2v15h11V5.3L7.7 0zm3.6 5H8V1.7L11.3 5zM3 14V1h4v5h5v8H3z"
+          fill="#007e8a"
+        />
+        <path
+          d="M5 8h5v1H5zM5 11h3v1H5z"
+          fill="#007e8a"
+        />
+      </svg>
+      See logs
     </div>
   </div>
 </div>
@@ -471,46 +625,85 @@ exports[`Header component Header component with iconCanaryStatus 1`] = `
   <div
     className="kpi"
   >
-    <div
-      className="kpicontent"
-    >
+    <div>
       <div
-        className="kpicontent--colorgrey kpicontent--size12"
+        className="timeRangeContent "
+        onClick={[Function]}
       >
-        Total Order Count
-      </div>
-      <div
-        className="kpicontent--colorblack  kpicontent--size16"
-      >
-         0 Orders
+        DAY
       </div>
     </div>
     <div
       className="kpicontent"
+      onClick={[Function]}
+      style={
+        Object {
+          "cursor": "pointer",
+        }
+      }
     >
       <div
-        className="kpicontent--colorgrey kpicontent--size12"
+        className="kpicontent--colorgrey kpicontent--size10"
       >
-        Total Order Value
+        Unique
       </div>
       <div
-        className="kpicontent--colorblack  kpicontent--size16"
+        className="kpicontent--colorblack kpicontent--size12"
       >
-        $0.00 
+        <div
+          className="kpi"
+        >
+          0
+          <span>
+            <div
+              className="kpi-status"
+            >
+              <img
+                src={Object {}}
+              />
+            </div>
+          </span>
+        </div>
       </div>
     </div>
-    <div
-      className="kpicontent"
-    >
+    <div>
       <div
-        className="kpicontent--colorgrey kpicontent--size12"
+        onClick={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "cursor": "pointer",
+            "display": "flex",
+            "height": "90%",
+          }
+        }
       >
-        Max Duration
-      </div>
-      <div
-        className="kpicontent--colorblack  kpicontent--size16"
-      >
-         0 
+        <svg
+          fill="none"
+          height="22"
+          viewBox="0 0 5 27"
+          width="5"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            cx="2.5"
+            cy="2.5"
+            fill="#828282"
+            r="2.5"
+          />
+          <circle
+            cx="2.5"
+            cy="13.5"
+            fill="#828282"
+            r="2.5"
+          />
+          <circle
+            cx="2.5"
+            cy="24.5"
+            fill="#828282"
+            r="2.5"
+          />
+        </svg>
       </div>
     </div>
   </div>
@@ -524,140 +717,178 @@ exports[`Header component Header component with iconCanaryStatus 1`] = `
     }
   />
   <div
-    className="distributionIcons"
+    className="containerRigthtHand"
   >
     <div
-      className="fireIconContainer"
+      className="distributionIcons"
+    >
+      <div
+        className="fireIconContainer"
+        onClick={[Function]}
+        style={
+          Object {
+            "visibility": "hidden",
+          }
+        }
+      >
+        <img
+          src={Object {}}
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
+        className="fireIconContainer"
+        onClick={[Function]}
+      >
+        <img
+          src={Object {}}
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
+        className="fireIconContainer"
+        onClick={[Function]}
+        onMouseDown={[MockFunction]}
+      >
+        <img
+          src={Object {}}
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
+        className="custom-select-wrapper"
+        onClick={[Function]}
+      >
+        <div
+          className="custom-select"
+          style={Object {}}
+        >
+          <div
+            className="custom-select__trigger"
+          >
+            <span
+              style={
+                Object {
+                  "overflow": "hidden",
+                  "textOverflow": "ellipsis",
+                  "whiteSpace": "nowrap",
+                  "width": "230px",
+                }
+              }
+            >
+              last 5 minutes
+            </span>
+            <div
+              className="arrow"
+            />
+          </div>
+          <div
+            className="custom-options"
+            style={Object {}}
+          >
+            <span
+              className="custom-option selected"
+              onClick={[Function]}
+            >
+              last 5 minutes
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              30 minutes ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              60 minutes ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              3 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              6 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              12 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              24 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              3 days ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              7 days ago
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="viewLogs"
       onClick={[Function]}
       style={
         Object {
+          "cursor": "pointer",
           "visibility": "hidden",
         }
       }
     >
-      <img
-        src={Object {}}
+      <svg
+        focusable="false"
+        role="img"
         style={
           Object {
-            "height": "18px",
+            "height": "20px",
+            "marginBottom": "-5px",
+            "width": "20px",
           }
         }
-      />
-    </div>
-    <div
-      className="fireIconContainer"
-      onClick={[Function]}
-    >
-      <img
-        src={Object {}}
-        style={
-          Object {
-            "height": "18px",
-          }
-        }
-      />
-    </div>
-    <div
-      className="fireIconContainer"
-      onClick={[Function]}
-      onMouseDown={[MockFunction]}
-    >
-      <img
-        src={Object {}}
-        style={
-          Object {
-            "height": "18px",
-          }
-        }
-      />
-    </div>
-    <div
-      className="custom-select-wrapper"
-      onClick={[Function]}
-    >
-      <div
-        className="custom-select"
-        style={Object {}}
+        viewBox="0 0 16 16"
+        xmlns="http://www.w3.org/2000/svg"
       >
-        <div
-          className="custom-select__trigger"
-        >
-          <span
-            style={
-              Object {
-                "overflow": "hidden",
-                "textOverflow": "ellipsis",
-                "whiteSpace": "nowrap",
-                "width": "230px",
-              }
-            }
-          >
-            now
-          </span>
-          <div
-            className="arrow"
-          />
-        </div>
-        <div
-          className="custom-options"
-          style={Object {}}
-        >
-          <span
-            className="custom-option selected"
-            onClick={[Function]}
-          >
-            now
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            30 minutes
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            60 minutes
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            3 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            6 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            12 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            24 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            3 days
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            7 days
-          </span>
-        </div>
-      </div>
+        <path
+          d="M7.7 0H2v15h11V5.3L7.7 0zm3.6 5H8V1.7L11.3 5zM3 14V1h4v5h5v8H3z"
+          fill="#007e8a"
+        />
+        <path
+          d="M5 8h5v1H5zM5 11h3v1H5z"
+          fill="#007e8a"
+        />
+      </svg>
+      See logs
     </div>
   </div>
 </div>
@@ -692,46 +923,85 @@ exports[`Header component Header component with iconFireStatus 1`] = `
   <div
     className="kpi"
   >
-    <div
-      className="kpicontent"
-    >
+    <div>
       <div
-        className="kpicontent--colorgrey kpicontent--size12"
+        className="timeRangeContent "
+        onClick={[Function]}
       >
-        Total Order Count
-      </div>
-      <div
-        className="kpicontent--colorblack  kpicontent--size16"
-      >
-         0 Orders
+        DAY
       </div>
     </div>
     <div
       className="kpicontent"
+      onClick={[Function]}
+      style={
+        Object {
+          "cursor": "pointer",
+        }
+      }
     >
       <div
-        className="kpicontent--colorgrey kpicontent--size12"
+        className="kpicontent--colorgrey kpicontent--size10"
       >
-        Total Order Value
+        Unique
       </div>
       <div
-        className="kpicontent--colorblack  kpicontent--size16"
+        className="kpicontent--colorblack kpicontent--size12"
       >
-        $0.00 
+        <div
+          className="kpi"
+        >
+          0
+          <span>
+            <div
+              className="kpi-status"
+            >
+              <img
+                src={Object {}}
+              />
+            </div>
+          </span>
+        </div>
       </div>
     </div>
-    <div
-      className="kpicontent"
-    >
+    <div>
       <div
-        className="kpicontent--colorgrey kpicontent--size12"
+        onClick={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "cursor": "pointer",
+            "display": "flex",
+            "height": "90%",
+          }
+        }
       >
-        Max Duration
-      </div>
-      <div
-        className="kpicontent--colorblack  kpicontent--size16"
-      >
-         0 
+        <svg
+          fill="none"
+          height="22"
+          viewBox="0 0 5 27"
+          width="5"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            cx="2.5"
+            cy="2.5"
+            fill="#828282"
+            r="2.5"
+          />
+          <circle
+            cx="2.5"
+            cy="13.5"
+            fill="#828282"
+            r="2.5"
+          />
+          <circle
+            cx="2.5"
+            cy="24.5"
+            fill="#828282"
+            r="2.5"
+          />
+        </svg>
       </div>
     </div>
   </div>
@@ -745,140 +1015,178 @@ exports[`Header component Header component with iconFireStatus 1`] = `
     }
   />
   <div
-    className="distributionIcons"
+    className="containerRigthtHand"
   >
     <div
-      className="fireIconContainer"
+      className="distributionIcons"
+    >
+      <div
+        className="fireIconContainer"
+        onClick={[Function]}
+        style={
+          Object {
+            "visibility": "hidden",
+          }
+        }
+      >
+        <img
+          src={Object {}}
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
+        className="fireIconContainer"
+        onClick={[Function]}
+      >
+        <img
+          src={Object {}}
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
+        className="fireIconContainer"
+        onClick={[Function]}
+        onMouseDown={[MockFunction]}
+      >
+        <img
+          src={Object {}}
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
+        className="custom-select-wrapper"
+        onClick={[Function]}
+      >
+        <div
+          className="custom-select"
+          style={Object {}}
+        >
+          <div
+            className="custom-select__trigger"
+          >
+            <span
+              style={
+                Object {
+                  "overflow": "hidden",
+                  "textOverflow": "ellipsis",
+                  "whiteSpace": "nowrap",
+                  "width": "230px",
+                }
+              }
+            >
+              last 5 minutes
+            </span>
+            <div
+              className="arrow"
+            />
+          </div>
+          <div
+            className="custom-options"
+            style={Object {}}
+          >
+            <span
+              className="custom-option selected"
+              onClick={[Function]}
+            >
+              last 5 minutes
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              30 minutes ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              60 minutes ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              3 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              6 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              12 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              24 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              3 days ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              7 days ago
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="viewLogs"
       onClick={[Function]}
       style={
         Object {
+          "cursor": "pointer",
           "visibility": "hidden",
         }
       }
     >
-      <img
-        src={Object {}}
+      <svg
+        focusable="false"
+        role="img"
         style={
           Object {
-            "height": "18px",
+            "height": "20px",
+            "marginBottom": "-5px",
+            "width": "20px",
           }
         }
-      />
-    </div>
-    <div
-      className="fireIconContainer"
-      onClick={[Function]}
-    >
-      <img
-        src={Object {}}
-        style={
-          Object {
-            "height": "18px",
-          }
-        }
-      />
-    </div>
-    <div
-      className="fireIconContainer"
-      onClick={[Function]}
-      onMouseDown={[MockFunction]}
-    >
-      <img
-        src={Object {}}
-        style={
-          Object {
-            "height": "18px",
-          }
-        }
-      />
-    </div>
-    <div
-      className="custom-select-wrapper"
-      onClick={[Function]}
-    >
-      <div
-        className="custom-select"
-        style={Object {}}
+        viewBox="0 0 16 16"
+        xmlns="http://www.w3.org/2000/svg"
       >
-        <div
-          className="custom-select__trigger"
-        >
-          <span
-            style={
-              Object {
-                "overflow": "hidden",
-                "textOverflow": "ellipsis",
-                "whiteSpace": "nowrap",
-                "width": "230px",
-              }
-            }
-          >
-            now
-          </span>
-          <div
-            className="arrow"
-          />
-        </div>
-        <div
-          className="custom-options"
-          style={Object {}}
-        >
-          <span
-            className="custom-option selected"
-            onClick={[Function]}
-          >
-            now
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            30 minutes
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            60 minutes
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            3 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            6 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            12 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            24 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            3 days
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            7 days
-          </span>
-        </div>
-      </div>
+        <path
+          d="M7.7 0H2v15h11V5.3L7.7 0zm3.6 5H8V1.7L11.3 5zM3 14V1h4v5h5v8H3z"
+          fill="#007e8a"
+        />
+        <path
+          d="M5 8h5v1H5zM5 11h3v1H5z"
+          fill="#007e8a"
+        />
+      </svg>
+      See logs
     </div>
   </div>
 </div>
@@ -913,46 +1221,85 @@ exports[`Header component Header component with iconGoutStatus 1`] = `
   <div
     className="kpi"
   >
-    <div
-      className="kpicontent"
-    >
+    <div>
       <div
-        className="kpicontent--colorgrey kpicontent--size12"
+        className="timeRangeContent "
+        onClick={[Function]}
       >
-        Total Order Count
-      </div>
-      <div
-        className="kpicontent--colorblack  kpicontent--size16"
-      >
-         0 Orders
+        DAY
       </div>
     </div>
     <div
       className="kpicontent"
+      onClick={[Function]}
+      style={
+        Object {
+          "cursor": "pointer",
+        }
+      }
     >
       <div
-        className="kpicontent--colorgrey kpicontent--size12"
+        className="kpicontent--colorgrey kpicontent--size10"
       >
-        Total Order Value
+        Unique
       </div>
       <div
-        className="kpicontent--colorblack  kpicontent--size16"
+        className="kpicontent--colorblack kpicontent--size12"
       >
-        $0.00 
+        <div
+          className="kpi"
+        >
+          0
+          <span>
+            <div
+              className="kpi-status"
+            >
+              <img
+                src={Object {}}
+              />
+            </div>
+          </span>
+        </div>
       </div>
     </div>
-    <div
-      className="kpicontent"
-    >
+    <div>
       <div
-        className="kpicontent--colorgrey kpicontent--size12"
+        onClick={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "cursor": "pointer",
+            "display": "flex",
+            "height": "90%",
+          }
+        }
       >
-        Max Duration
-      </div>
-      <div
-        className="kpicontent--colorblack  kpicontent--size16"
-      >
-         0 
+        <svg
+          fill="none"
+          height="22"
+          viewBox="0 0 5 27"
+          width="5"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            cx="2.5"
+            cy="2.5"
+            fill="#828282"
+            r="2.5"
+          />
+          <circle
+            cx="2.5"
+            cy="13.5"
+            fill="#828282"
+            r="2.5"
+          />
+          <circle
+            cx="2.5"
+            cy="24.5"
+            fill="#828282"
+            r="2.5"
+          />
+        </svg>
       </div>
     </div>
   </div>
@@ -966,140 +1313,178 @@ exports[`Header component Header component with iconGoutStatus 1`] = `
     }
   />
   <div
-    className="distributionIcons"
+    className="containerRigthtHand"
   >
     <div
-      className="fireIconContainer"
+      className="distributionIcons"
+    >
+      <div
+        className="fireIconContainer"
+        onClick={[Function]}
+        style={
+          Object {
+            "visibility": "hidden",
+          }
+        }
+      >
+        <img
+          src={Object {}}
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
+        className="fireIconContainer"
+        onClick={[Function]}
+      >
+        <img
+          src={Object {}}
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
+        className="fireIconContainer"
+        onClick={[Function]}
+        onMouseDown={[MockFunction]}
+      >
+        <img
+          src={Object {}}
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
+        className="custom-select-wrapper"
+        onClick={[Function]}
+      >
+        <div
+          className="custom-select"
+          style={Object {}}
+        >
+          <div
+            className="custom-select__trigger"
+          >
+            <span
+              style={
+                Object {
+                  "overflow": "hidden",
+                  "textOverflow": "ellipsis",
+                  "whiteSpace": "nowrap",
+                  "width": "230px",
+                }
+              }
+            >
+              last 5 minutes
+            </span>
+            <div
+              className="arrow"
+            />
+          </div>
+          <div
+            className="custom-options"
+            style={Object {}}
+          >
+            <span
+              className="custom-option selected"
+              onClick={[Function]}
+            >
+              last 5 minutes
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              30 minutes ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              60 minutes ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              3 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              6 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              12 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              24 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              3 days ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              7 days ago
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="viewLogs"
       onClick={[Function]}
       style={
         Object {
+          "cursor": "pointer",
           "visibility": "hidden",
         }
       }
     >
-      <img
-        src={Object {}}
+      <svg
+        focusable="false"
+        role="img"
         style={
           Object {
-            "height": "18px",
+            "height": "20px",
+            "marginBottom": "-5px",
+            "width": "20px",
           }
         }
-      />
-    </div>
-    <div
-      className="fireIconContainer"
-      onClick={[Function]}
-    >
-      <img
-        src={Object {}}
-        style={
-          Object {
-            "height": "18px",
-          }
-        }
-      />
-    </div>
-    <div
-      className="fireIconContainer"
-      onClick={[Function]}
-      onMouseDown={[MockFunction]}
-    >
-      <img
-        src={Object {}}
-        style={
-          Object {
-            "height": "18px",
-          }
-        }
-      />
-    </div>
-    <div
-      className="custom-select-wrapper"
-      onClick={[Function]}
-    >
-      <div
-        className="custom-select"
-        style={Object {}}
+        viewBox="0 0 16 16"
+        xmlns="http://www.w3.org/2000/svg"
       >
-        <div
-          className="custom-select__trigger"
-        >
-          <span
-            style={
-              Object {
-                "overflow": "hidden",
-                "textOverflow": "ellipsis",
-                "whiteSpace": "nowrap",
-                "width": "230px",
-              }
-            }
-          >
-            now
-          </span>
-          <div
-            className="arrow"
-          />
-        </div>
-        <div
-          className="custom-options"
-          style={Object {}}
-        >
-          <span
-            className="custom-option selected"
-            onClick={[Function]}
-          >
-            now
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            30 minutes
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            60 minutes
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            3 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            6 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            12 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            24 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            3 days
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            7 days
-          </span>
-        </div>
-      </div>
+        <path
+          d="M7.7 0H2v15h11V5.3L7.7 0zm3.6 5H8V1.7L11.3 5zM3 14V1h4v5h5v8H3z"
+          fill="#007e8a"
+        />
+        <path
+          d="M5 8h5v1H5zM5 11h3v1H5z"
+          fill="#007e8a"
+        />
+      </svg>
+      See logs
     </div>
   </div>
 </div>
@@ -1134,46 +1519,85 @@ exports[`Header component Header component with iconSixthSenseStatus 1`] = `
   <div
     className="kpi"
   >
-    <div
-      className="kpicontent"
-    >
+    <div>
       <div
-        className="kpicontent--colorgrey kpicontent--size12"
+        className="timeRangeContent "
+        onClick={[Function]}
       >
-        Total Order Count
-      </div>
-      <div
-        className="kpicontent--colorblack  kpicontent--size16"
-      >
-         0 Orders
+        DAY
       </div>
     </div>
     <div
       className="kpicontent"
+      onClick={[Function]}
+      style={
+        Object {
+          "cursor": "pointer",
+        }
+      }
     >
       <div
-        className="kpicontent--colorgrey kpicontent--size12"
+        className="kpicontent--colorgrey kpicontent--size10"
       >
-        Total Order Value
+        Unique
       </div>
       <div
-        className="kpicontent--colorblack  kpicontent--size16"
+        className="kpicontent--colorblack kpicontent--size12"
       >
-        $0.00 
+        <div
+          className="kpi"
+        >
+          0
+          <span>
+            <div
+              className="kpi-status"
+            >
+              <img
+                src={Object {}}
+              />
+            </div>
+          </span>
+        </div>
       </div>
     </div>
-    <div
-      className="kpicontent"
-    >
+    <div>
       <div
-        className="kpicontent--colorgrey kpicontent--size12"
+        onClick={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "cursor": "pointer",
+            "display": "flex",
+            "height": "90%",
+          }
+        }
       >
-        Max Duration
-      </div>
-      <div
-        className="kpicontent--colorblack  kpicontent--size16"
-      >
-         0 
+        <svg
+          fill="none"
+          height="22"
+          viewBox="0 0 5 27"
+          width="5"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            cx="2.5"
+            cy="2.5"
+            fill="#828282"
+            r="2.5"
+          />
+          <circle
+            cx="2.5"
+            cy="13.5"
+            fill="#828282"
+            r="2.5"
+          />
+          <circle
+            cx="2.5"
+            cy="24.5"
+            fill="#828282"
+            r="2.5"
+          />
+        </svg>
       </div>
     </div>
   </div>
@@ -1187,140 +1611,178 @@ exports[`Header component Header component with iconSixthSenseStatus 1`] = `
     }
   />
   <div
-    className="distributionIcons"
+    className="containerRigthtHand"
   >
     <div
-      className="fireIconContainer"
+      className="distributionIcons"
+    >
+      <div
+        className="fireIconContainer"
+        onClick={[Function]}
+        style={
+          Object {
+            "visibility": "hidden",
+          }
+        }
+      >
+        <img
+          src={Object {}}
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
+        className="fireIconContainer"
+        onClick={[Function]}
+      >
+        <img
+          src={Object {}}
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
+        className="fireIconContainer"
+        onClick={[Function]}
+        onMouseDown={[MockFunction]}
+      >
+        <img
+          src={Object {}}
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
+        className="custom-select-wrapper"
+        onClick={[Function]}
+      >
+        <div
+          className="custom-select"
+          style={Object {}}
+        >
+          <div
+            className="custom-select__trigger"
+          >
+            <span
+              style={
+                Object {
+                  "overflow": "hidden",
+                  "textOverflow": "ellipsis",
+                  "whiteSpace": "nowrap",
+                  "width": "230px",
+                }
+              }
+            >
+              last 5 minutes
+            </span>
+            <div
+              className="arrow"
+            />
+          </div>
+          <div
+            className="custom-options"
+            style={Object {}}
+          >
+            <span
+              className="custom-option selected"
+              onClick={[Function]}
+            >
+              last 5 minutes
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              30 minutes ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              60 minutes ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              3 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              6 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              12 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              24 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              3 days ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              7 days ago
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="viewLogs"
       onClick={[Function]}
       style={
         Object {
+          "cursor": "pointer",
           "visibility": "hidden",
         }
       }
     >
-      <img
-        src={Object {}}
+      <svg
+        focusable="false"
+        role="img"
         style={
           Object {
-            "height": "18px",
+            "height": "20px",
+            "marginBottom": "-5px",
+            "width": "20px",
           }
         }
-      />
-    </div>
-    <div
-      className="fireIconContainer"
-      onClick={[Function]}
-    >
-      <img
-        src={Object {}}
-        style={
-          Object {
-            "height": "18px",
-          }
-        }
-      />
-    </div>
-    <div
-      className="fireIconContainer"
-      onClick={[Function]}
-      onMouseDown={[MockFunction]}
-    >
-      <img
-        src={Object {}}
-        style={
-          Object {
-            "height": "18px",
-          }
-        }
-      />
-    </div>
-    <div
-      className="custom-select-wrapper"
-      onClick={[Function]}
-    >
-      <div
-        className="custom-select"
-        style={Object {}}
+        viewBox="0 0 16 16"
+        xmlns="http://www.w3.org/2000/svg"
       >
-        <div
-          className="custom-select__trigger"
-        >
-          <span
-            style={
-              Object {
-                "overflow": "hidden",
-                "textOverflow": "ellipsis",
-                "whiteSpace": "nowrap",
-                "width": "230px",
-              }
-            }
-          >
-            now
-          </span>
-          <div
-            className="arrow"
-          />
-        </div>
-        <div
-          className="custom-options"
-          style={Object {}}
-        >
-          <span
-            className="custom-option selected"
-            onClick={[Function]}
-          >
-            now
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            30 minutes
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            60 minutes
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            3 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            6 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            12 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            24 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            3 days
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            7 days
-          </span>
-        </div>
-      </div>
+        <path
+          d="M7.7 0H2v15h11V5.3L7.7 0zm3.6 5H8V1.7L11.3 5zM3 14V1h4v5h5v8H3z"
+          fill="#007e8a"
+        />
+        <path
+          d="M5 8h5v1H5zM5 11h3v1H5z"
+          fill="#007e8a"
+        />
+      </svg>
+      See logs
     </div>
   </div>
 </div>
@@ -1355,46 +1817,85 @@ exports[`Header component Header component with iconStartStatus 1`] = `
   <div
     className="kpi"
   >
-    <div
-      className="kpicontent"
-    >
+    <div>
       <div
-        className="kpicontent--colorgrey kpicontent--size12"
+        className="timeRangeContent "
+        onClick={[Function]}
       >
-        Total Order Count
-      </div>
-      <div
-        className="kpicontent--colorblack  kpicontent--size16"
-      >
-         0 Orders
+        DAY
       </div>
     </div>
     <div
       className="kpicontent"
+      onClick={[Function]}
+      style={
+        Object {
+          "cursor": "pointer",
+        }
+      }
     >
       <div
-        className="kpicontent--colorgrey kpicontent--size12"
+        className="kpicontent--colorgrey kpicontent--size10"
       >
-        Total Order Value
+        Unique
       </div>
       <div
-        className="kpicontent--colorblack  kpicontent--size16"
+        className="kpicontent--colorblack kpicontent--size12"
       >
-        $0.00 
+        <div
+          className="kpi"
+        >
+          0
+          <span>
+            <div
+              className="kpi-status"
+            >
+              <img
+                src={Object {}}
+              />
+            </div>
+          </span>
+        </div>
       </div>
     </div>
-    <div
-      className="kpicontent"
-    >
+    <div>
       <div
-        className="kpicontent--colorgrey kpicontent--size12"
+        onClick={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "cursor": "pointer",
+            "display": "flex",
+            "height": "90%",
+          }
+        }
       >
-        Max Duration
-      </div>
-      <div
-        className="kpicontent--colorblack  kpicontent--size16"
-      >
-         0 
+        <svg
+          fill="none"
+          height="22"
+          viewBox="0 0 5 27"
+          width="5"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            cx="2.5"
+            cy="2.5"
+            fill="#828282"
+            r="2.5"
+          />
+          <circle
+            cx="2.5"
+            cy="13.5"
+            fill="#828282"
+            r="2.5"
+          />
+          <circle
+            cx="2.5"
+            cy="24.5"
+            fill="#828282"
+            r="2.5"
+          />
+        </svg>
       </div>
     </div>
   </div>
@@ -1408,140 +1909,178 @@ exports[`Header component Header component with iconStartStatus 1`] = `
     }
   />
   <div
-    className="distributionIcons"
+    className="containerRigthtHand"
   >
     <div
-      className="fireIconContainer"
+      className="distributionIcons"
+    >
+      <div
+        className="fireIconContainer"
+        onClick={[Function]}
+        style={
+          Object {
+            "visibility": "hidden",
+          }
+        }
+      >
+        <img
+          src={Object {}}
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
+        className="fireIconContainer"
+        onClick={[Function]}
+      >
+        <img
+          src={Object {}}
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
+        className="fireIconContainer"
+        onClick={[Function]}
+        onMouseDown={[MockFunction]}
+      >
+        <img
+          src={Object {}}
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
+        className="custom-select-wrapper"
+        onClick={[Function]}
+      >
+        <div
+          className="custom-select"
+          style={Object {}}
+        >
+          <div
+            className="custom-select__trigger"
+          >
+            <span
+              style={
+                Object {
+                  "overflow": "hidden",
+                  "textOverflow": "ellipsis",
+                  "whiteSpace": "nowrap",
+                  "width": "230px",
+                }
+              }
+            >
+              last 5 minutes
+            </span>
+            <div
+              className="arrow"
+            />
+          </div>
+          <div
+            className="custom-options"
+            style={Object {}}
+          >
+            <span
+              className="custom-option selected"
+              onClick={[Function]}
+            >
+              last 5 minutes
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              30 minutes ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              60 minutes ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              3 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              6 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              12 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              24 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              3 days ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              7 days ago
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="viewLogs"
       onClick={[Function]}
       style={
         Object {
+          "cursor": "pointer",
           "visibility": "hidden",
         }
       }
     >
-      <img
-        src={Object {}}
+      <svg
+        focusable="false"
+        role="img"
         style={
           Object {
-            "height": "18px",
+            "height": "20px",
+            "marginBottom": "-5px",
+            "width": "20px",
           }
         }
-      />
-    </div>
-    <div
-      className="fireIconContainer"
-      onClick={[Function]}
-    >
-      <img
-        src={Object {}}
-        style={
-          Object {
-            "height": "18px",
-          }
-        }
-      />
-    </div>
-    <div
-      className="fireIconContainer"
-      onClick={[Function]}
-      onMouseDown={[MockFunction]}
-    >
-      <img
-        src={Object {}}
-        style={
-          Object {
-            "height": "18px",
-          }
-        }
-      />
-    </div>
-    <div
-      className="custom-select-wrapper"
-      onClick={[Function]}
-    >
-      <div
-        className="custom-select"
-        style={Object {}}
+        viewBox="0 0 16 16"
+        xmlns="http://www.w3.org/2000/svg"
       >
-        <div
-          className="custom-select__trigger"
-        >
-          <span
-            style={
-              Object {
-                "overflow": "hidden",
-                "textOverflow": "ellipsis",
-                "whiteSpace": "nowrap",
-                "width": "230px",
-              }
-            }
-          >
-            now
-          </span>
-          <div
-            className="arrow"
-          />
-        </div>
-        <div
-          className="custom-options"
-          style={Object {}}
-        >
-          <span
-            className="custom-option selected"
-            onClick={[Function]}
-          >
-            now
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            30 minutes
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            60 minutes
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            3 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            6 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            12 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            24 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            3 days
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            7 days
-          </span>
-        </div>
-      </div>
+        <path
+          d="M7.7 0H2v15h11V5.3L7.7 0zm3.6 5H8V1.7L11.3 5zM3 14V1h4v5h5v8H3z"
+          fill="#007e8a"
+        />
+        <path
+          d="M5 8h5v1H5zM5 11h3v1H5z"
+          fill="#007e8a"
+        />
+      </svg>
+      See logs
     </div>
   </div>
 </div>
@@ -1576,46 +2115,85 @@ exports[`Header component Header component with logoSetup Text 1`] = `
   <div
     className="kpi"
   >
-    <div
-      className="kpicontent"
-    >
+    <div>
       <div
-        className="kpicontent--colorgrey kpicontent--size12"
+        className="timeRangeContent "
+        onClick={[Function]}
       >
-        Total Order Count
-      </div>
-      <div
-        className="kpicontent--colorblack  kpicontent--size16"
-      >
-         0 Orders
+        DAY
       </div>
     </div>
     <div
       className="kpicontent"
+      onClick={[Function]}
+      style={
+        Object {
+          "cursor": "pointer",
+        }
+      }
     >
       <div
-        className="kpicontent--colorgrey kpicontent--size12"
+        className="kpicontent--colorgrey kpicontent--size10"
       >
-        Total Order Value
+        Unique
       </div>
       <div
-        className="kpicontent--colorblack  kpicontent--size16"
+        className="kpicontent--colorblack kpicontent--size12"
       >
-        $0.00 
+        <div
+          className="kpi"
+        >
+          0
+          <span>
+            <div
+              className="kpi-status"
+            >
+              <img
+                src={Object {}}
+              />
+            </div>
+          </span>
+        </div>
       </div>
     </div>
-    <div
-      className="kpicontent"
-    >
+    <div>
       <div
-        className="kpicontent--colorgrey kpicontent--size12"
+        onClick={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "cursor": "pointer",
+            "display": "flex",
+            "height": "90%",
+          }
+        }
       >
-        Max Duration
-      </div>
-      <div
-        className="kpicontent--colorblack  kpicontent--size16"
-      >
-         0 
+        <svg
+          fill="none"
+          height="22"
+          viewBox="0 0 5 27"
+          width="5"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            cx="2.5"
+            cy="2.5"
+            fill="#828282"
+            r="2.5"
+          />
+          <circle
+            cx="2.5"
+            cy="13.5"
+            fill="#828282"
+            r="2.5"
+          />
+          <circle
+            cx="2.5"
+            cy="24.5"
+            fill="#828282"
+            r="2.5"
+          />
+        </svg>
       </div>
     </div>
   </div>
@@ -1629,140 +2207,178 @@ exports[`Header component Header component with logoSetup Text 1`] = `
     }
   />
   <div
-    className="distributionIcons"
+    className="containerRigthtHand"
   >
     <div
-      className="fireIconContainer"
+      className="distributionIcons"
+    >
+      <div
+        className="fireIconContainer"
+        onClick={[Function]}
+        style={
+          Object {
+            "visibility": "hidden",
+          }
+        }
+      >
+        <img
+          src={Object {}}
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
+        className="fireIconContainer"
+        onClick={[Function]}
+      >
+        <img
+          src={Object {}}
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
+        className="fireIconContainer"
+        onClick={[Function]}
+        onMouseDown={[MockFunction]}
+      >
+        <img
+          src={Object {}}
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
+        className="custom-select-wrapper"
+        onClick={[Function]}
+      >
+        <div
+          className="custom-select"
+          style={Object {}}
+        >
+          <div
+            className="custom-select__trigger"
+          >
+            <span
+              style={
+                Object {
+                  "overflow": "hidden",
+                  "textOverflow": "ellipsis",
+                  "whiteSpace": "nowrap",
+                  "width": "230px",
+                }
+              }
+            >
+              last 5 minutes
+            </span>
+            <div
+              className="arrow"
+            />
+          </div>
+          <div
+            className="custom-options"
+            style={Object {}}
+          >
+            <span
+              className="custom-option selected"
+              onClick={[Function]}
+            >
+              last 5 minutes
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              30 minutes ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              60 minutes ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              3 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              6 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              12 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              24 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              3 days ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              7 days ago
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="viewLogs"
       onClick={[Function]}
       style={
         Object {
+          "cursor": "pointer",
           "visibility": "hidden",
         }
       }
     >
-      <img
-        src={Object {}}
+      <svg
+        focusable="false"
+        role="img"
         style={
           Object {
-            "height": "18px",
+            "height": "20px",
+            "marginBottom": "-5px",
+            "width": "20px",
           }
         }
-      />
-    </div>
-    <div
-      className="fireIconContainer"
-      onClick={[Function]}
-    >
-      <img
-        src={Object {}}
-        style={
-          Object {
-            "height": "18px",
-          }
-        }
-      />
-    </div>
-    <div
-      className="fireIconContainer"
-      onClick={[Function]}
-      onMouseDown={[MockFunction]}
-    >
-      <img
-        src={Object {}}
-        style={
-          Object {
-            "height": "18px",
-          }
-        }
-      />
-    </div>
-    <div
-      className="custom-select-wrapper"
-      onClick={[Function]}
-    >
-      <div
-        className="custom-select"
-        style={Object {}}
+        viewBox="0 0 16 16"
+        xmlns="http://www.w3.org/2000/svg"
       >
-        <div
-          className="custom-select__trigger"
-        >
-          <span
-            style={
-              Object {
-                "overflow": "hidden",
-                "textOverflow": "ellipsis",
-                "whiteSpace": "nowrap",
-                "width": "230px",
-              }
-            }
-          >
-            now
-          </span>
-          <div
-            className="arrow"
-          />
-        </div>
-        <div
-          className="custom-options"
-          style={Object {}}
-        >
-          <span
-            className="custom-option selected"
-            onClick={[Function]}
-          >
-            now
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            30 minutes
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            60 minutes
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            3 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            6 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            12 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            24 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            3 days
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            7 days
-          </span>
-        </div>
-      </div>
+        <path
+          d="M7.7 0H2v15h11V5.3L7.7 0zm3.6 5H8V1.7L11.3 5zM3 14V1h4v5h5v8H3z"
+          fill="#007e8a"
+        />
+        <path
+          d="M5 8h5v1H5zM5 11h3v1H5z"
+          fill="#007e8a"
+        />
+      </svg>
+      See logs
     </div>
   </div>
 </div>
@@ -1797,46 +2413,85 @@ exports[`Header component Header component with logoSetup URL 1`] = `
   <div
     className="kpi"
   >
-    <div
-      className="kpicontent"
-    >
+    <div>
       <div
-        className="kpicontent--colorgrey kpicontent--size12"
+        className="timeRangeContent "
+        onClick={[Function]}
       >
-        Total Order Count
-      </div>
-      <div
-        className="kpicontent--colorblack  kpicontent--size16"
-      >
-         0 Orders
+        DAY
       </div>
     </div>
     <div
       className="kpicontent"
+      onClick={[Function]}
+      style={
+        Object {
+          "cursor": "pointer",
+        }
+      }
     >
       <div
-        className="kpicontent--colorgrey kpicontent--size12"
+        className="kpicontent--colorgrey kpicontent--size10"
       >
-        Total Order Value
+        Unique
       </div>
       <div
-        className="kpicontent--colorblack  kpicontent--size16"
+        className="kpicontent--colorblack kpicontent--size12"
       >
-        $0.00 
+        <div
+          className="kpi"
+        >
+          0
+          <span>
+            <div
+              className="kpi-status"
+            >
+              <img
+                src={Object {}}
+              />
+            </div>
+          </span>
+        </div>
       </div>
     </div>
-    <div
-      className="kpicontent"
-    >
+    <div>
       <div
-        className="kpicontent--colorgrey kpicontent--size12"
+        onClick={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "cursor": "pointer",
+            "display": "flex",
+            "height": "90%",
+          }
+        }
       >
-        Max Duration
-      </div>
-      <div
-        className="kpicontent--colorblack  kpicontent--size16"
-      >
-         0 
+        <svg
+          fill="none"
+          height="22"
+          viewBox="0 0 5 27"
+          width="5"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            cx="2.5"
+            cy="2.5"
+            fill="#828282"
+            r="2.5"
+          />
+          <circle
+            cx="2.5"
+            cy="13.5"
+            fill="#828282"
+            r="2.5"
+          />
+          <circle
+            cx="2.5"
+            cy="24.5"
+            fill="#828282"
+            r="2.5"
+          />
+        </svg>
       </div>
     </div>
   </div>
@@ -1850,140 +2505,178 @@ exports[`Header component Header component with logoSetup URL 1`] = `
     }
   />
   <div
-    className="distributionIcons"
+    className="containerRigthtHand"
   >
     <div
-      className="fireIconContainer"
+      className="distributionIcons"
+    >
+      <div
+        className="fireIconContainer"
+        onClick={[Function]}
+        style={
+          Object {
+            "visibility": "hidden",
+          }
+        }
+      >
+        <img
+          src={Object {}}
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
+        className="fireIconContainer"
+        onClick={[Function]}
+      >
+        <img
+          src={Object {}}
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
+        className="fireIconContainer"
+        onClick={[Function]}
+        onMouseDown={[MockFunction]}
+      >
+        <img
+          src={Object {}}
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
+        className="custom-select-wrapper"
+        onClick={[Function]}
+      >
+        <div
+          className="custom-select"
+          style={Object {}}
+        >
+          <div
+            className="custom-select__trigger"
+          >
+            <span
+              style={
+                Object {
+                  "overflow": "hidden",
+                  "textOverflow": "ellipsis",
+                  "whiteSpace": "nowrap",
+                  "width": "230px",
+                }
+              }
+            >
+              last 5 minutes
+            </span>
+            <div
+              className="arrow"
+            />
+          </div>
+          <div
+            className="custom-options"
+            style={Object {}}
+          >
+            <span
+              className="custom-option selected"
+              onClick={[Function]}
+            >
+              last 5 minutes
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              30 minutes ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              60 minutes ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              3 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              6 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              12 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              24 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              3 days ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              7 days ago
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="viewLogs"
       onClick={[Function]}
       style={
         Object {
+          "cursor": "pointer",
           "visibility": "hidden",
         }
       }
     >
-      <img
-        src={Object {}}
+      <svg
+        focusable="false"
+        role="img"
         style={
           Object {
-            "height": "18px",
+            "height": "20px",
+            "marginBottom": "-5px",
+            "width": "20px",
           }
         }
-      />
-    </div>
-    <div
-      className="fireIconContainer"
-      onClick={[Function]}
-    >
-      <img
-        src={Object {}}
-        style={
-          Object {
-            "height": "18px",
-          }
-        }
-      />
-    </div>
-    <div
-      className="fireIconContainer"
-      onClick={[Function]}
-      onMouseDown={[MockFunction]}
-    >
-      <img
-        src={Object {}}
-        style={
-          Object {
-            "height": "18px",
-          }
-        }
-      />
-    </div>
-    <div
-      className="custom-select-wrapper"
-      onClick={[Function]}
-    >
-      <div
-        className="custom-select"
-        style={Object {}}
+        viewBox="0 0 16 16"
+        xmlns="http://www.w3.org/2000/svg"
       >
-        <div
-          className="custom-select__trigger"
-        >
-          <span
-            style={
-              Object {
-                "overflow": "hidden",
-                "textOverflow": "ellipsis",
-                "whiteSpace": "nowrap",
-                "width": "230px",
-              }
-            }
-          >
-            now
-          </span>
-          <div
-            className="arrow"
-          />
-        </div>
-        <div
-          className="custom-options"
-          style={Object {}}
-        >
-          <span
-            className="custom-option selected"
-            onClick={[Function]}
-          >
-            now
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            30 minutes
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            60 minutes
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            3 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            6 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            12 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            24 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            3 days
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            7 days
-          </span>
-        </div>
-      </div>
+        <path
+          d="M7.7 0H2v15h11V5.3L7.7 0zm3.6 5H8V1.7L11.3 5zM3 14V1h4v5h5v8H3z"
+          fill="#007e8a"
+        />
+        <path
+          d="M5 8h5v1H5zM5 11h3v1H5z"
+          fill="#007e8a"
+        />
+      </svg>
+      See logs
     </div>
   </div>
 </div>
@@ -2018,46 +2711,85 @@ exports[`Header component Header component with showLeftPanel 1`] = `
   <div
     className="kpi"
   >
-    <div
-      className="kpicontent"
-    >
+    <div>
       <div
-        className="kpicontent--colorgrey kpicontent--size12"
+        className="timeRangeContent "
+        onClick={[Function]}
       >
-        Total Order Count
-      </div>
-      <div
-        className="kpicontent--colorblack  kpicontent--size16"
-      >
-         0 Orders
+        DAY
       </div>
     </div>
     <div
       className="kpicontent"
+      onClick={[Function]}
+      style={
+        Object {
+          "cursor": "pointer",
+        }
+      }
     >
       <div
-        className="kpicontent--colorgrey kpicontent--size12"
+        className="kpicontent--colorgrey kpicontent--size10"
       >
-        Total Order Value
+        Unique
       </div>
       <div
-        className="kpicontent--colorblack  kpicontent--size16"
+        className="kpicontent--colorblack kpicontent--size12"
       >
-        $0.00 
+        <div
+          className="kpi"
+        >
+          0
+          <span>
+            <div
+              className="kpi-status"
+            >
+              <img
+                src={Object {}}
+              />
+            </div>
+          </span>
+        </div>
       </div>
     </div>
-    <div
-      className="kpicontent"
-    >
+    <div>
       <div
-        className="kpicontent--colorgrey kpicontent--size12"
+        onClick={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "cursor": "pointer",
+            "display": "flex",
+            "height": "90%",
+          }
+        }
       >
-        Max Duration
-      </div>
-      <div
-        className="kpicontent--colorblack  kpicontent--size16"
-      >
-         0 
+        <svg
+          fill="none"
+          height="22"
+          viewBox="0 0 5 27"
+          width="5"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            cx="2.5"
+            cy="2.5"
+            fill="#828282"
+            r="2.5"
+          />
+          <circle
+            cx="2.5"
+            cy="13.5"
+            fill="#828282"
+            r="2.5"
+          />
+          <circle
+            cx="2.5"
+            cy="24.5"
+            fill="#828282"
+            r="2.5"
+          />
+        </svg>
       </div>
     </div>
   </div>
@@ -2071,140 +2803,178 @@ exports[`Header component Header component with showLeftPanel 1`] = `
     }
   />
   <div
-    className="distributionIcons"
+    className="containerRigthtHand"
   >
     <div
-      className="fireIconContainer"
+      className="distributionIcons"
+    >
+      <div
+        className="fireIconContainer"
+        onClick={[Function]}
+        style={
+          Object {
+            "visibility": "hidden",
+          }
+        }
+      >
+        <img
+          src={Object {}}
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
+        className="fireIconContainer"
+        onClick={[Function]}
+      >
+        <img
+          src={Object {}}
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
+        className="fireIconContainer"
+        onClick={[Function]}
+        onMouseDown={[MockFunction]}
+      >
+        <img
+          src={Object {}}
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
+        className="custom-select-wrapper"
+        onClick={[Function]}
+      >
+        <div
+          className="custom-select"
+          style={Object {}}
+        >
+          <div
+            className="custom-select__trigger"
+          >
+            <span
+              style={
+                Object {
+                  "overflow": "hidden",
+                  "textOverflow": "ellipsis",
+                  "whiteSpace": "nowrap",
+                  "width": "230px",
+                }
+              }
+            >
+              last 5 minutes
+            </span>
+            <div
+              className="arrow"
+            />
+          </div>
+          <div
+            className="custom-options"
+            style={Object {}}
+          >
+            <span
+              className="custom-option selected"
+              onClick={[Function]}
+            >
+              last 5 minutes
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              30 minutes ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              60 minutes ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              3 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              6 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              12 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              24 hours ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              3 days ago
+            </span>
+            <span
+              className="custom-option"
+              onClick={[Function]}
+            >
+              7 days ago
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="viewLogs"
       onClick={[Function]}
       style={
         Object {
+          "cursor": "pointer",
           "visibility": "hidden",
         }
       }
     >
-      <img
-        src={Object {}}
+      <svg
+        focusable="false"
+        role="img"
         style={
           Object {
-            "height": "18px",
+            "height": "20px",
+            "marginBottom": "-5px",
+            "width": "20px",
           }
         }
-      />
-    </div>
-    <div
-      className="fireIconContainer"
-      onClick={[Function]}
-    >
-      <img
-        src={Object {}}
-        style={
-          Object {
-            "height": "18px",
-          }
-        }
-      />
-    </div>
-    <div
-      className="fireIconContainer"
-      onClick={[Function]}
-      onMouseDown={[MockFunction]}
-    >
-      <img
-        src={Object {}}
-        style={
-          Object {
-            "height": "18px",
-          }
-        }
-      />
-    </div>
-    <div
-      className="custom-select-wrapper"
-      onClick={[Function]}
-    >
-      <div
-        className="custom-select"
-        style={Object {}}
+        viewBox="0 0 16 16"
+        xmlns="http://www.w3.org/2000/svg"
       >
-        <div
-          className="custom-select__trigger"
-        >
-          <span
-            style={
-              Object {
-                "overflow": "hidden",
-                "textOverflow": "ellipsis",
-                "whiteSpace": "nowrap",
-                "width": "230px",
-              }
-            }
-          >
-            now
-          </span>
-          <div
-            className="arrow"
-          />
-        </div>
-        <div
-          className="custom-options"
-          style={Object {}}
-        >
-          <span
-            className="custom-option selected"
-            onClick={[Function]}
-          >
-            now
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            30 minutes
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            60 minutes
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            3 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            6 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            12 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            24 hours
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            3 days
-          </span>
-          <span
-            className="custom-option"
-            onClick={[Function]}
-          >
-            7 days
-          </span>
-        </div>
-      </div>
+        <path
+          d="M7.7 0H2v15h11V5.3L7.7 0zm3.6 5H8V1.7L11.3 5zM3 14V1h4v5h5v8H3z"
+          fill="#007e8a"
+        />
+        <path
+          d="M5 8h5v1H5zM5 11h3v1H5z"
+          fill="#007e8a"
+        />
+      </svg>
+      See logs
     </div>
   </div>
 </div>
