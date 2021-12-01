@@ -1,7 +1,7 @@
 {
     "schemaType": "LAUNCHER",
     "id": "pathpoint-launcher",
-    "displayName": "StarkIndustries Pathpoint",
-    "description": "Describe me",
+    "displayName": "Pathpoint",
+    "description": "Digital Business Tracker",
     "rootNerdletId": "pathpoint-nerdlet"
 }
