@@ -1,6 +1,6 @@
 {
     "schemaType": "NERDLET",
     "id": "pathpoint-nerdlet",
-    "displayName": "StarkIndustries Pathpoint",
-    "description": "Pathpoint Description Here"
+    "displayName": "Pathpoint",
+    "description": "Business Health Tracker"
 }
