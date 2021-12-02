@@ -156,7 +156,7 @@ function BodyGeneralConfigurationFormModal(props) {
               Enable Flame Filter Background Script
             </label>
           </div>
-          <div style={{ marginTop: '10px' }}>
+          {/* <div style={{ marginTop: '10px' }}>
             <input
               type="checkbox"
               id="dropToolsCheck"
@@ -184,7 +184,7 @@ function BodyGeneralConfigurationFormModal(props) {
             <label className="label-checkbox">
               Enable Drop Filter Background Script
             </label>
-          </div>
+          </div> */}
           <div
             style={{
               marginTop: '20px',
