@@ -210,27 +210,6 @@ exports[`<GeneralConfigurationFormModal/> BodyGeneralConfiguration Component 1`]
       <div
         style={
           Object {
-            "marginTop": "10px",
-          }
-        }
-      >
-        <input
-          defaultChecked={false}
-          disabled={true}
-          id="dropToolsCheck"
-          onChange={[Function]}
-          type="checkbox"
-          value={false}
-        />
-        <label
-          className="label-checkbox"
-        >
-          Enable Drop Filter Background Script
-        </label>
-      </div>
-      <div
-        style={
-          Object {
             "display": "flex",
             "justifyContent": "flex-end",
             "marginTop": "20px",
