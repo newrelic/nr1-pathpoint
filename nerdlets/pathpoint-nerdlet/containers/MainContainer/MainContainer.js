@@ -1577,7 +1577,9 @@ export default class MainContainer extends React.Component {
               changeTimeRangeKpi={this.changeTimeRangeKpi}
               timeRangeKpi={timeRangeKpi}
               kpis={kpis}
-              accountId={accountId}
+              accountId={
+                credentials.accountId ? credentials.accountId : accountId
+              }
               updateDataKpisChecked={this.updateDataKpisChecked}
               credentials={credentials}
             />
