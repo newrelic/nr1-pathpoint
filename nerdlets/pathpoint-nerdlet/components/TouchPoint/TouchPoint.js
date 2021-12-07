@@ -93,10 +93,11 @@ export default class TouchPoint extends React.Component {
   DisplayItem = (
     touchpoint,
     checkAllStatus,
-    iconSixthSenseStatus,
+    // iconSixthSenseStatus,
     iconFireStatus
   ) => {
-    if (iconSixthSenseStatus && touchpoint.sixth_sense) {
+    // if (iconSixthSenseStatus && touchpoint.sixth_sense) {
+    if (touchpoint.sixth_sense) {
       return `flex`;
     } else if (touchpoint.highlighted) {
       return `flex`;
@@ -167,7 +168,7 @@ export default class TouchPoint extends React.Component {
       colors,
       iconFireStatus,
       checkAllStatus,
-      iconSixthSenseStatus,
+      // iconSixthSenseStatus,
       visible,
       idVisible
     } = this.props;
@@ -182,7 +183,7 @@ export default class TouchPoint extends React.Component {
               display: this.DisplayItem(
                 touchpoint,
                 checkAllStatus,
-                iconSixthSenseStatus,
+                // iconSixthSenseStatus,
                 iconFireStatus
               ),
               cursor: this.ActivateCursor(touchpoint, city),
@@ -280,7 +281,7 @@ TouchPoint.propTypes = {
   colors: PropTypes.object.isRequired,
   iconFireStatus: PropTypes.bool.isRequired,
   checkAllStatus: PropTypes.bool.isRequired,
-  iconSixthSenseStatus: PropTypes.bool.isRequired,
+  // iconSixthSenseStatus: PropTypes.bool.isRequired,
   visible: PropTypes.bool.isRequired,
   idVisible: PropTypes.string.isRequired,
   renderProps: PropTypes.func.isRequired,

@@ -44,7 +44,7 @@ export default class StepContainer extends React.Component {
     const {
       onclickStep,
       title,
-      iconSixthSenseStatus,
+      // iconSixthSenseStatus,
       iconGoutStatus,
       latencyStatus,
       iconCanaryStatus,
@@ -61,7 +61,7 @@ export default class StepContainer extends React.Component {
             <Step
               key={`${title}-${index}`}
               step={step}
-              iconSixthSenseStatus={iconSixthSenseStatus}
+              // iconSixthSenseStatus={iconSixthSenseStatus}
               latencyStatus={latencyStatus}
               totalSteps={steps.length}
               onclickStep={onclickStep}
@@ -81,7 +81,7 @@ StepContainer.propTypes = {
   steps: PropTypes.array.isRequired,
   onclickStep: PropTypes.func.isRequired,
   title: PropTypes.string,
-  iconSixthSenseStatus: PropTypes.bool.isRequired,
+  // iconSixthSenseStatus: PropTypes.bool.isRequired,
   iconGoutStatus: PropTypes.bool.isRequired,
   latencyStatus: PropTypes.bool.isRequired,
   iconCanaryStatus: PropTypes.bool.isRequired,

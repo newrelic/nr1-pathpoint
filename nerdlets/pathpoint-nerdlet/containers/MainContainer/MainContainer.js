@@ -82,7 +82,7 @@ export default class MainContainer extends React.Component {
       iconStartStatus: false,
       iconGoutStatus: false,
       iconCanaryStatus: false,
-      iconSixthSenseStatus: false,
+      // iconSixthSenseStatus: false,
       hidden: false,
       stageNameSelected: null,
       viewModal: 0,
@@ -1497,7 +1497,7 @@ export default class MainContainer extends React.Component {
   render() {
     const {
       stages,
-      iconSixthSenseStatus,
+      // iconSixthSenseStatus,
       iconCanaryStatus,
       iconFireStatus,
       iconStartStatus,
@@ -1558,7 +1558,7 @@ export default class MainContainer extends React.Component {
         <div style={mainContainerStyle()} className="mainContainer">
           <div>
             <Header
-              iconSixthSenseStatus={iconSixthSenseStatus}
+              // iconSixthSenseStatus={iconSixthSenseStatus}
               changeTimeRange={this.changeTimeRange}
               checkMoney={checkMoney}
               iconStartStatus={iconStartStatus}
@@ -1967,7 +1967,7 @@ export default class MainContainer extends React.Component {
                               iconCanaryStatus={iconCanaryStatus}
                               colors={colors}
                               iconFireStatus={iconFireStatus}
-                              iconSixthSenseStatus={iconSixthSenseStatus}
+                              // iconSixthSenseStatus={iconSixthSenseStatus}
                               totalContainers={totalContainers}
                             />
                           </div>
@@ -1983,7 +1983,7 @@ export default class MainContainer extends React.Component {
                             iconCanaryStatus={iconCanaryStatus}
                             colors={colors}
                             iconFireStatus={iconFireStatus}
-                            iconSixthSenseStatus={iconSixthSenseStatus}
+                            // iconSixthSenseStatus={iconSixthSenseStatus}
                             totalContainers={totalContainers}
                           />
                         </div>
@@ -2045,7 +2045,7 @@ export default class MainContainer extends React.Component {
                         colors={colors}
                         iconFireStatus={iconFireStatus}
                         checkAllStatus={checkAllStatus}
-                        iconSixthSenseStatus={iconSixthSenseStatus}
+                        // iconSixthSenseStatus={iconSixthSenseStatus}
                         openModalParent={this.openModalParent}
                         updateTouchpointOnOff={this.updateTouchpointOnOff}
                         iconCanaryStatus={iconCanaryStatus}
