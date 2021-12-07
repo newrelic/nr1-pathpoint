@@ -10,31 +10,31 @@ The configuration of pathpoint is managed by a powerful JSON configuration file 
 
 Pathpoint offers the possibility to load the configuration file through the following option.
 
-1. Go to the menu at the top left <br>
+1. Click on the three bars at the top left <br>
 ![Uploading1](Menu_pathpoint.png) <br>
-2. Enter the option "JSON Configuration" <br>
+2. Now, click on "JSON Configuration" <br>
 ![Uploading2](Option_configuration.png) <br>
-3. Then select "Update" <br>
+3. Next, select "Update" <br>
 ![Uploading3](Option_update.png) <br>
-4. Locate the file you want to update and click on "open" <br>
+4. On this window click on the file you want to update and click on "open" <br>
 ![Uploading4](file_location.png) <br>
-5. Finally the pathopint is displayed with the latest update loaded. <br>
+5. Finally, the pathpoint is displayed showing you the latest update. <br>
 ![Uploading5](front_pathpoint.png)
 <br>  
 
-### Downloading the Currently Active Config File
+### How to download the latest Active Config File
 
-Similarly, Pathpoint offers the possibility of downloading the configuration file through the following option.
+Alternatively, Pathpoint offers you the possibility of downloading the  active configuration file using the following steps;
 
-1. Go to the menu at the top left <br>
+1. Click on the three bars at the top left <br>
 ![Downloading1](Menu_pathpoint.png) <br>
-2. Enter the option "JSON Configuration" <br>
+2. Click on "JSON Configuration" <br>
 ![Downloading2](Option_configuration.png) <br>
-3. Then select the option available to download "Pathpoint_json_vX" <br>
+3. Now, select the file available to download, on this example "Pathpoint_json_vX" <br>
 ![Downloading3](pathpoint_jason_vx.png) <br>
-4. Host the file in the location you want <br>
+4. Next, save the file in the location you want <br>
 ![Downloading4](save_file.png) <br>
-5. Finally the file is downloaded for your consultation <br>
+5. Finally the file is downloaded for your review <br>
 ![Downloading5](downloaded_file.png) <br>
 
 ### JSON Format Explained
