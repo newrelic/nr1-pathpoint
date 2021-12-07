@@ -82,7 +82,6 @@ export default class MainContainer extends React.Component {
       iconStartStatus: false,
       iconGoutStatus: false,
       iconCanaryStatus: false,
-      // iconSixthSenseStatus: false,
       hidden: false,
       stageNameSelected: null,
       viewModal: 0,
@@ -569,19 +568,6 @@ export default class MainContainer extends React.Component {
       };
     });
   };
-
-  clearStepsSixthSense() {
-    this.setState(state => {
-      const { stages } = state;
-      stages.forEach(state => {
-        state.steps.forEach(step => {
-          step.sub_steps.forEach(sub_step => {
-            sub_step.sixth_sense = false;
-          });
-        });
-      });
-    });
-  }
 
   ToggleCanaryIcon = previousIconCanaryStatus => {
     const { iconCanaryStatus } = this.state;
@@ -1497,7 +1483,6 @@ export default class MainContainer extends React.Component {
   render() {
     const {
       stages,
-      // iconSixthSenseStatus,
       iconCanaryStatus,
       iconFireStatus,
       iconStartStatus,
@@ -1558,7 +1543,6 @@ export default class MainContainer extends React.Component {
         <div style={mainContainerStyle()} className="mainContainer">
           <div>
             <Header
-              // iconSixthSenseStatus={iconSixthSenseStatus}
               changeTimeRange={this.changeTimeRange}
               checkMoney={checkMoney}
               iconStartStatus={iconStartStatus}
@@ -1967,7 +1951,6 @@ export default class MainContainer extends React.Component {
                               iconCanaryStatus={iconCanaryStatus}
                               colors={colors}
                               iconFireStatus={iconFireStatus}
-                              // iconSixthSenseStatus={iconSixthSenseStatus}
                               totalContainers={totalContainers}
                             />
                           </div>
@@ -1983,7 +1966,6 @@ export default class MainContainer extends React.Component {
                             iconCanaryStatus={iconCanaryStatus}
                             colors={colors}
                             iconFireStatus={iconFireStatus}
-                            // iconSixthSenseStatus={iconSixthSenseStatus}
                             totalContainers={totalContainers}
                           />
                         </div>
@@ -2045,7 +2027,6 @@ export default class MainContainer extends React.Component {
                         colors={colors}
                         iconFireStatus={iconFireStatus}
                         checkAllStatus={checkAllStatus}
-                        // iconSixthSenseStatus={iconSixthSenseStatus}
                         openModalParent={this.openModalParent}
                         updateTouchpointOnOff={this.updateTouchpointOnOff}
                         iconCanaryStatus={iconCanaryStatus}
