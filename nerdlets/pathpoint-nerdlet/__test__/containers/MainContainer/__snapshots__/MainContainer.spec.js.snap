@@ -105,24 +105,6 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
           <div
             className="fireIconContainer"
             onClick={[Function]}
-            style={
-              Object {
-                "visibility": "hidden",
-              }
-            }
-          >
-            <img
-              src={Object {}}
-              style={
-                Object {
-                  "height": "18px",
-                }
-              }
-            />
-          </div>
-          <div
-            className="fireIconContainer"
-            onClick={[Function]}
           >
             <img
               src={Object {}}
@@ -959,24 +941,6 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
           <div
             className="fireIconContainer"
             onClick={[Function]}
-            style={
-              Object {
-                "visibility": "hidden",
-              }
-            }
-          >
-            <img
-              src={Object {}}
-              style={
-                Object {
-                  "height": "18px",
-                }
-              }
-            />
-          </div>
-          <div
-            className="fireIconContainer"
-            onClick={[Function]}
           >
             <img
               src={Object {}}
@@ -1810,24 +1774,6 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
         <div
           className="distributionIcons"
         >
-          <div
-            className="fireIconContainer"
-            onClick={[Function]}
-            style={
-              Object {
-                "visibility": "hidden",
-              }
-            }
-          >
-            <img
-              src={Object {}}
-              style={
-                Object {
-                  "height": "18px",
-                }
-              }
-            />
-          </div>
           <div
             className="fireIconContainer"
             onClick={[Function]}
@@ -2713,24 +2659,6 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
           <div
             className="fireIconContainer"
             onClick={[Function]}
-            style={
-              Object {
-                "visibility": "hidden",
-              }
-            }
-          >
-            <img
-              src={Object {}}
-              style={
-                Object {
-                  "height": "18px",
-                }
-              }
-            />
-          </div>
-          <div
-            className="fireIconContainer"
-            onClick={[Function]}
           >
             <img
               src={Object {}}
@@ -3564,24 +3492,6 @@ exports[`<MainContainer/> Values stages 1`] = `
         <div
           className="distributionIcons"
         >
-          <div
-            className="fireIconContainer"
-            onClick={[Function]}
-            style={
-              Object {
-                "visibility": "hidden",
-              }
-            }
-          >
-            <img
-              src={Object {}}
-              style={
-                Object {
-                  "height": "18px",
-                }
-              }
-            />
-          </div>
           <div
             className="fireIconContainer"
             onClick={[Function]}
@@ -4724,24 +4634,6 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
         <div
           className="distributionIcons"
         >
-          <div
-            className="fireIconContainer"
-            onClick={[Function]}
-            style={
-              Object {
-                "visibility": "hidden",
-              }
-            }
-          >
-            <img
-              src={Object {}}
-              style={
-                Object {
-                  "height": "18px",
-                }
-              }
-            />
-          </div>
           <div
             className="fireIconContainer"
             onClick={[Function]}

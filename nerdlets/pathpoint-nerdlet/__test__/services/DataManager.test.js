@@ -806,18 +806,6 @@ describe('Datamanager service', () => {
     );
   });
 
-  // it('Function SetInitialDataViewToStorage() with cath', async () => {
-  //   dataManager.accountId = 2789;
-  //   dataManager.stages = [];
-  //   dataManager.kpis = [];
-  //   jest
-  //     .spyOn(AccountStorageMutation, 'mutate')
-  //     .mockRejectedValue(Error('error'));
-  //   await expect(dataManager.SetInitialDataViewToStorage()).rejects.toThrow(
-  //     'error'
-  //   );
-  // });
-
   it('Function SaveKpisSelection()', () => {
     const kpis = [
       {
@@ -965,18 +953,6 @@ describe('Datamanager service', () => {
     };
     dataManager.SaveCanaryData(data);
   });
-
-  // it('Function SaveCanaryData() with catch', async () => {
-  //   const data = {
-  //     stage_index: 1,
-  //     stage_title: 'Stage1',
-  //     states: [false, false]
-  //   };
-  //   jest
-  //     .spyOn(AccountStorageMutation, 'mutate')
-  //     .mockRejectedValue(Error('error'));
-  //   await expect(dataManager.SaveCanaryData(data)).rejects.toThrow('error');
-  // });
 
   it('Function TouchPointsUpdate()', async () => {
     dataManager.stages = [
@@ -1163,8 +1139,6 @@ describe('Datamanager service', () => {
     const sessionsRange = true;
     const ssessionsRange2 = false;
     dataManager.getOldSessions = true;
-    // const time_start = Math.floor(Date.now() / 1000) - 10 * 59;
-    // const time_end = Math.floor(Date.now() / 1000) - 5 * 58;
     dataManager.TimeRangeTransform(timeRange2, sessionsRange);
     dataManager.TimeRangeTransform(timeRange3, sessionsRange);
     dataManager.TimeRangeTransform(timeRange4, sessionsRange);
@@ -2952,13 +2926,6 @@ describe('Datamanager service', () => {
     expect(dataManager.minPercentageError).toEqual(7.21);
   });
 
-  // it('Function SetVersion()', async () => {
-  //   jest
-  //     .spyOn(AccountStorageMutation, 'mutate')
-  //     .mockRejectedValue(Error('error'));
-  //   await expect(dataManager.SetVersion()).rejects.toThrow('error');
-  // });
-
   it('Function GetStorageTouchpoints()', async () => {
     jest.spyOn(AccountStorageQuery, 'query').mockImplementationOnce(() => {
       return {
@@ -4094,8 +4061,6 @@ describe('Datamanager service', () => {
     expect(dataManager.GetGoutParameters()).toEqual({ data: 'new dropParams' });
   });
 
-  // it('Function setStorageDropParams()', () => {});
-
   it('Function GetStorageDropParams()', async () => {
     jest.spyOn(AccountStorageQuery, 'query').mockReturnValue({
       data: { dropParams: { dropmoney: 200, hours: 24, percentage: 75 } }
@@ -4122,8 +4087,6 @@ describe('Datamanager service', () => {
     dataManager.UpdateHistoricParameters(hours, percentage);
     expect(dataManager.historicErrorsHours).toEqual(72);
   });
-
-  // it('Function SetStorageHistoricErrorsParams()', () => {});
 
   it('Function GetStorageHistoricErrorsParams()', async () => {
     jest.spyOn(AccountStorageQuery, 'query').mockReturnValue({
@@ -4194,22 +4157,6 @@ describe('Datamanager service', () => {
     dataManager.SaveGeneralConfiguration(data);
     expect(dataManager.EnableDisableLogsConnector).toHaveBeenCalledTimes(1);
   });
-
-  // it('Function SaveGeneralConfiguration() with catch', async () => {
-  //   const data = {
-  //     dropTools: 'dropTools',
-  //     flameTools: 'flameTools',
-  //     loggin: true,
-  //     accountId: 2710112
-  //   };
-  //   dataManager.EnableDisableLogsConnector = jest.fn();
-  //   jest
-  //     .spyOn(AccountStorageMutation, 'mutate')
-  //     .mockRejectedValue(Error('error'));
-  //   await expect(dataManager.SaveGeneralConfiguration(data)).rejects.toThrow(
-  //     'error'
-  //   );
-  // });
 
   it('Function GetGeneralConfiguration()', async () => {
     jest.spyOn(AccountStorageQuery, 'query').mockReturnValue({

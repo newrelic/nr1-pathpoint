@@ -253,8 +253,6 @@ describe('<GeneralConfigurationFormModal/>', () => {
     FormControl.simulate('change', e);
     const FormControl2 = component.find('input').at(1);
     FormControl2.simulate('change', e);
-    // const FormControl3 = component.find('input').at(2);
-    // FormControl3.simulate('change', e);
     expect(component.exists()).toBe(true);
   });
 });
