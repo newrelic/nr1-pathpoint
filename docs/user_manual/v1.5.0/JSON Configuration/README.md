@@ -40,7 +40,11 @@ Similarly, Pathpoint offers the possibility of downloading the configuration fil
 JSON for its acronym (JavaScript Object Notation) is a data structure, whose basic function is to allow the exchange of information. Through this structure it will be possible to identify each of the elements and components that will facilitate the implementation of Pathpoint, knowing the function of its attributes, queries and data output.
 
 #### 1. KPI
-KPI by its acronym (Key Performance Indicator), are normally known as key indicators, which allow knowing the performance of a process. In the case of Pathpoint, KPIs fulfill a fundamental function, which is the measurement of specific indicators within a particular process. 
+KPI by its acronym (Key Performance Indicator), are normally known as key indicators, which allow knowing the performance of a process. In the case of Pathpoint, KPIs fulfill a fundamental function, which is the measurement of specific indicators within a particular process.  Pathpoint allows for the configuration of several `ad hoc` KPIs to be shown in the top banner.  These are option.  To omit them just configure your kpis section to an empty list like so
+
+```
+"kpis": [],
+```
 
 #### - Structure KPI
 
