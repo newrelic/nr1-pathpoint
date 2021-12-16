@@ -1652,6 +1652,7 @@ export default class DataManager {
                   query: measure.query,
                   query_timeout: timeout,
                   min_count: measure.min_count,
+                  max_count: measure.max_count,
                   measure_time: measure_time
                 });
               } else if (measure.type === 'PCC') {
@@ -1661,6 +1662,7 @@ export default class DataManager {
                   query: measure.query,
                   query_timeout: timeout,
                   min_count: measure.min_count,
+                  max_count: measure.max_count,
                   measure_time: measure_time
                 });
               } else if (measure.type === 'APP') {
@@ -1887,6 +1889,7 @@ export default class DataManager {
               query: query.query,
               timeout: query_timeout,
               min_count: query.min_count,
+              max_count: query.max_count,
               session_count: 0
             };
           } else if (query.type === this.measureNames[1]) {
@@ -1895,6 +1898,7 @@ export default class DataManager {
               query: query.query,
               timeout: query_timeout,
               min_count: query.min_count,
+              max_count: query.max_count,
               transaction_count: 0
             };
           } else if (query.type === this.measureNames[2]) {
@@ -2417,6 +2421,7 @@ export default class DataManager {
               case 'PRC':
               case 'PCC':
                 tp.measure_points[0].min_count = datos.min_count;
+                tp.measure_points[0].max_count = datos.max_count;
                 break;
               case 'APP':
               case 'FRT':
