@@ -200,7 +200,7 @@ export default class DataManager {
 
   async UpdateData(timeRange, city, stages, kpis, timeRangeKpi) {
     if (this.accountId !== null) {
-      console.log(`UPDATING-DATA: ${this.accountId}`);
+      // console.log(`UPDATING-DATA: ${this.accountId}`);
       this.timeRange = timeRange;
       this.city = city;
       this.stages = stages;
