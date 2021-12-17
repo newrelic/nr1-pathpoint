@@ -59,7 +59,6 @@ function addStage($stage)
         "active_dotted" => $active_dotted,
         "active_dotted_color" => "#828282",
         "arrowMode" => $arrowMode,
-        "percentage_above_avg" => 20,
         "steps" => [],
         "touchpoints" => []
     ];
