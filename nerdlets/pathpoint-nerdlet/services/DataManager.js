@@ -1053,40 +1053,26 @@ export default class DataManager {
             values.count_by_stage[i].total_count
           : 0;
       congestion = Math.floor(congestion * 10000) / 100;
-      // if (values.count_by_stage[i].total_steps !== 0) {
-      //   congestion =
-      //     values.count_by_stage[i].num_steps_over_average /
-      //     values.count_by_stage[i].total_steps;
-      //   congestion = Math.floor(congestion * 10000) / 100;
-      // }
       this.stages[i].congestion.value = congestion;
       this.stages[i].congestion.percentage = congestion;
     }
-    // this.UpdateMaxCongestionSteps(values.count_by_stage);
+    this.UpdateMaxCongestionSteps(values.count_by_stage);
   }
 
   Getmeasures(touchpoints_by_country) {
     const tpc = []; // Count Touchpoints totals by Stage
     while (tpc.length < this.stages.length) {
- // this.stages.forEach(stage => {
       const rec = {
         traffic_type: 'traffic',
         num_touchpoints: 0,
-        // average: 0,
         total_count: 0,
         steps_indexes: [],
         total_congestion: 0,
-        // total_steps: 0,
-        // num_steps_over_average: 0,
-        // max_congestion: 0,
-        // steps_max_cong: [],
-        // above_avg: stage.percentage_above_avg,
-        // steps_over_percentage_indexes: [],
+        steps_max_cong: [],
         capacity_status: 'NO-VALUE',
         capacity_link: ''
       };
       tpc.push(rec);
-// });
     }
     touchpoints_by_country.touchpoints.forEach(touchpoint => {
       if (touchpoint.status_on_off) {
@@ -1104,13 +1090,8 @@ export default class DataManager {
             tpc[idx].total_count += count;
             if (measure.max_count < count) {
               tpc[idx].total_congestion += count - measure.max_count;
+              tpc[idx].steps_max_cong = touchpoint.relation_steps;
             }
-            // tpc[idx].average = tpc[idx].total_count / tpc[idx].num_touchpoints;
-            this.UpdateStepsIndexes(
-              touchpoint.relation_steps,
-              tpc[idx].steps_indexes
-            );
-            // tpc[idx].total_steps = tpc[idx].steps_indexes.length;
           }
           if (measure.type === 'WLD') {
             tpc[idx].capacity_status = measure.status_value;
@@ -1119,34 +1100,7 @@ export default class DataManager {
         });
       }
     });
-    // Setting Count Steps Over Average
-    // touchpoints_by_country.touchpoints.forEach(touchpoint => {
-    //   if (touchpoint.status_on_off) {
-    //     const idx = touchpoint.stage_index - 1;
-    //     touchpoint.measure_points.forEach(measure => {
-    //       let count = 0;
-    //       if (measure.type === 'PRC' || measure.type === 'PCC') {
-    //         count =
-    //           measure.type === 'PRC'
-    //             ? measure.session_count
-    //             : measure.transaction_count;
-    //         if (count > tpc[idx].average * (1 + tpc[idx].above_avg / 100)) {
-    //           this.UpdateStepsIndexes(
-    //             touchpoint.relation_steps,
-    //             tpc[idx].steps_over_percentage_indexes
-    //           );
-    //           tpc[idx].num_steps_over_average =
-    //             tpc[idx].steps_over_percentage_indexes.length;
-    //           if (tpc[idx].max_congestion < count) {
-    //             tpc[idx].max_congestion = count;
-    //             tpc[idx].steps_max_cong = touchpoint.relation_steps;
-    //           }
-    //         }
-    //       }
-    //     });
-    //   }
-    // });
-    console.log('TPC:', tpc);
+    // console.log('TPC:', tpc);
     return {
       count_by_stage: tpc
     };
@@ -1165,50 +1119,23 @@ export default class DataManager {
     return link;
   }
 
-  UpdateStepsIndexes(relation_steps, list) {
-    let list_string = '';
-    list.forEach(index => {
-      list_string += '-' + index + '-';
-    });
-    relation_steps.forEach(index => {
-      if (!list_string.includes('-' + index + '-')) {
-        list_string += '-' + index + '-';
-        list.push(index);
-      }
-    });
+  UpdateMaxCongestionSteps(count_by_stage) {
+    for (let i = 0; i < this.stages.length; i++) {
+      this.stages[i].steps.forEach(step => {
+        step.sub_steps.forEach(sub_step => {
+          sub_step.latency = false;
+          count_by_stage[i].steps_max_cong.some(index => {
+            let found = false;
+            if (index === sub_step.index) {
+              found = true;
+              sub_step.latency = true;
+            }
+            return found;
+          });
+        });
+      });
+    }
   }
-
-  // UpdateMaxCongestionSteps(count_by_stage) {
-  //   for (let i = 0; i < this.stages.length; i++) {
-  //     this.stages[i].steps.forEach(step => {
-  //       step.sub_steps.forEach(sub_step => {
-  //         sub_step.latency = false;
-  //         count_by_stage[i].steps_max_cong.some(index => {
-  //           let found = false;
-  //           if (index === sub_step.index) {
-  //             found = true;
-  //             sub_step.latency = true;
-  //           }
-  //           return found;
-  //         });
-  //       });
-  //     });
-  //   }
-  // }
-
-  // GetSessionsPercentage(sessions) {
-  //   if (sessions.length === 0) {
-  //     return 0;
-  //   }
-  //   let count = 0;
-  //   const currentTime = Math.floor(Date.now() / 1000);
-  //   sessions.forEach(session => {
-  //     if (currentTime - session.time > 5 * 60) {
-  //       count++;
-  //     }
-  //   });
-  //   return count / sessions.length;
-  // }
 
   UpdateErrorCondition(actual, nextvalue) {
     if (actual === 'danger') {

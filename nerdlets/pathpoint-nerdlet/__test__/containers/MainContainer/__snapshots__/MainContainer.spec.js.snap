@@ -3954,7 +3954,7 @@ exports[`<MainContainer/> Values stages 1`] = `
                   className="textLevelBar"
                   stroke="#144867"
                   strokeWidth={2}
-                  x={170}
+                  x={160}
                   y={43}
                 >
                   
@@ -3962,7 +3962,7 @@ exports[`<MainContainer/> Values stages 1`] = `
                 <text
                   className="textLevelBar"
                   fill="#f0f0f0"
-                  x={170}
+                  x={160}
                   y={43}
                 >
                   
@@ -3971,7 +3971,7 @@ exports[`<MainContainer/> Values stages 1`] = `
                   className="textLevelBar"
                   stroke="#144867"
                   strokeWidth={2}
-                  x={250}
+                  x={240}
                   y={43}
                 >
                   15
@@ -3980,7 +3980,7 @@ exports[`<MainContainer/> Values stages 1`] = `
                 <text
                   className="textLevelBar"
                   fill="#f0f0f0"
-                  x={250}
+                  x={240}
                   y={43}
                 >
                   15

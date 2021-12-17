@@ -25,7 +25,7 @@ exports[`Arrow component Arrow component with latency 1`] = `
     className="textLevelBar"
     stroke="#144867"
     strokeWidth={2}
-    x={-68}
+    x={-78}
     y={43}
   >
     Dummy Text
@@ -33,7 +33,7 @@ exports[`Arrow component Arrow component with latency 1`] = `
   <text
     className="textLevelBar"
     fill="#f0f0f0"
-    x={-68}
+    x={-78}
     y={43}
   >
     Dummy Text
@@ -42,7 +42,7 @@ exports[`Arrow component Arrow component with latency 1`] = `
     className="textLevelBar"
     stroke="#144867"
     strokeWidth={2}
-    x={12}
+    x={2}
     y={43}
   >
     10
@@ -51,7 +51,7 @@ exports[`Arrow component Arrow component with latency 1`] = `
   <text
     className="textLevelBar"
     fill="#f0f0f0"
-    x={12}
+    x={2}
     y={43}
   >
     10
@@ -115,7 +115,7 @@ exports[`Arrow component Arrow component with no latency 1`] = `
     className="textLevelBar"
     stroke="#144867"
     strokeWidth={2}
-    x={-68}
+    x={-78}
     y={43}
   >
     Dummy Text
@@ -123,7 +123,7 @@ exports[`Arrow component Arrow component with no latency 1`] = `
   <text
     className="textLevelBar"
     fill="#f0f0f0"
-    x={-68}
+    x={-78}
     y={43}
   >
     Dummy Text
@@ -132,7 +132,7 @@ exports[`Arrow component Arrow component with no latency 1`] = `
     className="textLevelBar"
     stroke="#144867"
     strokeWidth={2}
-    x={12}
+    x={2}
     y={43}
   >
     10
@@ -141,7 +141,7 @@ exports[`Arrow component Arrow component with no latency 1`] = `
   <text
     className="textLevelBar"
     fill="#f0f0f0"
-    x={12}
+    x={2}
     y={43}
   >
     10

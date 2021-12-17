@@ -13,7 +13,7 @@ const Arrow = ({
   const showTrafficIcon = trafficIconType === 'traffic';
   const arrowHead = arrowMode === 'FLOW' ? 40 : 0;
   const iconX = arrowMode === 'FLOW' ? 50 : 5;
-  const labelx = arrowWidth;
+  const labelx = arrowWidth - 10;
   const iconColor = percentageCongestion > 19 ? '#F8F8F8' : '#828282';
   const strokeColor = percentageCongestion > 19 ? '#144867' : '#F8F8F8';
   arrowWidth = arrowMode === 'FLOW' ? arrowWidth : arrowWidth + 40;

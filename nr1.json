@@ -1,10 +1,6 @@
 {
   "schemaType": "NERDPACK",
-<<<<<<< HEAD
-  "id": "dd04befd-e95f-409a-9099-210788e7b84c",
-=======
   "id": "f807369e-b0d6-4213-88f1-9bff092d694f",
->>>>>>> feature_Improve_Congestion
   "displayName": "Pathpoint",
   "description": "Digital Business Tracker"
 }
