@@ -1,11 +1,15 @@
 {
     "private": true,
     "name": "PathpointCore",
+<<<<<<< HEAD
     "version": "1.5.64",
+=======
+    "version": "1.5.5",
+>>>>>>> feature_Improve_Congestion
     "scripts": {
         "start": "nr1 nerdpack:serve",
         "samanez": "nr1 nerdpack:serve --profile=samanez",
-        "test": "jest -w 1",
+        "test": "jest -w 1 -u",
         "eslint-check": "eslint nerdlets/",
         "eslint-fix": "eslint nerdlets/ --fix",
         "coverage": "jest --coverage",

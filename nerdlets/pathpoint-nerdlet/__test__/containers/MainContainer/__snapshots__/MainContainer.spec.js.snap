@@ -35,58 +35,6 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
           />
         </div>
       </div>
-      <div
-        className="kpi"
-      >
-        <div>
-          <div
-            className="timeRangeContent "
-            onClick={[Function]}
-          >
-            DAY
-          </div>
-        </div>
-        <div>
-          <div
-            onClick={[Function]}
-            style={
-              Object {
-                "alignItems": "center",
-                "cursor": "pointer",
-                "display": "flex",
-                "height": "90%",
-              }
-            }
-          >
-            <svg
-              fill="none"
-              height="22"
-              viewBox="0 0 5 27"
-              width="5"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle
-                cx="2.5"
-                cy="2.5"
-                fill="#828282"
-                r="2.5"
-              />
-              <circle
-                cx="2.5"
-                cy="13.5"
-                fill="#828282"
-                r="2.5"
-              />
-              <circle
-                cx="2.5"
-                cy="24.5"
-                fill="#828282"
-                r="2.5"
-              />
-            </svg>
-          </div>
-        </div>
-      </div>
       <span
         className="budgetLoss"
         style={
@@ -871,58 +819,6 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
           />
         </div>
       </div>
-      <div
-        className="kpi"
-      >
-        <div>
-          <div
-            className="timeRangeContent "
-            onClick={[Function]}
-          >
-            DAY
-          </div>
-        </div>
-        <div>
-          <div
-            onClick={[Function]}
-            style={
-              Object {
-                "alignItems": "center",
-                "cursor": "pointer",
-                "display": "flex",
-                "height": "90%",
-              }
-            }
-          >
-            <svg
-              fill="none"
-              height="22"
-              viewBox="0 0 5 27"
-              width="5"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle
-                cx="2.5"
-                cy="2.5"
-                fill="#828282"
-                r="2.5"
-              />
-              <circle
-                cx="2.5"
-                cy="13.5"
-                fill="#828282"
-                r="2.5"
-              />
-              <circle
-                cx="2.5"
-                cy="24.5"
-                fill="#828282"
-                r="2.5"
-              />
-            </svg>
-          </div>
-        </div>
-      </div>
       <span
         className="budgetLoss"
         style={
@@ -1705,58 +1601,6 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
           <img
             src={Object {}}
           />
-        </div>
-      </div>
-      <div
-        className="kpi"
-      >
-        <div>
-          <div
-            className="timeRangeContent "
-            onClick={[Function]}
-          >
-            DAY
-          </div>
-        </div>
-        <div>
-          <div
-            onClick={[Function]}
-            style={
-              Object {
-                "alignItems": "center",
-                "cursor": "pointer",
-                "display": "flex",
-                "height": "90%",
-              }
-            }
-          >
-            <svg
-              fill="none"
-              height="22"
-              viewBox="0 0 5 27"
-              width="5"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle
-                cx="2.5"
-                cy="2.5"
-                fill="#828282"
-                r="2.5"
-              />
-              <circle
-                cx="2.5"
-                cy="13.5"
-                fill="#828282"
-                r="2.5"
-              />
-              <circle
-                cx="2.5"
-                cy="24.5"
-                fill="#828282"
-                r="2.5"
-              />
-            </svg>
-          </div>
         </div>
       </div>
       <span
@@ -2589,58 +2433,6 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
           />
         </div>
       </div>
-      <div
-        className="kpi"
-      >
-        <div>
-          <div
-            className="timeRangeContent "
-            onClick={[Function]}
-          >
-            DAY
-          </div>
-        </div>
-        <div>
-          <div
-            onClick={[Function]}
-            style={
-              Object {
-                "alignItems": "center",
-                "cursor": "pointer",
-                "display": "flex",
-                "height": "90%",
-              }
-            }
-          >
-            <svg
-              fill="none"
-              height="22"
-              viewBox="0 0 5 27"
-              width="5"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle
-                cx="2.5"
-                cy="2.5"
-                fill="#828282"
-                r="2.5"
-              />
-              <circle
-                cx="2.5"
-                cy="13.5"
-                fill="#828282"
-                r="2.5"
-              />
-              <circle
-                cx="2.5"
-                cy="24.5"
-                fill="#828282"
-                r="2.5"
-              />
-            </svg>
-          </div>
-        </div>
-      </div>
       <span
         className="budgetLoss"
         style={
@@ -3423,58 +3215,6 @@ exports[`<MainContainer/> Values stages 1`] = `
           <img
             src={Object {}}
           />
-        </div>
-      </div>
-      <div
-        className="kpi"
-      >
-        <div>
-          <div
-            className="timeRangeContent "
-            onClick={[Function]}
-          >
-            DAY
-          </div>
-        </div>
-        <div>
-          <div
-            onClick={[Function]}
-            style={
-              Object {
-                "alignItems": "center",
-                "cursor": "pointer",
-                "display": "flex",
-                "height": "90%",
-              }
-            }
-          >
-            <svg
-              fill="none"
-              height="22"
-              viewBox="0 0 5 27"
-              width="5"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle
-                cx="2.5"
-                cy="2.5"
-                fill="#828282"
-                r="2.5"
-              />
-              <circle
-                cx="2.5"
-                cy="13.5"
-                fill="#828282"
-                r="2.5"
-              />
-              <circle
-                cx="2.5"
-                cy="24.5"
-                fill="#828282"
-                r="2.5"
-              />
-            </svg>
-          </div>
         </div>
       </div>
       <span
@@ -4565,58 +4305,6 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
           <img
             src={Object {}}
           />
-        </div>
-      </div>
-      <div
-        className="kpi"
-      >
-        <div>
-          <div
-            className="timeRangeContent "
-            onClick={[Function]}
-          >
-            DAY
-          </div>
-        </div>
-        <div>
-          <div
-            onClick={[Function]}
-            style={
-              Object {
-                "alignItems": "center",
-                "cursor": "pointer",
-                "display": "flex",
-                "height": "90%",
-              }
-            }
-          >
-            <svg
-              fill="none"
-              height="22"
-              viewBox="0 0 5 27"
-              width="5"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle
-                cx="2.5"
-                cy="2.5"
-                fill="#828282"
-                r="2.5"
-              />
-              <circle
-                cx="2.5"
-                cy="13.5"
-                fill="#828282"
-                r="2.5"
-              />
-              <circle
-                cx="2.5"
-                cy="24.5"
-                fill="#828282"
-                r="2.5"
-              />
-            </svg>
-          </div>
         </div>
       </div>
       <span
