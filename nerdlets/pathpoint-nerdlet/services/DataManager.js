@@ -200,7 +200,7 @@ export default class DataManager {
 
   async UpdateData(timeRange, city, stages, kpis, timeRangeKpi) {
     if (this.accountId !== null) {
-      // console.log(`UPDATING-DATA: ${this.accountId}`);
+      console.log(`UPDATING-DATA: ${this.accountId}`);
       this.timeRange = timeRange;
       this.city = city;
       this.stages = stages;
@@ -1059,7 +1059,6 @@ export default class DataManager {
       //     values.count_by_stage[i].total_steps;
       //   congestion = Math.floor(congestion * 10000) / 100;
       // }
-      congestion = 15.45;
       this.stages[i].congestion.value = congestion;
       this.stages[i].congestion.percentage = congestion;
     }
@@ -1103,8 +1102,9 @@ export default class DataManager {
               measure.type === 'PRC' ? 'people' : 'traffic';
             tpc[idx].num_touchpoints++;
             tpc[idx].total_count += count;
-            tpc[idx].total_congestion +=
-              measure.max_count > count ? measure.max_count - count : 0;
+            if (measure.max_count < count) {
+              tpc[idx].total_congestion += count - measure.max_count;
+            }
             // tpc[idx].average = tpc[idx].total_count / tpc[idx].num_touchpoints;
             this.UpdateStepsIndexes(
               touchpoint.relation_steps,
@@ -1146,7 +1146,7 @@ export default class DataManager {
     //     });
     //   }
     // });
-    // console.log('TPC:', tpc);
+    console.log('TPC:', tpc);
     return {
       count_by_stage: tpc
     };
@@ -2429,24 +2429,29 @@ export default class DataManager {
             switch (tp.measure_points[0].type) {
               case 'PRC':
               case 'PCC':
-                tp.measure_points[0].min_count = datos.min_count;
-                tp.measure_points[0].max_count = datos.max_count;
+                tp.measure_points[0].min_count = parseInt(datos.min_count);
+                tp.measure_points[0].max_count = parseInt(datos.max_count);
                 break;
               case 'APP':
               case 'FRT':
-                tp.measure_points[0].min_apdex = datos.min_apdex;
-                tp.measure_points[0].max_response_time =
-                  datos.max_response_time;
-                tp.measure_points[0].max_error_percentage =
-                  datos.max_error_percentage;
+                tp.measure_points[0].min_apdex = parseFloat(datos.min_apdex);
+                tp.measure_points[0].max_response_time = parseFloat(
+                  datos.max_response_time
+                );
+                tp.measure_points[0].max_error_percentage = parseFloat(
+                  datos.max_error_percentage
+                );
                 break;
               case 'SYN':
-                tp.measure_points[0].max_avg_response_time =
-                  datos.max_avg_response_time;
-                tp.measure_points[0].max_total_check_time =
-                  datos.max_total_check_time;
-                tp.measure_points[0].min_success_percentage =
-                  datos.min_success_percentage;
+                tp.measure_points[0].max_avg_response_time = parseFloat(
+                  datos.max_avg_response_time
+                );
+                tp.measure_points[0].max_total_check_time = parseFloat(
+                  datos.max_total_check_time
+                );
+                tp.measure_points[0].min_success_percentage = parseFloat(
+                  datos.min_success_percentage
+                );
                 break;
             }
             this.SetStorageTouchpoints();
