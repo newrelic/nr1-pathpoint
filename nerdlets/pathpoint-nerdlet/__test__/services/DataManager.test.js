@@ -2449,7 +2449,7 @@ describe('Datamanager service', () => {
             {
               type: 'WLD',
               query:
-                "SELECT sum(*) as session FROM Public_APICall WHERE awsRegion='queue'",
+                "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
               status_value: true
             }
           ]
