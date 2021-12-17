@@ -1825,7 +1825,9 @@ export default class DataManager {
               query: query.query,
               timeout: query_timeout,
               min_count: query.min_count,
-              max_count: query.max_count,
+              max_count: Reflect.has(query, 'max_count')
+                ? query.max_count
+                : query.min_count * 1.5,
               session_count: 0
             };
           } else if (query.type === this.measureNames[1]) {
@@ -1834,7 +1836,9 @@ export default class DataManager {
               query: query.query,
               timeout: query_timeout,
               min_count: query.min_count,
-              max_count: query.max_count,
+              max_count: Reflect.has(query, 'max_count')
+                ? query.max_count
+                : query.min_count * 1.5,
               transaction_count: 0
             };
           } else if (query.type === this.measureNames[2]) {
