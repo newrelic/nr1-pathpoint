@@ -2386,8 +2386,8 @@ describe('Datamanager service', () => {
     ];
     dataManager.CountryCalculateUpdates(element);
     expect(dataManager.stages[0].congestion).toEqual({
-      value: 400,
-      percentage: 400
+      value: 0,
+      percentage: 0
     });
   });
 
@@ -2460,18 +2460,13 @@ describe('Datamanager service', () => {
     expect(result).toEqual({
       count_by_stage: [
         {
-          above_avg: -1,
-          average: 20,
           capacity_link: '',
           capacity_status: true,
-          max_congestion: 20,
-          num_steps_over_average: 1,
           num_touchpoints: 2,
-          steps_indexes: [1],
-          steps_max_cong: [1],
-          steps_over_percentage_indexes: [1],
+          steps_indexes: [],
+          steps_max_cong: [],
+          total_congestion: 0,
           total_count: 40,
-          total_steps: 1,
           traffic_type: 'traffic'
         }
       ]
