@@ -450,15 +450,6 @@ describe('<MainContainer/>', () => {
   it('BoootstrapApplication', async () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
-    // instance.setState({
-    //   stages: stages,
-    //   colors: colors,
-    //   version: '1.0.0',
-    //   accountId: 123,
-    //   kpis: kpis,
-    //   totalContainers: 0,
-    //   accountIDs: [{ name: 'NAME', id: 0 }]
-    // });
     instance.DataManager = {
       BootstrapInitialData: jest.fn().mockReturnValue({
         stages,
@@ -1459,13 +1450,6 @@ describe('<MainContainer/>', () => {
     instance.ExecuteSetCanaryData();
   });
 
-  it('clearStepsSixthSense', () => {
-    const mainContainer = shallow(<MainContainer />);
-    const instance = mainContainer.instance();
-    instance.state.stages = stages;
-    instance.clearStepsSixthSense();
-  });
-
   it('ToggleCanaryIcon with no iconCanaryStatus and showCanaryWelcomeMat', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
@@ -1589,30 +1573,6 @@ describe('<MainContainer/>', () => {
     instance.setStepsHistoricError = jest.fn();
     instance.updateHistoricErrors();
   });
-
-  // it('setStepsHistoricError', () => {
-  //   const mainContainer = shallow(<MainContainer />);
-  //   const instance = mainContainer.instance();
-  //   instance.state.stages = stages;
-  //   instance.setStepsHistoricError(1, 'ST1-LINE1-SS1, ST2-LINE2-SS2');
-  // });
-
-  // it('updateHistoricErrors', () => {
-  //   const mainContainer = shallow(<MainContainer />);
-  //   const instance = mainContainer.instance();
-  //   instance.state.stages = stages;
-  //   instance.clearStepsHistoricError = jest.fn();
-  //   instance.updateHistoricErrors();
-  // });
-
-  // it('updateHistoricErrors with touchpoint error', () => {
-  //   const mainContainer = shallow(<MainContainer />);
-  //   const instance = mainContainer.instance();
-  //   instance.state.stages = stages;
-  //   instance.state.stages[0].touchpoints[0].history_error = true;
-  //   instance.clearStepsHistoricError = jest.fn();
-  //   instance.updateHistoricErrors();
-  // });
 
   it('ToggleFireIcon', () => {
     const mainContainer = shallow(<MainContainer />);

@@ -92,7 +92,6 @@ describe('<QueryFormModal/>', () => {
 
   it('Simulate onChange of input', () => {
     const onChange = jest.fn();
-    // eslint-disable-next-line no-unused-vars
     const bodyRender = mount(
       <BodyTuneFormModal
         handleOnChange={jest.fn()}
@@ -119,22 +118,7 @@ describe('<QueryFormModal/>', () => {
         handleSaveUpdateTune={jest.fn()}
       />
     );
-    // const result = bodyRender.renderField({
-    //   id: 'min_success_percentage',
-    //   name: 'min_success_percentage',
-    //   label: '% Success Rate (Min)',
-    //   defaultValue: 98,
-    //   onChange: onChange
-    // });
-    // const bodyTuneForm = mount(
-    //   <renderField
-    //     id="min_success_percentage"
-    //     name="min_success_percentage"
-    //     label="% Success Rate (Min)"
-    //     defaultValue={98}
-    //     onChange={onChange}
-    //   />
-    // );
+    expect(bodyRender).toBeTruthy();
     expect(onChange).toHaveBeenCalledTimes(0);
   });
 

@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 const Step = ({
   step,
   onclickStep,
-  iconSixthSenseStatus,
   iconGoutStatus,
   latencyStatus,
   iconCanaryStatus,
@@ -42,8 +41,7 @@ const Step = ({
                         iconGoutStatus,
                         darkColor,
                         iconCanaryStatus,
-                        latencyStatus,
-                        iconSixthSenseStatus
+                        latencyStatus
                       ),
                       color: TextColorStep(
                         iconGoutStatus,
@@ -71,8 +69,7 @@ const Step = ({
                       iconGoutStatus,
                       darkColor,
                       iconCanaryStatus,
-                      latencyStatus,
-                      iconSixthSenseStatus
+                      latencyStatus
                     ),
                     color: TextColorStep(
                       iconGoutStatus,
@@ -128,8 +125,7 @@ const BackgroundSubStep = (
   iconGoutStatus,
   darkColor,
   iconCanaryStatus,
-  latencyStatus,
-  iconSixthSenseStatus
+  latencyStatus
 ) => {
   if (iconGoutStatus && step.dark) {
     return darkColor;
@@ -141,10 +137,6 @@ const BackgroundSubStep = (
 
   if (iconCanaryStatus && step.canary_state) {
     return '#F2CA4B';
-  }
-
-  if (iconSixthSenseStatus && step.sixth_sense) {
-    return '#C0C0C0';
   }
 
   return 'white';
@@ -178,7 +170,6 @@ export default Step;
 Step.propTypes = {
   step: PropTypes.object,
   onclickStep: PropTypes.func.isRequired,
-  iconSixthSenseStatus: PropTypes.bool.isRequired,
   iconGoutStatus: PropTypes.bool.isRequired,
   latencyStatus: PropTypes.bool.isRequired,
   iconCanaryStatus: PropTypes.bool.isRequired,

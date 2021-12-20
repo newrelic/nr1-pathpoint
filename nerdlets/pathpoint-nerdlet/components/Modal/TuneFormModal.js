@@ -82,41 +82,57 @@ const RenderForm = (datos, handleOnChange) => {
   switch (datos[0].type) {
     case 'PRC':
       return (
-        <div
-          style={{
-            height: '40px',
-            width: '320px'
-          }}
-        >
-          {renderField({
-            label: 'Session Count (Min)',
-            defaultValue: datos[0].min_count,
-            id: 'min_count',
-            onChange: handleOnChange,
-            name: 'min_count',
-            key: 'Min',
-            compare: datos[0].session_count
-          })}
-        </div>
+        <>
+          <div style={{ height: '40px', width: '320px' }}>
+            {renderField({
+              label: 'Session Count (Min)',
+              defaultValue: datos[0].min_count,
+              id: 'min_count',
+              onChange: handleOnChange,
+              name: 'min_count',
+              key: 'Min',
+              compare: datos[0].session_count
+            })}
+          </div>
+          <div style={{ height: '40px', width: '320px' }}>
+            {renderField({
+              label: 'Session Count (Max)',
+              defaultValue: datos[0].max_count,
+              id: 'max_count',
+              onChange: handleOnChange,
+              name: 'max_count',
+              key: 'Max',
+              compare: datos[0].session_count
+            })}
+          </div>
+        </>
       );
     case 'PCC':
       return (
-        <div
-          style={{
-            height: '40px',
-            width: '320px'
-          }}
-        >
-          {renderField({
-            label: 'Transactions Count (Min)',
-            defaultValue: datos[0].min_count,
-            id: 'min_count',
-            onChange: handleOnChange,
-            name: 'min_count',
-            key: 'Min',
-            compare: datos[0].transaction_count
-          })}
-        </div>
+        <>
+          <div style={{ height: '40px', width: '320px' }}>
+            {renderField({
+              label: 'Transactions Count (Min)',
+              defaultValue: datos[0].min_count,
+              id: 'min_count',
+              onChange: handleOnChange,
+              name: 'min_count',
+              key: 'Min',
+              compare: datos[0].transaction_count
+            })}
+          </div>
+          <div style={{ height: '40px', width: '320px' }}>
+            {renderField({
+              label: 'Transactions Count (Max)',
+              defaultValue: datos[0].max_count,
+              id: 'max_count',
+              onChange: handleOnChange,
+              name: 'max_count',
+              key: 'Max',
+              compare: datos[0].transaction_count
+            })}
+          </div>
+        </>
       );
     case 'APP':
     case 'FRT':

@@ -31,22 +31,6 @@ describe('JsonConfigurationFormModal component', () => {
         validateKpiQuery={validateKpiQuery}
       />
     );
-    // const FormControl = component.find('input').at(0);
-    // const file = {
-    //   name: 'script.json',
-    //   lastModified: 1635947487585,
-    //   size: 4402,
-    //   type: 'application/json',
-    //   webkitRelativePath: ''
-    // };
-    // const blob = new Blob([file], { type: 'text/html' });
-    // const e = {
-    //   target: {
-    //     checked: true,
-    //     files: ['blob']
-    //   }
-    // };
-    // FormControl.simulate('change', e);
     expect(component.exists()).toBe(true);
   });
 

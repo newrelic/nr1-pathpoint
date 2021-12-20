@@ -12,8 +12,6 @@ import fireIcon from '../../images/FireIcon.svg';
 import fireIconOn from '../../images/FireIconOn.svg';
 import canaryIcon from '../../images/CanaryIcon.svg';
 import canaryIconOn from '../../images/CanaryIconOn.svg';
-import sixthSenseIcon from '../../images/SixthSense.svg';
-import sixthSenseIconOn from '../../images/SixthSenseOn.svg';
 // import goutIcon from '../../images/GoutIcon.svg';
 // import goutIconOn from '../../images/goutBlack.svg';
 
@@ -25,8 +23,6 @@ import kpiStatusUpper from '../../images/kpiStatusUpper.svg';
 import kpiStatusLower from '../../images/kpiStatusLower.svg';
 
 const Header = ({
-  iconSixthSenseStatus,
-  activeSixthSenseIcon,
   iconCanaryStatus,
   iconFireStatus,
   iconStartStatus,
@@ -119,18 +115,6 @@ const Header = ({
       />
       <div className="containerRigthtHand">
         <div className="distributionIcons">
-          <div
-            style={{ visibility: 'hidden' }}
-            className="fireIconContainer"
-            onClick={() => {
-              activeSixthSenseIcon();
-            }}
-          >
-            <img
-              style={{ height: '18px' }}
-              src={iconSixthSenseStatus ? sixthSenseIconOn : sixthSenseIcon}
-            />
-          </div>
           <div
             className="fireIconContainer"
             onClick={() => {
@@ -339,8 +323,6 @@ export {
 export default Header;
 
 Header.propTypes = {
-  iconSixthSenseStatus: PropTypes.bool.isRequired,
-  activeSixthSenseIcon: PropTypes.func,
   iconCanaryStatus: PropTypes.bool.isRequired,
   iconFireStatus: PropTypes.bool.isRequired,
   iconStartStatus: PropTypes.bool.isRequired,

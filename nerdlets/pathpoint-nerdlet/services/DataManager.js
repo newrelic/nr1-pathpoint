@@ -1047,13 +1047,12 @@ export default class DataManager {
       this.stages[i].capacity = values.count_by_stage[i].capacity_status;
       this.stages[i].capacity_link = values.count_by_stage[i].capacity_link;
 
-      let congestion = 0;
-      if (values.count_by_stage[i].total_steps !== 0) {
-        congestion =
-          values.count_by_stage[i].num_steps_over_average /
-          values.count_by_stage[i].total_steps;
-        congestion = Math.floor(congestion * 10000) / 100;
-      }
+      let congestion =
+        values.count_by_stage[i].total_count !== 0
+          ? values.count_by_stage[i].total_congestion /
+            values.count_by_stage[i].total_count
+          : 0;
+      congestion = Math.floor(congestion * 10000) / 100;
       this.stages[i].congestion.value = congestion;
       this.stages[i].congestion.percentage = congestion;
     }
@@ -1062,24 +1061,19 @@ export default class DataManager {
 
   Getmeasures(touchpoints_by_country) {
     const tpc = []; // Count Touchpoints totals by Stage
-    this.stages.forEach(stage => {
+    while (tpc.length < this.stages.length) {
       const rec = {
         traffic_type: 'traffic',
         num_touchpoints: 0,
-        average: 0,
         total_count: 0,
         steps_indexes: [],
-        total_steps: 0,
-        num_steps_over_average: 0,
-        max_congestion: 0,
+        total_congestion: 0,
         steps_max_cong: [],
-        above_avg: stage.percentage_above_avg,
-        steps_over_percentage_indexes: [],
         capacity_status: 'NO-VALUE',
         capacity_link: ''
       };
       tpc.push(rec);
-    });
+    }
     touchpoints_by_country.touchpoints.forEach(touchpoint => {
       if (touchpoint.status_on_off) {
         const idx = touchpoint.stage_index - 1;
@@ -1094,43 +1088,14 @@ export default class DataManager {
               measure.type === 'PRC' ? 'people' : 'traffic';
             tpc[idx].num_touchpoints++;
             tpc[idx].total_count += count;
-            tpc[idx].average = tpc[idx].total_count / tpc[idx].num_touchpoints;
-            this.UpdateStepsIndexes(
-              touchpoint.relation_steps,
-              tpc[idx].steps_indexes
-            );
-            tpc[idx].total_steps = tpc[idx].steps_indexes.length;
+            if (measure.max_count < count) {
+              tpc[idx].total_congestion += count - measure.max_count;
+              tpc[idx].steps_max_cong = touchpoint.relation_steps;
+            }
           }
           if (measure.type === 'WLD') {
             tpc[idx].capacity_status = measure.status_value;
             tpc[idx].capacity_link = this.GetWokloadTouchpointLink(touchpoint);
-          }
-        });
-      }
-    });
-    // Setting Count Steps Over Average
-    touchpoints_by_country.touchpoints.forEach(touchpoint => {
-      if (touchpoint.status_on_off) {
-        const idx = touchpoint.stage_index - 1;
-        touchpoint.measure_points.forEach(measure => {
-          let count = 0;
-          if (measure.type === 'PRC' || measure.type === 'PCC') {
-            count =
-              measure.type === 'PRC'
-                ? measure.session_count
-                : measure.transaction_count;
-            if (count > tpc[idx].average * (1 + tpc[idx].above_avg / 100)) {
-              this.UpdateStepsIndexes(
-                touchpoint.relation_steps,
-                tpc[idx].steps_over_percentage_indexes
-              );
-              tpc[idx].num_steps_over_average =
-                tpc[idx].steps_over_percentage_indexes.length;
-              if (tpc[idx].max_congestion < count) {
-                tpc[idx].max_congestion = count;
-                tpc[idx].steps_max_cong = touchpoint.relation_steps;
-              }
-            }
           }
         });
       }
@@ -1154,19 +1119,6 @@ export default class DataManager {
     return link;
   }
 
-  UpdateStepsIndexes(relation_steps, list) {
-    let list_string = '';
-    list.forEach(index => {
-      list_string += '-' + index + '-';
-    });
-    relation_steps.forEach(index => {
-      if (!list_string.includes('-' + index + '-')) {
-        list_string += '-' + index + '-';
-        list.push(index);
-      }
-    });
-  }
-
   UpdateMaxCongestionSteps(count_by_stage) {
     for (let i = 0; i < this.stages.length; i++) {
       this.stages[i].steps.forEach(step => {
@@ -1184,20 +1136,6 @@ export default class DataManager {
       });
     }
   }
-
-  // GetSessionsPercentage(sessions) {
-  //   if (sessions.length === 0) {
-  //     return 0;
-  //   }
-  //   let count = 0;
-  //   const currentTime = Math.floor(Date.now() / 1000);
-  //   sessions.forEach(session => {
-  //     if (currentTime - session.time > 5 * 60) {
-  //       count++;
-  //     }
-  //   });
-  //   return count / sessions.length;
-  // }
 
   UpdateErrorCondition(actual, nextvalue) {
     if (actual === 'danger') {
@@ -1548,7 +1486,6 @@ export default class DataManager {
         title: stage.title,
         active_dotted: stage.active_dotted,
         arrowMode: stage.arrowMode,
-        percentage_above_avg: stage.percentage_above_avg,
         steps: [],
         touchpoints: []
       });
@@ -1652,6 +1589,7 @@ export default class DataManager {
                   query: measure.query,
                   query_timeout: timeout,
                   min_count: measure.min_count,
+                  max_count: measure.max_count,
                   measure_time: measure_time
                 });
               } else if (measure.type === 'PCC') {
@@ -1661,6 +1599,7 @@ export default class DataManager {
                   query: measure.query,
                   query_timeout: timeout,
                   min_count: measure.min_count,
+                  max_count: measure.max_count,
                   measure_time: measure_time
                 });
               } else if (measure.type === 'APP') {
@@ -1821,7 +1760,6 @@ export default class DataManager {
         active_dotted: stage.active_dotted,
         active_dotted_color: '#828282',
         arrowMode: stage.arrowMode,
-        percentage_above_avg: stage.percentage_above_avg,
         steps: [],
         touchpoints: []
       };
@@ -1887,6 +1825,9 @@ export default class DataManager {
               query: query.query,
               timeout: query_timeout,
               min_count: query.min_count,
+              max_count: Reflect.has(query, 'max_count')
+                ? query.max_count
+                : query.min_count * 1.5,
               session_count: 0
             };
           } else if (query.type === this.measureNames[1]) {
@@ -1895,6 +1836,9 @@ export default class DataManager {
               query: query.query,
               timeout: query_timeout,
               min_count: query.min_count,
+              max_count: Reflect.has(query, 'max_count')
+                ? query.max_count
+                : query.min_count * 1.5,
               transaction_count: 0
             };
           } else if (query.type === this.measureNames[2]) {
@@ -2416,23 +2360,29 @@ export default class DataManager {
             switch (tp.measure_points[0].type) {
               case 'PRC':
               case 'PCC':
-                tp.measure_points[0].min_count = datos.min_count;
+                tp.measure_points[0].min_count = parseInt(datos.min_count);
+                tp.measure_points[0].max_count = parseInt(datos.max_count);
                 break;
               case 'APP':
               case 'FRT':
-                tp.measure_points[0].min_apdex = datos.min_apdex;
-                tp.measure_points[0].max_response_time =
-                  datos.max_response_time;
-                tp.measure_points[0].max_error_percentage =
-                  datos.max_error_percentage;
+                tp.measure_points[0].min_apdex = parseFloat(datos.min_apdex);
+                tp.measure_points[0].max_response_time = parseFloat(
+                  datos.max_response_time
+                );
+                tp.measure_points[0].max_error_percentage = parseFloat(
+                  datos.max_error_percentage
+                );
                 break;
               case 'SYN':
-                tp.measure_points[0].max_avg_response_time =
-                  datos.max_avg_response_time;
-                tp.measure_points[0].max_total_check_time =
-                  datos.max_total_check_time;
-                tp.measure_points[0].min_success_percentage =
-                  datos.min_success_percentage;
+                tp.measure_points[0].max_avg_response_time = parseFloat(
+                  datos.max_avg_response_time
+                );
+                tp.measure_points[0].max_total_check_time = parseFloat(
+                  datos.max_total_check_time
+                );
+                tp.measure_points[0].min_success_percentage = parseFloat(
+                  datos.min_success_percentage
+                );
                 break;
             }
             this.SetStorageTouchpoints();
