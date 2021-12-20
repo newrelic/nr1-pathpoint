@@ -65,7 +65,6 @@ describe('Header component', () => {
     const header = create(
       <Header
         iconSixthSenseStatus={false}
-        activeSixthSenseIcon={jest.fn()}
         iconCanaryStatus={false}
         iconFireStatus={false}
         iconStartStatus={false}
@@ -94,7 +93,6 @@ describe('Header component', () => {
     const header = create(
       <Header
         iconSixthSenseStatus
-        activeSixthSenseIcon={jest.fn()}
         iconCanaryStatus={false}
         iconFireStatus={false}
         iconStartStatus={false}
@@ -112,9 +110,7 @@ describe('Header component', () => {
         changeTimeRangeKpi={jest.fn()}
         kpis={kpis}
         updateDataKpisChecked={jest.fn()}
-        // ---- quitar este atributo
         DisplayConsole={jest.fn()}
-        // --------------------------
         credentials={credentials}
         accountId={2710112}
       />
@@ -126,7 +122,6 @@ describe('Header component', () => {
     const header = create(
       <Header
         iconSixthSenseStatus={false}
-        activeSixthSenseIcon={jest.fn()}
         iconCanaryStatus
         iconFireStatus={false}
         iconStartStatus={false}
@@ -144,9 +139,7 @@ describe('Header component', () => {
         changeTimeRangeKpi={jest.fn()}
         kpis={kpis}
         updateDataKpisChecked={jest.fn()}
-        // ---- quitar este atributo
         DisplayConsole={jest.fn()}
-        // --------------------------
         credentials={credentials}
         accountId={2710112}
       />
@@ -158,7 +151,6 @@ describe('Header component', () => {
     const header = create(
       <Header
         iconSixthSenseStatus={false}
-        activeSixthSenseIcon={jest.fn()}
         iconCanaryStatus={false}
         iconFireStatus
         iconStartStatus={false}
@@ -176,9 +168,7 @@ describe('Header component', () => {
         changeTimeRangeKpi={jest.fn()}
         kpis={kpis}
         updateDataKpisChecked={jest.fn()}
-        // ---- quitar este atributo
         DisplayConsole={jest.fn()}
-        // --------------------------
         credentials={credentials}
         accountId={2710112}
       />
@@ -190,7 +180,6 @@ describe('Header component', () => {
     const header = create(
       <Header
         iconSixthSenseStatus={false}
-        activeSixthSenseIcon={jest.fn()}
         iconCanaryStatus={false}
         iconFireStatus={false}
         iconStartStatus
@@ -208,9 +197,7 @@ describe('Header component', () => {
         changeTimeRangeKpi={jest.fn()}
         kpis={kpis}
         updateDataKpisChecked={jest.fn()}
-        // ---- quitar este atributo
         DisplayConsole={jest.fn()}
-        // --------------------------
         credentials={credentials}
         accountId={2710112}
       />
@@ -222,7 +209,6 @@ describe('Header component', () => {
     const header = create(
       <Header
         iconSixthSenseStatus={false}
-        activeSixthSenseIcon={jest.fn()}
         iconCanaryStatus={false}
         iconFireStatus={false}
         iconStartStatus={false}
@@ -240,9 +226,7 @@ describe('Header component', () => {
         changeTimeRangeKpi={jest.fn()}
         kpis={kpis}
         updateDataKpisChecked={jest.fn()}
-        // ---- quitar este atributo
         DisplayConsole={jest.fn()}
-        // --------------------------
         credentials={credentials}
         accountId={2710112}
       />
@@ -254,7 +238,6 @@ describe('Header component', () => {
     const header = create(
       <Header
         iconSixthSenseStatus={false}
-        activeSixthSenseIcon={jest.fn()}
         iconCanaryStatus={false}
         iconFireStatus={false}
         iconStartStatus={false}
@@ -272,9 +255,7 @@ describe('Header component', () => {
         changeTimeRangeKpi={jest.fn()}
         kpis={kpis}
         updateDataKpisChecked={jest.fn()}
-        // ---- quitar este atributo
         DisplayConsole={jest.fn()}
-        // --------------------------
         credentials={credentials}
         accountId={2710112}
       />
@@ -286,7 +267,6 @@ describe('Header component', () => {
     const header = create(
       <Header
         iconSixthSenseStatus={false}
-        activeSixthSenseIcon={jest.fn()}
         iconCanaryStatus={false}
         iconFireStatus={false}
         iconStartStatus={false}
@@ -307,9 +287,7 @@ describe('Header component', () => {
         changeTimeRangeKpi={jest.fn()}
         kpis={kpis}
         updateDataKpisChecked={jest.fn()}
-        // ---- quitar este atributo
         DisplayConsole={jest.fn()}
-        // --------------------------
         credentials={credentials}
         accountId={2710112}
       />
@@ -321,7 +299,6 @@ describe('Header component', () => {
     const header = create(
       <Header
         iconSixthSenseStatus={false}
-        activeSixthSenseIcon={jest.fn()}
         iconCanaryStatus={false}
         iconFireStatus={false}
         iconStartStatus={false}
@@ -343,46 +320,7 @@ describe('Header component', () => {
         changeTimeRangeKpi={jest.fn()}
         kpis={kpis}
         updateDataKpisChecked={jest.fn()}
-        // ---- quitar este atributo
         DisplayConsole={jest.fn()}
-        // --------------------------
-        credentials={credentials}
-        accountId={2710112}
-      />
-    );
-    expect(header.toJSON()).toMatchSnapshot();
-  });
-
-  test('Header component with emulate activeSixthSenseIcon', async () => {
-    const handleAddToCart = jest.fn();
-    const header = create(
-      <Header
-        iconSixthSenseStatus={false}
-        activeSixthSenseIcon={handleAddToCart}
-        iconCanaryStatus={false}
-        iconFireStatus={false}
-        iconStartStatus={false}
-        changeTimeRange={jest.fn()}
-        iconGoutStatus={false}
-        showLeftPanel={false}
-        openLeftMenu={jest.fn()}
-        handleContextMenuFire={jest.fn()}
-        handleContextMenuGout={jest.fn()}
-        ToggleHeaderButtons={jest.fn()}
-        logoSetup={{
-          type: 'url',
-          url:
-            'https://www.howdeniberia.com/wp-content/uploads/2018/05/Disney-logo-png-transparent-download.png'
-        }}
-        timeRangeKpi={{
-          index: 0
-        }}
-        changeTimeRangeKpi={jest.fn()}
-        kpis={kpis}
-        updateDataKpisChecked={jest.fn()}
-        // ---- quitar este atributo
-        DisplayConsole={jest.fn()}
-        // --------------------------
         credentials={credentials}
         accountId={2710112}
       />

@@ -25,7 +25,7 @@ exports[`Arrow component Arrow component with latency 1`] = `
     className="textLevelBar"
     stroke="#144867"
     strokeWidth={2}
-    x={-68}
+    x={-78}
     y={43}
   >
     Dummy Text
@@ -33,7 +33,7 @@ exports[`Arrow component Arrow component with latency 1`] = `
   <text
     className="textLevelBar"
     fill="#f0f0f0"
-    x={-68}
+    x={-78}
     y={43}
   >
     Dummy Text
@@ -42,7 +42,7 @@ exports[`Arrow component Arrow component with latency 1`] = `
     className="textLevelBar"
     stroke="#144867"
     strokeWidth={2}
-    x={12}
+    x={2}
     y={43}
   >
     10
@@ -51,7 +51,7 @@ exports[`Arrow component Arrow component with latency 1`] = `
   <text
     className="textLevelBar"
     fill="#f0f0f0"
-    x={12}
+    x={2}
     y={43}
   >
     10
@@ -65,7 +65,7 @@ exports[`Arrow component Arrow component with latency 1`] = `
       strokeWidth={2}
       viewBox="0 0 32 15"
       width="30"
-      x={85}
+      x={55}
       y="33"
     >
       <path
@@ -78,7 +78,7 @@ exports[`Arrow component Arrow component with latency 1`] = `
       height="15"
       viewBox="0 0 32 15"
       width="30"
-      x={85}
+      x={55}
       y="33"
     >
       <path
@@ -115,7 +115,7 @@ exports[`Arrow component Arrow component with no latency 1`] = `
     className="textLevelBar"
     stroke="#144867"
     strokeWidth={2}
-    x={-68}
+    x={-78}
     y={43}
   >
     Dummy Text
@@ -123,7 +123,7 @@ exports[`Arrow component Arrow component with no latency 1`] = `
   <text
     className="textLevelBar"
     fill="#f0f0f0"
-    x={-68}
+    x={-78}
     y={43}
   >
     Dummy Text
@@ -132,7 +132,7 @@ exports[`Arrow component Arrow component with no latency 1`] = `
     className="textLevelBar"
     stroke="#144867"
     strokeWidth={2}
-    x={12}
+    x={2}
     y={43}
   >
     10
@@ -141,7 +141,7 @@ exports[`Arrow component Arrow component with no latency 1`] = `
   <text
     className="textLevelBar"
     fill="#f0f0f0"
-    x={12}
+    x={2}
     y={43}
   >
     10
@@ -155,7 +155,7 @@ exports[`Arrow component Arrow component with no latency 1`] = `
       strokeWidth={2}
       viewBox="0 0 32 15"
       width="30"
-      x={85}
+      x={55}
       y="33"
     >
       <path
@@ -168,7 +168,7 @@ exports[`Arrow component Arrow component with no latency 1`] = `
       height="15"
       viewBox="0 0 32 15"
       width="30"
-      x={85}
+      x={55}
       y="33"
     >
       <path

@@ -53,24 +53,6 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
           <div
             className="fireIconContainer"
             onClick={[Function]}
-            style={
-              Object {
-                "visibility": "hidden",
-              }
-            }
-          >
-            <img
-              src={Object {}}
-              style={
-                Object {
-                  "height": "18px",
-                }
-              }
-            />
-          </div>
-          <div
-            className="fireIconContainer"
-            onClick={[Function]}
           >
             <img
               src={Object {}}
@@ -855,24 +837,6 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
           <div
             className="fireIconContainer"
             onClick={[Function]}
-            style={
-              Object {
-                "visibility": "hidden",
-              }
-            }
-          >
-            <img
-              src={Object {}}
-              style={
-                Object {
-                  "height": "18px",
-                }
-              }
-            />
-          </div>
-          <div
-            className="fireIconContainer"
-            onClick={[Function]}
           >
             <img
               src={Object {}}
@@ -1654,24 +1618,6 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
         <div
           className="distributionIcons"
         >
-          <div
-            className="fireIconContainer"
-            onClick={[Function]}
-            style={
-              Object {
-                "visibility": "hidden",
-              }
-            }
-          >
-            <img
-              src={Object {}}
-              style={
-                Object {
-                  "height": "18px",
-                }
-              }
-            />
-          </div>
           <div
             className="fireIconContainer"
             onClick={[Function]}
@@ -2505,24 +2451,6 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
           <div
             className="fireIconContainer"
             onClick={[Function]}
-            style={
-              Object {
-                "visibility": "hidden",
-              }
-            }
-          >
-            <img
-              src={Object {}}
-              style={
-                Object {
-                  "height": "18px",
-                }
-              }
-            />
-          </div>
-          <div
-            className="fireIconContainer"
-            onClick={[Function]}
           >
             <img
               src={Object {}}
@@ -3307,24 +3235,6 @@ exports[`<MainContainer/> Values stages 1`] = `
           <div
             className="fireIconContainer"
             onClick={[Function]}
-            style={
-              Object {
-                "visibility": "hidden",
-              }
-            }
-          >
-            <img
-              src={Object {}}
-              style={
-                Object {
-                  "height": "18px",
-                }
-              }
-            />
-          </div>
-          <div
-            className="fireIconContainer"
-            onClick={[Function]}
           >
             <img
               src={Object {}}
@@ -4044,7 +3954,7 @@ exports[`<MainContainer/> Values stages 1`] = `
                   className="textLevelBar"
                   stroke="#144867"
                   strokeWidth={2}
-                  x={170}
+                  x={160}
                   y={43}
                 >
                   
@@ -4052,7 +3962,7 @@ exports[`<MainContainer/> Values stages 1`] = `
                 <text
                   className="textLevelBar"
                   fill="#f0f0f0"
-                  x={170}
+                  x={160}
                   y={43}
                 >
                   
@@ -4061,7 +3971,7 @@ exports[`<MainContainer/> Values stages 1`] = `
                   className="textLevelBar"
                   stroke="#144867"
                   strokeWidth={2}
-                  x={250}
+                  x={240}
                   y={43}
                 >
                   15
@@ -4070,7 +3980,7 @@ exports[`<MainContainer/> Values stages 1`] = `
                 <text
                   className="textLevelBar"
                   fill="#f0f0f0"
-                  x={250}
+                  x={240}
                   y={43}
                 >
                   15
@@ -4412,24 +4322,6 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
         <div
           className="distributionIcons"
         >
-          <div
-            className="fireIconContainer"
-            onClick={[Function]}
-            style={
-              Object {
-                "visibility": "hidden",
-              }
-            }
-          >
-            <img
-              src={Object {}}
-              style={
-                Object {
-                  "height": "18px",
-                }
-              }
-            />
-          </div>
           <div
             className="fireIconContainer"
             onClick={[Function]}

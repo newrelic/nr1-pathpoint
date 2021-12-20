@@ -39,7 +39,6 @@ export default class TouchPointerContainer extends React.Component {
       colors,
       iconFireStatus,
       checkAllStatus,
-      iconSixthSenseStatus,
       element,
       visible,
       idVisible,
@@ -63,7 +62,6 @@ export default class TouchPointerContainer extends React.Component {
               colors={colors}
               iconFireStatus={iconFireStatus}
               checkAllStatus={checkAllStatus}
-              iconSixthSenseStatus={iconSixthSenseStatus}
               element={element}
               openModalParent={openModalParent}
               updateTouchpointOnOff={updateTouchpointOnOff}
@@ -82,7 +80,6 @@ TouchPointerContainer.propTypes = {
   colors: PropTypes.object.isRequired,
   iconFireStatus: PropTypes.bool.isRequired,
   checkAllStatus: PropTypes.bool.isRequired,
-  iconSixthSenseStatus: PropTypes.bool.isRequired,
   element: PropTypes.object,
   visible: PropTypes.bool.isRequired,
   idVisible: PropTypes.string.isRequired,

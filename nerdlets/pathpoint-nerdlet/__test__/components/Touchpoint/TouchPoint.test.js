@@ -195,7 +195,7 @@ describe('<Touchpoint/>', () => {
       const result = wrapper
         .instance()
         .DisplayItem(touchPoint, false, false, true);
-      expect(result).toMatch('flex');
+      expect(result).toMatch('none');
     });
 
     it('flex value checkAllStatus', () => {

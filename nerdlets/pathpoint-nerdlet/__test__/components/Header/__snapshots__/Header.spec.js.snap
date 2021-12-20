@@ -129,322 +129,6 @@ exports[`Header component Header component with default data 1`] = `
       <div
         className="fireIconContainer"
         onClick={[Function]}
-        style={
-          Object {
-            "visibility": "hidden",
-          }
-        }
-      >
-        <img
-          src={Object {}}
-          style={
-            Object {
-              "height": "18px",
-            }
-          }
-        />
-      </div>
-      <div
-        className="fireIconContainer"
-        onClick={[Function]}
-      >
-        <img
-          src={Object {}}
-          style={
-            Object {
-              "height": "18px",
-            }
-          }
-        />
-      </div>
-      <div
-        className="fireIconContainer"
-        onClick={[Function]}
-        onMouseDown={[MockFunction]}
-      >
-        <img
-          src={Object {}}
-          style={
-            Object {
-              "height": "18px",
-            }
-          }
-        />
-      </div>
-      <div
-        className="custom-select-wrapper"
-        onClick={[Function]}
-      >
-        <div
-          className="custom-select"
-          style={Object {}}
-        >
-          <div
-            className="custom-select__trigger"
-          >
-            <span
-              style={
-                Object {
-                  "overflow": "hidden",
-                  "textOverflow": "ellipsis",
-                  "whiteSpace": "nowrap",
-                  "width": "230px",
-                }
-              }
-            >
-              last 5 minutes
-            </span>
-            <div
-              className="arrow"
-            />
-          </div>
-          <div
-            className="custom-options"
-            style={Object {}}
-          >
-            <span
-              className="custom-option selected"
-              onClick={[Function]}
-            >
-              last 5 minutes
-            </span>
-            <span
-              className="custom-option"
-              onClick={[Function]}
-            >
-              30 minutes ago
-            </span>
-            <span
-              className="custom-option"
-              onClick={[Function]}
-            >
-              60 minutes ago
-            </span>
-            <span
-              className="custom-option"
-              onClick={[Function]}
-            >
-              3 hours ago
-            </span>
-            <span
-              className="custom-option"
-              onClick={[Function]}
-            >
-              6 hours ago
-            </span>
-            <span
-              className="custom-option"
-              onClick={[Function]}
-            >
-              12 hours ago
-            </span>
-            <span
-              className="custom-option"
-              onClick={[Function]}
-            >
-              24 hours ago
-            </span>
-            <span
-              className="custom-option"
-              onClick={[Function]}
-            >
-              3 days ago
-            </span>
-            <span
-              className="custom-option"
-              onClick={[Function]}
-            >
-              7 days ago
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      className="viewLogs"
-      onClick={[Function]}
-      style={
-        Object {
-          "cursor": "pointer",
-          "visibility": "hidden",
-        }
-      }
-    >
-      <svg
-        focusable="false"
-        role="img"
-        style={
-          Object {
-            "height": "20px",
-            "marginBottom": "-5px",
-            "width": "20px",
-          }
-        }
-        viewBox="0 0 16 16"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M7.7 0H2v15h11V5.3L7.7 0zm3.6 5H8V1.7L11.3 5zM3 14V1h4v5h5v8H3z"
-          fill="#007e8a"
-        />
-        <path
-          d="M5 8h5v1H5zM5 11h3v1H5z"
-          fill="#007e8a"
-        />
-      </svg>
-      See logs
-    </div>
-  </div>
-</div>
-`;
-
-exports[`Header component Header component with emulate activeSixthSenseIcon 1`] = `
-<div
-  className="containerHeader"
->
-  <div
-    className="quantityDinner"
-  >
-    <div
-      className="menuLogo"
-      onClick={[MockFunction]}
-    >
-      <img
-        height="12px"
-        src={Object {}}
-        width="18px"
-      />
-       
-    </div>
-    <div
-      className="logo-container"
-    >
-      <img
-        src="https://www.howdeniberia.com/wp-content/uploads/2018/05/Disney-logo-png-transparent-download.png"
-      />
-    </div>
-  </div>
-  <div
-    className="kpi"
-  >
-    <div>
-      <div
-        className="timeRangeContent "
-        onClick={[Function]}
-      >
-        DAY
-      </div>
-    </div>
-    <div
-      className="kpicontent"
-      onClick={[Function]}
-      style={
-        Object {
-          "cursor": "pointer",
-        }
-      }
-    >
-      <div
-        className="kpicontent--colorgrey kpicontent--size10"
-      >
-        Unique
-      </div>
-      <div
-        className="kpicontent--colorblack kpicontent--size12"
-      >
-        <div
-          className="kpi"
-        >
-          0
-          <span>
-            <div
-              className="kpi-status"
-            >
-              <img
-                src={Object {}}
-              />
-            </div>
-          </span>
-        </div>
-      </div>
-    </div>
-    <div>
-      <div
-        onClick={[Function]}
-        style={
-          Object {
-            "alignItems": "center",
-            "cursor": "pointer",
-            "display": "flex",
-            "height": "90%",
-          }
-        }
-      >
-        <svg
-          fill="none"
-          height="22"
-          viewBox="0 0 5 27"
-          width="5"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <circle
-            cx="2.5"
-            cy="2.5"
-            fill="#828282"
-            r="2.5"
-          />
-          <circle
-            cx="2.5"
-            cy="13.5"
-            fill="#828282"
-            r="2.5"
-          />
-          <circle
-            cx="2.5"
-            cy="24.5"
-            fill="#828282"
-            r="2.5"
-          />
-        </svg>
-      </div>
-    </div>
-  </div>
-  <span
-    className="budgetLoss"
-    style={
-      Object {
-        "color": false,
-        "visibility": "hidden",
-      }
-    }
-  />
-  <div
-    className="containerRigthtHand"
-  >
-    <div
-      className="distributionIcons"
-    >
-      <div
-        className="fireIconContainer"
-        onClick={[Function]}
-        style={
-          Object {
-            "visibility": "hidden",
-          }
-        }
-      >
-        <img
-          src={Object {}}
-          style={
-            Object {
-              "height": "18px",
-            }
-          }
-        />
-      </div>
-      <div
-        className="fireIconContainer"
-        onClick={[Function]}
       >
         <img
           src={Object {}}
@@ -722,24 +406,6 @@ exports[`Header component Header component with iconCanaryStatus 1`] = `
     <div
       className="distributionIcons"
     >
-      <div
-        className="fireIconContainer"
-        onClick={[Function]}
-        style={
-          Object {
-            "visibility": "hidden",
-          }
-        }
-      >
-        <img
-          src={Object {}}
-          style={
-            Object {
-              "height": "18px",
-            }
-          }
-        />
-      </div>
       <div
         className="fireIconContainer"
         onClick={[Function]}
@@ -1023,24 +689,6 @@ exports[`Header component Header component with iconFireStatus 1`] = `
       <div
         className="fireIconContainer"
         onClick={[Function]}
-        style={
-          Object {
-            "visibility": "hidden",
-          }
-        }
-      >
-        <img
-          src={Object {}}
-          style={
-            Object {
-              "height": "18px",
-            }
-          }
-        />
-      </div>
-      <div
-        className="fireIconContainer"
-        onClick={[Function]}
       >
         <img
           src={Object {}}
@@ -1318,24 +966,6 @@ exports[`Header component Header component with iconGoutStatus 1`] = `
     <div
       className="distributionIcons"
     >
-      <div
-        className="fireIconContainer"
-        onClick={[Function]}
-        style={
-          Object {
-            "visibility": "hidden",
-          }
-        }
-      >
-        <img
-          src={Object {}}
-          style={
-            Object {
-              "height": "18px",
-            }
-          }
-        />
-      </div>
       <div
         className="fireIconContainer"
         onClick={[Function]}
@@ -1619,24 +1249,6 @@ exports[`Header component Header component with iconSixthSenseStatus 1`] = `
       <div
         className="fireIconContainer"
         onClick={[Function]}
-        style={
-          Object {
-            "visibility": "hidden",
-          }
-        }
-      >
-        <img
-          src={Object {}}
-          style={
-            Object {
-              "height": "18px",
-            }
-          }
-        />
-      </div>
-      <div
-        className="fireIconContainer"
-        onClick={[Function]}
       >
         <img
           src={Object {}}
@@ -1914,24 +1526,6 @@ exports[`Header component Header component with iconStartStatus 1`] = `
     <div
       className="distributionIcons"
     >
-      <div
-        className="fireIconContainer"
-        onClick={[Function]}
-        style={
-          Object {
-            "visibility": "hidden",
-          }
-        }
-      >
-        <img
-          src={Object {}}
-          style={
-            Object {
-              "height": "18px",
-            }
-          }
-        />
-      </div>
       <div
         className="fireIconContainer"
         onClick={[Function]}
@@ -2215,24 +1809,6 @@ exports[`Header component Header component with logoSetup Text 1`] = `
       <div
         className="fireIconContainer"
         onClick={[Function]}
-        style={
-          Object {
-            "visibility": "hidden",
-          }
-        }
-      >
-        <img
-          src={Object {}}
-          style={
-            Object {
-              "height": "18px",
-            }
-          }
-        />
-      </div>
-      <div
-        className="fireIconContainer"
-        onClick={[Function]}
       >
         <img
           src={Object {}}
@@ -2513,24 +2089,6 @@ exports[`Header component Header component with logoSetup URL 1`] = `
       <div
         className="fireIconContainer"
         onClick={[Function]}
-        style={
-          Object {
-            "visibility": "hidden",
-          }
-        }
-      >
-        <img
-          src={Object {}}
-          style={
-            Object {
-              "height": "18px",
-            }
-          }
-        />
-      </div>
-      <div
-        className="fireIconContainer"
-        onClick={[Function]}
       >
         <img
           src={Object {}}
@@ -2808,24 +2366,6 @@ exports[`Header component Header component with showLeftPanel 1`] = `
     <div
       className="distributionIcons"
     >
-      <div
-        className="fireIconContainer"
-        onClick={[Function]}
-        style={
-          Object {
-            "visibility": "hidden",
-          }
-        }
-      >
-        <img
-          src={Object {}}
-          style={
-            Object {
-              "height": "18px",
-            }
-          }
-        />
-      </div>
       <div
         className="fireIconContainer"
         onClick={[Function]}
