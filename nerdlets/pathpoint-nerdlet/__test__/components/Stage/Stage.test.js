@@ -30,13 +30,6 @@ describe('<Stage/>', () => {
     }
   };
 
-  // eslint-disable-next-line no-unused-vars
-  const congestion1 = {
-    congestion: {
-      percentage: 10
-    }
-  };
-
   it('Render default values stage', () => {
     const wrapper = mount(
       <Stage
@@ -50,14 +43,12 @@ describe('<Stage/>', () => {
         totalCountStage={10}
         onClickStage={jest.fn()}
         colors={colors}
-        // --- borrar en todos
         congestion={{
           congestion: {
             percentage: 10
           }
         }}
         trafficIconType="traffic"
-        // ---------------------
         stage={{
           capacity_link: true,
           congestion: {
@@ -192,14 +183,12 @@ describe('<Stage/>', () => {
         totalCountStage={10}
         onClickStage={clickStage}
         colors={colors}
-        // ---borrar
         congestion={{
           congestion: {
             percentage: 10
           }
         }}
         trafficIconType="traffic"
-        // -----------------
         stage={{
           capacity_link: false,
           congestion: {
@@ -275,7 +264,6 @@ describe('<Stage/>', () => {
         onClickStage={jest.fn()}
       />
     );
-    // const result = wrapper.instance().transformK(100);
     expect(wrapper.length).toEqual(1);
   });
 
@@ -326,14 +314,12 @@ describe('<Stage/>', () => {
         totalCountStage={10}
         onClickStage={clickStage}
         colors={colors}
-        // ---borrar
         congestion={{
           congestion: {
             percentage: 10
           }
         }}
         trafficIconType="traffic"
-        // -----------------
         stage={{
           capacity_link: true,
           congestion: {

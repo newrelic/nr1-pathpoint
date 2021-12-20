@@ -82,7 +82,6 @@ export default class MainContainer extends React.Component {
       iconStartStatus: false,
       iconGoutStatus: false,
       iconCanaryStatus: false,
-      iconSixthSenseStatus: false,
       hidden: false,
       stageNameSelected: null,
       viewModal: 0,
@@ -570,19 +569,6 @@ export default class MainContainer extends React.Component {
     });
   };
 
-  clearStepsSixthSense() {
-    this.setState(state => {
-      const { stages } = state;
-      stages.forEach(state => {
-        state.steps.forEach(step => {
-          step.sub_steps.forEach(sub_step => {
-            sub_step.sixth_sense = false;
-          });
-        });
-      });
-    });
-  }
-
   ToggleCanaryIcon = previousIconCanaryStatus => {
     const { iconCanaryStatus } = this.state;
     if (iconCanaryStatus && this.state.showCanaryWelcomeMat) {
@@ -1065,6 +1051,7 @@ export default class MainContainer extends React.Component {
 
   handleSaveUpdateTune = async ({
     min_count,
+    max_count,
     min_apdex,
     max_response_time,
     max_error_percentage,
@@ -1074,6 +1061,7 @@ export default class MainContainer extends React.Component {
   }) => {
     const datos = {
       min_count: min_count,
+      max_count: max_count,
       min_apdex: min_apdex,
       max_response_time: max_response_time,
       max_error_percentage: max_error_percentage,
@@ -1497,7 +1485,6 @@ export default class MainContainer extends React.Component {
   render() {
     const {
       stages,
-      iconSixthSenseStatus,
       iconCanaryStatus,
       iconFireStatus,
       iconStartStatus,
@@ -1558,7 +1545,6 @@ export default class MainContainer extends React.Component {
         <div style={mainContainerStyle()} className="mainContainer">
           <div>
             <Header
-              iconSixthSenseStatus={iconSixthSenseStatus}
               changeTimeRange={this.changeTimeRange}
               checkMoney={checkMoney}
               iconStartStatus={iconStartStatus}
@@ -1577,7 +1563,9 @@ export default class MainContainer extends React.Component {
               changeTimeRangeKpi={this.changeTimeRangeKpi}
               timeRangeKpi={timeRangeKpi}
               kpis={kpis}
-              accountId={accountId}
+              accountId={
+                credentials.accountId ? credentials.accountId : accountId
+              }
               updateDataKpisChecked={this.updateDataKpisChecked}
               credentials={credentials}
             />
@@ -1965,7 +1953,6 @@ export default class MainContainer extends React.Component {
                               iconCanaryStatus={iconCanaryStatus}
                               colors={colors}
                               iconFireStatus={iconFireStatus}
-                              iconSixthSenseStatus={iconSixthSenseStatus}
                               totalContainers={totalContainers}
                             />
                           </div>
@@ -1981,7 +1968,6 @@ export default class MainContainer extends React.Component {
                             iconCanaryStatus={iconCanaryStatus}
                             colors={colors}
                             iconFireStatus={iconFireStatus}
-                            iconSixthSenseStatus={iconSixthSenseStatus}
                             totalContainers={totalContainers}
                           />
                         </div>
@@ -2043,7 +2029,6 @@ export default class MainContainer extends React.Component {
                         colors={colors}
                         iconFireStatus={iconFireStatus}
                         checkAllStatus={checkAllStatus}
-                        iconSixthSenseStatus={iconSixthSenseStatus}
                         openModalParent={this.openModalParent}
                         updateTouchpointOnOff={this.updateTouchpointOnOff}
                         iconCanaryStatus={iconCanaryStatus}

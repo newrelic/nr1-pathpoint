@@ -4,7 +4,6 @@ import SelectIDs from '../../../components/SelectIDs/SelectIDs';
 
 describe('<SelectIDs/>', () => {
   it('Render default', () => {
-    // const idSeleccionado = 2789648;
     const wrapper = mount(
       <SelectIDs
         options={[{ label: 'option one' }]}

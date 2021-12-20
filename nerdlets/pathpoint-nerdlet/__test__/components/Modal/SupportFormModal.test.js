@@ -21,10 +21,6 @@ describe('<SupportFormModal/>', () => {
     expect(headerSupport.length).toEqual(1);
   });
 
-  // it('HeaderSupportFormModal render function', () => {
-  //   const result = HeaderSupportFormModal();
-  // });
-
   it('Simulate onSubmit', () => {
     const handleSaveUpdateSupport = jest.fn();
     const bodySupport = mount(

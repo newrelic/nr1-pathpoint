@@ -34,6 +34,7 @@ export default class ShowBody extends Component {
       phone: '',
       message: '',
       min_count: 0,
+      max_count: 0,
       min_apdex: 0,
       max_response_time: 0,
       max_error_percentage: 0,
@@ -52,6 +53,7 @@ export default class ShowBody extends Component {
     ) {
       let {
         min_count,
+        max_count,
         min_apdex,
         max_response_time,
         max_error_percentage,
@@ -63,6 +65,7 @@ export default class ShowBody extends Component {
         case 'PRC':
         case 'PCC':
           min_count = stageNameSelected.datos[0].min_count;
+          max_count = stageNameSelected.datos[0].max_count;
           break;
         case 'APP':
         case 'FRT':
@@ -81,6 +84,7 @@ export default class ShowBody extends Component {
       }
       this.setState({
         min_count: min_count,
+        max_count: max_count,
         min_apdex: min_apdex,
         max_response_time: max_response_time,
         max_error_percentage: max_error_percentage,
@@ -135,6 +139,7 @@ export default class ShowBody extends Component {
     event.preventDefault();
     const {
       min_count,
+      max_count,
       min_apdex,
       max_response_time,
       max_error_percentage,
@@ -145,6 +150,7 @@ export default class ShowBody extends Component {
     const { handleSaveUpdateTune } = this.props;
     handleSaveUpdateTune({
       min_count,
+      max_count,
       min_apdex,
       max_response_time,
       max_error_percentage,

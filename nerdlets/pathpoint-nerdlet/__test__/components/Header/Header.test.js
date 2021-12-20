@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount, shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import Header, {
   transformK,
   FormatMoney,
@@ -74,7 +74,6 @@ describe('<Header/>', () => {
       const header = mount(
         <Header
           iconSixthSenseStatus
-          activeSixthSenseIcon={jest.fn()}
           iconCanaryStatus
           iconFireStatus
           iconStartStatus
@@ -91,11 +90,8 @@ describe('<Header/>', () => {
           }}
           changeTimeRangeKpi={jest.fn()}
           kpis={kpis}
-          // type={Icon}
           updateDataKpisChecked={jest.fn()}
-          // ---- quitar este atributo
           DisplayConsole={jest.fn()}
-          // --------------------------
           credentials={credentials}
           accountId={2710112}
         />
@@ -103,47 +99,11 @@ describe('<Header/>', () => {
       expect(header.length).toEqual(1);
     });
 
-    it('Simulate click activeSixthSenseIcon', () => {
-      const activeSixthSenseIcon = jest.fn();
-      const header = shallow(
-        <Header
-          iconSixthSenseStatus
-          activeSixthSenseIcon={activeSixthSenseIcon}
-          iconCanaryStatus
-          iconFireStatus
-          iconStartStatus
-          changeTimeRange={jest.fn()}
-          iconGoutStatus
-          showLeftPanel
-          openLeftMenu={jest.fn()}
-          handleContextMenuFire={jest.fn()}
-          handleContextMenuGout={jest.fn()}
-          ToggleHeaderButtons={jest.fn()}
-          logoSetup={{ type: 'default' }}
-          timeRangeKpi={{
-            index: 0
-          }}
-          changeTimeRangeKpi={jest.fn()}
-          kpis={kpis}
-          updateDataKpisChecked={jest.fn()}
-          // ---- quitar este atributo
-          DisplayConsole={jest.fn()}
-          // --------------------------
-          credentials={credentials}
-          accountId={2710112}
-        />
-      );
-      const clickHeader = header.find('.fireIconContainer').at(0);
-      clickHeader.simulate('click');
-      expect(activeSixthSenseIcon).toHaveBeenCalledTimes(1);
-    });
-
     it('Simulate click toggleHeaderButtons with flame status', () => {
       const handleAddToCart = jest.fn();
       const header = mount(
         <Header
           iconSixthSenseStatus
-          activeSixthSenseIcon={jest.fn()}
           iconCanaryStatus
           iconFireStatus
           iconStartStatus
@@ -161,9 +121,7 @@ describe('<Header/>', () => {
           changeTimeRangeKpi={jest.fn()}
           kpis={kpis}
           updateDataKpisChecked={jest.fn()}
-          // ---- quitar este atributo
           DisplayConsole={jest.fn()}
-          // --------------------------
           credentials={credentials}
           accountId={2710112}
         />
@@ -180,7 +138,6 @@ describe('<Header/>', () => {
       const header = mount(
         <Header
           iconSixthSenseStatus
-          activeSixthSenseIcon={jest.fn()}
           iconCanaryStatus
           iconFireStatus
           iconStartStatus
@@ -198,16 +155,14 @@ describe('<Header/>', () => {
           changeTimeRangeKpi={jest.fn()}
           kpis={kpis}
           updateDataKpisChecked={jest.fn()}
-          // ---- quitar este atributo
           DisplayConsole={jest.fn()}
-          // --------------------------
           credentials={credentials}
           accountId={2710112}
         />
       );
       header
         .find('.fireIconContainer')
-        .at(2)
+        .at(1)
         .simulate('click');
       expect(handleAddToCart).toHaveBeenCalledTimes(1);
     });
@@ -217,7 +172,6 @@ describe('<Header/>', () => {
       const header = mount(
         <Header
           iconSixthSenseStatus
-          activeSixthSenseIcon={jest.fn()}
           iconCanaryStatus
           iconFireStatus
           iconStartStatus
@@ -235,9 +189,7 @@ describe('<Header/>', () => {
           changeTimeRangeKpi={jest.fn()}
           kpis={kpis}
           updateDataKpisChecked={jest.fn()}
-          // ---- quitar este atributo
           DisplayConsole={jest.fn()}
-          // --------------------------
           credentials={credentials}
           accountId={2710112}
         />
@@ -246,14 +198,13 @@ describe('<Header/>', () => {
         .find('.fireIconContainer')
         .at(0)
         .simulate('click');
-      expect(handleAddToCart).toHaveBeenCalledTimes(0);
+      expect(handleAddToCart).toHaveBeenCalledTimes(1);
     });
 
     it('Kpi click to open link', () => {
       const header = mount(
         <Header
           iconSixthSenseStatus={false}
-          activeSixthSenseIcon={jest.fn()}
           iconCanaryStatus={false}
           iconFireStatus={false}
           iconStartStatus={false}
@@ -271,9 +222,7 @@ describe('<Header/>', () => {
           changeTimeRangeKpi={jest.fn()}
           kpis={kpis}
           updateDataKpisChecked={jest.fn()}
-          // ---- quitar este atributo
           DisplayConsole={jest.fn()}
-          // --------------------------
           credentials={credentials}
           accountId={2710112}
         />
@@ -286,7 +235,6 @@ describe('<Header/>', () => {
       const header = mount(
         <Header
           iconSixthSenseStatus={false}
-          activeSixthSenseIcon={jest.fn()}
           iconCanaryStatus={false}
           iconFireStatus={false}
           iconStartStatus={false}
@@ -304,9 +252,7 @@ describe('<Header/>', () => {
           changeTimeRangeKpi={jest.fn()}
           kpis={kpis}
           updateDataKpisChecked={jest.fn()}
-          // ---- quitar este atributo
           DisplayConsole={jest.fn()}
-          // --------------------------
           credentials={credentials}
           accountId={2710112}
         />

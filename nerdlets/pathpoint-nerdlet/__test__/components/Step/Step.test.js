@@ -232,7 +232,7 @@ describe('<Step/>', () => {
         false,
         true
       );
-      expect(result).toMatch('#C0C0C0');
+      expect(result).toMatch('white');
     });
 
     it('Step with false all', () => {
