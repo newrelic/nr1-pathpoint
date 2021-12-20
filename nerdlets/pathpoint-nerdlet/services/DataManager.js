@@ -1827,7 +1827,7 @@ export default class DataManager {
               min_count: query.min_count,
               max_count: Reflect.has(query, 'max_count')
                 ? query.max_count
-                : query.min_count * 1.5,
+                : query.min_count * 2.0,
               session_count: 0
             };
           } else if (query.type === this.measureNames[1]) {
@@ -1838,7 +1838,7 @@ export default class DataManager {
               min_count: query.min_count,
               max_count: Reflect.has(query, 'max_count')
                 ? query.max_count
-                : query.min_count * 1.5,
+                : query.min_count * 2.0,
               transaction_count: 0
             };
           } else if (query.type === this.measureNames[2]) {
