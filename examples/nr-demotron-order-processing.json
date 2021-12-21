@@ -132,7 +132,8 @@
                             "type": "PRC-COUNT-QUERY",
                             "accountID": 1606862,
                             "query": "SELECT count(*) as session FROM Transaction WHERE appName = 'Login Service' and name = 'WebTransaction/Go/POST /login' AND http.statusCode = 200",
-                            "min_count": 40
+                            "min_count": 40,
+			    "max_count": 50
                         }
                     ]
                 },
@@ -218,7 +219,8 @@
                             "type": "PCC-COUNT-QUERY",
                             "accountID": 1606862,
                             "query": "SELECT count(*)  FROM Transaction where appName = 'Order-Processing' where name = 'Controller/Sinatra//purchase' and http.statusCode = 200",
-                            "min_count": 80
+                            "min_count": 80,
+                            "max_count": 100
                         }
                     ]
                 },
@@ -335,7 +337,8 @@
                             "type": "PCC-COUNT-QUERY",
                             "accountID": 1606862,
                             "query": "SELECT count(*) FROM Transaction where appName = 'Order-Packaging' where name = 'Controller/Sinatra//package_order' and http.statusCode = 200",
-                            "min_count": 75
+                            "min_count": 75,
+                            "max_count": 100
                         }
                     ]
                 },
@@ -452,7 +455,8 @@
                             "type": "PCC-COUNT-QUERY",
                             "accountID": 1606862,
                             "query": "SELECT count(*) from Transaction WHERE appName = 'Delivery' and name = 'Controller/Sinatra//deliver' and errorMessage is NULL",
-                            "min_count": 50
+                            "min_count": 50,
+                            "max_count": 100
                         }
                     ]
                 },
@@ -560,7 +564,8 @@
                             "type": "PCC-COUNT-QUERY",
                             "accountID": 1606862,
                             "query": "SELECT count(*) from Transaction WHERE appName = 'Email-Notification' and name = 'Controller/Sinatra//send_email' and errorMessage is NULL",
-                            "min_count": 50
+                            "min_count": 50,
+                            "max_count": 150
                         }
                     ]
                 },
@@ -576,7 +581,8 @@
                             "type": "PCC-COUNT-QUERY",
                             "accountID": 1606862,
                             "query": "SELECT count(*) from Transaction WHERE appName = 'Sms-Notification' and name = 'Controller/Sinatra//send_sms' and errorMessage is NULL",
-                            "min_count": 50
+                            "min_count": 50,
+                            "max_count": 150
                         }
                     ]
                 }
@@ -626,7 +632,8 @@
                             "type": "PCC-COUNT-QUERY",
                             "accountID": 1606862,
                             "query": "SELECT count(*) FROM Transaction where appName = 'Order-Processing' where name = 'Controller/Sinatra//return_purchase' and http.statusCode = 200",
-                            "min_count": 1
+                            "min_count": 1,
+                            "max_count": 50
                         }
                     ]
                 },
