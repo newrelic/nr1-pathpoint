@@ -938,7 +938,11 @@ export default class DataManager {
         });
         if (data && data.actor)
           dataReturn.actor = Object.assign(dataReturn.actor, data.actor);
-        if (errors && errors.length > 0) errorsReturn.push(errors);
+        if (errors && errors.length > 0) {
+          errors.forEach(error => {
+            errorsReturn.push(error);
+          });
+        }
         gql = `{
             actor {`;
         alias = '';
