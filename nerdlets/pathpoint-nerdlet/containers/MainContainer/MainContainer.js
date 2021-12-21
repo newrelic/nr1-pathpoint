@@ -318,9 +318,17 @@ export default class MainContainer extends React.Component {
 
   updateDataNow() {
     this.setState({
-      loading: true,
-      pending: true
+      loading: true
     });
+    const { updating } = this.state;
+    if (updating) {
+      // console.log('Current Updating...');
+      setTimeout(() => {
+        this.updateDataNow();
+      }, 1000);
+    } else {
+      this.ExecuteUpdateData(true);
+    }
   }
 
   // ===========================================================
