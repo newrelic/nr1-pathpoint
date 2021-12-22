@@ -1781,7 +1781,6 @@ export default class DataManager {
             latency: true,
             value: sub_step.title,
             dark: false,
-            sixth_sense: false,
             history_error: false,
             dotted: false,
             highlighted: false,
