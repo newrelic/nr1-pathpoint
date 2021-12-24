@@ -145,7 +145,8 @@ export default class MainContainer extends React.Component {
       accountIDs: [],
       accountId: 0,
       credentialsBackup: false,
-      sendingLogsEnableDisable: true
+      sendingLogsEnableDisable: true,
+      configurationOptionSelected: 'download'
     };
   }
 
@@ -1490,6 +1491,10 @@ export default class MainContainer extends React.Component {
     });
   };
 
+  handleOptionConfigurationChange = configurationOptionSelected => {
+    this.setState({ configurationOptionSelected });
+  };
+
   render() {
     const {
       stages,
@@ -1525,7 +1530,8 @@ export default class MainContainer extends React.Component {
       kpis,
       accountIDs,
       accountId,
-      credentials
+      credentials,
+      configurationOptionSelected
     } = this.state;
     if (this.state.waiting) {
       return (
@@ -2092,6 +2098,8 @@ export default class MainContainer extends React.Component {
               this.handleSaveUpdateGeneralConfiguration
             }
             installUpdateBackgroundScripts={this.installUpdateBackgroundScripts}
+            onOptionConfigurationChange={this.handleOptionConfigurationChange}
+            configurationOptionSelected={configurationOptionSelected}
           />
           <div id="cover-spin" style={{ display: loading ? '' : 'none' }} />
         </div>

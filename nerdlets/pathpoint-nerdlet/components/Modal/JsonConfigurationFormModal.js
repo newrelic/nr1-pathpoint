@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-key */
+/* eslint-disable no-nested-ternary */
 import React from 'react';
 import PropTypes from 'prop-types';
 import DownloadLink from 'react-download-link';
@@ -9,22 +11,77 @@ import viewSchema, { CustomSchemaValidation } from '../../schemas/view';
 
 // IMPORT ICONS
 import setup from '../../images/setup.svg';
-import down from '../../images/down.svg';
+import down from '../../images/download.svg';
+import downSelect from '../../images/download-selected.svg';
+import clock from '../../images/clock.svg';
+import clockSelect from '../../images/clockSelect.svg';
+import information from '../../images/information-white.svg';
+import informationSelect from '../../images/information-white-selected.svg';
 
 // IMPORT MESSAGES
 import messages from '../../config/messages.json';
 
-function HeaderJsonConfigurationFormModal() {
+function HeaderJsonConfigurationFormModal(props) {
+  const { configurationOptionSelected } = props;
+
+  const changeColor = select => {
+    props.onOptionConfigurationChange(select);
+  };
+
   return (
     <>
-      <div style={{ display: 'flex' }}>
-        <div className="titleModal">
-          <img src={setup} width="18" /> Setup : Json Configuration
+      <div style={{ display: 'flex', width: '100%' }}>
+        <div className="titleModal" style={{ width: '50%' }}>
+          <img src={setup} width="18" /> Json Config.
+        </div>
+        <div className="container_header_icons">
+          <div
+            style={{ marginLeft: '20px' }}
+            onClick={() => changeColor('download')}
+          >
+            {configurationOptionSelected === 'download' ? (
+              <img src={downSelect} width="16" />
+            ) : (
+              <img src={down} width="16" />
+            )}
+          </div>
+          <div
+            style={{ marginLeft: '20px' }}
+            onClick={() => changeColor('update')}
+          >
+            {configurationOptionSelected === 'update' ? (
+              <label style={{ color: '#0E4BE6' }}>Update</label>
+            ) : (
+              <label>Update</label>
+            )}
+          </div>
+          <div
+            style={{ marginLeft: '20px' }}
+            onClick={() => changeColor('clock')}
+          >
+            {configurationOptionSelected === 'clock' ? (
+              <img src={clockSelect} width="16" />
+            ) : (
+              <img src={clock} width="16" />
+            )}
+          </div>
+          <div
+            style={{ marginLeft: '20px' }}
+            onClick={() => changeColor('information')}
+          >
+            {configurationOptionSelected === 'information' ? (
+              <img src={informationSelect} width="16" />
+            ) : (
+              <img src={information} width="16" />
+            )}
+          </div>
         </div>
       </div>
     </>
   );
 }
+
+// export default JsonConfigurationFormModal;
 
 /* istanbul ignore next */
 function handleUploadJSONFile(
@@ -229,7 +286,8 @@ function BodyJsonConfigurationFormModal(props) {
     GetCurrentConfigurationJSON,
     _onClose,
     SetConfigurationJSON,
-    validateKpiQuery
+    validateKpiQuery,
+    configurationOptionSelected
   } = props;
   // const href = messages.configuration.setup.json_link_demo;
   // const hrefStyle = {
@@ -241,71 +299,223 @@ function BodyJsonConfigurationFormModal(props) {
   //   target: '_blank',
   //   style: hrefStyle
   // };
+  const file_name = '';
+  const file_note = '';
+  const store = null;
+  const array_datos = [
+    {
+      name: 'Lorem_ipsum.json',
+      note: 'Lorem ipsun',
+      date: '12/12/2021',
+      owner: 'Rommel Samanez',
+      file: 'my_pathpoint.json'
+    },
+    {
+      name: 'Lorem_ipsum.json',
+      note: 'Lorem ipsun',
+      date: '12/12/2021',
+      owner: 'Rommel Samanez',
+      file: 'my_pathpoint.json'
+    },
+    {
+      name: 'Lorem_ipsum.json',
+      note: 'Lorem ipsun',
+      date: '12/12/2021',
+      owner: 'Rommel Samanez',
+      file: 'my_pathpoint.json'
+    }
+  ];
   return (
-    <div
-      style={{
-        width: '350px',
-        height: '300px',
-        paddingTop: '20px',
-        display: 'grid',
-        gridTemplate: '85% 10% / 1fr'
-      }}
-    >
-      <div className="modal4content" style={{ textAlign: 'justify' }}>
-        {ReactHtmlParser(messages.configuration.setup.json)}
-        {/* <div>
-          <a {...unsafePropsJson}>
-            <YoutubeIcon />
-            Demo
-          </a>
-        </div> */}
-      </div>
-      <div
-        className="modal4content"
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center'
-        }}
-      >
-        <div>
-          <div>
-            <div>
-              <img src={down} height="15" width="24" />
-              <DownloadLink
-                label="Pathpoint_Json_v1.5"
-                filename="Pathpoint_Json_v1.5.json"
-                className="downloadLink"
-                style={{ cursor: 'pointer' }}
-                exportFile={
-                  /* istanbul ignore next */ () => GetCurrentConfigurationJSON()
-                }
-              />
+    <div>
+      {configurationOptionSelected === 'download' ? (
+        <div
+          style={{
+            width: '350px',
+            height: '300px',
+            paddingTop: '20px',
+            display: 'grid',
+            gridTemplate: '85% 10% / 1fr'
+          }}
+        >
+          <div className="container_dowmload">
+            <div className="container_datos">
+              <div className="container_row">
+                <div className="label_container">Version:</div>
+                <div className="label_datos_container">
+                  <label>V2.1</label>
+                </div>
+              </div>
+              <div className="container_row">
+                <div className="label_container">Owner:</div>
+                <div className="label_datos_container">
+                  <label>Rommel Samanez</label>
+                </div>
+              </div>
+              <div className="container_row">
+                <div className="label_container">File:</div>
+                <div className="label_datos_container">
+                  <label>Lorem Ipsum_file</label>
+                </div>
+              </div>
+            </div>
+            <div className="button_container">
+              <div style={{ width: '50%' }}>
+                <label
+                  htmlFor="file-upload"
+                  className="buttonUpload"
+                  color="primary"
+                >
+                  <UploadIcon />
+                  Update
+                </label>
+              </div>
             </div>
           </div>
         </div>
-        <div style={{ width: '50%' }}>
-          <label htmlFor="file-upload" className="buttonUpload" color="primary">
-            <UploadIcon />
-            Update
-          </label>
-          <input
-            id="file-upload"
-            type="file"
-            accept=".json"
-            onChange={
-              /* istanbul ignore next */ e =>
-                handleUploadJSONFile(
-                  e,
-                  _onClose,
-                  validateKpiQuery,
-                  SetConfigurationJSON
-                )
-            }
-            style={{ display: 'none' }}
-          />
+      ) : configurationOptionSelected === 'update' ? (
+        <div
+          style={{
+            width: '350px',
+            height: '300px',
+            paddingTop: '20px',
+            display: 'grid',
+            gridTemplate: '85% 10% / 1fr'
+          }}
+        >
+          <div className="container_dowmload">
+            <div className="container_datos">
+              <div className="container_row">
+                <div className="label_container">Name:</div>
+                <div className="archivo">{file_name}</div>
+              </div>
+              <div className="container_row">
+                <div className="label_container">Note:</div>
+                <div className="archivo">{file_note}</div>
+              </div>
+              <div className="container_row">
+                <div className="label_container">Version:</div>
+                <div className="label_datos_container">
+                  <label>V2.1</label>
+                </div>
+              </div>
+              <div className="container_row">
+                <div className="label_container">Owner:</div>
+                <div className="label_datos_container">
+                  <label>Rommel Samanez</label>
+                </div>
+              </div>
+              <div className="container_row">
+                <div className="label_container">File:</div>
+                <div className="label_datos_container">
+                  <label>Lorem Ipsum_file</label>
+                </div>
+              </div>
+            </div>
+            <div className="container_Buttons">
+              <div className="button_container">
+                <div style={{ width: '80%' }}>
+                  <label
+                    htmlFor="file-upload"
+                    className="buttonUpload"
+                    color="primary"
+                  >
+                    <UploadIcon />
+                    Upload Json
+                  </label>
+                </div>
+              </div>
+              {store === null ? (
+                <div className="button_container">
+                  <div style={{ width: '80%' }}>
+                    <label
+                      htmlFor="file-upload"
+                      className="buttonUpload_Disabled"
+                      color="primary"
+                    >
+                      Store
+                    </label>
+                  </div>
+                </div>
+              ) : (
+                <div className="button_container">
+                  <div style={{ width: '80%' }}>
+                    <label
+                      htmlFor="file-upload"
+                      className="buttonUpload"
+                      color="primary"
+                    >
+                      Store
+                    </label>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
-      </div>
+      ) : configurationOptionSelected === 'clock' ? (
+        <div className="container_Historic">
+          <div className="header_historic">
+            <label className="label_header_name">Name</label>
+            <label className="label_header_note">Note</label>
+            <label className="label_header_date">Date</label>
+            <label className="label_header_owner">Owner</label>
+            <label className="label_header_file">File</label>
+          </div>
+          <div className="container_body_historic">
+            {array_datos.map(datos => {
+              return (
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <input
+                    type="radio"
+                    id="huey"
+                    name="drone"
+                    value="huey"
+                    checked
+                  />
+                  <label className="label_body_name">{datos.name}</label>
+                  <label className="label_body_note">{datos.note}</label>
+                  <label className="label_body_date">{datos.date}</label>
+                  <label className="label_body_owner">{datos.owner}</label>
+                  <label className="label_body_file">{datos.file}</label>
+                </div>
+              );
+            })}
+          </div>
+          <div className="button_container">
+            <div style={{ width: '20%' }}>
+              <label
+                htmlFor="file-upload"
+                className="buttonUpload"
+                color="primary"
+              >
+                Restore
+              </label>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div>
+          <div
+            style={{
+              width: '350px',
+              height: '300px',
+              paddingTop: '20px',
+              display: 'grid',
+              gridTemplate: '85% 10% / 1fr'
+            }}
+          >
+            <div className="modal4content" style={{ textAlign: 'justify' }}>
+              {ReactHtmlParser(messages.configuration.setup.json)}
+              {/* <div>
+      <a {...unsafePropsJson}>
+        <YoutubeIcon />
+        Demo
+      </a>
+    </div> */}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -349,11 +559,17 @@ const UploadIcon = () => {
   );
 };
 
+HeaderJsonConfigurationFormModal.propTypes = {
+  onOptionConfigurationChange: PropTypes.func,
+  configurationOptionSelected: PropTypes.string
+};
+
 BodyJsonConfigurationFormModal.propTypes = {
   _onClose: PropTypes.func.isRequired,
   GetCurrentConfigurationJSON: PropTypes.func.isRequired,
   SetConfigurationJSON: PropTypes.func.isRequired,
-  validateKpiQuery: PropTypes.object.isRequired
+  validateKpiQuery: PropTypes.object.isRequired,
+  configurationOptionSelected: PropTypes.string
 };
 
 export { HeaderJsonConfigurationFormModal, BodyJsonConfigurationFormModal };
