@@ -56,23 +56,18 @@ button[disabled] {
   background-color: #fff !important;
   border: 1px solid #bdbdbd !important;
 }
-.clockSVG {
-  fill: red !important;
-}
-.informationSVG {
-  fill: red !important;
-}
 .container_dowmload {
   display: flex;
-  height: 280px;
+  height: 270px;
+  width: 100%;
   flex-direction: column;
   align-items: center;
 }
 .container_datos {
   display: flex;
   flex-direction: column;
-  width: 90%;
-  height: 90%;
+  width: 100%;
+  height: 260px;
 }
 .container_header_icons {
   display: flex;
@@ -88,17 +83,76 @@ button[disabled] {
 .button_container {
   display: flex;
   margin-top: 10px;
-  width: 100%;
+  width: 150px;
+  height: 40px;
   justify-content: center;
+  align-items: center;
+  background: #0078BF;
+}
+.button_container_Upload {
+  display: flex;
+  margin-top: 10px;
+  width: 150px;
+  height: 35px;
+  justify-content: center;
+  align-items: center;
+  background: #0078BF;
+}
+.button_container_store {
+  display: flex;
+  margin-top: 10px;
+  width: 150px;
+  height: 35px;
+  margin-left: 5%;
+  justify-content: center;
+  align-items: center;
+  background: #0078BF;
+}
+.button_container_store_disabled {
+  display: flex;
+  margin-top: 10px;
+  width: 150px;
+  height: 35px;
+  margin-left: 5%;
+  justify-content: center;
+  align-items: center;
+  background: #BDBDBD;
 }
 .container_row {
   display: flex;
+  justify-content: start;
+  align-items: center;
+  margin-top: 3%;
   flex-direction: row;
   width: 100%;
+}
+.container_row_name {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-direction: row;
+  width: 100%;
+}
+.container_row_note {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  margin-top: 3%;
+  flex-direction: row;
+  width: 100%;
+}
+.container_row_download {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  width: 100%;
+  margin-top: 4%;
 }
 .container_Buttons {
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  align-items: center;
   width: 100%;
 }
 .container_Historic {
@@ -168,8 +222,12 @@ button[disabled] {
   width: 20%;
   align-items: center;
   justify-content: flex-end;
-  color: #bdbdbd;
   font-size: 14px;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 19px;
+  color: #828282;
 }
 .label_datos_container {
   display: flex;
@@ -177,7 +235,12 @@ button[disabled] {
   align-items: center;
   justify-content: flex-start;
   margin-left: 5%;
-  margin-top: 2%;
+  font-size: 14px;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 19px;
+  color: #333333;
 }
 .label {
   display: flex;
@@ -185,26 +248,61 @@ button[disabled] {
   font-size: 14px;
 }
 .archivo {
+  display: flex;
+  align-items: center;
   width: 60%;
   margin-left: 5%;
-  margin-top: 2%;
   border: 1px solid black;
   height: 20px;
 }
 .input_archivo {
   width: 100%;
-  height: 20px;
-  border-width: 5px;
+  height: 100%;
 }
 .buttonUpload_Disabled {
-  background: #bcbdbc;
-  color: #989998;
-  border-radius: 4px;
-  line-height: 16px;
-  padding: 8px 16px;
-  cursor: pointer;
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  text-align: center;
+  margin-left: 5px;
+  margin-top: 3px;
+  line-height: 16px;
+  background: #BDBDBD;
+  color: #828282;
+  cursor: pointer;
+}
+.buttonUploadJson {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  text-align: center;
+  margin-left: 5px;
+  margin-top: 3px;
+  line-height: 16px;
+  color: #FFFFFF;
+}
+.update {
+  margin-top: 6px;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+  text-align: right;
+  color: #BDBDBD;
+}
+.update_selected {
+  margin-top: 6px;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+  text-align: right;
+  color: #0078BF;
 }

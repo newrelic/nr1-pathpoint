@@ -146,7 +146,9 @@ export default class MainContainer extends React.Component {
       accountId: 0,
       credentialsBackup: false,
       sendingLogsEnableDisable: true,
-      configurationOptionSelected: 'download'
+      configurationOptionSelected: 'download',
+      fileName: null,
+      fileNote: null
     };
   }
 
@@ -1495,6 +1497,11 @@ export default class MainContainer extends React.Component {
     this.setState({ configurationOptionSelected });
   };
 
+  handleFileChange = (type, value) => {
+    if (type === 'name') this.setState({ fileName: value });
+    else this.setState({ fileNote: value });
+  };
+
   render() {
     const {
       stages,
@@ -1531,7 +1538,9 @@ export default class MainContainer extends React.Component {
       accountIDs,
       accountId,
       credentials,
-      configurationOptionSelected
+      configurationOptionSelected,
+      fileName,
+      fileNote
     } = this.state;
     if (this.state.waiting) {
       return (
@@ -2100,6 +2109,9 @@ export default class MainContainer extends React.Component {
             installUpdateBackgroundScripts={this.installUpdateBackgroundScripts}
             onOptionConfigurationChange={this.handleOptionConfigurationChange}
             configurationOptionSelected={configurationOptionSelected}
+            onFileChange={this.handleFileChange}
+            fileName={fileName}
+            fileNote={fileNote}
           />
           <div id="cover-spin" style={{ display: loading ? '' : 'none' }} />
         </div>

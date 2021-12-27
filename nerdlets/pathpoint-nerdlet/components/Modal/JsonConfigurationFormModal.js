@@ -17,6 +17,8 @@ import clock from '../../images/clock.svg';
 import clockSelect from '../../images/clockSelect.svg';
 import information from '../../images/information-white.svg';
 import informationSelect from '../../images/information-white-selected.svg';
+import update from '../../images/Update-json.svg';
+import updateSelect from '../../images/Update-json-selected.svg';
 
 // IMPORT MESSAGES
 import messages from '../../config/messages.json';
@@ -50,9 +52,9 @@ function HeaderJsonConfigurationFormModal(props) {
             onClick={() => changeColor('update')}
           >
             {configurationOptionSelected === 'update' ? (
-              <label style={{ color: '#0E4BE6' }}>Update</label>
+              <label className="update_selected">Update</label>
             ) : (
-              <label>Update</label>
+              <label className="update">Update</label>
             )}
           </div>
           <div
@@ -299,9 +301,10 @@ function BodyJsonConfigurationFormModal(props) {
   //   target: '_blank',
   //   style: hrefStyle
   // };
-  const file_name = '';
-  const file_note = '';
-  const store = null;
+  const { fileName, fileNote } = props;
+  const handleChange = (type, value) => {
+    props.onFileChange(type, value);
+  };
   const array_datos = [
     {
       name: 'Lorem_ipsum.json',
@@ -330,123 +333,128 @@ function BodyJsonConfigurationFormModal(props) {
       {configurationOptionSelected === 'download' ? (
         <div
           style={{
-            width: '350px',
-            height: '300px',
-            paddingTop: '20px',
+            width: '400px',
+            height: '280px',
+            paddingTop: '5px',
             display: 'grid',
             gridTemplate: '85% 10% / 1fr'
           }}
         >
           <div className="container_dowmload">
             <div className="container_datos">
-              <div className="container_row">
+              <div className="container_row_download">
                 <div className="label_container">Version:</div>
-                <div className="label_datos_container">
-                  <label>V2.1</label>
-                </div>
+                <div className="label_datos_container">V2.1</div>
               </div>
-              <div className="container_row">
+              <div className="container_row_download">
                 <div className="label_container">Owner:</div>
-                <div className="label_datos_container">
-                  <label>Rommel Samanez</label>
-                </div>
+                <div className="label_datos_container">Rommel Samanez</div>
               </div>
-              <div className="container_row">
+              <div className="container_row_download">
                 <div className="label_container">File:</div>
-                <div className="label_datos_container">
-                  <label>Lorem Ipsum_file</label>
-                </div>
+                <div className="label_datos_container">Lorem Ipsum_file</div>
               </div>
             </div>
             <div className="button_container">
-              <div style={{ width: '50%' }}>
-                <label
-                  htmlFor="file-upload"
-                  className="buttonUpload"
-                  color="primary"
-                >
-                  <UploadIcon />
-                  Update
-                </label>
-              </div>
+              <DownloadIcon />
+              <label
+                htmlFor="file-upload"
+                className="buttonUploadJson"
+                color="primary"
+              >
+                Download Json
+              </label>
             </div>
           </div>
         </div>
       ) : configurationOptionSelected === 'update' ? (
         <div
           style={{
-            width: '350px',
-            height: '300px',
-            paddingTop: '20px',
+            width: '400px',
+            height: '280px',
+            paddingTop: '5px',
             display: 'grid',
             gridTemplate: '85% 10% / 1fr'
           }}
         >
           <div className="container_dowmload">
             <div className="container_datos">
-              <div className="container_row">
+              <div className="container_row_name">
                 <div className="label_container">Name:</div>
-                <div className="archivo">{file_name}</div>
+                <div className="archivo">
+                  <input
+                    type="text"
+                    style={{
+                      backgroundColor: 'white',
+                      fontFamily: 'Open Sans',
+                      fontSize: '12px',
+                      borderColor: 'white'
+                    }}
+                    className="input_archivo"
+                    onChange={e => handleChange('name', e.target.value)}
+                  />
+                </div>
               </div>
-              <div className="container_row">
+              <div className="container_row_note">
                 <div className="label_container">Note:</div>
-                <div className="archivo">{file_note}</div>
+                <div className="archivo">
+                  <input
+                    type="text"
+                    style={{
+                      backgroundColor: 'white',
+                      fontFamily: 'Open Sans',
+                      fontSize: '12px',
+                      boxSizingizing: 'border-box',
+                      border: '0px solid #ffffff'
+                    }}
+                    className="input_archivo"
+                    onChange={e => handleChange('note', e.target.value)}
+                  />
+                </div>
               </div>
               <div className="container_row">
                 <div className="label_container">Version:</div>
-                <div className="label_datos_container">
-                  <label>V2.1</label>
-                </div>
+                <div className="label_datos_container">V2.1</div>
               </div>
               <div className="container_row">
                 <div className="label_container">Owner:</div>
-                <div className="label_datos_container">
-                  <label>Rommel Samanez</label>
-                </div>
+                <div className="label_datos_container">Rommel Samanez</div>
               </div>
               <div className="container_row">
                 <div className="label_container">File:</div>
-                <div className="label_datos_container">
-                  <label>Lorem Ipsum_file</label>
-                </div>
+                <div className="label_datos_container">Lorem Ipsum_file</div>
               </div>
             </div>
             <div className="container_Buttons">
-              <div className="button_container">
-                <div style={{ width: '80%' }}>
+              <div className="button_container_Upload">
+                <label
+                  htmlFor="file-upload"
+                  className="buttonUploadJson"
+                  color="primary"
+                >
+                  <UploadIcon />
+                  Upload Json
+                </label>
+              </div>
+              {fileName === null || fileNote === null ? (
+                <div className="button_container_store_disabled">
                   <label
                     htmlFor="file-upload"
-                    className="buttonUpload"
+                    className="buttonUpload_Disabled"
                     color="primary"
                   >
-                    <UploadIcon />
-                    Upload Json
+                    Store
                   </label>
                 </div>
-              </div>
-              {store === null ? (
-                <div className="button_container">
-                  <div style={{ width: '80%' }}>
-                    <label
-                      htmlFor="file-upload"
-                      className="buttonUpload_Disabled"
-                      color="primary"
-                    >
-                      Store
-                    </label>
-                  </div>
-                </div>
               ) : (
-                <div className="button_container">
-                  <div style={{ width: '80%' }}>
-                    <label
-                      htmlFor="file-upload"
-                      className="buttonUpload"
-                      color="primary"
-                    >
-                      Store
-                    </label>
-                  </div>
+                <div className="button_container_store">
+                  <label
+                    htmlFor="file-upload"
+                    className="buttonUploadJson"
+                    color="primary"
+                  >
+                    Store
+                  </label>
                 </div>
               )}
             </div>
@@ -559,6 +567,26 @@ const UploadIcon = () => {
   );
 };
 
+const DownloadIcon = () => {
+  return (
+    <svg
+      style={{ marginRight: '5px' }}
+      width="11"
+      height="13"
+      viewBox="0 0 7 10"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M4.437 8.44922L6.75336 6.04281C6.924 5.86554 7.20139 5.86554 7.37202 6.04281C7.54266 6.22008 7.54266 6.50825 7.37202 6.68552L4.30933 9.86728C4.22445 9.95546 4.11244 10 4.00044 10C3.88843 10 3.77642 9.95546 3.69067 9.86728L0.627977 6.68552C0.457341 6.50825 0.457341 6.22008 0.627977 6.04281C0.798612 5.86554 1.076 5.86554 1.24664 6.04281L3.56194 8.44735L3.56194 0.454536C3.56194 0.203632 3.75796 0 3.99947 0C4.24099 0 4.437 0.203632 4.437 0.454536L4.437 8.44922Z"
+        fill="white"
+      />
+    </svg>
+  );
+};
+
 HeaderJsonConfigurationFormModal.propTypes = {
   onOptionConfigurationChange: PropTypes.func,
   configurationOptionSelected: PropTypes.string
@@ -569,7 +597,10 @@ BodyJsonConfigurationFormModal.propTypes = {
   GetCurrentConfigurationJSON: PropTypes.func.isRequired,
   SetConfigurationJSON: PropTypes.func.isRequired,
   validateKpiQuery: PropTypes.object.isRequired,
-  configurationOptionSelected: PropTypes.string
+  configurationOptionSelected: PropTypes.string,
+  onFileChange: PropTypes.func,
+  fileName: PropTypes.string,
+  fileNote: PropTypes.string
 };
 
 export { HeaderJsonConfigurationFormModal, BodyJsonConfigurationFormModal };
