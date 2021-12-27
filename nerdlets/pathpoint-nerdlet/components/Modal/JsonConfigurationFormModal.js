@@ -51,7 +51,8 @@ function HeaderJsonConfigurationFormModal(props) {
             style={{ marginLeft: '20px' }}
             onClick={() => changeColor('update')}
           >
-            {configurationOptionSelected === 'update' ? (
+            {configurationOptionSelected === 'update' ||
+            configurationOptionSelected === 'store' ? (
               <label className="update_selected">Update</label>
             ) : (
               <label className="update">Update</label>
@@ -305,6 +306,10 @@ function BodyJsonConfigurationFormModal(props) {
   const handleChange = (type, value) => {
     props.onFileChange(type, value);
   };
+  const storeFile = () => {
+    const select = 'store';
+    props.onOptionConfigurationChange(select);
+  };
   const array_datos = [
     {
       name: 'Lorem_ipsum.json',
@@ -391,6 +396,7 @@ function BodyJsonConfigurationFormModal(props) {
                       borderColor: 'white'
                     }}
                     className="input_archivo"
+                    placeholder={fileName === null ? '' : fileName}
                     onChange={e => handleChange('name', e.target.value)}
                   />
                 </div>
@@ -408,6 +414,7 @@ function BodyJsonConfigurationFormModal(props) {
                       border: '0px solid #ffffff'
                     }}
                     className="input_archivo"
+                    placeholder={fileNote === null ? '' : fileNote}
                     onChange={e => handleChange('note', e.target.value)}
                   />
                 </div>
@@ -447,7 +454,10 @@ function BodyJsonConfigurationFormModal(props) {
                   </label>
                 </div>
               ) : (
-                <div className="button_container_store">
+                <div
+                  className="button_container_store"
+                  onClick={() => storeFile()}
+                >
                   <label
                     htmlFor="file-upload"
                     className="buttonUploadJson"
@@ -457,6 +467,34 @@ function BodyJsonConfigurationFormModal(props) {
                   </label>
                 </div>
               )}
+            </div>
+          </div>
+        </div>
+      ) : configurationOptionSelected === 'store' ? (
+        <div
+          style={{
+            width: '400px',
+            height: '280px',
+            paddingTop: '5px',
+            display: 'grid',
+            gridTemplate: '85% 10% / 1fr'
+          }}
+        >
+          <div className="container_dowmload">
+            <div className="container_datos">
+              <div className="container_row_store">
+                <div className="label_container_store">{fileName}</div>
+                <div className="label_datos_container_store">Updated</div>
+              </div>
+            </div>
+            <div className="button_container">
+              <label
+                htmlFor="file-upload"
+                className="buttonUploadJson"
+                color="primary"
+              >
+                Close
+              </label>
             </div>
           </div>
         </div>
@@ -597,6 +635,7 @@ BodyJsonConfigurationFormModal.propTypes = {
   GetCurrentConfigurationJSON: PropTypes.func.isRequired,
   SetConfigurationJSON: PropTypes.func.isRequired,
   validateKpiQuery: PropTypes.object.isRequired,
+  onOptionConfigurationChange: PropTypes.func,
   configurationOptionSelected: PropTypes.string,
   onFileChange: PropTypes.func,
   fileName: PropTypes.string,
