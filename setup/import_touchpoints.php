@@ -244,6 +244,13 @@ function addTouchpoint($stage_index, $touchpointType, $touchpoint, $steps, $touc
             "query" => $tp_query,
             "status_value" => 'NO-VALUE'
         ];
+    }else if ($touchpointType == 'DRP') {
+        $touchPoints[0]["touchpoints"][$last - 1]["measure_points"][] = [
+            "type" => $touchpointType,
+            "timeout" => (int) $touchpoint_timeout,
+            "query" => $tp_query,
+            "value" => 0
+        ];
     }
     if($multiAccountID !== ''){
         $lastMeasure = count($touchPoints[0]["touchpoints"][$last - 1]["measure_points"]);
