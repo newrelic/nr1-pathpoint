@@ -2369,6 +2369,9 @@ describe('Datamanager service', () => {
     });
     dataManager.UpdateErrorCondition = jest.fn();
     dataManager.UpdateMaxCongestionSteps = jest.fn();
+    dataManager.dropParams = {
+      dropmoney: 100
+    };
     dataManager.stages = [
       {
         index: 1,
@@ -2376,6 +2379,7 @@ describe('Datamanager service', () => {
         status_color: 'bad',
         total_count: 0,
         trafficIconType: 'people',
+        steps: [],
         capacity: 0,
         capacity_link: '',
         congestion: {
@@ -2467,6 +2471,7 @@ describe('Datamanager service', () => {
           steps_max_cong: [],
           total_congestion: 0,
           total_count: 40,
+          drop_count: 0,
           traffic_type: 'traffic'
         }
       ]
