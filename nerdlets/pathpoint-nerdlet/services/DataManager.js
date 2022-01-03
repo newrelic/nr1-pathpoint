@@ -2690,7 +2690,6 @@ export default class DataManager {
 
   SaveGeneralConfiguration(data) {
     try {
-      // console.log('SavingGeneralConfiguration:', data);
       AccountStorageMutation.mutate({
         accountId: this.accountId,
         actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,

@@ -297,7 +297,7 @@ function BodyJsonConfigurationFormModal(props) {
     username
   } = props;
   return (
-    <div style={{ width: '500px' }}>
+    <div style={{ width: JSONModal.view === 0 ? '400px' : '600px' }}>
       {JSONModal.view === 0 && (
         <>
           <div>
@@ -306,6 +306,7 @@ function BodyJsonConfigurationFormModal(props) {
               <input
                 type="text"
                 className="text-input-custom"
+                maxLength={64}
                 onChange={e =>
                   UpdateJSONMetaData('description', e.target.value)
                 }
@@ -365,53 +366,60 @@ function BodyJsonConfigurationFormModal(props) {
       )}
       {JSONModal.view === 1 && (
         <div>
-          {JSONModal.historic.map((historic, i) => {
-            const date = new Date(historic.jsonMetaData.date);
-            return (
-              <div
-                style={{
-                  borderBottom: '1px solid lightgrey',
-                  marginBottom: '25px'
-                }}
-              >
-                <input
-                  name="historic"
-                  value={i}
-                  type="radio"
-                  onChange={UpdateItemSelectFromHistoric}
-                />
-                <label
-                  style={{
-                    marginLeft: '5px',
-                    transform: 'translateY(-3px)',
-                    color: '#1976D2'
-                  }}
-                >
-                  {historic.jsonMetaData.description}
-                </label>
-                <p
-                  style={{
-                    marginLeft: '22px'
-                  }}
-                >
-                  {historic.jsonMetaData.note}
-                </p>
+          {JSONModal.historic.length === 0 && (
+            <div>
+              <p>There isn't historic to show</p>
+            </div>
+          )}
+          <div style={{ maxHeight: '430px', overflowY: 'scroll' }}>
+            {JSONModal.historic.map((historic, i) => {
+              const date = new Date(historic.jsonMetaData.date);
+              return (
                 <div
                   style={{
-                    paddingLeft: '22px',
-                    paddingRight: '22px',
-                    display: 'flex',
-                    justifyContent: 'space-between'
+                    borderBottom: '1px solid lightgrey',
+                    marginBottom: '25px'
                   }}
                 >
-                  <p>{`${date.getDate()}/${date.getMonth() +
-                    1}/${date.getFullYear()}`}</p>
-                  <p>{historic.jsonMetaData.user}</p>
-                  <p>{historic.jsonMetaData.filename}</p>
+                  <input
+                    name="historic"
+                    value={i}
+                    type="radio"
+                    onChange={UpdateItemSelectFromHistoric}
+                  />
+                  <label
+                    style={{
+                      marginLeft: '5px',
+                      transform: 'translateY(-3px)',
+                      color: '#1976D2'
+                    }}
+                  >
+                    {historic.jsonMetaData.description}
+                  </label>
+                  <p
+                    style={{
+                      marginLeft: '22px'
+                    }}
+                  >
+                    {historic.jsonMetaData.note}
+                  </p>
+                  <div
+                    style={{
+                      paddingLeft: '22px',
+                      paddingRight: '22px',
+                      display: 'flex',
+                      justifyContent: 'space-between'
+                    }}
+                  >
+                    <p>{`${date.getDate()}/${date.getMonth() +
+                      1}/${date.getFullYear()}`}</p>
+                    <p>{historic.jsonMetaData.user}</p>
+                    <p>{historic.jsonMetaData.filename}</p>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
           <div
             style={{
               display: 'flex',

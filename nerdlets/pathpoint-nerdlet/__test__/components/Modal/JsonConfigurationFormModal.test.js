@@ -13,6 +13,20 @@ describe('<FileErrorFormModal/>', () => {
         GetCurrentConfigurationJSON={jest.fn()}
         SetConfigurationJSON={jest.fn()}
         validateKpiQuery={{}}
+        UpdateJSONMetaData={jest.fn()}
+        jsonMetaData={{
+          description: '',
+          note: ''
+        }}
+        GetHistoricJSONData={jest.fn().mockReturnValue([])}
+        JSONModal={{
+          view: 0,
+          historic: []
+        }}
+        UpdateItemSelectFromHistoric={jest.fn()}
+        currentHistoricSelected={null}
+        RestoreJSONFromHistoric={jest.fn()}
+        username="PathPoint"
       />
     );
     expect(bodyJsonConfiguration.length).toEqual(1);

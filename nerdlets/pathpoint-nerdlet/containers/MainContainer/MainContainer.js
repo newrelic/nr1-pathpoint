@@ -1357,7 +1357,6 @@ export default class MainContainer extends React.Component {
   SetConfigurationJSON = async (payload, e) => {
     const data = this.DataManager.SetConfigurationJSON(payload);
     if (this.state.JSONModal.view === 0) {
-      console.log(this.state.jsonMetaData, 'META DATA')
       const user = await UserQuery.query();
       this.DataManager.StorageJSONDataInHistoric({
         payload,
