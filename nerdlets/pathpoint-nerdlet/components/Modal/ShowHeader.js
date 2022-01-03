@@ -86,6 +86,7 @@ export default function ShowHeader(props) {
         <HeaderJsonConfigurationFormModal
           onOptionConfigurationChange={onOptionConfigurationChange}
           configurationOptionSelected={configurationOptionSelected}
+          {...props}
         />
       );
     case 5:

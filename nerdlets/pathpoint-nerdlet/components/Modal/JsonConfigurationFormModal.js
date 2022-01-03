@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import DownloadLink from 'react-download-link';
 import ReactHtmlParser from 'react-html-parser';
 import Ajv from 'ajv';
+import { Button } from 'react-bootstrap';
 
 // IMPORT SCHEMA VALIDATION
 import viewSchema, { CustomSchemaValidation } from '../../schemas/view';
@@ -19,12 +20,13 @@ import information from '../../images/information-white.svg';
 import informationSelect from '../../images/information-white-selected.svg';
 import update from '../../images/Update-json.svg';
 import updateSelect from '../../images/Update-json-selected.svg';
+import uploadjson from '../../images/uploadjson.png';
 
 // IMPORT MESSAGES
 import messages from '../../config/messages.json';
 
 function HeaderJsonConfigurationFormModal(props) {
-  const { configurationOptionSelected } = props;
+  const { GetCurrentConfigurationJSON } = props;
 
   const changeColor = select => {
     props.onOptionConfigurationChange(select);
@@ -35,48 +37,39 @@ function HeaderJsonConfigurationFormModal(props) {
       <div style={{ display: 'flex', width: '100%' }}>
         <div className="titleModal" style={{ width: '50%' }}>
           <img src={setup} width="18" /> Json Config.
+          <img
+            style={{ cursor: 'pointer', marginLeft: '10px' }}
+            src={information}
+            onClick={() => GoToDocumentation()}
+          />
         </div>
         <div className="container_header_icons">
           <div
-            style={{ marginLeft: '20px' }}
+            style={{
+              marginLeft: '20px',
+              position: 'relative',
+              cursor: 'pointer'
+            }}
             onClick={() => changeColor('download')}
           >
-            {configurationOptionSelected === 'download' ? (
-              <img src={downSelect} width="16" />
-            ) : (
-              <img src={down} width="16" />
-            )}
-          </div>
-          <div
-            style={{ marginLeft: '20px' }}
-            onClick={() => changeColor('update')}
-          >
-            {configurationOptionSelected === 'update' ||
-            configurationOptionSelected === 'store' ? (
-              <label className="update_selected">Update</label>
-            ) : (
-              <label className="update">Update</label>
-            )}
-          </div>
-          <div
-            style={{ marginLeft: '20px' }}
-            onClick={() => changeColor('clock')}
-          >
-            {configurationOptionSelected === 'clock' ? (
-              <img src={clockSelect} width="16" />
-            ) : (
-              <img src={clock} width="16" />
-            )}
-          </div>
-          <div
-            style={{ marginLeft: '20px' }}
-            onClick={() => changeColor('information')}
-          >
-            {configurationOptionSelected === 'information' ? (
-              <img src={informationSelect} width="16" />
-            ) : (
-              <img src={information} width="16" />
-            )}
+            <img src={down} width="16" onClick={() => HandleDownload()} />
+            <div
+              style={{
+                position: 'absolute',
+                top: '-1000px',
+                left: '0px'
+              }}
+            >
+              <DownloadLink
+                label="Pathpoint_Json_v1.5"
+                filename="Pathpoint_Json_v1.5.json"
+                className="downloadLink"
+                style={{ cursor: 'pointer' }}
+                exportFile={
+                  /* istanbul ignore next */ () => GetCurrentConfigurationJSON()
+                }
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -85,6 +78,11 @@ function HeaderJsonConfigurationFormModal(props) {
 }
 
 // export default JsonConfigurationFormModal;
+
+function HandleDownload() {
+  const button = document.querySelector('.downloadLink');
+  button.click();
+}
 
 /* istanbul ignore next */
 function handleUploadJSONFile(
@@ -129,7 +127,7 @@ function handleUploadJSONFile(
         );
         let totalErrrors = [];
         if (!customErrors && queryErrors.length === 0) {
-          SetConfigurationJSON(eX.target.result);
+          SetConfigurationJSON(eX.target.result, e);
         }
         if (customErrors) {
           totalErrrors = [...customErrors];
@@ -286,284 +284,179 @@ export function TranslateAJVErrors(errors, payload) {
 
 function BodyJsonConfigurationFormModal(props) {
   const {
-    GetCurrentConfigurationJSON,
     _onClose,
     SetConfigurationJSON,
     validateKpiQuery,
-    configurationOptionSelected
+    UpdateJSONMetaData,
+    jsonMetaData,
+    GetHistoricJSONData,
+    JSONModal,
+    UpdateItemSelectFromHistoric,
+    currentHistoricSelected,
+    RestoreJSONFromHistoric,
+    username
   } = props;
-  // const href = messages.configuration.setup.json_link_demo;
-  // const hrefStyle = {
-  //   textDecoration: 'none',
-  //   color: 'red'
-  // };
-  // const unsafePropsJson = {
-  //   href,
-  //   target: '_blank',
-  //   style: hrefStyle
-  // };
-  const { fileName, fileNote } = props;
-  const handleChange = (type, value) => {
-    props.onFileChange(type, value);
-  };
-  const storeFile = () => {
-    const select = 'store';
-    props.onOptionConfigurationChange(select);
-  };
-  const array_datos = [
-    {
-      name: 'Lorem_ipsum.json',
-      note: 'Lorem ipsun',
-      date: '12/12/2021',
-      owner: 'Rommel Samanez',
-      file: 'my_pathpoint.json'
-    },
-    {
-      name: 'Lorem_ipsum.json',
-      note: 'Lorem ipsun',
-      date: '12/12/2021',
-      owner: 'Rommel Samanez',
-      file: 'my_pathpoint.json'
-    },
-    {
-      name: 'Lorem_ipsum.json',
-      note: 'Lorem ipsun',
-      date: '12/12/2021',
-      owner: 'Rommel Samanez',
-      file: 'my_pathpoint.json'
-    }
-  ];
   return (
-    <div>
-      {configurationOptionSelected === 'download' ? (
-        <div
-          style={{
-            width: '400px',
-            height: '280px',
-            paddingTop: '5px',
-            display: 'grid',
-            gridTemplate: '85% 10% / 1fr'
-          }}
-        >
-          <div className="container_dowmload">
-            <div className="container_datos">
-              <div className="container_row_download">
-                <div className="label_container">Version:</div>
-                <div className="label_datos_container">V2.1</div>
-              </div>
-              <div className="container_row_download">
-                <div className="label_container">Owner:</div>
-                <div className="label_datos_container">Rommel Samanez</div>
-              </div>
-              <div className="container_row_download">
-                <div className="label_container">File:</div>
-                <div className="label_datos_container">Lorem Ipsum_file</div>
-              </div>
+    <div style={{ width: '500px' }}>
+      {JSONModal.view === 0 && (
+        <>
+          <div>
+            <div style={{ marginBottom: '20px' }}>
+              <label>Description: </label>
+              <input
+                type="text"
+                className="text-input-custom"
+                onChange={e =>
+                  UpdateJSONMetaData('description', e.target.value)
+                }
+              />
             </div>
-            <div className="button_container">
-              <DownloadIcon />
-              <label
-                htmlFor="file-upload"
-                className="buttonUploadJson"
-                color="primary"
-              >
-                Download Json
-              </label>
+            <div>
+              <label>Note: </label>
+              <textarea
+                type="text"
+                className="text-input-custom"
+                rows="5"
+                onChange={e => UpdateJSONMetaData('note', e.target.value)}
+              />
+            </div>
+            <div style={{ marginTop: '10px' }}>
+              <p>
+                User:
+                <strong>{` ${username}`}</strong>
+              </p>
             </div>
           </div>
-        </div>
-      ) : configurationOptionSelected === 'update' ? (
-        <div
-          style={{
-            width: '400px',
-            height: '280px',
-            paddingTop: '5px',
-            display: 'grid',
-            gridTemplate: '85% 10% / 1fr'
-          }}
-        >
-          <div className="container_dowmload">
-            <div className="container_datos">
-              <div className="container_row_name">
-                <div className="label_container">Name:</div>
-                <div className="archivo">
-                  <input
-                    type="text"
-                    style={{
-                      backgroundColor: 'white',
-                      fontFamily: 'Open Sans',
-                      fontSize: '12px',
-                      borderColor: 'white'
-                    }}
-                    className="input_archivo"
-                    placeholder={fileName === null ? '' : fileName}
-                    onChange={e => handleChange('name', e.target.value)}
-                  />
-                </div>
-              </div>
-              <div className="container_row_note">
-                <div className="label_container">Note:</div>
-                <div className="archivo">
-                  <input
-                    type="text"
-                    style={{
-                      backgroundColor: 'white',
-                      fontFamily: 'Open Sans',
-                      fontSize: '12px',
-                      boxSizingizing: 'border-box',
-                      border: '0px solid #ffffff'
-                    }}
-                    className="input_archivo"
-                    placeholder={fileNote === null ? '' : fileNote}
-                    onChange={e => handleChange('note', e.target.value)}
-                  />
-                </div>
-              </div>
-              <div className="container_row">
-                <div className="label_container">Version:</div>
-                <div className="label_datos_container">V2.1</div>
-              </div>
-              <div className="container_row">
-                <div className="label_container">Owner:</div>
-                <div className="label_datos_container">Rommel Samanez</div>
-              </div>
-              <div className="container_row">
-                <div className="label_container">File:</div>
-                <div className="label_datos_container">Lorem Ipsum_file</div>
-              </div>
-            </div>
-            <div className="container_Buttons">
-              <div className="button_container_Upload">
-                <label
-                  htmlFor="file-upload"
-                  className="buttonUploadJson"
-                  color="primary"
-                >
-                  <UploadIcon />
-                  Upload Json
-                </label>
-              </div>
-              {fileName === null || fileNote === null ? (
-                <div className="button_container_store_disabled">
-                  <label
-                    htmlFor="file-upload"
-                    className="buttonUpload_Disabled"
-                    color="primary"
-                  >
-                    Store
-                  </label>
-                </div>
-              ) : (
-                <div
-                  className="button_container_store"
-                  onClick={() => storeFile()}
-                >
-                  <label
-                    htmlFor="file-upload"
-                    className="buttonUploadJson"
-                    color="primary"
-                  >
-                    Store
-                  </label>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      ) : configurationOptionSelected === 'store' ? (
-        <div
-          style={{
-            width: '400px',
-            height: '280px',
-            paddingTop: '5px',
-            display: 'grid',
-            gridTemplate: '85% 10% / 1fr'
-          }}
-        >
-          <div className="container_dowmload">
-            <div className="container_datos">
-              <div className="container_row_store">
-                <div className="label_container_store">{fileName}</div>
-                <div className="label_datos_container_store">Updated</div>
-              </div>
-            </div>
-            <div className="button_container">
-              <label
-                htmlFor="file-upload"
-                className="buttonUploadJson"
-                color="primary"
-              >
-                Close
-              </label>
-            </div>
-          </div>
-        </div>
-      ) : configurationOptionSelected === 'clock' ? (
-        <div className="container_Historic">
-          <div className="header_historic">
-            <label className="label_header_name">Name</label>
-            <label className="label_header_note">Note</label>
-            <label className="label_header_date">Date</label>
-            <label className="label_header_owner">Owner</label>
-            <label className="label_header_file">File</label>
-          </div>
-          <div className="container_body_historic">
-            {array_datos.map(datos => {
-              return (
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <input
-                    type="radio"
-                    id="huey"
-                    name="drone"
-                    value="huey"
-                    checked
-                  />
-                  <label className="label_body_name">{datos.name}</label>
-                  <label className="label_body_note">{datos.note}</label>
-                  <label className="label_body_date">{datos.date}</label>
-                  <label className="label_body_owner">{datos.owner}</label>
-                  <label className="label_body_file">{datos.file}</label>
-                </div>
-              );
-            })}
-          </div>
-          <div className="button_container">
-            <div style={{ width: '20%' }}>
-              <label
-                htmlFor="file-upload"
-                className="buttonUpload"
-                color="primary"
-              >
-                Restore
-              </label>
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div>
           <div
             style={{
-              width: '350px',
-              height: '300px',
-              paddingTop: '20px',
-              display: 'grid',
-              gridTemplate: '85% 10% / 1fr'
+              display: 'flex',
+              justifyContent: 'center',
+              marginTop: '30px'
             }}
           >
-            <div className="modal4content" style={{ textAlign: 'justify' }}>
-              {ReactHtmlParser(messages.configuration.setup.json)}
-              {/* <div>
-      <a {...unsafePropsJson}>
-        <YoutubeIcon />
-        Demo
-      </a>
-    </div> */}
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              disabled={
+                jsonMetaData.description === '' || jsonMetaData.note === ''
+              }
+              onClick={() => HandleFromFileClick()}
+              style={{
+                background: '#0178bf',
+                color: 'white',
+                marginRight: '20px'
+              }}
+            >
+              <img
+                style={{ marginRight: '4px', width: '16px', height: 'auto' }}
+                src={uploadjson}
+              />
+              From File
+            </Button>
+            <div style={{ position: 'relative' }}>
+              <Button variant="outline-danger" onClick={GetHistoricJSONData}>
+                <img style={{ marginRight: '4px' }} src={clock} />
+                From History
+              </Button>
             </div>
+          </div>
+        </>
+      )}
+      {JSONModal.view === 1 && (
+        <div>
+          {JSONModal.historic.map((historic, i) => {
+            const date = new Date(historic.jsonMetaData.date);
+            return (
+              <div
+                style={{
+                  borderBottom: '1px solid lightgrey',
+                  marginBottom: '25px'
+                }}
+              >
+                <input
+                  name="historic"
+                  value={i}
+                  type="radio"
+                  onChange={UpdateItemSelectFromHistoric}
+                />
+                <label
+                  style={{
+                    marginLeft: '5px',
+                    transform: 'translateY(-3px)',
+                    color: '#1976D2'
+                  }}
+                >
+                  {historic.jsonMetaData.description}
+                </label>
+                <p
+                  style={{
+                    marginLeft: '22px'
+                  }}
+                >
+                  {historic.jsonMetaData.note}
+                </p>
+                <div
+                  style={{
+                    paddingLeft: '22px',
+                    paddingRight: '22px',
+                    display: 'flex',
+                    justifyContent: 'space-between'
+                  }}
+                >
+                  <p>{`${date.getDate()}/${date.getMonth() +
+                    1}/${date.getFullYear()}`}</p>
+                  <p>{historic.jsonMetaData.user}</p>
+                  <p>{historic.jsonMetaData.filename}</p>
+                </div>
+              </div>
+            );
+          })}
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              marginTop: '30px'
+            }}
+          >
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              disabled={currentHistoricSelected === null}
+              onClick={RestoreJSONFromHistoric}
+              style={{
+                background: '#0178bf',
+                color: 'white',
+                marginRight: '20px'
+              }}
+            >
+              Restore
+            </Button>
           </div>
         </div>
       )}
+      <input
+        id="file-upload"
+        type="file"
+        accept=".json"
+        onChange={
+          /* istanbul ignore next */ e =>
+            handleUploadJSONFile(
+              e,
+              _onClose,
+              validateKpiQuery,
+              SetConfigurationJSON
+            )
+        }
+        style={{ display: 'none' }}
+      />
     </div>
   );
+}
+
+function GoToDocumentation() {
+  window.open('https://docs.newrelic.com/', '_blank');
 }
 
 // const YoutubeIcon = () => {
@@ -625,9 +518,14 @@ const DownloadIcon = () => {
   );
 };
 
+function HandleFromFileClick() {
+  const input = document.querySelector('#file-upload');
+  input.click();
+}
+
 HeaderJsonConfigurationFormModal.propTypes = {
   onOptionConfigurationChange: PropTypes.func,
-  configurationOptionSelected: PropTypes.string
+  GetCurrentConfigurationJSON: PropTypes.func
 };
 
 BodyJsonConfigurationFormModal.propTypes = {
@@ -636,10 +534,18 @@ BodyJsonConfigurationFormModal.propTypes = {
   SetConfigurationJSON: PropTypes.func.isRequired,
   validateKpiQuery: PropTypes.object.isRequired,
   onOptionConfigurationChange: PropTypes.func,
+  UpdateJSONMetaData: PropTypes.func,
   configurationOptionSelected: PropTypes.string,
   onFileChange: PropTypes.func,
   fileName: PropTypes.string,
-  fileNote: PropTypes.string
+  fileNote: PropTypes.string,
+  username: PropTypes.string,
+  jsonMetaData: PropTypes.object,
+  GetHistoricJSONData: PropTypes.func,
+  UpdateItemSelectFromHistoric: PropTypes.func,
+  JSONModal: PropTypes.object,
+  currentHistoricSelected: PropTypes.object,
+  RestoreJSONFromHistoric: PropTypes.func
 };
 
 export { HeaderJsonConfigurationFormModal, BodyJsonConfigurationFormModal };

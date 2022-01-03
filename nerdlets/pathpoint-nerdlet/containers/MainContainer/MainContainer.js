@@ -1,6 +1,6 @@
 // IMPORT LIBRARIES AND DEPENDENCIES
 import React from 'react';
-import { nerdlet, logger } from 'nr1';
+import { nerdlet, logger, UserQuery } from 'nr1';
 import Setup from '../../config/setup.json';
 import messages from '../../config/messages.json';
 import {
@@ -57,11 +57,21 @@ export default class MainContainer extends React.Component {
       header: false
     });
     this.state = {
+      username: '',
+      jsonMetaData: {
+        description: '',
+        note: ''
+      },
+      currentHistoricSelected: null,
       updating: false,
       queryModalShowing: false,
       updateBackgroundScript: false,
       generalConfigurationSaved: false,
       disableGeneralConfigurationSubmit: false,
+      JSONModal: {
+        view: 0,
+        historic: []
+      },
       accountName: '',
       credentials: {
         accountId: null,
@@ -502,7 +512,17 @@ export default class MainContainer extends React.Component {
 
   _onClose = errors => {
     const actualValue = this.state.hidden;
-    this.setState({ hidden: !actualValue, queryModalShowing: false });
+    this.setState({
+      hidden: !actualValue,
+      queryModalShowing: false
+    });
+    if (this.state.JSONModal.view !== 0) {
+      this.setState({
+        JSONModal: {
+          view: 0
+        }
+      });
+    }
     if (!this.state.generalConfigurationSaved) {
       this.setState(state => {
         let credentials = {};
@@ -1222,7 +1242,9 @@ export default class MainContainer extends React.Component {
     });
   };
 
-  _handleClickSetup = () => {
+  _handleClickSetup = async () => {
+    const user = await UserQuery.query();
+    this.setState({ username: user.data.name });
     this._onCloseBackdrop();
     this.openModalParent('null', 4);
   };
@@ -1329,8 +1351,21 @@ export default class MainContainer extends React.Component {
     return data;
   };
 
-  SetConfigurationJSON = payload => {
+  SetConfigurationJSON = async (payload, e) => {
     const data = this.DataManager.SetConfigurationJSON(payload);
+    if (this.state.JSONModal.view === 0) {
+      console.log(this.state.jsonMetaData, 'META DATA')
+      const user = await UserQuery.query();
+      this.DataManager.StorageJSONDataInHistoric({
+        payload,
+        jsonMetaData: {
+          ...this.state.jsonMetaData,
+          filename: e.target.files[0].name,
+          date: new Date(),
+          user: user.data.name
+        }
+      });
+    }
     this.setState({
       stages: data.stages,
       kpis: data.kpis ?? [],
@@ -1500,6 +1535,46 @@ export default class MainContainer extends React.Component {
   handleFileChange = (type, value) => {
     if (type === 'name') this.setState({ fileName: value });
     else this.setState({ fileNote: value });
+  };
+
+  UpdateJSONMetaData = (name, value) => {
+    this.setState(state => {
+      const jsonMetaData = { ...state.jsonMetaData };
+      jsonMetaData[name] = value;
+      return {
+        jsonMetaData
+      };
+    });
+  };
+
+  GetHistoricJSONData = async () => {
+    const historic = await this.DataManager.GetHistoricJSONData();
+    this.setState({
+      JSONModal: {
+        view: 1,
+        historic
+      }
+    });
+  };
+
+  UpdateItemSelectFromHistoric = e => {
+    this.setState({
+      currentHistoricSelected: e.target.value
+    });
+  };
+
+  RestoreJSONFromHistoric = () => {
+    const payload = this.state.JSONModal.historic[
+      this.state.currentHistoricSelected
+    ].payload;
+    this.SetConfigurationJSON(payload);
+    this._onClose();
+    this.setState({
+      JSONModal: {
+        view: 0,
+        historic: []
+      }
+    });
   };
 
   render() {
@@ -2112,6 +2187,14 @@ export default class MainContainer extends React.Component {
             onFileChange={this.handleFileChange}
             fileName={fileName}
             fileNote={fileNote}
+            UpdateJSONMetaData={this.UpdateJSONMetaData}
+            jsonMetaData={this.state.jsonMetaData}
+            GetHistoricJSONData={this.GetHistoricJSONData}
+            JSONModal={this.state.JSONModal}
+            UpdateItemSelectFromHistoric={this.UpdateItemSelectFromHistoric}
+            currentHistoricSelected={this.state.currentHistoricSelected}
+            RestoreJSONFromHistoric={this.RestoreJSONFromHistoric}
+            username={this.state.username}
           />
           <div id="cover-spin" style={{ display: loading ? '' : 'none' }} />
         </div>

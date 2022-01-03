@@ -2655,4 +2655,47 @@ export default class DataManager {
     const encodedScript = Buffer.from(dataScript).toString('base64');
     this.SynConnector.UpdateFlameMonitor(encodedScript);
   }
+
+  async GetHistoricJSONData() {
+    try {
+      const { data } = await AccountStorageQuery.query({
+        accountId: this.accountId,
+        collection: 'pathpoint',
+        documentId: 'JSONDataInHistoric'
+      });
+      let historic = [];
+      if (data) {
+        historic = [...data.historic];
+      }
+      return historic;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async StorageJSONDataInHistoric(payload) {
+    try {
+      const { data } = await AccountStorageQuery.query({
+        accountId: this.accountId,
+        collection: 'pathpoint',
+        documentId: 'JSONDataInHistoric'
+      });
+      let historic = [];
+      if (data) {
+        historic = [...data.historic];
+      }
+      historic.push(payload);
+      AccountStorageMutation.mutate({
+        accountId: this.accountId,
+        actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
+        collection: 'pathpoint',
+        documentId: 'JSONDataInHistoric',
+        document: {
+          historic
+        }
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 }
