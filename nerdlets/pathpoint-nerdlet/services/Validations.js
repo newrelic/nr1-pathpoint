@@ -53,6 +53,9 @@ export default class ValidationQuery {
       case 'WORKLOAD-QUERY':
         goodQuery = this.checkWLDQueryValidation(errors, data);
         break;
+      case 'DROP-QUERY':
+        goodQuery = this.checkDRPQueryValidation(errors, data);
+        break;
       case 'KPI-101':
         goodQuery = this.kpi101Validation(errors, query, data);
         break;
@@ -250,6 +253,32 @@ export default class ValidationQuery {
       if (quantity > 2) {
         validate = false;
       } else if (!sessionCount) {
+        validate = false;
+      }
+    } else {
+      validate = false;
+    }
+    return validate;
+  }
+
+  checkDRPQueryValidation(errors, data) {
+    let validate = true;
+    let quantity = 0;
+    let valueCount = false;
+    if (errors && errors.length > 0) {
+      validate = false;
+    } else if (data instanceof Array && data.length === 1) {
+      for (const [key, value] of Object.entries(data[0])) {
+        if (typeof value !== 'number') {
+          validate = false;
+          break;
+        }
+        if (key === 'count') valueCount = true;
+        quantity++;
+      }
+      if (quantity > 2) {
+        validate = false;
+      } else if (!valueCount) {
         validate = false;
       }
     } else {

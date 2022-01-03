@@ -53,7 +53,8 @@
         "app": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
         "frt": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
         "syn": "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE monitorName='BDB Live person'",
-        "wld": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='ACME Banking'"
+        "wld": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='ACME Banking'",
+        "drp": "SELECT count(*) as count FROM Public_APICall WHERE api='adyen.com'"
     },
     "test_query": {
         "wrong": "Incorrect validated",

@@ -212,6 +212,7 @@ const RenderForm = (datos, handleOnChange) => {
         </>
       );
     case 'WLD':
+    case 'DRP':
       return (
         <>
           <div style={{ height: '40px' }}>

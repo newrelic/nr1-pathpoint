@@ -1,127 +1,52 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`JsonConfigurationFormModal component Render body with default data 1`] = `
-<div
-  style={
-    Object {
-      "display": "grid",
-      "gridTemplate": "85% 10% / 1fr",
-      "height": "300px",
-      "paddingTop": "20px",
-      "width": "350px",
-    }
-  }
->
-  <div
-    className="modal4content"
-    style={
-      Object {
-        "textAlign": "justify",
-      }
-    }
-  >
-    <p>
-      Pathpoint is designed to be customized by the customer.  This is done through a JSON configuration file.  (See our main documentation for a detailed description of the file structure.)
-    </p>
-    <ol
-      style={
-        Object {
-          "paddingLeft": "15px",
-        }
-      }
-      type="1"
-    >
-      <li>
-        Download the existing configuration
-      </li>
-      <li>
-        Modify it
-      </li>
-      <li>
-        Upload & Update it
-      </li>
-    </ol>
-    <p>
-      This will allow you to keep your JSON configuration in a version control system for save keeping.
-    </p>
-  </div>
-  <div
-    className="modal4content"
-    style={
-      Object {
-        "alignItems": "center",
-        "display": "flex",
-        "justifyContent": "space-between",
-      }
-    }
-  >
-    <div>
-      <div>
-        <div>
-          <img
-            height="15"
-            src={Object {}}
-            width="24"
-          />
-          <a
-            className="downloadLink"
-            href="#"
-            onClick={[Function]}
-            style={
-              Object {
-                "cursor": "pointer",
-              }
-            }
-          >
-            Pathpoint_Json_v1.5
-          </a>
-        </div>
-      </div>
-    </div>
+<div>
+  <div>
     <div
       style={
         Object {
-          "width": "50%",
+          "display": "grid",
+          "gridTemplate": "85% 10% / 1fr",
+          "height": "300px",
+          "paddingTop": "20px",
+          "width": "350px",
         }
       }
     >
-      <label
-        className="buttonUpload"
-        color="primary"
-        htmlFor="file-upload"
-      >
-        <svg
-          fill="none"
-          height="10"
-          style={
-            Object {
-              "marginRight": "5px",
-            }
-          }
-          viewBox="0 0 7 10"
-          width="7"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            clipRule="evenodd"
-            d="M3.063 1.55078L0.74664 3.95719C0.576005 4.13446 0.298613 4.13446 0.127977 3.95719C-0.0426587 3.77992 -0.0426587 3.49175 0.127977 3.31448L3.19067 0.132723C3.27555 0.0445439 3.38756 -1.26948e-06 3.49956 -1.25969e-06C3.61157 -1.2499e-06 3.72358 0.0445439 3.80933 0.132724L6.87202 3.31448C7.04266 3.49175 7.04266 3.77992 6.87202 3.95719C6.70139 4.13446 6.424 4.13446 6.25336 3.95719L3.93806 1.55265L3.93806 9.54546C3.93806 9.79637 3.74204 10 3.50053 10C3.25901 10 3.063 9.79637 3.063 9.54546L3.063 1.55078Z"
-            fill="white"
-            fillRule="evenodd"
-          />
-        </svg>
-        Update
-      </label>
-      <input
-        accept=".json"
-        id="file-upload"
-        onChange={[Function]}
+      <div
+        className="modal4content"
         style={
           Object {
-            "display": "none",
+            "textAlign": "justify",
           }
         }
-        type="file"
-      />
+      >
+        <p>
+          Pathpoint is designed to be customized by the customer.  This is done through a JSON configuration file.  (See our main documentation for a detailed description of the file structure.)
+        </p>
+        <ol
+          style={
+            Object {
+              "paddingLeft": "15px",
+            }
+          }
+          type="1"
+        >
+          <li>
+            Download the existing configuration
+          </li>
+          <li>
+            Modify it
+          </li>
+          <li>
+            Upload & Update it
+          </li>
+        </ol>
+        <p>
+          This will allow you to keep your JSON configuration in a version control system for save keeping.
+        </p>
+      </div>
     </div>
   </div>
 </div>
@@ -132,17 +57,80 @@ exports[`JsonConfigurationFormModal component Render header with default data 1`
   style={
     Object {
       "display": "flex",
+      "width": "100%",
     }
   }
 >
   <div
     className="titleModal"
+    style={
+      Object {
+        "width": "50%",
+      }
+    }
   >
     <img
       src={Object {}}
       width="18"
     />
-     Setup : Json Configuration
+     Json Config.
+  </div>
+  <div
+    className="container_header_icons"
+  >
+    <div
+      onClick={[Function]}
+      style={
+        Object {
+          "marginLeft": "20px",
+        }
+      }
+    >
+      <img
+        src={Object {}}
+        width="16"
+      />
+    </div>
+    <div
+      onClick={[Function]}
+      style={
+        Object {
+          "marginLeft": "20px",
+        }
+      }
+    >
+      <label
+        className="update"
+      >
+        Update
+      </label>
+    </div>
+    <div
+      onClick={[Function]}
+      style={
+        Object {
+          "marginLeft": "20px",
+        }
+      }
+    >
+      <img
+        src={Object {}}
+        width="16"
+      />
+    </div>
+    <div
+      onClick={[Function]}
+      style={
+        Object {
+          "marginLeft": "20px",
+        }
+      }
+    >
+      <img
+        src={Object {}}
+        width="16"
+      />
+    </div>
   </div>
 </div>
 `;

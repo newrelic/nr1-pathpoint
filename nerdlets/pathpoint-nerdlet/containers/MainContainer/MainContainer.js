@@ -990,6 +990,9 @@ export default class MainContainer extends React.Component {
       case 'WORKLOAD-QUERY':
         querySample = messages.sample_querys.wld;
         break;
+      case 'DROP-QUERY':
+        querySample = messages.sample_querys.drp;
+        break;
     }
     if (stageNameSelected.selectedCase) {
       stageNameSelected.datos[

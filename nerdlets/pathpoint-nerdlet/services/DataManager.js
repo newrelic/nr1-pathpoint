@@ -60,7 +60,8 @@ export default class DataManager {
       'APP-HEALTH-QUERY',
       'FRT-HEALTH-QUERY',
       'SYN-CHECK-QUERY',
-      'WORKLOAD-QUERY'
+      'WORKLOAD-QUERY',
+      'DROP-QUERY'
     ];
     this.accountIDs = [
       {
@@ -431,6 +432,9 @@ export default class DataManager {
       case 'WLD':
         measure.status_value = 'NO-VALUE';
         break;
+      case 'DRP':
+        measure.value = 0;
+        break;
     }
   }
 
@@ -456,6 +460,8 @@ export default class DataManager {
         query = `${measure.query} SINCE ${measure.measure_time}`;
       } else if (measure.type === 'WLD') {
         query = `${measure.query} SINCE 3 HOURS AGO`;
+      } else if (measure.type === 'DRP') {
+        query = `${measure.query} SINCE ${this.dropParams.hours} HOURS AGO`;
       }
       this.graphQlmeasures.push([measure, query, extraInfo]);
     }
@@ -797,6 +803,20 @@ export default class DataManager {
               }
               measure.status_value = value.nrql.results[0].statusValue;
             } else if (
+              measure.type === 'DRP' &&
+              value.nrql !== null &&
+              value.nrql.results &&
+              value.nrql.results[0] &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'count'
+              )
+            ) {
+              if (value.nrql.results[0].count == null) {
+                this.CheckIfResponseErrorCanBeSet(extraInfo, true);
+              }
+              measure.value = value.nrql.results[0].count;
+            } else if (
               measure.type === 100 &&
               value.nrql != null &&
               value.nrql.results &&
@@ -1059,8 +1079,13 @@ export default class DataManager {
       congestion = Math.floor(congestion * 10000) / 100;
       this.stages[i].congestion.value = congestion;
       this.stages[i].congestion.percentage = congestion;
+
+      this.stages[i].gout_quantity = values.count_by_stage[i].drop_count;
+      this.stages[i].gout_money =
+        values.count_by_stage[i].drop_count * this.dropParams.dropmoney;
     }
     this.UpdateMaxCongestionSteps(values.count_by_stage);
+    this.UpdateDropSteps(element);
   }
 
   Getmeasures(touchpoints_by_country) {
@@ -1074,7 +1099,8 @@ export default class DataManager {
         total_congestion: 0,
         steps_max_cong: [],
         capacity_status: 'NO-VALUE',
-        capacity_link: ''
+        capacity_link: '',
+        drop_count: 0
       };
       tpc.push(rec);
     }
@@ -1101,6 +1127,9 @@ export default class DataManager {
             tpc[idx].capacity_status = measure.status_value;
             tpc[idx].capacity_link = this.GetWokloadTouchpointLink(touchpoint);
           }
+          if (measure.type === 'DRP') {
+            tpc[idx].drop_count += measure.value;
+          }
         });
       }
     });
@@ -1121,6 +1150,51 @@ export default class DataManager {
       return found;
     });
     return link;
+  }
+
+  ClearDropSteps() {
+    for (let i = 0; i < this.stages.length; i++) {
+      this.stages[i].steps.forEach(step => {
+        step.sub_steps.forEach(sub_step => {
+          sub_step.dark = false;
+        });
+      });
+    }
+  }
+
+  SetSubStepDark(stage_index, touchpoint_index) {
+    this.stages[stage_index - 1].steps.forEach(step => {
+      step.sub_steps.forEach(sub_step => {
+        sub_step.relationship_touchpoints.forEach(value => {
+          if (value === touchpoint_index) {
+            sub_step.dark = true;
+          }
+        });
+      });
+    });
+  }
+
+  UpdateDropSteps(element) {
+    // Clear Drop Steps
+    this.ClearDropSteps();
+    for (let stageIndex = 1; stageIndex <= this.stages.length; stageIndex++) {
+      element.touchpoints.forEach(touchpoint => {
+        if (touchpoint.stage_index === stageIndex && touchpoint.status_on_off) {
+          touchpoint.measure_points.forEach(measure => {
+            let setError = false;
+            if (measure.type === 'DRP' && measure.value > 0) {
+              setError = true;
+            }
+            if (setError) {
+              this.SetSubStepDark(
+                touchpoint.stage_index,
+                touchpoint.touchpoint_index
+              );
+            }
+          });
+        }
+      });
+    }
   }
 
   UpdateMaxCongestionSteps(count_by_stage) {
@@ -1647,6 +1721,14 @@ export default class DataManager {
                   query_timeout: timeout,
                   measure_time: measure_time
                 });
+              } else if (measure.type === 'DRP') {
+                queries.push({
+                  type: this.measureNames[6],
+                  accountID: accountID,
+                  query: measure.query,
+                  query_timeout: timeout,
+                  measure_time: `${this.dropParams.hours} HOURS AGO`
+                });
               }
             });
           }
@@ -1886,6 +1968,13 @@ export default class DataManager {
               query: query.query,
               timeout: query_timeout,
               status_value: 'NO-VALUE'
+            };
+          } else if (query.type === this.measureNames[6]) {
+            measure = {
+              type: 'DRP',
+              query: query.query,
+              timeout: query_timeout,
+              value: 0
             };
           }
           if (query.accountID !== this.accountId) {
@@ -2316,7 +2405,18 @@ export default class DataManager {
                   type: 'WLD',
                   query_start: '',
                   query_body: measure.query,
-                  query_footer: '',
+                  query_footer: 'SINCE 3 HOURS AGO',
+                  timeout: measure.timeout
+                });
+              } else if (measure.type === 'DRP') {
+                datos.push({
+                  accountID: accountID,
+                  label: this.measureNames[6],
+                  value: actualValue,
+                  type: 'DRP',
+                  query_start: '',
+                  query_body: measure.query,
+                  query_footer: `SINCE ${this.dropParams.hours} HOURS AGO`,
                   timeout: measure.timeout
                 });
               }
