@@ -20,9 +20,6 @@ exports[`FlameFormModal component Render body with default data 1`] = `
        
     </div>
     <div
-      className="modal4content"
-    />
-    <div
       style={
         Object {
           "float": "left",

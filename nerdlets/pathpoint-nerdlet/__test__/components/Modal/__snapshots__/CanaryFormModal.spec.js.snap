@@ -18,9 +18,6 @@ exports[`CanaryFormModal component Render body with default data 1`] = `
       When activating the Canary, all states are reset and Pathpoint will only begin to calculate the steps that are activated manually. It is likely to illustrate the specific operation of a particular step.  This is a useful view when you are troubleshooting one step or in the process of a code deployment or system maintenance and want to constrain your view.   If you are running the Pathpoint background job the signals for non-visible touchpoints will still be available with the Flame view.
     </div>
     <div
-      className="modal4content"
-    />
-    <div
       style={
         Object {
           "float": "left",

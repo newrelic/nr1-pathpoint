@@ -97,10 +97,17 @@ exports[`JsonConfigurationFormModal component Render body with default data 1`] 
     >
       <button
         className="btn btn-default"
+        color="primary"
         disabled={false}
         onClick={[MockFunction]}
+        style={
+          Object {
+            "background": "#0178bf",
+            "color": "white",
+          }
+        }
         type="button"
-        variant="outline-danger"
+        variant="contained"
       >
         <img
           src={Object {}}

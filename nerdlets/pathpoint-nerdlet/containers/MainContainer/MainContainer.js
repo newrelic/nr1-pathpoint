@@ -242,6 +242,7 @@ export default class MainContainer extends React.Component {
     const data = await this.DataManager.BootstrapInitialData(accountName);
     let credentials = {};
     if (
+      data &&
       data.credentials &&
       data.credentials.actor.nerdStorageVault.secrets.length > 0
     ) {
@@ -259,7 +260,7 @@ export default class MainContainer extends React.Component {
         credentials[item.key] = value;
       });
     }
-    if (data.generalConfiguration) {
+    if (data && data.generalConfiguration) {
       credentials = {
         ...credentials,
         ...data.generalConfiguration
@@ -267,13 +268,13 @@ export default class MainContainer extends React.Component {
     }
     this.setState(
       {
-        stages: data.stages,
-        colors: data.colors,
-        version: data.version,
-        accountId: data.accountId,
-        kpis: data.kpis,
-        totalContainers: data.totalContainers,
-        accountIDs: data.accountIDs,
+        stages: data ? data.stages : [],
+        colors: data ? data.colors : [],
+        version: data ? data.version : '',
+        accountId: data ? data.accountId : 0,
+        kpis: data ? data.kpis : [],
+        totalContainers: data ? data.totalContainers : 1,
+        accountIDs: data ? data.accountIDs : [],
         credentials,
         credentialsBackup: credentials
       },
@@ -309,8 +310,8 @@ export default class MainContainer extends React.Component {
           );
           this.setState(
             {
-              stages: data.stages,
-              kpis: data.kpis ?? [],
+              stages: data ? data.stages : [],
+              kpis: data ? data.kpis : [],
               waiting: false
             },
             () => {
