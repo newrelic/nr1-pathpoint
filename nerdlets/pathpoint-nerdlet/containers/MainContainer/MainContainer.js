@@ -627,7 +627,7 @@ export default class MainContainer extends React.Component {
           const { stages } = state;
           const data = this.DataManager.ClearCanaryData(stages);
           return {
-            stages: data.stages
+            stages: data ? data.stages : []
           };
         },
         () => {

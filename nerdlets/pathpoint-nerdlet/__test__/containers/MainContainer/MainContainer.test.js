@@ -34,35 +34,35 @@ jest.mock(
 );
 
 // INITIAL DATA
-const banner_kpis = [
-  {
-    type: 100,
-    description: 'Total Order Count',
-    prefix: '',
-    suffix: 'Orders',
-    query: 'SELECT count(*) as value FROM Transaction SINCE 1 minute AGO',
-    value: 0
-  }
-];
+// const banner_kpis = [
+//   {
+//     type: 100,
+//     description: 'Total Order Count',
+//     prefix: '',
+//     suffix: 'Orders',
+//     query: 'SELECT count(*) as value FROM Transaction SINCE 1 minute AGO',
+//     value: 0
+//   }
+// ];
 
-const kpis = [
-  {
-    type: 101,
-    name: 'Unique Visitors',
-    shortName: 'Unique',
-    measure: [
-      {
-        accountID: 1606862,
-        query:
-          'SELECT count(*) as value  FROM  Public_APICall COMPARE WITH 2 day ago',
-        link: 'https://onenr.io/01qwL8KPxw5'
-      }
-    ],
-    value_type: 'FLOAT',
-    prefix: '$',
-    suffix: ''
-  }
-];
+// const kpis = [
+//   {
+//     type: 101,
+//     name: 'Unique Visitors',
+//     shortName: 'Unique',
+//     measure: [
+//       {
+//         accountID: 1606862,
+//         query:
+//           'SELECT count(*) as value  FROM  Public_APICall COMPARE WITH 2 day ago',
+//         link: 'https://onenr.io/01qwL8KPxw5'
+//       }
+//     ],
+//     value_type: 'FLOAT',
+//     prefix: '$',
+//     suffix: ''
+//   }
+// ];
 
 const stages = [
   {
@@ -72,6 +72,7 @@ const stages = [
     steps: [
       {
         line: 1,
+        index_stage: 1,
         values: [
           {
             title: 'Web',
@@ -111,23 +112,23 @@ const stages = [
   }
 ];
 
-const colors = {
-  background_capacity: [19, 72, 104],
-  stage_capacity: [255, 255, 255],
-  status_color: {
-    danger: [255, 76, 76],
-    warning: [242, 201, 76],
-    good: [39, 174, 96]
-  },
-  steps_touchpoints: [
-    {
-      select_color: [18, 167, 255],
-      unselect_color: [189, 189, 189],
-      error_color: [255, 76, 76],
-      dark: [51, 51, 51]
-    }
-  ]
-};
+// const colors = {
+//   background_capacity: [19, 72, 104],
+//   stage_capacity: [255, 255, 255],
+//   status_color: {
+//     danger: [255, 76, 76],
+//     warning: [242, 201, 76],
+//     good: [39, 174, 96]
+//   },
+//   steps_touchpoints: [
+//     {
+//       select_color: [18, 167, 255],
+//       unselect_color: [189, 189, 189],
+//       error_color: [255, 76, 76],
+//       dark: [51, 51, 51]
+//     }
+//   ]
+// };
 
 const canaryData = [
   {
@@ -331,6 +332,7 @@ describe('<MainContainer/>', () => {
         steps: [
           {
             highlighted: false,
+            index_stage: 1,
             line: 1,
             values: [
               {
@@ -402,6 +404,7 @@ describe('<MainContainer/>', () => {
         steps: [
           {
             highlighted: false,
+            index_stage: 1,
             line: 1,
             values: [
               {
@@ -442,5 +445,78 @@ describe('<MainContainer/>', () => {
         ]
       }
     ]);
+  });
+
+  it('ResetAllStages', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.ResetAllStages();
+  });
+
+  it('ResetAllStages with step.value = ""', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.state.stages[0].steps[0].value = '';
+    instance.state.stages[0].steps[0].sub_steps = [];
+    instance.ResetAllStages();
+  });
+
+  it('_onClose', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.restoreTouchPoints = jest.fn();
+    instance._onClose();
+  });
+
+  it('_onClose with errors', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.restoreTouchPoints = jest.fn();
+    instance._onClose([
+      {
+        dataPath: '/stages/0',
+        message: 'Bad JSON File Structure'
+      }
+    ]);
+  });
+
+  it('PreSelectCanaryData', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.ExecuteSetCanaryData = jest.fn();
+    instance.PreSelectCanaryData(canaryData);
+  });
+
+  it('PreSelectCanaryData with step.value !== ""', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance.state.stages[0].steps[0].value = 'Test';
+    instance.ExecuteSetCanaryData = jest.fn();
+    instance.PreSelectCanaryData(canaryData);
+  });
+
+  it('ExecuteSetCanaryData', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.DataManager = {
+      SetCanaryData: jest.fn().mockReturnValue({
+        stages
+      })
+    };
+    instance.ExecuteSetCanaryData();
+  });
+
+  it('ToggleCanaryIcon with no iconCanaryStatus and showCanaryWelcomeMat', () => {
+    const mainContainer = shallow(<MainContainer />);
+    const instance = mainContainer.instance();
+    instance.state.stages = stages;
+    instance._onClose = jest.fn();
+    instance.state.showCanaryWelcomeMat = true;
+    instance.ToggleCanaryIcon(true);
+    expect(instance.state.stages).toEqual([]);
   });
 });
