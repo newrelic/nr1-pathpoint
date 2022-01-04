@@ -472,7 +472,7 @@ function BodyJsonConfigurationFormModal(props) {
 }
 
 function GoToDocumentation() {
-  window.open('https://docs.newrelic.com/', '_blank');
+  window.open('https://github.com/newrelic/nr1-pathpoint#readme', '_blank');
 }
 
 // const YoutubeIcon = () => {
