@@ -1367,6 +1367,12 @@ export default class MainContainer extends React.Component {
           user: user.data.name
         }
       });
+      this.setState({
+        jsonMetaData: {
+          description: '',
+          note: ''
+        }
+      });
     }
     this.setState({
       stages: data.stages,

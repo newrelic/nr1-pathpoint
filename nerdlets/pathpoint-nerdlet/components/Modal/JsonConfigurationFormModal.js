@@ -356,7 +356,15 @@ function BodyJsonConfigurationFormModal(props) {
               From File
             </Button>
             <div style={{ position: 'relative' }}>
-              <Button variant="outline-danger" onClick={GetHistoricJSONData}>
+              <Button
+                variant="contained"
+                color="primary"
+                style={{
+                  background: '#0178bf',
+                  color: 'white'
+                }}
+                onClick={GetHistoricJSONData}
+              >
                 <img style={{ marginRight: '4px' }} src={clock} />
                 From History
               </Button>
