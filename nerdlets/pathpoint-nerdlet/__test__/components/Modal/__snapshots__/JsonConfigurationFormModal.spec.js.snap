@@ -176,16 +176,38 @@ exports[`JsonConfigurationFormModal component Render header with default data 1`
       style={
         Object {
           "cursor": "pointer",
+          "height": "25px",
           "marginLeft": "20px",
           "position": "relative",
+          "width": "25px",
         }
       }
     >
-      <img
-        onClick={[Function]}
-        src={Object {}}
-        width="16"
-      />
+      <svg
+        fill="#017C86"
+        focusable="false"
+        height="20"
+        role="img"
+        style={
+          Object {
+            "height": "100%",
+            "left": "0px",
+            "position": "absolute",
+            "top": "0px",
+            "width": "100%",
+          }
+        }
+        viewBox="0 0 20 20"
+        width="20"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M11.4 8.4l-.8-.8L8 10.3V1H7v9.3L4.4 7.6l-.8.8 3.9 3.8z"
+        />
+        <path
+          d="M13 10v4H2v-4H1v5h13v-5z"
+        />
+      </svg>
       <div
         style={
           Object {

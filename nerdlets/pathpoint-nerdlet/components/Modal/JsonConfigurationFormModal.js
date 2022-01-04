@@ -37,12 +37,32 @@ function HeaderJsonConfigurationFormModal(props) {
           <div
             style={{
               marginLeft: '20px',
-              position: 'relative',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              width: '25px',
+              height: '25px',
+              position: 'relative'
             }}
-            onClick={() => changeColor('download')}
+            onClick={() => HandleDownload()}
           >
-            <img src={down} width="16" onClick={() => HandleDownload()} />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              width="20"
+              height="20"
+              focusable="false"
+              role="img"
+              fill="#017C86"
+              style={{
+                position: 'absolute',
+                top: '0px',
+                left: '0px',
+                width: '100%',
+                height: '100%'
+              }}
+            >
+              <path d="M11.4 8.4l-.8-.8L8 10.3V1H7v9.3L4.4 7.6l-.8.8 3.9 3.8z" />
+              <path d="M13 10v4H2v-4H1v5h13v-5z" />
+            </svg>
             <div
               style={{
                 position: 'absolute',
