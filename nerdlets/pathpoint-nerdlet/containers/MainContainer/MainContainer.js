@@ -1,6 +1,6 @@
 // IMPORT LIBRARIES AND DEPENDENCIES
 import React from 'react';
-import { nerdlet, logger } from 'nr1';
+import { nerdlet, logger, UserQuery } from 'nr1';
 import Setup from '../../config/setup.json';
 import messages from '../../config/messages.json';
 import {
@@ -57,11 +57,21 @@ export default class MainContainer extends React.Component {
       header: false
     });
     this.state = {
+      username: '',
+      jsonMetaData: {
+        description: '',
+        note: ''
+      },
+      currentHistoricSelected: null,
       updating: false,
       queryModalShowing: false,
       updateBackgroundScript: false,
       generalConfigurationSaved: false,
       disableGeneralConfigurationSubmit: false,
+      JSONModal: {
+        view: 0,
+        historic: []
+      },
       accountName: '',
       credentials: {
         accountId: null,
@@ -145,7 +155,10 @@ export default class MainContainer extends React.Component {
       accountIDs: [],
       accountId: 0,
       credentialsBackup: false,
-      sendingLogsEnableDisable: true
+      sendingLogsEnableDisable: true,
+      configurationOptionSelected: 'download',
+      fileName: null,
+      fileNote: null
     };
   }
 
@@ -229,6 +242,7 @@ export default class MainContainer extends React.Component {
     const data = await this.DataManager.BootstrapInitialData(accountName);
     let credentials = {};
     if (
+      data &&
       data.credentials &&
       data.credentials.actor.nerdStorageVault.secrets.length > 0
     ) {
@@ -246,7 +260,7 @@ export default class MainContainer extends React.Component {
         credentials[item.key] = value;
       });
     }
-    if (data.generalConfiguration) {
+    if (data && data.generalConfiguration) {
       credentials = {
         ...credentials,
         ...data.generalConfiguration
@@ -254,13 +268,13 @@ export default class MainContainer extends React.Component {
     }
     this.setState(
       {
-        stages: data.stages,
-        colors: data.colors,
-        version: data.version,
-        accountId: data.accountId,
-        kpis: data.kpis,
-        totalContainers: data.totalContainers,
-        accountIDs: data.accountIDs,
+        stages: data ? data.stages : [],
+        colors: data ? data.colors : [],
+        version: data ? data.version : '',
+        accountId: data ? data.accountId : 0,
+        kpis: data ? data.kpis : [],
+        totalContainers: data ? data.totalContainers : 1,
+        accountIDs: data ? data.accountIDs : [],
         credentials,
         credentialsBackup: credentials
       },
@@ -296,8 +310,8 @@ export default class MainContainer extends React.Component {
           );
           this.setState(
             {
-              stages: data.stages,
-              kpis: data.kpis ?? [],
+              stages: data ? data.stages : [],
+              kpis: data ? data.kpis : [],
               waiting: false
             },
             () => {
@@ -318,9 +332,17 @@ export default class MainContainer extends React.Component {
 
   updateDataNow() {
     this.setState({
-      loading: true,
-      pending: true
+      loading: true
     });
+    const { updating } = this.state;
+    if (updating) {
+      // console.log('Current Updating...');
+      setTimeout(() => {
+        this.updateDataNow();
+      }, 1000);
+    } else {
+      this.ExecuteUpdateData(true);
+    }
   }
 
   // ===========================================================
@@ -491,7 +513,17 @@ export default class MainContainer extends React.Component {
 
   _onClose = errors => {
     const actualValue = this.state.hidden;
-    this.setState({ hidden: !actualValue, queryModalShowing: false });
+    this.setState({
+      hidden: !actualValue,
+      queryModalShowing: false
+    });
+    if (this.state.JSONModal.view !== 0) {
+      this.setState({
+        JSONModal: {
+          view: 0
+        }
+      });
+    }
     if (!this.state.generalConfigurationSaved) {
       this.setState(state => {
         let credentials = {};
@@ -595,7 +627,7 @@ export default class MainContainer extends React.Component {
           const { stages } = state;
           const data = this.DataManager.ClearCanaryData(stages);
           return {
-            stages: data.stages
+            stages: data ? data.stages : []
           };
         },
         () => {
@@ -959,6 +991,9 @@ export default class MainContainer extends React.Component {
       case 'WORKLOAD-QUERY':
         querySample = messages.sample_querys.wld;
         break;
+      case 'DROP-QUERY':
+        querySample = messages.sample_querys.drp;
+        break;
     }
     if (stageNameSelected.selectedCase) {
       stageNameSelected.datos[
@@ -1211,7 +1246,9 @@ export default class MainContainer extends React.Component {
     });
   };
 
-  _handleClickSetup = () => {
+  _handleClickSetup = async () => {
+    const user = await UserQuery.query();
+    this.setState({ username: user.data.name });
     this._onCloseBackdrop();
     this.openModalParent('null', 4);
   };
@@ -1318,8 +1355,26 @@ export default class MainContainer extends React.Component {
     return data;
   };
 
-  SetConfigurationJSON = payload => {
+  SetConfigurationJSON = async (payload, e) => {
     const data = this.DataManager.SetConfigurationJSON(payload);
+    if (this.state.JSONModal.view === 0) {
+      const user = await UserQuery.query();
+      this.DataManager.StorageJSONDataInHistoric({
+        payload,
+        jsonMetaData: {
+          ...this.state.jsonMetaData,
+          filename: e.target.files[0].name,
+          date: new Date(),
+          user: user.data.name
+        }
+      });
+      this.setState({
+        jsonMetaData: {
+          description: '',
+          note: ''
+        }
+      });
+    }
     this.setState({
       stages: data.stages,
       kpis: data.kpis ?? [],
@@ -1482,6 +1537,55 @@ export default class MainContainer extends React.Component {
     });
   };
 
+  handleOptionConfigurationChange = configurationOptionSelected => {
+    this.setState({ configurationOptionSelected });
+  };
+
+  handleFileChange = (type, value) => {
+    if (type === 'name') this.setState({ fileName: value });
+    else this.setState({ fileNote: value });
+  };
+
+  UpdateJSONMetaData = (name, value) => {
+    this.setState(state => {
+      const jsonMetaData = { ...state.jsonMetaData };
+      jsonMetaData[name] = value;
+      return {
+        jsonMetaData
+      };
+    });
+  };
+
+  GetHistoricJSONData = async () => {
+    const historic = await this.DataManager.GetHistoricJSONData();
+    this.setState({
+      JSONModal: {
+        view: 1,
+        historic
+      }
+    });
+  };
+
+  UpdateItemSelectFromHistoric = e => {
+    this.setState({
+      currentHistoricSelected: e.target.value
+    });
+  };
+
+  RestoreJSONFromHistoric = () => {
+    const payload = this.state.JSONModal.historic[
+      this.state.currentHistoricSelected
+    ].payload;
+    this.SetConfigurationJSON(payload);
+    this._onClose();
+    this.setState({
+      JSONModal: {
+        view: 0,
+        historic: []
+      }
+    });
+  };
+
   render() {
     const {
       stages,
@@ -1517,7 +1621,10 @@ export default class MainContainer extends React.Component {
       kpis,
       accountIDs,
       accountId,
-      credentials
+      credentials,
+      configurationOptionSelected,
+      fileName,
+      fileNote
     } = this.state;
     if (this.state.waiting) {
       return (
@@ -2084,6 +2191,19 @@ export default class MainContainer extends React.Component {
               this.handleSaveUpdateGeneralConfiguration
             }
             installUpdateBackgroundScripts={this.installUpdateBackgroundScripts}
+            onOptionConfigurationChange={this.handleOptionConfigurationChange}
+            configurationOptionSelected={configurationOptionSelected}
+            onFileChange={this.handleFileChange}
+            fileName={fileName}
+            fileNote={fileNote}
+            UpdateJSONMetaData={this.UpdateJSONMetaData}
+            jsonMetaData={this.state.jsonMetaData}
+            GetHistoricJSONData={this.GetHistoricJSONData}
+            JSONModal={this.state.JSONModal}
+            UpdateItemSelectFromHistoric={this.UpdateItemSelectFromHistoric}
+            currentHistoricSelected={this.state.currentHistoricSelected}
+            RestoreJSONFromHistoric={this.RestoreJSONFromHistoric}
+            username={this.state.username}
           />
           <div id="cover-spin" style={{ display: loading ? '' : 'none' }} />
         </div>

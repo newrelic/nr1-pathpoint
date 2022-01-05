@@ -6,6 +6,7 @@
         "start": "nr1 nerdpack:serve",
         "samanez": "nr1 nerdpack:serve --profile=samanez",
         "test": "jest -w 1 -u",
+        "testm": "jest -w 1 MainContainer",
         "eslint-check": "eslint nerdlets/",
         "eslint-fix": "eslint nerdlets/ --fix",
         "coverage": "jest --coverage",

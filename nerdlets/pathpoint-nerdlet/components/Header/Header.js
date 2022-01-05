@@ -12,8 +12,8 @@ import fireIcon from '../../images/FireIcon.svg';
 import fireIconOn from '../../images/FireIconOn.svg';
 import canaryIcon from '../../images/CanaryIcon.svg';
 import canaryIconOn from '../../images/CanaryIconOn.svg';
-// import goutIcon from '../../images/GoutIcon.svg';
-// import goutIconOn from '../../images/goutBlack.svg';
+import goutIcon from '../../images/GoutIcon.svg';
+import goutIconOn from '../../images/goutBlack.svg';
 
 // New KPI Tool Components
 import RangeDateSelector from '../RangeTime';
@@ -31,7 +31,7 @@ const Header = ({
   showLeftPanel,
   openLeftMenu,
   handleContextMenuFire,
-  // handleContextMenuGout,
+  handleContextMenuGout,
   ToggleHeaderButtons,
   logoSetup,
   // KPI PROPS
@@ -138,7 +138,7 @@ const Header = ({
               src={iconFireStatus ? fireIconOn : fireIcon}
             />
           </div>
-          {/* <div
+          <div
             className="fireIconContainer"
             onClick={() => {
               ToggleHeaderButtons('iconGoutStatus');
@@ -149,7 +149,7 @@ const Header = ({
               style={{ height: '18px' }}
               src={iconGoutStatus ? goutIconOn : goutIcon}
             />
-          </div> */}
+          </div>
           <Select
             name="header"
             handleOnChange={changeTimeRange}
@@ -331,7 +331,7 @@ Header.propTypes = {
   showLeftPanel: PropTypes.bool.isRequired,
   openLeftMenu: PropTypes.func.isRequired,
   handleContextMenuFire: PropTypes.func.isRequired,
-  // handleContextMenuGout: PropTypes.func.isRequired,
+  handleContextMenuGout: PropTypes.func.isRequired,
   ToggleHeaderButtons: PropTypes.func.isRequired,
   logoSetup: PropTypes.object.isRequired,
   timeRangeKpi: PropTypes.object.isRequired,

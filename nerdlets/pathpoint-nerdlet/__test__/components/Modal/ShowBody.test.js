@@ -66,6 +66,20 @@ describe('<ShowBody/>', () => {
           ingestLicense: false,
           userApiKey: false
         }}
+        UpdateJSONMetaData={jest.fn()}
+        jsonMetaData={{
+          description: '',
+          note: ''
+        }}
+        GetHistoricJSONData={jest.fn().mockReturnValue([])}
+        JSONModal={{
+          view: 0,
+          historic: []
+        }}
+        UpdateItemSelectFromHistoric={jest.fn()}
+        currentHistoricSelected={null}
+        RestoreJSONFromHistoric={jest.fn()}
+        username="PathPoint"
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -122,6 +136,20 @@ describe('<ShowBody/>', () => {
           ingestLicense: false,
           userApiKey: false
         }}
+        UpdateJSONMetaData={jest.fn()}
+        jsonMetaData={{
+          description: '',
+          note: ''
+        }}
+        GetHistoricJSONData={jest.fn().mockReturnValue([])}
+        JSONModal={{
+          view: 0,
+          historic: []
+        }}
+        UpdateItemSelectFromHistoric={jest.fn()}
+        currentHistoricSelected={null}
+        RestoreJSONFromHistoric={jest.fn()}
+        username="PathPoint"
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -174,6 +202,20 @@ describe('<ShowBody/>', () => {
           ingestLicense: false,
           userApiKey: false
         }}
+        UpdateJSONMetaData={jest.fn()}
+        jsonMetaData={{
+          description: '',
+          note: ''
+        }}
+        GetHistoricJSONData={jest.fn().mockReturnValue([])}
+        JSONModal={{
+          view: 0,
+          historic: []
+        }}
+        UpdateItemSelectFromHistoric={jest.fn()}
+        currentHistoricSelected={null}
+        RestoreJSONFromHistoric={jest.fn()}
+        username="PathPoint"
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -224,6 +266,20 @@ describe('<ShowBody/>', () => {
           ingestLicense: false,
           userApiKey: false
         }}
+        UpdateJSONMetaData={jest.fn()}
+        jsonMetaData={{
+          description: '',
+          note: ''
+        }}
+        GetHistoricJSONData={jest.fn().mockReturnValue([])}
+        JSONModal={{
+          view: 0,
+          historic: []
+        }}
+        UpdateItemSelectFromHistoric={jest.fn()}
+        currentHistoricSelected={null}
+        RestoreJSONFromHistoric={jest.fn()}
+        username="PathPoint"
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -279,6 +335,20 @@ describe('<ShowBody/>', () => {
           ingestLicense: false,
           userApiKey: false
         }}
+        UpdateJSONMetaData={jest.fn()}
+        jsonMetaData={{
+          description: '',
+          note: ''
+        }}
+        GetHistoricJSONData={jest.fn().mockReturnValue([])}
+        JSONModal={{
+          view: 0,
+          historic: []
+        }}
+        UpdateItemSelectFromHistoric={jest.fn()}
+        currentHistoricSelected={null}
+        RestoreJSONFromHistoric={jest.fn()}
+        username="PathPoint"
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -311,6 +381,20 @@ describe('<ShowBody/>', () => {
           ingestLicense: false,
           userApiKey: false
         }}
+        UpdateJSONMetaData={jest.fn()}
+        jsonMetaData={{
+          description: '',
+          note: ''
+        }}
+        GetHistoricJSONData={jest.fn().mockReturnValue([])}
+        JSONModal={{
+          view: 0,
+          historic: []
+        }}
+        UpdateItemSelectFromHistoric={jest.fn()}
+        currentHistoricSelected={null}
+        RestoreJSONFromHistoric={jest.fn()}
+        username="PathPoint"
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -352,6 +436,20 @@ describe('<ShowBody/>', () => {
           ingestLicense: false,
           userApiKey: false
         }}
+        UpdateJSONMetaData={jest.fn()}
+        jsonMetaData={{
+          description: '',
+          note: ''
+        }}
+        GetHistoricJSONData={jest.fn().mockReturnValue([])}
+        JSONModal={{
+          view: 0,
+          historic: []
+        }}
+        UpdateItemSelectFromHistoric={jest.fn()}
+        currentHistoricSelected={null}
+        RestoreJSONFromHistoric={jest.fn()}
+        username="PathPoint"
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -393,6 +491,20 @@ describe('<ShowBody/>', () => {
           ingestLicense: false,
           userApiKey: false
         }}
+        UpdateJSONMetaData={jest.fn()}
+        jsonMetaData={{
+          description: '',
+          note: ''
+        }}
+        GetHistoricJSONData={jest.fn().mockReturnValue([])}
+        JSONModal={{
+          view: 0,
+          historic: []
+        }}
+        UpdateItemSelectFromHistoric={jest.fn()}
+        currentHistoricSelected={null}
+        RestoreJSONFromHistoric={jest.fn()}
+        username="PathPoint"
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -439,6 +551,20 @@ describe('<ShowBody/>', () => {
           ingestLicense: false,
           userApiKey: false
         }}
+        UpdateJSONMetaData={jest.fn()}
+        jsonMetaData={{
+          description: '',
+          note: ''
+        }}
+        GetHistoricJSONData={jest.fn().mockReturnValue([])}
+        JSONModal={{
+          view: 0,
+          historic: []
+        }}
+        UpdateItemSelectFromHistoric={jest.fn()}
+        currentHistoricSelected={null}
+        RestoreJSONFromHistoric={jest.fn()}
+        username="PathPoint"
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -479,6 +605,20 @@ describe('<ShowBody/>', () => {
         ToggleEnableSubmit={jest.fn()}
         installUpdateBackgroundScripts={jest.fn()}
         disableGeneralConfigurationSubmit={false}
+        UpdateJSONMetaData={jest.fn()}
+        jsonMetaData={{
+          description: '',
+          note: ''
+        }}
+        GetHistoricJSONData={jest.fn().mockReturnValue([])}
+        JSONModal={{
+          view: 0,
+          historic: []
+        }}
+        UpdateItemSelectFromHistoric={jest.fn()}
+        currentHistoricSelected={null}
+        RestoreJSONFromHistoric={jest.fn()}
+        username="PathPoint"
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -520,6 +660,20 @@ describe('<ShowBody/>', () => {
           ingestLicense: false,
           userApiKey: false
         }}
+        UpdateJSONMetaData={jest.fn()}
+        jsonMetaData={{
+          description: '',
+          note: ''
+        }}
+        GetHistoricJSONData={jest.fn().mockReturnValue([])}
+        JSONModal={{
+          view: 0,
+          historic: []
+        }}
+        UpdateItemSelectFromHistoric={jest.fn()}
+        currentHistoricSelected={null}
+        RestoreJSONFromHistoric={jest.fn()}
+        username="PathPoint"
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -561,6 +715,20 @@ describe('<ShowBody/>', () => {
           ingestLicense: false,
           userApiKey: false
         }}
+        UpdateJSONMetaData={jest.fn()}
+        jsonMetaData={{
+          description: '',
+          note: ''
+        }}
+        GetHistoricJSONData={jest.fn().mockReturnValue([])}
+        JSONModal={{
+          view: 0,
+          historic: []
+        }}
+        UpdateItemSelectFromHistoric={jest.fn()}
+        currentHistoricSelected={null}
+        RestoreJSONFromHistoric={jest.fn()}
+        username="PathPoint"
       />
     );
     bodyRender.instance().handleOnChange({
@@ -609,6 +777,20 @@ describe('<ShowBody/>', () => {
           ingestLicense: false,
           userApiKey: false
         }}
+        UpdateJSONMetaData={jest.fn()}
+        jsonMetaData={{
+          description: '',
+          note: ''
+        }}
+        GetHistoricJSONData={jest.fn().mockReturnValue([])}
+        JSONModal={{
+          view: 0,
+          historic: []
+        }}
+        UpdateItemSelectFromHistoric={jest.fn()}
+        currentHistoricSelected={null}
+        RestoreJSONFromHistoric={jest.fn()}
+        username="PathPoint"
       />
     );
     bodyRender.instance().handleSubmitLogo({
@@ -654,6 +836,20 @@ describe('<ShowBody/>', () => {
           ingestLicense: false,
           userApiKey: false
         }}
+        UpdateJSONMetaData={jest.fn()}
+        jsonMetaData={{
+          description: '',
+          note: ''
+        }}
+        GetHistoricJSONData={jest.fn().mockReturnValue([])}
+        JSONModal={{
+          view: 0,
+          historic: []
+        }}
+        UpdateItemSelectFromHistoric={jest.fn()}
+        currentHistoricSelected={null}
+        RestoreJSONFromHistoric={jest.fn()}
+        username="PathPoint"
       />
     );
     bodyRender.instance().handleSubmitTune({
@@ -699,6 +895,20 @@ describe('<ShowBody/>', () => {
           ingestLicense: false,
           userApiKey: false
         }}
+        UpdateJSONMetaData={jest.fn()}
+        jsonMetaData={{
+          description: '',
+          note: ''
+        }}
+        GetHistoricJSONData={jest.fn().mockReturnValue([])}
+        JSONModal={{
+          view: 0,
+          historic: []
+        }}
+        UpdateItemSelectFromHistoric={jest.fn()}
+        currentHistoricSelected={null}
+        RestoreJSONFromHistoric={jest.fn()}
+        username="PathPoint"
       />
     );
     bodyRender.instance().handleSubmitSupport({

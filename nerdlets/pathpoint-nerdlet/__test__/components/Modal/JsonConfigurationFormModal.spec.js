@@ -14,6 +14,20 @@ describe('JsonConfigurationFormModal component', () => {
         GetCurrentConfigurationJSON={jest.fn()}
         SetConfigurationJSON={jest.fn()}
         validateKpiQuery={{}}
+        UpdateJSONMetaData={jest.fn()}
+        jsonMetaData={{
+          description: '',
+          note: ''
+        }}
+        GetHistoricJSONData={jest.fn().mockReturnValue([])}
+        JSONModal={{
+          view: 0,
+          historic: []
+        }}
+        UpdateItemSelectFromHistoric={jest.fn()}
+        currentHistoricSelected={null}
+        RestoreJSONFromHistoric={jest.fn()}
+        username="PathPoint"
       />
     );
     expect(body.toJSON()).toMatchSnapshot();
@@ -29,6 +43,20 @@ describe('JsonConfigurationFormModal component', () => {
         GetCurrentConfigurationJSON={jest.fn()}
         SetConfigurationJSON={SetConfigurationJSON}
         validateKpiQuery={validateKpiQuery}
+        UpdateJSONMetaData={jest.fn()}
+        jsonMetaData={{
+          description: '',
+          note: ''
+        }}
+        GetHistoricJSONData={jest.fn().mockReturnValue([])}
+        JSONModal={{
+          view: 0,
+          historic: []
+        }}
+        UpdateItemSelectFromHistoric={jest.fn()}
+        currentHistoricSelected={null}
+        RestoreJSONFromHistoric={jest.fn()}
+        username="PathPoint"
       />
     );
     expect(component.exists()).toBe(true);

@@ -23,7 +23,9 @@ export default function ShowHeader(props) {
   const {
     viewModal,
     stageNameSelected,
-    changeMessage
+    changeMessage,
+    onOptionConfigurationChange,
+    configurationOptionSelected
     // accountIDs,
     // changeID
   } = props;
@@ -80,7 +82,13 @@ export default function ShowHeader(props) {
         </>
       );
     case 4:
-      return <HeaderJsonConfigurationFormModal />;
+      return (
+        <HeaderJsonConfigurationFormModal
+          onOptionConfigurationChange={onOptionConfigurationChange}
+          configurationOptionSelected={configurationOptionSelected}
+          {...props}
+        />
+      );
     case 5:
       return <HeaderSupportFormModal />;
     case 6:
@@ -105,7 +113,9 @@ ShowHeader.propTypes = {
     PropTypes.object.isRequired,
     PropTypes.number.isRequired
   ]),
-  changeMessage: PropTypes.func.isRequired
+  changeMessage: PropTypes.func.isRequired,
+  onOptionConfigurationChange: PropTypes.func,
+  configurationOptionSelected: PropTypes.string
   // accountIDs: PropTypes.array.isRequired,
   // changeID: PropTypes.number.isRequired
 };

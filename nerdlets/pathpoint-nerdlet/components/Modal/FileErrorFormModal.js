@@ -113,7 +113,7 @@ function handleUploadJSONFile(
         );
         let totalErrrors = [];
         if (!customErrors && queryErrors.length === 0) {
-          SetConfigurationJSON(eX.target.result);
+          SetConfigurationJSON(eX.target.result, e);
         }
         if (customErrors) {
           totalErrrors = [...customErrors];
