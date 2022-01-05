@@ -10,17 +10,12 @@ import viewSchema, { CustomSchemaValidation } from '../../schemas/view';
 
 // IMPORT ICONS
 import setup from '../../images/setup.svg';
-import down from '../../images/download.svg';
 import clock from '../../images/clock.svg';
 import information from '../../images/information-white.svg';
 import uploadjson from '../../images/uploadjson.png';
 
 function HeaderJsonConfigurationFormModal(props) {
   const { GetCurrentConfigurationJSON } = props;
-
-  const changeColor = select => {
-    props.onOptionConfigurationChange(select);
-  };
 
   return (
     <>
@@ -489,7 +484,6 @@ function HandleFromFileClick() {
 }
 
 HeaderJsonConfigurationFormModal.propTypes = {
-  onOptionConfigurationChange: PropTypes.func,
   GetCurrentConfigurationJSON: PropTypes.func
 };
 
