@@ -6,6 +6,29 @@
 * **catalog:** Merge pull request [#9](https://github.com/newrelic/nr1-pathpoint/issues/9) from jbeveland27/chore/catalog ([1a2fbd1](https://github.com/newrelic/nr1-pathpoint/commit/1a2fbd16c40c9c8ab630970cfa1f5de5956d32fb))
 * empty commit to bump version ([#34](https://github.com/newrelic/nr1-pathpoint/issues/34)) ([febc46d](https://github.com/newrelic/nr1-pathpoint/commit/febc46d1d9002772bf782b0e9901d5272779dbb0))
 * force release ([93b7593](https://github.com/newrelic/nr1-pathpoint/commit/93b75936244c333db6b9f2bb06db27bcc508177f))
+* release-bump ([e2fbade](https://github.com/newrelic/nr1-pathpoint/commit/e2fbadecb4cd0d9a45f5be0ab30c6c2eab8d7805))
+* trigger build ([591c230](https://github.com/newrelic/nr1-pathpoint/commit/591c230ef7e5e33e9dbf6efc0443c9e57cfb56b1))
+* updating release version ([cefcd04](https://github.com/newrelic/nr1-pathpoint/commit/cefcd04490845b30a96f00ca3fc2edcf0656f79e))
+
+
+### Features
+
+* add catalog keywords and categoryTerms ([ebced7d](https://github.com/newrelic/nr1-pathpoint/commit/ebced7d6d32892fab60e5910bfe6e66cc3c02396))
+* update semantic release with node ([#13](https://github.com/newrelic/nr1-pathpoint/issues/13)) ([91a8aec](https://github.com/newrelic/nr1-pathpoint/commit/91a8aec9456c2a55b73de033e4f078156665f3df))
+
+
+### Reverts
+
+* Revert "Configuration Jest" ([30a778d](https://github.com/newrelic/nr1-pathpoint/commit/30a778dbaeee327060b993a9b406557d2ddca882))
+
+# 1.0.0 (2022-01-27)
+
+
+### Bug Fixes
+
+* **catalog:** Merge pull request [#9](https://github.com/newrelic/nr1-pathpoint/issues/9) from jbeveland27/chore/catalog ([1a2fbd1](https://github.com/newrelic/nr1-pathpoint/commit/1a2fbd16c40c9c8ab630970cfa1f5de5956d32fb))
+* empty commit to bump version ([#34](https://github.com/newrelic/nr1-pathpoint/issues/34)) ([febc46d](https://github.com/newrelic/nr1-pathpoint/commit/febc46d1d9002772bf782b0e9901d5272779dbb0))
+* force release ([93b7593](https://github.com/newrelic/nr1-pathpoint/commit/93b75936244c333db6b9f2bb06db27bcc508177f))
 * trigger build ([591c230](https://github.com/newrelic/nr1-pathpoint/commit/591c230ef7e5e33e9dbf6efc0443c9e57cfb56b1))
 * updating release version ([cefcd04](https://github.com/newrelic/nr1-pathpoint/commit/cefcd04490845b30a96f00ca3fc2edcf0656f79e))
 
