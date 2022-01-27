@@ -1,3 +1,12 @@
+## [1.5.5](https://github.com/newrelic/nr1-pathpoint/compare/v1.5.4...v1.5.5) (2022-01-27)
+
+
+### Bug Fixes
+
+* Bump version ([749de3a](https://github.com/newrelic/nr1-pathpoint/commit/749de3a93236adb378fcb5382d018341ca243b4b))
+* empty commit to bump version ([#34](https://github.com/newrelic/nr1-pathpoint/issues/34)) ([febc46d](https://github.com/newrelic/nr1-pathpoint/commit/febc46d1d9002772bf782b0e9901d5272779dbb0))
+* release-bump ([e2fbade](https://github.com/newrelic/nr1-pathpoint/commit/e2fbadecb4cd0d9a45f5be0ab30c6c2eab8d7805))
+
 # 1.0.0 (2022-01-27)
 
 
