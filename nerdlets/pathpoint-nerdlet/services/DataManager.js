@@ -1010,12 +1010,12 @@ export default class DataManager {
         }`;
       });
       gql += `}}`;
-      const { data, errors } = await NerdGraphQuery.query({ query: gql }).catch(
-        errors => {
-          return { errors: [{ errors }] };
+      const { data, error } = await NerdGraphQuery.query({ query: gql }).catch(
+        error => {
+          return { error: [{ error }] };
         }
       );
-      return { data, n, errors };
+      return { data, n, error };
     }
   }
 
