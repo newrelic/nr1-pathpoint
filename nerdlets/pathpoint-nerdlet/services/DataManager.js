@@ -961,16 +961,22 @@ export default class DataManager {
           }`;
         });
         gql += `}}`;
-        const { data, errors } = await NerdGraphQuery.query({
+        const { data, error } = await NerdGraphQuery.query({
           query: gql
         }).catch(errors => {
-          return { errors: [{ errors }] };
+          return { error: { errors: [errors] } };
         });
         if (data && data.actor)
           dataReturn.actor = Object.assign(dataReturn.actor, data.actor);
-        if (errors && errors.length > 0) {
-          errors.forEach(error => {
-            errorsReturn.push(error);
+        if (error && error.length > 0) {
+          const allErrors = [
+            ...(error.errors ?? []),
+            ...(error.graphQLErrors ?? [])
+          ];
+          allErrors.forEach(err => {
+            if (err) {
+              errorsReturn.push(err);
+            }
           });
         }
         gql = `{
@@ -1010,12 +1016,16 @@ export default class DataManager {
         }`;
       });
       gql += `}}`;
-      const { data, errors } = await NerdGraphQuery.query({ query: gql }).catch(
+      const { data, error } = await NerdGraphQuery.query({ query: gql }).catch(
         errors => {
-          return { errors: [{ errors }] };
+          return { error: { errors: [errors] } };
         }
       );
-      return { data, n, errors };
+      let allErrors = [];
+      if (error) {
+        allErrors = [...(error.errors ?? []), ...(error.graphQLErrors ?? [])];
+      }
+      return { data, n, errors: allErrors };
     }
   }
 

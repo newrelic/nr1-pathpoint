@@ -18,13 +18,22 @@ export default class ValidationQuery {
        }
      }`;
     let dataReturn = {};
-    const { errors, data } = await NerdGraphQuery.query({ query: gql });
+    const { error, data } = await NerdGraphQuery.query({ query: gql }).catch(
+      errors => {
+        return { error: { errors: [errors] } };
+      }
+    );
+    let allErrors = [];
+    if (error) {
+      allErrors = [...(error.errors ?? []), ...(error.graphQLErrors ?? [])];
+    }
     if (data && data.actor.account && data.actor.account.nrql) {
       dataReturn = data.actor.account.nrql
         ? data.actor.account.nrql.results
         : [];
     }
-    return { errors, data: dataReturn };
+
+    return { errors: allErrors, data: dataReturn };
   }
 
   async validateQuery(type, query, accountID = 0) {

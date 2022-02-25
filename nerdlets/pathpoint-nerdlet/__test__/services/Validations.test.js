@@ -171,7 +171,7 @@ describe('Validations class', () => {
       );
       expect(validateQuery).toEqual({
         data: [{ count: 123 }],
-        errors: undefined
+        errors: []
       });
     });
   });
@@ -184,7 +184,7 @@ describe('Validations class', () => {
       );
       expect(validateQuery).toEqual({
         data: [{ count: 123 }],
-        errors: undefined
+        errors: []
       });
     });
   });
