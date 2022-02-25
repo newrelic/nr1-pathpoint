@@ -1,3 +1,10 @@
+## [1.5.6](https://github.com/newrelic/nr1-pathpoint/compare/v1.5.5...v1.5.6) (2022-02-25)
+
+
+### Bug Fixes
+
+* app deprecations ([#38](https://github.com/newrelic/nr1-pathpoint/issues/38)) ([d457943](https://github.com/newrelic/nr1-pathpoint/commit/d457943dd52e30a77e1163954fa9114ad155044d))
+
 ## [1.5.5](https://github.com/newrelic/nr1-pathpoint/compare/v1.5.4...v1.5.5) (2022-01-27)
 
 
