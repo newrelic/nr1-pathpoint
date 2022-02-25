@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "Thu Jan 27 2022 20:30:21 GMT+0000 (Coordinated Universal Time)",
+  "lastUpdated": "Fri Feb 25 2022 00:38:30 GMT+0000 (Coordinated Universal Time)",
   "projectName": "Pathpoint",
   "projectUrl": "https://github.com/newrelic/nr1-pathpoint",
   "includeOptDeps": false,
@@ -17,15 +17,15 @@
       "licenseTextSource": "file",
       "publisher": "Evgeny Poberezkin"
     },
-    "axios@0.21.4": {
+    "axios@0.26.0": {
       "name": "axios",
-      "version": "0.21.4",
-      "range": "^0.21.4",
+      "version": "0.26.0",
+      "range": "^0.26.0",
       "licenses": "MIT",
       "repoUrl": "https://github.com/axios/axios",
-      "versionedRepoUrl": "https://github.com/axios/axios/tree/v0.21.4",
+      "versionedRepoUrl": "https://github.com/axios/axios/tree/v0.26.0",
       "licenseFile": "node_modules/axios/LICENSE",
-      "licenseUrl": "https://github.com/axios/axios/blob/v0.21.4/LICENSE",
+      "licenseUrl": "https://github.com/axios/axios/blob/v0.26.0/LICENSE",
       "licenseTextSource": "file",
       "publisher": "Matt Zabriskie"
     },

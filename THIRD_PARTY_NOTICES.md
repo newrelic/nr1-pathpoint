@@ -90,7 +90,7 @@ SOFTWARE.
 
 ### axios
 
-This product includes source derived from [axios](https://github.com/axios/axios) ([v0.21.4](https://github.com/axios/axios/tree/v0.21.4)), distributed under the [MIT License](https://github.com/axios/axios/blob/v0.21.4/LICENSE):
+This product includes source derived from [axios](https://github.com/axios/axios) ([v0.26.0](https://github.com/axios/axios/tree/v0.26.0)), distributed under the [MIT License](https://github.com/axios/axios/blob/v0.26.0/LICENSE):
 
 ```
 Copyright (c) 2014-present Matt Zabriskie
