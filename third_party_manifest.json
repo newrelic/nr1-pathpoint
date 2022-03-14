@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "Mon Mar 14 2022 17:06:41 GMT+0000 (Coordinated Universal Time)",
+  "lastUpdated": "Mon Mar 14 2022 18:21:20 GMT+0000 (Coordinated Universal Time)",
   "projectName": "Pathpoint",
   "projectUrl": "https://github.com/newrelic/nr1-pathpoint",
   "includeOptDeps": false,
@@ -16,6 +16,20 @@
       "licenseUrl": "https://github.com/ajv-validator/ajv/blob/v7.2.4/LICENSE",
       "licenseTextSource": "file",
       "publisher": "Evgeny Poberezkin"
+    },
+    "ansi-regex@5.0.1": {
+      "name": "ansi-regex",
+      "version": "5.0.1",
+      "range": ">=5.0.1",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/chalk/ansi-regex",
+      "versionedRepoUrl": "https://github.com/chalk/ansi-regex/tree/v5.0.1",
+      "licenseFile": "node_modules/ansi-regex/license",
+      "licenseUrl": "https://github.com/chalk/ansi-regex/blob/v5.0.1/license",
+      "licenseTextSource": "file",
+      "publisher": "Sindre Sorhus",
+      "email": "sindresorhus@gmail.com",
+      "url": "sindresorhus.com"
     },
     "axios@0.26.0": {
       "name": "axios",
@@ -53,6 +67,19 @@
       "licenseFile": "node_modules/jest-environment-jsdom/LICENSE",
       "licenseUrl": "https://github.com/facebook/jest/blob/v27.3.1/LICENSE",
       "licenseTextSource": "file"
+    },
+    "nanoid@3.3.1": {
+      "name": "nanoid",
+      "version": "3.3.1",
+      "range": ">=3.1.31",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/ai/nanoid",
+      "versionedRepoUrl": "https://github.com/ai/nanoid/tree/v3.3.1",
+      "licenseFile": "node_modules/nanoid/LICENSE",
+      "licenseUrl": "https://github.com/ai/nanoid/blob/v3.3.1/LICENSE",
+      "licenseTextSource": "file",
+      "publisher": "Andrey Sitnik",
+      "email": "andrey@sitnik.ru"
     },
     "prop-types@15.7.2": {
       "name": "prop-types",
@@ -259,6 +286,20 @@
       "publisher": "Pierre Vanduynslager",
       "url": "https://github.com/pvdlg"
     },
+    "ansi-regex@5.0.1": {
+      "name": "ansi-regex",
+      "version": "5.0.1",
+      "range": ">=5.0.1",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/chalk/ansi-regex",
+      "versionedRepoUrl": "https://github.com/chalk/ansi-regex/tree/v5.0.1",
+      "licenseFile": "node_modules/ansi-regex/license",
+      "licenseUrl": "https://github.com/chalk/ansi-regex/blob/v5.0.1/license",
+      "licenseTextSource": "file",
+      "publisher": "Sindre Sorhus",
+      "email": "sindresorhus@gmail.com",
+      "url": "sindresorhus.com"
+    },
     "babel-eslint@10.1.0": {
       "name": "babel-eslint",
       "version": "10.1.0",
@@ -419,6 +460,19 @@
       "licenseFile": "node_modules/jsdom/LICENSE.txt",
       "licenseUrl": "https://github.com/jsdom/jsdom/blob/v17.0.0/LICENSE.txt",
       "licenseTextSource": "file"
+    },
+    "nanoid@3.3.1": {
+      "name": "nanoid",
+      "version": "3.3.1",
+      "range": ">=3.1.31",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/ai/nanoid",
+      "versionedRepoUrl": "https://github.com/ai/nanoid/tree/v3.3.1",
+      "licenseFile": "node_modules/nanoid/LICENSE",
+      "licenseUrl": "https://github.com/ai/nanoid/blob/v3.3.1/LICENSE",
+      "licenseTextSource": "file",
+      "publisher": "Andrey Sitnik",
+      "email": "andrey@sitnik.ru"
     },
     "prettier@1.19.1": {
       "name": "prettier",
