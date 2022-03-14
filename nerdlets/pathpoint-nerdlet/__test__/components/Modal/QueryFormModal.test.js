@@ -45,6 +45,81 @@ describe('<QueryFormModal/>', () => {
     expect(bodyQueryForm.length).toEqual(1);
   });
 
+  it('Render body stage name selected on null', () => {
+    const resultsTestQuery = { str: 'asd', array: ['asd', 'ter'] };
+    const bodyQueryForm = mount(
+      <BodyQueryFormModal
+        querySample="simple query"
+        stageNameSelected={{
+          selectedCase: null,
+          datos: [
+            {
+              label: 'Full Open Query',
+              query_body: 'SELECT FILTER(count(*) FROM Log',
+              query_footer: 'SINCE 5 MINUTES AGO',
+              query_start: '',
+              type: 20,
+              value: 0,
+              accountID: 2710112
+            }
+          ]
+        }}
+        chargueSample={jest.fn()}
+        testQuery={jest.fn()}
+        handleSaveUpdateQuery={jest.fn()}
+        testText="Bad query"
+        resultsTestQuery={resultsTestQuery}
+        goodQuery={false}
+        modifiedQuery
+        handleChangeTexarea={jest.fn()}
+        accountIDs={accountIDs}
+      />
+    );
+    expect(bodyQueryForm.length).toEqual(1);
+  });
+
+  it('Render body stage name selected on 1', () => {
+    const resultsTestQuery = { str: 'asd', array: ['asd', 'ter'] };
+    const bodyQueryForm = mount(
+      <BodyQueryFormModal
+        querySample="simple query"
+        stageNameSelected={{
+          selectedCase: 1,
+          datos: [
+            {
+              label: 'Full Open Query',
+              query_body: 'SELECT FILTER(count(*) FROM Log',
+              query_footer: 'SINCE 5 MINUTES AGO',
+              query_start: '',
+              type: 20,
+              value: 0,
+              accountID: 2710112
+            },
+            {
+              label: 'Full Open Query',
+              query_body: 'SELECT FILTER(count(*) FROM Log',
+              query_footer: 'SINCE 5 MINUTES AGO',
+              query_start: '',
+              type: 20,
+              value: 0,
+              accountID: 2710112
+            }
+          ]
+        }}
+        chargueSample={jest.fn()}
+        testQuery={jest.fn()}
+        handleSaveUpdateQuery={jest.fn()}
+        testText="Bad query"
+        resultsTestQuery={resultsTestQuery}
+        goodQuery={false}
+        modifiedQuery
+        handleChangeTexarea={jest.fn()}
+        accountIDs={accountIDs}
+      />
+    );
+    expect(bodyQueryForm.length).toEqual(1);
+  });
+
   it('Render body with good query true', () => {
     const bodyQueryForm = mount(
       <BodyQueryFormModal
@@ -265,5 +340,37 @@ describe('<QueryFormModal/>', () => {
     );
     expect(bodyQueryForm.length).toEqual(1);
     expect(handleOnChange).toHaveBeenCalledTimes(0);
+  });
+
+  it('handleTimeoutChange', () => {
+    const sampleQuery = jest.fn();
+    const bodyQueryForm = mount(
+      <BodyQueryFormModal
+        querySample="simple query"
+        stageNameSelected={{
+          datos: [
+            {
+              label: 'Full Open Query',
+              query_body: 'SELECT FILTER(count(*) FROM Log',
+              query_footer: 'SINCE 5 MINUTES AGO',
+              query_start: '',
+              type: 20,
+              value: 0
+            }
+          ]
+        }}
+        chargueSample={sampleQuery}
+        testQuery={jest.fn()}
+        handleSaveUpdateQuery={jest.fn()}
+        testText="good query"
+        resultsTestQuery={{ type: 'default' }}
+        goodQuery
+        modifiedQuery={false}
+        handleChangeTexarea={jest.fn()}
+        accountIDs={accountIDs}
+      />
+    );
+    bodyQueryForm.find('#Timeout').simulate('change');
+    expect(sampleQuery).toHaveBeenCalledTimes(0);
   });
 });

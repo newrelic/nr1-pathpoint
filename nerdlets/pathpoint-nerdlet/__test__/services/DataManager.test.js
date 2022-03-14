@@ -1,3 +1,4 @@
+// IMPORT DEPENDENCIES
 import DataManager from '../../services/DataManager';
 import appPackage from '../../../../package.json';
 import {
@@ -7,6 +8,7 @@ import {
   AccountStorageMutation
 } from 'nr1';
 
+// MOCK DEPENDENCIES
 jest.mock(
   'nr1',
   () => {
@@ -23,86 +25,104 @@ jest.mock(
             case 'pathpoint': {
               switch (documentId) {
                 case 'version':
-                  return { data: { Version: '1.0.0' } };
+                  return { data: { Version: '1.5.6' } };
                 case 'newViewJSON':
                   return {
                     data: {
                       kpis: [
                         {
-                          check: true,
-                          index: 0,
-                          link: 'https://onenr.io/01qwL8KPxw5',
+                          type: 101,
                           name: 'Unique Visitors',
-                          prefix: '$',
-                          queryByCity: [],
                           shortName: 'Unique',
-                          value_type: 'FLOAT'
+                          measure: [
+                            {
+                              accountID: 1606862,
+                              query:
+                                'SELECT count(*) as value FROM Public_APICall COMPARE WITH 2 day ago',
+                              link: 'https://onenr.io/01qwL8KPxw5'
+                            }
+                          ],
+                          value_type: 'FLOAT',
+                          prefix: '$',
+                          suffix: ''
                         }
                       ],
                       ViewJSON: [
                         {
-                          index: 1,
                           title: 'BROWSE',
                           active_dotted: 'none',
-                          active_dotted_color: '#828282',
                           arrowMode: 'FLOW',
-                          consgestion: {
-                            percentage: 50,
-                            value: 50
-                          },
-                          status_color: 'warning',
-                          trafficIconType: 'people',
                           steps: [
                             {
-                              value: '',
-                              sub_steps: [
+                              line: 1,
+                              values: [
                                 {
-                                  index: 1,
-                                  id: 'ST1-LINE1-SS1',
-                                  canary_state: false,
-                                  latency: true,
-                                  value: 'Web',
-                                  dark: true,
-                                  history_error: false,
-                                  dotted: false,
-                                  highlighted: false,
-                                  error: false,
-                                  index_stage: 1,
-                                  relationship_touchpoints: [3]
+                                  title: 'Web',
+                                  id: 'ST1-LINE1-SS1'
+                                },
+                                {
+                                  title: 'Mobile Web',
+                                  id: 'ST1-LINE1-SS2'
+                                },
+                                {
+                                  title: 'App',
+                                  id: 'ST1-LINE1-SS3'
+                                }
+                              ]
+                            },
+                            {
+                              line: 2,
+                              values: [
+                                {
+                                  title: 'Login',
+                                  id: 'ST1-LINE2-SS1'
+                                },
+                                {
+                                  title: 'Signup',
+                                  id: 'ST1-LINE2-SS2'
+                                },
+                                {
+                                  title: 'Guest',
+                                  id: 'ST1-LINE2-SS3'
                                 }
                               ]
                             }
-                          ]
-                        },
-                        {
-                          index: 2,
-                          title: 'BAG',
-                          active_dotted: 'none',
-                          active_dotted_color: '#828282',
-                          arrowMode: 'FLOW',
-                          consgestion: {
-                            percentage: 50,
-                            value: 50
-                          },
-                          status_color: 'warning',
-                          trafficIconType: 'traffic',
-                          steps: [
+                          ],
+                          touchpoints: [
                             {
-                              value: '',
-                              sub_steps: [
+                              title: 'Login People (PRC)',
+                              status_on_off: true,
+                              dashboard_url: ['https://onenr.io/01qwL8KPxw5'],
+                              related_steps: 'ST1-LINE2-SS1',
+                              queries: [
                                 {
-                                  index: 1,
-                                  id: 'ST1-LINE1-SS1',
-                                  canary_state: false,
-                                  latency: true,
-                                  value: 'Web',
-                                  dark: true,
-                                  history_error: false,
-                                  dotted: false,
-                                  highlighted: false,
-                                  error: false,
-                                  index_stage: 1,
-                                  relationship_touchpoints: [3]
+                                  type: 'PRC-COUNT-QUERY',
+                                  accountID: 1,
+                                  query:
+                                    "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
+                                  query_timeout: 10,
+                                  min_count: 10,
+                                  max_count: 110,
+                                  measure_time: '15 minutes ago'
+                                }
+                              ]
+                            },
+                            {
+                              title: 'App Backend Health (APP)',
+                              status_on_off: true,
+                              dashboard_url: ['https://onenr.io/01qwL8KPxw5'],
+                              related_steps: 'ST1-LINE1-SS3',
+                              queries: [
+                                {
+                                  type: 'APP-HEALTH-QUERY',
+                                  accountID: 2847332,
+                                  query:
+                                    "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
+                                  query_timeout: 10,
+                                  min_apdex: 0.4,
+                                  max_response_time: 0.5,
+                                  max_error_percentage: 5,
+                                  measure_time: '5 MINUTES AGO'
                                 }
                               ]
                             }
@@ -123,21 +143,23 @@ jest.mock(
                           touchpoints: [
                             {
                               stage_index: 1,
-                              status_on_off: true,
-                              touchpoint_index: 1,
                               value: 'Login People (PRC)',
+                              touchpoint_index: 1,
+                              status_on_off: true,
+                              relation_steps: [4],
                               measure_points: [
                                 {
-                                  measure_time: '15 minutes ago',
-                                  min_count: 10,
+                                  type: 'PRC',
+                                  timeout: 10,
                                   query:
                                     "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
-                                  session_count: 17699,
-                                  timeout: 10,
-                                  type: 'PRC'
+                                  min_count: 10,
+                                  max_count: 110,
+                                  session_count: 0,
+                                  accountID: 1,
+                                  measure_time: '15 minutes ago'
                                 }
-                              ],
-                              relation_steps: [4]
+                              ]
                             }
                           ]
                         }
@@ -987,11 +1009,84 @@ describe('Datamanager service', () => {
     dataManager.FetchMeasure = jest.fn();
     dataManager.RemoveGreySquare = jest.fn();
     dataManager.NRDBQuery = jest.fn();
+    dataManager.city = 0;
+    dataManager.touchPoints = [
+      {
+        index: 0,
+        country: 'PRODUCTION',
+        touchpoints: [
+          {
+            stage_index: 1,
+            value: 'Login People (PRC)',
+            touchpoint_index: 1,
+            status_on_off: true,
+            relation_steps: [4],
+            measure_points: [
+              {
+                type: 'PRC',
+                timeout: 10,
+                query:
+                  "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
+                min_count: 10,
+                max_count: 110,
+                session_count: 0,
+                accountID: 1,
+                measure_time: '15 minutes ago'
+              }
+            ]
+          }
+        ]
+      }
+    ];
+    await dataManager.TouchPointsUpdate();
+    expect(dataManager.FetchMeasure).toHaveBeenCalledTimes(1);
+  });
+
+  it('Function TouchPointsUpdate() with more measures', async () => {
+    dataManager.stages = [
+      {
+        title: 'BROWSE'
+      }
+    ];
+    const array = [
+      {
+        check: true,
+        index: 0,
+        link: 'https://onenr.io/01qwL8KPxw5',
+        name: 'Unique Visitors',
+        prefix: '$',
+        queryByCity: [
+          {
+            query:
+              "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='ap-southeast-2'"
+          }
+        ],
+        shortName: 'Unique',
+        suffix: '',
+        type: 101,
+        value: {
+          current: 0,
+          previous: 0
+        },
+        value_type: 'FLOAT'
+      }
+    ];
+    dataManager.graphQlmeasures.push(array);
+    dataManager.FetchMeasure = jest.fn();
+    dataManager.RemoveGreySquare = jest.fn();
+    dataManager.NRDBQuery = jest.fn();
+    dataManager.FetchMeasure.mockImplementation(() => {
+      dataManager.graphQlmeasures = [{}];
+    });
     await dataManager.TouchPointsUpdate();
     expect(dataManager.FetchMeasure).toHaveBeenCalledTimes(1);
   });
 
   it('Function ClearMeasure()', () => {
+    const measureDRP = {
+      type: 'DRP',
+      session_count: 1
+    };
     const measurePRC = {
       type: 'PRC',
       session_count: 1
@@ -1025,6 +1120,7 @@ describe('Datamanager service', () => {
     dataManager.ClearMeasure(measureFRT);
     dataManager.ClearMeasure(measureSYN);
     dataManager.ClearMeasure(measureWLD);
+    dataManager.ClearMeasure(measureDRP);
     expect(measurePRC).toEqual({
       type: 'PRC',
       session_count: 0
@@ -1123,6 +1219,24 @@ describe('Datamanager service', () => {
         'TIME 5 HOURS AGO'
       ]
     ]);
+  });
+
+  it('Function FetchMeasure() with type = DRP', () => {
+    const measure = {
+      type: 'DRP',
+      timeout: 10,
+      query:
+        "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
+      min_count: 10,
+      session_count: 0,
+      accountID: 2710112
+    };
+    const extrainfo = 'TIME 5 HOURS AGO';
+    dataManager.dropParams = {
+      hours: '1'
+    };
+    dataManager.TimeRangeTransform = jest.fn();
+    dataManager.FetchMeasure(measure, extrainfo);
   });
 
   it('Function TimeRangeTransform()', () => {
@@ -2395,6 +2509,70 @@ describe('Datamanager service', () => {
     });
   });
 
+  it('Function CountryCalculateUpdates() with total_congestion', () => {
+    const element = {
+      index: 0,
+      country: 'PRODUCTION',
+      touchpoints: [
+        {
+          stage_index: 1,
+          value: 'Catalog API',
+          touchpoint_index: 1,
+          status_on_off: true,
+          relation_steps: [1],
+          measure_points: [
+            {
+              measure: 'PRC'
+            }
+          ]
+        }
+      ]
+    };
+    dataManager.Getmeasures = jest.fn().mockImplementation(() => {
+      return {
+        count_by_stage: [
+          {
+            total_count: 0,
+            traffic_type: 'traffic',
+            capacity_status: 0,
+            capacity_link: 'https://newrelic.one',
+            total_steps: 1,
+            num_steps_over_average: 4
+          }
+        ]
+      };
+    });
+    dataManager.UpdateErrorCondition = jest.fn();
+    dataManager.UpdateMaxCongestionSteps = jest.fn();
+    dataManager.dropParams = {
+      dropmoney: 100
+    };
+    dataManager.stages = [
+      {
+        index: 1,
+        title: 'BROWSE',
+        status_color: 'bad',
+        total_count: 0,
+        trafficIconType: 'people',
+        steps: [],
+        capacity: 0,
+        capacity_link: '',
+        congestion: {
+          value: 0,
+          percentage: 15
+        }
+      }
+    ];
+    dataManager.Getmeasures = jest
+      .fn()
+      .mockReturnValue({ count_by_stage: [{ total_count: 1 }] });
+    dataManager.CountryCalculateUpdates(element);
+    expect(dataManager.stages[0].congestion).toEqual({
+      value: NaN,
+      percentage: NaN
+    });
+  });
+
   it('Function Getmeasures()', () => {
     dataManager.city = 0;
     dataManager.stages = [
@@ -2478,6 +2656,176 @@ describe('Datamanager service', () => {
     });
   });
 
+  it('Function Getmeasures() with measure.max_count on minor', () => {
+    dataManager.city = 0;
+    dataManager.stages = [
+      {
+        index: 1,
+        title: 'BROWSE',
+        percentage_above_avg: -1,
+        congestion: {
+          value: 0,
+          percentage: 15
+        },
+        steps: [
+          {
+            value: '',
+            sub_steps: [
+              {
+                index: 1,
+                id: 'ST1-LINE1-SS1',
+                relationship_touchpoints: [1]
+              }
+            ]
+          }
+        ],
+        touchpoints: [{ error: true, stage_index: 1 }]
+      }
+    ];
+    const element = {
+      index: 0,
+      country: 'PRODUCTION',
+      touchpoints: [
+        {
+          stage_index: 1,
+          value: 'Catalog API',
+          touchpoint_index: 1,
+          status_on_off: true,
+          relation_steps: [1],
+          measure_points: [
+            {
+              type: 'PRC',
+              query:
+                "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
+              min_count: 10,
+              max_count: 1,
+              count: 5,
+              session_count: 20,
+              accountID: 2904070,
+              measure_time: '15 minutes ago'
+            },
+            {
+              type: 'PCC',
+              query:
+                "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
+              min_count: 10,
+              transaction_count: 20,
+              accountID: 2904070,
+              measure_time: '15 minutes ago'
+            },
+            {
+              type: 'WLD',
+              query:
+                "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
+              status_value: true
+            }
+          ]
+        }
+      ]
+    };
+    const result = dataManager.Getmeasures(element);
+    expect(result).toEqual({
+      count_by_stage: [
+        {
+          capacity_link: '',
+          capacity_status: true,
+          num_touchpoints: 2,
+          steps_indexes: [],
+          steps_max_cong: [1],
+          total_congestion: 19,
+          total_count: 40,
+          drop_count: 0,
+          traffic_type: 'traffic'
+        }
+      ]
+    });
+  });
+
+  it('Function Getmeasures() with DRP', () => {
+    dataManager.city = 0;
+    dataManager.stages = [
+      {
+        index: 1,
+        title: 'BROWSE',
+        percentage_above_avg: -1,
+        congestion: {
+          value: 0,
+          percentage: 15
+        },
+        steps: [
+          {
+            value: '',
+            sub_steps: [
+              {
+                index: 1,
+                id: 'ST1-LINE1-SS1',
+                relationship_touchpoints: [1]
+              }
+            ]
+          }
+        ],
+        touchpoints: [{ error: true, stage_index: 1 }]
+      }
+    ];
+    const element = {
+      index: 0,
+      country: 'PRODUCTION',
+      touchpoints: [
+        {
+          stage_index: 1,
+          value: 'Catalog API',
+          touchpoint_index: 1,
+          status_on_off: true,
+          relation_steps: [1],
+          measure_points: [
+            {
+              type: 'DRP',
+              query:
+                "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
+              min_count: 10,
+              max_count: 1,
+              count: 5,
+              session_count: 20,
+              accountID: 2904070,
+              measure_time: '15 minutes ago'
+            },
+            {
+              type: 'PCC',
+              query:
+                "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
+              min_count: 10,
+              transaction_count: 20,
+              accountID: 2904070,
+              measure_time: '15 minutes ago'
+            },
+            {
+              type: 'WLD',
+              query:
+                "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
+              status_value: true
+            }
+          ]
+        }
+      ]
+    };
+    const result = dataManager.Getmeasures(element);
+    expect(result).toEqual({
+      count_by_stage: [
+        {
+          capacity_link: '',
+          capacity_status: true,
+          num_touchpoints: 1,
+          steps_indexes: [],
+          steps_max_cong: [],
+          total_congestion: 0,
+          total_count: 20,
+          drop_count: NaN,
+          traffic_type: 'traffic'
+        }
+      ]
+    });
+  });
+
   it('Funtion GetWokloadTouchpointLink()', () => {
     const touchpoint = {
       stage_index: 1,
@@ -2500,6 +2848,113 @@ describe('Datamanager service', () => {
     ];
     const result = dataManager.GetWokloadTouchpointLink(touchpoint);
     expect(result).toEqual('https://newrelic.one');
+  });
+
+  it('Funtion ClearDropSteps()', () => {
+    dataManager.stages = [
+      {
+        index: 1,
+        title: 'BROWSE',
+        percentage_above_avg: -1,
+        congestion: {
+          value: 0,
+          percentage: 15
+        },
+        steps: [
+          {
+            value: '',
+            sub_steps: [
+              {
+                index: 1,
+                latency: true,
+                id: 'ST1-LINE1-SS1',
+                relationship_touchpoints: [1]
+              }
+            ]
+          }
+        ],
+        touchpoints: [
+          { stage_index: 1, index: 0, dashboard_url: ['https://newrelic.one'] }
+        ]
+      }
+    ];
+    dataManager.ClearDropSteps();
+  });
+
+  it('Funtion SetSubStepDark()', () => {
+    dataManager.stages = [
+      {
+        index: 1,
+        title: 'BROWSE',
+        percentage_above_avg: -1,
+        congestion: {
+          value: 0,
+          percentage: 15
+        },
+        steps: [
+          {
+            value: '',
+            sub_steps: [
+              {
+                index: 1,
+                latency: true,
+                id: 'ST1-LINE1-SS1',
+                relationship_touchpoints: [1]
+              }
+            ]
+          }
+        ],
+        touchpoints: [
+          { stage_index: 1, index: 0, dashboard_url: ['https://newrelic.one'] }
+        ]
+      }
+    ];
+    dataManager.SetSubStepDark(1, 1);
+  });
+
+  it('Funtion UpdateDropSteps()', () => {
+    dataManager.stages = [
+      {
+        index: 1,
+        title: 'BROWSE',
+        percentage_above_avg: -1,
+        congestion: {
+          value: 0,
+          percentage: 15
+        },
+        steps: [
+          {
+            value: '',
+            sub_steps: [
+              {
+                index: 1,
+                latency: true,
+                id: 'ST1-LINE1-SS1',
+                relationship_touchpoints: [1]
+              }
+            ]
+          }
+        ],
+        touchpoints: [
+          { stage_index: 1, index: 0, dashboard_url: ['https://newrelic.one'] }
+        ]
+      }
+    ];
+    dataManager.ClearDropSteps = jest.fn();
+    dataManager.UpdateDropSteps({
+      touchpoints: [
+        {
+          stage_index: 1,
+          status_on_off: true,
+          measure_points: [
+            {
+              type: 'DRP',
+              value: 2
+            }
+          ]
+        }
+      ]
+    });
   });
 
   it('Function UpdateMaxCongestionSteps()', () => {
@@ -3137,6 +3592,49 @@ describe('Datamanager service', () => {
     ]);
   });
 
+  it('Function GetTouchpointQueryes() with measure_type = DRP', () => {
+    const stage_index = 1;
+    const index = 1;
+    dataManager.accountId = 2710112;
+    dataManager.TimeRangeTransform = jest.fn().mockReturnValue('5 MINUTES AGO');
+    dataManager.touchPoints = [
+      {
+        index: 0,
+        touchpoints: [
+          {
+            stage_index: 1,
+            touchpoint_index: 1,
+            measure_points: [
+              {
+                measure_time: '15 minutes ago',
+                accountID: 7777777,
+                timeout: 10,
+                type: 'DRP',
+                query:
+                  "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
+                min_count: 10
+              }
+            ]
+          }
+        ]
+      }
+    ];
+    dataManager.dropParams = {
+      hours: 1
+    };
+    const result = dataManager.GetTouchpointQueryes(stage_index, index);
+    expect(result).toEqual([
+      {
+        type: 'DROP-QUERY',
+        accountID: 7777777,
+        query:
+          "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
+        query_timeout: 10,
+        measure_time: '1 HOURS AGO'
+      }
+    ]);
+  });
+
   it('Function GetTouchpointQueryes() with measure_type = WLD', () => {
     const stage_index = 1;
     const index = 1;
@@ -3376,6 +3874,172 @@ describe('Datamanager service', () => {
     ]);
   });
 
+  it('Function UpdateNewConfiguration() WITH PRC', () => {
+    dataManager.accountId = 2710112;
+    dataManager.TimeRangeTransform = jest.fn().mockReturnValue('5 MINUTES AGO');
+    dataManager.UpdateTouchpointsRelationship = jest.fn();
+    dataManager.SetInitialDataViewToStorage = jest.fn();
+    dataManager.SetInitialDataTouchpointsToStorage = jest.fn();
+    dataManager.UpdateTouchpointCopy = jest.fn();
+    dataManager.measureNames = [
+      'PRC-COUNT-QUERY',
+      'PCC-COUNT-QUERY',
+      'APP-HEALTH-QUERY',
+      'FRT-HEALTH-QUERY',
+      'SYN-CHECK-QUERY',
+      'WORKLOAD-QUERY',
+      'DROP-QUERY'
+    ];
+    dataManager.configurationJSON = {
+      kpis: [
+        {
+          type: 101,
+          name: 'Unique Visitors',
+          shortName: 'Unique',
+          value_type: 'FLOAT',
+          prefix: '$',
+          suffix: '',
+          measure: [
+            {
+              accountID: 2710112,
+              query:
+                'SELECT count(*) as value  FROM  Public_APICall COMPARE WITH 2 day ago',
+              link: 'https://onenr.io/01qwL8KPxw5'
+            }
+          ]
+        },
+        {
+          type: 100,
+          name: 'Unique Visitors',
+          shortName: 'Unique',
+          value_type: 'FLOAT',
+          prefix: '$',
+          suffix: '',
+          measure: [
+            {
+              accountID: 777777,
+              query:
+                'SELECT count(*) as value  FROM  Public_APICall COMPARE WITH 2 day ago',
+              link: 'https://onenr.io/01qwL8KPxw5'
+            }
+          ]
+        }
+      ],
+      stages: [
+        {
+          stage: 'BROWSE',
+          active_dotted: 'none',
+          arrowMode: 'FLOW',
+          percentage_above_avg: 20,
+          steps: [
+            {
+              value: '',
+              values: [
+                {
+                  id: 1,
+                  title: 'BROWSE'
+                }
+              ]
+            }
+          ],
+          touchpoints: [
+            {
+              status_on_off: true,
+              title: 'BROWSE',
+              dashboard_url: 'htpps://dashboard.com',
+              related_steps: '1,2,3',
+              queries: [
+                {
+                  accountID: 2713654,
+                  query_timeout: true
+                },
+                {
+                  accountID: 2713654,
+                  type: 'PRC-COUNT-QUERY',
+                  min_count: 10,
+                  session_count: 0,
+                  measure_time: 12,
+                  query: 'SIMPLE COUNT-QUERY',
+                  max_count: 5
+                },
+                {
+                  accountID: 2713654,
+                  type: 'PRC-COUNT-QUERY',
+                  min_count: 10,
+                  session_count: 0,
+                  measure_time: 12,
+                  query: 'SIMPLE COUNT-QUERY'
+                },
+                {
+                  accountID: 2713654,
+                  type: 'PCC-COUNT-QUERY',
+                  min_count: 10,
+                  session_count: 0,
+                  measure_time: 12,
+                  query: 'SIMPLE COUNT-QUERY'
+                },
+                {
+                  accountID: 2713654,
+                  type: 'PCC-COUNT-QUERY',
+                  max_count: 10,
+                  session_count: 0,
+                  measure_time: 12,
+                  query: 'SIMPLE COUNT-QUERY'
+                },
+                {
+                  accountID: 2713654,
+                  type: 'APP-HEALTH-QUERY',
+                  min_count: 10,
+                  session_count: 0,
+                  measure_time: 12,
+                  query: 'SIMPLE COUNT-QUERY'
+                },
+                {
+                  accountID: 2713654,
+                  type: 'FRT-HEALTH-QUERY',
+                  min_count: 10,
+                  session_count: 0,
+                  measure_time: 12,
+                  query: 'SIMPLE COUNT-QUERY'
+                },
+                {
+                  accountID: 2713654,
+                  type: 'SYN-CHECK-QUERY',
+                  min_count: 10,
+                  session_count: 0,
+                  measure_time: 12,
+                  query: 'SIMPLE COUNT-QUERY'
+                },
+                {
+                  accountID: 2713654,
+                  type: 'WORKLOAD-QUERY',
+                  min_count: 10,
+                  session_count: 0,
+                  measure_time: 12,
+                  query: 'SIMPLE COUNT-QUERY'
+                },
+                {
+                  accountID: 2713654,
+                  type: 'DROP-QUERY',
+                  min_count: 10,
+                  session_count: 0,
+                  measure_time: 12,
+                  query: 'SIMPLE COUNT-QUERY'
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    };
+    dataManager.UpdateNewConfiguration();
+    expect(dataManager.stages[0].touchpoints[0].relation_steps).toEqual([
+      '1',
+      '2',
+      '3'
+    ]);
+  });
+
   it('Function UpdateTouchpointsRelationship()', () => {
     dataManager.touchPoints = [
       {
@@ -3575,6 +4239,39 @@ describe('Datamanager service', () => {
     expect(result).toBeTruthy();
   });
 
+  it('Function InserTouchpointsToScript() with type = PRC and PCC and newGroup', () => {
+    dataManager.touchPoints = [
+      {
+        index: 0,
+        stage_index: 1,
+        touchpoint_index: 1,
+        touchpoints: [
+          {
+            status_on_off: true,
+            measure_points: [
+              {
+                type: 'PRC',
+                timeout: 10,
+                query: 'SELECT * FROM Transaction',
+                measure_time: 0.36,
+                min_count: 0.12
+              },
+              {
+                type: 'PCC',
+                timeout: 10,
+                query: 'SELECT * FROM Transaction',
+                measure_time: 0.36,
+                min_count: 0.12
+              }
+            ]
+          }
+        ]
+      }
+    ];
+    const result = dataManager.InserTouchpointsToScript();
+    expect(result).toBeTruthy();
+  });
+
   it('Function InserTouchpointsToScript() with type APP and FRT', () => {
     dataManager.touchPoints = [
       {
@@ -3706,6 +4403,9 @@ describe('Datamanager service', () => {
       index: 1,
       stage_index: 1
     };
+    dataManager.dropParams = {
+      hours: 1
+    };
     dataManager.ValidateMeasureTime = jest
       .fn()
       .mockReturnValue('5 MINUTES AGO');
@@ -3750,6 +4450,11 @@ describe('Datamanager service', () => {
                 type: 'WLD',
                 query: 'SELECT * FROM Transactions',
                 timeout: 10
+              },
+              {
+                type: 'DRP',
+                query: 'SELECT * FROM Transactions',
+                timeout: 10
               }
             ]
           }
@@ -3757,7 +4462,7 @@ describe('Datamanager service', () => {
       }
     ];
     const result = dataManager.GetTouchpointQuerys(touchpoint);
-    expect(result.length).toEqual(6);
+    expect(result.length).toEqual(7);
   });
 
   it('Function ValidateMeasureTime()', () => {

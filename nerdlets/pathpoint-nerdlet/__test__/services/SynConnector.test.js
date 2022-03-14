@@ -42,6 +42,8 @@ jest.mock(
   { virtual: true }
 );
 
+jest.mock('../../../../nr1.json', () => ({ id: '1' }));
+
 describe('LogsConnector', () => {
   let synConnector;
 
@@ -194,6 +196,23 @@ describe('LogsConnector', () => {
     });
     const result = await synConnector.ExistFlameScript();
     expect(result.searchResult).toEqual(false);
+  });
+
+  it('Function ExistFlameScript() with monitor name', async () => {
+    jest.spyOn(synConnector.axiosInstance, 'get').mockReturnValue({
+      status: 200,
+      data: {
+        monitors: [
+          {
+            name: 'Pathpoint-1 Flame Script',
+            type: 'SCRIPT_API',
+            id: ''
+          }
+        ]
+      }
+    });
+    const result = await synConnector.ExistFlameScript();
+    expect(result.searchResult).toEqual(true);
   });
 
   it('Function ExistFlameScript() with error', async () => {

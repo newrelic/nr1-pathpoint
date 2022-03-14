@@ -22,6 +22,19 @@ jest.mock(
             return resolve();
           });
           return dataReturn;
+        } else if (query.includes('Count Query NRQL')) {
+          let dataReturn = {};
+          await new Promise(resolve => {
+            dataReturn = {
+              data: {
+                actor: {
+                  account: {}
+                }
+              }
+            };
+            return resolve();
+          });
+          return dataReturn;
         } else if (query.includes('Apdex Query')) {
           let dataReturn = {};
           await new Promise(resolve => {
@@ -40,6 +53,23 @@ jest.mock(
           });
           return dataReturn;
         } else if (query.includes('Session Query')) {
+          let dataReturn = {};
+          await new Promise(resolve => {
+            dataReturn = {
+              data: {
+                actor: {
+                  account: {
+                    nrql: {
+                      results: [{ session: 291 }]
+                    }
+                  }
+                }
+              }
+            };
+            return resolve();
+          });
+          return dataReturn;
+        } else if (query.includes('DROP-QUERY')) {
           let dataReturn = {};
           await new Promise(resolve => {
             dataReturn = {
@@ -176,6 +206,32 @@ describe('Validations class', () => {
     });
   });
 
+  describe('Function validateNrqlQuery without nrql data', () => {
+    it('nrql', async () => {
+      const validateQuery = await validations.validateNrqlQuery(
+        'Count Query NRQL',
+        0
+      );
+      expect(validateQuery).toEqual({
+        data: [{ count: 123 }],
+        errors: []
+      });
+    });
+  });
+
+  describe('Function validateNrqlQuery without nrql data leve 1', () => {
+    it('nrql', async () => {
+      const validateQuery = await validations.validateNrqlQuery(
+        'Count Query NRQL',
+        0
+      );
+      expect(validateQuery).toEqual({
+        data: [{ count: 123 }],
+        errors: []
+      });
+    });
+  });
+
   describe('Function validateNrqlQuery with AccountID not null', () => {
     it('nrql', async () => {
       const validateQuery = await validations.validateNrqlQuery(
@@ -202,6 +258,17 @@ describe('Validations class', () => {
       const validateQuery = await validations.validateQuery(
         'Count Query',
         'Count Query'
+      );
+      expect(validateQuery).toEqual({
+        goodQuery: false,
+        testText: 'Incorrect validated'
+      });
+    });
+
+    it('validate DROP-QUERY', async () => {
+      const validateQuery = await validations.validateQuery(
+        'DROP-QUERY',
+        'DROP-QUERY'
       );
       expect(validateQuery).toEqual({
         goodQuery: false,
@@ -417,6 +484,37 @@ describe('Validations class', () => {
       const validateData = validations.kpi101Validation(errors, query, data);
       expect(validateData).toEqual(false);
       expect(validations.kpi101Validation(errors, query, data2)).toEqual(false);
+    });
+
+    it('Function kpi101Validation() with no transactionComparison', () => {
+      const data = [{ a: 'a' }, { a: 'a' }];
+      const query =
+        'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago';
+      validations.kpi101Validation([], query, data);
+    });
+
+    it('Function kpi101Validation() with transactionComparison', () => {
+      const data = [{ comparison: 'a' }, { a: 'a' }];
+      const query =
+        'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago';
+      validations.kpi101Validation([], query, data);
+    });
+
+    it('checkDRPQueryValidation with errors', () => {
+      const data = [{ a: 'a' }, { a: 'a' }];
+      const errors = [{ error: true }];
+      validations.checkDRPQueryValidation(errors, data);
+    });
+
+    it('checkDRPQueryValidation with no errors', () => {
+      const data = [{ count: 'a' }];
+      const errors = [];
+      validations.checkDRPQueryValidation(errors, data);
+    });
+
+    it('checkDRPQueryValidation with no errors and data with level 1', () => {
+      const data = [{ count: 'a' }];
+      validations.checkDRPQueryValidation(null, data);
     });
 
     it('Function kpiQueryValidation()', () => {

@@ -21,7 +21,7 @@ describe('<ShowHeader/>', () => {
       expect(headerRender.length).toEqual(1);
     });
 
-    it('icon medal active false', () => {
+    it('Header with icon_active on false', () => {
       const headerRender = mount(
         <ShowHeader
           viewModal={0}
@@ -29,6 +29,40 @@ describe('<ShowHeader/>', () => {
           stageNameSelected={{
             icon_description: 'medal',
             icon_active: false,
+            title: 'touchpoint one'
+          }}
+          accountIDs={{ type: 'default' }}
+          changeID={1213212}
+        />
+      );
+      expect(headerRender.length).toEqual(1);
+    });
+
+    it('Header with no icon_active', () => {
+      const headerRender = mount(
+        <ShowHeader
+          viewModal={0}
+          changeMessage={jest.fn()}
+          stageNameSelected={{
+            icon_description: 'medal',
+            icon_active: null,
+            title: 'touchpoint one'
+          }}
+          accountIDs={{ type: 'default' }}
+          changeID={1213212}
+        />
+      );
+      expect(headerRender.length).toEqual(1);
+    });
+
+    it('icon medal active false', () => {
+      const headerRender = mount(
+        <ShowHeader
+          viewModal={0}
+          changeMessage={jest.fn()}
+          stageNameSelected={{
+            icon_description: 'medal',
+            icon_active: true,
             title: 'touchpoint one'
           }}
           accountIDs={{ type: 'default' }}
@@ -234,6 +268,40 @@ describe('<ShowHeader/>', () => {
         changeMessage={jest.fn()}
         stageNameSelected={{}}
         viewModal={10}
+        accountIDs={{ type: 'default' }}
+        changeID={1213212}
+      />
+    );
+    expect(headerRender.length).toEqual(1);
+  });
+
+  it('Header on case 11', () => {
+    const headerRender = mount(
+      <ShowHeader
+        viewModal={11}
+        changeMessage={jest.fn()}
+        stageNameSelected={{
+          icon_description: 'medal',
+          icon_active: true,
+          title: 'touchpoint one'
+        }}
+        accountIDs={{ type: 'default' }}
+        changeID={1213212}
+      />
+    );
+    expect(headerRender.length).toEqual(1);
+  });
+
+  it('Header on case with other icon description', () => {
+    const headerRender = mount(
+      <ShowHeader
+        viewModal={0}
+        changeMessage={jest.fn()}
+        stageNameSelected={{
+          icon_description: 'other',
+          icon_active: true,
+          title: 'touchpoint one'
+        }}
         accountIDs={{ type: 'default' }}
         changeID={1213212}
       />

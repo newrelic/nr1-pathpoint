@@ -93,6 +93,7 @@ export default class ShowBody extends Component {
         min_success_percentage: min_success_percentage
       });
     }
+    /* istanbul ignore next */
     if (messages.configuration.support.options_select_support_02.service_1) {
       this.setState({
         subject:

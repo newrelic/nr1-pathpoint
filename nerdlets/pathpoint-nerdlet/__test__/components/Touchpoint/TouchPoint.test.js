@@ -56,6 +56,150 @@ describe('<Touchpoint/>', () => {
       expect(result).toMatch('none');
     });
 
+    it('With show_grey_square', () => {
+      const touchPoint = {
+        status_on_off: false,
+        city: 0,
+        index: 0,
+        error: false,
+        countrys: [0, 1],
+        dashboard_url: ['www.google.com'],
+        sixth_sense_url: [[]],
+        show_grey_square: true
+      };
+      const wrapper = mount(
+        <TouchPoint
+          touchpoint={touchPoint}
+          city={0}
+          colors={colors}
+          iconFireStatus={false}
+          checkAllStatus={false}
+          iconCanaryStatus={false}
+          iconSixthSenseStatus={false}
+          visible={false}
+          idVisible=""
+          handleChange={jest.fn()}
+          renderProps={jest.fn()}
+          updateTouchpointOnOff={jest.fn()}
+          openModalParent={jest.fn()}
+        />
+      );
+
+      const result = wrapper
+        .instance()
+        .DisplayItem(touchPoint, false, false, true);
+      expect(result).toMatch('none');
+    });
+
+    it('With response_error', () => {
+      const touchPoint = {
+        status_on_off: false,
+        city: 0,
+        index: 0,
+        error: false,
+        countrys: [0, 1],
+        dashboard_url: ['www.google.com'],
+        sixth_sense_url: [[]],
+        show_grey_square: false,
+        response_error: true
+      };
+      const wrapper = mount(
+        <TouchPoint
+          touchpoint={touchPoint}
+          city={0}
+          colors={colors}
+          iconFireStatus={false}
+          checkAllStatus={false}
+          iconCanaryStatus={false}
+          iconSixthSenseStatus={false}
+          visible={false}
+          idVisible=""
+          handleChange={jest.fn()}
+          renderProps={jest.fn()}
+          updateTouchpointOnOff={jest.fn()}
+          openModalParent={jest.fn()}
+        />
+      );
+
+      const result = wrapper
+        .instance()
+        .DisplayItem(touchPoint, false, false, true);
+      expect(result).toMatch('none');
+    });
+
+    it('With visible', () => {
+      const touchPoint = {
+        status_on_off: false,
+        city: 0,
+        index: 0,
+        error: false,
+        countrys: [0, 1],
+        dashboard_url: ['www.google.com'],
+        sixth_sense_url: [[]],
+        show_grey_square: false,
+        response_error: true
+      };
+      const wrapper = mount(
+        <TouchPoint
+          touchpoint={touchPoint}
+          city={0}
+          colors={colors}
+          iconFireStatus={false}
+          checkAllStatus={false}
+          iconCanaryStatus={false}
+          iconSixthSenseStatus={false}
+          visible
+          idVisible="1"
+          handleChange={jest.fn()}
+          renderProps={jest.fn()}
+          updateTouchpointOnOff={jest.fn()}
+          openModalParent={jest.fn()}
+        />
+      );
+
+      const result = wrapper
+        .instance()
+        .DisplayItem(touchPoint, false, false, true);
+      expect(result).toMatch('none');
+    });
+
+    it('Display item', () => {
+      const touchPoint = {
+        status_on_off: false,
+        city: 0,
+        index: 0,
+        error: false,
+        countrys: [0, 1],
+        dashboard_url: ['www.google.com'],
+        sixth_sense_url: [[]],
+        show_grey_square: false,
+        response_error: true,
+        history_error: true
+      };
+      const wrapper = mount(
+        <TouchPoint
+          touchpoint={touchPoint}
+          city={0}
+          colors={colors}
+          iconFireStatus
+          checkAllStatus={false}
+          iconCanaryStatus={false}
+          iconSixthSenseStatus={false}
+          visible
+          idVisible="1"
+          handleChange={jest.fn()}
+          renderProps={jest.fn()}
+          updateTouchpointOnOff={jest.fn()}
+          openModalParent={jest.fn()}
+        />
+      );
+
+      const result = wrapper
+        .instance()
+        .DisplayItem(touchPoint, false, false, true);
+      expect(result).toMatch('none');
+    });
+
     it('flex value touchpoint error', () => {
       const touchPoint = {
         status_on_off: false,

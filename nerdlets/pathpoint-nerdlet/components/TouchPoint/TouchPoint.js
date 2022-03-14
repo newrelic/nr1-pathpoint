@@ -205,7 +205,9 @@ export default class TouchPoint extends React.Component {
         </div>
 
         <div>
+          {/* istanbul ignore next */}
           {visible && idVisible === this.state.idVisible && (
+            /* istanbul ignore next */
             <div
               ref={
                 /* istanbul ignore next */ ref => {

@@ -60,6 +60,33 @@ describe('<QueryFormModal/>', () => {
     expect(headerTuneForm.length).toEqual(1);
   });
 
+  it('Render header with DRP', () => {
+    const headerTuneForm = mount(
+      <HeaderTuneFormModal
+        handleSubmitTune={jest.fn()}
+        stageNameSelected={{
+          touchpoint: {
+            value: 'touchpoint one'
+          },
+          selectedCase: {
+            value: 0
+          },
+          datos: [
+            {
+              label: 'Full Open Query',
+              query_body: 'SELECT FILTER(count(*) FROM Log',
+              query_footer: 'SINCE 5 MINUTES AGO',
+              query_start: '',
+              type: 'WLD',
+              value: 0
+            }
+          ]
+        }}
+      />
+    );
+    expect(headerTuneForm.length).toEqual(1);
+  });
+
   it('Simulate onSubmit', () => {
     const handleSubmitTune = jest.fn();
 
@@ -148,6 +175,32 @@ describe('<QueryFormModal/>', () => {
     expect(bodyRender.length).toEqual(1);
   });
 
+  it('RenderForm view case PRC and no min count', () => {
+    const bodyRender = mount(
+      <BodyTuneFormModal
+        handleOnChange={jest.fn()}
+        handleSubmitTune={jest.fn()}
+        stageNameSelected={{
+          selectedCase: {
+            value: 0
+          },
+          datos: [
+            {
+              type: 'PRC',
+              query:
+                "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='us-east-1'",
+              min_count: 36,
+              session_count: 4,
+              accountID: 2904070
+            }
+          ]
+        }}
+        handleSaveUpdateTune={jest.fn()}
+      />
+    );
+    expect(bodyRender.length).toEqual(1);
+  });
+
   it('RenderForm view case PCC', () => {
     const bodyRender = mount(
       <BodyTuneFormModal
@@ -160,6 +213,62 @@ describe('<QueryFormModal/>', () => {
           datos: [
             {
               type: 'PCC',
+              query:
+                "SELECT count(*) FROM Public_APICall WHERE awsRegion='us-east-1'",
+              min_count: 20,
+              transaction_count: 0
+            }
+          ]
+        }}
+        handleSaveUpdateTune={jest.fn()}
+      />
+    );
+    expect(bodyRender.length).toEqual(1);
+  });
+
+  it('RenderForm view case MIN major', () => {
+    const bodyRender = mount(
+      <BodyTuneFormModal
+        handleOnChange={jest.fn()}
+        handleSubmitTune={jest.fn()}
+        stageNameSelected={{
+          selectedCase: {
+            value: 0
+          },
+          datos: [
+            {
+              type: 'PCC',
+              key: 'Min',
+              max_count: 3,
+              session_count: 10,
+              query:
+                "SELECT count(*) FROM Public_APICall WHERE awsRegion='us-east-1'",
+              min_count: 20,
+              transaction_count: 0
+            }
+          ]
+        }}
+        handleSaveUpdateTune={jest.fn()}
+      />
+    );
+    expect(bodyRender.length).toEqual(1);
+  });
+
+  it('RenderForm view case minor', () => {
+    const bodyRender = mount(
+      <BodyTuneFormModal
+        handleOnChange={jest.fn()}
+        handleSubmitTune={jest.fn()}
+        stageNameSelected={{
+          selectedCase: {
+            value: 0
+          },
+          datos: [
+            {
+              type: 'PCC',
+              key: 'Min',
+              max_count: 10,
+              session_count: 3,
               query:
                 "SELECT count(*) FROM Public_APICall WHERE awsRegion='us-east-1'",
               min_count: 20,
@@ -251,6 +360,58 @@ describe('<QueryFormModal/>', () => {
               apdex_value: 0,
               response_value: 0,
               error_percentage: 0
+            }
+          ]
+        }}
+        handleSaveUpdateTune={jest.fn()}
+      />
+    );
+    expect(bodyRender.length).toEqual(1);
+  });
+
+  it('RenderForm view case WLD', () => {
+    const bodyRender = mount(
+      <BodyTuneFormModal
+        handleOnChange={jest.fn()}
+        handleSubmitTune={jest.fn()}
+        stageNameSelected={{
+          selectedCase: {
+            value: 0
+          },
+          datos: [
+            {
+              type: 'WLD',
+              query:
+                "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='us-east-1'",
+              min_count: 36,
+              session_count: 0,
+              accountID: 2904070
+            }
+          ]
+        }}
+        handleSaveUpdateTune={jest.fn()}
+      />
+    );
+    expect(bodyRender.length).toEqual(1);
+  });
+
+  it('RenderForm view case DRP', () => {
+    const bodyRender = mount(
+      <BodyTuneFormModal
+        handleOnChange={jest.fn()}
+        handleSubmitTune={jest.fn()}
+        stageNameSelected={{
+          selectedCase: {
+            value: 0
+          },
+          datos: [
+            {
+              type: 'DRP',
+              query:
+                "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='us-east-1'",
+              min_count: 36,
+              session_count: 0,
+              accountID: 2904070
             }
           ]
         }}

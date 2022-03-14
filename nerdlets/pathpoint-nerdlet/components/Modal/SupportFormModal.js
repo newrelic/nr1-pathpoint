@@ -123,6 +123,7 @@ function BodySupportFormModal(props) {
 function defaultOptionsSelect() {
   const objeto = [];
   for (const key in messages.configuration.support.options_select_support_02) {
+    /* istanbul ignore next */
     if (
       Object.hasOwnProperty.call(
         messages.configuration.support.options_select_support_02,

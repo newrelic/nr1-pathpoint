@@ -48,6 +48,235 @@ describe('<GeneralConfigurationFormModal/>', () => {
     expect(component.exists()).toBe(true);
   });
 
+  it('Render BodyGeneralConfigurationFormModal with loggin', () => {
+    const toggleEnableSubmit = jest.fn();
+
+    const component = shallow(
+      <BodyGeneralConfigurationFormModal
+        stageNameSelected={{
+          datos: {
+            credentials: {
+              accountId: 2710112,
+              flameTools: true,
+              updateBackgroundScript: true,
+              loggin: true
+            },
+            accountIDs: [2710112, 2710113]
+          }
+        }}
+        handleOnChange={jest.fn()}
+        handleFormSubmit={jest.fn()}
+        credentialsData={{
+          accountId: null,
+          ingestLicense: null,
+          userAPIKey: null,
+          dropTools: null,
+          flameTools: null,
+          loggin: null
+        }}
+        resetCredentials={jest.fn()}
+        ValidateIngestLicense={jest.fn()}
+        licenseValidations={{ ingestLicense: false, userApiKey: false }}
+        ValidateUserApiKey={jest.fn()}
+        ToggleEnableSubmit={toggleEnableSubmit}
+        disableGeneralConfigurationSubmit={false}
+        installUpdateBackgroundScripts={jest.fn()}
+      />
+    );
+    expect(component.exists()).toBe(true);
+  });
+
+  it('Render BodyGeneralConfigurationFormModal with credentialsData', () => {
+    const toggleEnableSubmit = jest.fn();
+
+    const component = shallow(
+      <BodyGeneralConfigurationFormModal
+        stageNameSelected={{
+          datos: {
+            credentials: {
+              accountId: 2710112,
+              flameTools: true,
+              updateBackgroundScript: true,
+              loggin: true
+            },
+            accountIDs: [2710112, 2710113]
+          }
+        }}
+        handleOnChange={jest.fn()}
+        handleFormSubmit={jest.fn()}
+        credentialsData={{
+          accountId: null,
+          ingestLicense: '123',
+          userAPIKey: null,
+          dropTools: null,
+          flameTools: null,
+          loggin: null
+        }}
+        resetCredentials={jest.fn()}
+        ValidateIngestLicense={jest.fn()}
+        licenseValidations={{ ingestLicense: false, userApiKey: false }}
+        ValidateUserApiKey={jest.fn()}
+        ToggleEnableSubmit={toggleEnableSubmit}
+        disableGeneralConfigurationSubmit={false}
+        installUpdateBackgroundScripts={jest.fn()}
+      />
+    );
+    expect(component.exists()).toBe(true);
+  });
+
+  it('Render BodyGeneralConfigurationFormModal with credentialsData and disabled', () => {
+    const toggleEnableSubmit = jest.fn();
+
+    const component = shallow(
+      <BodyGeneralConfigurationFormModal
+        stageNameSelected={{
+          datos: {
+            credentials: {
+              accountId: 2710112,
+              flameTools: true,
+              updateBackgroundScript: true,
+              loggin: true
+            },
+            accountIDs: [2710112, 2710113]
+          }
+        }}
+        handleOnChange={jest.fn()}
+        handleFormSubmit={jest.fn()}
+        credentialsData={{
+          accountId: null,
+          ingestLicense: '123',
+          userAPIKey: '123',
+          dropTools: null,
+          flameTools: null,
+          loggin: null
+        }}
+        resetCredentials={jest.fn()}
+        ValidateIngestLicense={jest.fn()}
+        licenseValidations={{ ingestLicense: false, userApiKey: false }}
+        ValidateUserApiKey={jest.fn()}
+        ToggleEnableSubmit={toggleEnableSubmit}
+        disableGeneralConfigurationSubmit={false}
+        installUpdateBackgroundScripts={jest.fn()}
+      />
+    );
+    expect(component.exists()).toBe(true);
+  });
+
+  it('Render BodyGeneralConfigurationFormModal with showUpdateButton', () => {
+    const toggleEnableSubmit = jest.fn();
+
+    const component = shallow(
+      <BodyGeneralConfigurationFormModal
+        stageNameSelected={{
+          datos: {
+            updateBackgroundScript: true,
+            credentials: {
+              accountId: 2710112,
+              flameTools: true,
+              updateBackgroundScript: true,
+              loggin: true
+            },
+            accountIDs: [2710112, 2710113]
+          }
+        }}
+        handleOnChange={jest.fn()}
+        handleFormSubmit={jest.fn()}
+        credentialsData={{
+          accountId: null,
+          ingestLicense: '123',
+          userAPIKey: '123',
+          dropTools: null,
+          flameTools: true,
+          loggin: null
+        }}
+        resetCredentials={jest.fn()}
+        ValidateIngestLicense={jest.fn()}
+        licenseValidations={{ ingestLicense: false, userApiKey: false }}
+        ValidateUserApiKey={jest.fn()}
+        ToggleEnableSubmit={toggleEnableSubmit}
+        disableGeneralConfigurationSubmit={false}
+        installUpdateBackgroundScripts={jest.fn()}
+      />
+    );
+    expect(component.exists()).toBe(true);
+  });
+
+  it('Render BodyGeneralConfigurationFormModal with credentials data level 1', () => {
+    const toggleEnableSubmit = jest.fn();
+
+    const component = shallow(
+      <BodyGeneralConfigurationFormModal
+        stageNameSelected={{
+          datos: {
+            accountId: 123456789,
+            credentials: {
+              accountId: null,
+              flameTools: true,
+              updateBackgroundScript: true
+            },
+            accountIDs: [2710112, 2710113]
+          }
+        }}
+        handleOnChange={jest.fn()}
+        handleFormSubmit={jest.fn()}
+        credentialsData={{
+          accountId: null,
+          ingestLicense: null,
+          userAPIKey: null,
+          dropTools: null,
+          flameTools: null,
+          loggin: null
+        }}
+        resetCredentials={jest.fn()}
+        ValidateIngestLicense={jest.fn()}
+        licenseValidations={{ ingestLicense: false, userApiKey: false }}
+        ValidateUserApiKey={jest.fn()}
+        ToggleEnableSubmit={toggleEnableSubmit}
+        disableGeneralConfigurationSubmit={false}
+        installUpdateBackgroundScripts={jest.fn()}
+      />
+    );
+    expect(component.exists()).toBe(true);
+  });
+
+  it('Render BodyGeneralConfigurationFormModal with credentials data level 2', () => {
+    const toggleEnableSubmit = jest.fn();
+
+    const component = shallow(
+      <BodyGeneralConfigurationFormModal
+        stageNameSelected={{
+          datos: {
+            accountId: 123456789,
+            credentials: {
+              accountId: null,
+              flameTools: true,
+              updateBackgroundScript: true
+            },
+            accountIDs: [2710112, 2710113]
+          }
+        }}
+        handleOnChange={jest.fn()}
+        handleFormSubmit={jest.fn()}
+        credentialsData={{
+          accountId: null,
+          ingestLicense: null,
+          userAPIKey: null,
+          dropTools: null,
+          flameTools: null,
+          loggin: null
+        }}
+        resetCredentials={jest.fn()}
+        ValidateIngestLicense={jest.fn()}
+        licenseValidations={{ ingestLicense: false, userApiKey: false }}
+        ValidateUserApiKey={jest.fn()}
+        ToggleEnableSubmit={toggleEnableSubmit}
+        disableGeneralConfigurationSubmit={false}
+        installUpdateBackgroundScripts={jest.fn()}
+      />
+    );
+    expect(component.exists()).toBe(true);
+  });
+
   it('Render BodyGeneralConfigurationFormModal with ToggleEnableSubmit on onFocus', () => {
     const toggleEnableSubmit = jest.fn();
     const component = shallow(

@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-key */
 import React from 'react';
 import PropTypes from 'prop-types';
 import DownloadLink from 'react-download-link';
@@ -82,13 +81,13 @@ function HeaderJsonConfigurationFormModal(props) {
   );
 }
 
-function HandleDownload() {
+export function HandleDownload() {
   const button = document.querySelector('.downloadLink');
   button.click();
 }
 
 /* istanbul ignore next */
-function handleUploadJSONFile(
+export function handleUploadJSONFile(
   e,
   onClose,
   validateKpiQuery,
@@ -332,6 +331,7 @@ function BodyJsonConfigurationFormModal(props) {
             </div>
           </div>
           <div
+            id="upload-file-submit"
             style={{
               display: 'flex',
               justifyContent: 'center',
@@ -345,7 +345,7 @@ function BodyJsonConfigurationFormModal(props) {
               disabled={
                 jsonMetaData.description === '' || jsonMetaData.note === ''
               }
-              onClick={() => HandleFromFileClick()}
+              onClick={/* istanbul ignore next */ () => HandleFromFileClick()}
               style={{
                 background: '#0178bf',
                 color: 'white',
@@ -387,6 +387,7 @@ function BodyJsonConfigurationFormModal(props) {
               const date = new Date(historic.jsonMetaData.date);
               return (
                 <div
+                  key={`div_${i}`}
                   style={{
                     borderBottom: '1px solid lightgrey',
                     marginBottom: '25px'
@@ -474,11 +475,11 @@ function BodyJsonConfigurationFormModal(props) {
   );
 }
 
-function GoToDocumentation() {
+export function GoToDocumentation() {
   window.open('https://github.com/newrelic/nr1-pathpoint#readme', '_blank');
 }
 
-function HandleFromFileClick() {
+export function HandleFromFileClick() {
   const input = document.querySelector('#file-upload');
   input.click();
 }
