@@ -4,7 +4,8 @@ import Header, {
   transformK,
   FormatMoney,
   RenderLogo,
-  PrintKPI
+  PrintKPI,
+  PrintStatus
 } from '../../../components/Header/Header';
 
 jest.mock(
@@ -19,9 +20,13 @@ jest.mock(
           'hardware-and-software--software--logs'
       }
     };
+    const navigation = {
+      openStackedNerdlet: jest.fn()
+    };
     return {
       window,
-      Icon: Icon
+      Icon: Icon,
+      navigation
     };
   },
   { virtual: true }
@@ -99,6 +104,81 @@ describe('<Header/>', () => {
       expect(header.length).toEqual(1);
     });
 
+    it('Banner kpis initial with logging', () => {
+      const header = mount(
+        <Header
+          iconSixthSenseStatus
+          iconCanaryStatus
+          iconFireStatus
+          iconStartStatus
+          changeTimeRange={jest.fn()}
+          iconGoutStatus
+          showLeftPanel
+          openLeftMenu={jest.fn()}
+          handleContextMenuFire={jest.fn()}
+          handleContextMenuGout={jest.fn()}
+          ToggleHeaderButtons={jest.fn()}
+          logoSetup={{ type: 'default' }}
+          timeRangeKpi={{
+            index: 0
+          }}
+          changeTimeRangeKpi={jest.fn()}
+          kpis={kpis}
+          updateDataKpisChecked={jest.fn()}
+          DisplayConsole={jest.fn()}
+          credentials={{ loggin: true }}
+          accountId={2710112}
+        />
+      );
+      expect(header.length).toEqual(1);
+    });
+
+    it('Banner kpis initial with no link', () => {
+      const tempKpis = [
+        ...kpis,
+        {
+          index: 1,
+          type: 101,
+          name: '1 Account',
+          shortName: '1 Acc.',
+          link: '',
+          query:
+            'SELECT count(*) as value  FROM Transaction COMPARE WITH 2 day ago',
+          value: {
+            current: 0,
+            previous: 0
+          },
+          check: true
+        }
+      ];
+      const header = mount(
+        <Header
+          iconSixthSenseStatus
+          iconCanaryStatus
+          iconFireStatus
+          iconStartStatus
+          changeTimeRange={jest.fn()}
+          iconGoutStatus
+          showLeftPanel
+          openLeftMenu={jest.fn()}
+          handleContextMenuFire={jest.fn()}
+          handleContextMenuGout={jest.fn()}
+          ToggleHeaderButtons={jest.fn()}
+          logoSetup={{ type: 'default' }}
+          timeRangeKpi={{
+            index: 0
+          }}
+          changeTimeRangeKpi={jest.fn()}
+          kpis={tempKpis}
+          updateDataKpisChecked={jest.fn()}
+          DisplayConsole={jest.fn()}
+          credentials={credentials}
+          accountId={2710112}
+        />
+      );
+      expect(header.length).toEqual(1);
+    });
+
     it('Simulate click toggleHeaderButtons with flame status', () => {
       const handleAddToCart = jest.fn();
       const header = mount(
@@ -129,6 +209,40 @@ describe('<Header/>', () => {
       header
         .find('.fireIconContainer')
         .at(1)
+        .simulate('click');
+      expect(handleAddToCart).toHaveBeenCalledTimes(1);
+    });
+
+    it('Simulate click toggleHeaderButtons with flame status at position 2', () => {
+      const handleAddToCart = jest.fn();
+      const header = mount(
+        <Header
+          iconSixthSenseStatus
+          iconCanaryStatus
+          iconFireStatus
+          iconStartStatus
+          changeTimeRange={jest.fn()}
+          iconGoutStatus
+          showLeftPanel
+          openLeftMenu={jest.fn()}
+          handleContextMenuFire={jest.fn()}
+          handleContextMenuGout={jest.fn()}
+          ToggleHeaderButtons={handleAddToCart}
+          logoSetup={{ type: 'default' }}
+          timeRangeKpi={{
+            index: 0
+          }}
+          changeTimeRangeKpi={jest.fn()}
+          kpis={kpis}
+          updateDataKpisChecked={jest.fn()}
+          DisplayConsole={jest.fn()}
+          credentials={credentials}
+          accountId={2710112}
+        />
+      );
+      header
+        .find('.fireIconContainer')
+        .at(2)
         .simulate('click');
       expect(handleAddToCart).toHaveBeenCalledTimes(1);
     });
@@ -165,6 +279,40 @@ describe('<Header/>', () => {
         .at(1)
         .simulate('click');
       expect(handleAddToCart).toHaveBeenCalledTimes(1);
+    });
+
+    it('Simulate click on viewLogs', () => {
+      const handleAddToCart = jest.fn();
+      const header = mount(
+        <Header
+          iconSixthSenseStatus
+          iconCanaryStatus
+          iconFireStatus
+          iconStartStatus
+          changeTimeRange={jest.fn()}
+          iconGoutStatus
+          showLeftPanel
+          openLeftMenu={jest.fn()}
+          handleContextMenuFire={jest.fn()}
+          handleContextMenuGout={jest.fn()}
+          ToggleHeaderButtons={handleAddToCart}
+          logoSetup={{ type: 'default' }}
+          timeRangeKpi={{
+            index: 0
+          }}
+          changeTimeRangeKpi={jest.fn()}
+          kpis={kpis}
+          updateDataKpisChecked={jest.fn()}
+          DisplayConsole={jest.fn()}
+          credentials={credentials}
+          accountId={2710112}
+        />
+      );
+      header
+        .find('.viewLogs')
+        .at(0)
+        .simulate('click');
+      expect(handleAddToCart).toHaveBeenCalledTimes(0);
     });
 
     it('Simulate click toggleHeaderButtons with gout status', () => {
@@ -261,6 +409,25 @@ describe('<Header/>', () => {
     });
   });
 
+  describe('Function PrintStatus', () => {
+    const { open } = window;
+    beforeAll(() => {
+      delete window.open;
+      window.open = jest.fn();
+    });
+    afterAll(() => {
+      window.open = open;
+    });
+
+    it('Positive quantity', () => {
+      PrintStatus(1);
+    });
+
+    it('Zero quantity', () => {
+      PrintStatus(0);
+    });
+  });
+
   describe('Function FormatMoney', () => {
     const { open } = window;
     beforeAll(() => {
@@ -279,6 +446,11 @@ describe('<Header/>', () => {
       const result = FormatMoney(-1000);
       expect(result).toMatch('$1,000.00');
     });
+
+    // it('Negative quantity 1', () => {
+    //   const result = FormatMoney(-1900000);
+    //   expect(result).toMatch('$1,900,000.00');
+    // });
 
     it('Nan value', () => {
       const decimalCount = 0 / 'one';

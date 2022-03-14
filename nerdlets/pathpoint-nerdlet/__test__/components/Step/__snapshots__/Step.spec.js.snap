@@ -4,11 +4,6 @@ exports[`Step component Step component with canary state 1`] = `
 <div
   className="divStep"
   onClick={[Function]}
-  style={
-    Object {
-      "cursor": null,
-    }
-  }
 >
   <div
     className="circleStep"
@@ -52,11 +47,6 @@ exports[`Step component Step component with canary state and latency 1`] = `
 <div
   className="divStep"
   onClick={[Function]}
-  style={
-    Object {
-      "cursor": null,
-    }
-  }
 >
   <div
     className="circleStep"
@@ -100,11 +90,6 @@ exports[`Step component Step component with default data 1`] = `
 <div
   className="divStep"
   onClick={[Function]}
-  style={
-    Object {
-      "cursor": null,
-    }
-  }
 >
   <div
     className="circleStep"

@@ -13,7 +13,6 @@ const Step = ({
 }) => {
   const { dark } = colors.steps_touchpoints[0];
   const darkColor = `rgb(${dark[0]},${dark[1]},${dark[2]})`;
-  const setUrl = '';
   return (
     <>
       {step ? (
@@ -24,7 +23,6 @@ const Step = ({
               onclickStep(step);
             }
           }}
-          style={{ cursor: setUrl !== '' ? 'pointer' : null }}
         >
           {step.dotted ? <></> : <div className="circleStep">{step.index}</div>}
           <div className="divContentStep">

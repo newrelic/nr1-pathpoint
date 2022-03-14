@@ -28,6 +28,7 @@ export default class ValidationQuery {
       allErrors = [...(error.errors ?? []), ...(error.graphQLErrors ?? [])];
     }
     if (data && data.actor.account && data.actor.account.nrql) {
+      /* istanbul ignore next */
       dataReturn = data.actor.account.nrql
         ? data.actor.account.nrql.results
         : [];

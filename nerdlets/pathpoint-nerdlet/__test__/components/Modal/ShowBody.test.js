@@ -25,6 +25,7 @@ describe('<ShowBody/>', () => {
   it('Render view modal 0 ', () => {
     const bodyRender = mount(
       <ShowBody
+        GetCurrentHistoricErrorScript={jest.fn()}
         handleSaveUpdateSupport={jest.fn()}
         _onClose={jest.fn()}
         LogoFormSubmit={jest.fn()}
@@ -88,6 +89,7 @@ describe('<ShowBody/>', () => {
   it('Render view modal 1 ', () => {
     const bodyRender = mount(
       <ShowBody
+        GetCurrentHistoricErrorScript={jest.fn()}
         handleSaveUpdateSupport={jest.fn()}
         _onClose={jest.fn()}
         LogoFormSubmit={jest.fn()}
@@ -158,6 +160,7 @@ describe('<ShowBody/>', () => {
   it('Render view modal 2', () => {
     const bodyRender = mount(
       <ShowBody
+        GetCurrentHistoricErrorScript={jest.fn()}
         handleSaveUpdateSupport={jest.fn()}
         _onClose={jest.fn()}
         LogoFormSubmit={jest.fn()}
@@ -224,6 +227,7 @@ describe('<ShowBody/>', () => {
   it('Render view modal 3', () => {
     const bodyRender = mount(
       <ShowBody
+        GetCurrentHistoricErrorScript={jest.fn()}
         handleSaveUpdateSupport={jest.fn()}
         _onClose={jest.fn()}
         LogoFormSubmit={jest.fn()}
@@ -288,6 +292,7 @@ describe('<ShowBody/>', () => {
   it('Render view modal 4', () => {
     const bodyRender = mount(
       <ShowBody
+        GetCurrentHistoricErrorScript={jest.fn()}
         handleSaveUpdateSupport={jest.fn()}
         _onClose={jest.fn()}
         GetCurrentConfigurationJSON={jest.fn()}
@@ -357,6 +362,7 @@ describe('<ShowBody/>', () => {
   it('Render view modal 5', () => {
     const bodyRender = mount(
       <ShowBody
+        GetCurrentHistoricErrorScript={jest.fn()}
         _onClose={jest.fn()}
         LogoFormSubmit={jest.fn()}
         handleSaveUpdateTune={jest.fn()}
@@ -403,6 +409,7 @@ describe('<ShowBody/>', () => {
   it('Render view modal 6', () => {
     const bodyRender = mount(
       <ShowBody
+        GetCurrentHistoricErrorScript={jest.fn()}
         handleSaveUpdateSupport={jest.fn()}
         _onClose={jest.fn()}
         LogoFormSubmit={jest.fn()}
@@ -458,6 +465,7 @@ describe('<ShowBody/>', () => {
   it('Render view modal 7', () => {
     const bodyRender = mount(
       <ShowBody
+        GetCurrentHistoricErrorScript={jest.fn()}
         handleSaveUpdateSupport={jest.fn()}
         _onClose={jest.fn()}
         LogoFormSubmit={jest.fn()}
@@ -513,6 +521,7 @@ describe('<ShowBody/>', () => {
   it('Render view modal 8', () => {
     const bodyRender = mount(
       <ShowBody
+        GetCurrentHistoricErrorScript={jest.fn()}
         handleSaveUpdateSupport={jest.fn()}
         LogoFormSubmit={jest.fn()}
         handleSaveUpdateTune={jest.fn()}
@@ -627,6 +636,7 @@ describe('<ShowBody/>', () => {
   it('Render view modal 10', () => {
     const bodyRender = mount(
       <ShowBody
+        GetCurrentHistoricErrorScript={jest.fn()}
         handleSaveUpdateSupport={jest.fn()}
         _onClose={jest.fn()}
         handleSaveUpdateTune={jest.fn()}
@@ -682,6 +692,7 @@ describe('<ShowBody/>', () => {
   it('Function handleOnChange ', () => {
     const bodyRender = mount(
       <ShowBody
+        GetCurrentHistoricErrorScript={jest.fn()}
         handleSaveUpdateSupport={jest.fn()}
         _onClose={jest.fn()}
         handleSaveUpdateTune={jest.fn()}
@@ -744,6 +755,7 @@ describe('<ShowBody/>', () => {
     const LogoFormSubmit = jest.fn();
     const bodyRender = mount(
       <ShowBody
+        GetCurrentHistoricErrorScript={jest.fn()}
         handleSaveUpdateSupport={jest.fn()}
         _onClose={jest.fn()}
         handleSaveUpdateTune={jest.fn()}
@@ -803,6 +815,7 @@ describe('<ShowBody/>', () => {
     const handleSaveUpdateTune = jest.fn();
     const bodyRender = mount(
       <ShowBody
+        GetCurrentHistoricErrorScript={jest.fn()}
         handleSaveUpdateSupport={jest.fn()}
         _onClose={jest.fn()}
         handleSaveUpdateTune={handleSaveUpdateTune}
@@ -862,12 +875,73 @@ describe('<ShowBody/>', () => {
     const handleSaveUpdateSupport = jest.fn();
     const bodyRender = mount(
       <ShowBody
+        GetCurrentHistoricErrorScript={jest.fn()}
         handleSaveUpdateSupport={handleSaveUpdateSupport}
         _onClose={jest.fn()}
         handleSaveUpdateTune={jest.fn()}
         LogoFormSubmit={jest.fn()}
         handleOnChange={jest.fn()}
         viewModal={10}
+        width="230px"
+        stageNameSelected={{
+          datos: {
+            error_threshold: 0,
+            apdex_time: 0
+          }
+        }}
+        HandleCredentialsFormChange={jest.fn()}
+        handleSaveUpdateGeneralConfiguration={jest.fn()}
+        resetCredentials={jest.fn()}
+        ValidateIngestLicense={jest.fn()}
+        ValidateUserApiKey={jest.fn()}
+        ToggleEnableSubmit={jest.fn()}
+        installUpdateBackgroundScripts={jest.fn()}
+        disableGeneralConfigurationSubmit={false}
+        credentialsData={{
+          accountId: null,
+          ingestLicense: null,
+          userAPIKey: null,
+          dropTools: null,
+          flameTools: null,
+          loggin: null
+        }}
+        licenseValidations={{
+          ingestLicense: false,
+          userApiKey: false
+        }}
+        UpdateJSONMetaData={jest.fn()}
+        jsonMetaData={{
+          description: '',
+          note: ''
+        }}
+        GetHistoricJSONData={jest.fn().mockReturnValue([])}
+        JSONModal={{
+          view: 0,
+          historic: []
+        }}
+        UpdateItemSelectFromHistoric={jest.fn()}
+        currentHistoricSelected={null}
+        RestoreJSONFromHistoric={jest.fn()}
+        username="PathPoint"
+      />
+    );
+    bodyRender.instance().handleSubmitSupport({
+      preventDefault: jest.fn()
+    });
+    expect(handleSaveUpdateSupport).toHaveBeenCalledTimes(1);
+  });
+
+  it('viewModal on 11', () => {
+    const handleSaveUpdateSupport = jest.fn();
+    const bodyRender = mount(
+      <ShowBody
+        GetCurrentHistoricErrorScript={jest.fn()}
+        handleSaveUpdateSupport={handleSaveUpdateSupport}
+        _onClose={jest.fn()}
+        handleSaveUpdateTune={jest.fn()}
+        LogoFormSubmit={jest.fn()}
+        handleOnChange={jest.fn()}
+        viewModal={11}
         width="230px"
         stageNameSelected={{
           datos: {

@@ -4194,11 +4194,6 @@ exports[`<MainContainer/> Values stages 1`] = `
             <div
               className="divStep"
               onClick={[Function]}
-              style={
-                Object {
-                  "cursor": null,
-                }
-              }
             >
               <div
                 className="circleStep"

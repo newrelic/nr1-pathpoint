@@ -53,6 +53,7 @@ exports[`JsonConfigurationFormModal component Render body with default data 1`] 
     </div>
   </div>
   <div
+    id="upload-file-submit"
     style={
       Object {
         "display": "flex",

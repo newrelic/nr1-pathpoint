@@ -236,6 +236,7 @@ const FormatMoney = (
       (amount = Math.abs(Number(amount) || 0).toFixed(decimalCount))
     ).toString();
     const j = i.length > 3 ? i.length % 3 : 0;
+    /* istanbul ignore next */
     return `${amount < 0 ? '-' : ''}$${
       j ? i.substr(0, j) + thousands : ''
     }${i.substr(j).replace(/(\d{3})(?=\d)/g, `$1${thousands}`)}${
@@ -318,7 +319,8 @@ export {
   RenderLogo,
   FormatMoney,
   transformK,
-  PrintKPI
+  PrintKPI,
+  PrintStatus
 };
 export default Header;
 

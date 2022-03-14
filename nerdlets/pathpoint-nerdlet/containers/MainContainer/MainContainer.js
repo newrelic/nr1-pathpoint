@@ -281,9 +281,11 @@ export default class MainContainer extends React.Component {
       async () => {
         this.validationQuery = new ValidationQuery(this.state.accountId);
         this.InitLogoSetupData(this.state.accountId);
+        /* istanbul ignore next */
         setTimeout(() => {
           this.ExecuteUpdateData();
         }, 500);
+        /* istanbul ignore next */
         setInterval(() => {
           this.ExecuteUpdateData();
         }, Setup.time_refresh);
@@ -596,7 +598,7 @@ export default class MainContainer extends React.Component {
       const { stages, city } = state;
       const data = this.DataManager.SetCanaryData(stages, city);
       return {
-        stages: data.stages
+        stages: data ? data.stages : []
       };
     });
   };
@@ -691,7 +693,7 @@ export default class MainContainer extends React.Component {
       const data = await this.DataManager.ReadHistoricErrors();
       this.setState(
         {
-          stages: data.stages
+          stages: data ? data.stages : []
         },
         () => {
           this.updateHistoricErrors();
