@@ -1,7 +1,7 @@
 {
     "private": true,
     "name": "PathpointCore",
-    "version": "1.5.6",
+    "version": "1.5.8",
     "scripts": {
         "start": "nr1 nerdpack:serve",
         "samanez": "nr1 nerdpack:serve --profile=samanez",
@@ -25,7 +25,9 @@
         "react-device-detect": "^2.1.2",
         "react-download-link": "^2.3.0",
         "react-html-parser": "^2.0.2",
-        "shortid": "^2.2.16"
+        "shortid": "^2.2.16",
+        "ansi-regex": ">=5.0.1",
+        "nanoid": ">=3.1.31"
     },
     "browserslist": [
         "last 2 versions",
@@ -59,7 +61,9 @@
         "prettier": "^1.19.1",
         "react": "^16.6.3",
         "react-dom": "^16.6.3",
-        "react-test-renderer": "^17.0.1"
+        "react-test-renderer": "^17.0.1",
+        "ansi-regex": ">=5.0.1",
+        "nanoid": ">=3.1.31"
     },
     "jest": {
         "setupFilesAfterEnv": [
