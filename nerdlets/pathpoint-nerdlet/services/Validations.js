@@ -51,14 +51,19 @@ export default class ValidationQuery {
         goodQuery = this.countPRCQueryValidation(errors, data);
         break;
       case 'PCC-COUNT-QUERY':
+      case 'API-Count':
         goodQuery = this.countPCCQueryValidation(errors, data);
         break;
       case 'APP-HEALTH-QUERY':
       case 'FRT-HEALTH-QUERY':
+      case 'API-Performance':
         goodQuery = this.healthQueryValidation(errors, data);
         break;
       case 'SYN-CHECK-QUERY':
         goodQuery = this.checkSYNQueryValidation(errors, data);
+        break;
+      case 'API-Status':
+        goodQuery = this.checkAPSQueryValidation(errors, data);
         break;
       case 'WORKLOAD-QUERY':
         goodQuery = this.checkWLDQueryValidation(errors, data);
@@ -240,6 +245,34 @@ export default class ValidationQuery {
         if (quantity < 3) {
           validate = false;
         } else if (!successPercentage || !responseTime || !durationTime) {
+          validate = false;
+        }
+      } else {
+        validate = false;
+      }
+    }
+    return validate;
+  }
+
+  checkAPSQueryValidation(errors, data) {
+    let validate = true;
+    let quantity = 0;
+    if (errors && errors.length > 0) {
+      validate = false;
+    } else {
+      let successPercentage = false;
+      if (data instanceof Array && data.length === 1) {
+        for (const [key, value] of Object.entries(data[0])) {
+          if (value && typeof value !== 'number') {
+            validate = false;
+            break;
+          }
+          if (key === 'percentage') successPercentage = true;
+          quantity++;
+        }
+        if (quantity > 2) {
+          validate = false;
+        } else if (!successPercentage) {
           validate = false;
         }
       } else {

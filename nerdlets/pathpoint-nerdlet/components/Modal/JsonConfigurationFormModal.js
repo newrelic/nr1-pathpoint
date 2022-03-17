@@ -65,8 +65,8 @@ function HeaderJsonConfigurationFormModal(props) {
               }}
             >
               <DownloadLink
-                label="Pathpoint_Json_v1.5"
-                filename="Pathpoint_Json_v1.5.json"
+                label="Pathpoint_Json_Configuration"
+                filename="Pathpoint_Json_Configuration.json"
                 className="downloadLink"
                 style={{ cursor: 'pointer' }}
                 exportFile={

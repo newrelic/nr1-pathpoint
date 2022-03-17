@@ -996,6 +996,15 @@ export default class MainContainer extends React.Component {
       case 'DROP-QUERY':
         querySample = messages.sample_querys.drp;
         break;
+      case 'API-Performance':
+        querySample = messages.sample_querys.api;
+        break;
+      case 'API-Count':
+        querySample = messages.sample_querys.apc;
+        break;
+      case 'API-Status':
+        querySample = messages.sample_querys.aps;
+        break;
     }
     if (stageNameSelected.selectedCase) {
       stageNameSelected.datos[

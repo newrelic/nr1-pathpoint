@@ -228,7 +228,7 @@ exports[`JsonConfigurationFormModal component Render header with default data 1`
             }
           }
         >
-          Pathpoint_Json_v1.5
+          Pathpoint_Json_Configuration
         </a>
       </div>
     </div>
