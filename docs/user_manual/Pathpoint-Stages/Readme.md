@@ -3,8 +3,6 @@
 
 # Stages Guide
 
-
-
 ![Image](screenshots/stages.png)
 
 ## Introduction

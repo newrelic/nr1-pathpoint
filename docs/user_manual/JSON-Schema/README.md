@@ -1,15 +1,14 @@
-
 ![Image](screenshots/logo_pathpoint.png)
 
 # JSON-Schema
 
-Pathpoint is configured using a JSON configuration file, which is written to the needs of your particular business. 
+Pathpoint is configured using a JSON configuration file, which is written to the needs of your particular business.
 
 ## Working with the JSON configuration file
 
 If you need to tweak your KPIs, Stages, Steps, or Touchpoints (including their queries), open the JSON configuration file you are using, with a program like Visual Studio, and find the section you want to change.
 
-Now, before you make any changes to the JSON configuration file, keep in mind the rules about the parts you should not change, because they are REQUIRED for Pathpoint to work. This guide will also show what changes you can make, on the parts of the JSON configuration file you can modify. 
+Now, before you make any changes to the JSON configuration file, keep in mind the rules about the parts you should not change, because they are REQUIRED for Pathpoint to work. This guide will also show what changes you can make, on the parts of the JSON configuration file you can modify.
 
 ## KPIs
 
@@ -25,8 +24,6 @@ Now, before you make any changes to the JSON configuration file, keep in mind th
 * Suffix ; Required - some suffix to show in the GUI KPI, sample "Orders"
 
 ### KPI Type 101 Sample
-
-
 
 ```bash
 "kpis": [
@@ -72,18 +69,19 @@ Now, before you make any changes to the JSON configuration file, keep in mind th
     ]
 
 ```
+
 ## STAGES
 
 * Title; Required,  by default use "none",  
 * Active_dotted; Required - the choices are "none", and "dotted" - by default use none, dotted is to show a division line between Stages (which is placed to the left of the Stage you selected in this setting).
 * ArrowMode; Required - the choices are "FLOW" showing the arrow (by default use FLOW) , or "STATIC" which turns the arrow in the Stage header into a rectangle. Use Upper case for both of these choices.
 * Steps; Required - Defined Line by Line.
-   * Line; Required - Step line  number [1..6].
-   * Values; Required - One Object by every Sub Step in the Line, Max 6 Sub Steps.
-   * Title; Required - Step Name to show in the GUI.
-   * Id; Required - Any Unique ID, by default is recommended to use: StageIndex-LineIndex-SubStepIndex, example: ST1-LINE1-SS1
+  * Line; Required - Step line  number [1..6].
+  * Values; Required - One Object by every Sub Step in the Line, Max 6 Sub Steps.
+  * Title; Required - Step Name to show in the GUI.
+  * Id; Required - Any Unique ID, by default is recommended to use: StageIndex-LineIndex-SubStepIndex, example: ST1-LINE1-SS1
 
-### And this is how the Stages area appears on the JSON configuration file:
+### And this is how the Stages area appears on the JSON configuration file
 
 ```bash
     "stages": [
@@ -129,9 +127,7 @@ Now, before you make any changes to the JSON configuration file, keep in mind th
 * Related_steps; Required - any related step ID separated by commas, sample  "ST1-LINE2-SS1,ST1-LINE3-SS3"
 * Queries; Required - the query changes depending of the Touchpoint Type.
 
-
-
-### And this is how the Touchpoints area appears on the JSON configuration file:
+### And this is how the Touchpoints area appears on the JSON configuration file
 
 ```bash
     "touchpoints": [
@@ -146,7 +142,7 @@ Now, before you make any changes to the JSON configuration file, keep in mind th
                 {
 ```
 
-### Now, you will see one example Query for every touchpoint Type:
+### Now, you will see one example Query for every touchpoint Type
 
 ### TYPE : PRC
 
