@@ -149,7 +149,7 @@ Now, before you make any changes to the JSON configuration file, keep in mind th
 ```bash
 "queries": [
   {
-    "type": "PRC-COUNT-QUERY",
+    "type": "Person-Count",
     "accountID": 123456,
     "query": "SELECT uniqueCount(operatorID) as session FROM Log",
     "query_timeout": 10,
@@ -164,7 +164,7 @@ Now, before you make any changes to the JSON configuration file, keep in mind th
 ```bash
 "queries": [
   {
-    "type": "PCC-COUNT-QUERY",
+    "type": "Process-Count",
     "accountID": 123456,
     "query": "SELECT count(*) as count from Log WHERE application LIKE 'SolutionCenter_JBoss' and channel = 'chat'",
     "query_timeout": 10,
@@ -180,7 +180,7 @@ Now, before you make any changes to the JSON configuration file, keep in mind th
 ```bash
 "queries": [
   {
-    "type": "APP-HEALTH-QUERY",
+    "type": "Application-Performance",
     "accountID": 123456,
     "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
     "query_timeout": 10,
@@ -196,7 +196,7 @@ Now, before you make any changes to the JSON configuration file, keep in mind th
 ```bash
 "queries": [
   {
-    "type": "FRT-HEALTH-QUERY",
+    "type": "FrontEnd-Performance",
     "accountID": 123456,
     "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
     "query_timeout": 10,
@@ -212,7 +212,7 @@ Now, before you make any changes to the JSON configuration file, keep in mind th
 ```bash
 "queries": [
   {
-    "type": "SYN-CHECK-QUERY",
+    "type": "Synthetics-Check",
     "accountID": 123456,
     "query": "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE monitorName='BDB Live person'",
     "query_timeout": 10,
@@ -228,7 +228,7 @@ Now, before you make any changes to the JSON configuration file, keep in mind th
 ```bash
 "queries": [
   {
-    "type": "WORKLOAD-QUERY",
+    "type": "Workload-Status",
     "accountID": 123456,
     "query": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='ACME Banking'",
     "query_timeout": 10,
@@ -241,7 +241,7 @@ Now, before you make any changes to the JSON configuration file, keep in mind th
 ```bash
 "queries": [
   {
-    "type": "DROP-QUERY",
+    "type": "Drops-Count",
     "accountID": 123456,
     "query": "SELECT count(*) as count FROM Public_APICall WHERE api='adyen.com'",
     "query_timeout": 10,

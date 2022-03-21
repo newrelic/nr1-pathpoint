@@ -47,28 +47,28 @@ export default class ValidationQuery {
     }
     const { data, errors } = await this.validateNrqlQuery(query, accountID);
     switch (type) {
-      case 'PRC-COUNT-QUERY':
+      case 'Person-Count':
         goodQuery = this.countPRCQueryValidation(errors, data);
         break;
-      case 'PCC-COUNT-QUERY':
+      case 'Process-Count':
       case 'API-Count':
         goodQuery = this.countPCCQueryValidation(errors, data);
         break;
-      case 'APP-HEALTH-QUERY':
-      case 'FRT-HEALTH-QUERY':
+      case 'Application-Performance':
+      case 'FrontEnd-Performance':
       case 'API-Performance':
         goodQuery = this.healthQueryValidation(errors, data);
         break;
-      case 'SYN-CHECK-QUERY':
+      case 'Synthetics-Check':
         goodQuery = this.checkSYNQueryValidation(errors, data);
         break;
       case 'API-Status':
         goodQuery = this.checkAPSQueryValidation(errors, data);
         break;
-      case 'WORKLOAD-QUERY':
+      case 'Workload-Status':
         goodQuery = this.checkWLDQueryValidation(errors, data);
         break;
-      case 'DROP-QUERY':
+      case 'Drops-Count':
         goodQuery = this.checkDRPQueryValidation(errors, data);
         break;
       case 'KPI-101':

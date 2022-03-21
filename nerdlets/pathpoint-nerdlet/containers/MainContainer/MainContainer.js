@@ -975,25 +975,25 @@ export default class MainContainer extends React.Component {
     let querySample = '';
     const { stageNameSelected } = this.state;
     switch (stageNameSelected.datos[value].label) {
-      case 'PRC-COUNT-QUERY':
+      case 'Person-Count':
         querySample = messages.sample_querys.prc;
         break;
-      case 'PCC-COUNT-QUERY':
+      case 'Process-Count':
         querySample = messages.sample_querys.pcc;
         break;
-      case 'APP-HEALTH-QUERY':
+      case 'Application-Performance':
         querySample = messages.sample_querys.app;
         break;
-      case 'FRT-HEALTH-QUERY':
+      case 'FrontEnd-Performance':
         querySample = messages.sample_querys.frt;
         break;
-      case 'SYN-CHECK-QUERY':
+      case 'Synthetics-Check':
         querySample = messages.sample_querys.syn;
         break;
-      case 'WORKLOAD-QUERY':
+      case 'Workload-Status':
         querySample = messages.sample_querys.wld;
         break;
-      case 'DROP-QUERY':
+      case 'Drops-Count':
         querySample = messages.sample_querys.drp;
         break;
       case 'API-Performance':

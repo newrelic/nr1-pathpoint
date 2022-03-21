@@ -55,13 +55,13 @@ export default class DataManager {
     };
     this.configurationJSON = {};
     this.measureNames = [
-      'PRC-COUNT-QUERY',
-      'PCC-COUNT-QUERY',
-      'APP-HEALTH-QUERY',
-      'FRT-HEALTH-QUERY',
-      'SYN-CHECK-QUERY',
-      'WORKLOAD-QUERY',
-      'DROP-QUERY',
+      'Person-Count',
+      'Process-Count',
+      'Application-Performance',
+      'FrontEnd-Performance',
+      'Synthetics-Check',
+      'Workload-Status',
+      'Drops-Count',
       'API-Performance',
       'API-Count',
       'API-Status'

@@ -96,7 +96,7 @@ jest.mock(
                               related_steps: 'ST1-LINE2-SS1',
                               queries: [
                                 {
-                                  type: 'PRC-COUNT-QUERY',
+                                  type: 'Person-Count',
                                   accountID: 1,
                                   query:
                                     "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
@@ -114,7 +114,7 @@ jest.mock(
                               related_steps: 'ST1-LINE1-SS3',
                               queries: [
                                 {
-                                  type: 'APP-HEALTH-QUERY',
+                                  type: 'Application-Performance',
                                   accountID: 2847332,
                                   query:
                                     "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
@@ -3581,7 +3581,7 @@ describe('Datamanager service', () => {
     const result = dataManager.GetTouchpointQueryes(stage_index, index);
     expect(result).toEqual([
       {
-        type: 'PRC-COUNT-QUERY',
+        type: 'Person-Count',
         accountID: 7777777,
         query:
           "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
@@ -3625,7 +3625,7 @@ describe('Datamanager service', () => {
     const result = dataManager.GetTouchpointQueryes(stage_index, index);
     expect(result).toEqual([
       {
-        type: 'DROP-QUERY',
+        type: 'Drops-Count',
         accountID: 7777777,
         query:
           "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
@@ -3703,7 +3703,7 @@ describe('Datamanager service', () => {
     ];
     const result = dataManager.GetTouchpointQueryes(stage_index, index);
     expect(result[0]).toEqual({
-      type: 'PCC-COUNT-QUERY',
+      type: 'Process-Count',
       accountID: 7777777,
       query:
         "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
@@ -3814,7 +3814,7 @@ describe('Datamanager service', () => {
                 },
                 {
                   accountID: 2713654,
-                  type: 'PRC-COUNT-QUERY',
+                  type: 'Person-Count',
                   min_count: 10,
                   session_count: 0,
                   measure_time: 12,
@@ -3822,7 +3822,7 @@ describe('Datamanager service', () => {
                 },
                 {
                   accountID: 2713654,
-                  type: 'PCC-COUNT-QUERY',
+                  type: 'Process-Count',
                   min_count: 10,
                   session_count: 0,
                   measure_time: 12,
@@ -3830,7 +3830,7 @@ describe('Datamanager service', () => {
                 },
                 {
                   accountID: 2713654,
-                  type: 'APP-HEALTH-QUERY',
+                  type: 'Application-Performance',
                   min_count: 10,
                   session_count: 0,
                   measure_time: 12,
@@ -3838,7 +3838,7 @@ describe('Datamanager service', () => {
                 },
                 {
                   accountID: 2713654,
-                  type: 'FRT-HEALTH-QUERY',
+                  type: 'FrontEnd-Performance',
                   min_count: 10,
                   session_count: 0,
                   measure_time: 12,
@@ -3846,7 +3846,7 @@ describe('Datamanager service', () => {
                 },
                 {
                   accountID: 2713654,
-                  type: 'SYN-CHECK-QUERY',
+                  type: 'Synthetics-Check',
                   min_count: 10,
                   session_count: 0,
                   measure_time: 12,
@@ -3854,7 +3854,7 @@ describe('Datamanager service', () => {
                 },
                 {
                   accountID: 2713654,
-                  type: 'WORKLOAD-QUERY',
+                  type: 'Workload-Status',
                   min_count: 10,
                   session_count: 0,
                   measure_time: 12,
@@ -3882,13 +3882,13 @@ describe('Datamanager service', () => {
     dataManager.SetInitialDataTouchpointsToStorage = jest.fn();
     dataManager.UpdateTouchpointCopy = jest.fn();
     dataManager.measureNames = [
-      'PRC-COUNT-QUERY',
-      'PCC-COUNT-QUERY',
-      'APP-HEALTH-QUERY',
-      'FRT-HEALTH-QUERY',
-      'SYN-CHECK-QUERY',
-      'WORKLOAD-QUERY',
-      'DROP-QUERY'
+      'Person-Count',
+      'Process-Count',
+      'Application-Performance',
+      'FrontEnd-Performance',
+      'Synthetics-Check',
+      'Workload-Status',
+      'Drops-Count'
     ];
     dataManager.configurationJSON = {
       kpis: [
@@ -3955,7 +3955,7 @@ describe('Datamanager service', () => {
                 },
                 {
                   accountID: 2713654,
-                  type: 'PRC-COUNT-QUERY',
+                  type: 'Person-Count',
                   min_count: 10,
                   session_count: 0,
                   measure_time: 12,
@@ -3964,7 +3964,7 @@ describe('Datamanager service', () => {
                 },
                 {
                   accountID: 2713654,
-                  type: 'PRC-COUNT-QUERY',
+                  type: 'Person-Count',
                   min_count: 10,
                   session_count: 0,
                   measure_time: 12,
@@ -3972,7 +3972,7 @@ describe('Datamanager service', () => {
                 },
                 {
                   accountID: 2713654,
-                  type: 'PCC-COUNT-QUERY',
+                  type: 'Process-Count',
                   min_count: 10,
                   session_count: 0,
                   measure_time: 12,
@@ -3980,7 +3980,7 @@ describe('Datamanager service', () => {
                 },
                 {
                   accountID: 2713654,
-                  type: 'PCC-COUNT-QUERY',
+                  type: 'Process-Count',
                   max_count: 10,
                   session_count: 0,
                   measure_time: 12,
@@ -3988,7 +3988,7 @@ describe('Datamanager service', () => {
                 },
                 {
                   accountID: 2713654,
-                  type: 'APP-HEALTH-QUERY',
+                  type: 'Application-Performance',
                   min_count: 10,
                   session_count: 0,
                   measure_time: 12,
@@ -3996,7 +3996,7 @@ describe('Datamanager service', () => {
                 },
                 {
                   accountID: 2713654,
-                  type: 'FRT-HEALTH-QUERY',
+                  type: 'FrontEnd-Performance',
                   min_count: 10,
                   session_count: 0,
                   measure_time: 12,
@@ -4004,7 +4004,7 @@ describe('Datamanager service', () => {
                 },
                 {
                   accountID: 2713654,
-                  type: 'SYN-CHECK-QUERY',
+                  type: 'Synthetics-Check',
                   min_count: 10,
                   session_count: 0,
                   measure_time: 12,
@@ -4012,7 +4012,7 @@ describe('Datamanager service', () => {
                 },
                 {
                   accountID: 2713654,
-                  type: 'WORKLOAD-QUERY',
+                  type: 'Workload-Status',
                   min_count: 10,
                   session_count: 0,
                   measure_time: 12,
@@ -4020,7 +4020,7 @@ describe('Datamanager service', () => {
                 },
                 {
                   accountID: 2713654,
-                  type: 'DROP-QUERY',
+                  type: 'Drops-Count',
                   min_count: 10,
                   session_count: 0,
                   measure_time: 12,

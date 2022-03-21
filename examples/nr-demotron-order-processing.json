@@ -114,7 +114,7 @@
                     "related_steps": "",
                     "queries": [
                         {
-                            "type": "WORKLOAD-QUERY",
+                            "type": "Workload-Status",
                             "accountID": 1606862,
                             "query": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='SHIPPING INFRA (Pathpoint Demo)'"
                         }
@@ -129,7 +129,7 @@
                     "related_steps": "ST0-LINE1-SS1",
                     "queries": [
                         {
-                            "type": "PRC-COUNT-QUERY",
+                            "type": "Person-Count",
                             "accountID": 1606862,
                             "query": "SELECT count(*) as session FROM Transaction WHERE appName = 'Login Service' and name = 'WebTransaction/Go/POST /login' AND http.statusCode = 200",
                             "min_count": 40,
@@ -146,7 +146,7 @@
                     "related_steps": "ST0-LINE1-SS1",
                     "queries": [
                         {
-                            "type": "APP-HEALTH-QUERY",
+                            "type": "Application-Performance",
                             "accountID": 1606862,
                             "query": "SELECT filter(apdex(duration, t:0.5), WHERE 1=1) as apdex, filter( max(duration), WHERE request.method = 'POST') as response,filter(percentage(count(*), WHERE error is true), WHERE request.method = 'POST') as error from Transaction WHERE appName = 'Login Service' and name = 'WebTransaction/Go/POST /login' AND http.statusCode = 200",
                             "min_apdex": 0.9,
@@ -201,7 +201,7 @@
                     "related_steps": "",
                     "queries": [
                         {
-                            "type": "WORKLOAD-QUERY",
+                            "type": "Workload-Status",
                             "accountID": 1606862,
                             "query": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='ORDER INFRA (Pathpoint Demo)'"
                         }
@@ -216,7 +216,7 @@
                     "related_steps": "ST1-LINE1-SS1",
                     "queries": [
                         {
-                            "type": "PCC-COUNT-QUERY",
+                            "type": "Process-Count",
                             "accountID": 1606862,
                             "query": "SELECT count(*)  FROM Transaction where appName = 'Order-Processing' where name = 'Controller/Sinatra//purchase' and http.statusCode = 200",
                             "min_count": 80,
@@ -233,7 +233,7 @@
                     "related_steps": "ST1-LINE1-SS1",
                     "queries": [
                         {
-                            "type": "APP-HEALTH-QUERY",
+                            "type": "Application-Performance",
                             "accountID": 1606862,
                             "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE request.method = 'POST') as response,filter(percentage(count(*), WHERE error is true), WHERE request.method = 'POST') as error from Transaction WHERE appName = 'Order-Composer' or appName = 'Order-Processing'",
                             "min_apdex": 0.6,
@@ -251,7 +251,7 @@
                     "related_steps": "ST1-LINE2-SS1",
                     "queries": [
                         {
-                            "type": "APP-HEALTH-QUERY",
+                            "type": "Application-Performance",
                             "accountID": 1606862,
                             "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE request.method = 'POST') as response,filter(percentage(count(*), WHERE error is true), WHERE request.method = 'POST') as error from Transaction WHERE appName = 'Billing Service'",
                             "min_apdex": 0.6,
@@ -269,7 +269,7 @@
                     "related_steps": "ST1-LINE3-SS1",
                     "queries": [
                         {
-                            "type": "APP-HEALTH-QUERY",
+                            "type": "Application-Performance",
                             "accountID": 1606862,
                             "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE request.method = 'POST') as response,filter(percentage(count(*), WHERE error is true), WHERE request.method = 'POST') as error from Transaction WHERE appName like 'Inventory%'",
                             "min_apdex": 0.6,
@@ -319,7 +319,7 @@
                     "related_steps": "",
                     "queries": [
                         {
-                            "type": "WORKLOAD-QUERY",
+                            "type": "Workload-Status",
                             "accountID": 1606862,
                             "query": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='PACKAGE INFRA (Pathpoint Demo)'"
                         }
@@ -334,7 +334,7 @@
                     "related_steps": "ST2-LINE2-SS1",
                     "queries": [
                         {
-                            "type": "PCC-COUNT-QUERY",
+                            "type": "Process-Count",
                             "accountID": 1606862,
                             "query": "SELECT count(*) FROM Transaction where appName = 'Order-Packaging' where name = 'Controller/Sinatra//package_order' and http.statusCode = 200",
                             "min_count": 75,
@@ -351,7 +351,7 @@
                     "related_steps": "ST2-LINE2-SS1",
                     "queries": [
                         {
-                            "type": "APP-HEALTH-QUERY",
+                            "type": "Application-Performance",
                             "accountID": 1606862,
                             "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='Order-Packaging'",
                             "min_apdex": 0.65,
@@ -369,7 +369,7 @@
                     "related_steps": "ST2-LINE1-SS1",
                     "queries": [
                         {
-                            "type": "APP-HEALTH-QUERY",
+                            "type": "Application-Performance",
                             "accountID": 1606862,
                             "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE request.method = 'POST') as error from Transaction WHERE appName = 'Box'",
                             "min_apdex": 0.65,
@@ -387,7 +387,7 @@
                     "related_steps": "ST2-LINE1-SS2",
                     "queries": [
                         {
-                            "type": "APP-HEALTH-QUERY",
+                            "type": "Application-Performance",
                             "accountID": 1606862,
                             "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE request.method = 'POST') as error from Transaction WHERE appName = 'Bubble-Wrap'",
                             "min_apdex": 0.65,
@@ -437,7 +437,7 @@
                     "related_steps": "",
                     "queries": [
                         {
-                            "type": "WORKLOAD-QUERY",
+                            "type": "Workload-Status",
                             "accountID": 1606862,
                             "query": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='SHIPPING INFRA (Pathpoint Demo)'"
                         }
@@ -452,7 +452,7 @@
                     "related_steps": "ST3-LINE2-SS2",
                     "queries": [
                         {
-                            "type": "PCC-COUNT-QUERY",
+                            "type": "Process-Count",
                             "accountID": 1606862,
                             "query": "SELECT count(*) from Transaction WHERE appName = 'Delivery' and name = 'Controller/Sinatra//deliver' and errorMessage is NULL",
                             "min_count": 50,
@@ -469,7 +469,7 @@
                     "related_steps": "ST3-LINE2-SS2",
                     "queries": [
                         {
-                            "type": "APP-HEALTH-QUERY",
+                            "type": "Application-Performance",
                             "accountID": 1606862,
                             "query": "SELECT filter(apdex(duration, t:0.5), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='Delivery' and name = 'Controller/Sinatra//deliver'",
                             "min_apdex": 0.7,
@@ -487,7 +487,7 @@
                     "related_steps": "ST3-LINE2-SS1",
                     "queries": [
                         {
-                            "type": "APP-HEALTH-QUERY",
+                            "type": "Application-Performance",
                             "accountID": 1606862,
                             "query": "SELECT filter(apdex(duration, t:0.5), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='Shipping Service' and transactionType = 'Web'",
                             "min_apdex": 0.7,
@@ -505,7 +505,7 @@
                     "related_steps": "ST3-LINE1-SS1",
                     "queries": [
                         {
-                            "type": "APP-HEALTH-QUERY",
+                            "type": "Application-Performance",
                             "accountID": 1606862,
                             "query": "SELECT filter(apdex(duration, t:0.5), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='Shipment-Label' and name ='Controller/Sinatra//print_shipping_label'",
                             "min_apdex": 0.9,
@@ -546,7 +546,7 @@
                     "related_steps": "",
                     "queries": [
                         {
-                            "type": "WORKLOAD-QUERY",
+                            "type": "Workload-Status",
                             "accountID": 1606862,
                             "query": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='NOTIFICATION INFRA (Pathpoint Demo)'"
                         }
@@ -561,7 +561,7 @@
                     "related_steps": "ST4-LINE1-SS1",
                     "queries": [
                         {
-                            "type": "PCC-COUNT-QUERY",
+                            "type": "Process-Count",
                             "accountID": 1606862,
                             "query": "SELECT count(*) from Transaction WHERE appName = 'Email-Notification' and name = 'Controller/Sinatra//send_email' and errorMessage is NULL",
                             "min_count": 50,
@@ -578,7 +578,7 @@
                     "related_steps": "ST4-LINE1-SS2",
                     "queries": [
                         {
-                            "type": "PCC-COUNT-QUERY",
+                            "type": "Process-Count",
                             "accountID": 1606862,
                             "query": "SELECT count(*) from Transaction WHERE appName = 'Sms-Notification' and name = 'Controller/Sinatra//send_sms' and errorMessage is NULL",
                             "min_count": 50,
@@ -614,7 +614,7 @@
                     "related_steps": "",
                     "queries": [
                         {
-                            "type": "WORKLOAD-QUERY",
+                            "type": "Workload-Status",
                             "accountID": 1606862,
                             "query": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='SHIPPING INFRA (Pathpoint Demo)'"
                         }
@@ -629,7 +629,7 @@
                     "related_steps": "ST5-LINE1-SS1",
                     "queries": [
                         {
-                            "type": "PCC-COUNT-QUERY",
+                            "type": "Process-Count",
                             "accountID": 1606862,
                             "query": "SELECT count(*) FROM Transaction where appName = 'Order-Processing' where name = 'Controller/Sinatra//return_purchase' and http.statusCode = 200",
                             "min_count": 1,
@@ -646,7 +646,7 @@
                     "related_steps": "ST5-LINE1-SS1",
                     "queries": [
                         {
-                            "type": "APP-HEALTH-QUERY",
+                            "type": "Application-Performance",
                             "accountID": 1606862,
                             "query": "SELECT filter(apdex(duration, t:0.5), WHERE 1=1) as apdex, filter( max(duration), WHERE request.method = 'POST') as response,filter(percentage(count(*), WHERE error is true), WHERE request.method = 'POST') as error from Transaction WHERE appName = 'Order-Processing' where name = 'Controller/Sinatra//return_purchase' and http.statusCode = 200",
                             "min_apdex": 0.9,
