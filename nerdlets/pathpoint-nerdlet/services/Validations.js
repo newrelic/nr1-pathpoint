@@ -175,7 +175,7 @@ export default class ValidationQuery {
       validate = false;
     } else if (data instanceof Array && data.length === 1) {
       for (const [, value] of Object.entries(data[0])) {
-        if (typeof value !== 'number') {
+        if (typeof value !== 'number' && typeof value !== 'object') {
           validate = false;
           break;
         }
