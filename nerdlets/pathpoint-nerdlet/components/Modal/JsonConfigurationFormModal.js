@@ -86,6 +86,46 @@ export function HandleDownload() {
   button.click();
 }
 
+function TransformOldTouchpointName(tp_type) {
+  let newType = tp_type;
+  switch (tp_type) {
+    case 'PRC-COUNT-QUERY':
+      newType = 'Person-Count';
+      break;
+    case 'PCC-COUNT-QUERY':
+      newType = 'Process-Count';
+      break;
+    case 'APP-HEALTH-QUERY':
+      newType = 'Application-Performance';
+      break;
+    case 'FRT-HEALTH-QUERY':
+      newType = 'FrontEnd-Performance';
+      break;
+    case 'SYN-CHECK-QUERY':
+      newType = 'Synthetics-Check';
+      break;
+    case 'WORKLOAD-QUERY':
+      newType = 'Workload-Status';
+      break;
+    case 'DROP-QUERY':
+      newType = 'Drops-Count';
+      break;
+  }
+  return newType;
+}
+
+function UpdateOldTouchpointName(jsonUploaded) {
+  const object = JSON.parse(jsonUploaded);
+  object.stages.forEach(element => {
+    element.touchpoints.forEach(tp => {
+      tp.queries.forEach(qr => {
+        qr.type = TransformOldTouchpointName(qr.type);
+      });
+    });
+  });
+  return JSON.stringify(object);
+}
+
 /* istanbul ignore next */
 export function handleUploadJSONFile(
   e,
@@ -97,11 +137,12 @@ export function handleUploadJSONFile(
   fileReader.readAsText(e.target.files[0], 'UTF-8');
   fileReader.onload = async eX => {
     try {
+      const dataUpdated = UpdateOldTouchpointName(eX.target.result);
       const validator = new Ajv({ allErrors: true, async: true });
       const validate = validator.compile(viewSchema);
-      const valid = await validate(JSON.parse(eX.target.result));
+      const valid = await validate(JSON.parse(dataUpdated));
       if (valid) {
-        let parsed = JSON.parse(eX.target.result);
+        let parsed = JSON.parse(dataUpdated);
         parsed = parsed.kpis;
         const queryErrors = [];
         let tested = false;
@@ -124,12 +165,10 @@ export function handleUploadJSONFile(
             });
           }
         }
-        const customErrors = CustomSchemaValidation(
-          JSON.parse(eX.target.result)
-        );
+        const customErrors = CustomSchemaValidation(JSON.parse(dataUpdated));
         let totalErrrors = [];
         if (!customErrors && queryErrors.length === 0) {
-          SetConfigurationJSON(eX.target.result, e);
+          SetConfigurationJSON(dataUpdated, e);
         }
         if (customErrors) {
           totalErrrors = [...customErrors];
@@ -144,7 +183,7 @@ export function handleUploadJSONFile(
       } else {
         const errors = TranslateAJVErrors(
           validate.errors,
-          JSON.parse(eX.target.result)
+          JSON.parse(dataUpdated)
         );
         onClose(errors);
       }
