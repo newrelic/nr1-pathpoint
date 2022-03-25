@@ -130,7 +130,7 @@
                     "related_steps": "ST1-LINE1-SS1,ST1-LINE3-SS3,ST1-LINE5-SS1",
                     "queries": [
                         {
-                            "type": "PRC-COUNT-QUERY",
+                            "type": "Person-Count",
                             "accountID": 1,
                             "query": "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
                             "query_timeout": 10,
@@ -148,7 +148,7 @@
                     "related_steps": "ST1-LINE1-SS1,ST1-LINE3-SS3,ST1-LINE5-SS1",
                     "queries": [
                         {
-                            "type": "APP-HEALTH-QUERY",
+                            "type": "Application-Performance",
                             "accountID": 1,
                             "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
                             "query_timeout": 10,
@@ -168,7 +168,7 @@
                     "related_steps": "ST1-LINE2-SS2,ST1-LINE3-SS1,ST1-LINE4-SS1",
                     "queries": [
                         {
-                            "type": "PRC-COUNT-QUERY",
+                            "type": "Person-Count",
                             "accountID": 1,
                             "query": "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
                             "query_timeout": 10,
@@ -186,7 +186,7 @@
                     "related_steps": "ST1-LINE2-SS2,ST1-LINE3-SS1,ST1-LINE4-SS1",
                     "queries": [
                         {
-                            "type": "FRT-HEALTH-QUERY",
+                            "type": "FrontEnd-Performance",
                             "accountID": 1,
                             "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
                             "query_timeout": 10,
@@ -206,7 +206,7 @@
                     "related_steps": "ST1-LINE1-SS2,ST1-LINE2-SS1,ST1-LINE4-SS2,ST1-LINE3-SS2",
                     "queries": [
                         {
-                            "type": "PRC-COUNT-QUERY",
+                            "type": "Person-Count",
                             "accountID": 1,
                             "query": "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
                             "query_timeout": 10,
@@ -287,7 +287,7 @@
                     "related_steps": "ST2-LINE1-SS2,ST2-LINE3-SS1,ST2-LINE5-SS1",
                     "queries": [
                         {
-                            "type": "PRC-COUNT-QUERY",
+                            "type": "Person-Count",
                             "accountID": 1,
                             "query": "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
                             "query_timeout": 10,
@@ -305,7 +305,7 @@
                     "related_steps": "ST2-LINE1-SS2,ST2-LINE3-SS1,ST2-LINE5-SS1",
                     "queries": [
                         {
-                            "type": "FRT-HEALTH-QUERY",
+                            "type": "FrontEnd-Performance",
                             "accountID": 1,
                             "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
                             "query_timeout": 10,
@@ -325,7 +325,7 @@
                     "related_steps": "ST2-LINE2-SS2,ST2-LINE4-SS1",
                     "queries": [
                         {
-                            "type": "SYN-CHECK-QUERY",
+                            "type": "Synthetics-Check",
                             "accountID": 1,
                             "query": "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE monitorName='BDB Live person'",
                             "query_timeout": 10,
@@ -345,7 +345,7 @@
                     "related_steps": "ST2-LINE1-SS1",
                     "queries": [
                         {
-                            "type": "APP-HEALTH-QUERY",
+                            "type": "Application-Performance",
                             "accountID": 1,
                             "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
                             "query_timeout": 10,
@@ -365,7 +365,7 @@
                     "related_steps": "ST2-LINE2-SS1",
                     "queries": [
                         {
-                            "type": "WORKLOAD-QUERY",
+                            "type": "Workload-Status",
                             "accountID": 1,
                             "query": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='Acme Telco - Ecommerce'",
                             "query_timeout": 10,
@@ -432,7 +432,7 @@
                     "related_steps": "ST3-LINE3-SS1",
                     "queries": [
                         {
-                            "type": "PCC-COUNT-QUERY",
+                            "type": "Process-Count",
                             "accountID": 1,
                             "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name='WebTransaction/Action/login'",
                             "query_timeout": 10,
@@ -450,7 +450,7 @@
                     "related_steps": "ST3-LINE3-SS1",
                     "queries": [
                         {
-                            "type": "SYN-CHECK-QUERY",
+                            "type": "Synthetics-Check",
                             "accountID": 1,
                             "query": "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE monitorName='BDB Live person'",
                             "query_timeout": 10,
@@ -470,7 +470,7 @@
                     "related_steps": "ST3-LINE1-SS1",
                     "queries": [
                         {
-                            "type": "PCC-COUNT-QUERY",
+                            "type": "Process-Count",
                             "accountID": 1,
                             "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name LIKE 'WebTransaction/Action/App%'",
                             "query_timeout": 10,
@@ -488,7 +488,7 @@
                     "related_steps": "ST3-LINE1-SS1",
                     "queries": [
                         {
-                            "type": "APP-HEALTH-QUERY",
+                            "type": "Application-Performance",
                             "accountID": 1,
                             "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
                             "query_timeout": 10,
@@ -508,7 +508,7 @@
                     "related_steps": "ST3-LINE2-SS1,ST3-LINE4-SS1",
                     "queries": [
                         {
-                            "type": "FRT-HEALTH-QUERY",
+                            "type": "FrontEnd-Performance",
                             "accountID": 1,
                             "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
                             "query_timeout": 10,
@@ -528,7 +528,7 @@
                     "related_steps": "ST3-LINE3-SS2",
                     "queries": [
                         {
-                            "type": "APP-HEALTH-QUERY",
+                            "type": "Application-Performance",
                             "accountID": 1,
                             "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
                             "query_timeout": 10,
@@ -548,7 +548,7 @@
                     "related_steps": "ST3-LINE3-SS2",
                     "queries": [
                         {
-                            "type": "WORKLOAD-QUERY",
+                            "type": "Workload-Status",
                             "accountID": 1,
                             "query": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='Demotron V2 - Acme Dev'",
                             "query_timeout": 10,
@@ -628,7 +628,7 @@
                     "related_steps": "ST4-LINE1-SS1",
                     "queries": [
                         {
-                            "type": "PRC-COUNT-QUERY",
+                            "type": "Person-Count",
                             "accountID": 1,
                             "query": "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='ap-southeast-2'",
                             "query_timeout": 10,
@@ -646,7 +646,7 @@
                     "related_steps": "ST4-LINE1-SS1",
                     "queries": [
                         {
-                            "type": "SYN-CHECK-QUERY",
+                            "type": "Synthetics-Check",
                             "accountID": 1,
                             "query": "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE monitorName='BDB Live person'",
                             "query_timeout": 10,
@@ -666,7 +666,7 @@
                     "related_steps": "ST4-LINE2-SS1,ST4-LINE4-SS1,ST4-LINE5-SS2",
                     "queries": [
                         {
-                            "type": "APP-HEALTH-QUERY",
+                            "type": "Application-Performance",
                             "accountID": 1,
                             "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
                             "query_timeout": 10,
@@ -686,7 +686,7 @@
                     "related_steps": "ST4-LINE2-SS1,ST4-LINE4-SS1,ST4-LINE5-SS2",
                     "queries": [
                         {
-                            "type": "FRT-HEALTH-QUERY",
+                            "type": "FrontEnd-Performance",
                             "accountID": 1,
                             "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
                             "query_timeout": 10,
@@ -706,7 +706,7 @@
                     "related_steps": "ST4-LINE2-SS2,ST4-LINE3-SS1",
                     "queries": [
                         {
-                            "type": "PRC-COUNT-QUERY",
+                            "type": "Person-Count",
                             "accountID": 1,
                             "query": "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='us-west-1'",
                             "query_timeout": 10,
@@ -724,7 +724,7 @@
                     "related_steps": "ST4-LINE5-SS1",
                     "queries": [
                         {
-                            "type": "APP-HEALTH-QUERY",
+                            "type": "Application-Performance",
                             "accountID": 1,
                             "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
                             "query_timeout": 10,
@@ -744,7 +744,7 @@
                     "related_steps": "ST4-LINE5-SS1",
                     "queries": [
                         {
-                            "type": "WORKLOAD-QUERY",
+                            "type": "Workload-Status",
                             "accountID": 1,
                             "query": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='Databases'",
                             "query_timeout": 10,

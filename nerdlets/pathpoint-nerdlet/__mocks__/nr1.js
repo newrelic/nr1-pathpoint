@@ -86,7 +86,7 @@ jest.mock(
                               related_steps: 'ST1-LINE2-SS1',
                               queries: [
                                 {
-                                  type: 'PRC-COUNT-QUERY',
+                                  type: 'Person-Count',
                                   accountID: 1,
                                   query:
                                     "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
@@ -104,7 +104,7 @@ jest.mock(
                               related_steps: 'ST1-LINE1-SS3',
                               queries: [
                                 {
-                                  type: 'APP-HEALTH-QUERY',
+                                  type: 'Application-Performance',
                                   accountID: 2847332,
                                   query:
                                     "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",

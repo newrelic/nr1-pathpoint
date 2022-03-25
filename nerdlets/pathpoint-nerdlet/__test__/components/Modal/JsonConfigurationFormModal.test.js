@@ -61,7 +61,7 @@ const payload = {
           related_steps: 'ST1-LINE2-SS1',
           queries: [
             {
-              type: 'PRC-COUNT-QUERY',
+              type: 'Person-Count',
               accountID: 1,
               query:
                 "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",

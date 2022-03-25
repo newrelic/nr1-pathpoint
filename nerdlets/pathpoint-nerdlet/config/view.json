@@ -341,8 +341,8 @@
               "error": false,
               "index_stage": 1,
               "relationship_touchpoints": [
-                3,
-                7
+                6,
+                10
               ]
             },
             {
@@ -365,7 +365,7 @@
               "canary_state": false,
               "latency": false,
               "value": "App",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -373,7 +373,8 @@
               "index_stage": 1,
               "relationship_touchpoints": [
                 2,
-                7
+                3,
+                10
               ]
             }
           ]
@@ -395,7 +396,8 @@
               "index_stage": 1,
               "relationship_touchpoints": [
                 1,
-                4
+                4,
+                7
               ]
             },
             {
@@ -411,7 +413,8 @@
               "error": false,
               "index_stage": 1,
               "relationship_touchpoints": [
-                5
+                5,
+                8
               ]
             },
             {
@@ -439,7 +442,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Search",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -451,7 +454,7 @@
               "index": 8,
               "id": "ST1-LINE3-SS2",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Menu",
               "dark": false,
               "history_error": false,
@@ -467,7 +470,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Gift Card",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -500,7 +503,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Rewards",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -514,7 +517,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Pick-Up Item",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -545,7 +548,7 @@
               "index": 14,
               "id": "ST1-LINE5-SS1",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Add to Bag",
               "dark": false,
               "history_error": false,
@@ -608,7 +611,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "App Frontend Health (FRT)",
+          "value": "API Performance (API)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -619,7 +622,7 @@
             "https://onenr.io/01qwL8KPxw5"
           ],
           "relation_steps": [
-            1
+            3
           ]
         },
         {
@@ -629,7 +632,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "Login Check (SYN)",
+          "value": "API Count (APC)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -650,7 +653,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "Signup People (PRC)",
+          "value": "API Status (APS)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -671,6 +674,69 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
+          "value": "App Frontend Health (FRT)",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://onenr.io/01qwL8KPxw5"
+          ],
+          "relation_steps": [
+            1
+          ]
+        },
+        {
+          "index": 7,
+          "stage_index": 1,
+          "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
+          "active": false,
+          "value": "Login Check (SYN)",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://onenr.io/01qwL8KPxw5"
+          ],
+          "relation_steps": [
+            4
+          ]
+        },
+        {
+          "index": 8,
+          "stage_index": 1,
+          "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
+          "active": false,
+          "value": "Signup People (PRC)",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            "https://onenr.io/01qwL8KPxw5"
+          ],
+          "relation_steps": [
+            5
+          ]
+        },
+        {
+          "index": 9,
+          "stage_index": 1,
+          "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
+          "active": false,
           "value": "Workload (WLD)",
           "highlighted": false,
           "error": false,
@@ -684,7 +750,7 @@
           "relation_steps": []
         },
         {
-          "index": 7,
+          "index": 10,
           "stage_index": 1,
           "status_on_off": true,
           "response_error": false,
@@ -741,7 +807,7 @@
               "canary_state": false,
               "latency": true,
               "value": "Pay Items",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -807,7 +873,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Promo Code",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -826,7 +892,7 @@
               "canary_state": false,
               "latency": false,
               "value": "PAY Calculation",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -842,7 +908,7 @@
               "canary_state": false,
               "latency": false,
               "value": "POINTS Calculation",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1063,7 +1129,7 @@
               "canary_state": false,
               "latency": true,
               "value": "Customer info.",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1154,7 +1220,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Paypal",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1203,7 +1269,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Submit Order",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1437,7 +1503,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Pick-Up Items",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1470,7 +1536,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Order Processing",
-              "dark": true,
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1500,7 +1566,7 @@
               "canary_state": false,
               "latency": false,
               "value": "Order Delayed",
-              "dark": false,
+              "dark": true,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1533,7 +1599,7 @@
               "index": 8,
               "id": "ST4-LINE3-SS2",
               "canary_state": false,
-              "latency": false,
+              "latency": true,
               "value": "Pick-up Prep",
               "dark": false,
               "history_error": false,
@@ -1568,7 +1634,7 @@
               "index": 10,
               "id": "ST4-LINE4-SS2",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": "Pick-up Date and Locatioon",
               "dark": false,
               "history_error": false,
@@ -1836,7 +1902,7 @@
               "index": 5,
               "id": "ST5-LINE3-SS1",
               "canary_state": false,
-              "latency": true,
+              "latency": false,
               "value": " Carrier Update",
               "dark": false,
               "history_error": false,

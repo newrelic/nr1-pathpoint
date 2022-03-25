@@ -71,7 +71,7 @@ const stages = [
         related_steps: 'ST1-LINE2-SS1',
         queries: [
           {
-            type: 'PRC-COUNT-QUERY',
+            type: 'Person-Count',
             accountID: 1,
             query:
               "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
@@ -334,7 +334,7 @@ describe('<MainContainer/>', () => {
             related_steps: 'ST1-LINE2-SS1',
             queries: [
               {
-                type: 'PRC-COUNT-QUERY',
+                type: 'Person-Count',
                 accountID: 1,
                 query:
                   "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
@@ -406,7 +406,7 @@ describe('<MainContainer/>', () => {
             related_steps: 'ST1-LINE2-SS1',
             queries: [
               {
-                type: 'PRC-COUNT-QUERY',
+                type: 'Person-Count',
                 accountID: 1,
                 query:
                   "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
@@ -1073,70 +1073,70 @@ describe('<MainContainer/>', () => {
     instance.chargueSample(0);
   });
 
-  it('chargueSample with PRC-COUNT-QUERY', () => {
+  it('chargueSample with Person-Count', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
     instance.state.stages = stages;
     instance.state.stageNameSelected = {
       datos: [
         {
-          label: 'PRC-COUNT-QUERY'
+          label: 'Person-Count'
         }
       ]
     };
     instance.chargueSample(0);
   });
 
-  it('chargueSample with PCC-COUNT-QUERY', () => {
+  it('chargueSample with Process-Count', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
     instance.state.stages = stages;
     instance.state.stageNameSelected = {
       datos: [
         {
-          label: 'PCC-COUNT-QUERY'
+          label: 'Process-Count'
         }
       ]
     };
     instance.chargueSample(0);
   });
 
-  it('chargueSample with APP-HEALTH-QUERY', () => {
+  it('chargueSample with Application-Performance', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
     instance.state.stages = stages;
     instance.state.stageNameSelected = {
       datos: [
         {
-          label: 'APP-HEALTH-QUERY'
+          label: 'Application-Performance'
         }
       ]
     };
     instance.chargueSample(0);
   });
 
-  it('chargueSample with FRT-HEALTH-QUERY', () => {
+  it('chargueSample with FrontEnd-Performance', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
     instance.state.stages = stages;
     instance.state.stageNameSelected = {
       datos: [
         {
-          label: 'FRT-HEALTH-QUERY'
+          label: 'FrontEnd-Performance'
         }
       ]
     };
     instance.chargueSample(0);
   });
 
-  it('chargueSample with SYN-CHECK-QUERY', () => {
+  it('chargueSample with Synthetics-Check', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
     instance.state.stages = stages;
     instance.state.stageNameSelected = {
       datos: [
         {
-          label: 'SYN-CHECK-QUERY'
+          label: 'Synthetics-Check'
         }
       ]
     };

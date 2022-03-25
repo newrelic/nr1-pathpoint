@@ -69,7 +69,7 @@ jest.mock(
             return resolve();
           });
           return dataReturn;
-        } else if (query.includes('DROP-QUERY')) {
+        } else if (query.includes('Drops-Count')) {
           let dataReturn = {};
           await new Promise(resolve => {
             dataReturn = {
@@ -265,10 +265,10 @@ describe('Validations class', () => {
       });
     });
 
-    it('validate DROP-QUERY', async () => {
+    it('validate Drops-Count', async () => {
       const validateQuery = await validations.validateQuery(
-        'DROP-QUERY',
-        'DROP-QUERY'
+        'Drops-Count',
+        'Drops-Count'
       );
       expect(validateQuery).toEqual({
         goodQuery: false,
@@ -342,9 +342,9 @@ describe('Validations class', () => {
       });
     });
 
-    it('Validate query type PRC-COUNT-QUERY', async () => {
+    it('Validate query type Person-Count', async () => {
       const validateQuery = await validations.validateQuery(
-        'PRC-COUNT-QUERY',
+        'Person-Count',
         'Full Open Query'
       );
       expect(validateQuery).toEqual({
@@ -353,9 +353,9 @@ describe('Validations class', () => {
       });
     });
 
-    it('Validate query type PCC-COUNT-QUERY', async () => {
+    it('Validate query type Process-Count', async () => {
       const validateQuery = await validations.validateQuery(
-        'PCC-COUNT-QUERY',
+        'Process-Count',
         'Full Open Query'
       );
       expect(validateQuery).toEqual({
@@ -364,9 +364,9 @@ describe('Validations class', () => {
       });
     });
 
-    it('Validate query type APP-HEALTH-QUERY', async () => {
+    it('Validate query type Application-Performance', async () => {
       const validateQuery = await validations.validateQuery(
-        'APP-HEALTH-QUERY',
+        'Application-Performance',
         'Full Open Query'
       );
       expect(validateQuery).toEqual({
@@ -375,9 +375,9 @@ describe('Validations class', () => {
       });
     });
 
-    it('Validate query type FRT-HEALTH-QUERY', async () => {
+    it('Validate query type FrontEnd-Performance', async () => {
       const validateQuery = await validations.validateQuery(
-        'FRT-HEALTH-QUERY',
+        'FrontEnd-Performance',
         'Full Open Query'
       );
       expect(validateQuery).toEqual({
@@ -386,9 +386,9 @@ describe('Validations class', () => {
       });
     });
 
-    it('Validate query type SYN-CHECK-QUERY', async () => {
+    it('Validate query type Synthetics-Check', async () => {
       const validateQuery = await validations.validateQuery(
-        'SYN-CHECK-QUERY',
+        'Synthetics-Check',
         'Full Open Query'
       );
       expect(validateQuery).toEqual({
@@ -397,9 +397,9 @@ describe('Validations class', () => {
       });
     });
 
-    it('Validate query type WORKLOAD-QUERY', async () => {
+    it('Validate query type Workload-Status', async () => {
       const validateQuery = await validations.validateQuery(
-        'WORKLOAD-QUERY',
+        'Workload-Status',
         'Full Open Query'
       );
       expect(validateQuery).toEqual({

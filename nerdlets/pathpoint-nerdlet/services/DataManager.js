@@ -55,13 +55,16 @@ export default class DataManager {
     };
     this.configurationJSON = {};
     this.measureNames = [
-      'PRC-COUNT-QUERY',
-      'PCC-COUNT-QUERY',
-      'APP-HEALTH-QUERY',
-      'FRT-HEALTH-QUERY',
-      'SYN-CHECK-QUERY',
-      'WORKLOAD-QUERY',
-      'DROP-QUERY'
+      'Person-Count',
+      'Process-Count',
+      'Application-Performance',
+      'FrontEnd-Performance',
+      'Synthetics-Check',
+      'Workload-Status',
+      'Drops-Count',
+      'API-Performance',
+      'API-Count',
+      'API-Status'
     ];
     this.accountIDs = [
       {
@@ -427,6 +430,7 @@ export default class DataManager {
         break;
       case 'APP':
       case 'FRT':
+      case 'API':
         measure.apdex_value = 1;
         measure.response_value = 0;
         measure.error_percentage = 0;
@@ -441,6 +445,12 @@ export default class DataManager {
         break;
       case 'DRP':
         measure.value = 0;
+        break;
+      case 'APC':
+        measure.api_count = 0;
+        break;
+      case 'APS':
+        measure.success_percentage = 0;
         break;
     }
   }
@@ -827,6 +837,65 @@ export default class DataManager {
               /* istanbul ignore next */
               measure.value = value.nrql.results[0].count;
             } else if (
+              measure.type === 'APC' &&
+              value.nrql !== null &&
+              value.nrql.results &&
+              value.nrql.results[0] &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'count'
+              )
+            ) {
+              if (value.nrql.results[0].count == null) {
+                this.CheckIfResponseErrorCanBeSet(extraInfo, true);
+              }
+              measure.api_count = value.nrql.results[0].count;
+            } else if (
+              measure.type === 'API' &&
+              value.nrql !== null &&
+              value.nrql.results &&
+              value.nrql.results[0] &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'apdex'
+              ) &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'score'
+              ) &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'response'
+              ) &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'error'
+              )
+            ) {
+              if (
+                value.nrql.results[0].response === null ||
+                value.nrql.results[0].error === null
+              ) {
+                this.CheckIfResponseErrorCanBeSet(extraInfo, true);
+              }
+              measure.apdex_value = value.nrql.results[0].score;
+              measure.response_value = value.nrql.results[0].response;
+              measure.error_percentage = value.nrql.results[0].error;
+            } else if (
+              measure.type === 'APS' &&
+              value.nrql !== null &&
+              value.nrql.results &&
+              value.nrql.results[0] &&
+              Object.prototype.hasOwnProperty.call(
+                value.nrql.results[0],
+                'percentage'
+              )
+            ) {
+              if (value.nrql.results[0].percentage == null) {
+                this.CheckIfResponseErrorCanBeSet(extraInfo, true);
+              }
+              measure.success_percentage = value.nrql.results[0].percentage;
+            } else if (
               measure.type === 100 &&
               value.nrql != null &&
               value.nrql.results &&
@@ -1143,6 +1212,17 @@ export default class DataManager {
               tpc[idx].steps_max_cong = touchpoint.relation_steps;
             }
           }
+          if (measure.type === 'APC') {
+            // API-Count touchpoint add the header count and is used to calculate congestion
+            count = measure.api_count;
+            tpc[idx].traffic_type = 'traffic';
+            tpc[idx].num_touchpoints++;
+            tpc[idx].total_count += count;
+            if (measure.max_count < count) {
+              tpc[idx].total_congestion += count - measure.max_count;
+              tpc[idx].steps_max_cong = touchpoint.relation_steps;
+            }
+          }
           if (measure.type === 'WLD') {
             tpc[idx].capacity_status = measure.status_value;
             tpc[idx].capacity_link = this.GetWokloadTouchpointLink(touchpoint);
@@ -1271,7 +1351,11 @@ export default class DataManager {
             measure.transaction_count < measure.min_count
           ) {
             setError = true;
-          } else if (measure.type === 'APP' || measure.type === 'FRT') {
+          } else if (
+            measure.type === 'APP' ||
+            measure.type === 'FRT' ||
+            measure.type === 'API'
+          ) {
             if (
               measure.error_percentage > measure.max_error_percentage ||
               measure.apdex_value < measure.min_apdex ||
@@ -1287,6 +1371,16 @@ export default class DataManager {
             ) {
               setError = true;
             }
+          } else if (
+            measure.type === 'APC' &&
+            measure.api_count < measure.min_count
+          ) {
+            setError = true;
+          } else if (
+            measure.type === 'APS' &&
+            measure.success_percentage < measure.min_success_percentage
+          ) {
+            setError = true;
           }
           if (setError) {
             touchpoint.relation_steps.forEach(rel => {
@@ -1751,6 +1845,36 @@ export default class DataManager {
                   query_timeout: timeout,
                   measure_time: `${this.dropParams.hours} HOURS AGO`
                 });
+              } else if (measure.type === 'API') {
+                queries.push({
+                  type: this.measureNames[7],
+                  accountID: accountID,
+                  query: measure.query,
+                  query_timeout: timeout,
+                  min_apdex: measure.min_apdex,
+                  max_response_time: measure.max_response_time,
+                  max_error_percentage: measure.max_error_percentage,
+                  measure_time: measure_time
+                });
+              } else if (measure.type === 'APC') {
+                queries.push({
+                  type: this.measureNames[8],
+                  accountID: accountID,
+                  query: measure.query,
+                  query_timeout: timeout,
+                  min_count: measure.min_count,
+                  max_count: measure.max_count,
+                  measure_time: measure_time
+                });
+              } else if (measure.type === 'APS') {
+                queries.push({
+                  type: this.measureNames[9],
+                  accountID: accountID,
+                  query: measure.query,
+                  query_timeout: timeout,
+                  min_success_percentage: measure.min_success_percentage,
+                  measure_time: measure_time
+                });
               }
             });
           }
@@ -1997,6 +2121,35 @@ export default class DataManager {
               query: query.query,
               timeout: query_timeout,
               value: 0
+            };
+          } else if (query.type === this.measureNames[7]) {
+            measure = {
+              type: 'API',
+              query: query.query,
+              timeout: query_timeout,
+              min_apdex: query.min_apdex,
+              max_response_time: query.max_response_time,
+              max_error_percentage: query.max_error_percentage,
+              apdex_value: 0,
+              response_value: 0,
+              error_percentage: 0
+            };
+          } else if (query.type === this.measureNames[8]) {
+            measure = {
+              type: 'APC',
+              query: query.query,
+              timeout: query_timeout,
+              min_count: query.min_count,
+              max_count: query.max_count,
+              api_count: 0
+            };
+          } else if (query.type === this.measureNames[9]) {
+            measure = {
+              type: 'APS',
+              query: query.query,
+              timeout: query_timeout,
+              min_success_percentage: query.min_success_percentage,
+              success_percentage: 0
             };
           }
           if (query.accountID !== this.accountId) {
@@ -2448,6 +2601,39 @@ export default class DataManager {
                   query_footer: `SINCE ${this.dropParams.hours} HOURS AGO`,
                   timeout: measure.timeout
                 });
+              } else if (measure.type === 'API') {
+                datos.push({
+                  accountID: accountID,
+                  label: this.measureNames[7],
+                  value: actualValue,
+                  type: 'API',
+                  query_start: '',
+                  query_body: measure.query,
+                  query_footer: this.ValidateMeasureTime(measure),
+                  timeout: measure.timeout
+                });
+              } else if (measure.type === 'APC') {
+                datos.push({
+                  accountID: accountID,
+                  label: this.measureNames[8],
+                  value: actualValue,
+                  type: 'APC',
+                  query_start: '',
+                  query_body: measure.query,
+                  query_footer: this.ValidateMeasureTime(measure),
+                  timeout: measure.timeout
+                });
+              } else if (measure.type === 'APS') {
+                datos.push({
+                  accountID: accountID,
+                  label: this.measureNames[9],
+                  value: actualValue,
+                  type: 'APS',
+                  query_start: '',
+                  query_body: measure.query,
+                  query_footer: this.ValidateMeasureTime(measure),
+                  timeout: measure.timeout
+                });
               }
               actualValue++;
             });
@@ -2492,11 +2678,13 @@ export default class DataManager {
             switch (tp.measure_points[0].type) {
               case 'PRC':
               case 'PCC':
+              case 'APC':
                 tp.measure_points[0].min_count = parseInt(datos.min_count);
                 tp.measure_points[0].max_count = parseInt(datos.max_count);
                 break;
               case 'APP':
               case 'FRT':
+              case 'API':
                 tp.measure_points[0].min_apdex = parseFloat(datos.min_apdex);
                 tp.measure_points[0].max_response_time = parseFloat(
                   datos.max_response_time
@@ -2512,6 +2700,11 @@ export default class DataManager {
                 tp.measure_points[0].max_total_check_time = parseFloat(
                   datos.max_total_check_time
                 );
+                tp.measure_points[0].min_success_percentage = parseFloat(
+                  datos.min_success_percentage
+                );
+                break;
+              case 'APS':
                 tp.measure_points[0].min_success_percentage = parseFloat(
                   datos.min_success_percentage
                 );

@@ -136,6 +136,7 @@ const RenderForm = (datos, handleOnChange) => {
       );
     case 'APP':
     case 'FRT':
+    case 'API':
       return (
         <>
           <div style={{ height: '40px', width: '320px' }}>
@@ -217,6 +218,49 @@ const RenderForm = (datos, handleOnChange) => {
         <>
           <div style={{ height: '40px' }}>
             This type of Touchpoint does not have any attributes for Tune
+          </div>
+        </>
+      );
+    case 'APC':
+      return (
+        <>
+          <div style={{ height: '40px', width: '320px' }}>
+            {renderField({
+              label: 'API Count (Min)',
+              defaultValue: datos[0].min_count,
+              id: 'min_count',
+              onChange: handleOnChange,
+              name: 'min_count',
+              key: 'Min',
+              compare: datos[0].api_count
+            })}
+          </div>
+          <div style={{ height: '40px', width: '320px' }}>
+            {renderField({
+              label: 'API Count (Max)',
+              defaultValue: datos[0].max_count,
+              id: 'max_count',
+              onChange: handleOnChange,
+              name: 'max_count',
+              key: 'Max',
+              compare: datos[0].api_count
+            })}
+          </div>
+        </>
+      );
+    case 'APS':
+      return (
+        <>
+          <div style={{ height: '40px', width: '320px' }}>
+            {renderField({
+              label: 'Success Percentage (Min)',
+              defaultValue: datos[0].min_count,
+              id: 'min_success_percentage',
+              onChange: handleOnChange,
+              name: 'min_success_percentage',
+              key: 'Min',
+              compare: datos[0].api_count
+            })}
           </div>
         </>
       );

@@ -47,23 +47,28 @@ export default class ValidationQuery {
     }
     const { data, errors } = await this.validateNrqlQuery(query, accountID);
     switch (type) {
-      case 'PRC-COUNT-QUERY':
+      case 'Person-Count':
         goodQuery = this.countPRCQueryValidation(errors, data);
         break;
-      case 'PCC-COUNT-QUERY':
+      case 'Process-Count':
+      case 'API-Count':
         goodQuery = this.countPCCQueryValidation(errors, data);
         break;
-      case 'APP-HEALTH-QUERY':
-      case 'FRT-HEALTH-QUERY':
+      case 'Application-Performance':
+      case 'FrontEnd-Performance':
+      case 'API-Performance':
         goodQuery = this.healthQueryValidation(errors, data);
         break;
-      case 'SYN-CHECK-QUERY':
+      case 'Synthetics-Check':
         goodQuery = this.checkSYNQueryValidation(errors, data);
         break;
-      case 'WORKLOAD-QUERY':
+      case 'API-Status':
+        goodQuery = this.checkAPSQueryValidation(errors, data);
+        break;
+      case 'Workload-Status':
         goodQuery = this.checkWLDQueryValidation(errors, data);
         break;
-      case 'DROP-QUERY':
+      case 'Drops-Count':
         goodQuery = this.checkDRPQueryValidation(errors, data);
         break;
       case 'KPI-101':
@@ -170,7 +175,7 @@ export default class ValidationQuery {
       validate = false;
     } else if (data instanceof Array && data.length === 1) {
       for (const [, value] of Object.entries(data[0])) {
-        if (typeof value !== 'number') {
+        if (typeof value !== 'number' && typeof value !== 'object') {
           validate = false;
           break;
         }
@@ -240,6 +245,34 @@ export default class ValidationQuery {
         if (quantity < 3) {
           validate = false;
         } else if (!successPercentage || !responseTime || !durationTime) {
+          validate = false;
+        }
+      } else {
+        validate = false;
+      }
+    }
+    return validate;
+  }
+
+  checkAPSQueryValidation(errors, data) {
+    let validate = true;
+    let quantity = 0;
+    if (errors && errors.length > 0) {
+      validate = false;
+    } else {
+      let successPercentage = false;
+      if (data instanceof Array && data.length === 1) {
+        for (const [key, value] of Object.entries(data[0])) {
+          if (value && typeof value !== 'number') {
+            validate = false;
+            break;
+          }
+          if (key === 'percentage') successPercentage = true;
+          quantity++;
+        }
+        if (quantity > 2) {
+          validate = false;
+        } else if (!successPercentage) {
           validate = false;
         }
       } else {

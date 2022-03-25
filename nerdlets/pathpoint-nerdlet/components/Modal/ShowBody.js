@@ -64,11 +64,13 @@ export default class ShowBody extends Component {
       switch (stageNameSelected.datos[0].type) {
         case 'PRC':
         case 'PCC':
+        case 'APC':
           min_count = stageNameSelected.datos[0].min_count;
           max_count = stageNameSelected.datos[0].max_count;
           break;
         case 'APP':
         case 'FRT':
+        case 'API':
           min_apdex = stageNameSelected.datos[0].min_apdex;
           max_response_time = stageNameSelected.datos[0].max_response_time;
           max_error_percentage =
@@ -79,6 +81,10 @@ export default class ShowBody extends Component {
             stageNameSelected.datos[0].max_avg_response_time;
           max_total_check_time =
             stageNameSelected.datos[0].max_total_check_time;
+          min_success_percentage =
+            stageNameSelected.datos[0].min_success_percentage;
+          break;
+        case 'APS':
           min_success_percentage =
             stageNameSelected.datos[0].min_success_percentage;
       }
