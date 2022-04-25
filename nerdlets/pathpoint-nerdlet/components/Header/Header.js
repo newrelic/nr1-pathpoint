@@ -14,6 +14,7 @@ import canaryIcon from '../../images/CanaryIcon.svg';
 import canaryIconOn from '../../images/CanaryIconOn.svg';
 import goutIcon from '../../images/GoutIcon.svg';
 import goutIconOn from '../../images/goutBlack.svg';
+import setup from '../../images/setup.svg';
 
 // New KPI Tool Components
 import RangeDateSelector from '../RangeTime';
@@ -40,7 +41,9 @@ const Header = ({
   kpis,
   updateDataKpisChecked,
   credentials,
-  accountId
+  accountId,
+  guiEditor,
+  HandleChangeLogo
 }) => {
   const filterKpis = kpis.filter(kpi => kpi.check);
   const showLogsLink = credentials.loggin; // TODO logic to hidden
@@ -51,6 +54,18 @@ const Header = ({
           <img src={showLeftPanel ? close : lines} height="12px" width="18px" />{' '}
         </div>
         {RenderLogo(logoSetup)}
+        {guiEditor && (
+          <div
+            style={{ marginLeft: '5px', marginTop: '20px', cursor: 'pointer' }}
+            onClick={() => HandleChangeLogo()}
+          >
+            <img
+              src={setup}
+              height="16"
+              style={{ marginRight: '5px', marginBottom: '2px' }}
+            />
+          </div>
+        )}
       </div>
       {filterKpis.length > 0 && (
         <div className="kpi">
@@ -341,5 +356,7 @@ Header.propTypes = {
   kpis: PropTypes.array.isRequired,
   updateDataKpisChecked: PropTypes.func.isRequired,
   credentials: PropTypes.object.isRequired,
-  accountId: PropTypes.number.isRequired
+  accountId: PropTypes.number.isRequired,
+  guiEditor: PropTypes.bool.isRequired,
+  HandleChangeLogo: PropTypes.func.isRequired
 };

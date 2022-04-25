@@ -99,6 +99,8 @@ describe('<Header/>', () => {
           DisplayConsole={jest.fn()}
           credentials={credentials}
           accountId={2710112}
+          guiEditor={false}
+          HandleChangeLogo={jest.fn()}
         />
       );
       expect(header.length).toEqual(1);
@@ -128,6 +130,8 @@ describe('<Header/>', () => {
           DisplayConsole={jest.fn()}
           credentials={{ loggin: true }}
           accountId={2710112}
+          guiEditor={false}
+          HandleChangeLogo={jest.fn()}
         />
       );
       expect(header.length).toEqual(1);
@@ -174,6 +178,8 @@ describe('<Header/>', () => {
           DisplayConsole={jest.fn()}
           credentials={credentials}
           accountId={2710112}
+          guiEditor={false}
+          HandleChangeLogo={jest.fn()}
         />
       );
       expect(header.length).toEqual(1);
@@ -204,6 +210,8 @@ describe('<Header/>', () => {
           DisplayConsole={jest.fn()}
           credentials={credentials}
           accountId={2710112}
+          guiEditor={false}
+          HandleChangeLogo={jest.fn()}
         />
       );
       header
@@ -238,6 +246,8 @@ describe('<Header/>', () => {
           DisplayConsole={jest.fn()}
           credentials={credentials}
           accountId={2710112}
+          guiEditor={false}
+          HandleChangeLogo={jest.fn()}
         />
       );
       header
@@ -272,6 +282,8 @@ describe('<Header/>', () => {
           DisplayConsole={jest.fn()}
           credentials={credentials}
           accountId={2710112}
+          guiEditor={false}
+          HandleChangeLogo={jest.fn()}
         />
       );
       header
@@ -306,6 +318,8 @@ describe('<Header/>', () => {
           DisplayConsole={jest.fn()}
           credentials={credentials}
           accountId={2710112}
+          guiEditor={false}
+          HandleChangeLogo={jest.fn()}
         />
       );
       header
@@ -340,6 +354,8 @@ describe('<Header/>', () => {
           DisplayConsole={jest.fn()}
           credentials={credentials}
           accountId={2710112}
+          guiEditor={false}
+          HandleChangeLogo={jest.fn()}
         />
       );
       header
@@ -373,6 +389,8 @@ describe('<Header/>', () => {
           DisplayConsole={jest.fn()}
           credentials={credentials}
           accountId={2710112}
+          guiEditor={false}
+          HandleChangeLogo={jest.fn()}
         />
       );
       const filterKpis = jest.fn();
@@ -403,6 +421,8 @@ describe('<Header/>', () => {
           DisplayConsole={jest.fn()}
           credentials={credentials}
           accountId={2710112}
+          guiEditor={false}
+          HandleChangeLogo={jest.fn()}
         />
       );
       expect(header.length).toEqual(1);

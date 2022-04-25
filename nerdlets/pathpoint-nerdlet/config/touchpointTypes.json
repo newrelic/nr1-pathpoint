@@ -1,0 +1,42 @@
+[
+  {
+    "longName": "Person-Count",
+    "shortName": "PRC"
+  },
+  {
+    "longName": "Process-Count",
+    "shortName": "PCC"
+  },
+  {
+    "longName": "Application-Performance",
+    "shortName": "APP"
+  },
+  {
+    "longName": "FrontEnd-Performance",
+    "shortName": "FRT"
+  },
+  {
+    "longName": "Synthetics-Check",
+    "shortName": "SYN"
+  },
+  {
+    "longName": "Workload-Status",
+    "shortName": "WLD"
+  },
+  {
+    "longName": "Drops-Count",
+    "shortName": "DRP"
+  },
+  {
+    "longName": "API-Performance",
+    "shortName": "API"
+  },
+  {
+    "longName": "API-Count",
+    "shortName": "APC"
+  },
+  {
+    "longName": "API-Status",
+    "shortName": "APS"
+  }
+]

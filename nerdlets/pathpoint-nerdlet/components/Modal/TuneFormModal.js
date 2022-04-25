@@ -254,7 +254,7 @@ const RenderForm = (datos, handleOnChange) => {
           <div style={{ height: '40px', width: '320px' }}>
             {renderField({
               label: 'Success Percentage (Min)',
-              defaultValue: datos[0].min_count,
+              defaultValue: datos[0].min_success_percentage,
               id: 'min_success_percentage',
               onChange: handleOnChange,
               name: 'min_success_percentage',

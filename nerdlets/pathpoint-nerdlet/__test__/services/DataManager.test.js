@@ -496,6 +496,7 @@ describe('Datamanager service', () => {
           }
         }
       });
+    dataManager.SetTotalContainers = jest.fn();
     const result = await dataManager.BootstrapInitialData(accountName);
     expect(dataManager.lastStorageVersion).toEqual(version);
     expect(result.stages.length).toEqual(2);
@@ -639,6 +640,10 @@ describe('Datamanager service', () => {
     expect(dataManager.lastStorageVersion).toEqual('1.0.0');
     expect(result.stages.length).toEqual(5);
     expect(result.accountIDs).toEqual([{ name: 'WigiBoards', id: 2710112 }]);
+  });
+
+  it('Function SetTotalContainers', () => {
+    expect(dataManager.SetTotalContainers()).toEqual(0);
   });
 
   it('Function TryToSetKeys() call LogConnector', async () => {
@@ -2649,8 +2654,7 @@ describe('Datamanager service', () => {
           steps_max_cong: [],
           total_congestion: 0,
           total_count: 40,
-          drop_count: 0,
-          traffic_type: 'traffic'
+          drop_count: 0
         }
       ]
     });
@@ -2734,8 +2738,7 @@ describe('Datamanager service', () => {
           steps_max_cong: [1],
           total_congestion: 19,
           total_count: 40,
-          drop_count: 0,
-          traffic_type: 'traffic'
+          drop_count: 0
         }
       ]
     });
@@ -2819,8 +2822,7 @@ describe('Datamanager service', () => {
           steps_max_cong: [],
           total_congestion: 0,
           total_count: 20,
-          drop_count: NaN,
-          traffic_type: 'traffic'
+          drop_count: NaN
         }
       ]
     });

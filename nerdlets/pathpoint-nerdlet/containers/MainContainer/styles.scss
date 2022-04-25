@@ -188,19 +188,25 @@
 }
 
 .touchPointCheckbox {
-  margin-left: 20px;
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
 }
 
-.checkboxLabel {
-  position: relative;
-  top: -3px;
+.labelViewAll {
   margin-left: 5px;
+  margin-top: 1px;
   color: silver !important;
   text-transform: lowercase;
   font-family: sans-serif;
   font-style: normal;
   font-weight: normal;
   font-size: 1.2rem;
+}
+
+.mainContainerTouchPoints__title {
+  display: flex;
+  align-items: center;
 }
 // menu left
 .menuLeftClose {
@@ -223,6 +229,7 @@
   animation-duration: 1s;
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both;
+  z-index: 9999;
 }
 @-webkit-keyframes fadeInLeft {
   0% {
@@ -601,8 +608,6 @@ input[type="file"] {
 
 .modal4content {
   font-size: 12px;
-  padding-left: 15px;
-  padding-right: 15px;
 }
 
 .modalMaxHeightContent {

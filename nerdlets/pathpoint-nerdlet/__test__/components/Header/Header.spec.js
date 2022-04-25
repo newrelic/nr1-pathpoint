@@ -84,6 +84,8 @@ describe('Header component', () => {
         updateDataKpisChecked={jest.fn()}
         credentials={credentials}
         accountId={2710112}
+        guiEditor={false}
+        HandleChangeLogo={jest.fn()}
       />
     );
     expect(header.toJSON()).toMatchSnapshot();
@@ -113,6 +115,8 @@ describe('Header component', () => {
         DisplayConsole={jest.fn()}
         credentials={credentials}
         accountId={2710112}
+        guiEditor={false}
+        HandleChangeLogo={jest.fn()}
       />
     );
     expect(header.toJSON()).toMatchSnapshot();
@@ -142,6 +146,8 @@ describe('Header component', () => {
         DisplayConsole={jest.fn()}
         credentials={credentials}
         accountId={2710112}
+        guiEditor={false}
+        HandleChangeLogo={jest.fn()}
       />
     );
     expect(header.toJSON()).toMatchSnapshot();
@@ -171,6 +177,8 @@ describe('Header component', () => {
         DisplayConsole={jest.fn()}
         credentials={credentials}
         accountId={2710112}
+        guiEditor={false}
+        HandleChangeLogo={jest.fn()}
       />
     );
     expect(header.toJSON()).toMatchSnapshot();
@@ -200,6 +208,8 @@ describe('Header component', () => {
         DisplayConsole={jest.fn()}
         credentials={credentials}
         accountId={2710112}
+        guiEditor={false}
+        HandleChangeLogo={jest.fn()}
       />
     );
     expect(header.toJSON()).toMatchSnapshot();
@@ -229,6 +239,8 @@ describe('Header component', () => {
         DisplayConsole={jest.fn()}
         credentials={credentials}
         accountId={2710112}
+        guiEditor={false}
+        HandleChangeLogo={jest.fn()}
       />
     );
     expect(header.toJSON()).toMatchSnapshot();
@@ -258,6 +270,8 @@ describe('Header component', () => {
         DisplayConsole={jest.fn()}
         credentials={credentials}
         accountId={2710112}
+        guiEditor={false}
+        HandleChangeLogo={jest.fn()}
       />
     );
     expect(header.toJSON()).toMatchSnapshot();
@@ -290,6 +304,8 @@ describe('Header component', () => {
         DisplayConsole={jest.fn()}
         credentials={credentials}
         accountId={2710112}
+        guiEditor={false}
+        HandleChangeLogo={jest.fn()}
       />
     );
     expect(header.toJSON()).toMatchSnapshot();
@@ -323,6 +339,8 @@ describe('Header component', () => {
         DisplayConsole={jest.fn()}
         credentials={credentials}
         accountId={2710112}
+        guiEditor={false}
+        HandleChangeLogo={jest.fn()}
       />
     );
     expect(header.toJSON()).toMatchSnapshot();

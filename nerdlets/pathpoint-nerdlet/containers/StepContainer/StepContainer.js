@@ -4,21 +4,6 @@ import PropTypes from 'prop-types';
 import Step from '../../components/Step/Step.js';
 
 export default class StepContainer extends React.Component {
-  state = {
-    quantityOfContainer: []
-  };
-
-  componentDidMount() {
-    const { totalContainers } = this.props;
-    const { quantityOfContainer } = this.state;
-    let control = 0;
-    while (control !== totalContainers) {
-      quantityOfContainer.push({ name: control });
-      control += 1;
-    }
-    this.setState({ quantityOfContainer: quantityOfContainer });
-  }
-
   calculateIndex = () => {
     const { steps } = this.props;
     let index = 1;
@@ -48,9 +33,15 @@ export default class StepContainer extends React.Component {
       latencyStatus,
       iconCanaryStatus,
       colors,
-      iconFireStatus
+      iconFireStatus,
+      totalContainers
     } = this.props;
-    const { quantityOfContainer } = this.state;
+    let control = 0;
+    const quantityOfContainer = [];
+    while (control !== totalContainers) {
+      quantityOfContainer.push({ name: control });
+      control += 1;
+    }
     const steps = this.calculateIndex();
     return (
       <>

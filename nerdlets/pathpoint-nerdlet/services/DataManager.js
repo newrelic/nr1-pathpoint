@@ -25,6 +25,7 @@ import CredentialConnector from './CredentialConnector';
 // DEFINE AND EXPORT CLASS
 export default class DataManager {
   constructor() {
+    this.timeRange = '5 MINUTES AGO';
     this.NerdStorageVault = new NerdStorageVault();
     this.LogConnector = new LogConnector();
     this.SynConnector = new SynConnector();
@@ -353,13 +354,19 @@ export default class DataManager {
   }
 
   GetStepsByStage() {
-    const reply = [];
-    let idx = 0;
-    this.stages.forEach(stage => {
-      idx = stage.steps[stage.steps.length - 1].sub_steps.length - 1;
-      reply.push(stage.steps[stage.steps.length - 1].sub_steps[idx].index);
-    });
-    return reply;
+    try {
+      const reply = [];
+      let idx = 0;
+      this.stages.forEach(stage => {
+        if (stage.steps[stage.steps.length - 1]) {
+          idx = stage.steps[stage.steps.length - 1].sub_steps.length - 1;
+          reply.push(stage.steps[stage.steps.length - 1].sub_steps[idx].index);
+        }
+      });
+      return reply;
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
   async GetCanaryData() {
@@ -406,7 +413,9 @@ export default class DataManager {
                 touchpointRef: touchpoint,
                 measureType: 'touchpoint',
                 touchpointName: touchpoint.value,
-                stageName: this.stages[touchpoint.stage_index - 1].title
+                stageName: this.stages[touchpoint.stage_index - 1]
+                  ? this.stages[touchpoint.stage_index - 1].title
+                  : ''
               };
               this.FetchMeasure(measure, extraInfo);
             });
@@ -1155,7 +1164,8 @@ export default class DataManager {
         this.GetStageError(i + 1, element)
       );
       this.stages[i].total_count = values.count_by_stage[i].total_count;
-      this.stages[i].trafficIconType = values.count_by_stage[i].traffic_type;
+      this.stages[i].trafficIconType =
+        this.stages[i].type === 'People' ? 'people' : 'traffic';
 
       this.stages[i].capacity = values.count_by_stage[i].capacity_status;
       this.stages[i].capacity_link = values.count_by_stage[i].capacity_link;
@@ -1181,7 +1191,6 @@ export default class DataManager {
     const tpc = [];
     while (tpc.length < this.stages.length) {
       const rec = {
-        traffic_type: 'traffic',
         num_touchpoints: 0,
         total_count: 0,
         steps_indexes: [],
@@ -1203,10 +1212,10 @@ export default class DataManager {
               measure.type === 'PRC'
                 ? measure.session_count
                 : measure.transaction_count;
-            tpc[idx].traffic_type =
-              measure.type === 'PRC' ? 'people' : 'traffic';
-            tpc[idx].num_touchpoints++;
-            tpc[idx].total_count += count;
+            // eslint-disable-next-line no-unused-expressions
+            tpc[idx] ? tpc[idx].num_touchpoints++ : null;
+            // eslint-disable-next-line no-unused-expressions
+            tpc[idx] ? (tpc[idx].total_count += count) : null;
             if (measure.max_count < count) {
               tpc[idx].total_congestion += count - measure.max_count;
               tpc[idx].steps_max_cong = touchpoint.relation_steps;
@@ -1215,7 +1224,6 @@ export default class DataManager {
           if (measure.type === 'APC') {
             // API-Count touchpoint add the header count and is used to calculate congestion
             count = measure.api_count;
-            tpc[idx].traffic_type = 'traffic';
             tpc[idx].num_touchpoints++;
             tpc[idx].total_count += count;
             if (measure.max_count < count) {
@@ -1224,11 +1232,18 @@ export default class DataManager {
             }
           }
           if (measure.type === 'WLD') {
-            tpc[idx].capacity_status = measure.status_value;
-            tpc[idx].capacity_link = this.GetWokloadTouchpointLink(touchpoint);
+            // eslint-disable-next-line no-unused-expressions
+            tpc[idx] ? (tpc[idx].capacity_status = measure.status_value) : null;
+            // eslint-disable-next-line no-unused-expressions
+            tpc[idx]
+              ? (tpc[idx].capacity_link = this.GetWokloadTouchpointLink(
+                  touchpoint
+                ))
+              : null;
           }
           if (measure.type === 'DRP') {
-            tpc[idx].drop_count += measure.value;
+            // eslint-disable-next-line no-unused-expressions
+            tpc[idx] ? (tpc[idx].drop_count += measure.value) : null;
           }
         });
       }
@@ -1678,6 +1693,7 @@ export default class DataManager {
     this.stages.forEach(stage => {
       this.configuration.stages.push({
         title: stage.title,
+        type: stage.type,
         active_dotted: stage.active_dotted,
         arrowMode: stage.arrowMode,
         steps: [],
@@ -1767,6 +1783,7 @@ export default class DataManager {
             found = true;
             touchpoint.measure_points.forEach(measure => {
               accountID = this.accountId;
+              measure_time = this.TimeRangeTransform(this.timeRange);
               if (measure.measure_time) {
                 measure_time = measure.measure_time;
               }
@@ -1972,6 +1989,7 @@ export default class DataManager {
       stageDef = {
         index: stageIndex,
         title: stage.title,
+        type: Reflect.has(stage, 'type') ? stage.type : 'People',
         latencyStatus: false,
         status_color: 'good',
         gout_enable: false,

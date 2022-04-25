@@ -18,6 +18,9 @@ import { HeaderFileErrorFormModal } from './FileErrorFormModal';
 import { HeaderJsonConfigurationFormModal } from './JsonConfigurationFormModal';
 import { HeaderGeneralConfigurationFormModal } from './GeneralConfigurationFormModal';
 import { HeaderBackgroundProcessesFormModal } from './BackgroundProcessesFormModal';
+import { HeaderStagesEditor } from './StagesEditor';
+import { HeaderStepsEditor } from './StepsEditor';
+import { HeaderTouchpointsEditor } from './TouchpointsEditor';
 
 export default function ShowHeader(props) {
   const {
@@ -103,6 +106,12 @@ export default function ShowHeader(props) {
       return <HeaderLogoFormModal />;
     case 11:
       return <HeaderBackgroundProcessesFormModal />;
+    case 12:
+      return <HeaderStagesEditor />;
+    case 13:
+      return <HeaderStepsEditor />;
+    case 14:
+      return <HeaderTouchpointsEditor />;
   }
 }
 

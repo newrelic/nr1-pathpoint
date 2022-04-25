@@ -7,6 +7,8 @@ import MainContainer from '../../../containers/MainContainer/MainContainer';
 jest.mock('../../../services/DataManager');
 jest.mock('../../../services/LogoSetupData');
 jest.mock('../../../services/Validations');
+jest.mock('../../../services/InterfaceEditor');
+jest.mock('../../../services/JiraConnector');
 jest.mock(
   'nr1',
   () => {
@@ -32,31 +34,6 @@ jest.mock(
   },
   { virtual: true }
 );
-
-// INITIAL DATA
-const banner_kpis = [
-  {
-    type: 100,
-    description: 'Total Order Count',
-    prefix: '',
-    suffix: 'Orders',
-    value: 0
-  },
-  {
-    type: 100,
-    description: 'Total Order Count',
-    prefix: '',
-    suffix: 'Orders',
-    value: 0
-  },
-  {
-    type: 100,
-    description: 'Total Order Count',
-    prefix: '',
-    suffix: 'Orders',
-    value: 0
-  }
-];
 
 const stages = [
   {
@@ -149,8 +126,7 @@ describe('<MainContainer/>', () => {
     const instance = mainContainer.getInstance();
     instance.setState({
       waiting: false,
-      stages: [],
-      banner_kpis: banner_kpis
+      stages: []
     });
     expect(mainContainer.toJSON()).toMatchSnapshot();
   });
@@ -161,8 +137,7 @@ describe('<MainContainer/>', () => {
     instance.setState({
       waiting: false,
       showLeftPanel: true,
-      stages: [],
-      banner_kpis: banner_kpis
+      stages: []
     });
     expect(mainContainer.toJSON()).toMatchSnapshot();
   });
@@ -173,8 +148,7 @@ describe('<MainContainer/>', () => {
     instance.setState({
       waiting: false,
       MenuRightDefault: 1,
-      stages: [],
-      banner_kpis: banner_kpis
+      stages: []
     });
     expect(mainContainer.toJSON()).toMatchSnapshot();
   });
@@ -185,8 +159,7 @@ describe('<MainContainer/>', () => {
     instance.setState({
       waiting: false,
       MenuRightDefault: 2,
-      stages: [],
-      banner_kpis: banner_kpis
+      stages: []
     });
     expect(mainContainer.toJSON()).toMatchSnapshot();
   });
@@ -197,8 +170,7 @@ describe('<MainContainer/>', () => {
     instance.setState({
       waiting: false,
       MenuRightDefault: 3,
-      stages: [],
-      banner_kpis: banner_kpis
+      stages: []
     });
     expect(mainContainer.toJSON()).toMatchSnapshot();
   });
@@ -209,7 +181,6 @@ describe('<MainContainer/>', () => {
     instance.setState({
       waiting: false,
       stages: stages,
-      banner_kpis: banner_kpis,
       colors: colors
     });
     expect(mainContainer.toJSON()).toMatchSnapshot();
