@@ -36,10 +36,7 @@ New Relic Pathpoint is an enterprise platform tracker that models system health 
       *  [DRP (DROP)](#DRP)  
       *  [API (API PERFORMANCE)](#API)  
       *  [APC (API COUNT)](#APC)  
-      *  [APS (API STATUS)](#APS)  
-      *  [EXP (EXTERNAL PERFORMANCE)](#EXP)  
-      *  [EXS (EXTERNAL STATUS)](#EXS)  
-      *  [TIM (TIME IN ACTION) ](#TIM)  
+      *  [APS (API STATUS)](#APS)   
 
 
    	
@@ -302,9 +299,6 @@ As you saw before, a New Relic Pathpoint does have different types of Touchpoint
 * API (API PERFORMANCE), PERFORMANCE Touchpoint; used to gauge the performace of an API 
 * APC (API COUNT), COUNT Touchpoint, used to count user, proceses, and the quantity of activities 
 * APS (API STATUS), STATUS Touchpoint; used to find out the status of an API
-* EXP (EXTERNAL PERFORMANCE), PERFORMANCE Touchpoint; used to capture APDEX response time, and error percentage
-* EXS (EXTERNAL STATUS), STATUS Touchpoint; used to capture the current status of a Web Service
-* TIM (TIME IN ACTION), CHECK Touchpoint; used to capture single Actions within a Synthetic Check on Applications, systems and Transactions
 
 There are three different colors, for a Touchpoint state (visible on the left of the Touchpoint name), and they are:
 
@@ -648,95 +642,6 @@ Query;
 
 Return to top of [Index](#Index)
 
-## <a id="EXP"></a>EXP (EXTERNAL PERFORMANCE)) ### 
-
-PERFORMANCE Touchpoint
-
-Captures;
-
-* APDEX, Response Time, and Error %
-
-Use;
-
-* Web Services
-
-Linking;
-
-* APM External Services Dashboard, and Custom Dashboard
-
-Sources;
-
-* APM External Services
-
-Tuning;
-
-* Max Responce time, Max Pages per Minute
-
-Query;
-
-* Select average(apm.service.external.host.duration) as duration, rate(count(apm.service.external.host.duration), 1 minute) as rate FROM Metric WHERE appName='My-App-Name'
-
-Return to top of [Index](#Index)
-
-## <a id="EXS"></a>EXS (EXTERNAL STATUS)) ### 
-
-STATUS Touchpoint
-
-Captures;
-
-* Current State
-
-Use;
-
-* Web Services
-
-Linking;
-
-* Status Pages of SAS Providers
-
-Sources;
-
-* Synthetics
-
-Tuning;
-
-* Min Success Percentage
-
-Query;
-
-* SELECT percentage(count(*), WHERE result="SUCCESS') as percentage from SyntheticCheck WHERE monitorName='PathPoint Twilio Status Page Check
-
-Return to top of [Index](#Index)
-
-## <a id="TIM"></a>TIM (TIME IN ACTION)) ### 
-
-CHECK Touchpoint
-
-Captures:
-
-* Single Actions within a Synthetic Check
-
-Use:
-
-* Applications, Systems, and Transactions
-
-Linking:
-
-* Synthetics Individual Action Dashboard
-
-Sources:
-
-* NR Synthetics
-
-Tuning:
-
-* Max Action Time
-
-Query:
-
-* SELECT average(ElapsedTime)/1000 as duration FROM Log WHERE application LIKE "SolutionCenter_JBoss AND message LIKE'%ElapsedTime% and channel='phone'
-
-Return to top of [Index](#Index)
 
 In a Pathpoint, each Step is linked to a particular Stage, and in turn, each Touchpoint is linked to a particular Step (although there could be Steps that have no Touchpoints under them). To find out what touchpoints are linked to a particular Step, just click on its name.
 
