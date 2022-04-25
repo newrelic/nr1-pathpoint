@@ -642,7 +642,9 @@ Query;
 
 Return to top of [Index](#Index)
 
-
+   
+   
+## Relationship between Touchpoints and Steps
 In a Pathpoint, each Step is linked to a particular Stage, and in turn, each Touchpoint is linked to a particular Step (although there could be Steps that have no Touchpoints under them). To find out what touchpoints are linked to a particular Step, just click on its name.
 
 ![image](screenshots/steps2.png)
