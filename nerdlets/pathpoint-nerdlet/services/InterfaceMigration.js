@@ -16,17 +16,21 @@ export default class InterfaceMigration {
           if (step.visible) {
             const ss_values = [];
             step.sub_steps.forEach(sub_step => {
-              ss_values.push({
-                title: sub_step.value,
-                id: `ST${stageIndex}-LINE${lineStep}-SS${stepOrder}`
+              if (sub_step.value !== '') {
+                ss_values.push({
+                  title: sub_step.value,
+                  id: `ST${stageIndex}-LINE${lineStep}-SS${stepOrder}`
+                });
+                stepOrder++;
+              }
+            });
+            if (ss_values.length > 0) {
+              steps.push({
+                line: lineStep,
+                values: ss_values
               });
-              stepOrder++;
-            });
-            steps.push({
-              line: lineStep,
-              values: ss_values
-            });
-            lineStep++;
+              lineStep++;
+            }
             stepOrder = 1;
           }
         });
@@ -34,8 +38,8 @@ export default class InterfaceMigration {
         stages.push({
           title: stage.title,
           type: stage.type,
-          active_dotted: 'none',
-          arrowMode: 'FLOW',
+          active_dotted: stage.active_dotted,
+          arrowMode: stage.arrowMode,
           steps: steps,
           touchpoints: touchpoints
         });

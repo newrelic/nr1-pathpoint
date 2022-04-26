@@ -1698,6 +1698,8 @@ export default class MainContainer extends React.Component {
       stagesInterface.push({
         id,
         title: item.title,
+        active_dotted: item.active_dotted,
+        arrowMode: item.arrowMode,
         order: i + 1,
         index: i + 1,
         type: item.type,
@@ -1816,6 +1818,7 @@ export default class MainContainer extends React.Component {
     this.setState({
       loading: true
     });
+    console.log(stagesInterface);
     this.setState({ stagesInterface });
     await this.InterfaceEditor.SetStagesInterface(stagesInterface);
     let data = this.DataManager.GetCurrentConfigurationJSON();

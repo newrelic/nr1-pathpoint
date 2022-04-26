@@ -488,8 +488,23 @@ class BodyStagesEditor extends Component {
 
   handleStagesEditorSubmit = e => {
     e.preventDefault();
-    let stages = this.state.stages;
+    let stages = [];
+    Object.keys(this.state.form).forEach(key => {
+      this.state.stages.forEach(item => {
+        if (key.split('stage_')[1] === item.id) {
+          const form = this.state.form[key];
+          stages.push({
+            ...item,
+            title: form.title,
+            order: form.order,
+            type: form.type
+          });
+        }
+      });
+    });
+    this.setState({ stages });
     stages = stages.sort((a, b) => a.index - b.index);
+    this.setState({ stages });
     this.props.handleStagesEditorSubmit(stages);
   };
 

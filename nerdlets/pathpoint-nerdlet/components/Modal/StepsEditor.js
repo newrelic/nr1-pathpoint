@@ -688,7 +688,6 @@ class BodyStepsEditor extends Component {
                     fontSize: '12px',
                     lineHeight: '14px',
                     textAlign: 'center',
-                    minWidth: '85px',
                     color:
                       this.state.current.stage === stage.id
                         ? 'white'
