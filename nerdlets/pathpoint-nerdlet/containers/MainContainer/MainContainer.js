@@ -61,13 +61,14 @@ export default class MainContainer extends React.Component {
     this.InterfaceEditor = null;
     this.InterfaceMigration = null;
     this.state = {
+      accountName: '',
       username: '',
+      guiEditor: true,
       jsonMetaData: {
         description: '',
         note: ''
       },
       stagesInterface: null,
-      guiEditor: false,
       currentHistoricSelected: null,
       updating: false,
       queryModalShowing: false,
@@ -78,7 +79,6 @@ export default class MainContainer extends React.Component {
         view: 0,
         historic: []
       },
-      accountName: '',
       credentials: {
         accountId: null,
         ingestLicense: null,
@@ -165,7 +165,10 @@ export default class MainContainer extends React.Component {
       sendingLogsEnableDisable: true,
       configurationOptionSelected: 'download',
       fileName: null,
-      fileNote: null
+      fileNote: null,
+      showMessageInformationStage: false,
+      showMessageInformationStep: false,
+      showMessageInformationTouchpoint: false
     };
   }
 
@@ -784,6 +787,9 @@ export default class MainContainer extends React.Component {
 
   updateTouchpointOnOff = touchpoint => {
     if (!this.state.iconCanaryStatus) {
+      this.setState({
+        stagesInterface: null
+      });
       this.updateTouchpointStageOnOff(touchpoint);
       this.DataManager.UpdateTouchpointOnOff(touchpoint, true);
     }
@@ -1133,7 +1139,11 @@ export default class MainContainer extends React.Component {
       this.state.stageNameSelected.touchpoint,
       this.state.stageNameSelected.datos
     );
-    this.setState({ updating: false, updateBackgroundScript: true });
+    this.setState({
+      updating: false,
+      updateBackgroundScript: true,
+      stagesInterface: null
+    });
     this._onClose();
   };
 
@@ -1161,7 +1171,7 @@ export default class MainContainer extends React.Component {
       this.state.stageNameSelected.touchpoint,
       datos
     );
-    this.setState({ updateBackgroundScript: true });
+    this.setState({ updateBackgroundScript: true, stagesInterface: null });
     this._onClose();
   };
 
@@ -1779,6 +1789,14 @@ export default class MainContainer extends React.Component {
     });
   };
 
+  showInformation = (title, value) => {
+    if (title === 'stage')
+      this.setState({ showMessageInformationStage: value });
+    if (title === 'step') this.setState({ showMessageInformationStep: value });
+    if (title === 'touchpoint')
+      this.setState({ showMessageInformationTouchpoint: value });
+  };
+
   RestoreJSONFromHistoric = () => {
     const payload = this.state.JSONModal.historic[
       this.state.currentHistoricSelected
@@ -1854,7 +1872,10 @@ export default class MainContainer extends React.Component {
       credentials,
       configurationOptionSelected,
       fileName,
-      fileNote
+      fileNote,
+      showMessageInformationStage,
+      showMessageInformationStep,
+      showMessageInformationTouchpoint
     } = this.state;
     if (this.state.waiting) {
       return (
@@ -2235,14 +2256,19 @@ export default class MainContainer extends React.Component {
               )}
               {this.state.guiEditor && (
                 <div
-                  style={{ marginLeft: '15px', cursor: 'pointer' }}
+                  className="containerGearWheel"
                   onClick={() => this.OpenGUIEditor(12)}
+                  onMouseEnter={() => this.showInformation('stage', true)}
+                  onMouseLeave={() => this.showInformation('stage', false)}
                 >
                   <img
                     src={setup_icon}
                     height="16"
-                    style={{ marginRight: '5px', marginBottom: '2px' }}
+                    style={{ marginRight: '5px' }}
                   />
+                  {showMessageInformationStage === true ? (
+                    <div className="panelInformation">Stages Editor</div>
+                  ) : null}
                 </div>
               )}
             </div>
@@ -2268,7 +2294,7 @@ export default class MainContainer extends React.Component {
                 Steps
                 {!this.state.guiEditor && (
                   <a
-                    href="https://github.com/newrelic/nr1-pathpoint/tree/main/docs/user_manual/Pathpoint-Stages#stages-guide"
+                    href="https://github.com/newrelic/nr1-pathpoint/tree/main/docs/user_manual/Pathpoint-Steps#steps-guide"
                     style={{ marginLeft: '10px' }}
                     target="_blank"
                     rel="noreferrer"
@@ -2278,14 +2304,19 @@ export default class MainContainer extends React.Component {
                 )}
                 {this.state.guiEditor && (
                   <div
+                    className="containerGearWheel"
                     onClick={() => this.OpenGUIEditor(13)}
-                    style={{ marginLeft: '15px', cursor: 'pointer' }}
+                    onMouseEnter={() => this.showInformation('step', true)}
+                    onMouseLeave={() => this.showInformation('step', false)}
                   >
                     <img
                       src={setup_icon}
                       height="16"
                       style={{ marginRight: '5px', marginBottom: '2px' }}
                     />
+                    {showMessageInformationStep === true ? (
+                      <div className="panelInformation">Steps Editor</div>
+                    ) : null}
                   </div>
                 )}
               </div>
@@ -2376,14 +2407,23 @@ export default class MainContainer extends React.Component {
                 )}
                 {this.state.guiEditor && (
                   <div
-                    style={{ marginLeft: '15px', cursor: 'pointer' }}
+                    className="containerGearWheel"
                     onClick={() => this.OpenGUIEditor(14)}
+                    onMouseEnter={() =>
+                      this.showInformation('touchpoint', true)
+                    }
+                    onMouseLeave={() =>
+                      this.showInformation('touchpoint', false)
+                    }
                   >
                     <img
                       src={setup_icon}
                       height="16"
                       style={{ marginRight: '5px', marginBottom: '2px' }}
                     />
+                    {showMessageInformationTouchpoint === true ? (
+                      <div className="panelInformation">Touchpoints Editor</div>
+                    ) : null}
                   </div>
                 )}
                 <div className="touchPointCheckbox">
