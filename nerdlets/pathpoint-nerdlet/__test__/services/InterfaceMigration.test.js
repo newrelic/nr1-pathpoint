@@ -15,6 +15,8 @@ describe('InterfaceEditor', () => {
         oldIndex: 1,
         title: 'Login User',
         type: 'PCC',
+        active_dotted: 'none',
+        arrowMode: 'FLOW',
         visible: true,
         new: true,
         steps: [

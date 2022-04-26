@@ -1818,7 +1818,6 @@ export default class MainContainer extends React.Component {
     this.setState({
       loading: true
     });
-    console.log(stagesInterface);
     this.setState({ stagesInterface });
     await this.InterfaceEditor.SetStagesInterface(stagesInterface);
     let data = this.DataManager.GetCurrentConfigurationJSON();
