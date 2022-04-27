@@ -471,7 +471,7 @@ export default class DataManager {
       results: null
     };
     this.graphQlmeasures.length = 0;
-    this.graphQlmeasures.push([measure, query, null]);
+    this.graphQlmeasures.push([measure, query.replace(/\r?\n|\r/g, ' '), null]);
     await this.NRDBQuery();
     return measure;
   }
@@ -489,7 +489,11 @@ export default class DataManager {
       } else if (measure.type === 'DRP') {
         query = `${measure.query} SINCE ${this.dropParams.hours} HOURS AGO`;
       }
-      this.graphQlmeasures.push([measure, query, extraInfo]);
+      this.graphQlmeasures.push([
+        measure,
+        query.replace(/\r?\n|\r/g, ' '),
+        extraInfo
+      ]);
     }
   }
 
@@ -543,107 +547,112 @@ export default class DataManager {
   }
 
   MakeLogingData(startMeasureTime, endMeasureTime, data, errors) {
-    if (errors && errors.length > 0) {
-      errors.forEach(error => {
-        if (Reflect.has(error, 'path')) {
-          for (const [, value] of Object.entries(error.path)) {
-            const c = value.split('_');
-            if (c[0] === 'measure') {
-              const measure = this.graphQlmeasures[Number(c[1])][0];
-              const query = this.graphQlmeasures[Number(c[1])][1];
-              const extraInfo = this.graphQlmeasures[Number(c[1])][2];
+    try {
+      if (errors && errors.length > 0) {
+        errors.forEach(error => {
+          if (Reflect.has(error, 'path') && error.path) {
+            for (const [, value] of Object.entries(error.path)) {
+              const c = value.split('_');
+              if (c[0] === 'measure') {
+                const measure = this.graphQlmeasures[Number(c[1])][0];
+                const query = this.graphQlmeasures[Number(c[1])][1];
+                const extraInfo = this.graphQlmeasures[Number(c[1])][2];
+                let accountID = this.accountId;
+                if (Reflect.has(measure, 'accountID')) {
+                  accountID = measure.accountID;
+                }
+                if (extraInfo) {
+                  if (extraInfo.measureType === 'touchpoint') {
+                    const logRecord = {
+                      action: 'touchpoint-error',
+                      account_id: accountID,
+                      error: true,
+                      error_message: JSON.stringify(error),
+                      query: query,
+                      touchpoint_name: extraInfo.touchpointName,
+                      touchpoint_type: measure.type,
+                      stage_name: extraInfo.stageName
+                    };
+                    // DISABLE Touchpoints with ERRORS
+                    this.DisableTouchpointByError(extraInfo.touchpointRef);
+                    this.SendToLogs(logRecord);
+                  }
+                  if (extraInfo.measureType === 'kpi') {
+                    const logRecord = {
+                      action: 'kpi-error',
+                      account_id: accountID,
+                      error: true,
+                      error_message: JSON.stringify(error),
+                      query: query,
+                      kpi_name: extraInfo.kpiName,
+                      kpi_type: extraInfo.kpiType
+                    };
+                    this.SendToLogs(logRecord);
+                  }
+                }
+              }
+            }
+          }
+        });
+      }
+      if (data && data.actor) {
+        for (const [key, value] of Object.entries(data.actor)) {
+          const c = key.split('_');
+          if (
+            c[0] === 'measure' &&
+            value &&
+            value.nrql &&
+            Reflect.has(value, 'nrql') &&
+            Reflect.has(value.nrql, 'results')
+          ) {
+            const measure = this.graphQlmeasures[Number(c[1])][0];
+            const query = this.graphQlmeasures[Number(c[1])][1];
+            const extraInfo = this.graphQlmeasures[Number(c[1])][2];
+            const totalMeasures = this.graphQlmeasures.length;
+            const timeByMeasure =
+              (endMeasureTime - startMeasureTime) / totalMeasures;
+            if (extraInfo !== null) {
               let accountID = this.accountId;
               if (Reflect.has(measure, 'accountID')) {
                 accountID = measure.accountID;
               }
-              if (extraInfo) {
-                if (extraInfo.measureType === 'touchpoint') {
-                  const logRecord = {
-                    action: 'touchpoint-error',
-                    account_id: accountID,
-                    error: true,
-                    error_message: JSON.stringify(error),
-                    query: query,
-                    touchpoint_name: extraInfo.touchpointName,
-                    touchpoint_type: measure.type,
-                    stage_name: extraInfo.stageName
-                  };
-                  // DISABLE Touchpoints with ERRORS
-                  this.DisableTouchpointByError(extraInfo.touchpointRef);
-                  this.SendToLogs(logRecord);
-                }
-                if (extraInfo.measureType === 'kpi') {
-                  const logRecord = {
-                    action: 'kpi-error',
-                    account_id: accountID,
-                    error: true,
-                    error_message: JSON.stringify(error),
-                    query: query,
-                    kpi_name: extraInfo.kpiName,
-                    kpi_type: extraInfo.kpiType
-                  };
-                  this.SendToLogs(logRecord);
-                }
+              if (extraInfo.measureType === 'touchpoint') {
+                const logRecord = {
+                  action: 'touchpoint-query',
+                  account_id: accountID,
+                  error: false,
+                  query: query,
+                  results: JSON.stringify(value.nrql.results),
+                  duration: timeByMeasure,
+                  touchpoint_name: extraInfo.touchpointName,
+                  touchpoint_type: measure.type,
+                  stage_name: extraInfo.stageName
+                };
+                this.SendToLogs(logRecord);
               }
-            }
-          }
-        }
-      });
-    }
-    if (data && data.actor) {
-      for (const [key, value] of Object.entries(data.actor)) {
-        const c = key.split('_');
-        if (
-          c[0] === 'measure' &&
-          value &&
-          value.nrql &&
-          Reflect.has(value, 'nrql') &&
-          Reflect.has(value.nrql, 'results')
-        ) {
-          const measure = this.graphQlmeasures[Number(c[1])][0];
-          const query = this.graphQlmeasures[Number(c[1])][1];
-          const extraInfo = this.graphQlmeasures[Number(c[1])][2];
-          const totalMeasures = this.graphQlmeasures.length;
-          const timeByMeasure =
-            (endMeasureTime - startMeasureTime) / totalMeasures;
-          if (extraInfo !== null) {
-            let accountID = this.accountId;
-            if (Reflect.has(measure, 'accountID')) {
-              accountID = measure.accountID;
-            }
-            if (extraInfo.measureType === 'touchpoint') {
-              const logRecord = {
-                action: 'touchpoint-query',
-                account_id: accountID,
-                error: false,
-                query: query,
-                results: JSON.stringify(value.nrql.results),
-                duration: timeByMeasure,
-                touchpoint_name: extraInfo.touchpointName,
-                touchpoint_type: measure.type,
-                stage_name: extraInfo.stageName
-              };
-              this.SendToLogs(logRecord);
-            }
-            if (extraInfo.measureType === 'kpi') {
-              if (Reflect.has(measure.queryByCity[this.city], 'accountID')) {
-                accountID = measure.queryByCity[this.city].accountID;
+              if (extraInfo.measureType === 'kpi') {
+                if (Reflect.has(measure.queryByCity[this.city], 'accountID')) {
+                  accountID = measure.queryByCity[this.city].accountID;
+                }
+                const logRecord = {
+                  action: 'kpi-query',
+                  account_id: accountID,
+                  error: false,
+                  query: query,
+                  results: JSON.stringify(value.nrql.results),
+                  duration: timeByMeasure,
+                  kpi_name: extraInfo.kpiName,
+                  kpi_type: extraInfo.kpiType
+                };
+                this.SendToLogs(logRecord);
               }
-              const logRecord = {
-                action: 'kpi-query',
-                account_id: accountID,
-                error: false,
-                query: query,
-                results: JSON.stringify(value.nrql.results),
-                duration: timeByMeasure,
-                kpi_name: extraInfo.kpiName,
-                kpi_type: extraInfo.kpiType
-              };
-              this.SendToLogs(logRecord);
             }
           }
         }
       }
+    } catch (error) {
+      /* istanbul ignore next */
+      throw new Error(error);
     }
   }
 
@@ -675,297 +684,302 @@ export default class DataManager {
   }
 
   async NRDBQuery() {
-    const startMeasureTime = Date.now();
-    const { data, errors, n } = await this.EvaluateMeasures();
-    const endMeasureTime = Date.now();
-    this.MakeLogingData(startMeasureTime, endMeasureTime, data, errors);
-    if (n === 0) {
-      return 0;
-    }
-    if (errors && errors.length > 0) {
-      // console.log('NRDB-Error:', errors);
-    }
-    if (data && data.actor) {
-      for (const [key, value] of Object.entries(data.actor)) {
-        const c = key.split('_');
-        if (value !== null) {
-          if (c[0] === 'measure') {
-            const measure = this.graphQlmeasures[Number(c[1])][0];
-            const extraInfo = this.graphQlmeasures[Number(c[1])][2];
-            this.CheckIfResponseErrorCanBeSet(extraInfo, false);
-            // const query = this.graphQlmeasures[Number(c[1])][1];
-            // console.log('Query:',query);
-            // console.log('Result',value);
-            if (
-              measure.type === 'PRC' &&
-              value.nrql !== null &&
-              value.nrql.results &&
-              value.nrql.results[0] &&
-              Object.prototype.hasOwnProperty.call(
-                value.nrql.results[0],
-                'session'
-              )
-            ) {
-              if (value.nrql.results[0].session == null) {
-                this.CheckIfResponseErrorCanBeSet(extraInfo, true);
-              }
-              measure.session_count = value.nrql.results[0].session;
-            } else if (
-              measure.type === 'PCC' &&
-              value.nrql !== null &&
-              value.nrql.results &&
-              value.nrql.results[0] &&
-              Object.prototype.hasOwnProperty.call(
-                value.nrql.results[0],
-                'count'
-              )
-            ) {
-              if (value.nrql.results[0].count == null) {
-                this.CheckIfResponseErrorCanBeSet(extraInfo, true);
-              }
-              measure.transaction_count = value.nrql.results[0].count;
-            } else if (
-              measure.type === 'APP' &&
-              value.nrql !== null &&
-              value.nrql.results &&
-              value.nrql.results[0] &&
-              Object.prototype.hasOwnProperty.call(
-                value.nrql.results[0],
-                'apdex'
-              ) &&
-              Object.prototype.hasOwnProperty.call(
-                value.nrql.results[0],
-                'score'
-              ) &&
-              Object.prototype.hasOwnProperty.call(
-                value.nrql.results[0],
-                'response'
-              ) &&
-              Object.prototype.hasOwnProperty.call(
-                value.nrql.results[0],
-                'error'
-              )
-            ) {
+    try {
+      const startMeasureTime = Date.now();
+      const { data, errors, n } = await this.EvaluateMeasures();
+      const endMeasureTime = Date.now();
+      this.MakeLogingData(startMeasureTime, endMeasureTime, data, errors);
+      if (n === 0) {
+        return 0;
+      }
+      if (errors && errors.length > 0) {
+        // console.log('NRDB-Error:', errors);
+      }
+      if (data && data.actor) {
+        for (const [key, value] of Object.entries(data.actor)) {
+          const c = key.split('_');
+          if (value !== null) {
+            if (c[0] === 'measure') {
+              const measure = this.graphQlmeasures[Number(c[1])][0];
+              const extraInfo = this.graphQlmeasures[Number(c[1])][2];
+              this.CheckIfResponseErrorCanBeSet(extraInfo, false);
+              // const query = this.graphQlmeasures[Number(c[1])][1];
+              // console.log('Query:',query);
+              // console.log('Result',value);
               if (
-                value.nrql.results[0].response === null ||
-                value.nrql.results[0].error === null
+                measure.type === 'PRC' &&
+                value.nrql !== null &&
+                value.nrql.results &&
+                value.nrql.results[0] &&
+                Object.prototype.hasOwnProperty.call(
+                  value.nrql.results[0],
+                  'session'
+                )
               ) {
-                this.CheckIfResponseErrorCanBeSet(extraInfo, true);
-              }
-              measure.apdex_value = value.nrql.results[0].score;
-              measure.response_value = value.nrql.results[0].response;
-              measure.error_percentage = value.nrql.results[0].error;
-            } else if (
-              measure.type === 'FRT' &&
-              value.nrql !== null &&
-              value.nrql.results &&
-              value.nrql.results[0] &&
-              Object.prototype.hasOwnProperty.call(
-                value.nrql.results[0],
-                'apdex'
-              ) &&
-              Object.prototype.hasOwnProperty.call(
-                value.nrql.results[0],
-                'score'
-              ) &&
-              Object.prototype.hasOwnProperty.call(
-                value.nrql.results[0],
-                'response'
-              ) &&
-              Object.prototype.hasOwnProperty.call(
-                value.nrql.results[0],
-                'error'
-              )
-            ) {
-              if (
-                value.nrql.results[0].response === null ||
-                value.nrql.results[0].error === null
+                if (value.nrql.results[0].session == null) {
+                  this.CheckIfResponseErrorCanBeSet(extraInfo, true);
+                }
+                measure.session_count = value.nrql.results[0].session;
+              } else if (
+                measure.type === 'PCC' &&
+                value.nrql !== null &&
+                value.nrql.results &&
+                value.nrql.results[0] &&
+                Object.prototype.hasOwnProperty.call(
+                  value.nrql.results[0],
+                  'count'
+                )
               ) {
-                this.CheckIfResponseErrorCanBeSet(extraInfo, true);
-              }
-              measure.apdex_value = value.nrql.results[0].score;
-              measure.response_value = value.nrql.results[0].response;
-              measure.error_percentage = value.nrql.results[0].error;
-            } else if (
-              measure.type === 'SYN' &&
-              value.nrql !== null &&
-              value.nrql.results &&
-              value.nrql.results[0] &&
-              Object.prototype.hasOwnProperty.call(
-                value.nrql.results[0],
-                'success'
-              ) &&
-              Object.prototype.hasOwnProperty.call(
-                value.nrql.results[0],
-                'duration'
-              ) &&
-              Object.prototype.hasOwnProperty.call(
-                value.nrql.results[0],
-                'request'
-              )
-            ) {
-              if (
-                value.nrql.results[0].success === null ||
-                value.nrql.results[0].duration === null ||
-                value.nrql.results[0].request === null
+                if (value.nrql.results[0].count == null) {
+                  this.CheckIfResponseErrorCanBeSet(extraInfo, true);
+                }
+                measure.transaction_count = value.nrql.results[0].count;
+              } else if (
+                measure.type === 'APP' &&
+                value.nrql !== null &&
+                value.nrql.results &&
+                value.nrql.results[0] &&
+                Object.prototype.hasOwnProperty.call(
+                  value.nrql.results[0],
+                  'apdex'
+                ) &&
+                Object.prototype.hasOwnProperty.call(
+                  value.nrql.results[0],
+                  'score'
+                ) &&
+                Object.prototype.hasOwnProperty.call(
+                  value.nrql.results[0],
+                  'response'
+                ) &&
+                Object.prototype.hasOwnProperty.call(
+                  value.nrql.results[0],
+                  'error'
+                )
               ) {
-                this.CheckIfResponseErrorCanBeSet(extraInfo, true);
-              }
-              measure.success_percentage = value.nrql.results[0].success;
-              measure.max_duration = value.nrql.results[0].duration;
-              measure.max_request_time = value.nrql.results[0].request;
-            } else if (
-              measure.type === 'WLD' &&
-              value.nrql !== null &&
-              value.nrql.results &&
-              value.nrql.results[0] &&
-              Object.prototype.hasOwnProperty.call(
-                value.nrql.results[0],
-                'statusValue'
-              )
-            ) {
-              if (value.nrql.results[0].statusValue == null) {
-                this.CheckIfResponseErrorCanBeSet(extraInfo, true);
-              }
-              measure.status_value = value.nrql.results[0].statusValue;
-            } else if (
-              /* istanbul ignore next */
-              measure.type === 'DRP' &&
-              value.nrql !== null &&
-              value.nrql.results &&
-              value.nrql.results[0] &&
-              Object.prototype.hasOwnProperty.call(
-                value.nrql.results[0],
-                'count'
-              )
-            ) {
-              /* istanbul ignore next */
-              if (value.nrql.results[0].count == null) {
-                this.CheckIfResponseErrorCanBeSet(extraInfo, true);
-              }
-              /* istanbul ignore next */
-              measure.value = value.nrql.results[0].count;
-            } else if (
-              measure.type === 'APC' &&
-              value.nrql !== null &&
-              value.nrql.results &&
-              value.nrql.results[0] &&
-              Object.prototype.hasOwnProperty.call(
-                value.nrql.results[0],
-                'count'
-              )
-            ) {
-              if (value.nrql.results[0].count == null) {
-                this.CheckIfResponseErrorCanBeSet(extraInfo, true);
-              }
-              measure.api_count = value.nrql.results[0].count;
-            } else if (
-              measure.type === 'API' &&
-              value.nrql !== null &&
-              value.nrql.results &&
-              value.nrql.results[0] &&
-              Object.prototype.hasOwnProperty.call(
-                value.nrql.results[0],
-                'apdex'
-              ) &&
-              Object.prototype.hasOwnProperty.call(
-                value.nrql.results[0],
-                'score'
-              ) &&
-              Object.prototype.hasOwnProperty.call(
-                value.nrql.results[0],
-                'response'
-              ) &&
-              Object.prototype.hasOwnProperty.call(
-                value.nrql.results[0],
-                'error'
-              )
-            ) {
-              if (
-                value.nrql.results[0].response === null ||
-                value.nrql.results[0].error === null
+                if (
+                  value.nrql.results[0].response === null ||
+                  value.nrql.results[0].error === null
+                ) {
+                  this.CheckIfResponseErrorCanBeSet(extraInfo, true);
+                }
+                measure.apdex_value = value.nrql.results[0].score;
+                measure.response_value = value.nrql.results[0].response;
+                measure.error_percentage = value.nrql.results[0].error;
+              } else if (
+                measure.type === 'FRT' &&
+                value.nrql !== null &&
+                value.nrql.results &&
+                value.nrql.results[0] &&
+                Object.prototype.hasOwnProperty.call(
+                  value.nrql.results[0],
+                  'apdex'
+                ) &&
+                Object.prototype.hasOwnProperty.call(
+                  value.nrql.results[0],
+                  'score'
+                ) &&
+                Object.prototype.hasOwnProperty.call(
+                  value.nrql.results[0],
+                  'response'
+                ) &&
+                Object.prototype.hasOwnProperty.call(
+                  value.nrql.results[0],
+                  'error'
+                )
               ) {
-                this.CheckIfResponseErrorCanBeSet(extraInfo, true);
-              }
-              measure.apdex_value = value.nrql.results[0].score;
-              measure.response_value = value.nrql.results[0].response;
-              measure.error_percentage = value.nrql.results[0].error;
-            } else if (
-              measure.type === 'APS' &&
-              value.nrql !== null &&
-              value.nrql.results &&
-              value.nrql.results[0] &&
-              Object.prototype.hasOwnProperty.call(
-                value.nrql.results[0],
-                'percentage'
-              )
-            ) {
-              if (value.nrql.results[0].percentage == null) {
-                this.CheckIfResponseErrorCanBeSet(extraInfo, true);
-              }
-              measure.success_percentage = value.nrql.results[0].percentage;
-            } else if (
-              measure.type === 100 &&
-              value.nrql != null &&
-              value.nrql.results &&
-              value.nrql.results[0] &&
-              Object.prototype.hasOwnProperty.call(
-                value.nrql.results[0],
-                'value'
-              )
-            ) {
-              measure.value = value.nrql.results[0].value;
-            } else if (
-              measure.type === 101 &&
-              value.nrql != null &&
-              value.nrql.results &&
-              value.nrql.results.length === 2 &&
-              Object.prototype.hasOwnProperty.call(
-                value.nrql.results[0],
-                'value'
-              ) &&
-              Object.prototype.hasOwnProperty.call(
-                value.nrql.results[0],
-                'comparison'
-              )
-            ) {
-              if (value.nrql.results[0].comparison === 'current') {
-                measure.value.current = value.nrql.results[0].value;
-                measure.value.previous = value.nrql.results[1].value;
+                if (
+                  value.nrql.results[0].response === null ||
+                  value.nrql.results[0].error === null
+                ) {
+                  this.CheckIfResponseErrorCanBeSet(extraInfo, true);
+                }
+                measure.apdex_value = value.nrql.results[0].score;
+                measure.response_value = value.nrql.results[0].response;
+                measure.error_percentage = value.nrql.results[0].error;
+              } else if (
+                measure.type === 'SYN' &&
+                value.nrql !== null &&
+                value.nrql.results &&
+                value.nrql.results[0] &&
+                Object.prototype.hasOwnProperty.call(
+                  value.nrql.results[0],
+                  'success'
+                ) &&
+                Object.prototype.hasOwnProperty.call(
+                  value.nrql.results[0],
+                  'duration'
+                ) &&
+                Object.prototype.hasOwnProperty.call(
+                  value.nrql.results[0],
+                  'request'
+                )
+              ) {
+                if (
+                  value.nrql.results[0].success === null ||
+                  value.nrql.results[0].duration === null ||
+                  value.nrql.results[0].request === null
+                ) {
+                  this.CheckIfResponseErrorCanBeSet(extraInfo, true);
+                }
+                measure.success_percentage = value.nrql.results[0].success;
+                measure.max_duration = value.nrql.results[0].duration;
+                measure.max_request_time = value.nrql.results[0].request;
+              } else if (
+                measure.type === 'WLD' &&
+                value.nrql !== null &&
+                value.nrql.results &&
+                value.nrql.results[0] &&
+                Object.prototype.hasOwnProperty.call(
+                  value.nrql.results[0],
+                  'statusValue'
+                )
+              ) {
+                if (value.nrql.results[0].statusValue == null) {
+                  this.CheckIfResponseErrorCanBeSet(extraInfo, true);
+                }
+                measure.status_value = value.nrql.results[0].statusValue;
+              } else if (
+                /* istanbul ignore next */
+                measure.type === 'DRP' &&
+                value.nrql !== null &&
+                value.nrql.results &&
+                value.nrql.results[0] &&
+                Object.prototype.hasOwnProperty.call(
+                  value.nrql.results[0],
+                  'count'
+                )
+              ) {
+                /* istanbul ignore next */
+                if (value.nrql.results[0].count == null) {
+                  this.CheckIfResponseErrorCanBeSet(extraInfo, true);
+                }
+                /* istanbul ignore next */
+                measure.value = value.nrql.results[0].count;
+              } else if (
+                measure.type === 'APC' &&
+                value.nrql !== null &&
+                value.nrql.results &&
+                value.nrql.results[0] &&
+                Object.prototype.hasOwnProperty.call(
+                  value.nrql.results[0],
+                  'count'
+                )
+              ) {
+                if (value.nrql.results[0].count == null) {
+                  this.CheckIfResponseErrorCanBeSet(extraInfo, true);
+                }
+                measure.api_count = value.nrql.results[0].count;
+              } else if (
+                measure.type === 'API' &&
+                value.nrql !== null &&
+                value.nrql.results &&
+                value.nrql.results[0] &&
+                Object.prototype.hasOwnProperty.call(
+                  value.nrql.results[0],
+                  'apdex'
+                ) &&
+                Object.prototype.hasOwnProperty.call(
+                  value.nrql.results[0],
+                  'score'
+                ) &&
+                Object.prototype.hasOwnProperty.call(
+                  value.nrql.results[0],
+                  'response'
+                ) &&
+                Object.prototype.hasOwnProperty.call(
+                  value.nrql.results[0],
+                  'error'
+                )
+              ) {
+                if (
+                  value.nrql.results[0].response === null ||
+                  value.nrql.results[0].error === null
+                ) {
+                  this.CheckIfResponseErrorCanBeSet(extraInfo, true);
+                }
+                measure.apdex_value = value.nrql.results[0].score;
+                measure.response_value = value.nrql.results[0].response;
+                measure.error_percentage = value.nrql.results[0].error;
+              } else if (
+                measure.type === 'APS' &&
+                value.nrql !== null &&
+                value.nrql.results &&
+                value.nrql.results[0] &&
+                Object.prototype.hasOwnProperty.call(
+                  value.nrql.results[0],
+                  'percentage'
+                )
+              ) {
+                if (value.nrql.results[0].percentage == null) {
+                  this.CheckIfResponseErrorCanBeSet(extraInfo, true);
+                }
+                measure.success_percentage = value.nrql.results[0].percentage;
+              } else if (
+                measure.type === 100 &&
+                value.nrql != null &&
+                value.nrql.results &&
+                value.nrql.results[0] &&
+                Object.prototype.hasOwnProperty.call(
+                  value.nrql.results[0],
+                  'value'
+                )
+              ) {
+                measure.value = value.nrql.results[0].value;
+              } else if (
+                measure.type === 101 &&
+                value.nrql != null &&
+                value.nrql.results &&
+                value.nrql.results.length === 2 &&
+                Object.prototype.hasOwnProperty.call(
+                  value.nrql.results[0],
+                  'value'
+                ) &&
+                Object.prototype.hasOwnProperty.call(
+                  value.nrql.results[0],
+                  'comparison'
+                )
+              ) {
+                if (value.nrql.results[0].comparison === 'current') {
+                  measure.value.current = value.nrql.results[0].value;
+                  measure.value.previous = value.nrql.results[1].value;
+                } else {
+                  measure.value.current = value.nrql.results[1].value;
+                  measure.value.previous = value.nrql.results[0].value;
+                }
+              } else if (measure.type === 'TEST') {
+                if (value.nrql != null && value.nrql.results) {
+                  measure.results = value.nrql.results[0];
+                } else if (errors && errors.length > 0) {
+                  measure.results = {
+                    error: errors[0].message
+                  };
+                } else {
+                  measure.results = {
+                    error: 'INVALID QUERY'
+                  };
+                }
               } else {
-                measure.value.current = value.nrql.results[1].value;
-                measure.value.previous = value.nrql.results[0].value;
+                // the Touchpoint response is with ERROR
+                this.CheckIfResponseErrorCanBeSet(extraInfo, true);
               }
-            } else if (measure.type === 'TEST') {
-              if (value.nrql != null && value.nrql.results) {
-                measure.results = value.nrql.results[0];
-              } else if (errors && errors.length > 0) {
-                measure.results = {
-                  error: errors[0].message
-                };
-              } else {
-                measure.results = {
-                  error: 'INVALID QUERY'
-                };
-              }
-            } else {
-              // the Touchpoint response is with ERROR
-              this.CheckIfResponseErrorCanBeSet(extraInfo, true);
             }
-          }
-        } else if (c[0] === 'measure') {
-          const measure = this.graphQlmeasures[Number(c[1])][0];
-          if (measure.type === 'TEST' && errors && errors.length > 0) {
-            measure.results = {
-              error: errors[0].message
-            };
-          } else {
-            measure.results = {
-              error: 'INVALID QUERY'
-            };
+          } else if (c[0] === 'measure') {
+            const measure = this.graphQlmeasures[Number(c[1])][0];
+            if (measure.type === 'TEST' && errors && errors.length > 0) {
+              measure.results = {
+                error: errors[0].message
+              };
+            } else {
+              measure.results = {
+                error: 'INVALID QUERY'
+              };
+            }
           }
         }
       }
+    } catch (error) {
+      /* istanbul ignore next */
+      throw new Error(error);
     }
   }
 
@@ -1122,7 +1136,7 @@ export default class DataManager {
         };
         this.graphQlmeasures.push([
           this.kpis[i],
-          this.kpis[i].queryByCity[this.city].query +
+          this.kpis[i].queryByCity[this.city].query.replace(/\r?\n|\r/g, ' ') +
             ' SINCE ' +
             this.timeRangeKpi.range,
           extraInfo

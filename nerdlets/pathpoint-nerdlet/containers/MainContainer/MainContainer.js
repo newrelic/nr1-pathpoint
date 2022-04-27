@@ -61,7 +61,7 @@ export default class MainContainer extends React.Component {
     this.InterfaceEditor = null;
     this.InterfaceMigration = null;
     this.state = {
-      accountName: '',
+      accountName: 'Mercado Bitcoin',
       username: '',
       guiEditor: true,
       jsonMetaData: {
@@ -1061,12 +1061,14 @@ export default class MainContainer extends React.Component {
     const accountID = stageNameSelected.datos[value].accountID;
     const { testText, goodQuery } = await this.validationQuery.validateQuery(
       type,
-      query,
+      query.replace(/\r?\n|\r/g, ' '),
       accountID
     );
-    let results = '';
     const data = await this.DataManager.ReadQueryResults(query, accountID);
-    results = data.results;
+    const ifUndefined = {
+      error: 'Syntax Error: Unterminated string.'
+    };
+    const results = data.results ? data.results : ifUndefined;
     this.setState({
       testText,
       testingNow: false,
