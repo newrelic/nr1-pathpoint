@@ -471,7 +471,14 @@ export default class DataManager {
       results: null
     };
     this.graphQlmeasures.length = 0;
-    this.graphQlmeasures.push([measure, query.replace(/\r?\n|\r/g, ' '), null]);
+    this.graphQlmeasures.push([
+      measure,
+      query
+        .replace(/\r?\n|\r/g, ' ')
+        .split('\\')
+        .join('\\\\'),
+      null
+    ]);
     await this.NRDBQuery();
     return measure;
   }
@@ -491,7 +498,10 @@ export default class DataManager {
       }
       this.graphQlmeasures.push([
         measure,
-        query.replace(/\r?\n|\r/g, ' '),
+        query
+          .replace(/\r?\n|\r/g, ' ')
+          .split('\\')
+          .join('\\\\'),
         extraInfo
       ]);
     }
@@ -1136,7 +1146,10 @@ export default class DataManager {
         };
         this.graphQlmeasures.push([
           this.kpis[i],
-          this.kpis[i].queryByCity[this.city].query.replace(/\r?\n|\r/g, ' ') +
+          this.kpis[i].queryByCity[this.city].query
+            .replace(/\r?\n|\r/g, ' ')
+            .split('\\')
+            .join('\\\\') +
             ' SINCE ' +
             this.timeRangeKpi.range,
           extraInfo

@@ -1061,7 +1061,10 @@ export default class MainContainer extends React.Component {
     const accountID = stageNameSelected.datos[value].accountID;
     const { testText, goodQuery } = await this.validationQuery.validateQuery(
       type,
-      query.replace(/\r?\n|\r/g, ' '),
+      query
+        .replace(/\r?\n|\r/g, ' ')
+        .split('\\')
+        .join('\\\\'),
       accountID
     );
     const data = await this.DataManager.ReadQueryResults(query, accountID);
@@ -1081,7 +1084,10 @@ export default class MainContainer extends React.Component {
   EditorValidateQuery = async (type, query, accountID) => {
     const { testText, goodQuery } = await this.validationQuery.validateQuery(
       type,
-      query.replace(/\r?\n|\r/g, ' '),
+      query
+        .replace(/\r?\n|\r/g, ' ')
+        .split('\\')
+        .join('\\\\'),
       accountID
     );
     const ifUndefined = {
@@ -1784,6 +1790,7 @@ export default class MainContainer extends React.Component {
   }
 
   OpenGUIEditor = async viewModal => {
+    const queryModalShowing = true; // DO NOT Update Data while Modals is Showing
     let { stagesInterface } = this.state;
     if (!stagesInterface) {
       stagesInterface = await this.CreateStagesEditor();
@@ -1791,7 +1798,8 @@ export default class MainContainer extends React.Component {
     this.setState({
       stagesInterface,
       viewModal,
-      hidden: true
+      hidden: true,
+      queryModalShowing
     });
   };
 
