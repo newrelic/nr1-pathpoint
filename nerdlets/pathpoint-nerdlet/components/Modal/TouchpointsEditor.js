@@ -1714,7 +1714,9 @@ class BodyTouchpointsEditor extends Component {
                               backgroundColor: '#424242',
                               color: '#4CAF50'
                             }}
-                            value={objToString(testQueryValue)}
+                            value={
+                              testQueryValue ? objToString(testQueryValue) : ''
+                            }
                           />
                           <div
                             style={{

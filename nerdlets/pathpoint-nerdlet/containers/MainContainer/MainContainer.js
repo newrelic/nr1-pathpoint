@@ -1081,16 +1081,18 @@ export default class MainContainer extends React.Component {
   EditorValidateQuery = async (type, query, accountID) => {
     const { testText, goodQuery } = await this.validationQuery.validateQuery(
       type,
-      query,
+      query.replace(/\r?\n|\r/g, ' '),
       accountID
     );
-    let testQueryValue = '';
+    const ifUndefined = {
+      error: 'Syntax Error: Unterminated string.'
+    };
     const data = await this.DataManager.ReadQueryResults(query, accountID);
-    testQueryValue = data.results;
+    const results = data.results ? data.results : ifUndefined;
     return {
       testText,
       goodQuery,
-      testQueryValue
+      testQueryValue: results
     };
   };
 
