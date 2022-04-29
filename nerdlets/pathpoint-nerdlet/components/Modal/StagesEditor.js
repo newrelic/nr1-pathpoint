@@ -173,9 +173,12 @@ class BodyStagesEditor extends Component {
         visible: stage.visible
       };
     });
-    const current = stages[0].id;
+    let current = null;
+    if (stages.length > 0) {
+      current = stages[0].id;
+    }
     this.DispatchCustomEvent('DisplayIcon');
-    if (stages[0].visible) {
+    if (stages.length > 0 && stages[0].visible) {
       this.DispatchCustomEvent('HideIcon');
     } else {
       this.DispatchCustomEvent('ShowIcon');
@@ -459,7 +462,7 @@ class BodyStagesEditor extends Component {
         title: 'New Stage',
         touchpoints: [
           {
-            dashboard_url: '',
+            dashboard_url: 'https://onenr.io/01qwL8KPxw5',
             id: shortid.generate(),
             queryData: {
               accountID: 1,
@@ -471,12 +474,14 @@ class BodyStagesEditor extends Component {
               type: 'Process-Count'
             },
             status_on_off: false,
-            subs: [],
+            subs: ['STEP1'],
             title: 'Sample Touchpoint (PCC)',
-            value: 'Sample Touchpoint (PCC)'
+            visible: true
           }
         ],
         type: 'People',
+        active_dotted: 'none',
+        arrowMode: 'FLOW',
         visible: true
       });
       return {

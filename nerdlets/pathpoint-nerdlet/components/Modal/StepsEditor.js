@@ -162,9 +162,14 @@ class BodyStepsEditor extends Component {
   componentDidMount() {
     let stages = [];
     const form = {};
+    const current = {
+      stage: null,
+      step: null
+    };
+    let steps = [];
     if (this.props.stagesInterface) {
       stages = this.props.stagesInterface.map(item => {
-        let steps = item.steps.map((step, i) => {
+        const steps = item.steps.map((step, i) => {
           const id = step.id ? step.id : shortid.generate();
           form[`step_${id}`] = {
             level: i + 1,
@@ -181,24 +186,24 @@ class BodyStepsEditor extends Component {
             id
           };
         });
-        steps = steps.sort((a, b) => a.index < b.index);
         return {
           ...item,
           steps
         };
       });
-      stages = stages.sort((a, b) => a.index - b.index);
+      if (stages.length > 0) {
+        stages = stages.sort((a, b) => a.index - b.index);
+        current.stage = stages[0].id;
+        if (stages[0].steps.length > 0) {
+          current.step = stages[0].steps[0].id;
+          const text = this.GetSubstepsText(stages[0].steps[0]);
+          form[`step_${stages[0].steps[0].id}`].substeps = text;
+          steps = stages[0].steps;
+        }
+      }
     }
-    const current = {
-      stage: stages[0].id,
-      step: stages[0].steps[0].id
-    };
-    const text = this.GetSubstepsText(stages[0].steps[0]);
-    form[`step_${stages[0].steps[0].id}`].substeps = text;
-    let steps = stages[0].steps;
-    steps = steps.sort((a, b) => a.index - b.index);
     this.DispatchCustomEvent('DisplayIcon');
-    if (steps[0].visible) {
+    if (steps.length > 0 && steps[0].visible) {
       this.DispatchCustomEvent('HideIcon');
     } else {
       this.DispatchCustomEvent('ShowIcon');
@@ -524,7 +529,8 @@ class BodyStepsEditor extends Component {
             stage.steps.push({
               id,
               index: steps.length + 1,
-              sub_steps: []
+              sub_steps: [],
+              visible: true
             });
           }
         });

@@ -231,6 +231,7 @@ class BodyTouchpointsEditor extends Component {
     let touchpoints = [];
     const form = {};
     const subs = {};
+    let steps = null;
     if (this.props.stagesInterface) {
       stages = this.props.stagesInterface.map(item => {
         touchpoints = item.touchpoints.map(tp => {
@@ -274,12 +275,22 @@ class BodyTouchpointsEditor extends Component {
     stages = stages.sort((a, b) => a.index - b.index);
     const { current } = this.state;
     current.subs = subs;
-    current.stage = stages[0].id;
-    current.touchpoint = stages[0].touchpoints[0].id;
-    touchpoints = stages[0].touchpoints;
-    const steps = stages[0].steps;
+    if (stages.length > 0) {
+      current.stage = stages[0].id;
+      steps = stages[0].steps;
+      if (stages[0].touchpoints.length > 0) {
+        current.touchpoint = stages[0].touchpoints[0].id;
+        touchpoints = stages[0].touchpoints;
+      } else {
+        touchpoints = [];
+      }
+    }
     this.DispatchCustomEvent('DisplayIcon');
-    if (stages[0].touchpoints[0].visible) {
+    if (
+      stages.length > 0 &&
+      stages[0].touchpoints.length > 0 &&
+      stages[0].touchpoints[0].visible
+    ) {
       this.DispatchCustomEvent('HideIcon');
     } else {
       this.DispatchCustomEvent('ShowIcon');
@@ -601,9 +612,9 @@ class BodyTouchpointsEditor extends Component {
           type: 'PCC',
           status: true,
           query: this.SetSampleQuery(this.GetLongTouchpointTypeName('PCC')),
-          queryAccount: touchpoints[0].queryData.accountID,
+          queryAccount: 1,
           queryMeasure: '5 MINUTES AGO',
-          dashboardLink: '',
+          dashboardLink: 'https://onenr.io/01qwL8KPxw5',
           timeout: 10
         };
         let touchpoint = {
@@ -612,10 +623,10 @@ class BodyTouchpointsEditor extends Component {
           title: 'New Touchpoint',
           status_on_off: true,
           visible: true,
-          dashboard_url: '',
+          dashboard_url: 'https://onenr.io/01qwL8KPxw5',
           subs: [],
           queryData: {
-            accountID: touchpoints[0].queryData.accountID,
+            accountID: 1,
             max_avg_response_time: 0,
             max_count: 0,
             max_error_percentage: 0,
@@ -645,7 +656,7 @@ class BodyTouchpointsEditor extends Component {
           return found;
         });
         current.subs[id] = [];
-        current.touchpoint = null;
+        current.touchpoint = touchpoint.id;
         return {
           touchpoints,
           form,

@@ -669,7 +669,7 @@ describe('<BodyTouchpointsEditor/>', () => {
     expect(instance.state.current).toEqual({
       stage: 2710,
       step: null,
-      touchpoint: null,
+      touchpoint: 12,
       subs: { '12': [] }
     });
   });
