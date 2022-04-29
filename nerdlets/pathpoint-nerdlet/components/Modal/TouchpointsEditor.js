@@ -612,7 +612,8 @@ class BodyTouchpointsEditor extends Component {
           type: 'PCC',
           status: true,
           query: this.SetSampleQuery(this.GetLongTouchpointTypeName('PCC')),
-          queryAccount: 1,
+          queryAccount:
+            this.props.accountIDs.length > 0 ? this.props.accountIDs[0].id : 1,
           queryMeasure: '5 MINUTES AGO',
           dashboardLink: 'https://onenr.io/01qwL8KPxw5',
           timeout: 10
@@ -626,7 +627,10 @@ class BodyTouchpointsEditor extends Component {
           dashboard_url: 'https://onenr.io/01qwL8KPxw5',
           subs: [],
           queryData: {
-            accountID: 1,
+            accountID:
+              this.props.accountIDs.length > 0
+                ? this.props.accountIDs[0].id
+                : 1,
             max_avg_response_time: 0,
             max_count: 0,
             max_error_percentage: 0,
