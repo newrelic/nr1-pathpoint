@@ -612,198 +612,186 @@ class BodyStagesEditor extends Component {
           </div>
         )}
         <div className="modal4content">
-          {Object.keys(this.state.form).length > 0 && (
-            <Form onSubmit={this.handleStagesEditorSubmit}>
-              <div style={{ height: '300px', overflowY: 'scroll' }}>
-                <table style={{ width: '100%' }}>
-                  <thead>
-                    <tr>
-                      <th className="headerTableTitle">Order</th>
-                      <th className="headerTableTitle">Stage Name</th>
-                      <th className="headerTableTitle">Type</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {stages.map((stage, i) => {
-                      return (
-                        <tr key={`stage_${i}`}>
-                          <td
+          <Form onSubmit={this.handleStagesEditorSubmit}>
+            <div style={{ height: '300px', overflowY: 'scroll' }}>
+              <table style={{ width: '100%' }}>
+                <thead>
+                  <tr>
+                    <th className="headerTableTitle">Order</th>
+                    <th className="headerTableTitle">Stage Name</th>
+                    <th className="headerTableTitle">Type</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {stages.map((stage, i) => {
+                    return (
+                      <tr key={`stage_${i}`}>
+                        <td
+                          style={{
+                            backgroundColor:
+                              // eslint-disable-next-line no-nested-ternary
+                              this.state.current === stage.id
+                                ? '#0078BF'
+                                : stage.visible
+                                ? 'white'
+                                : 'lightgrey'
+                          }}
+                        >
+                          <div
                             style={{
-                              backgroundColor:
-                                // eslint-disable-next-line no-nested-ternary
-                                this.state.current === stage.id
-                                  ? '#0078BF'
-                                  : stage.visible
-                                  ? 'white'
-                                  : 'lightgrey'
+                              display: 'flex',
+                              alignItems: 'center'
                             }}
                           >
-                            <div
+                            <input
+                              onChange={() => this.SelectRow(stage.id)}
+                              type="radio"
+                              name="stage_editor"
+                              className="select-row-radio"
+                              checked={this.state.current === stage.id}
                               style={{
-                                display: 'flex',
-                                alignItems: 'center'
+                                marginRight: '15px',
+                                transform: 'translateY(-2px)'
                               }}
-                            >
-                              <input
-                                onChange={() => this.SelectRow(stage.id)}
-                                type="radio"
-                                name="stage_editor"
-                                className="select-row-radio"
-                                checked={this.state.current === stage.id}
-                                style={{
-                                  marginRight: '15px',
-                                  transform: 'translateY(-2px)'
-                                }}
-                              />
-                              <Dropdown
-                                title={
-                                  this.state.form[`stage_${stage.id}`].order
-                                }
-                                disabled={this.state.current !== stage.id}
-                              >
-                                {this.state.stages.map((item, i) => {
-                                  return (
-                                    <DropdownItem
-                                      onClick={() =>
-                                        this.HandleOnChange(
-                                          'order',
-                                          i + 1,
-                                          stage.id
-                                        )
-                                      }
-                                      key={i}
-                                    >
-                                      {i + 1}
-                                    </DropdownItem>
-                                  );
-                                })}
-                              </Dropdown>
-                            </div>
-                          </td>
-                          <td
-                            style={{
-                              backgroundColor:
-                                // eslint-disable-next-line no-nested-ternary
-                                this.state.current === stage.id
-                                  ? '#0078BF'
-                                  : stage.visible
-                                  ? 'white'
-                                  : 'lightgrey'
-                            }}
-                          >
-                            <TextField
-                              style={{
-                                width: '100%'
-                              }}
-                              className="textFieldBody"
-                              onChange={e =>
-                                this.HandleOnChange(
-                                  'title',
-                                  e.target.value,
-                                  stage.id
-                                )
-                              }
-                              disabled={this.state.current !== stage.id}
-                              value={this.state.form[`stage_${stage.id}`].title}
                             />
-                          </td>
-                          <td
-                            style={{
-                              backgroundColor:
-                                // eslint-disable-next-line no-nested-ternary
-                                this.state.current === stage.id
-                                  ? '#0078BF'
-                                  : stage.visible
-                                  ? 'white'
-                                  : 'lightgrey'
-                            }}
-                          >
                             <Dropdown
-                              style={{ width: '100%' }}
-                              title={this.state.form[`stage_${stage.id}`].type}
+                              title={this.state.form[`stage_${stage.id}`].order}
                               disabled={this.state.current !== stage.id}
                             >
-                              <DropdownItem
-                                onClick={() =>
-                                  this.HandleOnChange(
-                                    'type',
-                                    'People',
-                                    stage.id
-                                  )
-                                }
-                              >
-                                People
-                              </DropdownItem>
-                              <DropdownItem
-                                onClick={() =>
-                                  this.HandleOnChange(
-                                    'type',
-                                    'Process',
-                                    stage.id
-                                  )
-                                }
-                              >
-                                Process
-                              </DropdownItem>
+                              {this.state.stages.map((item, i) => {
+                                return (
+                                  <DropdownItem
+                                    onClick={() =>
+                                      this.HandleOnChange(
+                                        'order',
+                                        i + 1,
+                                        stage.id
+                                      )
+                                    }
+                                    key={i}
+                                  >
+                                    {i + 1}
+                                  </DropdownItem>
+                                );
+                              })}
                             </Dropdown>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-              <div style={{ display: 'flex' }}>
-                <div
+                          </div>
+                        </td>
+                        <td
+                          style={{
+                            backgroundColor:
+                              // eslint-disable-next-line no-nested-ternary
+                              this.state.current === stage.id
+                                ? '#0078BF'
+                                : stage.visible
+                                ? 'white'
+                                : 'lightgrey'
+                          }}
+                        >
+                          <TextField
+                            style={{
+                              width: '100%'
+                            }}
+                            className="textFieldBody"
+                            onChange={e =>
+                              this.HandleOnChange(
+                                'title',
+                                e.target.value,
+                                stage.id
+                              )
+                            }
+                            disabled={this.state.current !== stage.id}
+                            value={this.state.form[`stage_${stage.id}`].title}
+                          />
+                        </td>
+                        <td
+                          style={{
+                            backgroundColor:
+                              // eslint-disable-next-line no-nested-ternary
+                              this.state.current === stage.id
+                                ? '#0078BF'
+                                : stage.visible
+                                ? 'white'
+                                : 'lightgrey'
+                          }}
+                        >
+                          <Dropdown
+                            style={{ width: '100%' }}
+                            title={this.state.form[`stage_${stage.id}`].type}
+                            disabled={this.state.current !== stage.id}
+                          >
+                            <DropdownItem
+                              onClick={() =>
+                                this.HandleOnChange('type', 'People', stage.id)
+                              }
+                            >
+                              People
+                            </DropdownItem>
+                            <DropdownItem
+                              onClick={() =>
+                                this.HandleOnChange('type', 'Process', stage.id)
+                              }
+                            >
+                              Process
+                            </DropdownItem>
+                          </Dropdown>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+            <div style={{ display: 'flex' }}>
+              <div
+                style={{
+                  width: '50%',
+                  display: 'flex',
+                  marginTop: '20px'
+                }}
+              >
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
                   style={{
+                    background: '#0078BF',
+                    color: 'white',
                     width: '50%',
-                    display: 'flex',
-                    marginTop: '20px'
+                    marginTop: '15px'
                   }}
                 >
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    style={{
-                      background: '#0078BF',
-                      color: 'white',
-                      width: '50%',
-                      marginTop: '15px'
-                    }}
-                  >
-                    Save Update
-                  </Button>
-                </div>
-                <div
-                  style={{
-                    width: '50%',
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    marginTop: '20px'
-                  }}
-                >
-                  <Button
-                    variant="outline-primary"
-                    color="primary"
-                    style={{
-                      background: 'white',
-                      borderColor: '#0D47A1',
-                      borderStyle: 'solid',
-                      borderWidth: '1px',
-                      borderRadius: '2px',
-                      width: '50%',
-                      marginTop: '15px',
-                      color: '#0D47A1'
-                    }}
-                    onClick={this.AddNewStage}
-                  >
-                    + Stages
-                  </Button>
-                </div>
+                  Save Update
+                </Button>
               </div>
-            </Form>
-          )}
+              <div
+                style={{
+                  width: '50%',
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  marginTop: '20px'
+                }}
+              >
+                <Button
+                  variant="outline-primary"
+                  color="primary"
+                  style={{
+                    background: 'white',
+                    borderColor: '#0D47A1',
+                    borderStyle: 'solid',
+                    borderWidth: '1px',
+                    borderRadius: '2px',
+                    width: '50%',
+                    marginTop: '15px',
+                    color: '#0D47A1'
+                  }}
+                  onClick={this.AddNewStage}
+                >
+                  + Stages
+                </Button>
+              </div>
+            </div>
+          </Form>
         </div>
       </div>
     );

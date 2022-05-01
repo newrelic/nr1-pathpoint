@@ -1680,12 +1680,12 @@ export default class DataManager {
     this.SaveCanaryData(data);
   }
 
-  GetCurrentConfigurationJSON() {
-    this.ReadPathpointConfig();
+  GetCurrentConfigurationJSON(withValues = false) {
+    this.ReadPathpointConfig(withValues);
     return JSON.stringify(this.configuration, null, 4);
   }
 
-  ReadPathpointConfig() {
+  ReadPathpointConfig(withValues) {
     let i = 0;
     let line = 0;
     let kpi = null;
@@ -1745,7 +1745,11 @@ export default class DataManager {
           status_on_off: tp.status_on_off,
           dashboard_url: tp.dashboard_url,
           related_steps: this.GetRelatedSteps(tp.stage_index, tp.index),
-          queries: this.GetTouchpointQueryes(tp.stage_index, tp.index)
+          queries: this.GetTouchpointQueryes(
+            tp.stage_index,
+            tp.index,
+            withValues
+          )
         });
       });
     });
@@ -1794,11 +1798,12 @@ export default class DataManager {
     return relatedIds;
   }
 
-  GetTouchpointQueryes(stage_index, index) {
+  GetTouchpointQueryes(stage_index, index, withValues) {
     const queries = [];
     let accountID = this.accountId;
     let timeout = 10;
     let measure_time = this.TimeRangeTransform(this.timeRange);
+    let queryMeasure = null;
     this.touchPoints.forEach(element => {
       if (element.index === this.city) {
         element.touchpoints.some(touchpoint => {
@@ -1820,106 +1825,164 @@ export default class DataManager {
               if (measure.timeout) {
                 timeout = measure.timeout;
               }
+              queryMeasure = {
+                accountID: accountID,
+                query: measure.query,
+                query_timeout: timeout,
+                measure_time: measure_time
+              };
               if (measure.type === 'PRC') {
-                queries.push({
+                queryMeasure = {
+                  ...queryMeasure,
                   type: this.measureNames[0],
-                  accountID: accountID,
-                  query: measure.query,
-                  query_timeout: timeout,
                   min_count: measure.min_count,
-                  max_count: measure.max_count,
-                  measure_time: measure_time
-                });
+                  max_count: measure.max_count
+                };
+                if (withValues) {
+                  queryMeasure = {
+                    ...queryMeasure,
+                    session_count: measure.session_count
+                      ? measure.session_count
+                      : 0
+                  };
+                }
               } else if (measure.type === 'PCC') {
-                queries.push({
+                queryMeasure = {
+                  ...queryMeasure,
                   type: this.measureNames[1],
-                  accountID: accountID,
-                  query: measure.query,
-                  query_timeout: timeout,
                   min_count: measure.min_count,
-                  max_count: measure.max_count,
-                  measure_time: measure_time
-                });
+                  max_count: measure.max_count
+                };
+                if (withValues) {
+                  queryMeasure = {
+                    ...queryMeasure,
+                    transaction_count: measure.transaction_count
+                      ? measure.transaction_count
+                      : 0
+                  };
+                }
               } else if (measure.type === 'APP') {
-                queries.push({
+                queryMeasure = {
+                  ...queryMeasure,
                   type: this.measureNames[2],
-                  accountID: accountID,
-                  query: measure.query,
-                  query_timeout: timeout,
                   min_apdex: measure.min_apdex,
                   max_response_time: measure.max_response_time,
-                  max_error_percentage: measure.max_error_percentage,
-                  measure_time: measure_time
-                });
+                  max_error_percentage: measure.max_error_percentage
+                };
+                if (withValues) {
+                  queryMeasure = {
+                    ...queryMeasure,
+                    apdex_value: measure.apdex_value ? measure.apdex_value : 0,
+                    response_value: measure.response_value
+                      ? measure.response_value
+                      : 0,
+                    error_percentage: measure.error_percentage
+                      ? measure.error_percentage
+                      : 0
+                  };
+                }
               } else if (measure.type === 'FRT') {
-                queries.push({
+                queryMeasure = {
+                  ...queryMeasure,
                   type: this.measureNames[3],
-                  accountID: accountID,
-                  query: measure.query,
-                  query_timeout: timeout,
                   min_apdex: measure.min_apdex,
                   max_response_time: measure.max_response_time,
-                  max_error_percentage: measure.max_error_percentage,
-                  measure_time: measure_time
-                });
+                  max_error_percentage: measure.max_error_percentage
+                };
+                if (withValues) {
+                  queryMeasure = {
+                    ...queryMeasure,
+                    apdex_value: measure.apdex_value ? measure.apdex_value : 0,
+                    response_value: measure.response_value
+                      ? measure.response_value
+                      : 0,
+                    error_percentage: measure.error_percentage
+                      ? measure.error_percentage
+                      : 0
+                  };
+                }
               } else if (measure.type === 'SYN') {
-                queries.push({
+                queryMeasure = {
+                  ...queryMeasure,
                   type: this.measureNames[4],
-                  accountID: accountID,
-                  query: measure.query,
-                  query_timeout: timeout,
                   max_avg_response_time: measure.max_avg_response_time,
                   max_total_check_time: measure.max_total_check_time,
-                  min_success_percentage: measure.min_success_percentage,
-                  measure_time: measure_time
-                });
+                  min_success_percentage: measure.min_success_percentage
+                };
+                if (withValues) {
+                  queryMeasure = {
+                    ...queryMeasure,
+                    max_request_time: measure.max_request_time
+                      ? measure.max_request_time
+                      : 0,
+                    max_duration: measure.max_duration
+                      ? measure.max_duration
+                      : 0,
+                    success_percentage: measure.success_percentage
+                      ? measure.success_percentage
+                      : 0
+                  };
+                }
               } else if (measure.type === 'WLD') {
-                queries.push({
-                  type: this.measureNames[5],
-                  accountID: accountID,
-                  query: measure.query,
-                  query_timeout: timeout,
-                  measure_time: measure_time
-                });
+                queryMeasure = {
+                  ...queryMeasure,
+                  type: this.measureNames[5]
+                };
               } else if (measure.type === 'DRP') {
-                queries.push({
+                queryMeasure = {
+                  ...queryMeasure,
                   type: this.measureNames[6],
-                  accountID: accountID,
-                  query: measure.query,
-                  query_timeout: timeout,
                   measure_time: `${this.dropParams.hours} HOURS AGO`
-                });
+                };
               } else if (measure.type === 'API') {
-                queries.push({
+                queryMeasure = {
+                  ...queryMeasure,
                   type: this.measureNames[7],
-                  accountID: accountID,
-                  query: measure.query,
-                  query_timeout: timeout,
                   min_apdex: measure.min_apdex,
                   max_response_time: measure.max_response_time,
-                  max_error_percentage: measure.max_error_percentage,
-                  measure_time: measure_time
-                });
+                  max_error_percentage: measure.max_error_percentage
+                };
+                if (withValues) {
+                  queryMeasure = {
+                    ...queryMeasure,
+                    apdex_value: measure.apdex_value ? measure.apdex_value : 0,
+                    response_value: measure.response_value
+                      ? measure.response_value
+                      : 0,
+                    error_percentage: measure.error_percentage
+                      ? measure.error_percentage
+                      : 0
+                  };
+                }
               } else if (measure.type === 'APC') {
-                queries.push({
+                queryMeasure = {
+                  ...queryMeasure,
                   type: this.measureNames[8],
-                  accountID: accountID,
-                  query: measure.query,
-                  query_timeout: timeout,
                   min_count: measure.min_count,
-                  max_count: measure.max_count,
-                  measure_time: measure_time
-                });
+                  max_count: measure.max_count
+                };
+                if (withValues) {
+                  queryMeasure = {
+                    ...queryMeasure,
+                    api_count: measure.api_count ? measure.api_count : 0
+                  };
+                }
               } else if (measure.type === 'APS') {
-                queries.push({
+                queryMeasure = {
+                  ...queryMeasure,
                   type: this.measureNames[9],
-                  accountID: accountID,
-                  query: measure.query,
-                  query_timeout: timeout,
-                  min_success_percentage: measure.min_success_percentage,
-                  measure_time: measure_time
-                });
+                  min_success_percentage: measure.min_success_percentage
+                };
+                if (withValues) {
+                  queryMeasure = {
+                    ...queryMeasure,
+                    success_percentage: measure.success_percentage
+                      ? measure.success_percentage
+                      : 0
+                  };
+                }
               }
+              queries.push(queryMeasure);
             });
           }
           return found;
@@ -2025,7 +2088,7 @@ export default class DataManager {
         money_enabled: false,
         trafficIconType: 'traffic',
         money: '',
-        icon_active: 0,
+        icon_active: false,
         icon_description: 'star',
         icon_visible: false,
         congestion: {
@@ -2033,6 +2096,7 @@ export default class DataManager {
           percentage: 0
         },
         capacity: 0,
+        capacity_link: '',
         total_count: 0,
         active_dotted: stage.active_dotted,
         active_dotted_color: '#828282',
@@ -2095,7 +2159,10 @@ export default class DataManager {
           if (query.query_timeout) {
             query_timeout = query.query_timeout;
           }
-          if (query.type === this.measureNames[0]) {
+          if (
+            query.type === this.measureNames[0] ||
+            query.type === 'PRC-COUNT-QUERY'
+          ) {
             measure = {
               type: 'PRC',
               query: query.query,
@@ -2106,7 +2173,10 @@ export default class DataManager {
                 : query.min_count * 1.5,
               session_count: 0
             };
-          } else if (query.type === this.measureNames[1]) {
+          } else if (
+            query.type === this.measureNames[1] ||
+            query.type === 'PCC-COUNT-QUERY'
+          ) {
             measure = {
               type: 'PCC',
               query: query.query,
@@ -2117,7 +2187,10 @@ export default class DataManager {
                 : query.min_count * 1.5,
               transaction_count: 0
             };
-          } else if (query.type === this.measureNames[2]) {
+          } else if (
+            query.type === this.measureNames[2] ||
+            query.type === 'APP-HEALTH-QUERY'
+          ) {
             measure = {
               type: 'APP',
               query: query.query,
@@ -2129,7 +2202,10 @@ export default class DataManager {
               response_value: 0,
               error_percentage: 0
             };
-          } else if (query.type === this.measureNames[3]) {
+          } else if (
+            query.type === this.measureNames[3] ||
+            query.type === 'FRT-HEALTH-QUERY'
+          ) {
             measure = {
               type: 'FRT',
               query: query.query,
@@ -2141,7 +2217,10 @@ export default class DataManager {
               response_value: 0,
               error_percentage: 0
             };
-          } else if (query.type === this.measureNames[4]) {
+          } else if (
+            query.type === this.measureNames[4] ||
+            query.type === 'SYN-CHECK-QUERY'
+          ) {
             measure = {
               type: 'SYN',
               query: query.query,
@@ -2153,14 +2232,20 @@ export default class DataManager {
               max_duration: 0,
               max_request_time: 0
             };
-          } else if (query.type === this.measureNames[5]) {
+          } else if (
+            query.type === this.measureNames[5] ||
+            query.type === 'WORKLOAD-QUERY'
+          ) {
             measure = {
               type: 'WLD',
               query: query.query,
               timeout: query_timeout,
               status_value: 'NO-VALUE'
             };
-          } else if (query.type === this.measureNames[6]) {
+          } else if (
+            query.type === this.measureNames[6] ||
+            query.type === 'DROP-QUERY'
+          ) {
             measure = {
               type: 'DRP',
               query: query.query,
@@ -2222,16 +2307,24 @@ export default class DataManager {
   UpdateTouchpointsRelationship() {
     this.touchPoints[0].touchpoints.forEach(touchpoint => {
       const indexList = [];
+      let index = 0;
       touchpoint.relation_steps.forEach(value => {
-        indexList.push(this.GetIndexStep(touchpoint.stage_index, value));
+        index = this.GetIndexStep(touchpoint.stage_index, value);
+        if (index !== 0) {
+          indexList.push(index);
+        }
       });
       touchpoint.relation_steps = indexList;
     });
     this.stages.forEach(stage => {
       stage.touchpoints.forEach(touchpoint => {
         const indexList = [];
+        let index = 0;
         touchpoint.relation_steps.forEach(value => {
-          indexList.push(this.GetIndexStep(touchpoint.stage_index, value));
+          index = this.GetIndexStep(touchpoint.stage_index, value);
+          if (index !== 0) {
+            indexList.push(index);
+          }
         });
         touchpoint.relation_steps = indexList;
         this.SetStepsRelationship(

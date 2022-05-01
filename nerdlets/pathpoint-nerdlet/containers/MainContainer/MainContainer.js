@@ -1658,7 +1658,7 @@ export default class MainContainer extends React.Component {
   };
 
   CreateStagesEditor = async () => {
-    let data = this.DataManager.GetCurrentConfigurationJSON();
+    let data = this.DataManager.GetCurrentConfigurationJSON(true);
     data = JSON.parse(data);
     const stagesInterface = [];
     data.stages.forEach((item, i) => {
@@ -1786,13 +1786,68 @@ export default class MainContainer extends React.Component {
         min_success_percentage: 0
       };
     }
+    if (!Reflect.has(queryData, 'session_count')) {
+      qData = {
+        ...qData,
+        session_count: 0
+      };
+    }
+    if (!Reflect.has(queryData, 'transaction_count')) {
+      qData = {
+        ...qData,
+        transaction_count: 0
+      };
+    }
+    if (!Reflect.has(queryData, 'apdex_value')) {
+      qData = {
+        ...qData,
+        apdex_value: 0
+      };
+    }
+    if (!Reflect.has(queryData, 'response_value')) {
+      qData = {
+        ...qData,
+        response_value: 0
+      };
+    }
+    if (!Reflect.has(queryData, 'error_percentage')) {
+      qData = {
+        ...qData,
+        error_percentage: 0
+      };
+    }
+    if (!Reflect.has(queryData, 'max_request_time')) {
+      qData = {
+        ...qData,
+        max_request_time: 0
+      };
+    }
+    if (!Reflect.has(queryData, 'max_duration')) {
+      qData = {
+        ...qData,
+        max_duration: 0
+      };
+    }
+    if (!Reflect.has(queryData, 'success_percentage')) {
+      qData = {
+        ...qData,
+        success_percentage: 0
+      };
+    }
+    if (!Reflect.has(queryData, 'api_count')) {
+      qData = {
+        ...qData,
+        api_count: 0
+      };
+    }
     return qData;
   }
 
   OpenGUIEditor = async viewModal => {
     const queryModalShowing = true; // DO NOT Update Data while Modals is Showing
     let { stagesInterface } = this.state;
-    if (!stagesInterface) {
+    if (!stagesInterface || viewModal === 14) {
+      // viewModal === 14 To LOAD last values for Touchpoints Editor
       stagesInterface = await this.CreateStagesEditor();
     }
     this.setState({

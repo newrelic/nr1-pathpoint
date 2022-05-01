@@ -58,7 +58,7 @@ function BodyTuneFormModal(props) {
                 justifyContent: 'center'
               }}
             >
-              <label className="headerSubtitleTune">Last 5 min</label>
+              <label className="headerSubtitleTune">Last Value</label>
             </div>
           </div>
         </div>
@@ -259,7 +259,7 @@ const RenderForm = (datos, handleOnChange) => {
               onChange: handleOnChange,
               name: 'min_success_percentage',
               key: 'Min',
-              compare: datos[0].api_count
+              compare: datos[0].success_percentage
             })}
           </div>
         </>

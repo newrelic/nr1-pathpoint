@@ -57,7 +57,7 @@ exports[`TuneFormModal component Render body with default data 1`] = `
           <label
             className="headerSubtitleTune"
           >
-            Last 5 min
+            Last Value
           </label>
         </div>
       </div>

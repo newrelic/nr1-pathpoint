@@ -639,6 +639,15 @@ class BodyTouchpointsEditor extends Component {
             min_apdex: 0,
             min_count: 0,
             min_success_percentage: 0,
+            session_count: 0,
+            transaction_count: 0,
+            apdex_value: 0,
+            response_value: 0,
+            error_percentage: 0,
+            max_request_time: 0,
+            max_duration: 0,
+            success_percentage: 0,
+            api_count: 0,
             measure_time: '5 MINUTES AGO',
             query: this.SetSampleQuery(this.GetLongTouchpointTypeName('PCC')),
             query_timeout: 10,
@@ -660,7 +669,7 @@ class BodyTouchpointsEditor extends Component {
           return found;
         });
         current.subs[id] = [];
-        current.touchpoint = touchpoint.id;
+        current.touchpoint = null;
         return {
           touchpoints,
           form,
@@ -885,20 +894,27 @@ class BodyTouchpointsEditor extends Component {
     });
   };
 
-  RenderTuneField = ({ name, label, defaultValue, id, onChange }) => {
+  RenderTuneField = ({
+    name,
+    label,
+    defaultValue,
+    id,
+    onChange,
+    key,
+    compare
+  }) => {
     return (
       <>
         <label
           className="bodySubTitle"
           style={{
-            marginTop: '31px',
             fontSize: '14px',
             fontFamily: 'Open Sans',
             fontStyle: 'normal',
             fontWeight: '400',
             lineHeight: '19px',
             textAlign: 'right',
-            width: '55%'
+            width: '45%'
           }}
         >
           {label}
@@ -911,8 +927,7 @@ class BodyTouchpointsEditor extends Component {
           onChange={/* istanbul ignore next */ e => onChange(e)}
           className="inputText"
           style={{
-            marginTop: '25px',
-            width: '50px',
+            width: '60px',
             background: '#FFFFFF',
             boxSizing: 'border-box',
             border: '1px solid #BDBDBD',
@@ -920,6 +935,57 @@ class BodyTouchpointsEditor extends Component {
             padding: '5px'
           }}
         />
+        {key === 'Min' ? (
+          compare < defaultValue ? (
+            <label
+              className="textLast5MinTune"
+              style={{
+                marginLeft: '15px',
+                fontSize: '14px',
+                width: '16%',
+                color: '#FF4C4C'
+              }}
+            >
+              {Math.round(compare * 100) / 100}
+            </label>
+          ) : (
+            <label
+              className="textLast5MinTune"
+              style={{
+                marginLeft: '15px',
+                fontSize: '14px',
+                width: '16%',
+                color: '#0aaf77'
+              }}
+            >
+              {Math.round(compare * 100) / 100}
+            </label>
+          )
+        ) : compare <= defaultValue ? (
+          <label
+            className="textLast5MinTune"
+            style={{
+              marginLeft: '15px',
+              fontSize: '14px',
+              width: '16%',
+              color: '#0aaf77'
+            }}
+          >
+            {Math.round(compare * 100) / 100}
+          </label>
+        ) : (
+          <label
+            className="textLast5MinTune"
+            style={{
+              marginLeft: '15px',
+              fontSize: '14px',
+              width: '16%',
+              color: '#FF4C4C'
+            }}
+          >
+            {Math.round(compare * 100) / 100}
+          </label>
+        )}
       </>
     );
   };
@@ -940,24 +1006,26 @@ class BodyTouchpointsEditor extends Component {
       case 'Person-Count':
         return (
           <>
-            <div style={{ height: '40px', width: '320px' }}>
+            <div style={{ height: '40px', width: '400px' }}>
               {this.RenderTuneField({
                 label: 'Session Count (Min)',
                 defaultValue: tp.queryData.min_count,
                 id: 'min_count',
                 onChange: this.HandleOnChangeTune,
                 name: 'min_count',
-                key: 'Min'
+                key: 'Min',
+                compare: tp.queryData.session_count
               })}
             </div>
-            <div style={{ height: '40px', width: '320px' }}>
+            <div style={{ height: '40px', width: '400px' }}>
               {this.RenderTuneField({
                 label: 'Session Count (Max)',
                 defaultValue: tp.queryData.max_count,
                 id: 'max_count',
                 onChange: this.HandleOnChangeTune,
                 name: 'max_count',
-                key: 'Max'
+                key: 'Max',
+                compare: tp.queryData.session_count
               })}
             </div>
           </>
@@ -965,24 +1033,26 @@ class BodyTouchpointsEditor extends Component {
       case 'Process-Count':
         return (
           <>
-            <div style={{ height: '40px', width: '320px' }}>
+            <div style={{ height: '40px', width: '400px' }}>
               {this.RenderTuneField({
                 label: 'Transactions Count (Min)',
                 defaultValue: tp.queryData.min_count,
                 id: 'min_count',
                 onChange: this.HandleOnChangeTune,
                 name: 'min_count',
-                key: 'Min'
+                key: 'Min',
+                compare: tp.queryData.transaction_count
               })}
             </div>
-            <div style={{ height: '40px', width: '320px' }}>
+            <div style={{ height: '40px', width: '400px' }}>
               {this.RenderTuneField({
                 label: 'Transactions Count (Max)',
                 defaultValue: tp.queryData.max_count,
                 id: 'max_count',
                 onChange: this.HandleOnChangeTune,
                 name: 'max_count',
-                key: 'Max'
+                key: 'Max',
+                compare: tp.queryData.transaction_count
               })}
             </div>
           </>
@@ -992,34 +1062,37 @@ class BodyTouchpointsEditor extends Component {
       case 'API-Performance':
         return (
           <>
-            <div style={{ height: '40px', width: '320px' }}>
+            <div style={{ height: '40px', width: '400px' }}>
               {this.RenderTuneField({
                 label: 'APDEX Response (Min)',
                 defaultValue: tp.queryData.min_apdex,
                 id: 'min_apdex',
                 onChange: this.HandleOnChangeTune,
                 name: 'min_apdex',
-                key: 'Min'
+                key: 'Min',
+                compare: tp.queryData.apdex_value
               })}
             </div>
-            <div style={{ height: '40px', width: '320px' }}>
+            <div style={{ height: '40px', width: '400px' }}>
               {this.RenderTuneField({
                 label: 'Response Time (Max)',
                 defaultValue: tp.queryData.max_response_time,
                 id: 'max_response_time',
                 onChange: this.HandleOnChangeTune,
                 name: 'max_response_time',
-                key: 'Max'
+                key: 'Max',
+                compare: tp.queryData.response_value
               })}
             </div>
-            <div style={{ height: '40px', width: '320px' }}>
+            <div style={{ height: '40px', width: '400px' }}>
               {this.RenderTuneField({
                 label: '% Error (Max)',
                 defaultValue: tp.queryData.max_error_percentage,
                 id: 'max_error_percentage',
                 onChange: this.HandleOnChangeTune,
                 name: 'max_error_percentage',
-                key: 'Max'
+                key: 'Max',
+                compare: tp.queryData.error_percentage
               })}
             </div>
           </>
@@ -1027,34 +1100,37 @@ class BodyTouchpointsEditor extends Component {
       case 'Synthetics-Check':
         return (
           <>
-            <div style={{ height: '40px', width: '320px' }}>
+            <div style={{ height: '40px', width: '400px' }}>
               {this.RenderTuneField({
                 label: 'Avg Response Time (Max)',
                 defaultValue: tp.queryData.max_avg_response_time,
                 id: 'max_avg_response_time',
                 onChange: this.HandleOnChangeTune,
                 name: 'max_avg_response_time',
-                key: 'Max'
+                key: 'Max',
+                compare: tp.queryData.max_request_time
               })}
             </div>
-            <div style={{ height: '40px', width: '320px' }}>
+            <div style={{ height: '40px', width: '400px' }}>
               {this.RenderTuneField({
                 label: 'Total Check Time (Max)',
                 defaultValue: tp.queryData.max_total_check_time,
                 id: 'max_total_check_time',
                 onChange: this.HandleOnChangeTune,
                 name: 'max_total_check_time',
-                key: 'Max'
+                key: 'Max',
+                compare: tp.queryData.max_duration
               })}
             </div>
-            <div style={{ height: '40px', width: '320px' }}>
+            <div style={{ height: '40px', width: '400px' }}>
               {this.RenderTuneField({
                 label: '% Success Rate (Min)',
                 defaultValue: tp.queryData.min_success_percentage,
                 id: 'min_success_percentage',
                 onChange: this.HandleOnChangeTune,
                 name: 'min_success_percentage',
-                key: 'Min'
+                key: 'Min',
+                compare: tp.queryData.success_percentage
               })}
             </div>
           </>
@@ -1071,24 +1147,26 @@ class BodyTouchpointsEditor extends Component {
       case 'API-Count':
         return (
           <>
-            <div style={{ height: '40px', width: '320px' }}>
+            <div style={{ height: '40px', width: '400px' }}>
               {this.RenderTuneField({
                 label: 'API Count (Min)',
                 defaultValue: tp.queryData.min_count,
                 id: 'min_count',
                 onChange: this.HandleOnChangeTune,
                 name: 'min_count',
-                key: 'Min'
+                key: 'Min',
+                compare: tp.queryData.api_count
               })}
             </div>
-            <div style={{ height: '40px', width: '320px' }}>
+            <div style={{ height: '40px', width: '400px' }}>
               {this.RenderTuneField({
                 label: 'API Count (Max)',
                 defaultValue: tp.queryData.max_count,
                 id: 'max_count',
                 onChange: this.HandleOnChangeTune,
                 name: 'max_count',
-                key: 'Max'
+                key: 'Max',
+                compare: tp.queryData.api_count
               })}
             </div>
           </>
@@ -1096,14 +1174,15 @@ class BodyTouchpointsEditor extends Component {
       case 'API-Status':
         return (
           <>
-            <div style={{ height: '40px', width: '320px' }}>
+            <div style={{ height: '40px', width: '400px' }}>
               {this.RenderTuneField({
                 label: 'Success Percentage (Min)',
                 defaultValue: tp.queryData.min_success_percentage,
                 id: 'min_success_percentage',
                 onChange: this.HandleOnChangeTune,
                 name: 'min_success_percentage',
-                key: 'Min'
+                key: 'Min',
+                compare: tp.queryData.success_percentage
               })}
             </div>
           </>
@@ -1208,669 +1287,694 @@ class BodyTouchpointsEditor extends Component {
               );
             })}
           </div>
-          {Object.keys(this.state.form).length > 0 && (
-            <div style={{ display: 'flex' }}>
-              <div style={{ width: '60%' }}>
-                <Form onSubmit={this.handleStepsEditorSubmit}>
-                  <div
-                    style={{
-                      height: '300px',
-                      overflowY: 'scroll',
-                      marginTop: '20px'
-                    }}
-                  >
-                    <table style={{ width: '100%' }}>
-                      <thead>
-                        <tr>
-                          <th className="headerTableTitle">Touchpoint</th>
-                          <th className="headerTableTitle">Type</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {this.state.touchpoints.map((tp, i) => {
-                          return (
-                            <tr key={i}>
-                              <td
-                                style={{
-                                  backgroundColor:
-                                    this.state.current.touchpoint === tp.id
-                                      ? '#0078BF'
-                                      : tp.visible
-                                      ? 'white'
-                                      : 'lightgrey'
-                                }}
-                              >
-                                <div
-                                  style={{
-                                    display: 'flex',
-                                    alignItems: 'center'
-                                  }}
-                                >
-                                  <input
-                                    checked={
-                                      this.state.current.touchpoint === tp.id
-                                    }
-                                    onChange={() => this.SelectRow(tp.id)}
-                                    type="radio"
-                                    name="stage_editor"
-                                    className="select-row-radio"
-                                    style={{
-                                      marginRight: '15px'
-                                      // transform: 'translateY(-3px)'
-                                    }}
-                                  />
-                                  {this.state.current.touchpoint === tp.id && (
-                                    <TextField
-                                      style={{ width: '100%' }}
-                                      className="textFieldBody"
-                                      onChange={e =>
-                                        this.HandleOnChange(
-                                          'title',
-                                          e.target.value,
-                                          tp.id
-                                        )
-                                      }
-                                      value={
-                                        this.state.form[`tp_${tp.id}`].title
-                                      }
-                                    />
-                                  )}
-                                  {this.state.current.touchpoint !== tp.id && (
-                                    <div className="textFieldBody">
-                                      {this.state.form[`tp_${tp.id}`].title}
-                                    </div>
-                                  )}
-                                </div>
-                              </td>
-                              <td
-                                style={{
-                                  backgroundColor:
-                                    this.state.current.touchpoint === tp.id
-                                      ? '#0078BF'
-                                      : tp.visible
-                                      ? 'white'
-                                      : 'lightgrey'
-                                }}
-                              >
-                                <Dropdown
-                                  style={{ width: '100%' }}
-                                  title={this.state.form[`tp_${tp.id}`].type}
-                                  disabled={
-                                    this.state.current.touchpoint !== tp.id
-                                  }
-                                >
-                                  {this.state.touchpointTypes.map((item, i) => {
-                                    return (
-                                      <DropdownItem
-                                        onClick={() =>
-                                          this.HandleOnChange(
-                                            'type',
-                                            item.shortName,
-                                            tp.id
-                                          )
-                                        }
-                                        key={i}
-                                      >
-                                        {item.longName}
-                                      </DropdownItem>
-                                    );
-                                  })}
-                                </Dropdown>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
-                  <div style={{ display: 'flex' }}>
-                    <div
-                      style={{
-                        width: '50%',
-                        display: 'flex',
-                        marginTop: '20px'
-                      }}
-                    >
-                      <Button
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        style={{
-                          background: '#0078BF',
-                          color: 'white',
-                          width: '50%',
-                          marginTop: '15px'
-                        }}
-                      >
-                        Save Update
-                      </Button>
-                    </div>
-                    <div
-                      style={{
-                        width: '50%',
-                        display: 'flex',
-                        justifyContent: 'flex-end',
-                        marginTop: '20px'
-                      }}
-                    >
-                      <Button
-                        variant="outline-primary"
-                        color="primary"
-                        style={{
-                          background: 'white',
-                          borderColor: '#0D47A1',
-                          borderStyle: 'solid',
-                          borderWidth: '1px',
-                          borderRadius: '2px',
-                          width: '50%',
-                          marginTop: '15px',
-                          color: '#0D47A1'
-                        }}
-                        onClick={this.AddTouchpoint}
-                      >
-                        + Add Touchpoint
-                      </Button>
-                    </div>
-                  </div>
-                </Form>
-              </div>
-              <div style={{ width: '50%' }}>
-                {this.state.current.touchpoint !== null && (
-                  <>
-                    <div style={{ marginLeft: '10px', marginRight: '10px' }}>
-                      <input
-                        onClick={() => this.SelectTab('mapping')}
-                        type="radio"
-                        name="tabs_radio"
-                        className="select-row-radio-tab"
-                        checked={this.state.tab === 'mapping'}
-                        style={{
-                          marginRight: '5px',
-                          transform: 'translateY(7px)'
-                        }}
-                      />
-                      <label
-                        style={{
-                          transform: 'translateY(2px)',
-                          marginRight: '15px'
-                        }}
-                      >
-                        Step Mapping
-                      </label>
-                      <input
-                        onClick={() => this.SelectTab('tune')}
-                        type="radio"
-                        name="tabs_radio"
-                        className="select-row-radio-tab"
-                        style={{
-                          marginRight: '5px',
-                          transform: 'translateY(7px)'
-                        }}
-                      />
-                      <label
-                        style={{
-                          transform: 'translateY(2px)',
-                          marginRight: '15px'
-                        }}
-                      >
-                        Tune
-                      </label>
-                      <input
-                        onClick={() => this.SelectTab('query')}
-                        type="radio"
-                        name="tabs_radio"
-                        className="select-row-radio-tab"
-                        style={{
-                          marginRight: '5px',
-                          transform: 'translateY(7px)'
-                        }}
-                      />
-                      <label
-                        style={{
-                          transform: 'translateY(2px)',
-                          marginRight: '15px'
-                        }}
-                      >
-                        Query
-                      </label>
-                      <input
-                        onClick={() => this.SelectTab('general')}
-                        type="radio"
-                        name="tabs_radio"
-                        className="select-row-radio-tab"
-                        style={{
-                          marginRight: '5px',
-                          transform: 'translateY(7px)'
-                        }}
-                      />
-                      <label
-                        style={{
-                          transform: 'translateY(2px)',
-                          marginRight: '15px'
-                        }}
-                      >
-                        General
-                      </label>
-                      <img
-                        style={{
-                          width: '40px',
-                          marginLeft: '20px',
-                          height: 'auto',
-                          cursor: 'pointer',
-                          transform: 'translateY(3px)'
-                        }}
-                        onClick={() => this.ToggleOnOff()}
-                        src={
-                          this.state.current.touchpoint &&
-                          this.state.form[`tp_${this.state.current.touchpoint}`]
-                            .status
-                            ? onIcon
-                            : offIcon
-                        }
-                      />
-                    </div>
-                    {this.state.tab === 'mapping' && (
-                      <div
-                        style={{
-                          marginTop: '11px',
-                          marginLeft: '10px',
-                          marginRight: '10px',
-                          background: '#F7F7F8',
-                          paddingLeft: '20px',
-                          paddingRight: '20px',
-                          paddingTop: '15px'
-                        }}
-                      >
-                        <div
-                          style={{
-                            width: '100%',
-                            display: 'flex',
-                            fontFamily: 'Open Sans',
-                            fontStyle: 'normal',
-                            fontWeight: '600',
-                            fontSize: '14px',
-                            lineHeight: '19px',
-                            marginBottom: '4px'
-                          }}
-                        >
-                          <div style={{ width: '50%', marginLeft: '45px' }}>
-                            <p>Choose Related Steps</p>
-                          </div>
-                        </div>
-                        <div
-                          style={{ maxHeight: '270px', overflowY: 'scroll' }}
-                        >
-                          {this.state.steps.map((item, i) => {
-                            return (
+          <div style={{ display: 'flex' }}>
+            <div style={{ width: '60%' }}>
+              <Form onSubmit={this.handleStepsEditorSubmit}>
+                <div
+                  style={{
+                    height: '300px',
+                    overflowY: 'scroll',
+                    marginTop: '20px'
+                  }}
+                >
+                  <table style={{ width: '100%' }}>
+                    <thead>
+                      <tr>
+                        <th className="headerTableTitle">Touchpoint</th>
+                        <th className="headerTableTitle">Type</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {this.state.touchpoints.map((tp, i) => {
+                        return (
+                          <tr key={i}>
+                            <td
+                              style={{
+                                backgroundColor:
+                                  this.state.current.touchpoint === tp.id
+                                    ? '#0078BF'
+                                    : tp.visible
+                                    ? 'white'
+                                    : 'lightgrey'
+                              }}
+                            >
                               <div
                                 style={{
-                                  marginBottom: '10px',
                                   display: 'flex',
                                   alignItems: 'center'
                                 }}
-                                key={i}
                               >
-                                <div
+                                <input
+                                  checked={
+                                    this.state.current.touchpoint === tp.id
+                                  }
+                                  onChange={() => this.SelectRow(tp.id)}
+                                  type="radio"
+                                  name="stage_editor"
+                                  className="select-row-radio"
                                   style={{
-                                    width: '24px',
-                                    height: '24px',
-                                    backgroundColor: 'grey',
-                                    borderRadius: '100%',
-                                    color: 'white',
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center'
+                                    marginRight: '15px'
+                                    // transform: 'translateY(-3px)'
                                   }}
-                                >
-                                  {i + 1}
-                                </div>
-                                <div
-                                  style={{
-                                    display: 'flex',
-                                    marginLeft: '15px'
-                                  }}
-                                >
-                                  {item.sub_steps.map((sub, x) => {
-                                    return (
-                                      <div
-                                        onClick={() =>
-                                          this.ToggleSelectMapping(sub.value)
-                                        }
-                                        style={{
-                                          padding: '10px 15px',
-                                          borderColor: '#424242',
-                                          borderStyle: 'solid',
-                                          borderWidth: '1px',
-                                          marginLeft: '5px',
-                                          cursor: 'pointer',
-                                          color:
-                                            this.state.current.touchpoint &&
-                                            this.state.current.subs[
-                                              this.state.current.touchpoint
-                                            ].some(value => sub.value === value)
-                                              ? 'white'
-                                              : '#424242',
-                                          backgroundColor:
-                                            this.state.current.touchpoint &&
-                                            this.state.current.subs[
-                                              this.state.current.touchpoint
-                                            ].some(value => sub.value === value)
-                                              ? '#0078BF'
-                                              : 'white'
-                                        }}
-                                        key={`sub_${x}`}
-                                      >
-                                        {sub.value}
-                                      </div>
-                                    );
-                                  })}
-                                </div>
+                                />
+                                {this.state.current.touchpoint === tp.id && (
+                                  <TextField
+                                    style={{ width: '100%' }}
+                                    className="textFieldBody"
+                                    onChange={e =>
+                                      this.HandleOnChange(
+                                        'title',
+                                        e.target.value,
+                                        tp.id
+                                      )
+                                    }
+                                    value={this.state.form[`tp_${tp.id}`].title}
+                                  />
+                                )}
+                                {this.state.current.touchpoint !== tp.id && (
+                                  <div className="textFieldBody">
+                                    {this.state.form[`tp_${tp.id}`].title}
+                                  </div>
+                                )}
                               </div>
-                            );
-                          })}
+                            </td>
+                            <td
+                              style={{
+                                backgroundColor:
+                                  this.state.current.touchpoint === tp.id
+                                    ? '#0078BF'
+                                    : tp.visible
+                                    ? 'white'
+                                    : 'lightgrey'
+                              }}
+                            >
+                              <Dropdown
+                                style={{ width: '100%' }}
+                                title={this.state.form[`tp_${tp.id}`].type}
+                                disabled={
+                                  this.state.current.touchpoint !== tp.id
+                                }
+                              >
+                                {this.state.touchpointTypes.map((item, i) => {
+                                  return (
+                                    <DropdownItem
+                                      onClick={() =>
+                                        this.HandleOnChange(
+                                          'type',
+                                          item.shortName,
+                                          tp.id
+                                        )
+                                      }
+                                      key={i}
+                                    >
+                                      {item.longName}
+                                    </DropdownItem>
+                                  );
+                                })}
+                              </Dropdown>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+                <div style={{ display: 'flex' }}>
+                  <div
+                    style={{
+                      width: '50%',
+                      display: 'flex',
+                      marginTop: '20px'
+                    }}
+                  >
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                      style={{
+                        background: '#0078BF',
+                        color: 'white',
+                        width: '50%',
+                        marginTop: '15px'
+                      }}
+                    >
+                      Save Update
+                    </Button>
+                  </div>
+                  <div
+                    style={{
+                      width: '50%',
+                      display: 'flex',
+                      justifyContent: 'flex-end',
+                      marginTop: '20px'
+                    }}
+                  >
+                    <Button
+                      variant="outline-primary"
+                      color="primary"
+                      style={{
+                        background: 'white',
+                        borderColor: '#0D47A1',
+                        borderStyle: 'solid',
+                        borderWidth: '1px',
+                        borderRadius: '2px',
+                        width: '50%',
+                        marginTop: '15px',
+                        color: '#0D47A1'
+                      }}
+                      onClick={this.AddTouchpoint}
+                    >
+                      + Add Touchpoint
+                    </Button>
+                  </div>
+                </div>
+              </Form>
+            </div>
+            <div style={{ width: '50%' }}>
+              {this.state.current.touchpoint !== null && (
+                <>
+                  <div style={{ marginLeft: '10px', marginRight: '10px' }}>
+                    <input
+                      onClick={() => this.SelectTab('mapping')}
+                      type="radio"
+                      name="tabs_radio"
+                      className="select-row-radio-tab"
+                      checked={this.state.tab === 'mapping'}
+                      style={{
+                        marginRight: '5px',
+                        transform: 'translateY(7px)'
+                      }}
+                    />
+                    <label
+                      style={{
+                        transform: 'translateY(2px)',
+                        marginRight: '15px'
+                      }}
+                    >
+                      Step Mapping
+                    </label>
+                    <input
+                      onClick={() => this.SelectTab('tune')}
+                      type="radio"
+                      name="tabs_radio"
+                      className="select-row-radio-tab"
+                      style={{
+                        marginRight: '5px',
+                        transform: 'translateY(7px)'
+                      }}
+                    />
+                    <label
+                      style={{
+                        transform: 'translateY(2px)',
+                        marginRight: '15px'
+                      }}
+                    >
+                      Tune
+                    </label>
+                    <input
+                      onClick={() => this.SelectTab('query')}
+                      type="radio"
+                      name="tabs_radio"
+                      className="select-row-radio-tab"
+                      style={{
+                        marginRight: '5px',
+                        transform: 'translateY(7px)'
+                      }}
+                    />
+                    <label
+                      style={{
+                        transform: 'translateY(2px)',
+                        marginRight: '15px'
+                      }}
+                    >
+                      Query
+                    </label>
+                    <input
+                      onClick={() => this.SelectTab('general')}
+                      type="radio"
+                      name="tabs_radio"
+                      className="select-row-radio-tab"
+                      style={{
+                        marginRight: '5px',
+                        transform: 'translateY(7px)'
+                      }}
+                    />
+                    <label
+                      style={{
+                        transform: 'translateY(2px)',
+                        marginRight: '15px'
+                      }}
+                    >
+                      General
+                    </label>
+                    <img
+                      style={{
+                        width: '40px',
+                        marginLeft: '20px',
+                        height: 'auto',
+                        cursor: 'pointer',
+                        transform: 'translateY(3px)'
+                      }}
+                      onClick={() => this.ToggleOnOff()}
+                      src={
+                        this.state.current.touchpoint &&
+                        this.state.form[`tp_${this.state.current.touchpoint}`]
+                          .status
+                          ? onIcon
+                          : offIcon
+                      }
+                    />
+                  </div>
+                  {this.state.tab === 'mapping' && (
+                    <div
+                      style={{
+                        marginTop: '11px',
+                        marginLeft: '10px',
+                        marginRight: '10px',
+                        background: '#F7F7F8',
+                        paddingLeft: '20px',
+                        paddingRight: '20px',
+                        paddingTop: '15px'
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: '100%',
+                          display: 'flex',
+                          fontFamily: 'Open Sans',
+                          fontStyle: 'normal',
+                          fontWeight: '600',
+                          fontSize: '14px',
+                          lineHeight: '19px',
+                          marginBottom: '4px'
+                        }}
+                      >
+                        <div style={{ width: '50%', marginLeft: '45px' }}>
+                          <p>Choose Related Steps</p>
                         </div>
                       </div>
-                    )}
-                    {this.state.tab === 'tune' &&
-                      this.state.current.touchpoint && (
-                        <div
-                          style={{
-                            width: '421px',
-                            height: '292px',
-                            marginTop: '11px',
-                            marginLeft: '10px',
-                            marginRight: '10px',
-                            background: '#F7F7F8',
-                            paddingRight: '20px'
-                          }}
-                        >
-                          {this.RenderTuneForm()}
-                        </div>
-                      )}
-                    {this.state.tab === 'query' &&
-                      this.state.current.touchpoint && (
-                        <div
-                          style={{
-                            marginTop: '11px',
-                            marginLeft: '10px',
-                            marginRight: '10px',
-                            background: '#F7F7F8',
-                            paddingLeft: '20px',
-                            paddingRight: '20px',
-                            paddingBottom: '20px'
-                          }}
-                        >
-                          <div style={{ display: 'flex', width: '100%' }}>
+                      <div style={{ maxHeight: '270px', overflowY: 'scroll' }}>
+                        {this.state.steps.map((item, i) => {
+                          return (
                             <div
                               style={{
+                                marginBottom: '10px',
                                 display: 'flex',
-                                flexDirection: 'row',
-                                alignItems: 'center',
-                                marginTop: '15px',
-                                marginBottom: '15px',
-                                width: '50%'
-                              }}
-                            >
-                              Account ID
-                              <div
-                                style={{ width: '110px', marginLeft: '10px' }}
-                              >
-                                <SelectIDs
-                                  name="query"
-                                  handleOnChange={e =>
-                                    this.HandleOnChange(
-                                      'queryAccount',
-                                      e.target.value,
-                                      this.state.current.touchpoint
-                                    )
-                                  }
-                                  options={this.props.accountIDs}
-                                  idSeleccionado={
-                                    this.state.form[
-                                      `tp_${this.state.current.touchpoint}`
-                                    ].queryAccount
-                                  }
-                                />
-                              </div>
-                            </div>
-                            <div
-                              style={{
-                                marginTop: '15px',
-                                marginBottom: '15px',
-                                width: '50%',
-                                display: 'flex',
-                                justifyContent: 'flex-end',
                                 alignItems: 'center'
                               }}
+                              key={i}
                             >
-                              <div>
-                                Timeout
-                                <input
-                                  type="text"
-                                  value={
-                                    this.state.form[
-                                      `tp_${this.state.current.touchpoint}`
-                                    ].timeout
-                                  }
-                                  onChange={e =>
-                                    this.HandleOnChange(
-                                      'timeout',
-                                      e.target.value,
-                                      this.state.current.touchpoint
-                                    )
-                                  }
-                                  className="inputText"
-                                  style={{
-                                    width: '50px',
-                                    background: '#FFFFFF',
-                                    border: '1px solid #BDBDBD',
-                                    boxSizing: 'border-box',
-                                    padding: '5px',
-                                    marginLeft: '10px',
-                                    textAlign: 'center'
-                                  }}
-                                />
+                              <div
+                                style={{
+                                  width: '24px',
+                                  height: '24px',
+                                  backgroundColor: 'grey',
+                                  borderRadius: '100%',
+                                  color: 'white',
+                                  display: 'flex',
+                                  justifyContent: 'center',
+                                  alignItems: 'center'
+                                }}
+                              >
+                                {i + 1}
+                              </div>
+                              <div
+                                style={{
+                                  display: 'flex',
+                                  marginLeft: '15px'
+                                }}
+                              >
+                                {item.sub_steps.map((sub, x) => {
+                                  return (
+                                    <div
+                                      onClick={() =>
+                                        this.ToggleSelectMapping(sub.value)
+                                      }
+                                      style={{
+                                        padding: '10px 15px',
+                                        borderColor: '#424242',
+                                        borderStyle: 'solid',
+                                        borderWidth: '1px',
+                                        marginLeft: '5px',
+                                        cursor: 'pointer',
+                                        color:
+                                          this.state.current.touchpoint &&
+                                          this.state.current.subs[
+                                            this.state.current.touchpoint
+                                          ].some(value => sub.value === value)
+                                            ? 'white'
+                                            : '#424242',
+                                        backgroundColor:
+                                          this.state.current.touchpoint &&
+                                          this.state.current.subs[
+                                            this.state.current.touchpoint
+                                          ].some(value => sub.value === value)
+                                            ? '#0078BF'
+                                            : 'white'
+                                      }}
+                                      key={`sub_${x}`}
+                                    >
+                                      {sub.value}
+                                    </div>
+                                  );
+                                })}
                               </div>
                             </div>
-                          </div>
-                          <textarea
-                            value={
-                              this.state.form[
-                                `tp_${this.state.current.touchpoint}`
-                              ].query
-                            }
-                            onChange={e =>
-                              this.HandleOnChange(
-                                'query',
-                                e.target.value,
-                                this.state.current.touchpoint
-                              )
-                            }
-                            rows="6"
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                  {this.state.tab === 'tune' && this.state.current.touchpoint && (
+                    <div
+                      style={{
+                        width: '421px',
+                        height: '292px',
+                        marginTop: '11px',
+                        marginLeft: '10px',
+                        marginRight: '10px',
+                        background: '#F7F7F8',
+                        paddingRight: '20px',
+                        justifyContent: 'left'
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'end',
+                          marginBottom: '1px',
+                          paddingTop: '20px'
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            width: '50%'
+                          }}
+                        >
+                          <div
                             style={{
-                              fontSize: '15px',
-                              backgroundColor: '#424242',
-                              color: '#4CAF50'
+                              display: 'flex',
+                              width: '45%',
+                              justifyContent: 'center'
                             }}
-                          />
+                          >
+                            <label className="headerSubtitleTune">
+                              Configured
+                            </label>
+                          </div>
+                          <div
+                            style={{
+                              display: 'flex',
+                              width: '55%',
+                              justifyContent: 'center'
+                            }}
+                          >
+                            <label className="headerSubtitleTune">
+                              Last Value
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      {this.RenderTuneForm()}
+                    </div>
+                  )}
+                  {this.state.tab === 'query' && this.state.current.touchpoint && (
+                    <div
+                      style={{
+                        marginTop: '11px',
+                        marginLeft: '10px',
+                        marginRight: '10px',
+                        background: '#F7F7F8',
+                        paddingLeft: '20px',
+                        paddingRight: '20px',
+                        paddingBottom: '20px'
+                      }}
+                    >
+                      <div style={{ display: 'flex', width: '100%' }}>
+                        <div
+                          style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            marginTop: '15px',
+                            marginBottom: '15px',
+                            width: '50%'
+                          }}
+                        >
+                          Account ID
+                          <div style={{ width: '110px', marginLeft: '10px' }}>
+                            <SelectIDs
+                              name="query"
+                              handleOnChange={e =>
+                                this.HandleOnChange(
+                                  'queryAccount',
+                                  e.target.value,
+                                  this.state.current.touchpoint
+                                )
+                              }
+                              options={this.props.accountIDs}
+                              idSeleccionado={
+                                this.state.form[
+                                  `tp_${this.state.current.touchpoint}`
+                                ].queryAccount
+                              }
+                            />
+                          </div>
+                        </div>
+                        <div
+                          style={{
+                            marginTop: '15px',
+                            marginBottom: '15px',
+                            width: '50%',
+                            display: 'flex',
+                            justifyContent: 'flex-end',
+                            alignItems: 'center'
+                          }}
+                        >
                           <div>
-                            <span>
-                              <b>SINCE </b>
-                            </span>
+                            Timeout
                             <input
                               type="text"
                               value={
                                 this.state.form[
                                   `tp_${this.state.current.touchpoint}`
-                                ].queryMeasure
+                                ].timeout
                               }
-                              style={{
-                                background: '#FFFFFF',
-                                border: '1px solid #BDBDBD',
-                                boxSizing: 'border-box',
-                                marginTop: '10px',
-                                marginBottom: '10px',
-                                marginLeft: '7px',
-                                width: '50%'
-                              }}
                               onChange={e =>
                                 this.HandleOnChange(
-                                  'queryMeasure',
+                                  'timeout',
                                   e.target.value,
                                   this.state.current.touchpoint
                                 )
                               }
+                              className="inputText"
+                              style={{
+                                width: '50px',
+                                background: '#FFFFFF',
+                                border: '1px solid #BDBDBD',
+                                boxSizing: 'border-box',
+                                padding: '5px',
+                                marginLeft: '10px',
+                                textAlign: 'center'
+                              }}
                             />
                           </div>
-                          <textarea
-                            rows="4"
+                        </div>
+                      </div>
+                      <textarea
+                        value={
+                          this.state.form[`tp_${this.state.current.touchpoint}`]
+                            .query
+                        }
+                        onChange={e =>
+                          this.HandleOnChange(
+                            'query',
+                            e.target.value,
+                            this.state.current.touchpoint
+                          )
+                        }
+                        rows="6"
+                        style={{
+                          fontSize: '15px',
+                          backgroundColor: '#424242',
+                          color: '#4CAF50'
+                        }}
+                      />
+                      <div>
+                        <span>
+                          <b>SINCE </b>
+                        </span>
+                        <input
+                          type="text"
+                          value={
+                            this.state.form[
+                              `tp_${this.state.current.touchpoint}`
+                            ].queryMeasure
+                          }
+                          style={{
+                            background: '#FFFFFF',
+                            border: '1px solid #BDBDBD',
+                            boxSizing: 'border-box',
+                            marginTop: '10px',
+                            marginBottom: '10px',
+                            marginLeft: '7px',
+                            width: '50%'
+                          }}
+                          onChange={e =>
+                            this.HandleOnChange(
+                              'queryMeasure',
+                              e.target.value,
+                              this.state.current.touchpoint
+                            )
+                          }
+                        />
+                      </div>
+                      <textarea
+                        rows="4"
+                        style={{
+                          fontSize: '15px',
+                          backgroundColor: '#424242',
+                          color: '#4CAF50'
+                        }}
+                        value={
+                          testQueryValue ? objToString(testQueryValue) : ''
+                        }
+                      />
+                      <div
+                        style={{
+                          display: 'flex',
+                          marginTop: '15px',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <a
+                          style={{
+                            paddingRight: '20px'
+                          }}
+                          onClick={() =>
+                            this.HandleOnSampleQuery(
+                              this.state.current.touchpoint
+                            )
+                          }
+                        >
+                          Sample Query
+                        </a>
+                        <div>
+                          <Button
+                            disabled={testingNow}
+                            variant="contained"
+                            color="primary"
                             style={{
-                              fontSize: '15px',
-                              backgroundColor: '#424242',
-                              color: '#4CAF50'
+                              background: 'white',
+                              border: '1px solid #767B7F',
+                              boxSizing: 'border-box',
+                              marginRight: '15px'
                             }}
-                            value={
-                              testQueryValue ? objToString(testQueryValue) : ''
-                            }
-                          />
-                          <div
-                            style={{
-                              display: 'flex',
-                              marginTop: '15px',
-                              alignItems: 'center'
-                            }}
-                          >
-                            <a
-                              style={{
-                                paddingRight: '20px'
-                              }}
-                              onClick={() =>
-                                this.HandleOnSampleQuery(
-                                  this.state.current.touchpoint
-                                )
-                              }
-                            >
-                              Sample Query
-                            </a>
-                            <div>
-                              <Button
-                                disabled={testingNow}
-                                variant="contained"
-                                color="primary"
-                                style={{
-                                  background: 'white',
-                                  border: '1px solid #767B7F',
-                                  boxSizing: 'border-box',
-                                  marginRight: '15px'
-                                }}
-                                onClick={() => {
-                                  if (
+                            onClick={() => {
+                              if (
+                                this.state.form[
+                                  `tp_${this.state.current.touchpoint}`
+                                ].query !== ''
+                              ) {
+                                this.TestQuery(
+                                  `${
                                     this.state.form[
                                       `tp_${this.state.current.touchpoint}`
-                                    ].query !== ''
-                                  ) {
-                                    this.TestQuery(
-                                      `${
-                                        this.state.form[
-                                          `tp_${this.state.current.touchpoint}`
-                                        ].query
-                                      } SINCE ${
-                                        this.state.form[
-                                          `tp_${this.state.current.touchpoint}`
-                                        ].queryMeasure
-                                      }`,
-                                      this.state.form[
-                                        `tp_${this.state.current.touchpoint}`
-                                      ].queryAccount,
-                                      this.state.form[
-                                        `tp_${this.state.current.touchpoint}`
-                                      ].type
-                                    );
-                                  }
-                                }}
-                              >
-                                Test
-                              </Button>
-                            </div>
-                            <div>
-                              {testQueryResult !== '' && (
-                                <span
-                                  style={{
-                                    color: goodQuery ? 'green' : 'red',
-                                    display: 'flex',
-                                    alignItems: 'center'
-                                  }}
-                                >
-                                  {goodQuery ? (
-                                    <SuccessfullIcon />
-                                  ) : (
-                                    <WrongIcon />
-                                  )}
-                                  {testQueryResult}
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                    {this.state.tab === 'general' &&
-                      this.state.current.touchpoint && (
-                        <div
-                          style={{
-                            width: '421px',
-                            height: '292px',
-                            marginTop: '11px',
-                            marginLeft: '10px',
-                            marginRight: '10px',
-                            background: '#F7F7F8',
-                            paddingRight: '20px',
-                            paddingTop: '25px',
-                            paddingLeft: '20px'
-                          }}
-                        >
-                          <label
-                            style={{
-                              fontFamily: 'Open Sans',
-                              fontStyle: 'normal',
-                              fontWeight: '600',
-                              fontSize: '14px',
-                              lineHeight: '19px'
+                                    ].query
+                                  } SINCE ${
+                                    this.state.form[
+                                      `tp_${this.state.current.touchpoint}`
+                                    ].queryMeasure
+                                  }`,
+                                  this.state.form[
+                                    `tp_${this.state.current.touchpoint}`
+                                  ].queryAccount,
+                                  this.state.form[
+                                    `tp_${this.state.current.touchpoint}`
+                                  ].type
+                                );
+                              }
                             }}
                           >
-                            Dashboard Link
-                          </label>
-                          <input
-                            onChange={e =>
-                              this.HandleOnChange(
-                                'dashboardLink',
-                                e.target.value,
-                                this.state.current.touchpoint
-                              )
-                            }
-                            value={
-                              this.state.form[
-                                `tp_${this.state.current.touchpoint}`
-                              ].dashboardLink
-                            }
-                            type="text"
-                            style={{
-                              background: '#FFFFFF',
-                              border: '1px solid #BDBDBD',
-                              boxSizing: 'border-box',
-                              fontFamily: 'Open Sans',
-                              fontStyle: 'normal',
-                              fontWeight: '400',
-                              fontSize: '12px',
-                              lineHeight: '16px'
-                            }}
-                          />
+                            Test
+                          </Button>
                         </div>
-                      )}
-                  </>
-                )}
-              </div>
+                        <div>
+                          {testQueryResult !== '' && (
+                            <span
+                              style={{
+                                color: goodQuery ? 'green' : 'red',
+                                display: 'flex',
+                                alignItems: 'center'
+                              }}
+                            >
+                              {goodQuery ? <SuccessfullIcon /> : <WrongIcon />}
+                              {testQueryResult}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  {this.state.tab === 'general' &&
+                    this.state.current.touchpoint && (
+                      <div
+                        style={{
+                          width: '421px',
+                          height: '292px',
+                          marginTop: '11px',
+                          marginLeft: '10px',
+                          marginRight: '10px',
+                          background: '#F7F7F8',
+                          paddingRight: '20px',
+                          paddingTop: '25px',
+                          paddingLeft: '20px'
+                        }}
+                      >
+                        <label
+                          style={{
+                            fontFamily: 'Open Sans',
+                            fontStyle: 'normal',
+                            fontWeight: '600',
+                            fontSize: '14px',
+                            lineHeight: '19px'
+                          }}
+                        >
+                          Dashboard Link
+                        </label>
+                        <input
+                          onChange={e =>
+                            this.HandleOnChange(
+                              'dashboardLink',
+                              e.target.value,
+                              this.state.current.touchpoint
+                            )
+                          }
+                          value={
+                            this.state.form[
+                              `tp_${this.state.current.touchpoint}`
+                            ].dashboardLink
+                          }
+                          type="text"
+                          style={{
+                            background: '#FFFFFF',
+                            border: '1px solid #BDBDBD',
+                            boxSizing: 'border-box',
+                            fontFamily: 'Open Sans',
+                            fontStyle: 'normal',
+                            fontWeight: '400',
+                            fontSize: '12px',
+                            lineHeight: '16px'
+                          }}
+                        />
+                      </div>
+                    )}
+                </>
+              )}
             </div>
-          )}
+          </div>
         </div>
       </div>
     );

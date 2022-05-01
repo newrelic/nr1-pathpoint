@@ -711,219 +711,214 @@ class BodyStepsEditor extends Component {
               );
             })}
           </div>
-          {Object.keys(this.state.form).length > 0 && (
-            <Form onSubmit={this.handleStepsEditorSubmit}>
+          <Form onSubmit={this.handleStepsEditorSubmit}>
+            <div
+              style={{
+                height: '300px',
+                overflowY: 'scroll',
+                marginTop: '20px'
+              }}
+            >
+              <table style={{ width: '100%' }}>
+                <thead>
+                  <tr>
+                    <th style={{ width: '100px' }} className="headerTableTitle">
+                      Level
+                    </th>
+                    <th className="headerTableTitle">Steps</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {this.state.steps.map((step, i) => {
+                    return (
+                      <tr key={i}>
+                        <td
+                          style={{
+                            backgroundColor:
+                              // eslint-disable-next-line no-nested-ternary
+                              this.state.current.step === step.id
+                                ? '#0078BF'
+                                : step.visible
+                                ? 'white'
+                                : 'lightgrey',
+                            width: '100px'
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center'
+                            }}
+                          >
+                            <input
+                              checked={this.state.current.step === step.id}
+                              onChange={() => this.SelectRow(step.id)}
+                              type="radio"
+                              name="stage_editor"
+                              className="select-row-radio"
+                              style={{
+                                marginRight: '15px',
+                                transform: 'translateY(-2px)'
+                              }}
+                            />
+                            <Dropdown
+                              title={this.state.form[`step_${step.id}`].index}
+                              disabled={this.state.current.step !== step.id}
+                            >
+                              {this.state.steps.map((item, i) => {
+                                return (
+                                  <DropdownItem
+                                    onClick={() =>
+                                      this.HandleOnChange(
+                                        'level',
+                                        i + 1,
+                                        step.id
+                                      )
+                                    }
+                                    key={i}
+                                  >
+                                    {i + 1}
+                                  </DropdownItem>
+                                );
+                              })}
+                            </Dropdown>
+                          </div>
+                        </td>
+                        <td
+                          style={{
+                            backgroundColor:
+                              // eslint-disable-next-line no-nested-ternary
+                              this.state.current.step === step.id
+                                ? '#0078BF'
+                                : step.visible
+                                ? 'white'
+                                : 'lightgrey'
+                          }}
+                        >
+                          {this.state.current.step === step.id && (
+                            <div>
+                              <TextField
+                                style={{ width: '100%' }}
+                                onChange={e =>
+                                  this.HandleOnChange(
+                                    'substeps',
+                                    e.target.value,
+                                    step.id
+                                  )
+                                }
+                                value={
+                                  this.state.form[`step_${step.id}`].substeps
+                                }
+                              />
+                            </div>
+                          )}
+                          {this.state.current.step !== step.id && (
+                            <div style={{ display: 'flex' }}>
+                              {this.GetSubstepsText(step)
+                                .split(',')
+                                .map(x => {
+                                  if (x !== '') {
+                                    return (
+                                      <div
+                                        id="RemoveStep"
+                                        style={{
+                                          display: 'flex',
+                                          alignItems: 'center',
+                                          background: '#F2F2F2',
+                                          padding: '2px 7px',
+                                          borderStyle: 'solid',
+                                          borderWidth: '1px',
+                                          borderColor: '#BDBDBD',
+                                          borderRadius: '10px',
+                                          marginRight: '5px',
+                                          fontFamily: 'Open Sans',
+                                          fontStyle: 'normal',
+                                          fontWeight: '400',
+                                          fontSize: '10px',
+                                          lineHeight: '14px'
+                                        }}
+                                        key={`sub_${x}`}
+                                      >
+                                        <div style={{ marginBottom: '2px' }}>
+                                          {x}
+                                        </div>
+                                        <div
+                                          style={{
+                                            marginLeft: '9px',
+                                            marginBottom: '2px',
+                                            cursor: 'pointer'
+                                          }}
+                                          onClick={() =>
+                                            this.RemoveSubStep(step.id, x)
+                                          }
+                                        >
+                                          <img src={closeIconStep} />
+                                        </div>
+                                      </div>
+                                    );
+                                  } else {
+                                    return <div />;
+                                  }
+                                })}
+                            </div>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+            <div style={{ display: 'flex' }}>
               <div
                 style={{
-                  height: '300px',
-                  overflowY: 'scroll',
+                  width: '50%',
+                  display: 'flex',
                   marginTop: '20px'
                 }}
               >
-                <table style={{ width: '100%' }}>
-                  <thead>
-                    <tr>
-                      <th
-                        style={{ width: '100px' }}
-                        className="headerTableTitle"
-                      >
-                        Level
-                      </th>
-                      <th className="headerTableTitle">Steps</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {this.state.steps.map((step, i) => {
-                      return (
-                        <tr key={i}>
-                          <td
-                            style={{
-                              backgroundColor:
-                                // eslint-disable-next-line no-nested-ternary
-                                this.state.current.step === step.id
-                                  ? '#0078BF'
-                                  : step.visible
-                                  ? 'white'
-                                  : 'lightgrey',
-                              width: '100px'
-                            }}
-                          >
-                            <div
-                              style={{
-                                display: 'flex',
-                                alignItems: 'center'
-                              }}
-                            >
-                              <input
-                                checked={this.state.current.step === step.id}
-                                onChange={() => this.SelectRow(step.id)}
-                                type="radio"
-                                name="stage_editor"
-                                className="select-row-radio"
-                                style={{
-                                  marginRight: '15px',
-                                  transform: 'translateY(-2px)'
-                                }}
-                              />
-                              <Dropdown
-                                title={this.state.form[`step_${step.id}`].index}
-                                disabled={this.state.current.step !== step.id}
-                              >
-                                {this.state.steps.map((item, i) => {
-                                  return (
-                                    <DropdownItem
-                                      onClick={() =>
-                                        this.HandleOnChange(
-                                          'level',
-                                          i + 1,
-                                          step.id
-                                        )
-                                      }
-                                      key={i}
-                                    >
-                                      {i + 1}
-                                    </DropdownItem>
-                                  );
-                                })}
-                              </Dropdown>
-                            </div>
-                          </td>
-                          <td
-                            style={{
-                              backgroundColor:
-                                // eslint-disable-next-line no-nested-ternary
-                                this.state.current.step === step.id
-                                  ? '#0078BF'
-                                  : step.visible
-                                  ? 'white'
-                                  : 'lightgrey'
-                            }}
-                          >
-                            {this.state.current.step === step.id && (
-                              <div>
-                                <TextField
-                                  style={{ width: '100%' }}
-                                  onChange={e =>
-                                    this.HandleOnChange(
-                                      'substeps',
-                                      e.target.value,
-                                      step.id
-                                    )
-                                  }
-                                  value={
-                                    this.state.form[`step_${step.id}`].substeps
-                                  }
-                                />
-                              </div>
-                            )}
-                            {this.state.current.step !== step.id && (
-                              <div style={{ display: 'flex' }}>
-                                {this.GetSubstepsText(step)
-                                  .split(',')
-                                  .map(x => {
-                                    if (x !== '') {
-                                      return (
-                                        <div
-                                          id="RemoveStep"
-                                          style={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            background: '#F2F2F2',
-                                            padding: '2px 7px',
-                                            borderStyle: 'solid',
-                                            borderWidth: '1px',
-                                            borderColor: '#BDBDBD',
-                                            borderRadius: '10px',
-                                            marginRight: '5px',
-                                            fontFamily: 'Open Sans',
-                                            fontStyle: 'normal',
-                                            fontWeight: '400',
-                                            fontSize: '10px',
-                                            lineHeight: '14px'
-                                          }}
-                                          key={`sub_${x}`}
-                                        >
-                                          <div style={{ marginBottom: '2px' }}>
-                                            {x}
-                                          </div>
-                                          <div
-                                            style={{
-                                              marginLeft: '9px',
-                                              marginBottom: '2px',
-                                              cursor: 'pointer'
-                                            }}
-                                            onClick={() =>
-                                              this.RemoveSubStep(step.id, x)
-                                            }
-                                          >
-                                            <img src={closeIconStep} />
-                                          </div>
-                                        </div>
-                                      );
-                                    } else {
-                                      return <div />;
-                                    }
-                                  })}
-                              </div>
-                            )}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-              <div style={{ display: 'flex' }}>
-                <div
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
                   style={{
+                    background: '#0078BF',
+                    color: 'white',
                     width: '50%',
-                    display: 'flex',
-                    marginTop: '20px'
+                    marginTop: '15px'
                   }}
                 >
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    style={{
-                      background: '#0078BF',
-                      color: 'white',
-                      width: '50%',
-                      marginTop: '15px'
-                    }}
-                  >
-                    Save Update
-                  </Button>
-                </div>
-                <div
-                  style={{
-                    width: '50%',
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    marginTop: '20px'
-                  }}
-                >
-                  <Button
-                    variant="outline-primary"
-                    color="primary"
-                    style={{
-                      background: 'white',
-                      borderColor: '#0D47A1',
-                      borderStyle: 'solid',
-                      borderWidth: '1px',
-                      borderRadius: '2px',
-                      width: '50%',
-                      marginTop: '15px',
-                      color: '#0D47A1'
-                    }}
-                    onClick={this.AddNewLevel}
-                  >
-                    + Level
-                  </Button>
-                </div>
+                  Save Update
+                </Button>
               </div>
-            </Form>
-          )}
+              <div
+                style={{
+                  width: '50%',
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  marginTop: '20px'
+                }}
+              >
+                <Button
+                  variant="outline-primary"
+                  color="primary"
+                  style={{
+                    background: 'white',
+                    borderColor: '#0D47A1',
+                    borderStyle: 'solid',
+                    borderWidth: '1px',
+                    borderRadius: '2px',
+                    width: '50%',
+                    marginTop: '15px',
+                    color: '#0D47A1'
+                  }}
+                  onClick={this.AddNewLevel}
+                >
+                  + Level
+                </Button>
+              </div>
+            </div>
+          </Form>
         </div>
       </div>
     );
