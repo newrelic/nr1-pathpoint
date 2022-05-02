@@ -143,7 +143,6 @@ export default class MainContainer extends React.Component {
         percentage: 0
       },
       logoSetupData: null,
-      interfaceEditor: null,
       configuration: null,
       updateData: null,
       testText: '',
@@ -785,13 +784,14 @@ export default class MainContainer extends React.Component {
     });
   }
 
-  updateTouchpointOnOff = touchpoint => {
+  updateTouchpointOnOff = async touchpoint => {
     if (!this.state.iconCanaryStatus) {
-      this.setState({
-        stagesInterface: null
-      });
       this.updateTouchpointStageOnOff(touchpoint);
       this.DataManager.UpdateTouchpointOnOff(touchpoint, true);
+      const stagesInterface = await this.UpdateStagesEditor();
+      this.setState({
+        stagesInterface
+      });
     }
   };
 
@@ -1149,10 +1149,11 @@ export default class MainContainer extends React.Component {
       this.state.stageNameSelected.touchpoint,
       this.state.stageNameSelected.datos
     );
+    const stagesInterface = await this.UpdateStagesEditor();
     this.setState({
       updating: false,
       updateBackgroundScript: true,
-      stagesInterface: null
+      stagesInterface
     });
     this._onClose();
   };
@@ -1181,7 +1182,8 @@ export default class MainContainer extends React.Component {
       this.state.stageNameSelected.touchpoint,
       datos
     );
-    this.setState({ updateBackgroundScript: true, stagesInterface: null });
+    const stagesInterface = await this.UpdateStagesEditor();
+    this.setState({ updateBackgroundScript: true, stagesInterface });
     this._onClose();
   };
 
@@ -1657,7 +1659,7 @@ export default class MainContainer extends React.Component {
     });
   };
 
-  CreateStagesEditor = async () => {
+  CreateStagesEditor = async (saveUpdate = true) => {
     let data = this.DataManager.GetCurrentConfigurationJSON(true);
     data = JSON.parse(data);
     const stagesInterface = [];
@@ -1718,7 +1720,23 @@ export default class MainContainer extends React.Component {
         visible: true
       });
     });
-    await this.InterfaceEditor.SetStagesInterface(stagesInterface);
+    if (saveUpdate) {
+      await this.InterfaceEditor.SetStagesInterface(stagesInterface);
+    }
+    return stagesInterface;
+  };
+
+  UpdateStagesEditor = async () => {
+    const { stagesInterface } = this.state;
+    if (stagesInterface) {
+      const currentStagesInterface = await this.CreateStagesEditor(false);
+      const stagesInterfaceUpdated = this.InterfaceEditor.UpdateStagesInterface(
+        stagesInterface,
+        currentStagesInterface
+      );
+      await this.InterfaceEditor.SetStagesInterface(stagesInterfaceUpdated);
+      return stagesInterfaceUpdated;
+    }
     return stagesInterface;
   };
 
@@ -1846,9 +1864,11 @@ export default class MainContainer extends React.Component {
   OpenGUIEditor = async viewModal => {
     const queryModalShowing = true; // DO NOT Update Data while Modals is Showing
     let { stagesInterface } = this.state;
-    if (!stagesInterface || viewModal === 14) {
-      // viewModal === 14 To LOAD last values for Touchpoints Editor
+    if (!stagesInterface) {
       stagesInterface = await this.CreateStagesEditor();
+    } else if (viewModal === 14) {
+      // Update current Touchpoint Values
+      stagesInterface = await this.UpdateStagesEditor();
     }
     this.setState({
       stagesInterface,
