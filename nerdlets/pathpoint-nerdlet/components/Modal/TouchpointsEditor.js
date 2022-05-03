@@ -384,6 +384,14 @@ class BodyTouchpointsEditor extends Component {
           current
         };
       });
+      this.state.stages.some(stage => {
+        let found = false;
+        if (stage.id === this.state.current.stage) {
+          found = true;
+          stage.touchpoints = [...this.state.touchpoints];
+        }
+        return found;
+      });
       const inputs = document.querySelectorAll('.select-row-radio');
       this.DispatchCustomEvent('NoDisplayIcon');
       inputs.forEach(input => {
