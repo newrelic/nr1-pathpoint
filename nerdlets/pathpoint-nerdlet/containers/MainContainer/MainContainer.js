@@ -61,7 +61,7 @@ export default class MainContainer extends React.Component {
     this.InterfaceEditor = null;
     this.InterfaceMigration = null;
     this.state = {
-      accountName: 'Mercado Bitcoin',
+      accountName: '',
       username: '',
       guiEditor: true,
       jsonMetaData: {
