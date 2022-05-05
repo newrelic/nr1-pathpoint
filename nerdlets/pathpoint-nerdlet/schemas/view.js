@@ -93,8 +93,8 @@ export default {
             },
             steps: {
               type: 'array',
-              minItems: 1,
-              maxItems: 5,
+              minItems: 0,
+              maxItems: 10,
               additionalItems: true,
               items: [
                 {
@@ -104,12 +104,12 @@ export default {
                     line: {
                       type: 'number',
                       minimum: 1,
-                      maximum: 5
+                      maximum: 10
                     },
                     values: {
                       type: 'array',
-                      minItems: 1,
-                      maxItems: 5,
+                      minItems: 0,
+                      maxItems: 10,
                       additionalItems: true,
                       items: [
                         {
@@ -132,7 +132,7 @@ export default {
             },
             touchpoints: {
               type: 'array',
-              minItems: 1,
+              minItems: 0,
               maxItems: 200,
               additionalItems: true,
               items: [
@@ -201,7 +201,10 @@ export const CustomSchemaValidation = target => {
   let errors = [];
   const ids = [];
   target.stages.forEach(stage => {
-    let counter = stage.steps[0].line;
+    let counter = 0;
+    if (stage.steps.length > 0) {
+      counter = stage.steps[0].line;
+    }
     stage.steps.forEach((step, i) => {
       if (i > 0) {
         if (counter + 1 === step.line) {

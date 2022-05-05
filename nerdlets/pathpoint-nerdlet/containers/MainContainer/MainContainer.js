@@ -9,28 +9,26 @@ import {
   contentContainerStyle,
   mainColumn
 } from './stylesFuntion';
+import shortid from 'shortid';
 
 // IMPORT CONTAINERS AND COMPONENTS
 import TouchPointContainer from '../TouchPointContainer/TouchPointContainer.js';
 import StepContainer from '../StepContainer/StepContainer.js';
 import Stage from '../../components/Stage/Stage.js';
 import Header from '../../components/Header/Header.js';
-import TooltipStages from '../../components/Tooltip/TooltipStages';
-import TooltipSteps from '../../components/Tooltip/TooltipSteps';
-import TooltipTouchPoints from '../../components/Tooltip/TooltipTouchPoints';
 import Modal from '../../components/Modal';
-import Tooltip from '../../components/Tooltip/Tooltip';
 
 // IMPORT SERVICES
 import DataManager from '../../services/DataManager';
 import ValidationQuery from '../../services/Validations.js';
 import LogoSetupData from '../../services/LogoSetupData';
 import { CreateJiraIssue } from '../../services/JiraConnector';
+import InterfaceEditor from '../../services/InterfaceEditor';
+import InterfaceMigration from '../../services/InterfaceMigration';
 
 // IMPORT STATIC FILES AND IMAGES
 import logoNewRelic from '../../images/logoNewRelic.png';
 import loadin from '../../images/Loading.gif';
-import logo_icon from '../../images/logo_icon.svg';
 import medalIconOn from '../../images/medalIconOn.svg';
 import medalIcon from '../../images/medalIcon.svg';
 import startIcon from '../../images/StartIcon.svg';
@@ -42,6 +40,10 @@ import right_icon from '../../images/right.svg';
 import flame_icon from '../../images/flame_icon.svg';
 import gout_icon from '../../images/gout_icon.svg';
 import star_icon from '../../images/star_icon.svg';
+import iconInformation from '../../images/information.svg';
+import onIcon from '../../images/icon-on.svg';
+import offIcon from '../../images/icon-off.svg';
+import setup_icon from '../../images/setup.svg';
 
 /**
  *Main container component
@@ -56,12 +58,17 @@ export default class MainContainer extends React.Component {
     nerdlet.setConfig({
       header: false
     });
+    this.InterfaceEditor = null;
+    this.InterfaceMigration = null;
     this.state = {
+      accountName: '',
       username: '',
+      guiEditor: true,
       jsonMetaData: {
         description: '',
         note: ''
       },
+      stagesInterface: null,
       currentHistoricSelected: null,
       updating: false,
       queryModalShowing: false,
@@ -72,7 +79,6 @@ export default class MainContainer extends React.Component {
         view: 0,
         historic: []
       },
-      accountName: '',
       credentials: {
         accountId: null,
         ingestLicense: null,
@@ -158,7 +164,10 @@ export default class MainContainer extends React.Component {
       sendingLogsEnableDisable: true,
       configurationOptionSelected: 'download',
       fileName: null,
-      fileNote: null
+      fileNote: null,
+      showMessageInformationStage: false,
+      showMessageInformationStep: false,
+      showMessageInformationTouchpoint: false
     };
   }
 
@@ -281,6 +290,8 @@ export default class MainContainer extends React.Component {
       async () => {
         this.validationQuery = new ValidationQuery(this.state.accountId);
         this.InitLogoSetupData(this.state.accountId);
+        this.InitInterfaceEditor(this.state.accountId);
+        this.InterfaceMigration = new InterfaceMigration(this.state.accountId);
         /* istanbul ignore next */
         setTimeout(() => {
           this.ExecuteUpdateData();
@@ -390,6 +401,25 @@ export default class MainContainer extends React.Component {
     if (logoSetup) {
       this.setState({
         logoSetup
+      });
+    }
+  };
+
+  InitInterfaceEditor = async accountId => {
+    this.InterfaceEditor = new InterfaceEditor(accountId);
+    const stages = await this.InterfaceEditor.GetStagesInterface();
+    let stagesInterface = null;
+    if (stages) {
+      stagesInterface = [];
+      Object.keys(stages).forEach(key => {
+        stagesInterface.push({
+          ...stages[key]
+        });
+      });
+    }
+    if (stagesInterface) {
+      this.setState({
+        stagesInterface
       });
     }
   };
@@ -754,10 +784,14 @@ export default class MainContainer extends React.Component {
     });
   }
 
-  updateTouchpointOnOff = touchpoint => {
+  updateTouchpointOnOff = async touchpoint => {
     if (!this.state.iconCanaryStatus) {
       this.updateTouchpointStageOnOff(touchpoint);
       this.DataManager.UpdateTouchpointOnOff(touchpoint, true);
+      const stagesInterface = await this.UpdateStagesEditor();
+      this.setState({
+        stagesInterface
+      });
     }
   };
 
@@ -1027,14 +1061,17 @@ export default class MainContainer extends React.Component {
     const accountID = stageNameSelected.datos[value].accountID;
     const { testText, goodQuery } = await this.validationQuery.validateQuery(
       type,
-      query,
+      query
+        .replace(/\r?\n|\r/g, ' ')
+        .split('\\')
+        .join('\\\\'),
       accountID
     );
-    let results = '';
-    // if (goodQuery) {
     const data = await this.DataManager.ReadQueryResults(query, accountID);
-    results = data.results;
-    // }
+    const ifUndefined = {
+      error: 'Syntax Error: Unterminated string.'
+    };
+    const results = data.results ? data.results : ifUndefined;
     this.setState({
       testText,
       testingNow: false,
@@ -1042,6 +1079,27 @@ export default class MainContainer extends React.Component {
       goodQuery,
       resultsTestQuery: results
     });
+  };
+
+  EditorValidateQuery = async (type, query, accountID) => {
+    const { testText, goodQuery } = await this.validationQuery.validateQuery(
+      type,
+      query
+        .replace(/\r?\n|\r/g, ' ')
+        .split('\\')
+        .join('\\\\'),
+      accountID
+    );
+    const ifUndefined = {
+      error: 'Syntax Error: Unterminated string.'
+    };
+    const data = await this.DataManager.ReadQueryResults(query, accountID);
+    const results = data.results ? data.results : ifUndefined;
+    return {
+      testText,
+      goodQuery,
+      testQueryValue: results
+    };
   };
 
   handleChangeTexarea = query => {
@@ -1091,7 +1149,12 @@ export default class MainContainer extends React.Component {
       this.state.stageNameSelected.touchpoint,
       this.state.stageNameSelected.datos
     );
-    this.setState({ updating: false, updateBackgroundScript: true });
+    const stagesInterface = await this.UpdateStagesEditor();
+    this.setState({
+      updating: false,
+      updateBackgroundScript: true,
+      stagesInterface
+    });
     this._onClose();
   };
 
@@ -1119,7 +1182,8 @@ export default class MainContainer extends React.Component {
       this.state.stageNameSelected.touchpoint,
       datos
     );
-    this.setState({ updateBackgroundScript: true });
+    const stagesInterface = await this.UpdateStagesEditor();
+    this.setState({ updateBackgroundScript: true, stagesInterface });
     this._onClose();
   };
 
@@ -1386,10 +1450,13 @@ export default class MainContainer extends React.Component {
         }
       });
     }
+    const totalContainers = this.DataManager.SetTotalContainers();
     this.setState({
+      stagesInterface: null,
       stages: data.stages,
       kpis: data.kpis ?? [],
-      updateBackgroundScript: true
+      updateBackgroundScript: true,
+      totalContainers
     });
   };
 
@@ -1583,6 +1650,242 @@ export default class MainContainer extends React.Component {
     });
   };
 
+  ToggleGuiEditor = () => {
+    this.setState(state => {
+      const guiEditor = !state.guiEditor;
+      return {
+        guiEditor
+      };
+    });
+  };
+
+  CreateStagesEditor = async (saveUpdate = true) => {
+    let data = this.DataManager.GetCurrentConfigurationJSON(true);
+    data = JSON.parse(data);
+    const stagesInterface = [];
+    data.stages.forEach((item, i) => {
+      const id = shortid.generate();
+      const steps = [];
+      const touchpoints = [];
+      item.steps.forEach((step, i) => {
+        const stepId = shortid.generate();
+        const sub_steps = [];
+        step.values.forEach(value => {
+          sub_steps.push({
+            value: value.title
+          });
+        });
+        steps.push({
+          index: i + 1,
+          id: stepId,
+          sub_steps,
+          visible: true
+        });
+      });
+      item.touchpoints.forEach(tp => {
+        const tpId = shortid.generate();
+        const subs = [];
+        tp.related_steps.split(',').forEach(related => {
+          item.steps.forEach(st => {
+            st.values.forEach(value => {
+              if (related === value.id) {
+                subs.push(value.title);
+              }
+            });
+          });
+        });
+        touchpoints.push({
+          id: tpId,
+          title: tp.title,
+          status_on_off: tp.status_on_off,
+          subs,
+          dashboard_url: tp.dashboard_url[0],
+          queryData: {
+            ...tp.queries[0]
+          },
+          visible: true
+        });
+      });
+      this.AddingTouchpointTuneAttributes(touchpoints);
+      stagesInterface.push({
+        id,
+        title: item.title,
+        active_dotted: item.active_dotted,
+        arrowMode: item.arrowMode,
+        order: i + 1,
+        index: i + 1,
+        type: item.type,
+        touchpoints,
+        steps,
+        visible: true
+      });
+    });
+    if (saveUpdate) {
+      await this.InterfaceEditor.SetStagesInterface(stagesInterface);
+    }
+    return stagesInterface;
+  };
+
+  UpdateStagesEditor = async () => {
+    const { stagesInterface } = this.state;
+    if (stagesInterface) {
+      const currentStagesInterface = await this.CreateStagesEditor(false);
+      const stagesInterfaceUpdated = this.InterfaceEditor.UpdateStagesInterface(
+        stagesInterface,
+        currentStagesInterface
+      );
+      await this.InterfaceEditor.SetStagesInterface(stagesInterfaceUpdated);
+      return stagesInterfaceUpdated;
+    }
+    return stagesInterface;
+  };
+
+  AddingTouchpointTuneAttributes(touchpoints) {
+    touchpoints.forEach(tp => {
+      tp.queryData = this.InsertTuneAttributes(tp.queryData);
+    });
+  }
+
+  InsertTuneAttributes(queryData) {
+    let qData = {
+      ...queryData
+    };
+    if (!Reflect.has(queryData, 'min_count')) {
+      qData = {
+        ...qData,
+        min_count: 0
+      };
+    }
+    if (!Reflect.has(queryData, 'max_count')) {
+      qData = {
+        ...qData,
+        max_count: 0
+      };
+    }
+    if (!Reflect.has(queryData, 'min_apdex')) {
+      qData = {
+        ...qData,
+        min_apdex: 0
+      };
+    }
+    if (!Reflect.has(queryData, 'max_response_time')) {
+      qData = {
+        ...qData,
+        max_response_time: 0
+      };
+    }
+    if (!Reflect.has(queryData, 'max_error_percentage')) {
+      qData = {
+        ...qData,
+        max_error_percentage: 0
+      };
+    }
+    if (!Reflect.has(queryData, 'min_success_percentage')) {
+      qData = {
+        ...qData,
+        min_success_percentage: 0
+      };
+    }
+    if (!Reflect.has(queryData, 'max_avg_response_time')) {
+      qData = {
+        ...qData,
+        max_avg_response_time: 0
+      };
+    }
+    if (!Reflect.has(queryData, 'max_total_check_time')) {
+      qData = {
+        ...qData,
+        max_total_check_time: 0
+      };
+    }
+    if (!Reflect.has(queryData, 'min_success_percentage')) {
+      qData = {
+        ...qData,
+        min_success_percentage: 0
+      };
+    }
+    if (!Reflect.has(queryData, 'session_count')) {
+      qData = {
+        ...qData,
+        session_count: 0
+      };
+    }
+    if (!Reflect.has(queryData, 'transaction_count')) {
+      qData = {
+        ...qData,
+        transaction_count: 0
+      };
+    }
+    if (!Reflect.has(queryData, 'apdex_value')) {
+      qData = {
+        ...qData,
+        apdex_value: 0
+      };
+    }
+    if (!Reflect.has(queryData, 'response_value')) {
+      qData = {
+        ...qData,
+        response_value: 0
+      };
+    }
+    if (!Reflect.has(queryData, 'error_percentage')) {
+      qData = {
+        ...qData,
+        error_percentage: 0
+      };
+    }
+    if (!Reflect.has(queryData, 'max_request_time')) {
+      qData = {
+        ...qData,
+        max_request_time: 0
+      };
+    }
+    if (!Reflect.has(queryData, 'max_duration')) {
+      qData = {
+        ...qData,
+        max_duration: 0
+      };
+    }
+    if (!Reflect.has(queryData, 'success_percentage')) {
+      qData = {
+        ...qData,
+        success_percentage: 0
+      };
+    }
+    if (!Reflect.has(queryData, 'api_count')) {
+      qData = {
+        ...qData,
+        api_count: 0
+      };
+    }
+    return qData;
+  }
+
+  OpenGUIEditor = async viewModal => {
+    const queryModalShowing = true; // DO NOT Update Data while Modals is Showing
+    let { stagesInterface } = this.state;
+    if (!stagesInterface) {
+      stagesInterface = await this.CreateStagesEditor();
+    } else if (viewModal === 14) {
+      // Update current Touchpoint Values
+      stagesInterface = await this.UpdateStagesEditor();
+    }
+    this.setState({
+      stagesInterface,
+      viewModal,
+      hidden: true,
+      queryModalShowing
+    });
+  };
+
+  showInformation = (title, value) => {
+    if (title === 'stage')
+      this.setState({ showMessageInformationStage: value });
+    if (title === 'step') this.setState({ showMessageInformationStep: value });
+    if (title === 'touchpoint')
+      this.setState({ showMessageInformationTouchpoint: value });
+  };
+
   RestoreJSONFromHistoric = () => {
     const payload = this.state.JSONModal.historic[
       this.state.currentHistoricSelected
@@ -1594,6 +1897,29 @@ export default class MainContainer extends React.Component {
         view: 0,
         historic: []
       }
+    });
+  };
+
+  handleStagesEditorSubmit = async stagesInterface => {
+    this._onClose();
+    this.setState({
+      loading: true
+    });
+    this.setState({ stagesInterface });
+    await this.InterfaceEditor.SetStagesInterface(stagesInterface);
+    let data = this.DataManager.GetCurrentConfigurationJSON();
+    data = JSON.parse(data);
+    const updateData = this.InterfaceMigration.MigrateStagesInterface(
+      stagesInterface,
+      data
+    );
+    this.DataManager.SetConfigurationJSON(JSON.stringify(updateData));
+    const totalContainers = this.DataManager.SetTotalContainers();
+    const event = new Event('SetStagesInterfaceDone', {});
+    document.dispatchEvent(event);
+    this.setState({
+      loading: false,
+      totalContainers
     });
   };
 
@@ -1635,7 +1961,10 @@ export default class MainContainer extends React.Component {
       credentials,
       configurationOptionSelected,
       fileName,
-      fileNote
+      fileNote,
+      showMessageInformationStage,
+      showMessageInformationStep,
+      showMessageInformationTouchpoint
     } = this.state;
     if (this.state.waiting) {
       return (
@@ -1686,6 +2015,8 @@ export default class MainContainer extends React.Component {
               }
               updateDataKpisChecked={this.updateDataKpisChecked}
               credentials={credentials}
+              guiEditor={this.state.guiEditor}
+              HandleChangeLogo={this.HandleChangeLogo}
             />
           </div>
           <div
@@ -1710,7 +2041,7 @@ export default class MainContainer extends React.Component {
                   : 'menuLeft fadeInLeft'
               }
             >
-              <ul className="vertical">
+              <ul style={{ paddingTop: '40px' }} className="vertical">
                 <div className="setup">
                   <div
                     style={{
@@ -1749,6 +2080,17 @@ export default class MainContainer extends React.Component {
                     >
                       Credentials and General Configuration
                     </div>
+                    <div
+                      className="subItem"
+                      onClick={() => this.ToggleGuiEditor()}
+                      style={{ padding: '5px', marginBottom: '30px' }}
+                    >
+                      GUI Editor
+                      <img
+                        style={{ marginLeft: '10px' }}
+                        src={this.state.guiEditor ? onIcon : offIcon}
+                      />
+                    </div>
                   </div>
                 </div>
                 <li onClick={this._handleClickSupport}>
@@ -1758,14 +2100,6 @@ export default class MainContainer extends React.Component {
                     style={{ marginRight: '5px' }}
                   />
                   Support
-                </li>
-                <li onClick={this.HandleChangeLogo}>
-                  <img
-                    src={logo_icon}
-                    height="14"
-                    style={{ marginRight: '5px' }}
-                  />
-                  Logo
                 </li>
               </ul>
               <div className="version">v.{version}</div>
@@ -1999,9 +2333,33 @@ export default class MainContainer extends React.Component {
 
             <div className="title">
               Stages
-              <Tooltip width="900" bottom>
-                <TooltipStages />
-              </Tooltip>
+              {!this.state.guiEditor && (
+                <a
+                  href="https://github.com/newrelic/nr1-pathpoint/tree/main/docs/user_manual/Pathpoint-Stages#stages-guide"
+                  style={{ marginLeft: '10px' }}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <img src={iconInformation} />
+                </a>
+              )}
+              {this.state.guiEditor && (
+                <div
+                  className="containerGearWheel"
+                  onClick={() => this.OpenGUIEditor(12)}
+                  onMouseEnter={() => this.showInformation('stage', true)}
+                  onMouseLeave={() => this.showInformation('stage', false)}
+                >
+                  <img
+                    src={setup_icon}
+                    height="16"
+                    style={{ marginRight: '5px' }}
+                  />
+                  {showMessageInformationStage === true ? (
+                    <div className="panelInformation">Stages Editor</div>
+                  ) : null}
+                </div>
+              )}
             </div>
             <div style={contentStyle(stages.length)}>
               {stages.map(element => (
@@ -2023,9 +2381,33 @@ export default class MainContainer extends React.Component {
             >
               <div className="mainContainerSteps__title">
                 Steps
-                <Tooltip width="800" bottom>
-                  <TooltipSteps />
-                </Tooltip>
+                {!this.state.guiEditor && (
+                  <a
+                    href="https://github.com/newrelic/nr1-pathpoint/tree/main/docs/user_manual/Pathpoint-Steps#steps-guide"
+                    style={{ marginLeft: '10px' }}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <img src={iconInformation} />
+                  </a>
+                )}
+                {this.state.guiEditor && (
+                  <div
+                    className="containerGearWheel"
+                    onClick={() => this.OpenGUIEditor(13)}
+                    onMouseEnter={() => this.showInformation('step', true)}
+                    onMouseLeave={() => this.showInformation('step', false)}
+                  >
+                    <img
+                      src={setup_icon}
+                      height="16"
+                      style={{ marginRight: '5px', marginBottom: '2px' }}
+                    />
+                    {showMessageInformationStep === true ? (
+                      <div className="panelInformation">Steps Editor</div>
+                    ) : null}
+                  </div>
+                )}
               </div>
               {stages.map((element, key) => {
                 return (
@@ -2102,16 +2484,44 @@ export default class MainContainer extends React.Component {
             >
               <div className="mainContainerTouchPoints__title">
                 TouchPoints
-                <Tooltip width="800" top>
-                  <TooltipTouchPoints />
-                </Tooltip>
-                <span className="touchPointCheckbox">
+                {!this.state.guiEditor && (
+                  <a
+                    href="https://github.com/newrelic/nr1-pathpoint/tree/main/docs/user_manual/Pathpoint-Touchpoints#touchpoint-guide"
+                    style={{ marginLeft: '10px' }}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <img src={iconInformation} />
+                  </a>
+                )}
+                {this.state.guiEditor && (
+                  <div
+                    className="containerGearWheel"
+                    onClick={() => this.OpenGUIEditor(14)}
+                    onMouseEnter={() =>
+                      this.showInformation('touchpoint', true)
+                    }
+                    onMouseLeave={() =>
+                      this.showInformation('touchpoint', false)
+                    }
+                  >
+                    <img
+                      src={setup_icon}
+                      height="16"
+                      style={{ marginRight: '5px', marginBottom: '2px' }}
+                    />
+                    {showMessageInformationTouchpoint === true ? (
+                      <div className="panelInformation">Touchpoints Editor</div>
+                    ) : null}
+                  </div>
+                )}
+                <div className="touchPointCheckbox">
                   <input
                     type="Checkbox"
                     onChange={event => this.changeTouchpointsView(event)}
                   />
-                  <label className="checkboxLabel">view all</label>
-                </span>
+                  <div className="labelViewAll">View All</div>
+                </div>
               </div>
               {stages.map((element, key) => {
                 return (
@@ -2215,6 +2625,9 @@ export default class MainContainer extends React.Component {
             currentHistoricSelected={this.state.currentHistoricSelected}
             RestoreJSONFromHistoric={this.RestoreJSONFromHistoric}
             username={this.state.username}
+            handleStagesEditorSubmit={this.handleStagesEditorSubmit}
+            stagesInterface={this.state.stagesInterface}
+            EditorValidateQuery={this.EditorValidateQuery}
           />
           <div id="cover-spin" style={{ display: loading ? '' : 'none' }} />
         </div>

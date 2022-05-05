@@ -189,7 +189,9 @@ function BodyQueryFormModal(props) {
               padding: '15px'
             }}
           >
-            <strong>{objToString(resultsTestQuery)}</strong>
+            <strong>
+              {resultsTestQuery ? objToString(resultsTestQuery) : ''}
+            </strong>
           </div>
           <div
             style={{

@@ -34,6 +34,27 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
             src={Object {}}
           />
         </div>
+        <div
+          onClick={[Function]}
+          style={
+            Object {
+              "cursor": "pointer",
+              "marginLeft": "5px",
+              "marginTop": "20px",
+            }
+          }
+        >
+          <img
+            height="16"
+            src={Object {}}
+            style={
+              Object {
+                "marginBottom": "2px",
+                "marginRight": "5px",
+              }
+            }
+          />
+        </div>
       </div>
       <span
         className="budgetLoss"
@@ -244,6 +265,11 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
     >
       <ul
         className="vertical"
+        style={
+          Object {
+            "paddingTop": "40px",
+          }
+        }
       >
         <div
           className="setup"
@@ -299,6 +325,26 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
             >
               Credentials and General Configuration
             </div>
+            <div
+              className="subItem"
+              onClick={[Function]}
+              style={
+                Object {
+                  "marginBottom": "30px",
+                  "padding": "5px",
+                }
+              }
+            >
+              GUI Editor
+              <img
+                src={Object {}}
+                style={
+                  Object {
+                    "marginLeft": "10px",
+                  }
+                }
+              />
+            </div>
           </div>
         </div>
         <li
@@ -314,20 +360,6 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
             }
           />
           Support
-        </li>
-        <li
-          onClick={[Function]}
-        >
-          <img
-            height="14"
-            src={Object {}}
-            style={
-              Object {
-                "marginRight": "5px",
-              }
-            }
-          />
-          Logo
         </li>
       </ul>
       <div
@@ -682,17 +714,21 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
       className="title"
     >
       Stages
-      <div>
-        <div
-          className="tooltip-icon"
-        >
-          <img
-            height="10px"
-            onMouseEnter={[Function]}
-            onMouseLeave={[Function]}
-            src={Object {}}
-          />
-        </div>
+      <div
+        className="containerGearWheel"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        <img
+          height="16"
+          src={Object {}}
+          style={
+            Object {
+              "marginRight": "5px",
+            }
+          }
+        />
       </div>
     </div>
     <div
@@ -716,17 +752,22 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
         className="mainContainerSteps__title"
       >
         Steps
-        <div>
-          <div
-            className="tooltip-icon"
-          >
-            <img
-              height="10px"
-              onMouseEnter={[Function]}
-              onMouseLeave={[Function]}
-              src={Object {}}
-            />
-          </div>
+        <div
+          className="containerGearWheel"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          <img
+            height="16"
+            src={Object {}}
+            style={
+              Object {
+                "marginBottom": "2px",
+                "marginRight": "5px",
+              }
+            }
+          />
         </div>
       </div>
     </div>
@@ -751,31 +792,36 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
         className="mainContainerTouchPoints__title"
       >
         TouchPoints
-        <div>
-          <div
-            className="tooltip-icon"
-          >
-            <img
-              height="10px"
-              onMouseEnter={[Function]}
-              onMouseLeave={[Function]}
-              src={Object {}}
-            />
-          </div>
+        <div
+          className="containerGearWheel"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          <img
+            height="16"
+            src={Object {}}
+            style={
+              Object {
+                "marginBottom": "2px",
+                "marginRight": "5px",
+              }
+            }
+          />
         </div>
-        <span
+        <div
           className="touchPointCheckbox"
         >
           <input
             onChange={[Function]}
             type="Checkbox"
           />
-          <label
-            className="checkboxLabel"
+          <div
+            className="labelViewAll"
           >
-            view all
-          </label>
-        </span>
+            View All
+          </div>
+        </div>
       </div>
     </div>
     <div
@@ -832,6 +878,27 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
             src={Object {}}
           />
         </div>
+        <div
+          onClick={[Function]}
+          style={
+            Object {
+              "cursor": "pointer",
+              "marginLeft": "5px",
+              "marginTop": "20px",
+            }
+          }
+        >
+          <img
+            height="16"
+            src={Object {}}
+            style={
+              Object {
+                "marginBottom": "2px",
+                "marginRight": "5px",
+              }
+            }
+          />
+        </div>
       </div>
       <span
         className="budgetLoss"
@@ -1042,6 +1109,11 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
     >
       <ul
         className="vertical"
+        style={
+          Object {
+            "paddingTop": "40px",
+          }
+        }
       >
         <div
           className="setup"
@@ -1097,6 +1169,26 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
             >
               Credentials and General Configuration
             </div>
+            <div
+              className="subItem"
+              onClick={[Function]}
+              style={
+                Object {
+                  "marginBottom": "30px",
+                  "padding": "5px",
+                }
+              }
+            >
+              GUI Editor
+              <img
+                src={Object {}}
+                style={
+                  Object {
+                    "marginLeft": "10px",
+                  }
+                }
+              />
+            </div>
           </div>
         </div>
         <li
@@ -1112,20 +1204,6 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
             }
           />
           Support
-        </li>
-        <li
-          onClick={[Function]}
-        >
-          <img
-            height="14"
-            src={Object {}}
-            style={
-              Object {
-                "marginRight": "5px",
-              }
-            }
-          />
-          Logo
         </li>
       </ul>
       <div
@@ -1480,17 +1558,21 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
       className="title"
     >
       Stages
-      <div>
-        <div
-          className="tooltip-icon"
-        >
-          <img
-            height="10px"
-            onMouseEnter={[Function]}
-            onMouseLeave={[Function]}
-            src={Object {}}
-          />
-        </div>
+      <div
+        className="containerGearWheel"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        <img
+          height="16"
+          src={Object {}}
+          style={
+            Object {
+              "marginRight": "5px",
+            }
+          }
+        />
       </div>
     </div>
     <div
@@ -1514,17 +1596,22 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
         className="mainContainerSteps__title"
       >
         Steps
-        <div>
-          <div
-            className="tooltip-icon"
-          >
-            <img
-              height="10px"
-              onMouseEnter={[Function]}
-              onMouseLeave={[Function]}
-              src={Object {}}
-            />
-          </div>
+        <div
+          className="containerGearWheel"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          <img
+            height="16"
+            src={Object {}}
+            style={
+              Object {
+                "marginBottom": "2px",
+                "marginRight": "5px",
+              }
+            }
+          />
         </div>
       </div>
     </div>
@@ -1549,31 +1636,36 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
         className="mainContainerTouchPoints__title"
       >
         TouchPoints
-        <div>
-          <div
-            className="tooltip-icon"
-          >
-            <img
-              height="10px"
-              onMouseEnter={[Function]}
-              onMouseLeave={[Function]}
-              src={Object {}}
-            />
-          </div>
+        <div
+          className="containerGearWheel"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          <img
+            height="16"
+            src={Object {}}
+            style={
+              Object {
+                "marginBottom": "2px",
+                "marginRight": "5px",
+              }
+            }
+          />
         </div>
-        <span
+        <div
           className="touchPointCheckbox"
         >
           <input
             onChange={[Function]}
             type="Checkbox"
           />
-          <label
-            className="checkboxLabel"
+          <div
+            className="labelViewAll"
           >
-            view all
-          </label>
-        </span>
+            View All
+          </div>
+        </div>
       </div>
     </div>
     <div
@@ -1630,6 +1722,27 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
             src={Object {}}
           />
         </div>
+        <div
+          onClick={[Function]}
+          style={
+            Object {
+              "cursor": "pointer",
+              "marginLeft": "5px",
+              "marginTop": "20px",
+            }
+          }
+        >
+          <img
+            height="16"
+            src={Object {}}
+            style={
+              Object {
+                "marginBottom": "2px",
+                "marginRight": "5px",
+              }
+            }
+          />
+        </div>
       </div>
       <span
         className="budgetLoss"
@@ -1840,6 +1953,11 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
     >
       <ul
         className="vertical"
+        style={
+          Object {
+            "paddingTop": "40px",
+          }
+        }
       >
         <div
           className="setup"
@@ -1895,6 +2013,26 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
             >
               Credentials and General Configuration
             </div>
+            <div
+              className="subItem"
+              onClick={[Function]}
+              style={
+                Object {
+                  "marginBottom": "30px",
+                  "padding": "5px",
+                }
+              }
+            >
+              GUI Editor
+              <img
+                src={Object {}}
+                style={
+                  Object {
+                    "marginLeft": "10px",
+                  }
+                }
+              />
+            </div>
           </div>
         </div>
         <li
@@ -1910,20 +2048,6 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
             }
           />
           Support
-        </li>
-        <li
-          onClick={[Function]}
-        >
-          <img
-            height="14"
-            src={Object {}}
-            style={
-              Object {
-                "marginRight": "5px",
-              }
-            }
-          />
-          Logo
         </li>
       </ul>
       <div
@@ -2278,17 +2402,21 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
       className="title"
     >
       Stages
-      <div>
-        <div
-          className="tooltip-icon"
-        >
-          <img
-            height="10px"
-            onMouseEnter={[Function]}
-            onMouseLeave={[Function]}
-            src={Object {}}
-          />
-        </div>
+      <div
+        className="containerGearWheel"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        <img
+          height="16"
+          src={Object {}}
+          style={
+            Object {
+              "marginRight": "5px",
+            }
+          }
+        />
       </div>
     </div>
     <div
@@ -2312,17 +2440,22 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
         className="mainContainerSteps__title"
       >
         Steps
-        <div>
-          <div
-            className="tooltip-icon"
-          >
-            <img
-              height="10px"
-              onMouseEnter={[Function]}
-              onMouseLeave={[Function]}
-              src={Object {}}
-            />
-          </div>
+        <div
+          className="containerGearWheel"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          <img
+            height="16"
+            src={Object {}}
+            style={
+              Object {
+                "marginBottom": "2px",
+                "marginRight": "5px",
+              }
+            }
+          />
         </div>
       </div>
     </div>
@@ -2347,31 +2480,36 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
         className="mainContainerTouchPoints__title"
       >
         TouchPoints
-        <div>
-          <div
-            className="tooltip-icon"
-          >
-            <img
-              height="10px"
-              onMouseEnter={[Function]}
-              onMouseLeave={[Function]}
-              src={Object {}}
-            />
-          </div>
+        <div
+          className="containerGearWheel"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          <img
+            height="16"
+            src={Object {}}
+            style={
+              Object {
+                "marginBottom": "2px",
+                "marginRight": "5px",
+              }
+            }
+          />
         </div>
-        <span
+        <div
           className="touchPointCheckbox"
         >
           <input
             onChange={[Function]}
             type="Checkbox"
           />
-          <label
-            className="checkboxLabel"
+          <div
+            className="labelViewAll"
           >
-            view all
-          </label>
-        </span>
+            View All
+          </div>
+        </div>
       </div>
     </div>
     <div
@@ -2472,6 +2610,27 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
         >
           <img
             src={Object {}}
+          />
+        </div>
+        <div
+          onClick={[Function]}
+          style={
+            Object {
+              "cursor": "pointer",
+              "marginLeft": "5px",
+              "marginTop": "20px",
+            }
+          }
+        >
+          <img
+            height="16"
+            src={Object {}}
+            style={
+              Object {
+                "marginBottom": "2px",
+                "marginRight": "5px",
+              }
+            }
           />
         </div>
       </div>
@@ -2684,6 +2843,11 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
     >
       <ul
         className="vertical"
+        style={
+          Object {
+            "paddingTop": "40px",
+          }
+        }
       >
         <div
           className="setup"
@@ -2739,6 +2903,26 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
             >
               Credentials and General Configuration
             </div>
+            <div
+              className="subItem"
+              onClick={[Function]}
+              style={
+                Object {
+                  "marginBottom": "30px",
+                  "padding": "5px",
+                }
+              }
+            >
+              GUI Editor
+              <img
+                src={Object {}}
+                style={
+                  Object {
+                    "marginLeft": "10px",
+                  }
+                }
+              />
+            </div>
           </div>
         </div>
         <li
@@ -2754,20 +2938,6 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
             }
           />
           Support
-        </li>
-        <li
-          onClick={[Function]}
-        >
-          <img
-            height="14"
-            src={Object {}}
-            style={
-              Object {
-                "marginRight": "5px",
-              }
-            }
-          />
-          Logo
         </li>
       </ul>
       <div
@@ -3122,17 +3292,21 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
       className="title"
     >
       Stages
-      <div>
-        <div
-          className="tooltip-icon"
-        >
-          <img
-            height="10px"
-            onMouseEnter={[Function]}
-            onMouseLeave={[Function]}
-            src={Object {}}
-          />
-        </div>
+      <div
+        className="containerGearWheel"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        <img
+          height="16"
+          src={Object {}}
+          style={
+            Object {
+              "marginRight": "5px",
+            }
+          }
+        />
       </div>
     </div>
     <div
@@ -3156,17 +3330,22 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
         className="mainContainerSteps__title"
       >
         Steps
-        <div>
-          <div
-            className="tooltip-icon"
-          >
-            <img
-              height="10px"
-              onMouseEnter={[Function]}
-              onMouseLeave={[Function]}
-              src={Object {}}
-            />
-          </div>
+        <div
+          className="containerGearWheel"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          <img
+            height="16"
+            src={Object {}}
+            style={
+              Object {
+                "marginBottom": "2px",
+                "marginRight": "5px",
+              }
+            }
+          />
         </div>
       </div>
     </div>
@@ -3191,31 +3370,36 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
         className="mainContainerTouchPoints__title"
       >
         TouchPoints
-        <div>
-          <div
-            className="tooltip-icon"
-          >
-            <img
-              height="10px"
-              onMouseEnter={[Function]}
-              onMouseLeave={[Function]}
-              src={Object {}}
-            />
-          </div>
+        <div
+          className="containerGearWheel"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          <img
+            height="16"
+            src={Object {}}
+            style={
+              Object {
+                "marginBottom": "2px",
+                "marginRight": "5px",
+              }
+            }
+          />
         </div>
-        <span
+        <div
           className="touchPointCheckbox"
         >
           <input
             onChange={[Function]}
             type="Checkbox"
           />
-          <label
-            className="checkboxLabel"
+          <div
+            className="labelViewAll"
           >
-            view all
-          </label>
-        </span>
+            View All
+          </div>
+        </div>
       </div>
     </div>
     <div
@@ -3270,6 +3454,27 @@ exports[`<MainContainer/> Values stages 1`] = `
         >
           <img
             src={Object {}}
+          />
+        </div>
+        <div
+          onClick={[Function]}
+          style={
+            Object {
+              "cursor": "pointer",
+              "marginLeft": "5px",
+              "marginTop": "20px",
+            }
+          }
+        >
+          <img
+            height="16"
+            src={Object {}}
+            style={
+              Object {
+                "marginBottom": "2px",
+                "marginRight": "5px",
+              }
+            }
           />
         </div>
       </div>
@@ -3482,6 +3687,11 @@ exports[`<MainContainer/> Values stages 1`] = `
     >
       <ul
         className="vertical"
+        style={
+          Object {
+            "paddingTop": "40px",
+          }
+        }
       >
         <div
           className="setup"
@@ -3537,6 +3747,26 @@ exports[`<MainContainer/> Values stages 1`] = `
             >
               Credentials and General Configuration
             </div>
+            <div
+              className="subItem"
+              onClick={[Function]}
+              style={
+                Object {
+                  "marginBottom": "30px",
+                  "padding": "5px",
+                }
+              }
+            >
+              GUI Editor
+              <img
+                src={Object {}}
+                style={
+                  Object {
+                    "marginLeft": "10px",
+                  }
+                }
+              />
+            </div>
           </div>
         </div>
         <li
@@ -3552,20 +3782,6 @@ exports[`<MainContainer/> Values stages 1`] = `
             }
           />
           Support
-        </li>
-        <li
-          onClick={[Function]}
-        >
-          <img
-            height="14"
-            src={Object {}}
-            style={
-              Object {
-                "marginRight": "5px",
-              }
-            }
-          />
-          Logo
         </li>
       </ul>
       <div
@@ -3920,17 +4136,21 @@ exports[`<MainContainer/> Values stages 1`] = `
       className="title"
     >
       Stages
-      <div>
-        <div
-          className="tooltip-icon"
-        >
-          <img
-            height="10px"
-            onMouseEnter={[Function]}
-            onMouseLeave={[Function]}
-            src={Object {}}
-          />
-        </div>
+      <div
+        className="containerGearWheel"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        <img
+          height="16"
+          src={Object {}}
+          style={
+            Object {
+              "marginRight": "5px",
+            }
+          }
+        />
       </div>
     </div>
     <div
@@ -4154,17 +4374,22 @@ exports[`<MainContainer/> Values stages 1`] = `
         className="mainContainerSteps__title"
       >
         Steps
-        <div>
-          <div
-            className="tooltip-icon"
-          >
-            <img
-              height="10px"
-              onMouseEnter={[Function]}
-              onMouseLeave={[Function]}
-              src={Object {}}
-            />
-          </div>
+        <div
+          className="containerGearWheel"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          <img
+            height="16"
+            src={Object {}}
+            style={
+              Object {
+                "marginBottom": "2px",
+                "marginRight": "5px",
+              }
+            }
+          />
         </div>
       </div>
     </div>
@@ -4235,31 +4460,36 @@ exports[`<MainContainer/> Values stages 1`] = `
         className="mainContainerTouchPoints__title"
       >
         TouchPoints
-        <div>
-          <div
-            className="tooltip-icon"
-          >
-            <img
-              height="10px"
-              onMouseEnter={[Function]}
-              onMouseLeave={[Function]}
-              src={Object {}}
-            />
-          </div>
+        <div
+          className="containerGearWheel"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          <img
+            height="16"
+            src={Object {}}
+            style={
+              Object {
+                "marginBottom": "2px",
+                "marginRight": "5px",
+              }
+            }
+          />
         </div>
-        <span
+        <div
           className="touchPointCheckbox"
         >
           <input
             onChange={[Function]}
             type="Checkbox"
           />
-          <label
-            className="checkboxLabel"
+          <div
+            className="labelViewAll"
           >
-            view all
-          </label>
-        </span>
+            View All
+          </div>
+        </div>
       </div>
     </div>
     <div
@@ -4369,6 +4599,27 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
         >
           <img
             src={Object {}}
+          />
+        </div>
+        <div
+          onClick={[Function]}
+          style={
+            Object {
+              "cursor": "pointer",
+              "marginLeft": "5px",
+              "marginTop": "20px",
+            }
+          }
+        >
+          <img
+            height="16"
+            src={Object {}}
+            style={
+              Object {
+                "marginBottom": "2px",
+                "marginRight": "5px",
+              }
+            }
           />
         </div>
       </div>
@@ -4581,6 +4832,11 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
     >
       <ul
         className="vertical"
+        style={
+          Object {
+            "paddingTop": "40px",
+          }
+        }
       >
         <div
           className="setup"
@@ -4636,6 +4892,26 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
             >
               Credentials and General Configuration
             </div>
+            <div
+              className="subItem"
+              onClick={[Function]}
+              style={
+                Object {
+                  "marginBottom": "30px",
+                  "padding": "5px",
+                }
+              }
+            >
+              GUI Editor
+              <img
+                src={Object {}}
+                style={
+                  Object {
+                    "marginLeft": "10px",
+                  }
+                }
+              />
+            </div>
           </div>
         </div>
         <li
@@ -4651,20 +4927,6 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
             }
           />
           Support
-        </li>
-        <li
-          onClick={[Function]}
-        >
-          <img
-            height="14"
-            src={Object {}}
-            style={
-              Object {
-                "marginRight": "5px",
-              }
-            }
-          />
-          Logo
         </li>
       </ul>
       <div
@@ -5019,17 +5281,21 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
       className="title"
     >
       Stages
-      <div>
-        <div
-          className="tooltip-icon"
-        >
-          <img
-            height="10px"
-            onMouseEnter={[Function]}
-            onMouseLeave={[Function]}
-            src={Object {}}
-          />
-        </div>
+      <div
+        className="containerGearWheel"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        <img
+          height="16"
+          src={Object {}}
+          style={
+            Object {
+              "marginRight": "5px",
+            }
+          }
+        />
       </div>
     </div>
     <div
@@ -5053,17 +5319,22 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
         className="mainContainerSteps__title"
       >
         Steps
-        <div>
-          <div
-            className="tooltip-icon"
-          >
-            <img
-              height="10px"
-              onMouseEnter={[Function]}
-              onMouseLeave={[Function]}
-              src={Object {}}
-            />
-          </div>
+        <div
+          className="containerGearWheel"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          <img
+            height="16"
+            src={Object {}}
+            style={
+              Object {
+                "marginBottom": "2px",
+                "marginRight": "5px",
+              }
+            }
+          />
         </div>
       </div>
     </div>
@@ -5088,31 +5359,36 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
         className="mainContainerTouchPoints__title"
       >
         TouchPoints
-        <div>
-          <div
-            className="tooltip-icon"
-          >
-            <img
-              height="10px"
-              onMouseEnter={[Function]}
-              onMouseLeave={[Function]}
-              src={Object {}}
-            />
-          </div>
+        <div
+          className="containerGearWheel"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          <img
+            height="16"
+            src={Object {}}
+            style={
+              Object {
+                "marginBottom": "2px",
+                "marginRight": "5px",
+              }
+            }
+          />
         </div>
-        <span
+        <div
           className="touchPointCheckbox"
         >
           <input
             onChange={[Function]}
             type="Checkbox"
           />
-          <label
-            className="checkboxLabel"
+          <div
+            className="labelViewAll"
           >
-            view all
-          </label>
-        </span>
+            View All
+          </div>
+        </div>
       </div>
     </div>
     <div

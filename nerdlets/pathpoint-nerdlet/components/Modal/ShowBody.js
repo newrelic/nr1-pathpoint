@@ -18,6 +18,9 @@ import { BodyFileErrorFormModal } from './FileErrorFormModal';
 import { BodyJsonConfigurationFormModal } from './JsonConfigurationFormModal';
 import { BodyGeneralConfigurationFormModal } from './GeneralConfigurationFormModal';
 import { BodyBackgroundProcessesFormModal } from './BackgroundProcessesFormModal';
+import { BodyStagesEditor } from './StagesEditor';
+import { BodyStepsEditor } from './StepsEditor';
+import { BodyTouchpointsEditor } from './TouchpointsEditor';
 
 export default class ShowBody extends Component {
   constructor(props) {
@@ -220,6 +223,12 @@ export default class ShowBody extends Component {
         );
       case 11:
         return <BodyBackgroundProcessesFormModal {...this.props} />;
+      case 12:
+        return <BodyStagesEditor {...this.props} />;
+      case 13:
+        return <BodyStepsEditor {...this.props} />;
+      case 14:
+        return <BodyTouchpointsEditor {...this.props} />;
     }
   };
 

@@ -48,5 +48,30 @@
         "stage_index":10,
         "stage_title":"Stage10",
         "states":[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false, false]
+    },
+    {
+        "stage_index":11,
+        "stage_title":"Stage11",
+        "states":[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false, false]
+    },
+    {
+        "stage_index":12,
+        "stage_title":"Stage12",
+        "states":[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false, false]
+    },
+    {
+        "stage_index":13,
+        "stage_title":"Stage13",
+        "states":[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false, false]
+    },
+    {
+        "stage_index":14,
+        "stage_title":"Stage14",
+        "states":[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false, false]
+    },
+    {
+        "stage_index":15,
+        "stage_title":"Stage15",
+        "states":[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false, false]
     }
 ]

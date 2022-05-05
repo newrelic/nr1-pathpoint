@@ -7,6 +7,8 @@ import MainContainer from '../../../containers/MainContainer/MainContainer';
 jest.mock('../../../services/DataManager');
 jest.mock('../../../services/LogoSetupData');
 jest.mock('../../../services/Validations');
+jest.mock('../../../services/InterfaceEditor');
+jest.mock('../../../services/JiraConnector');
 jest.mock(
   'nr1',
   () => {
@@ -32,6 +34,17 @@ jest.mock(
       nerdlet: nerdlet,
       logger,
       UserQuery
+    };
+  },
+  { virtual: true }
+);
+
+jest.mock(
+  'shortid',
+  () => {
+    const generate = jest.fn().mockReturnValue(12);
+    return {
+      generate: generate
     };
   },
   { virtual: true }
@@ -1532,24 +1545,13 @@ describe('<MainContainer/>', () => {
     instance.DataManager = {
       StorageJSONDataInHistoric: jest.fn(),
       SetConfigurationJSON: jest.fn().mockReturnValue({
-        stages,
-        banner_kpis
-      })
+        stages
+      }),
+      SetTotalContainers: jest.fn().mockReturnValue(0)
     };
-    const banner_kpis = [
-      {
-        type: 100,
-        description: 'Total Order Count',
-        prefix: '',
-        suffix: 'Orders',
-        query: 'SELECT count(*) as value FROM Transaction SINCE 1 minute AGO',
-        value: 0
-      }
-    ];
     instance.SetConfigurationJSON(
       {
-        stages,
-        banner_kpis
+        stages
       },
       {
         target: {
