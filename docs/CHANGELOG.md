@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/newrelic/nr1-pathpoint/compare/v1.5.8...v1.6.0) (2022-05-09)
+
+
+### Features
+
+* New GUI editor for stages, steps, and touchpoints ([a28eff9](https://github.com/newrelic/nr1-pathpoint/commit/a28eff9a1dcc06758e0b329c8388e989319d5ffc))
+
 ## [1.5.6](https://github.com/newrelic/nr1-pathpoint/compare/v1.5.5...v1.5.6) (2022-02-25)
 
 
