@@ -279,7 +279,7 @@ describe('view schemas', () => {
     ];
     const result = CustomSchemaValidation({
       stages: stages,
-      pathpointVersion: '1.5.8'
+      pathpointVersion: '1.6.1'
     });
     expect(result).toEqual(false);
   });
