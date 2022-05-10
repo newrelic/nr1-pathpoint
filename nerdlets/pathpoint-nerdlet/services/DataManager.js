@@ -2725,7 +2725,9 @@ export default class DataManager {
                   type: 'WLD',
                   query_start: '',
                   query_body: measure.query,
-                  query_footer: 'SINCE 3 HOURS AGO',
+                  query_footer: Reflect.has(measure, 'measure_time')
+                    ? `SINCE ${measure.measure_time}`
+                    : 'SINCE 3 HOURS AGO',
                   timeout: measure.timeout
                 });
               } else if (measure.type === 'DRP') {
@@ -2736,7 +2738,9 @@ export default class DataManager {
                   type: 'DRP',
                   query_start: '',
                   query_body: measure.query,
-                  query_footer: `SINCE ${this.dropParams.hours} HOURS AGO`,
+                  query_footer: Reflect.has(measure, 'measure_time')
+                    ? `SINCE ${measure.measure_time}`
+                    : `SINCE ${this.dropParams.hours} HOURS AGO`,
                   timeout: measure.timeout
                 });
               } else if (measure.type === 'API') {
