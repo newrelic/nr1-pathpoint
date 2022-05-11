@@ -1,10 +1,6 @@
-   ![cambiar](screenshots/pathpoint_logo.png)           
+   ![cambiar](screenshots/logo.png)           
            
-                   
-
-
 New Relic Pathpoint is an enterprise platform tracker that models system health in relation to actual user-impacting the different business stages, and on this documentation you will learn the different concepts of a Pathpoint,  as well as how to interact with the Pathpoint configuration, like for example how to tweak the different Touchpoints of a Pathpoint, to better visualize the data you are most interested in tracking.
-
 
  # <a id="Index"></a>Main Index ###
  
@@ -20,7 +16,6 @@ New Relic Pathpoint is an enterprise platform tracker that models system health 
    * ## [JSON Configuration File](#JSON_Configuration_File)
 
      
-
         * [Setting up KPI queries](#Setting_up_KPI_queries)
       * [Setting up Stages & Steps](#Setting_up_Stages_Steps)
 
@@ -45,7 +40,7 @@ New Relic Pathpoint is an enterprise platform tracker that models system health 
          * [How to test a Touchpoint](#Test_a_Touchpoint)  
       * [Setting up Touchpoints](#Setting_up_Touchpoints)   
        * [Tune Touchpoint Thresholds](#Tune_Touchpoint_Thresholds)
-       * [How to disable a Touchpoint](#Disable_a_Touchpoint) 
+       * [How to turn off a Touchpoint](#Disable_a_Touchpoint) 
        * [How to run Touchpoint Queries](#How_to_run_touchpoing_queries)
 
    * ## [Configure Logging](#Configure_Logging)
@@ -86,6 +81,7 @@ And the information related to a particular stage, including the errors for each
 On the following graphic, you can see that this particular Pathpoint has five stages in process.
 
 ![Image](screenshots/stagesb.png)
+
 Additionally if the Stage turns blue, like in the example above, this represents congestion on the Stage, and if the color of the Stage is white, it means it is free of congestion.
 
 ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) Please note that under a single Stage you should only count either persons (PRC Touchpoint) or processes (PCC Touchpoint).
@@ -93,8 +89,8 @@ Additionally if the Stage turns blue, like in the example above, this represents
 ![Image](screenshots/stage5.png)
  On the graphic above you can see the symbols for the two types of Stages, which are:  
 
-    A The one for Processes  
-    B And the one for People
+    A The one to count Processes  
+    B And the one to count People
     
 Each Pathpoint Stage is defined, to either count People or Proceses, by the Touchpoints under the Steps they have, so if a Step, under a Stage, has Touchpoints of the PCC (Process count), then the Stage will show the Process count symbol. Likewise, if a Step, under a Stage, has Touchpoints of the PRC (People count) under it, then the Stage will show the People count symbol.
 
@@ -136,7 +132,7 @@ There are three different colors, for a Touchpoint state (on the left of the Tou
 
 ![image](screenshots/alltouchpoints.png)
 
-Please note that at first you will only see the Touchpoints that aren't healthy, and that you can click on "View all", to see all the Touchpoints, under the particular Step, and Stage associated with it.
+Please note that by default you will only see the Touchpoints that aren't healthy in your Pathpoint, and that to see all of the Touchpoints, you can click on "View all". 
 
 On the next example graphic you can see a Touchpoint.
 
@@ -145,13 +141,13 @@ On the next example graphic you can see a Touchpoint.
 ![image](screenshots/TP1.png)
 
 
-In this example the Touchpoint name is "Chat Throughput (PCC)", and the PCC means that this is the type of Touchpoint designed to count processes. 
+In this example the Touchpoint name is "API Count (APC)", and the APC means that this is the type of Touchpoint designed to count processes. 
 
 * Status "On" or "Off": This option allows you to enable or disable a touchpoint for display mode. 
 
 ![image](screenshots/Example_status_on_off_TP_1.png)
 
-To turn Off a Touchpoint (for instance to troubleshoot it), right click on its name, then click on the "On" button. To turn it back "ON: again, right click on the Touchpoint again and click on the "OFF" button.
+To turn Off a Touchpoint (for instance to troubleshoot it): 1) Right click on its name, then 2)lick on the "On" button. To turn it back "ON", right click on the Touchpoint again and click on the "OFF" button.
 
 * Related_steps: Indicates the Step to which a Touchpoint is associated with. 
 
@@ -163,7 +159,7 @@ In this example, the "Pricing API (APP)" Touchpoint is linked to the "Add/Remove
 
 ![image](screenshots/Examples_queries_TP_1.png) 
 
-To see a particular Touchpoint query, right click on the particular Touchpoint you want to work with, and then click on  "Queries"  
+To see a particular Touchpoint query: 1) Right click on the particular Touchpoint you want to work with, and then 2) click on  "Queries".  
 
 ![image](screenshots/touchpoint5.png)
 
@@ -202,7 +198,7 @@ JSON for its acronym (JavaScript Object Notation) is a data structure, whose bas
 
 ![image](screenshots/jsonfile.png)
 
-The graphic above shows you how each Stage can be tied to a few Steps, which in turn can be tied to a single Touchpoint, or to a few Touchpoints.
+The graphic above shows you how each Stage can be tied to a few Steps, which in turn can be linked to a single Touchpoint, or to a few Touchpoints.
 
 ## Uploading a New JSON Config File
 
@@ -221,7 +217,7 @@ Once you are given the JSON configuration file, you can Upload it to your Pathpo
 
 ![image](screenshots/file_location.png)
 
-4 Next, locate the JSOn configuration file you want to use to update your Pathpoint and click on "Open"
+4 Next, locate the JSON configuration file you want to use to update your Pathpoint and click on "Open"
 
 ![image](screenshots/front_pathpoint.png)
 
@@ -235,8 +231,7 @@ Similarly, Pathpoint offers you the possibility of downloading the current JSON 
 
 And these are the steps to download, to your computer, the current JSON configuration file:
 
-1 To begin, once you are on the Pathpoint screen, click on the three lines on the top left part of the window.
-
+1 To begin, once you are on the Pathpoint screen, click on the three lines on the top left part of the window.  
 2 Now, select the option "JSON Configuration".
 
 ![image](screenshots/pathpoint_jason_vx1.png)
@@ -649,11 +644,11 @@ In a Pathpoint, each Step is linked to a particular Stage, and in turn, each Tou
 
 ![image](screenshots/steps2.png)
 
-For instance, on this example, you can see that the Signup Step (under the Browse Stage), is linked to 2 touchpoints:     
-* API Status (APS). 
-* Signup People (PRC).
+For instance, on this example, you can see that the Login Step (under the Browse Stage), is linked to 2 touchpoints:     
+* API Count (APC). 
+* Login Check (SYN).
 
-And now, you will see a few more examples of the relationship of Steps to Touchpoints:
+And now, you will see a few more examples of the relationship of Steps to Touchpoints.
 
 On the next example you can see the relationship of the "Login" Step, to two Touchpoints.
 
@@ -683,7 +678,6 @@ In this Example, the "Add/remove item" Step is related to one Touchpoint; "Prici
 Return to top of [Index](#Index)
 
 
-
 And on the next graphic you can see the relationship of this Touchpoint of the FRT type, to a particular Step, on this example; "Pay calculation".
 
 ![image](screenshots/frt_step.png)
@@ -711,9 +705,9 @@ Return to top of [Index](#Index)
 
 This is a function, of a Pathpoint, that allows you to test the validity or health of a particular Touchpoint.
 
-![image](screenshots/basic_queries.png)
+![image](screenshots/Examples_queries_TP_1.png)
 
-To begin the process of testing a Touchpoint, right click on it, and then select Queries. In this example I right clicked on the "Customer credit API" (which is a PCC type of Touchpoint), and then on "Queries", to test this particular Touchpoint.
+To begin the process of testing a Touchpoint: 1)Right click on it, and then 2)select Queries. In this example I chose the "Login People" (which is a PRC type of Touchpoint), to test this particular Touchpoint.
 
 ![image](screenshots/test_touchpoint.png)
 
@@ -723,11 +717,11 @@ But let's say that you change some part of the given query, for instance to test
 
 ![image](screenshots/touch_test1.png)
 
-Notice how on this example I changed the Query, in front of count(*), I added three 000, and then I clicked on "Test", to test the Touchpoint. Now, you can see the result, on the right; "incorrect validation". So now the query, that was right before, is incorrect now. 
+In the following example I changed the Query, in front of count(*) I added 100, and then ran the test again. Now, you can see the result; "Incorrect validation". So now the query, which was right before, is incorrect now. 
 
 ![image](screenshots/test_pathpoint1.png)
 
-If you chose to change the given Query, test your changes by clicking on "Test", to make sure the Touchpoint is "healthy", if it is, then save them (click on "Save/Update"). Now, if the validation fails, find out why, and fix it, then test it again until you get the "Successfully validated" message.
+If the validation fails, find out why, and fix it, then test it again until you get the "Successfully validated" message. To save your changes click on "Save/Update". 
 
 Please note that if you get an "Incorrect validated" error, when testing a Touchpoint, it might be something as simple as  because you are running the Query on the wrong AccountID.
 
@@ -800,18 +794,18 @@ There are three important values on this Touchpoint;
 * %Success Rate (Min), if the value (under "Configured"), is  for example set at 98, and this value, within the last 5 minutes, is below this number, the status of the Touchpoint will turn red.  
 
 Return to top of [Index](#Index)
-## <a id="Disable_a_Touchpoint"></a>How to disable a Touchpoint ###
+## <a id="Disable_a_Touchpoint"></a>How to Turn off a Touchpoint ###
 
 
-You can manually work/troubleshoot a particular Touchpoint, by disabling it, and later on you can also turn it back on.
+You can manually work/troubleshoot a particular Touchpoint, by turning it off, and later on you can also turn it back on.
 
 ![image](screenshots/touch.png)
 
-To disable a Touchpoint, right click on it. In this example I clicked on the Customer credit API (which is a PCC type of Touchpoint).
+To turn off a Touchpoint, right click on it. In this example I clicked on the Customer credit API (which is a PCC type of Touchpoint).
 
 ![image](screenshots/touch1.png)
 
-Now, on the pop-up box window, click on the "On" symbol, to disable the Touchpoint. Later on you can right click on the same Touchpoint, then on the "Off" symbol, to enable it again.
+Now, on the pop-up box window, click on the "On" symbol, to turn off the Touchpoint. Later on you can right click on the same Touchpoint, then on the "Off" symbol, to enable it again.
 
 Return to top of [Index](#Index)  
 
@@ -821,9 +815,9 @@ Touchpoint queries are written in NRQL, which is New Relic's SQL-like query lang
 
 Using this guide you will learn about Touchpoint Queries (programmed by the JSON file you uploaded to your Pathpoint), which you can also manually change them, as long as you don't change the main query variable that the Touchpoint is looking to get.
 
-![image](screenshots/queries.png)
+![image](screenshots/Examples_queries_TP_1.png)
 
-To begin the process of working with a Touchpoint Query, right click on the particular Touchpoint you want to work with, and then select "Queries", now you can modify them, to get different results from the particular Touchpoint you select to work with.
+To begin the process of working with a Touchpoint Query: 1) Right click on the particular Touchpoint you want to work with, and then 2) select "Queries". Now, you can modify them, to get different results from the particular Touchpoint you select to work with.
 
 ![image](screenshots/prc_query.png)
 
@@ -925,15 +919,11 @@ This is an excellent way to troubleshoot your Pathpoint, because when you activa
 
 ![image](screenshots/steps5.png)
 
-On this Pathpoint, you can see all the different Steps that are active right now, to troubleshoot this Pathpoint, you can turn off all of the Steps, and then enable them one by one, after turning on the Canary filter.
+On this Pathpoint, you can see all the different Steps that are active right now, to troubleshoot this Pathpoint, you can turn off all of these Steps, and then enable them one by one, after turning on the Canary filter.
 
 ![image](screenshots/canary2.png)
 
 To activate it, just click on the Canary Symbol (located on the top right part of the Pathpoint window), which now changes its color to yellowish. On the Pop Up window that opens up, click on "Continue" to activate this filter.
-
-![image](screenshots/steps11.png)
-
-Now, on the next graphic, you can see that the steps that were previously active on the previous graphic, don't show any activity. 
 
 ![image](screenshots/steps12.png)
 
@@ -951,12 +941,9 @@ The Flame Filter Background script will highlight the most problematic “Steps 
 
 To activate it, just click on the Flame Symbol, which now changes its color, to a reddish flame. On the Pop Up window that opens up, click on "Continue" to activate this filter.
 
-![image](screenshots/flame3.png)
+This is very useful in situations where things look okay now, but might have had a pattern of errors or latency in the recent past. To use this special Pathpoint filter you must enable it on the "Credentials and General Configuration" dialog box window.
 
-This is very useful in situations where things look okay now, but might have had a pattern of errors or latency in the recent past. To use this filter, you will need to enable the "Flame filter background script". that is downloadable from the Pathpoint Setup Menu.
-
-
-To use this special Pathpoint filter you must enable it on the "Credentials and General Configuration" dialog box window.
+Now, you will see the steps to enable this filter as well as the "Flame filter background script", if you haven't already enabled them.    
 
 ![image](screenshots/Flame_background.png)
 
@@ -1003,7 +990,7 @@ Finally, to install these Keys, return to the "Credentials and general configura
 
 ![image](screenshots/ingest_license.png)
 
-These are the steps, once you check that the Account ID is the right one, to apply both of these Keys:  
+These are the steps, once you check that the Account ID is the right one (if not change it to the right one), to apply both of these Keys:  
 
 1 Right click on the white space of the corresponding Key you got, if for instance you copied the "Ingest License" Key, right click on the empty cell under its name, and then select Paste to copy the key there. CTRL + V also works. Repeat the previous steps to get the other key you need, for instance the "User API Key", and then right click on the white space under the "User API Key", and then select Paste, to copy it there.  
 2 Finally, click on "Install/Update Job", then on "Save/Update".
@@ -1039,4 +1026,7 @@ You don't need to press Enter, after each change, and the changes you make will 
 
 
 Return to top of [Index](#Index)
+
+
+
 
