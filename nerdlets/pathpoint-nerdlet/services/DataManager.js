@@ -24,7 +24,8 @@ import CredentialConnector from './CredentialConnector';
 
 // DEFINE AND EXPORT CLASS
 export default class DataManager {
-  constructor() {
+  constructor(useEmulator) {
+    this.useEmulator = useEmulator;
     this.timeRange = '5 MINUTES AGO';
     this.NerdStorageVault = new NerdStorageVault();
     this.LogConnector = new LogConnector();
@@ -479,7 +480,10 @@ export default class DataManager {
         .join('\\\\'),
       null
     ]);
+    const currentEmulatorValue = this.useEmulator;
+    this.useEmulator = false;
     await this.NRDBQuery();
+    this.useEmulator = currentEmulatorValue;
     return measure;
   }
 
@@ -695,16 +699,26 @@ export default class DataManager {
 
   async NRDBQuery() {
     try {
-      const startMeasureTime = Date.now();
-      const { data, errors, n } = await this.EvaluateMeasures();
-      const endMeasureTime = Date.now();
-      this.MakeLogingData(startMeasureTime, endMeasureTime, data, errors);
-      if (n === 0) {
-        return 0;
+      let data = null;
+      let errors = null;
+      if (this.useEmulator) {
+        const results = this.EmulatorMeasures();
+        data = results.data;
+      } else {
+        const startMeasureTime = Date.now();
+        const results = await this.EvaluateMeasures();
+        data = results.data;
+        errors = results.errors;
+        const endMeasureTime = Date.now();
+        this.MakeLogingData(startMeasureTime, endMeasureTime, data, errors);
+        if (results.n === 0) {
+          return 0;
+        }
+        if (errors && errors.length > 0) {
+          // console.log('NRDB-Error:', errors);
+        }
       }
-      if (errors && errors.length > 0) {
-        // console.log('NRDB-Error:', errors);
-      }
+      // console.log('DATA', JSON.stringify(data));
       if (data && data.actor) {
         for (const [key, value] of Object.entries(data.actor)) {
           const c = key.split('_');
@@ -1017,6 +1031,136 @@ export default class DataManager {
       }
       return found;
     });
+  }
+
+  EmulatorMeasures() {
+    const data = { actor: null };
+    let n = 0;
+    let measure_result = null;
+    this.graphQlmeasures.forEach(nrql => {
+      const measure = `measure_${n}`;
+      n++;
+      switch (nrql[0].type) {
+        case 'PRC':
+          measure_result = {
+            session: this.EmulateValue(nrql[0].session_count)
+          };
+          break;
+        case 'PCC':
+          measure_result = {
+            count: this.EmulateValue(nrql[0].transaction_count)
+          };
+          break;
+        case 'APP':
+        case 'FRT':
+        case 'API':
+          measure_result = {
+            apdex: {
+              count: 0,
+              score: 0,
+              t: 0
+            },
+            error: this.EmulatePercentage(nrql[0].error_percentage, 10),
+            response: this.EmulateValue(nrql[0].response_value),
+            score: this.EmulateApdex(nrql[0].apdex_value)
+          };
+          break;
+        case 'SYN':
+          measure_result = {
+            success: this.EmulatePercentage(nrql[0].success_percentage, 100),
+            duration: this.EmulateValue(nrql[0].max_duration),
+            request: this.EmulateValue(nrql[0].max_request_time)
+          };
+          break;
+        case 'WLD':
+          measure_result = {
+            statusValue: this.EmulateWLD()
+          };
+          break;
+        case 'DRP':
+          measure_result = {
+            count: this.EmulatePercentage(0, 10) * 10
+          };
+          break;
+        case 'APC':
+          measure_result = {
+            count: this.EmulateValue(nrql[0].api_count)
+          };
+          break;
+        case 'APS':
+          measure_result = {
+            percentage: this.EmulatePercentage(nrql[0].success_percentage, 100)
+          };
+          break;
+        case 100:
+          measure_result = {
+            value: this.EmulateValue(nrql[0].value)
+          };
+          break;
+        case 101:
+          measure_result = [
+            {
+              comparison: 'current',
+              value: this.EmulateValue(nrql[0].value.current)
+            },
+            {
+              comparison: 'previous',
+              value: this.EmulateValue(nrql[0].value.previous)
+            }
+          ];
+          break;
+      }
+      data.actor = {
+        ...data.actor,
+        [measure]: {
+          nrql: {
+            results: nrql[0].type === 101 ? measure_result : [measure_result]
+          }
+        }
+      };
+    });
+
+    return { data };
+  }
+
+  EmulateWLD() {
+    const status = ['OPERATIONAL', 'DEGRADED', 'DISRUPTED', 'UNKNOWN'];
+    let i = 0;
+    const num = Math.floor(Math.random() * 100);
+    if (num < 20) {
+      i = Math.floor(Math.random() * 4);
+    }
+    return i < 4 ? status[i] : status[3];
+  }
+
+  EmulateValue(current) {
+    if (current === 0) {
+      return Math.floor(Math.random() * 10000);
+    }
+    return current + Math.floor(Math.random() * 2000) - 1000;
+  }
+
+  EmulatePercentage(current, acurate) {
+    const num = Math.floor(Math.random() * 100);
+    if (num < acurate) {
+      let newValue = current + Math.floor(Math.random() * 20) - 10;
+      if (newValue < 0) {
+        newValue = 0;
+      }
+      return newValue <= 100 ? newValue : 100;
+    }
+    return current;
+  }
+
+  EmulateApdex(current) {
+    if (current === 0) {
+      return 0.8;
+    }
+    let value = current + (Math.floor(Math.random() * 200) - 100) / 10000;
+    if (value < 0) {
+      value = 0.1;
+    }
+    return value < 1 ? value : 1;
   }
 
   async EvaluateMeasures() {
@@ -2725,9 +2869,7 @@ export default class DataManager {
                   type: 'WLD',
                   query_start: '',
                   query_body: measure.query,
-                  query_footer: Reflect.has(measure, 'measure_time')
-                    ? `SINCE ${measure.measure_time}`
-                    : 'SINCE 3 HOURS AGO',
+                  query_footer: 'SINCE 3 HOURS AGO',
                   timeout: measure.timeout
                 });
               } else if (measure.type === 'DRP') {
@@ -2738,9 +2880,7 @@ export default class DataManager {
                   type: 'DRP',
                   query_start: '',
                   query_body: measure.query,
-                  query_footer: Reflect.has(measure, 'measure_time')
-                    ? `SINCE ${measure.measure_time}`
-                    : `SINCE ${this.dropParams.hours} HOURS AGO`,
+                  query_footer: `SINCE ${this.dropParams.hours} HOURS AGO`,
                   timeout: measure.timeout
                 });
               } else if (measure.type === 'API') {
