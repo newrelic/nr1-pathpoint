@@ -61,6 +61,7 @@ export default class MainContainer extends React.Component {
     this.InterfaceEditor = null;
     this.InterfaceMigration = null;
     this.state = {
+      useEmulator: false,
       accountName: '',
       username: '',
       guiEditor: true,
@@ -171,59 +172,7 @@ export default class MainContainer extends React.Component {
     };
   }
 
-  // =========================================================== EMULATOR
-  /*
-  componentDidMount() {
-    this.BoootstrapApplication();
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.interval);
-    this.emulator.closeConnections();
-  }
-
-  BoootstrapApplication = async () => {
-    this.DataManager = new DataManager();
-    const { accountName } = this.state;
-    const data = await this.DataManager.BootstrapInitialData(accountName);
-    this.setState(
-      {
-        stages: data.stages,
-        colors: data.colors,
-        version: data.version,
-        accountId: data.accountId,
-        kpis: data.kpis,
-        totalContainers: data.totalContainers
-      },
-      async () => {
-        this.emulator = new Emulator(this.state.stages, data.kpis);
-        this.emulator.init();
-        this.setState({
-          initialized: true,
-          stages: this.emulator.getDataState(),
-          waiting: false
-        });
-        setInterval(() => {
-          this.setState({ 
-            stages: this.emulator.getDataState(), 
-            kpis: this.emulator.getKpis() 
-          });
-        }, Setup.time_refresh);
-        this.validationQuery = new ValidationQuery(this.state.accountId);
-        this.InitLogoSetupData(this.state.accountId);
-      }
-    );
-  };
-
-  updateDataNow() {
-    this.setState({ loading: true });
-    setTimeout(() => {
-      this.setState({ loading: false });
-    }, 2000);
-  }
-  */
   // =========================================================== UPDATE DATA API
-
   componentDidMount() {
     this.BoootstrapApplication();
   }
@@ -246,7 +195,8 @@ export default class MainContainer extends React.Component {
   }
 
   BoootstrapApplication = async () => {
-    this.DataManager = new DataManager();
+    const { useEmulator } = this.state;
+    this.DataManager = new DataManager(useEmulator);
     const { accountName } = this.state;
     const data = await this.DataManager.BootstrapInitialData(accountName);
     let credentials = {};
@@ -292,11 +242,9 @@ export default class MainContainer extends React.Component {
         this.InitLogoSetupData(this.state.accountId);
         this.InitInterfaceEditor(this.state.accountId);
         this.InterfaceMigration = new InterfaceMigration(this.state.accountId);
-        /* istanbul ignore next */
         setTimeout(() => {
           this.ExecuteUpdateData();
         }, 500);
-        /* istanbul ignore next */
         setInterval(() => {
           this.ExecuteUpdateData();
         }, Setup.time_refresh);
@@ -357,7 +305,6 @@ export default class MainContainer extends React.Component {
       this.ExecuteUpdateData(true);
     }
   }
-
   // ===========================================================
 
   ToggleHeaderButtons = target => {
