@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/newrelic/nr1-pathpoint/compare/v1.6.0...v1.6.1) (2022-05-20)
+
+
+### Bug Fixes
+
+* Bug when running in emulator mode ([#44](https://github.com/newrelic/nr1-pathpoint/issues/44)) ([8ba187d](https://github.com/newrelic/nr1-pathpoint/commit/8ba187dafa5113f83e0b923f97a4db4544837295))
+
 # [1.6.0](https://github.com/newrelic/nr1-pathpoint/compare/v1.5.8...v1.6.0) (2022-05-09)
 
 
