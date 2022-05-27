@@ -27,7 +27,7 @@ import InterfaceEditor from '../../services/InterfaceEditor';
 import InterfaceMigration from '../../services/InterfaceMigration';
 
 // IMPORT STATIC FILES AND IMAGES
-import logoNewRelic from '../../images/logoNewRelic.png';
+import logoNewRelic from '../../images/logoNewRelic.svg';
 import loadin from '../../images/Loading.gif';
 import medalIconOn from '../../images/medalIconOn.svg';
 import medalIcon from '../../images/medalIcon.svg';
@@ -61,7 +61,7 @@ export default class MainContainer extends React.Component {
     this.InterfaceEditor = null;
     this.InterfaceMigration = null;
     this.state = {
-      useEmulator: false,
+      useEmulator: true,
       accountName: '',
       username: '',
       guiEditor: true,
@@ -2278,7 +2278,7 @@ export default class MainContainer extends React.Component {
               </div>
             </div>
 
-            <div className="title">
+            <div className="mainContainerTouchPoints__title">
               Stages
               {!this.state.guiEditor && (
                 <a
