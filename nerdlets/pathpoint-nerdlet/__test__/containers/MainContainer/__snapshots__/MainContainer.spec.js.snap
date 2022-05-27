@@ -711,7 +711,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
       </div>
     </div>
     <div
-      className="title"
+      className="mainContainerTouchPoints__title"
     >
       Stages
       <div
@@ -1555,7 +1555,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
       </div>
     </div>
     <div
-      className="title"
+      className="mainContainerTouchPoints__title"
     >
       Stages
       <div
@@ -2399,7 +2399,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
       </div>
     </div>
     <div
-      className="title"
+      className="mainContainerTouchPoints__title"
     >
       Stages
       <div
@@ -3289,7 +3289,7 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
       </div>
     </div>
     <div
-      className="title"
+      className="mainContainerTouchPoints__title"
     >
       Stages
       <div
@@ -4133,7 +4133,7 @@ exports[`<MainContainer/> Values stages 1`] = `
       </div>
     </div>
     <div
-      className="title"
+      className="mainContainerTouchPoints__title"
     >
       Stages
       <div
@@ -5278,7 +5278,7 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
       </div>
     </div>
     <div
-      className="title"
+      className="mainContainerTouchPoints__title"
     >
       Stages
       <div
