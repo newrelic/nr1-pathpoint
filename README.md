@@ -13,7 +13,7 @@
 
 ## NEW RELIC STAFF: For a working e-commerce config example compatible with Demotron use [this one](examples/nr-demotron-order-processing.json)
 
-### Pathpoint now has a new GUI editor for stages, steps, and touchpoints!
+### Pathpoint now has a new GUI editor for stages, steps, and touchpoints!  Please provide feedback to jhagan@newrelic.com.
 
 
 ## Other Pathpoint Config Examples:
