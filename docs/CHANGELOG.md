@@ -1,3 +1,10 @@
+## [1.6.2](https://github.com/newrelic/nr1-pathpoint/compare/v1.6.1...v1.6.2) (2022-05-31)
+
+
+### Bug Fixes
+
+* Updated image assets and fonts ([f233053](https://github.com/newrelic/nr1-pathpoint/commit/f233053ab985de3fb4abd396a230a93274bf5a96))
+
 ## [1.6.1](https://github.com/newrelic/nr1-pathpoint/compare/v1.6.0...v1.6.1) (2022-05-20)
 
 
