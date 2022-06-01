@@ -1,3 +1,10 @@
+## [1.6.3](https://github.com/newrelic/nr1-pathpoint/compare/v1.6.2...v1.6.3) (2022-06-01)
+
+
+### Bug Fixes
+
+* Removed emulation flag ([7133ee4](https://github.com/newrelic/nr1-pathpoint/commit/7133ee4e3a1f7c469c267cb147c16842a5700c07))
+
 ## [1.6.2](https://github.com/newrelic/nr1-pathpoint/compare/v1.6.1...v1.6.2) (2022-05-31)
 
 
