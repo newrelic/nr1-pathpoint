@@ -83,7 +83,7 @@ On the following graphic, you can see that this particular Pathpoint has five st
 
 Additionally if the Stage turns blue, like in the example above, this represents congestion on the Stage, and if the color of the Stage is white, it means it is free of congestion.
 
-![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) Please note that under a single Stage you should only count either persons (PRC Touchpoint) or processes (PCC Touchpoint).
+Please note that under a single Stage you should only count either persons (PRC Touchpoint) or processes (PCC Touchpoint).
 
 ![Image](screenshots/stage5.png)
  On the graphic above you can see the symbols for the two types of Stages, which are:  
@@ -119,7 +119,7 @@ ID: Corresponds to the code that identifies the step in its order within the row
 
 Touchpoints are the more granular entities of the PathPoint model. TouchPoints do behave more like a specific browser application or APM (Application Monitor). 
 
-![#c5f015](https://via.placeholder.com/15/c5f015/000000?text=+) Touchpoints do also hold individual Health, Status, Performance, Count and even Business knowledge of a specific data object, environment, app, device, API or service. Additionally every Touchpoint can be tuned and modified to fit a specific journey’s goal.
+Touchpoints do also hold individual Health, Status, Performance, Count and even Business knowledge of a specific data object, environment, app, device, API or service. Additionally every Touchpoint can be tuned and modified to fit a specific journey’s goal.
 
 And every Step of a Pathpoint is connected to one or more Touchpoints and Every Stage Status is based on the culmination of its respective Touchpoints. The Touchpoint is the pulse of each Pathpoint.
 
@@ -172,7 +172,7 @@ These are the different parts of the query box window, of a PRC person count Tou
      6 Measure_time: Determines the time from when you want the query to collect information to perform the measurement.
 
 
-![#1589F0](https://via.placeholder.com/15/1589F0/000000?text=+) In this Readme file you will learn more about the different types of queries, for the different types of Touchpoints.   
+In this Readme file you will learn more about the different types of queries, for the different types of Touchpoints.   
 
 And these are two examples of a typical Touchpoint configuration, as is written on the JSON file:
 
