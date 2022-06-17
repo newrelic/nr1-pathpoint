@@ -15,7 +15,6 @@ code, the source code can be found at [https://github.com/newrelic/nr1-pathpoint
 **[dependencies](#dependencies)**
 
 * [ajv](#ajv)
-* [ansi-regex](#ansi-regex)
 * [axios](#axios)
 * [css-what](#css-what)
 * [jest-environment-jsdom](#jest-environment-jsdom)
@@ -39,7 +38,6 @@ code, the source code can be found at [https://github.com/newrelic/nr1-pathpoint
 * [@newrelic/eslint-plugin-newrelic](#newreliceslint-plugin-newrelic)
 * [@semantic-release/changelog](#semantic-releasechangelog)
 * [@semantic-release/git](#semantic-releasegit)
-* [ansi-regex](#ansi-regex)
 * [babel-eslint](#babel-eslint)
 * [babel-jest](#babel-jest)
 * [babel-plugin-transform-class-properties](#babel-plugin-transform-class-properties)
@@ -92,26 +90,9 @@ SOFTWARE.
 
 ```
 
-### ansi-regex
-
-This product includes source derived from [ansi-regex](https://github.com/chalk/ansi-regex) ([v5.0.1](https://github.com/chalk/ansi-regex/tree/v5.0.1)), distributed under the [MIT License](https://github.com/chalk/ansi-regex/blob/v5.0.1/license):
-
-```
-MIT License
-
-Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-```
-
 ### axios
 
-This product includes source derived from [axios](https://github.com/axios/axios) ([v0.26.0](https://github.com/axios/axios/tree/v0.26.0)), distributed under the [MIT License](https://github.com/axios/axios/blob/v0.26.0/LICENSE):
+This product includes source derived from [axios](https://github.com/axios/axios) ([v0.26.1](https://github.com/axios/axios/tree/v0.26.1)), distributed under the [MIT License](https://github.com/axios/axios/blob/v0.26.1/LICENSE):
 
 ```
 Copyright (c) 2014-present Matt Zabriskie
@@ -157,7 +138,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ### jest-environment-jsdom
 
-This product includes source derived from [jest-environment-jsdom](https://github.com/facebook/jest) ([v27.3.1](https://github.com/facebook/jest/tree/v27.3.1)), distributed under the [MIT License](https://github.com/facebook/jest/blob/v27.3.1/LICENSE):
+This product includes source derived from [jest-environment-jsdom](https://github.com/facebook/jest) ([v27.5.1](https://github.com/facebook/jest/tree/v27.5.1)), distributed under the [MIT License](https://github.com/facebook/jest/blob/v27.5.1/LICENSE):
 
 ```
 MIT License
@@ -186,7 +167,7 @@ SOFTWARE.
 
 ### nanoid
 
-This product includes source derived from [nanoid](https://github.com/ai/nanoid) ([v3.3.1](https://github.com/ai/nanoid/tree/v3.3.1)), distributed under the [MIT License](https://github.com/ai/nanoid/blob/v3.3.1/LICENSE):
+This product includes source derived from [nanoid](https://github.com/ai/nanoid) ([v4.0.0](https://github.com/ai/nanoid/tree/v4.0.0)), distributed under the [MIT License](https://github.com/ai/nanoid/blob/v4.0.0/LICENSE):
 
 ```
 The MIT License (MIT)
@@ -214,7 +195,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ### prop-types
 
-This product includes source derived from [prop-types](https://github.com/facebook/prop-types) ([v15.7.2](https://github.com/facebook/prop-types/tree/v15.7.2)), distributed under the [MIT License](https://github.com/facebook/prop-types/blob/v15.7.2/LICENSE):
+This product includes source derived from [prop-types](https://github.com/facebook/prop-types) ([v15.8.1](https://github.com/facebook/prop-types/tree/v15.8.1)), distributed under the [MIT License](https://github.com/facebook/prop-types/blob/v15.8.1/LICENSE):
 
 ```
 MIT License
@@ -272,7 +253,7 @@ THE SOFTWARE.
 
 ### react-device-detect
 
-This product includes source derived from [react-device-detect](https://github.com/duskload/react-device-detect) ([v2.1.2](https://github.com/duskload/react-device-detect/tree/v2.1.2)), distributed under the [MIT License](https://github.com/duskload/react-device-detect/blob/v2.1.2/LICENSE):
+This product includes source derived from [react-device-detect](https://github.com/duskload/react-device-detect) ([v2.2.2](https://github.com/duskload/react-device-detect/tree/v2.2.2)), distributed under the [MIT License](https://github.com/duskload/react-device-detect/blob/v2.2.2/LICENSE):
 
 ```
 MIT License
@@ -389,7 +370,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 ### @babel/plugin-proposal-class-properties
 
-This product includes source derived from [@babel/plugin-proposal-class-properties](https://github.com/babel/babel) ([v7.16.0](https://github.com/babel/babel/tree/v7.16.0)), distributed under the [MIT License](https://github.com/babel/babel/blob/v7.16.0/LICENSE):
+This product includes source derived from [@babel/plugin-proposal-class-properties](https://github.com/babel/babel) ([v7.17.12](https://github.com/babel/babel/tree/v7.17.12)), distributed under the [MIT License](https://github.com/babel/babel/blob/v7.17.12/LICENSE):
 
 ```
 MIT License
@@ -419,7 +400,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ### @babel/plugin-proposal-export-default-from
 
-This product includes source derived from [@babel/plugin-proposal-export-default-from](https://github.com/babel/babel) ([v7.16.0](https://github.com/babel/babel/tree/v7.16.0)), distributed under the [MIT License](https://github.com/babel/babel/blob/v7.16.0/LICENSE):
+This product includes source derived from [@babel/plugin-proposal-export-default-from](https://github.com/babel/babel) ([v7.17.12](https://github.com/babel/babel/tree/v7.17.12)), distributed under the [MIT License](https://github.com/babel/babel/blob/v7.17.12/LICENSE):
 
 ```
 MIT License
@@ -449,7 +430,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ### @babel/plugin-transform-runtime
 
-This product includes source derived from [@babel/plugin-transform-runtime](https://github.com/babel/babel) ([v7.16.0](https://github.com/babel/babel/tree/v7.16.0)), distributed under the [MIT License](https://github.com/babel/babel/blob/v7.16.0/LICENSE):
+This product includes source derived from [@babel/plugin-transform-runtime](https://github.com/babel/babel) ([v7.18.5](https://github.com/babel/babel/tree/v7.18.5)), distributed under the [MIT License](https://github.com/babel/babel/blob/v7.18.5/LICENSE):
 
 ```
 MIT License
@@ -509,7 +490,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ### @babel/preset-env
 
-This product includes source derived from [@babel/preset-env](https://github.com/babel/babel) ([v7.16.0](https://github.com/babel/babel/tree/v7.16.0)), distributed under the [MIT License](https://github.com/babel/babel/blob/v7.16.0/LICENSE):
+This product includes source derived from [@babel/preset-env](https://github.com/babel/babel) ([v7.18.2](https://github.com/babel/babel/tree/v7.18.2)), distributed under the [MIT License](https://github.com/babel/babel/blob/v7.18.2/LICENSE):
 
 ```
 MIT License
@@ -539,7 +520,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ### @babel/preset-react
 
-This product includes source derived from [@babel/preset-react](https://github.com/babel/babel) ([v7.16.0](https://github.com/babel/babel/tree/v7.16.0)), distributed under the [MIT License](https://github.com/babel/babel/blob/v7.16.0/LICENSE):
+This product includes source derived from [@babel/preset-react](https://github.com/babel/babel) ([v7.17.12](https://github.com/babel/babel/tree/v7.17.12)), distributed under the [MIT License](https://github.com/babel/babel/blob/v7.17.12/LICENSE):
 
 ```
 MIT License
@@ -569,7 +550,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ### @babel/runtime
 
-This product includes source derived from [@babel/runtime](https://github.com/babel/babel) ([v7.16.3](https://github.com/babel/babel/tree/v7.16.3)), distributed under the [MIT License](https://github.com/babel/babel/blob/v7.16.3/LICENSE):
+This product includes source derived from [@babel/runtime](https://github.com/babel/babel) ([v7.18.3](https://github.com/babel/babel/tree/v7.18.3)), distributed under the [MIT License](https://github.com/babel/babel/blob/v7.18.3/LICENSE):
 
 ```
 MIT License
@@ -864,23 +845,6 @@ SOFTWARE.
 
 ```
 
-### ansi-regex
-
-This product includes source derived from [ansi-regex](https://github.com/chalk/ansi-regex) ([v5.0.1](https://github.com/chalk/ansi-regex/tree/v5.0.1)), distributed under the [MIT License](https://github.com/chalk/ansi-regex/blob/v5.0.1/license):
-
-```
-MIT License
-
-Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-```
-
 ### babel-eslint
 
 This product includes source derived from [babel-eslint](https://github.com/babel/babel-eslint) ([v10.1.0](https://github.com/babel/babel-eslint/tree/v10.1.0)), distributed under the [MIT License](https://github.com/babel/babel-eslint/blob/v10.1.0/LICENSE):
@@ -913,7 +877,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ### babel-jest
 
-This product includes source derived from [babel-jest](https://github.com/facebook/jest) ([v27.3.1](https://github.com/facebook/jest/tree/v27.3.1)), distributed under the [MIT License](https://github.com/facebook/jest/blob/v27.3.1/LICENSE):
+This product includes source derived from [babel-jest](https://github.com/facebook/jest) ([v27.5.1](https://github.com/facebook/jest/tree/v27.5.1)), distributed under the [MIT License](https://github.com/facebook/jest/blob/v27.5.1/LICENSE):
 
 ```
 MIT License
@@ -1066,7 +1030,7 @@ SOFTWARE.
 
 ### eslint-plugin-react
 
-This product includes source derived from [eslint-plugin-react](https://github.com/yannickcr/eslint-plugin-react) ([v7.27.0](https://github.com/yannickcr/eslint-plugin-react/tree/v7.27.0)), distributed under the [MIT License](https://github.com/yannickcr/eslint-plugin-react/blob/v7.27.0/LICENSE):
+This product includes source derived from [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) ([v7.30.0](https://github.com/jsx-eslint/eslint-plugin-react/tree/v7.30.0)), distributed under the [MIT License](https://github.com/jsx-eslint/eslint-plugin-react/blob/v7.30.0/LICENSE):
 
 ```
 The MIT License (MIT)
@@ -1198,7 +1162,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 ### nanoid
 
-This product includes source derived from [nanoid](https://github.com/ai/nanoid) ([v3.3.1](https://github.com/ai/nanoid/tree/v3.3.1)), distributed under the [MIT License](https://github.com/ai/nanoid/blob/v3.3.1/LICENSE):
+This product includes source derived from [nanoid](https://github.com/ai/nanoid) ([v4.0.0](https://github.com/ai/nanoid/tree/v4.0.0)), distributed under the [MIT License](https://github.com/ai/nanoid/blob/v4.0.0/LICENSE):
 
 ```
 The MIT License (MIT)
@@ -1270,7 +1234,7 @@ SOFTWARE.
 
 ### react-test-renderer
 
-This product includes source derived from [react-test-renderer](https://github.com/facebook/react) ([v17.0.2](https://github.com/facebook/react/tree/v17.0.2)), distributed under the [MIT License](https://github.com/facebook/react/blob/v17.0.2/LICENSE):
+This product includes source derived from [react-test-renderer](https://github.com/facebook/react) ([v16.14.0](https://github.com/facebook/react/tree/v16.14.0)), distributed under the [MIT License](https://github.com/facebook/react/blob/v16.14.0/LICENSE):
 
 ```
 MIT License
