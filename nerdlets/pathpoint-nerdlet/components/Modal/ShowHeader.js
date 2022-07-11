@@ -21,6 +21,7 @@ import { HeaderBackgroundProcessesFormModal } from './BackgroundProcessesFormMod
 import { HeaderStagesEditor } from './StagesEditor';
 import { HeaderStepsEditor } from './StepsEditor';
 import { HeaderTouchpointsEditor } from './TouchpointsEditor';
+import { HeaderKPIEditor } from './KPIEditor/KPIEditor';
 
 export default function ShowHeader(props) {
   const {
@@ -112,6 +113,8 @@ export default function ShowHeader(props) {
       return <HeaderStepsEditor />;
     case 14:
       return <HeaderTouchpointsEditor />;
+    case 15:
+      return <HeaderKPIEditor />;
   }
 }
 

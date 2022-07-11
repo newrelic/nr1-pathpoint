@@ -44,6 +44,22 @@ describe('<Select/>', () => {
     expect(wrapper.state('selected')).toEqual(1);
   });
 
+  it('Function clickSelected() with disabled', () => {
+    const handleOnChange = jest.fn();
+    const disabled = true;
+    const wrapper = mount(
+      <Select
+        options={[{ label: 'option one' }, { label: 'option two' }]}
+        name=""
+        handleOnChange={handleOnChange}
+        disabled={disabled}
+        width="230px"
+      />
+    );
+    wrapper.instance().clickSelected(1, { value: 1 });
+    expect(wrapper.state('selected')).toEqual(1);
+  });
+
   it('emulate click in the option', () => {
     const wrapper = mount(
       <Select

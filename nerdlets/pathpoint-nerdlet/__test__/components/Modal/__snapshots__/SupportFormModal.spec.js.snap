@@ -215,7 +215,7 @@ exports[`SupportFormModal component Render header with default data 1`] = `
   >
     <img
       height="18"
-      src={Object {}}
+      src="SvgrURL"
     />
      Support
   </div>

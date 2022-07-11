@@ -420,4 +420,56 @@ describe('<QueryFormModal/>', () => {
     );
     expect(bodyRender.length).toEqual(1);
   });
+
+  it('RenderForm view case APC', () => {
+    const bodyRender = mount(
+      <BodyTuneFormModal
+        handleOnChange={jest.fn()}
+        handleSubmitTune={jest.fn()}
+        stageNameSelected={{
+          selectedCase: {
+            value: 0
+          },
+          datos: [
+            {
+              type: 'APC',
+              query:
+                "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='us-east-1'",
+              min_count: 36,
+              api_count: 0,
+              accountID: 2710112
+            }
+          ]
+        }}
+        handleSaveUpdateTune={jest.fn()}
+      />
+    );
+    expect(bodyRender.length).toEqual(1);
+  });
+
+  it('RenderForm view case APS', () => {
+    const bodyRender = mount(
+      <BodyTuneFormModal
+        handleOnChange={jest.fn()}
+        handleSubmitTune={jest.fn()}
+        stageNameSelected={{
+          selectedCase: {
+            value: 0
+          },
+          datos: [
+            {
+              type: 'APS',
+              query:
+                "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='us-east-1'",
+              min_success_percentage: 36,
+              success_percentage: 47,
+              accountID: 2710112
+            }
+          ]
+        }}
+        handleSaveUpdateTune={jest.fn()}
+      />
+    );
+    expect(bodyRender.length).toEqual(1);
+  });
 });

@@ -1,9 +1,11 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import {
   BodyQueryFormModal,
   HeaderQueryFormModal
 } from '../../../components/Modal/QueryFormModal';
+
+jest.mock('../../../components/Editor/Editor');
 
 const accountIDs = [
   {
@@ -276,7 +278,7 @@ describe('<QueryFormModal/>', () => {
 
   it('Simulate onChange textArea', () => {
     const handleChangeTexarea = jest.fn();
-    const bodyQueryForm = mount(
+    const bodyQueryForm = shallow(
       <BodyQueryFormModal
         querySample="simple query"
         stageNameSelected={{
@@ -302,8 +304,8 @@ describe('<QueryFormModal/>', () => {
         accountIDs={accountIDs}
       />
     );
-    const textArea = bodyQueryForm.find('textarea');
     const event = { target: { value: 'sometext' } };
+    const textArea = bodyQueryForm.find('#EditorChange');
     textArea.simulate('change', event);
     expect(handleChangeTexarea).toHaveBeenCalledTimes(1);
   });

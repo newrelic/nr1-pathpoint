@@ -459,9 +459,16 @@ describe('<BodyStagesEditor/>', () => {
         title: 'Login User',
         order: 1,
         type: 'PCC',
-        visible: true
+        visible: true,
+        arrowMode: undefined
       },
-      stage_12: { order: 2, title: 'New Stage', type: 'People', visible: true }
+      stage_12: {
+        order: 2,
+        title: 'New Stage',
+        type: 'People',
+        visible: true,
+        arrowMode: 'FLOW'
+      }
     });
   });
 

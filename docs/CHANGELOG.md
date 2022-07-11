@@ -1,10 +1,3 @@
-# [1.7.0](https://github.com/newrelic/nr1-pathpoint/compare/v1.6.3...v1.7.0) (2022-06-17)
-
-
-### Features
-
-* Steps document Update ([#48](https://github.com/newrelic/nr1-pathpoint/issues/48)) ([7b82fb2](https://github.com/newrelic/nr1-pathpoint/commit/7b82fb2138de5a831e1740e0c0ffb5be5fd5228b))
-
 ## [1.6.3](https://github.com/newrelic/nr1-pathpoint/compare/v1.6.2...v1.6.3) (2022-06-01)
 
 

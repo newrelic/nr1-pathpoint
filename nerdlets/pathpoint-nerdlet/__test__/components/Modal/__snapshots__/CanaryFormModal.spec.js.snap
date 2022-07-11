@@ -82,7 +82,7 @@ exports[`CanaryFormModal component Render header with default data 1`] = `
     className="titleModal"
   >
     <img
-      src={Object {}}
+      src="SvgrURL"
       width="18"
     />
      Canary

@@ -85,7 +85,7 @@ exports[`FlameFormModal component Render header with default data 1`] = `
   >
     <img
       height="15"
-      src={Object {}}
+      src="SvgrURL"
       width="15"
     />
      Flame

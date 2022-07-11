@@ -21,6 +21,7 @@ import { BodyBackgroundProcessesFormModal } from './BackgroundProcessesFormModal
 import { BodyStagesEditor } from './StagesEditor';
 import { BodyStepsEditor } from './StepsEditor';
 import { BodyTouchpointsEditor } from './TouchpointsEditor';
+import { BodyKPIEditor } from './KPIEditor/KPIEditor';
 
 export default class ShowBody extends Component {
   constructor(props) {
@@ -229,6 +230,8 @@ export default class ShowBody extends Component {
         return <BodyStepsEditor {...this.props} />;
       case 14:
         return <BodyTouchpointsEditor {...this.props} />;
+      case 15:
+        return <BodyKPIEditor {...this.props} />;
     }
   };
 

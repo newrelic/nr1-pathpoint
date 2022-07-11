@@ -156,7 +156,7 @@ export default class MainContainer extends React.Component {
       modifiedQuery: false,
       timeRangeKpi: {
         index: 0,
-        range: '24 HOURS AGO'
+        range: 'TODAY'
       },
       kpis: [],
       accountIDs: [],
@@ -178,14 +178,12 @@ export default class MainContainer extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // console.log('Execute  this...');
     if (
       prevState.updating &&
       !this.state.updating &&
       this.state.pending &&
       this.state.loading
     ) {
-      // console.log('Order to Execute Update Data');
       this.ExecuteUpdateData(true);
     }
   }
@@ -254,7 +252,6 @@ export default class MainContainer extends React.Component {
 
   ExecuteUpdateData = changeLoading => {
     const { updating, queryModalShowing } = this.state;
-    // console.log('updating:', updating, 'QueryModal:', queryModalShowing);
     if (!updating && !queryModalShowing) {
       this.setState(
         {
@@ -297,7 +294,6 @@ export default class MainContainer extends React.Component {
     });
     const { updating } = this.state;
     if (updating) {
-      // console.log('Current Updating...');
       setTimeout(() => {
         this.updateDataNow();
       }, 1000);
@@ -1295,6 +1291,11 @@ export default class MainContainer extends React.Component {
     this.openModalParent('null', 10);
   };
 
+  HandleOpenKPIEditor = () => {
+    this._onCloseBackdrop();
+    this.openModalParent('null', 15);
+  };
+
   _handleContextMenuGout = event => {
     if (event.button === 2) {
       const values = this.DataManager.GetGoutParameters();
@@ -1870,6 +1871,32 @@ export default class MainContainer extends React.Component {
     });
   };
 
+  handleKPIEditorUpdate = kpisUpdated => {
+    this._onClose();
+    this.setState({
+      loading: true
+    });
+    let data = this.DataManager.GetCurrentConfigurationJSON();
+    data = JSON.parse(data);
+    const updateData = this.InterfaceMigration.MigrateKpisInterface(
+      kpisUpdated,
+      data
+    );
+    const newData = this.DataManager.SetConfigurationJSON(
+      JSON.stringify(updateData)
+    );
+    const event = new Event('SetStagesInterfaceDone', {});
+    document.dispatchEvent(event);
+    this.setState({
+      kpis: newData.kpis
+    });
+    setTimeout(() => {
+      this.setState({
+        loading: false
+      });
+    }, 2000);
+  };
+
   render() {
     const {
       stages,
@@ -1964,6 +1991,7 @@ export default class MainContainer extends React.Component {
               credentials={credentials}
               guiEditor={this.state.guiEditor}
               HandleChangeLogo={this.HandleChangeLogo}
+              HandleOpenKPIEditor={this.HandleOpenKPIEditor}
             />
           </div>
           <div
@@ -2545,6 +2573,9 @@ export default class MainContainer extends React.Component {
             GetCurrentHistoricErrorScript={this.GetCurrentHistoricErrorScript}
             modifiedQuery={modifiedQuery}
             accountIDs={accountIDs}
+            accountId={
+              credentials.accountId ? credentials.accountId : accountId
+            }
             HandleCredentialsFormChange={this.HandleCredentialsFormChange}
             credentialsData={this.state.credentials}
             disableGeneralConfigurationSubmit={
@@ -2575,6 +2606,9 @@ export default class MainContainer extends React.Component {
             handleStagesEditorSubmit={this.handleStagesEditorSubmit}
             stagesInterface={this.state.stagesInterface}
             EditorValidateQuery={this.EditorValidateQuery}
+            kpis={this.state.kpis}
+            timeRangeKpi={timeRangeKpi}
+            handleKPIEditorUpdate={this.handleKPIEditorUpdate}
           />
           <div id="cover-spin" style={{ display: loading ? '' : 'none' }} />
         </div>

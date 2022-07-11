@@ -5,6 +5,8 @@ import {
   HeaderQueryFormModal
 } from '../../../components/Modal/QueryFormModal';
 
+jest.mock('../../../components/Editor/Editor');
+
 const accountIDs = [
   {
     name: 'WigiBoards',
@@ -15,29 +17,25 @@ describe('QueryFormModal component', () => {
   test('Render body with default data', () => {
     const body = create(
       <BodyQueryFormModal
-        querySample="simple query"
         stageNameSelected={{
           selectedCase: 0,
           datos: [
             {
-              label: 'Full Open Query',
-              query_body: 'SELECT FILTER(count(*) FROM Log',
-              query_footer: 'SINCE 5 MINUTES AGO',
-              query_start: '',
-              type: 20,
-              value: 0
+              accountID: 2710112,
+              timeout: 10,
+              query_body: 'SELECT * FROM ApiCall',
+              query_footer: 'SINCE 2 DAYS AGO'
             }
           ]
         }}
+        accountIDs={accountIDs}
+        handleChangeTexarea={jest.fn()}
         chargueSample={jest.fn()}
         testQuery={jest.fn()}
         handleSaveUpdateQuery={jest.fn()}
-        testText="Bad query"
+        testText="GOOD QUERY"
         resultsTestQuery={{ type: 'default' }}
         goodQuery={false}
-        modifiedQuery
-        handleChangeTexarea={jest.fn()}
-        accountIDs={accountIDs}
       />
     );
     expect(body.toJSON()).toMatchSnapshot();

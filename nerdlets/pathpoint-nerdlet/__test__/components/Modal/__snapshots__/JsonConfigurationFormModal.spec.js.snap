@@ -78,7 +78,7 @@ exports[`JsonConfigurationFormModal component Render body with default data 1`] 
       variant="contained"
     >
       <img
-        src={Object {}}
+        src="SvgrURL"
         style={
           Object {
             "height": "auto",
@@ -111,7 +111,7 @@ exports[`JsonConfigurationFormModal component Render body with default data 1`] 
         variant="contained"
       >
         <img
-          src={Object {}}
+          src="SvgrURL"
           style={
             Object {
               "marginRight": "4px",
@@ -154,13 +154,13 @@ exports[`JsonConfigurationFormModal component Render header with default data 1`
     }
   >
     <img
-      src={Object {}}
+      src="SvgrURL"
       width="18"
     />
      Json Config.
     <img
       onClick={[Function]}
-      src={Object {}}
+      src="SvgrURL"
       style={
         Object {
           "cursor": "pointer",

@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Editor /> Render Editor correctly 1`] = `
+<div
+  className="nrql-editor"
+  style={
+    Object {
+      "backgroundColor": "#FFFFFF",
+      "heigth": "70px",
+      "width": "85px",
+    }
+  }
+>
+  <textarea
+    autoCorrect="false"
+    className="entry"
+    name="Editor"
+    onChange={[MockFunction]}
+    onInput={[Function]}
+    onKeyDown={[Function]}
+    onScroll={[Function]}
+    readOnly={true}
+    spellCheck="false"
+    style={
+      Object {
+        "display": "none",
+        "overflow": "hidden",
+      }
+    }
+    value="value"
+  />
+  <div
+    className="backdrop"
+  >
+    <div
+      className="custom-area"
+      style={null}
+    />
+  </div>
+</div>
+`;

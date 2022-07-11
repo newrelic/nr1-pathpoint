@@ -13,7 +13,7 @@ exports[`Header component Header component with default data 1`] = `
     >
       <img
         height="12px"
-        src={Object {}}
+        src="SvgrURL"
         width="18px"
       />
        
@@ -22,13 +22,63 @@ exports[`Header component Header component with default data 1`] = `
       className="logo-container"
     >
       <img
-        src={Object {}}
+        src="SvgrURL"
       />
     </div>
   </div>
   <div
     className="kpi"
   >
+    <div
+      style={
+        Object {
+          "alignItems": "center",
+          "display": "flex",
+          "marginRight": "1.5em",
+        }
+      }
+    >
+      <div>
+        <div
+          onClick={[Function]}
+          style={
+            Object {
+              "alignItems": "center",
+              "cursor": "pointer",
+              "display": "flex",
+              "height": "90%",
+            }
+          }
+        >
+          <svg
+            fill="none"
+            height="22"
+            viewBox="0 0 5 27"
+            width="5"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              cx="2.5"
+              cy="2.5"
+              fill="#828282"
+              r="2.5"
+            />
+            <circle
+              cx="2.5"
+              cy="13.5"
+              fill="#828282"
+              r="2.5"
+            />
+            <circle
+              cx="2.5"
+              cy="24.5"
+              fill="#828282"
+              r="2.5"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
     <div>
       <div
         className="timeRangeContent "
@@ -63,51 +113,11 @@ exports[`Header component Header component with default data 1`] = `
               className="kpi-status"
             >
               <img
-                src={Object {}}
+                src="SvgrURL"
               />
             </div>
           </span>
         </div>
-      </div>
-    </div>
-    <div>
-      <div
-        onClick={[Function]}
-        style={
-          Object {
-            "alignItems": "center",
-            "cursor": "pointer",
-            "display": "flex",
-            "height": "90%",
-          }
-        }
-      >
-        <svg
-          fill="none"
-          height="22"
-          viewBox="0 0 5 27"
-          width="5"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <circle
-            cx="2.5"
-            cy="2.5"
-            fill="#828282"
-            r="2.5"
-          />
-          <circle
-            cx="2.5"
-            cy="13.5"
-            fill="#828282"
-            r="2.5"
-          />
-          <circle
-            cx="2.5"
-            cy="24.5"
-            fill="#828282"
-            r="2.5"
-          />
-        </svg>
       </div>
     </div>
   </div>
@@ -131,7 +141,7 @@ exports[`Header component Header component with default data 1`] = `
         onClick={[Function]}
       >
         <img
-          src={Object {}}
+          src="SvgrURL"
           style={
             Object {
               "height": "18px",
@@ -145,7 +155,7 @@ exports[`Header component Header component with default data 1`] = `
         onMouseDown={[MockFunction]}
       >
         <img
-          src={Object {}}
+          src="SvgrURL"
           style={
             Object {
               "height": "18px",
@@ -159,7 +169,7 @@ exports[`Header component Header component with default data 1`] = `
         onMouseDown={[MockFunction]}
       >
         <img
-          src={Object {}}
+          src="SvgrURL"
           style={
             Object {
               "height": "18px",
@@ -307,7 +317,7 @@ exports[`Header component Header component with iconCanaryStatus 1`] = `
     >
       <img
         height="12px"
-        src={Object {}}
+        src="SvgrURL"
         width="18px"
       />
        
@@ -316,13 +326,63 @@ exports[`Header component Header component with iconCanaryStatus 1`] = `
       className="logo-container"
     >
       <img
-        src={Object {}}
+        src="SvgrURL"
       />
     </div>
   </div>
   <div
     className="kpi"
   >
+    <div
+      style={
+        Object {
+          "alignItems": "center",
+          "display": "flex",
+          "marginRight": "1.5em",
+        }
+      }
+    >
+      <div>
+        <div
+          onClick={[Function]}
+          style={
+            Object {
+              "alignItems": "center",
+              "cursor": "pointer",
+              "display": "flex",
+              "height": "90%",
+            }
+          }
+        >
+          <svg
+            fill="none"
+            height="22"
+            viewBox="0 0 5 27"
+            width="5"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              cx="2.5"
+              cy="2.5"
+              fill="#828282"
+              r="2.5"
+            />
+            <circle
+              cx="2.5"
+              cy="13.5"
+              fill="#828282"
+              r="2.5"
+            />
+            <circle
+              cx="2.5"
+              cy="24.5"
+              fill="#828282"
+              r="2.5"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
     <div>
       <div
         className="timeRangeContent "
@@ -357,51 +417,11 @@ exports[`Header component Header component with iconCanaryStatus 1`] = `
               className="kpi-status"
             >
               <img
-                src={Object {}}
+                src="SvgrURL"
               />
             </div>
           </span>
         </div>
-      </div>
-    </div>
-    <div>
-      <div
-        onClick={[Function]}
-        style={
-          Object {
-            "alignItems": "center",
-            "cursor": "pointer",
-            "display": "flex",
-            "height": "90%",
-          }
-        }
-      >
-        <svg
-          fill="none"
-          height="22"
-          viewBox="0 0 5 27"
-          width="5"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <circle
-            cx="2.5"
-            cy="2.5"
-            fill="#828282"
-            r="2.5"
-          />
-          <circle
-            cx="2.5"
-            cy="13.5"
-            fill="#828282"
-            r="2.5"
-          />
-          <circle
-            cx="2.5"
-            cy="24.5"
-            fill="#828282"
-            r="2.5"
-          />
-        </svg>
       </div>
     </div>
   </div>
@@ -425,7 +445,7 @@ exports[`Header component Header component with iconCanaryStatus 1`] = `
         onClick={[Function]}
       >
         <img
-          src={Object {}}
+          src="SvgrURL"
           style={
             Object {
               "height": "18px",
@@ -439,7 +459,7 @@ exports[`Header component Header component with iconCanaryStatus 1`] = `
         onMouseDown={[MockFunction]}
       >
         <img
-          src={Object {}}
+          src="SvgrURL"
           style={
             Object {
               "height": "18px",
@@ -453,7 +473,7 @@ exports[`Header component Header component with iconCanaryStatus 1`] = `
         onMouseDown={[MockFunction]}
       >
         <img
-          src={Object {}}
+          src="SvgrURL"
           style={
             Object {
               "height": "18px",
@@ -601,7 +621,7 @@ exports[`Header component Header component with iconFireStatus 1`] = `
     >
       <img
         height="12px"
-        src={Object {}}
+        src="SvgrURL"
         width="18px"
       />
        
@@ -610,13 +630,63 @@ exports[`Header component Header component with iconFireStatus 1`] = `
       className="logo-container"
     >
       <img
-        src={Object {}}
+        src="SvgrURL"
       />
     </div>
   </div>
   <div
     className="kpi"
   >
+    <div
+      style={
+        Object {
+          "alignItems": "center",
+          "display": "flex",
+          "marginRight": "1.5em",
+        }
+      }
+    >
+      <div>
+        <div
+          onClick={[Function]}
+          style={
+            Object {
+              "alignItems": "center",
+              "cursor": "pointer",
+              "display": "flex",
+              "height": "90%",
+            }
+          }
+        >
+          <svg
+            fill="none"
+            height="22"
+            viewBox="0 0 5 27"
+            width="5"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              cx="2.5"
+              cy="2.5"
+              fill="#828282"
+              r="2.5"
+            />
+            <circle
+              cx="2.5"
+              cy="13.5"
+              fill="#828282"
+              r="2.5"
+            />
+            <circle
+              cx="2.5"
+              cy="24.5"
+              fill="#828282"
+              r="2.5"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
     <div>
       <div
         className="timeRangeContent "
@@ -651,51 +721,11 @@ exports[`Header component Header component with iconFireStatus 1`] = `
               className="kpi-status"
             >
               <img
-                src={Object {}}
+                src="SvgrURL"
               />
             </div>
           </span>
         </div>
-      </div>
-    </div>
-    <div>
-      <div
-        onClick={[Function]}
-        style={
-          Object {
-            "alignItems": "center",
-            "cursor": "pointer",
-            "display": "flex",
-            "height": "90%",
-          }
-        }
-      >
-        <svg
-          fill="none"
-          height="22"
-          viewBox="0 0 5 27"
-          width="5"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <circle
-            cx="2.5"
-            cy="2.5"
-            fill="#828282"
-            r="2.5"
-          />
-          <circle
-            cx="2.5"
-            cy="13.5"
-            fill="#828282"
-            r="2.5"
-          />
-          <circle
-            cx="2.5"
-            cy="24.5"
-            fill="#828282"
-            r="2.5"
-          />
-        </svg>
       </div>
     </div>
   </div>
@@ -719,7 +749,7 @@ exports[`Header component Header component with iconFireStatus 1`] = `
         onClick={[Function]}
       >
         <img
-          src={Object {}}
+          src="SvgrURL"
           style={
             Object {
               "height": "18px",
@@ -733,7 +763,7 @@ exports[`Header component Header component with iconFireStatus 1`] = `
         onMouseDown={[MockFunction]}
       >
         <img
-          src={Object {}}
+          src="SvgrURL"
           style={
             Object {
               "height": "18px",
@@ -747,7 +777,7 @@ exports[`Header component Header component with iconFireStatus 1`] = `
         onMouseDown={[MockFunction]}
       >
         <img
-          src={Object {}}
+          src="SvgrURL"
           style={
             Object {
               "height": "18px",
@@ -895,7 +925,7 @@ exports[`Header component Header component with iconGoutStatus 1`] = `
     >
       <img
         height="12px"
-        src={Object {}}
+        src="SvgrURL"
         width="18px"
       />
        
@@ -904,13 +934,63 @@ exports[`Header component Header component with iconGoutStatus 1`] = `
       className="logo-container"
     >
       <img
-        src={Object {}}
+        src="SvgrURL"
       />
     </div>
   </div>
   <div
     className="kpi"
   >
+    <div
+      style={
+        Object {
+          "alignItems": "center",
+          "display": "flex",
+          "marginRight": "1.5em",
+        }
+      }
+    >
+      <div>
+        <div
+          onClick={[Function]}
+          style={
+            Object {
+              "alignItems": "center",
+              "cursor": "pointer",
+              "display": "flex",
+              "height": "90%",
+            }
+          }
+        >
+          <svg
+            fill="none"
+            height="22"
+            viewBox="0 0 5 27"
+            width="5"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              cx="2.5"
+              cy="2.5"
+              fill="#828282"
+              r="2.5"
+            />
+            <circle
+              cx="2.5"
+              cy="13.5"
+              fill="#828282"
+              r="2.5"
+            />
+            <circle
+              cx="2.5"
+              cy="24.5"
+              fill="#828282"
+              r="2.5"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
     <div>
       <div
         className="timeRangeContent "
@@ -945,51 +1025,11 @@ exports[`Header component Header component with iconGoutStatus 1`] = `
               className="kpi-status"
             >
               <img
-                src={Object {}}
+                src="SvgrURL"
               />
             </div>
           </span>
         </div>
-      </div>
-    </div>
-    <div>
-      <div
-        onClick={[Function]}
-        style={
-          Object {
-            "alignItems": "center",
-            "cursor": "pointer",
-            "display": "flex",
-            "height": "90%",
-          }
-        }
-      >
-        <svg
-          fill="none"
-          height="22"
-          viewBox="0 0 5 27"
-          width="5"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <circle
-            cx="2.5"
-            cy="2.5"
-            fill="#828282"
-            r="2.5"
-          />
-          <circle
-            cx="2.5"
-            cy="13.5"
-            fill="#828282"
-            r="2.5"
-          />
-          <circle
-            cx="2.5"
-            cy="24.5"
-            fill="#828282"
-            r="2.5"
-          />
-        </svg>
       </div>
     </div>
   </div>
@@ -1013,7 +1053,7 @@ exports[`Header component Header component with iconGoutStatus 1`] = `
         onClick={[Function]}
       >
         <img
-          src={Object {}}
+          src="SvgrURL"
           style={
             Object {
               "height": "18px",
@@ -1027,7 +1067,7 @@ exports[`Header component Header component with iconGoutStatus 1`] = `
         onMouseDown={[MockFunction]}
       >
         <img
-          src={Object {}}
+          src="SvgrURL"
           style={
             Object {
               "height": "18px",
@@ -1041,7 +1081,7 @@ exports[`Header component Header component with iconGoutStatus 1`] = `
         onMouseDown={[MockFunction]}
       >
         <img
-          src={Object {}}
+          src="SvgrURL"
           style={
             Object {
               "height": "18px",
@@ -1189,7 +1229,7 @@ exports[`Header component Header component with iconSixthSenseStatus 1`] = `
     >
       <img
         height="12px"
-        src={Object {}}
+        src="SvgrURL"
         width="18px"
       />
        
@@ -1198,13 +1238,63 @@ exports[`Header component Header component with iconSixthSenseStatus 1`] = `
       className="logo-container"
     >
       <img
-        src={Object {}}
+        src="SvgrURL"
       />
     </div>
   </div>
   <div
     className="kpi"
   >
+    <div
+      style={
+        Object {
+          "alignItems": "center",
+          "display": "flex",
+          "marginRight": "1.5em",
+        }
+      }
+    >
+      <div>
+        <div
+          onClick={[Function]}
+          style={
+            Object {
+              "alignItems": "center",
+              "cursor": "pointer",
+              "display": "flex",
+              "height": "90%",
+            }
+          }
+        >
+          <svg
+            fill="none"
+            height="22"
+            viewBox="0 0 5 27"
+            width="5"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              cx="2.5"
+              cy="2.5"
+              fill="#828282"
+              r="2.5"
+            />
+            <circle
+              cx="2.5"
+              cy="13.5"
+              fill="#828282"
+              r="2.5"
+            />
+            <circle
+              cx="2.5"
+              cy="24.5"
+              fill="#828282"
+              r="2.5"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
     <div>
       <div
         className="timeRangeContent "
@@ -1239,51 +1329,11 @@ exports[`Header component Header component with iconSixthSenseStatus 1`] = `
               className="kpi-status"
             >
               <img
-                src={Object {}}
+                src="SvgrURL"
               />
             </div>
           </span>
         </div>
-      </div>
-    </div>
-    <div>
-      <div
-        onClick={[Function]}
-        style={
-          Object {
-            "alignItems": "center",
-            "cursor": "pointer",
-            "display": "flex",
-            "height": "90%",
-          }
-        }
-      >
-        <svg
-          fill="none"
-          height="22"
-          viewBox="0 0 5 27"
-          width="5"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <circle
-            cx="2.5"
-            cy="2.5"
-            fill="#828282"
-            r="2.5"
-          />
-          <circle
-            cx="2.5"
-            cy="13.5"
-            fill="#828282"
-            r="2.5"
-          />
-          <circle
-            cx="2.5"
-            cy="24.5"
-            fill="#828282"
-            r="2.5"
-          />
-        </svg>
       </div>
     </div>
   </div>
@@ -1307,7 +1357,7 @@ exports[`Header component Header component with iconSixthSenseStatus 1`] = `
         onClick={[Function]}
       >
         <img
-          src={Object {}}
+          src="SvgrURL"
           style={
             Object {
               "height": "18px",
@@ -1321,7 +1371,7 @@ exports[`Header component Header component with iconSixthSenseStatus 1`] = `
         onMouseDown={[MockFunction]}
       >
         <img
-          src={Object {}}
+          src="SvgrURL"
           style={
             Object {
               "height": "18px",
@@ -1335,7 +1385,7 @@ exports[`Header component Header component with iconSixthSenseStatus 1`] = `
         onMouseDown={[MockFunction]}
       >
         <img
-          src={Object {}}
+          src="SvgrURL"
           style={
             Object {
               "height": "18px",
@@ -1483,7 +1533,7 @@ exports[`Header component Header component with iconStartStatus 1`] = `
     >
       <img
         height="12px"
-        src={Object {}}
+        src="SvgrURL"
         width="18px"
       />
        
@@ -1492,13 +1542,63 @@ exports[`Header component Header component with iconStartStatus 1`] = `
       className="logo-container"
     >
       <img
-        src={Object {}}
+        src="SvgrURL"
       />
     </div>
   </div>
   <div
     className="kpi"
   >
+    <div
+      style={
+        Object {
+          "alignItems": "center",
+          "display": "flex",
+          "marginRight": "1.5em",
+        }
+      }
+    >
+      <div>
+        <div
+          onClick={[Function]}
+          style={
+            Object {
+              "alignItems": "center",
+              "cursor": "pointer",
+              "display": "flex",
+              "height": "90%",
+            }
+          }
+        >
+          <svg
+            fill="none"
+            height="22"
+            viewBox="0 0 5 27"
+            width="5"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              cx="2.5"
+              cy="2.5"
+              fill="#828282"
+              r="2.5"
+            />
+            <circle
+              cx="2.5"
+              cy="13.5"
+              fill="#828282"
+              r="2.5"
+            />
+            <circle
+              cx="2.5"
+              cy="24.5"
+              fill="#828282"
+              r="2.5"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
     <div>
       <div
         className="timeRangeContent "
@@ -1533,51 +1633,11 @@ exports[`Header component Header component with iconStartStatus 1`] = `
               className="kpi-status"
             >
               <img
-                src={Object {}}
+                src="SvgrURL"
               />
             </div>
           </span>
         </div>
-      </div>
-    </div>
-    <div>
-      <div
-        onClick={[Function]}
-        style={
-          Object {
-            "alignItems": "center",
-            "cursor": "pointer",
-            "display": "flex",
-            "height": "90%",
-          }
-        }
-      >
-        <svg
-          fill="none"
-          height="22"
-          viewBox="0 0 5 27"
-          width="5"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <circle
-            cx="2.5"
-            cy="2.5"
-            fill="#828282"
-            r="2.5"
-          />
-          <circle
-            cx="2.5"
-            cy="13.5"
-            fill="#828282"
-            r="2.5"
-          />
-          <circle
-            cx="2.5"
-            cy="24.5"
-            fill="#828282"
-            r="2.5"
-          />
-        </svg>
       </div>
     </div>
   </div>
@@ -1601,7 +1661,7 @@ exports[`Header component Header component with iconStartStatus 1`] = `
         onClick={[Function]}
       >
         <img
-          src={Object {}}
+          src="SvgrURL"
           style={
             Object {
               "height": "18px",
@@ -1615,7 +1675,7 @@ exports[`Header component Header component with iconStartStatus 1`] = `
         onMouseDown={[MockFunction]}
       >
         <img
-          src={Object {}}
+          src="SvgrURL"
           style={
             Object {
               "height": "18px",
@@ -1629,7 +1689,7 @@ exports[`Header component Header component with iconStartStatus 1`] = `
         onMouseDown={[MockFunction]}
       >
         <img
-          src={Object {}}
+          src="SvgrURL"
           style={
             Object {
               "height": "18px",
@@ -1777,7 +1837,7 @@ exports[`Header component Header component with logoSetup Text 1`] = `
     >
       <img
         height="12px"
-        src={Object {}}
+        src="SvgrURL"
         width="18px"
       />
        
@@ -1793,6 +1853,56 @@ exports[`Header component Header component with logoSetup Text 1`] = `
   <div
     className="kpi"
   >
+    <div
+      style={
+        Object {
+          "alignItems": "center",
+          "display": "flex",
+          "marginRight": "1.5em",
+        }
+      }
+    >
+      <div>
+        <div
+          onClick={[Function]}
+          style={
+            Object {
+              "alignItems": "center",
+              "cursor": "pointer",
+              "display": "flex",
+              "height": "90%",
+            }
+          }
+        >
+          <svg
+            fill="none"
+            height="22"
+            viewBox="0 0 5 27"
+            width="5"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              cx="2.5"
+              cy="2.5"
+              fill="#828282"
+              r="2.5"
+            />
+            <circle
+              cx="2.5"
+              cy="13.5"
+              fill="#828282"
+              r="2.5"
+            />
+            <circle
+              cx="2.5"
+              cy="24.5"
+              fill="#828282"
+              r="2.5"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
     <div>
       <div
         className="timeRangeContent "
@@ -1827,51 +1937,11 @@ exports[`Header component Header component with logoSetup Text 1`] = `
               className="kpi-status"
             >
               <img
-                src={Object {}}
+                src="SvgrURL"
               />
             </div>
           </span>
         </div>
-      </div>
-    </div>
-    <div>
-      <div
-        onClick={[Function]}
-        style={
-          Object {
-            "alignItems": "center",
-            "cursor": "pointer",
-            "display": "flex",
-            "height": "90%",
-          }
-        }
-      >
-        <svg
-          fill="none"
-          height="22"
-          viewBox="0 0 5 27"
-          width="5"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <circle
-            cx="2.5"
-            cy="2.5"
-            fill="#828282"
-            r="2.5"
-          />
-          <circle
-            cx="2.5"
-            cy="13.5"
-            fill="#828282"
-            r="2.5"
-          />
-          <circle
-            cx="2.5"
-            cy="24.5"
-            fill="#828282"
-            r="2.5"
-          />
-        </svg>
       </div>
     </div>
   </div>
@@ -1895,7 +1965,7 @@ exports[`Header component Header component with logoSetup Text 1`] = `
         onClick={[Function]}
       >
         <img
-          src={Object {}}
+          src="SvgrURL"
           style={
             Object {
               "height": "18px",
@@ -1909,7 +1979,7 @@ exports[`Header component Header component with logoSetup Text 1`] = `
         onMouseDown={[MockFunction]}
       >
         <img
-          src={Object {}}
+          src="SvgrURL"
           style={
             Object {
               "height": "18px",
@@ -1923,7 +1993,7 @@ exports[`Header component Header component with logoSetup Text 1`] = `
         onMouseDown={[MockFunction]}
       >
         <img
-          src={Object {}}
+          src="SvgrURL"
           style={
             Object {
               "height": "18px",
@@ -2071,7 +2141,7 @@ exports[`Header component Header component with logoSetup URL 1`] = `
     >
       <img
         height="12px"
-        src={Object {}}
+        src="SvgrURL"
         width="18px"
       />
        
@@ -2087,6 +2157,56 @@ exports[`Header component Header component with logoSetup URL 1`] = `
   <div
     className="kpi"
   >
+    <div
+      style={
+        Object {
+          "alignItems": "center",
+          "display": "flex",
+          "marginRight": "1.5em",
+        }
+      }
+    >
+      <div>
+        <div
+          onClick={[Function]}
+          style={
+            Object {
+              "alignItems": "center",
+              "cursor": "pointer",
+              "display": "flex",
+              "height": "90%",
+            }
+          }
+        >
+          <svg
+            fill="none"
+            height="22"
+            viewBox="0 0 5 27"
+            width="5"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              cx="2.5"
+              cy="2.5"
+              fill="#828282"
+              r="2.5"
+            />
+            <circle
+              cx="2.5"
+              cy="13.5"
+              fill="#828282"
+              r="2.5"
+            />
+            <circle
+              cx="2.5"
+              cy="24.5"
+              fill="#828282"
+              r="2.5"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
     <div>
       <div
         className="timeRangeContent "
@@ -2121,51 +2241,11 @@ exports[`Header component Header component with logoSetup URL 1`] = `
               className="kpi-status"
             >
               <img
-                src={Object {}}
+                src="SvgrURL"
               />
             </div>
           </span>
         </div>
-      </div>
-    </div>
-    <div>
-      <div
-        onClick={[Function]}
-        style={
-          Object {
-            "alignItems": "center",
-            "cursor": "pointer",
-            "display": "flex",
-            "height": "90%",
-          }
-        }
-      >
-        <svg
-          fill="none"
-          height="22"
-          viewBox="0 0 5 27"
-          width="5"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <circle
-            cx="2.5"
-            cy="2.5"
-            fill="#828282"
-            r="2.5"
-          />
-          <circle
-            cx="2.5"
-            cy="13.5"
-            fill="#828282"
-            r="2.5"
-          />
-          <circle
-            cx="2.5"
-            cy="24.5"
-            fill="#828282"
-            r="2.5"
-          />
-        </svg>
       </div>
     </div>
   </div>
@@ -2189,7 +2269,7 @@ exports[`Header component Header component with logoSetup URL 1`] = `
         onClick={[Function]}
       >
         <img
-          src={Object {}}
+          src="SvgrURL"
           style={
             Object {
               "height": "18px",
@@ -2203,7 +2283,7 @@ exports[`Header component Header component with logoSetup URL 1`] = `
         onMouseDown={[MockFunction]}
       >
         <img
-          src={Object {}}
+          src="SvgrURL"
           style={
             Object {
               "height": "18px",
@@ -2217,7 +2297,7 @@ exports[`Header component Header component with logoSetup URL 1`] = `
         onMouseDown={[MockFunction]}
       >
         <img
-          src={Object {}}
+          src="SvgrURL"
           style={
             Object {
               "height": "18px",
@@ -2365,7 +2445,7 @@ exports[`Header component Header component with showLeftPanel 1`] = `
     >
       <img
         height="12px"
-        src={Object {}}
+        src="SvgrURL"
         width="18px"
       />
        
@@ -2374,13 +2454,63 @@ exports[`Header component Header component with showLeftPanel 1`] = `
       className="logo-container"
     >
       <img
-        src={Object {}}
+        src="SvgrURL"
       />
     </div>
   </div>
   <div
     className="kpi"
   >
+    <div
+      style={
+        Object {
+          "alignItems": "center",
+          "display": "flex",
+          "marginRight": "1.5em",
+        }
+      }
+    >
+      <div>
+        <div
+          onClick={[Function]}
+          style={
+            Object {
+              "alignItems": "center",
+              "cursor": "pointer",
+              "display": "flex",
+              "height": "90%",
+            }
+          }
+        >
+          <svg
+            fill="none"
+            height="22"
+            viewBox="0 0 5 27"
+            width="5"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              cx="2.5"
+              cy="2.5"
+              fill="#828282"
+              r="2.5"
+            />
+            <circle
+              cx="2.5"
+              cy="13.5"
+              fill="#828282"
+              r="2.5"
+            />
+            <circle
+              cx="2.5"
+              cy="24.5"
+              fill="#828282"
+              r="2.5"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
     <div>
       <div
         className="timeRangeContent "
@@ -2415,51 +2545,11 @@ exports[`Header component Header component with showLeftPanel 1`] = `
               className="kpi-status"
             >
               <img
-                src={Object {}}
+                src="SvgrURL"
               />
             </div>
           </span>
         </div>
-      </div>
-    </div>
-    <div>
-      <div
-        onClick={[Function]}
-        style={
-          Object {
-            "alignItems": "center",
-            "cursor": "pointer",
-            "display": "flex",
-            "height": "90%",
-          }
-        }
-      >
-        <svg
-          fill="none"
-          height="22"
-          viewBox="0 0 5 27"
-          width="5"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <circle
-            cx="2.5"
-            cy="2.5"
-            fill="#828282"
-            r="2.5"
-          />
-          <circle
-            cx="2.5"
-            cy="13.5"
-            fill="#828282"
-            r="2.5"
-          />
-          <circle
-            cx="2.5"
-            cy="24.5"
-            fill="#828282"
-            r="2.5"
-          />
-        </svg>
       </div>
     </div>
   </div>
@@ -2483,7 +2573,7 @@ exports[`Header component Header component with showLeftPanel 1`] = `
         onClick={[Function]}
       >
         <img
-          src={Object {}}
+          src="SvgrURL"
           style={
             Object {
               "height": "18px",
@@ -2497,7 +2587,7 @@ exports[`Header component Header component with showLeftPanel 1`] = `
         onMouseDown={[MockFunction]}
       >
         <img
-          src={Object {}}
+          src="SvgrURL"
           style={
             Object {
               "height": "18px",
@@ -2511,7 +2601,7 @@ exports[`Header component Header component with showLeftPanel 1`] = `
         onMouseDown={[MockFunction]}
       >
         <img
-          src={Object {}}
+          src="SvgrURL"
           style={
             Object {
               "height": "18px",

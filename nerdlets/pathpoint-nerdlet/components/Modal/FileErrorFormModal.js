@@ -70,6 +70,7 @@ function BodyFileErrorFormModal(props) {
   );
 }
 
+/* istanbul ignore next */
 function TransformOldTouchpointName(tp_type) {
   let newType = tp_type;
   switch (tp_type) {
@@ -98,6 +99,7 @@ function TransformOldTouchpointName(tp_type) {
   return newType;
 }
 
+/* istanbul ignore next */
 function UpdateOldTouchpointName(jsonUploaded) {
   const object = JSON.parse(jsonUploaded);
   object.stages.forEach(element => {

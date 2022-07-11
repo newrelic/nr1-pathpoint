@@ -5,6 +5,8 @@ import {
 } from '../../../components/Modal/TouchpointsEditor';
 import { shallow } from 'enzyme';
 
+jest.mock('../../../components/SelectIDs/SelectIDs');
+
 jest.mock(
   'nr1',
   () => {
@@ -504,6 +506,77 @@ describe('<BodyTouchpointsEditor/>', () => {
         '12': []
       },
       touchpoint: null
+    });
+  });
+
+  it('Function HandleOnSampleQuery', () => {
+    const touchpointEditor = shallow(
+      <BodyTouchpointsEditor
+        stagesInterface={stagesInterface}
+        handleStagesEditorSubmit={jest.fn()}
+        touchpointsInterface={touchpointsInterface}
+        EditorValidateQuery={jest.fn()}
+        handleChange={jest.fn()}
+        accountIDs={accountIDs}
+      />
+    );
+    const id = 12;
+    const instance = touchpointEditor.instance();
+    instance.state.tab = 'query';
+    instance.state.current.touchpoint = 12;
+    instance.state.testQueryResult = '159';
+    instance.state.goodQuery = false;
+    instance.HandleOnSampleQuery(id);
+    expect(instance.state.form.tp_12.status).toEqual(true);
+  });
+
+  it('Function TestQuery', async () => {
+    const EditorValidateQuery = jest.fn().mockReturnValue({
+      testText: 'query return',
+      goodQuery: false,
+      testQueryValue: 156
+    });
+    const touchpointEditor = shallow(
+      <BodyTouchpointsEditor
+        stagesInterface={stagesInterface}
+        handleStagesEditorSubmit={jest.fn()}
+        touchpointsInterface={touchpointsInterface}
+        EditorValidateQuery={EditorValidateQuery}
+        handleChange={jest.fn()}
+        accountIDs={accountIDs}
+      />
+    );
+    const query = 'SELECT * FROM ApiCall';
+    const accountID = 2710112;
+    const type = 'PCC';
+    const instance = touchpointEditor.instance();
+    instance.state.tab = 'query';
+    instance.state.current.touchpoint = 12;
+    instance.state.testQueryResult = '159';
+    instance.state.goodQuery = false;
+    await instance.TestQuery(query, accountID, type);
+    expect(instance.state.goodQuery).toEqual(false);
+  });
+
+  it('Function RunTest', () => {
+    const touchpointEditor = shallow(
+      <BodyTouchpointsEditor
+        stagesInterface={stagesInterface}
+        handleStagesEditorSubmit={jest.fn()}
+        touchpointsInterface={touchpointsInterface}
+        EditorValidateQuery={jest.fn()}
+        handleChange={jest.fn()}
+        accountIDs={accountIDs}
+      />
+    );
+    const instance = touchpointEditor.instance();
+    instance.TestQuery = jest.fn();
+    instance.RunTest();
+    expect(instance.state.current).toEqual({
+      stage: 2710,
+      step: null,
+      subs: { '12': [] },
+      touchpoint: 12
     });
   });
 
