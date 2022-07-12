@@ -2310,7 +2310,7 @@ export default class MainContainer extends React.Component {
               Stages
               {!this.state.guiEditor && (
                 <a
-                  href="https://github.com/newrelic/nr1-pathpoint/tree/main/docs/user_manual/Pathpoint-Stages#stages-guide"
+                  href="https://github.com/newrelic/nr1-pathpoint/tree/main/docs/guides/Pathpoint-Stages#stages-guide"
                   style={{ marginLeft: '10px' }}
                   target="_blank"
                   rel="noreferrer"
@@ -2358,7 +2358,7 @@ export default class MainContainer extends React.Component {
                 Steps
                 {!this.state.guiEditor && (
                   <a
-                    href="https://github.com/newrelic/nr1-pathpoint/tree/main/docs/user_manual/Pathpoint-Steps#steps-guide"
+                    href="https://github.com/newrelic/nr1-pathpoint/tree/main/docs/guides/Pathpoint-Steps#steps-guide"
                     style={{ marginLeft: '10px' }}
                     target="_blank"
                     rel="noreferrer"
@@ -2461,7 +2461,7 @@ export default class MainContainer extends React.Component {
                 TouchPoints
                 {!this.state.guiEditor && (
                   <a
-                    href="https://github.com/newrelic/nr1-pathpoint/tree/main/docs/user_manual/Pathpoint-Touchpoints#touchpoint-guide"
+                    href="https://github.com/newrelic/nr1-pathpoint/tree/main/docs/guides/Pathpoint-Touchpoints#touchpoint-guide"
                     style={{ marginLeft: '10px' }}
                     target="_blank"
                     rel="noreferrer"

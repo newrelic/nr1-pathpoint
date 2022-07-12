@@ -1213,6 +1213,12 @@ class BodyTouchpointsEditor extends Component {
     }
   };
 
+  HandleDropdownOpen() {
+    const dialog = document.body.querySelector('div[role=dialog]');
+    if (!dialog && !dialog.nextSibling) return false;
+    dialog.nextSibling.style.minWidth = 'initial';
+  }
+
   render() {
     const {
       testQueryResult,
@@ -1393,6 +1399,7 @@ class BodyTouchpointsEditor extends Component {
                             >
                               <Dropdown
                                 style={{ width: '100%' }}
+                                onOpen={this.HandleDropdownOpen}
                                 title={this.state.form[`tp_${tp.id}`].type}
                                 disabled={
                                   this.state.current.touchpoint !== tp.id

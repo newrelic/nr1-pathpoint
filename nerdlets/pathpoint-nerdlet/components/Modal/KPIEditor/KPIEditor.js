@@ -152,7 +152,7 @@ export const HeaderKPIEditor = React.memo(() => {
         <div style={{ display: 'flex', width: '975px' }}>
           {/* Header title */}
           <div style={{ width: '50%' }}>
-            <div className="mainHeaderFirstTitle">KPI ´ S</div>
+            <div className="mainHeaderFirstTitle">KPI ´ s</div>
             <div className="mainHeaderSecondTitle">Edit</div>
           </div>
 
@@ -461,7 +461,7 @@ export const BodyKPIEditor = React.memo(
       const query = sampleQueries[currentKPISelected.type];
 
       setFormValues(currentState => {
-        const formCopy = currentState.slice(0); // Create copy of current form values
+        const formCopy = currentState.slice(); // Create copy of current form values
 
         formCopy[currentKPIIndex] = {
           ...formCopy[currentKPIIndex], // Copy the others properties of current KPI selected
@@ -708,7 +708,7 @@ export const BodyKPIEditor = React.memo(
     }, [currentKPISelected]);
 
     useMounted(() => {
-      if (formValues.length > 0) {
+      if (kpis.length > 0) {
         setCurrentTab('tab-query'); // Update tab
         const parsedKPIS = handleParseKPIS();
         setFormValues(parsedKPIS);
@@ -782,11 +782,12 @@ export const BodyKPIEditor = React.memo(
                 {tabs.map(tab => (
                   <Checkbox
                     key={tab.id}
-                    tab={tab.key}
                     title={tab.title}
-                    currentTab={currentTab}
-                    handleUpdateCurrentTab={handleUpdateCurrentTab}
+                    isActive={currentTab === tab.key}
                     disabled={!existsKPIS || currentKPIIndex === null}
+                    handleUpdateCurrentTab={() =>
+                      handleUpdateCurrentTab(tab.key)
+                    }
                   />
                 ))}
               </div>
@@ -858,19 +859,7 @@ HeaderIcon.propTypes = {
 };
 
 const Checkbox = React.memo(
-  ({
-    title,
-    tab,
-    currentTab,
-    handleUpdateCurrentTab,
-    disabled,
-    withoutMargin
-  }) => {
-    // Event 'click' on Checkbox
-    const handleCheck = React.useCallback(() => {
-      handleUpdateCurrentTab(tab);
-    }, []);
-
+  ({ title, isActive, handleUpdateCurrentTab, disabled, withoutMargin }) => {
     return (
       <>
         <input
@@ -878,8 +867,8 @@ const Checkbox = React.memo(
           name="tabs_radio"
           className="select-row-radio-tab"
           disabled={disabled}
-          defaultChecked={currentTab === tab}
-          onClick={handleCheck}
+          checked={isActive}
+          onClick={handleUpdateCurrentTab}
           style={{
             marginRight: 5,
             transform: 'translateY(7px)'
@@ -899,15 +888,11 @@ const Checkbox = React.memo(
 );
 
 Checkbox.propTypes = {
-  tab: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   handleUpdateCurrentTab: PropTypes.func.isRequired,
   disabled: PropTypes.bool.isRequired,
   withoutMargin: PropTypes.bool,
-  currentTab: PropTypes.oneOfType([
-    PropTypes.string.isRequired,
-    PropTypes.oneOf([null]).isRequired
-  ]).isRequired
+  isActive: PropTypes.bool.isRequired
 };
 
 const ActionButton = React.memo(
@@ -1102,11 +1087,11 @@ const TableCell = React.memo(
         >
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <input
-              defaultChecked={isActive}
               type="radio"
               name="stage_editor"
               className="select-row-radio"
               onClick={updateCurrent}
+              defaultChecked={isActive}
               style={{ marginTop: 0, marginRight: 15 }}
             />
 
