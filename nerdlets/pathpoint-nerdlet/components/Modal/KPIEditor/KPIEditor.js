@@ -152,7 +152,7 @@ export const HeaderKPIEditor = React.memo(() => {
         <div style={{ display: 'flex', width: '975px' }}>
           {/* Header title */}
           <div style={{ width: '50%' }}>
-            <div className="mainHeaderFirstTitle">KPI ´ s</div>
+            <div className="mainHeaderFirstTitle">KPIs</div>
             <div className="mainHeaderSecondTitle">Edit</div>
           </div>
 
@@ -663,7 +663,9 @@ export const BodyKPIEditor = React.memo(
         const newDuplicatedKPI = {
           ...currentKPISelected,
           check: false,
-          index: lastKPI.index + 1
+          index: lastKPI.index + 1,
+          name: `${currentKPISelected.name} copy`,
+          shortName: `${currentKPISelected.shortName} copy`
         };
 
         return [...currentState, newDuplicatedKPI];
@@ -1091,7 +1093,7 @@ const TableCell = React.memo(
               name="stage_editor"
               className="select-row-radio"
               onClick={updateCurrent}
-              defaultChecked={isActive}
+              checked={isActive}
               style={{ marginTop: 0, marginRight: 15 }}
             />
 

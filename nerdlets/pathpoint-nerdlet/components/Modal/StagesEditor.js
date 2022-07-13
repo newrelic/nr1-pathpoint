@@ -574,7 +574,7 @@ class BodyStagesEditor extends Component {
 
   HandleDropdownOpen() {
     const dialog = document.body.querySelector('div[role=dialog]');
-    if (!dialog && !dialog.nextSibling) return false;
+    if (!dialog && !dialog?.nextSibling) return false;
     dialog.nextSibling.style.minWidth = 'initial';
   }
 
@@ -672,6 +672,7 @@ class BodyStagesEditor extends Component {
                             />
                             <Dropdown
                               onOpen={this.HandleDropdownOpen}
+                              onToggle={this.HandleDropdownOpen}
                               title={
                                 <div className="container_title">
                                   <div className="label_dropdown_order">
@@ -741,7 +742,8 @@ class BodyStagesEditor extends Component {
                         >
                           <Dropdown
                             style={{ width: '100%' }}
-                            onOpen={this.handleDropdownOpen}
+                            onOpen={this.HandleDropdownOpen}
+                            onToggle={this.HandleDropdownOpen}
                             title={
                               <div>
                                 {this.state.form[`stage_${stage.id}`].type ===
@@ -831,7 +833,8 @@ class BodyStagesEditor extends Component {
                         >
                           <Dropdown
                             style={{ width: '100%' }}
-                            onOpen={this.handleDropdownOpen}
+                            onOpen={this.HandleDropdownOpen}
+                            onToggle={this.HandleDropdownOpen}
                             title={
                               <div className="title_dropdown_stage">
                                 {this.state.form[`stage_${stage.id}`]

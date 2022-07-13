@@ -366,18 +366,6 @@ input[disabled] {
 		cursor: not-allowed;
 }
 
-.DropdownTrigger[title] {
-  background-color: red;
-  display: flex;
-  align-items: center;
-}
-
-.dropdown DropdownTrigger-button-title {
-  background-color: red;
-  display: flex;
-  align-items: center;
-}
-
 .btn_confirm {
   background: #0078BF;
   border-color: #0078BF;
