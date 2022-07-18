@@ -1,3 +1,10 @@
+## [1.7.1](https://github.com/newrelic/nr1-pathpoint/compare/v1.7.0...v1.7.1) (2022-07-18)
+
+
+### Bug Fixes
+
+* Remove release notes in favor of change log. ([9b0bc83](https://github.com/newrelic/nr1-pathpoint/commit/9b0bc830636aebc72286dc826457992ebd5b6b5e))
+
 # [1.7.0](https://github.com/newrelic/nr1-pathpoint/compare/v1.6.3...v1.7.0) (2022-06-17)
 
 
