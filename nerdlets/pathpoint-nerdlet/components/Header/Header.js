@@ -43,7 +43,8 @@ const Header = ({
   credentials,
   accountId,
   guiEditor,
-  HandleChangeLogo
+  HandleChangeLogo,
+  HandleOpenKPIEditor
 }) => {
   const filterKpis = kpis.filter(kpi => kpi.check);
   const showLogsLink = credentials.loggin; // TODO logic to hidden
@@ -56,6 +57,7 @@ const Header = ({
         {RenderLogo(logoSetup)}
         {guiEditor && (
           <div
+            id="HandleChangeLogo"
             style={{ marginLeft: '5px', marginTop: '20px', cursor: 'pointer' }}
             onClick={() => HandleChangeLogo()}
           >
@@ -67,57 +69,88 @@ const Header = ({
           </div>
         )}
       </div>
-      {filterKpis.length > 0 && (
-        <div className="kpi">
-          <RangeDateSelector
-            timeRangeKpi={timeRangeKpi}
-            additionalAction={changeTimeRangeKpi}
-            options={[
-              {
-                label: 'DAY',
-                value: '24 HOURS AGO'
-              },
-              {
-                label: 'WEEK',
-                value: '7 DAYS AGO'
-              },
-              {
-                label: 'MONTH',
-                value: '30 DAYS AGO'
-              },
-              {
-                label: 'YDT',
-                value: '365 DAYS AGO'
-              }
-            ]}
-          />
+
+      <div className="kpi">
+        {filterKpis.length > 0 && (
           <>
-            {filterKpis.map((kpi, index) => {
-              return (
-                <div
-                  key={index}
-                  style={{ cursor: kpi.link !== '' ? 'pointer' : 'default' }}
-                  onClick={() => {
-                    kpi.link !== '' && window.open(kpi.link);
-                  }}
-                  className="kpicontent"
-                >
-                  <div className="kpicontent--colorgrey kpicontent--size10">
-                    {kpi.shortName}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                marginRight: '1.5em'
+              }}
+            >
+              <SelectorKpis
+                listKpis={kpis}
+                updateDataKpisChecked={updateDataKpisChecked}
+              />
+            </div>
+
+            <RangeDateSelector
+              timeRangeKpi={timeRangeKpi}
+              additionalAction={changeTimeRangeKpi}
+              options={[
+                {
+                  label: 'DAY',
+                  value: 'TODAY'
+                },
+                {
+                  label: 'WEEK',
+                  value: 'THIS WEEK'
+                },
+                {
+                  label: 'MONTH',
+                  value: 'THIS MONTH'
+                },
+                {
+                  label: 'YDT',
+                  value: 'THIS YEAR'
+                }
+              ]}
+            />
+            <>
+              {filterKpis.map((kpi, index) => {
+                return (
+                  <div
+                    key={index}
+                    style={{ cursor: kpi.link !== '' ? 'pointer' : 'default' }}
+                    onClick={() => {
+                      kpi.link !== '' && window.open(kpi.link);
+                    }}
+                    className="kpicontent"
+                  >
+                    <div className="kpicontent--colorgrey kpicontent--size10">
+                      {kpi.shortName}
+                    </div>
+                    <div className="kpicontent--colorblack kpicontent--size12">
+                      {PrintKPI(kpi)}
+                    </div>
                   </div>
-                  <div className="kpicontent--colorblack kpicontent--size12">
-                    {PrintKPI(kpi)}
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </>
           </>
-          <SelectorKpis
-            listKpis={kpis}
-            updateDataKpisChecked={updateDataKpisChecked}
-          />
-        </div>
-      )}
+        )}
+
+        {/* KPI Icon Config */}
+        {guiEditor && (
+          <div
+            style={{
+              cursor: 'pointer',
+              marginLeft: filterKpis.length > 0 ? 5 : 0,
+              marginTop: filterKpis.length > 0 ? 15 : 0
+            }}
+            onClick={HandleOpenKPIEditor}
+          >
+            <img
+              src={setup}
+              height="16"
+              style={{ marginRight: '5px', marginBottom: '2px' }}
+            />
+          </div>
+        )}
+      </div>
+
       <span
         className="budgetLoss"
         style={{
@@ -358,5 +391,6 @@ Header.propTypes = {
   credentials: PropTypes.object.isRequired,
   accountId: PropTypes.number.isRequired,
   guiEditor: PropTypes.bool.isRequired,
-  HandleChangeLogo: PropTypes.func.isRequired
+  HandleChangeLogo: PropTypes.func.isRequired,
+  HandleOpenKPIEditor: PropTypes.func.isRequired
 };

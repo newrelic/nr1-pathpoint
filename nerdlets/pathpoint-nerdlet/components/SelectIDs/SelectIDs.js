@@ -12,6 +12,20 @@ export default class SelectIDs extends PureComponent {
 
   componentDidMount() {
     document.addEventListener('mousedown', this.handleClickOutside);
+    this.handleUpdateIdSeleccionado();
+  }
+
+  componentDidUpdate() {
+    this.props.needUpdateIdSeleccionado && this.handleUpdateIdSeleccionado();
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClickOutside);
+  }
+
+  myRef = React.createRef();
+
+  handleUpdateIdSeleccionado = () => {
     const { options, idSeleccionado } = this.props;
     let idIndex = 0;
     options.map(index => {
@@ -21,13 +35,7 @@ export default class SelectIDs extends PureComponent {
       }
       return 0;
     });
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('mousedown', this.handleClickOutside);
-  }
-
-  myRef = React.createRef();
+  };
 
   /* istanbul ignore next */
   handleClickOutside = e => {
@@ -81,7 +89,12 @@ export default class SelectIDs extends PureComponent {
             className="custom-options-SelectID"
             style={
               open
-                ? { visibility: 'visible', pointerEvents: 'all', opacity: 1 }
+                ? {
+                    visibility: 'visible',
+                    pointerEvents: 'all',
+                    opacity: 1,
+                    zIndex: 9999
+                  }
                 : {}
             }
           >
@@ -112,5 +125,6 @@ SelectIDs.propTypes = {
   options: PropTypes.array.isRequired,
   name: PropTypes.string.isRequired,
   handleOnChange: PropTypes.func.isRequired,
-  idSeleccionado: PropTypes.number.isRequired
+  idSeleccionado: PropTypes.number.isRequired,
+  needUpdateIdSeleccionado: PropTypes.bool
 };

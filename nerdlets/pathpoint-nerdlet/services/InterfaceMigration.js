@@ -9,6 +9,7 @@ export default class InterfaceMigration {
     let stageIndex = 1;
     let lineStep = 1;
     let stepOrder = 1;
+    let previousDotted = false;
     stagesInterface.forEach(stage => {
       if (stage.visible) {
         const steps = [];
@@ -38,11 +39,13 @@ export default class InterfaceMigration {
         stages.push({
           title: stage.title,
           type: stage.type,
-          active_dotted: stage.active_dotted,
+          active_dotted:
+            stage.arrowMode === 'STATIC' || previousDotted ? 'dashed' : 'none',
           arrowMode: stage.arrowMode,
           steps: steps,
           touchpoints: touchpoints
         });
+        previousDotted = stage.arrowMode === 'STATIC';
         stageIndex++;
         lineStep = 1;
       }
@@ -65,6 +68,23 @@ export default class InterfaceMigration {
       }
     });
     return touchpoints;
+  }
+
+  MigrateKpisInterface(kpisUpdated, data) {
+    const Nkpis = [];
+    kpisUpdated.forEach(kpi => {
+      Nkpis.push({
+        type: kpi.type,
+        name: kpi.name,
+        shortName: kpi.shortName,
+        measure: [...kpi.queryByCity],
+        value_type: kpi.value_type,
+        prefix: kpi.prefix,
+        suffix: kpi.suffix
+      });
+    });
+    data.kpis = [...Nkpis];
+    return data;
   }
 
   SetDashboard_url(url) {

@@ -9,7 +9,7 @@ exports[`ShowHeader component ShowHeader with default data in 0 view 1`] = `
   }
 >
   <img
-    src={Object {}}
+    src="SvgrURL"
     style={
       Object {
         "height": "26px",

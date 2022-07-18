@@ -720,3 +720,16 @@ describe('<FileErrorFormModal/>', () => {
     });
   });
 });
+
+// describe('Function handleUploadJSONFile', () => {
+//   it('Function handleUploadJSONFile', () => {
+//     const blob = new Blob();
+//     const result = handleUploadJSONFile({
+//       target: { files: [blob] },
+//       onClose: jest.fn(),
+//       validateKpiQuery: jest.fn(),
+//       SetConfigurationJSON: jest.fn()
+//     });
+//     console.log('result',result)
+//   });
+// });

@@ -22,7 +22,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
         >
           <img
             height="12px"
-            src={Object {}}
+            src="SvgrURL"
             width="18px"
           />
            
@@ -31,10 +31,11 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
           className="logo-container"
         >
           <img
-            src={Object {}}
+            src="SvgrURL"
           />
         </div>
         <div
+          id="HandleChangeLogo"
           onClick={[Function]}
           style={
             Object {
@@ -46,7 +47,32 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
         >
           <img
             height="16"
-            src={Object {}}
+            src="SvgrURL"
+            style={
+              Object {
+                "marginBottom": "2px",
+                "marginRight": "5px",
+              }
+            }
+          />
+        </div>
+      </div>
+      <div
+        className="kpi"
+      >
+        <div
+          onClick={[Function]}
+          style={
+            Object {
+              "cursor": "pointer",
+              "marginLeft": 0,
+              "marginTop": 0,
+            }
+          }
+        >
+          <img
+            height="16"
+            src="SvgrURL"
             style={
               Object {
                 "marginBottom": "2px",
@@ -76,7 +102,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
             onClick={[Function]}
           >
             <img
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "height": "18px",
@@ -90,7 +116,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
             onMouseDown={[Function]}
           >
             <img
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "height": "18px",
@@ -104,7 +130,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
             onMouseDown={[Function]}
           >
             <img
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "height": "18px",
@@ -286,7 +312,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
           >
             <img
               height="14"
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "marginRight": "5px",
@@ -337,7 +363,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
             >
               GUI Editor
               <img
-                src={Object {}}
+                src="SvgrURL"
                 style={
                   Object {
                     "marginLeft": "10px",
@@ -352,7 +378,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
         >
           <img
             height="14"
-            src={Object {}}
+            src="SvgrURL"
             style={
               Object {
                 "marginRight": "5px",
@@ -383,7 +409,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
           >
             <img
               height="13px"
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "paddingBottom": "2px",
@@ -409,7 +435,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
             <img
               height="18px"
               onClick={[Function]}
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "cursor": "pointer",
@@ -505,7 +531,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
           >
             <img
               height="13px"
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "paddingBottom": "2px",
@@ -531,7 +557,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
             <img
               height="18px"
               onClick={[Function]}
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "cursor": "pointer",
@@ -619,7 +645,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
           >
             <img
               height="13px"
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "paddingBottom": "2px",
@@ -645,7 +671,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
             <img
               height="18px"
               onClick={[Function]}
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "cursor": "pointer",
@@ -722,7 +748,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
       >
         <img
           height="16"
-          src={Object {}}
+          src="SvgrURL"
           style={
             Object {
               "marginRight": "5px",
@@ -760,7 +786,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
         >
           <img
             height="16"
-            src={Object {}}
+            src="SvgrURL"
             style={
               Object {
                 "marginBottom": "2px",
@@ -800,7 +826,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
         >
           <img
             height="16"
-            src={Object {}}
+            src="SvgrURL"
             style={
               Object {
                 "marginBottom": "2px",
@@ -866,7 +892,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
         >
           <img
             height="12px"
-            src={Object {}}
+            src="SvgrURL"
             width="18px"
           />
            
@@ -875,10 +901,11 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
           className="logo-container"
         >
           <img
-            src={Object {}}
+            src="SvgrURL"
           />
         </div>
         <div
+          id="HandleChangeLogo"
           onClick={[Function]}
           style={
             Object {
@@ -890,7 +917,32 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
         >
           <img
             height="16"
-            src={Object {}}
+            src="SvgrURL"
+            style={
+              Object {
+                "marginBottom": "2px",
+                "marginRight": "5px",
+              }
+            }
+          />
+        </div>
+      </div>
+      <div
+        className="kpi"
+      >
+        <div
+          onClick={[Function]}
+          style={
+            Object {
+              "cursor": "pointer",
+              "marginLeft": 0,
+              "marginTop": 0,
+            }
+          }
+        >
+          <img
+            height="16"
+            src="SvgrURL"
             style={
               Object {
                 "marginBottom": "2px",
@@ -920,7 +972,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
             onClick={[Function]}
           >
             <img
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "height": "18px",
@@ -934,7 +986,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
             onMouseDown={[Function]}
           >
             <img
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "height": "18px",
@@ -948,7 +1000,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
             onMouseDown={[Function]}
           >
             <img
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "height": "18px",
@@ -1130,7 +1182,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
           >
             <img
               height="14"
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "marginRight": "5px",
@@ -1181,7 +1233,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
             >
               GUI Editor
               <img
-                src={Object {}}
+                src="SvgrURL"
                 style={
                   Object {
                     "marginLeft": "10px",
@@ -1196,7 +1248,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
         >
           <img
             height="14"
-            src={Object {}}
+            src="SvgrURL"
             style={
               Object {
                 "marginRight": "5px",
@@ -1227,7 +1279,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
           >
             <img
               height="13px"
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "paddingBottom": "2px",
@@ -1253,7 +1305,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
             <img
               height="18px"
               onClick={[Function]}
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "cursor": "pointer",
@@ -1349,7 +1401,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
           >
             <img
               height="13px"
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "paddingBottom": "2px",
@@ -1375,7 +1427,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
             <img
               height="18px"
               onClick={[Function]}
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "cursor": "pointer",
@@ -1463,7 +1515,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
           >
             <img
               height="13px"
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "paddingBottom": "2px",
@@ -1489,7 +1541,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
             <img
               height="18px"
               onClick={[Function]}
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "cursor": "pointer",
@@ -1566,7 +1618,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
       >
         <img
           height="16"
-          src={Object {}}
+          src="SvgrURL"
           style={
             Object {
               "marginRight": "5px",
@@ -1604,7 +1656,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
         >
           <img
             height="16"
-            src={Object {}}
+            src="SvgrURL"
             style={
               Object {
                 "marginBottom": "2px",
@@ -1644,7 +1696,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
         >
           <img
             height="16"
-            src={Object {}}
+            src="SvgrURL"
             style={
               Object {
                 "marginBottom": "2px",
@@ -1710,7 +1762,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
         >
           <img
             height="12px"
-            src={Object {}}
+            src="SvgrURL"
             width="18px"
           />
            
@@ -1719,10 +1771,11 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
           className="logo-container"
         >
           <img
-            src={Object {}}
+            src="SvgrURL"
           />
         </div>
         <div
+          id="HandleChangeLogo"
           onClick={[Function]}
           style={
             Object {
@@ -1734,7 +1787,32 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
         >
           <img
             height="16"
-            src={Object {}}
+            src="SvgrURL"
+            style={
+              Object {
+                "marginBottom": "2px",
+                "marginRight": "5px",
+              }
+            }
+          />
+        </div>
+      </div>
+      <div
+        className="kpi"
+      >
+        <div
+          onClick={[Function]}
+          style={
+            Object {
+              "cursor": "pointer",
+              "marginLeft": 0,
+              "marginTop": 0,
+            }
+          }
+        >
+          <img
+            height="16"
+            src="SvgrURL"
             style={
               Object {
                 "marginBottom": "2px",
@@ -1764,7 +1842,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
             onClick={[Function]}
           >
             <img
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "height": "18px",
@@ -1778,7 +1856,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
             onMouseDown={[Function]}
           >
             <img
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "height": "18px",
@@ -1792,7 +1870,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
             onMouseDown={[Function]}
           >
             <img
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "height": "18px",
@@ -1974,7 +2052,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
           >
             <img
               height="14"
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "marginRight": "5px",
@@ -2025,7 +2103,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
             >
               GUI Editor
               <img
-                src={Object {}}
+                src="SvgrURL"
                 style={
                   Object {
                     "marginLeft": "10px",
@@ -2040,7 +2118,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
         >
           <img
             height="14"
-            src={Object {}}
+            src="SvgrURL"
             style={
               Object {
                 "marginRight": "5px",
@@ -2071,7 +2149,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
           >
             <img
               height="13px"
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "paddingBottom": "2px",
@@ -2097,7 +2175,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
             <img
               height="18px"
               onClick={[Function]}
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "cursor": "pointer",
@@ -2193,7 +2271,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
           >
             <img
               height="13px"
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "paddingBottom": "2px",
@@ -2219,7 +2297,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
             <img
               height="18px"
               onClick={[Function]}
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "cursor": "pointer",
@@ -2307,7 +2385,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
           >
             <img
               height="13px"
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "paddingBottom": "2px",
@@ -2333,7 +2411,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
             <img
               height="18px"
               onClick={[Function]}
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "cursor": "pointer",
@@ -2410,7 +2488,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
       >
         <img
           height="16"
-          src={Object {}}
+          src="SvgrURL"
           style={
             Object {
               "marginRight": "5px",
@@ -2448,7 +2526,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
         >
           <img
             height="16"
-            src={Object {}}
+            src="SvgrURL"
             style={
               Object {
                 "marginBottom": "2px",
@@ -2488,7 +2566,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
         >
           <img
             height="16"
-            src={Object {}}
+            src="SvgrURL"
             style={
               Object {
                 "marginBottom": "2px",
@@ -2550,7 +2628,7 @@ exports[`<MainContainer/> Values default 1`] = `
   >
     <img
       height="76px"
-      src={Object {}}
+      src="SvgrURL"
       width="94px"
     />
   </div>
@@ -2572,7 +2650,7 @@ exports[`<MainContainer/> Values default 1`] = `
     }
   >
     <img
-      src={Object {}}
+      src="SvgrURL"
     />
   </div>
 </div>
@@ -2600,7 +2678,7 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
         >
           <img
             height="12px"
-            src={Object {}}
+            src="SvgrURL"
             width="18px"
           />
            
@@ -2609,10 +2687,11 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
           className="logo-container"
         >
           <img
-            src={Object {}}
+            src="SvgrURL"
           />
         </div>
         <div
+          id="HandleChangeLogo"
           onClick={[Function]}
           style={
             Object {
@@ -2624,7 +2703,32 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
         >
           <img
             height="16"
-            src={Object {}}
+            src="SvgrURL"
+            style={
+              Object {
+                "marginBottom": "2px",
+                "marginRight": "5px",
+              }
+            }
+          />
+        </div>
+      </div>
+      <div
+        className="kpi"
+      >
+        <div
+          onClick={[Function]}
+          style={
+            Object {
+              "cursor": "pointer",
+              "marginLeft": 0,
+              "marginTop": 0,
+            }
+          }
+        >
+          <img
+            height="16"
+            src="SvgrURL"
             style={
               Object {
                 "marginBottom": "2px",
@@ -2654,7 +2758,7 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
             onClick={[Function]}
           >
             <img
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "height": "18px",
@@ -2668,7 +2772,7 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
             onMouseDown={[Function]}
           >
             <img
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "height": "18px",
@@ -2682,7 +2786,7 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
             onMouseDown={[Function]}
           >
             <img
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "height": "18px",
@@ -2864,7 +2968,7 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
           >
             <img
               height="14"
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "marginRight": "5px",
@@ -2915,7 +3019,7 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
             >
               GUI Editor
               <img
-                src={Object {}}
+                src="SvgrURL"
                 style={
                   Object {
                     "marginLeft": "10px",
@@ -2930,7 +3034,7 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
         >
           <img
             height="14"
-            src={Object {}}
+            src="SvgrURL"
             style={
               Object {
                 "marginRight": "5px",
@@ -2961,7 +3065,7 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
           >
             <img
               height="13px"
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "paddingBottom": "2px",
@@ -2987,7 +3091,7 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
             <img
               height="18px"
               onClick={[Function]}
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "cursor": "pointer",
@@ -3083,7 +3187,7 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
           >
             <img
               height="13px"
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "paddingBottom": "2px",
@@ -3109,7 +3213,7 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
             <img
               height="18px"
               onClick={[Function]}
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "cursor": "pointer",
@@ -3197,7 +3301,7 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
           >
             <img
               height="13px"
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "paddingBottom": "2px",
@@ -3223,7 +3327,7 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
             <img
               height="18px"
               onClick={[Function]}
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "cursor": "pointer",
@@ -3300,7 +3404,7 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
       >
         <img
           height="16"
-          src={Object {}}
+          src="SvgrURL"
           style={
             Object {
               "marginRight": "5px",
@@ -3338,7 +3442,7 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
         >
           <img
             height="16"
-            src={Object {}}
+            src="SvgrURL"
             style={
               Object {
                 "marginBottom": "2px",
@@ -3378,7 +3482,7 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
         >
           <img
             height="16"
-            src={Object {}}
+            src="SvgrURL"
             style={
               Object {
                 "marginBottom": "2px",
@@ -3444,7 +3548,7 @@ exports[`<MainContainer/> Values stages 1`] = `
         >
           <img
             height="12px"
-            src={Object {}}
+            src="SvgrURL"
             width="18px"
           />
            
@@ -3453,10 +3557,11 @@ exports[`<MainContainer/> Values stages 1`] = `
           className="logo-container"
         >
           <img
-            src={Object {}}
+            src="SvgrURL"
           />
         </div>
         <div
+          id="HandleChangeLogo"
           onClick={[Function]}
           style={
             Object {
@@ -3468,7 +3573,32 @@ exports[`<MainContainer/> Values stages 1`] = `
         >
           <img
             height="16"
-            src={Object {}}
+            src="SvgrURL"
+            style={
+              Object {
+                "marginBottom": "2px",
+                "marginRight": "5px",
+              }
+            }
+          />
+        </div>
+      </div>
+      <div
+        className="kpi"
+      >
+        <div
+          onClick={[Function]}
+          style={
+            Object {
+              "cursor": "pointer",
+              "marginLeft": 0,
+              "marginTop": 0,
+            }
+          }
+        >
+          <img
+            height="16"
+            src="SvgrURL"
             style={
               Object {
                 "marginBottom": "2px",
@@ -3498,7 +3628,7 @@ exports[`<MainContainer/> Values stages 1`] = `
             onClick={[Function]}
           >
             <img
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "height": "18px",
@@ -3512,7 +3642,7 @@ exports[`<MainContainer/> Values stages 1`] = `
             onMouseDown={[Function]}
           >
             <img
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "height": "18px",
@@ -3526,7 +3656,7 @@ exports[`<MainContainer/> Values stages 1`] = `
             onMouseDown={[Function]}
           >
             <img
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "height": "18px",
@@ -3708,7 +3838,7 @@ exports[`<MainContainer/> Values stages 1`] = `
           >
             <img
               height="14"
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "marginRight": "5px",
@@ -3759,7 +3889,7 @@ exports[`<MainContainer/> Values stages 1`] = `
             >
               GUI Editor
               <img
-                src={Object {}}
+                src="SvgrURL"
                 style={
                   Object {
                     "marginLeft": "10px",
@@ -3774,7 +3904,7 @@ exports[`<MainContainer/> Values stages 1`] = `
         >
           <img
             height="14"
-            src={Object {}}
+            src="SvgrURL"
             style={
               Object {
                 "marginRight": "5px",
@@ -3805,7 +3935,7 @@ exports[`<MainContainer/> Values stages 1`] = `
           >
             <img
               height="13px"
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "paddingBottom": "2px",
@@ -3831,7 +3961,7 @@ exports[`<MainContainer/> Values stages 1`] = `
             <img
               height="18px"
               onClick={[Function]}
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "cursor": "pointer",
@@ -3927,7 +4057,7 @@ exports[`<MainContainer/> Values stages 1`] = `
           >
             <img
               height="13px"
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "paddingBottom": "2px",
@@ -3953,7 +4083,7 @@ exports[`<MainContainer/> Values stages 1`] = `
             <img
               height="18px"
               onClick={[Function]}
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "cursor": "pointer",
@@ -4041,7 +4171,7 @@ exports[`<MainContainer/> Values stages 1`] = `
           >
             <img
               height="13px"
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "paddingBottom": "2px",
@@ -4067,7 +4197,7 @@ exports[`<MainContainer/> Values stages 1`] = `
             <img
               height="18px"
               onClick={[Function]}
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "cursor": "pointer",
@@ -4144,7 +4274,7 @@ exports[`<MainContainer/> Values stages 1`] = `
       >
         <img
           height="16"
-          src={Object {}}
+          src="SvgrURL"
           style={
             Object {
               "marginRight": "5px",
@@ -4188,7 +4318,7 @@ exports[`<MainContainer/> Values stages 1`] = `
                   className="growFlex4"
                 >
                   <img
-                    src={Object {}}
+                    src="SvgrURL"
                     style={
                       Object {
                         "height": "10px",
@@ -4382,7 +4512,7 @@ exports[`<MainContainer/> Values stages 1`] = `
         >
           <img
             height="16"
-            src={Object {}}
+            src="SvgrURL"
             style={
               Object {
                 "marginBottom": "2px",
@@ -4468,7 +4598,7 @@ exports[`<MainContainer/> Values stages 1`] = `
         >
           <img
             height="16"
-            src={Object {}}
+            src="SvgrURL"
             style={
               Object {
                 "marginBottom": "2px",
@@ -4589,7 +4719,7 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
         >
           <img
             height="12px"
-            src={Object {}}
+            src="SvgrURL"
             width="18px"
           />
            
@@ -4598,10 +4728,11 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
           className="logo-container"
         >
           <img
-            src={Object {}}
+            src="SvgrURL"
           />
         </div>
         <div
+          id="HandleChangeLogo"
           onClick={[Function]}
           style={
             Object {
@@ -4613,7 +4744,32 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
         >
           <img
             height="16"
-            src={Object {}}
+            src="SvgrURL"
+            style={
+              Object {
+                "marginBottom": "2px",
+                "marginRight": "5px",
+              }
+            }
+          />
+        </div>
+      </div>
+      <div
+        className="kpi"
+      >
+        <div
+          onClick={[Function]}
+          style={
+            Object {
+              "cursor": "pointer",
+              "marginLeft": 0,
+              "marginTop": 0,
+            }
+          }
+        >
+          <img
+            height="16"
+            src="SvgrURL"
             style={
               Object {
                 "marginBottom": "2px",
@@ -4643,7 +4799,7 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
             onClick={[Function]}
           >
             <img
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "height": "18px",
@@ -4657,7 +4813,7 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
             onMouseDown={[Function]}
           >
             <img
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "height": "18px",
@@ -4671,7 +4827,7 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
             onMouseDown={[Function]}
           >
             <img
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "height": "18px",
@@ -4853,7 +5009,7 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
           >
             <img
               height="14"
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "marginRight": "5px",
@@ -4904,7 +5060,7 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
             >
               GUI Editor
               <img
-                src={Object {}}
+                src="SvgrURL"
                 style={
                   Object {
                     "marginLeft": "10px",
@@ -4919,7 +5075,7 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
         >
           <img
             height="14"
-            src={Object {}}
+            src="SvgrURL"
             style={
               Object {
                 "marginRight": "5px",
@@ -4950,7 +5106,7 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
           >
             <img
               height="13px"
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "paddingBottom": "2px",
@@ -4976,7 +5132,7 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
             <img
               height="18px"
               onClick={[Function]}
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "cursor": "pointer",
@@ -5072,7 +5228,7 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
           >
             <img
               height="13px"
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "paddingBottom": "2px",
@@ -5098,7 +5254,7 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
             <img
               height="18px"
               onClick={[Function]}
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "cursor": "pointer",
@@ -5186,7 +5342,7 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
           >
             <img
               height="13px"
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "paddingBottom": "2px",
@@ -5212,7 +5368,7 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
             <img
               height="18px"
               onClick={[Function]}
-              src={Object {}}
+              src="SvgrURL"
               style={
                 Object {
                   "cursor": "pointer",
@@ -5289,7 +5445,7 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
       >
         <img
           height="16"
-          src={Object {}}
+          src="SvgrURL"
           style={
             Object {
               "marginRight": "5px",
@@ -5327,7 +5483,7 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
         >
           <img
             height="16"
-            src={Object {}}
+            src="SvgrURL"
             style={
               Object {
                 "marginBottom": "2px",
@@ -5367,7 +5523,7 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
         >
           <img
             height="16"
-            src={Object {}}
+            src="SvgrURL"
             style={
               Object {
                 "marginBottom": "2px",

@@ -125,6 +125,7 @@ exports[`QueryFormModal component Render body with default data 1`] = `
       <div>
         <input
           className="inputText"
+          defaultValue={10}
           id="Timeout"
           name="Timeout"
           onChange={[Function]}
@@ -145,41 +146,9 @@ exports[`QueryFormModal component Render body with default data 1`] = `
       className=""
       onSubmit={[Function]}
     >
-      <textarea
-        onChange={[Function]}
-        style={
-          Object {
-            "background": "#333333",
-            "border": "1px solid #D0D0D0",
-            "color": "#00EC64",
-            "height": "180px",
-            "padding": "15px",
-          }
-        }
-        value="SELECT FILTER(count(*) FROM Log"
-      />
       <strong>
-        SINCE 5 MINUTES AGO
+        SINCE 2 DAYS AGO
       </strong>
-      <div
-        style={
-          Object {
-            "alignItems": "center",
-            "backgroundColor": "#333333",
-            "color": "#00EC64",
-            "display": "flex",
-            "height": "60px",
-            "justifyContent": "space-between",
-            "padding": "15px",
-            "paddingTop": "15px",
-          }
-        }
-      >
-        <strong>
-          type=default
-
-        </strong>
-      </div>
       <div
         style={
           Object {
@@ -269,7 +238,7 @@ exports[`QueryFormModal component Render body with default data 1`] = `
                   fill="#FF4C4C"
                 />
               </svg>
-              Bad query
+              GOOD QUERY
             </span>
           </div>
           <button

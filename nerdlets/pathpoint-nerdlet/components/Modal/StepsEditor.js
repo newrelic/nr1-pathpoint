@@ -626,6 +626,12 @@ class BodyStepsEditor extends Component {
     });
   };
 
+  HandleDropdownOpen() {
+    const dialog = document.body.querySelector('div[role=dialog]');
+    if (!dialog && !dialog.nextSibling) return false;
+    dialog.nextSibling.style.minWidth = 'initial';
+  }
+
   render() {
     return (
       <div style={{ width: '550px' }}>
@@ -762,6 +768,7 @@ class BodyStepsEditor extends Component {
                               }}
                             />
                             <Dropdown
+                              onOpen={this.HandleDropdownOpen}
                               title={this.state.form[`step_${step.id}`].index}
                               disabled={this.state.current.step !== step.id}
                             >

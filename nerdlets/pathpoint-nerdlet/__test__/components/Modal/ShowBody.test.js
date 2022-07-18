@@ -3,6 +3,11 @@ import { mount } from 'enzyme';
 import ShowBody from '../../../components/Modal/ShowBody';
 import { it, jest } from '@jest/globals';
 
+jest.mock('../../../components/Editor/Editor');
+jest.mock('../../../components/Modal/KPIEditor/KPIEditor');
+jest.mock('../../../components/Modal/StagesEditor');
+jest.mock('../../../components/Modal/TouchpointsEditor');
+
 const accountIDs = [
   {
     name: 'WigiBoards',
@@ -370,10 +375,17 @@ describe('<ShowBody/>', () => {
         viewModal={5}
         width="230px"
         stageNameSelected={{
-          datos: {
-            error_threshold: 0,
-            apdex_time: 0
-          }
+          selectedCase: {
+            value: 0
+          },
+          datos: [
+            {
+              type: 'APS',
+              query:
+                "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE monitorName='BDB Live person'",
+              min_success_percentage: 98
+            }
+          ]
         }}
         HandleCredentialsFormChange={jest.fn()}
         handleSaveUpdateGeneralConfiguration={jest.fn()}
@@ -751,7 +763,7 @@ describe('<ShowBody/>', () => {
     expect(bodyRender.state('url')).toMatch('sometext');
   });
 
-  it('Function handleSubmitLogo', () => {
+  it('Function handleSubmitLogo and viewmodal 11', () => {
     const LogoFormSubmit = jest.fn();
     const bodyRender = mount(
       <ShowBody
@@ -761,7 +773,7 @@ describe('<ShowBody/>', () => {
         handleSaveUpdateTune={jest.fn()}
         LogoFormSubmit={LogoFormSubmit}
         handleOnChange={jest.fn()}
-        viewModal={10}
+        viewModal={11}
         width="230px"
         stageNameSelected={{
           datos: {
@@ -811,7 +823,7 @@ describe('<ShowBody/>', () => {
     expect(LogoFormSubmit).toHaveBeenCalledTimes(1);
   });
 
-  it('Function handleSubmitTune', () => {
+  it('Function handleSubmitTune and viewmodal 12', () => {
     const handleSaveUpdateTune = jest.fn();
     const bodyRender = mount(
       <ShowBody
@@ -821,7 +833,7 @@ describe('<ShowBody/>', () => {
         handleSaveUpdateTune={handleSaveUpdateTune}
         LogoFormSubmit={jest.fn()}
         handleOnChange={jest.fn()}
-        viewModal={10}
+        viewModal={12}
         width="230px"
         stageNameSelected={{
           datos: {
@@ -871,7 +883,7 @@ describe('<ShowBody/>', () => {
     expect(handleSaveUpdateTune).toHaveBeenCalledTimes(1);
   });
 
-  it('Function handleSubmitSupport', () => {
+  it('Function handleSubmitSupport and viewmodal 13', () => {
     const handleSaveUpdateSupport = jest.fn();
     const bodyRender = mount(
       <ShowBody
@@ -881,7 +893,7 @@ describe('<ShowBody/>', () => {
         handleSaveUpdateTune={jest.fn()}
         LogoFormSubmit={jest.fn()}
         handleOnChange={jest.fn()}
-        viewModal={10}
+        viewModal={13}
         width="230px"
         stageNameSelected={{
           datos: {
@@ -941,7 +953,67 @@ describe('<ShowBody/>', () => {
         handleSaveUpdateTune={jest.fn()}
         LogoFormSubmit={jest.fn()}
         handleOnChange={jest.fn()}
-        viewModal={11}
+        viewModal={14}
+        width="230px"
+        stageNameSelected={{
+          datos: {
+            error_threshold: 0,
+            apdex_time: 0
+          }
+        }}
+        HandleCredentialsFormChange={jest.fn()}
+        handleSaveUpdateGeneralConfiguration={jest.fn()}
+        resetCredentials={jest.fn()}
+        ValidateIngestLicense={jest.fn()}
+        ValidateUserApiKey={jest.fn()}
+        ToggleEnableSubmit={jest.fn()}
+        installUpdateBackgroundScripts={jest.fn()}
+        disableGeneralConfigurationSubmit={false}
+        credentialsData={{
+          accountId: null,
+          ingestLicense: null,
+          userAPIKey: null,
+          dropTools: null,
+          flameTools: null,
+          loggin: null
+        }}
+        licenseValidations={{
+          ingestLicense: false,
+          userApiKey: false
+        }}
+        UpdateJSONMetaData={jest.fn()}
+        jsonMetaData={{
+          description: '',
+          note: ''
+        }}
+        GetHistoricJSONData={jest.fn().mockReturnValue([])}
+        JSONModal={{
+          view: 0,
+          historic: []
+        }}
+        UpdateItemSelectFromHistoric={jest.fn()}
+        currentHistoricSelected={null}
+        RestoreJSONFromHistoric={jest.fn()}
+        username="PathPoint"
+      />
+    );
+    bodyRender.instance().handleSubmitSupport({
+      preventDefault: jest.fn()
+    });
+    expect(handleSaveUpdateSupport).toHaveBeenCalledTimes(1);
+  });
+
+  it('viewModal on 15', () => {
+    const handleSaveUpdateSupport = jest.fn();
+    const bodyRender = mount(
+      <ShowBody
+        GetCurrentHistoricErrorScript={jest.fn()}
+        handleSaveUpdateSupport={handleSaveUpdateSupport}
+        _onClose={jest.fn()}
+        handleSaveUpdateTune={jest.fn()}
+        LogoFormSubmit={jest.fn()}
+        handleOnChange={jest.fn()}
+        viewModal={15}
         width="230px"
         stageNameSelected={{
           datos: {

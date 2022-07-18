@@ -58,12 +58,13 @@ New Relic Pathpoint is an enterprise platform tracker that models system health 
 
 Business Journey Observability, is the Customer, Product and Services Paths, including all Internal Processes & External Dependencies, needed to meet a customer’s expectation and or service agreement. Pathpoing is Business Journey Observability.
 
-- Pathpoint will work in nearly any New Relic account. And each Pathpoint is divided into; Stages, Steps and Touchpoints.
+![#1589F0](https://via.placeholder.com/15/1589F0/000000?text=+) Pathpoint will work in nearly any New Relic account. And each Pathpoint is divided into; Stages, Steps and Touchpoints.
 
-- To get started setting up Pathpoint you'll need some telemetry in the account that you would like to measure. This could be -for instance- any of the following telemetry types: 
-*Metrics, Events, Logs and Traces* 
+To get started setting up Pathpoint you'll need some telemetry in the account that you would like to measure. This could be -for instance- any of the following telemetry types: 
 
-A popular starting place for Pathpoint is APM Events and Logs, but this is up to you. The other thing you'll need to know is how this telemetry maps onto the business process you want to model as stages and steps. That may require some internal discussions with your stakeholders to understand how things really fit in.
+![#1589F0](https://via.placeholder.com/15/1589F0/000000?text=+) Metrics, Events, Logs and Traces. 
+
+A common starting place for Pathpoint is APM Events and Logs, but this is up to you. The other thing you'll need to know is how this telemetry maps onto the business process you want to model as stages and steps. That may require some internal discussions with your stakeholders to understand how things really fit in.
 
 To configure your own Pathpoint simply download the current version of the JSON config that was written for you, to edit it yourself (if you wish to do so) and then re-upload it. Alternatively you can also manually "right click" over each one of the touchpoints you would like to work on, to manually adjust its configuration.
 
@@ -83,7 +84,7 @@ On the following graphic, you can see that this particular Pathpoint has five st
 
 Additionally if the Stage turns blue, like in the example above, this represents congestion on the Stage, and if the color of the Stage is white, it means it is free of congestion.
 
-Please note that under a single Stage you should only count either persons (PRC Touchpoint) or processes (PCC Touchpoint).
+![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) Please note that under a single Stage you should only count either persons (PRC Touchpoint) or processes (PCC Touchpoint).
 
 ![Image](screenshots/stage5.png)
  On the graphic above you can see the symbols for the two types of Stages, which are:  
@@ -119,7 +120,7 @@ ID: Corresponds to the code that identifies the step in its order within the row
 
 Touchpoints are the more granular entities of the PathPoint model. TouchPoints do behave more like a specific browser application or APM (Application Monitor). 
 
-Touchpoints do also hold individual Health, Status, Performance, Count and even Business knowledge of a specific data object, environment, app, device, API or service. Additionally every Touchpoint can be tuned and modified to fit a specific journey’s goal.
+![#c5f015](https://via.placeholder.com/15/c5f015/000000?text=+) Touchpoints do also hold individual Health, Status, Performance, Count and even Business knowledge of a specific data object, environment, app, device, API or service. Additionally every Touchpoint can be tuned and modified to fit a specific journey’s goal.
 
 And every Step of a Pathpoint is connected to one or more Touchpoints and Every Stage Status is based on the culmination of its respective Touchpoints. The Touchpoint is the pulse of each Pathpoint.
 
@@ -172,7 +173,7 @@ These are the different parts of the query box window, of a PRC person count Tou
      6 Measure_time: Determines the time from when you want the query to collect information to perform the measurement.
 
 
-In this Readme file you will learn more about the different types of queries, for the different types of Touchpoints.   
+![#1589F0](https://via.placeholder.com/15/1589F0/000000?text=+) In this Readme file you will learn more about the different types of queries, for the different types of Touchpoints.   
 
 And these are two examples of a typical Touchpoint configuration, as is written on the JSON file:
 

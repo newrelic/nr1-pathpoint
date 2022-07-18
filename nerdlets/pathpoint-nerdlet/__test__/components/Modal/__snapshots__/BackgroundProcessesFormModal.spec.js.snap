@@ -71,7 +71,7 @@ exports[`BackgroundProcessesFormModal component Render body with default data 1`
     <div>
       <img
         height="15"
-        src={Object {}}
+        src="SvgrURL"
         width="24"
       />
       <a
@@ -103,7 +103,7 @@ exports[`BackgroundProcessesFormModal component Render header with default data 
     className="titleModal"
   >
     <img
-      src={Object {}}
+      src="SvgrURL"
       width="18"
     />
      Setup: Background Processes

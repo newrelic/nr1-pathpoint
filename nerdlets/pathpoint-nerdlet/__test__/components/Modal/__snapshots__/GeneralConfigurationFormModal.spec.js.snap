@@ -279,7 +279,7 @@ exports[`<GeneralConfigurationFormModal/> Render HeaderGeneralConfigurationFormM
     className="titleModal"
   >
     <img
-      src={Object {}}
+      src="SvgrURL"
       width="18"
     />
      Credentials and General Configuration

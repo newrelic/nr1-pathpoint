@@ -1,0 +1,43 @@
+.nrql-editor {
+    position: relative;
+    background-color: #ffffff;
+
+    & > .backdrop {
+        z-index: 1;
+        overflow: auto;
+        position: absolute;
+
+        & .custom-area {
+            width: inherit;
+            height: inherit;
+        }
+    }
+
+    & > .entry {
+        z-index: 2;
+        outline: 0;
+        border-radius: 0 !important;
+        resize: none !important;
+        position: absolute !important;
+        color: transparent !important;
+        background-color: transparent !important;
+        caret-color: #555555;
+        min-width: 100% !important;
+        max-width: 100%;
+        border-width: 0 !important;
+    }
+
+    & > .backdrop, > .backdrop .custom-area, > .entry {
+        width: 100%;
+        height: 100%;
+    }
+    
+    & > .backdrop .custom-area, > .entry {
+        font-size: 14px !important;
+        line-height: 22px !important;
+        padding: 4px 7px !important;
+        letter-spacing: .4px !important;
+        word-break: break-word !important;
+        font-family: 'Open Sans', sans-serif !important;
+    }
+}

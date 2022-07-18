@@ -25,20 +25,57 @@ describe('ShowBody component', () => {
   test('ShowBody with default data in 0 view', () => {
     const body = create(
       <ShowBody
-        querySample="simple query"
+        GetCurrentHistoricErrorScript={jest.fn()}
+        GetCurrentConfigurationJSON={jest.fn()}
+        SetConfigurationJSON={jest.fn()}
+        validateKpiQuery={{}}
         stageNameSelected={{
           selectedCase: 0,
           datos: [
             {
-              label: 'Full Open Query',
-              query_body: 'SELECT FILTER(count(*) FROM Log',
-              query_footer: 'SINCE 5 MINUTES AGO',
-              query_start: '',
-              type: 20,
-              value: 0
+              type: 'SYN',
+              query:
+                "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE monitorName='BDB Live person'",
+              max_avg_response_time: 0.7,
+              max_total_check_time: 1.25,
+              min_success_percentage: 98,
+              success_percentage: 0,
+              max_duration: 0,
+              max_request_time: 0
             }
           ]
         }}
+        ValidateIngestLicense={jest.fn()}
+        ValidateUserApiKey={jest.fn()}
+        ToggleEnableSubmit={jest.fn()}
+        installUpdateBackgroundScripts={jest.fn()}
+        disableGeneralConfigurationSubmit={false}
+        credentialsData={{
+          accountId: null,
+          ingestLicense: null,
+          userAPIKey: null,
+          dropTools: null,
+          flameTools: null,
+          loggin: null
+        }}
+        licenseValidations={{
+          ingestLicense: false,
+          userApiKey: false
+        }}
+        UpdateJSONMetaData={jest.fn()}
+        jsonMetaData={{
+          description: '',
+          note: ''
+        }}
+        GetHistoricJSONData={jest.fn().mockReturnValue([])}
+        JSONModal={{
+          view: 0,
+          historic: []
+        }}
+        UpdateItemSelectFromHistoric={jest.fn()}
+        currentHistoricSelected={null}
+        RestoreJSONFromHistoric={jest.fn()}
+        username="PathPoint"
         chargueSample={jest.fn()}
         testQuery={jest.fn()}
         handleSaveUpdateQuery={jest.fn()}
@@ -48,7 +85,7 @@ describe('ShowBody component', () => {
         goodQuery={false}
         modifiedQuery
         handleChangeTexarea={jest.fn()}
-        viewModal={1}
+        viewModal={4}
         width="230px"
         handleSaveUpdateTune={jest.fn()}
         _onClose={jest.fn()}

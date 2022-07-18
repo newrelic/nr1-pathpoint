@@ -639,7 +639,10 @@ describe('Datamanager service', () => {
     const result = await dataManager.BootstrapInitialData(accountName);
     expect(dataManager.lastStorageVersion).toEqual('1.0.0');
     expect(result.stages.length).toEqual(5);
-    expect(result.accountIDs).toEqual([{ name: 'WigiBoards', id: 2710112 }]);
+    expect(result.accountIDs).toEqual([
+      { name: 'WigiBoards', id: 2710112 },
+      { name: 'Custom ID', id: 1606862 }
+    ]);
   });
 
   it('Function SetTotalContainers', () => {
@@ -804,7 +807,27 @@ describe('Datamanager service', () => {
   });
 
   it('Function AddCustomAccountIDs()', () => {
+    const kpis = [
+      {
+        check: true,
+        index: 0,
+        link: 'https://onenr.io/01qwL8KPxw5',
+        name: 'Unique Visitors',
+        prefix: '$',
+        queryByCity: [
+          {
+            query:
+              "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='ap-southeast-2'",
+            link: 'https://newrelic.one'
+          }
+        ],
+        shortName: 'Unique',
+        suffix: '',
+        type: 101
+      }
+    ];
     dataManager.removeCustomIDs = jest.fn();
+    dataManager.kpis = kpis;
     dataManager.AddCustomAccountIDs();
     expect(dataManager.accountIDs).toEqual([
       { id: 0, name: 'NAME' },
@@ -1119,6 +1142,14 @@ describe('Datamanager service', () => {
       type: 'WLD',
       status_value: 'VALUE'
     };
+    const measureAPC = {
+      type: 'APC',
+      api_count: 15
+    };
+    const measureAPS = {
+      type: 'APS',
+      success_percentage: 25
+    };
     dataManager.ClearMeasure(measurePRC);
     dataManager.ClearMeasure(measurePCC);
     dataManager.ClearMeasure(measureAPP);
@@ -1126,6 +1157,8 @@ describe('Datamanager service', () => {
     dataManager.ClearMeasure(measureSYN);
     dataManager.ClearMeasure(measureWLD);
     dataManager.ClearMeasure(measureDRP);
+    dataManager.ClearMeasure(measureAPC);
+    dataManager.ClearMeasure(measureAPS);
     expect(measurePRC).toEqual({
       type: 'PRC',
       session_count: 0
@@ -1151,6 +1184,14 @@ describe('Datamanager service', () => {
       success_percentage: 0,
       max_duration: 0,
       max_request_time: 0
+    });
+    expect(measureAPC).toEqual({
+      type: 'APC',
+      api_count: 0
+    });
+    expect(measureAPS).toEqual({
+      type: 'APS',
+      success_percentage: 0
     });
   });
 
@@ -1493,6 +1534,19 @@ describe('Datamanager service', () => {
     expect(result).toEqual(0);
   });
 
+  it('Function NRDBQuery() using Emulator', async () => {
+    dataManager.useEmulator = true;
+    dataManager.EmulatorMeasures = jest.fn().mockReturnValue({
+      data: {
+        actor: {}
+      },
+      errors: [],
+      n: 0
+    });
+    const result = await dataManager.NRDBQuery();
+    expect(result).toEqual(undefined);
+  });
+
   it('Function NRDBQuery() with error', async () => {
     dataManager.MakeLogingData = jest.fn();
     dataManager.EvaluateMeasures = jest.fn().mockReturnValue({
@@ -1503,6 +1557,11 @@ describe('Datamanager service', () => {
       n: 26
     });
     await dataManager.NRDBQuery();
+  });
+
+  it('Function NRDBQuery() with catch', async () => {
+    jest.spyOn(dataManager, 'NRDBQuery').mockRejectedValue(Error('error'));
+    await expect(dataManager.NRDBQuery()).rejects.toThrow('error');
   });
 
   it('Function NRDBQuery() with measure.type = PRC', async () => {
@@ -1804,6 +1863,185 @@ describe('Datamanager service', () => {
     expect(dataManager.MakeLogingData).toHaveBeenCalledTimes(1);
   });
 
+  it('Function NRDBQuery() with measure.type = DRP', async () => {
+    dataManager.MakeLogingData = jest.fn();
+    dataManager.EvaluateMeasures = jest.fn().mockReturnValue({
+      data: {
+        actor: {
+          measure_0: {
+            __typename: 'Account',
+            id: 2710112,
+            nrql: {
+              __typename: 'NrdbResultContainer',
+              results: [
+                {
+                  count: null
+                }
+              ]
+            }
+          }
+        }
+      },
+      errors: [],
+      n: 26
+    });
+    dataManager.graphQlmeasures = [
+      [
+        {
+          accountID: 2710112,
+          type: 'DRP'
+        },
+        {
+          query:
+            "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
+        },
+        {
+          measureType: 'touchpoint',
+          touchpointRef: {
+            status_on_off: false
+          }
+        }
+      ]
+    ];
+    await dataManager.NRDBQuery();
+    expect(dataManager.MakeLogingData).toHaveBeenCalledTimes(1);
+  });
+
+  it('Function NRDBQuery() with measure.type = APC', async () => {
+    dataManager.MakeLogingData = jest.fn();
+    dataManager.EvaluateMeasures = jest.fn().mockReturnValue({
+      data: {
+        actor: {
+          measure_0: {
+            __typename: 'Account',
+            id: 2710112,
+            nrql: {
+              __typename: 'NrdbResultContainer',
+              results: [
+                {
+                  count: null
+                }
+              ]
+            }
+          }
+        }
+      },
+      errors: [],
+      n: 26
+    });
+    dataManager.graphQlmeasures = [
+      [
+        {
+          accountID: 2710112,
+          type: 'APC'
+        },
+        {
+          query:
+            "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
+        },
+        {
+          measureType: 'touchpoint',
+          touchpointRef: {
+            status_on_off: false
+          }
+        }
+      ]
+    ];
+    await dataManager.NRDBQuery();
+    expect(dataManager.MakeLogingData).toHaveBeenCalledTimes(1);
+  });
+
+  it('Function NRDBQuery() with measure.type = API', async () => {
+    dataManager.MakeLogingData = jest.fn();
+    dataManager.EvaluateMeasures = jest.fn().mockReturnValue({
+      data: {
+        actor: {
+          measure_0: {
+            __typename: 'Account',
+            id: 2710112,
+            nrql: {
+              __typename: 'NrdbResultContainer',
+              results: [
+                {
+                  apdex: 25,
+                  score: 26,
+                  response: null,
+                  error: null
+                }
+              ]
+            }
+          }
+        }
+      },
+      errors: [],
+      n: 26
+    });
+    dataManager.graphQlmeasures = [
+      [
+        {
+          accountID: 2710112,
+          type: 'API'
+        },
+        {
+          query:
+            "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
+        },
+        {
+          measureType: 'touchpoint',
+          touchpointRef: {
+            status_on_off: false
+          }
+        }
+      ]
+    ];
+    await dataManager.NRDBQuery();
+    expect(dataManager.MakeLogingData).toHaveBeenCalledTimes(1);
+  });
+
+  it('Function NRDBQuery() with measure.type = APS', async () => {
+    dataManager.MakeLogingData = jest.fn();
+    dataManager.EvaluateMeasures = jest.fn().mockReturnValue({
+      data: {
+        actor: {
+          measure_0: {
+            __typename: 'Account',
+            id: 2710112,
+            nrql: {
+              __typename: 'NrdbResultContainer',
+              results: [
+                {
+                  percentage: null
+                }
+              ]
+            }
+          }
+        }
+      },
+      errors: [],
+      n: 26
+    });
+    dataManager.graphQlmeasures = [
+      [
+        {
+          accountID: 2710112,
+          type: 'APS'
+        },
+        {
+          query:
+            "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
+        },
+        {
+          measureType: 'touchpoint',
+          touchpointRef: {
+            status_on_off: false
+          }
+        }
+      ]
+    ];
+    await dataManager.NRDBQuery();
+    expect(dataManager.MakeLogingData).toHaveBeenCalledTimes(1);
+  });
+
   it('Function NRDBQuery() with measure.type = 100', async () => {
     dataManager.MakeLogingData = jest.fn();
     dataManager.EvaluateMeasures = jest.fn().mockReturnValue({
@@ -1816,7 +2054,7 @@ describe('Datamanager service', () => {
               __typename: 'NrdbResultContainer',
               results: [
                 {
-                  value: 10
+                  value: 17
                 }
               ]
             }
@@ -1860,16 +2098,11 @@ describe('Datamanager service', () => {
               __typename: 'NrdbResultContainer',
               results: [
                 {
-                  value: {
-                    current: 'current'
-                  },
-                  comparison: 'no_current'
+                  value: 17,
+                  comparison: 'current'
                 },
                 {
-                  value: {
-                    previous: 'previous'
-                  },
-                  comparison: 'no_current'
+                  value: 15
                 }
               ]
             }
@@ -1885,8 +2118,8 @@ describe('Datamanager service', () => {
           accountID: 2710112,
           type: 101,
           value: {
-            current: 'current',
-            previous: 'previous'
+            current: null,
+            previous: null
           }
         },
         {
@@ -1905,7 +2138,7 @@ describe('Datamanager service', () => {
     expect(dataManager.MakeLogingData).toHaveBeenCalledTimes(1);
   });
 
-  it('Function NRDBQuery() with measure.type = 101 and comparison = current', async () => {
+  it('Function NRDBQuery() with measure.type = 101 and comparison != current', async () => {
     dataManager.MakeLogingData = jest.fn();
     dataManager.EvaluateMeasures = jest.fn().mockReturnValue({
       data: {
@@ -1917,16 +2150,11 @@ describe('Datamanager service', () => {
               __typename: 'NrdbResultContainer',
               results: [
                 {
-                  value: {
-                    current: 'current'
-                  },
-                  comparison: 'current'
+                  value: 19,
+                  comparison: 'previous'
                 },
                 {
-                  value: {
-                    previous: 'previous'
-                  },
-                  comparison: 'current'
+                  value: 10
                 }
               ]
             }
@@ -1942,8 +2170,8 @@ describe('Datamanager service', () => {
           accountID: 2710112,
           type: 101,
           value: {
-            current: 'current',
-            previous: 'previous'
+            current: null,
+            previous: null
           }
         },
         {
@@ -2300,10 +2528,10 @@ describe('Datamanager service', () => {
     const data = {
       actor: 'new Actor'
     };
-    const errorMessage = [];
+    const error = [{ errors: 'primer error' }, { error2: 'segundo error' }];
     jest
       .spyOn(NerdGraphQuery, 'query')
-      .mockImplementationOnce(() => Promise.resolve({ data, errorMessage }));
+      .mockImplementationOnce(() => Promise.resolve({ data, error }));
     const result = await dataManager.EvaluateMeasures();
     expect(result.n).toEqual(1);
   });
@@ -2793,6 +3021,14 @@ describe('Datamanager service', () => {
               measure_time: '15 minutes ago'
             },
             {
+              type: 'APC',
+              query:
+                "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
+              max_count: 1,
+              api_count: 15,
+              count: 5
+            },
+            {
               type: 'PCC',
               query:
                 "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
@@ -2817,11 +3053,11 @@ describe('Datamanager service', () => {
         {
           capacity_link: '',
           capacity_status: true,
-          num_touchpoints: 1,
+          num_touchpoints: 2,
           steps_indexes: [],
-          steps_max_cong: [],
-          total_congestion: 0,
-          total_count: 20,
+          steps_max_cong: [1],
+          total_congestion: 14,
+          total_count: 35,
           drop_count: NaN
         }
       ]
@@ -3102,6 +3338,60 @@ describe('Datamanager service', () => {
               type: 'SYN',
               max_duration: 10,
               max_total_check_time: 0
+            }
+          ],
+          relation_steps: [1]
+        }
+      ]
+    };
+    dataManager.stepsByStage = [1];
+    dataManager.SetTouchpointError = jest.fn();
+    dataManager.GetTotalStepsWithError = jest.fn().mockReturnValue(0.07);
+    const result = dataManager.GetStageError(stage, element);
+    expect(result).toEqual('good');
+  });
+
+  it('Function GetStageError() with measure.type = APC', () => {
+    const stage = 1;
+    const element = {
+      index: 0,
+      touchpoints: [
+        {
+          stage_index: 1,
+          touchpoint_index: 2,
+          status_on_off: true,
+          measure_points: [
+            {
+              type: 'APC',
+              api_count: 5,
+              min_count: 25
+            }
+          ],
+          relation_steps: [1]
+        }
+      ]
+    };
+    dataManager.stepsByStage = [1];
+    dataManager.SetTouchpointError = jest.fn();
+    dataManager.GetTotalStepsWithError = jest.fn().mockReturnValue(0.07);
+    const result = dataManager.GetStageError(stage, element);
+    expect(result).toEqual('good');
+  });
+
+  it('Function GetStageError() with measure.type = APS', () => {
+    const stage = 1;
+    const element = {
+      index: 0,
+      touchpoints: [
+        {
+          stage_index: 1,
+          touchpoint_index: 2,
+          status_on_off: true,
+          measure_points: [
+            {
+              type: 'APS',
+              success_percentage: 14,
+              min_success_percentage: 25
             }
           ],
           relation_steps: [1]
@@ -3580,15 +3870,22 @@ describe('Datamanager service', () => {
         ]
       }
     ];
-    const result = dataManager.GetTouchpointQueryes(stage_index, index);
+    const withValues = true;
+    const result = dataManager.GetTouchpointQueryes(
+      stage_index,
+      index,
+      withValues
+    );
     expect(result).toEqual([
       {
         type: 'Person-Count',
         accountID: 7777777,
+        max_count: undefined,
         query:
           "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
         query_timeout: 10,
         min_count: 10,
+        session_count: 0,
         measure_time: '15 minutes ago'
       }
     ]);
@@ -3624,7 +3921,12 @@ describe('Datamanager service', () => {
     dataManager.dropParams = {
       hours: 1
     };
-    const result = dataManager.GetTouchpointQueryes(stage_index, index);
+    const withValues = true;
+    const result = dataManager.GetTouchpointQueryes(
+      stage_index,
+      index,
+      withValues
+    );
     expect(result).toEqual([
       {
         type: 'Drops-Count',
@@ -3697,19 +3999,56 @@ describe('Datamanager service', () => {
                 type: 'WLD',
                 query:
                   "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
+              },
+              {
+                measure_time: '15 minutes ago',
+                accountID: 7777777,
+                timeout: 10,
+                type: 'API',
+                min_apdex: 0.5,
+                max_response_time: 0.3,
+                max_error_percentage: 0.7,
+                query:
+                  "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
+              },
+              {
+                measure_time: '15 minutes ago',
+                accountID: 7777777,
+                timeout: 10,
+                type: 'APC',
+                min_count: 0.5,
+                max_count: 0.3,
+                query:
+                  "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
+              },
+              {
+                measure_time: '15 minutes ago',
+                accountID: 7777777,
+                timeout: 10,
+                type: 'APS',
+                min_success_percentage: 0.5,
+                query:
+                  "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
               }
             ]
           }
         ]
       }
     ];
-    const result = dataManager.GetTouchpointQueryes(stage_index, index);
+    const withValues = true;
+    const result = dataManager.GetTouchpointQueryes(
+      stage_index,
+      index,
+      withValues
+    );
     expect(result[0]).toEqual({
       type: 'Process-Count',
       accountID: 7777777,
+      max_count: undefined,
       query:
         "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
       query_timeout: 10,
+      transaction_count: 0,
       min_count: 10,
       measure_time: '15 minutes ago'
     });
@@ -3890,7 +4229,10 @@ describe('Datamanager service', () => {
       'FrontEnd-Performance',
       'Synthetics-Check',
       'Workload-Status',
-      'Drops-Count'
+      'Drops-Count',
+      'API-Check',
+      'APC-Check',
+      'APS-Check'
     ];
     dataManager.configurationJSON = {
       kpis: [
@@ -4023,6 +4365,30 @@ describe('Datamanager service', () => {
                 {
                   accountID: 2713654,
                   type: 'Drops-Count',
+                  min_count: 10,
+                  session_count: 0,
+                  measure_time: 12,
+                  query: 'SIMPLE COUNT-QUERY'
+                },
+                {
+                  accountID: 2713654,
+                  type: 'API-Check',
+                  min_count: 10,
+                  session_count: 0,
+                  measure_time: 12,
+                  query: 'SIMPLE COUNT-QUERY'
+                },
+                {
+                  accountID: 2713654,
+                  type: 'APC-Check',
+                  min_count: 10,
+                  session_count: 0,
+                  measure_time: 12,
+                  query: 'SIMPLE COUNT-QUERY'
+                },
+                {
+                  accountID: 2713654,
+                  type: 'APS-Check',
                   min_count: 10,
                   session_count: 0,
                   measure_time: 12,
@@ -4457,6 +4823,21 @@ describe('Datamanager service', () => {
                 type: 'DRP',
                 query: 'SELECT * FROM Transactions',
                 timeout: 10
+              },
+              {
+                type: 'API',
+                query: 'SELECT * FROM Transactions',
+                timeout: 10
+              },
+              {
+                type: 'APC',
+                query: 'SELECT * FROM Transactions',
+                timeout: 10
+              },
+              {
+                type: 'APS',
+                query: 'SELECT * FROM Transactions',
+                timeout: 10
               }
             ]
           }
@@ -4464,7 +4845,7 @@ describe('Datamanager service', () => {
       }
     ];
     const result = dataManager.GetTouchpointQuerys(touchpoint);
-    expect(result.length).toEqual(7);
+    expect(result.length).toEqual(10);
   });
 
   it('Function ValidateMeasureTime()', () => {
@@ -4702,6 +5083,54 @@ describe('Datamanager service', () => {
     expect(dataManager.SetStorageTouchpoints).toHaveBeenCalledTimes(1);
   });
 
+  it('Fucntion UpdateTouchpointTune() with type = APS', () => {
+    const touchpoint = {
+      index: 1,
+      stage_index: 1,
+      value: 'ORDER COUNTS',
+      status_on_off: true
+    };
+    const datos = {
+      min_count: 0.1,
+      min_apdex: 0.3,
+      max_response_time: 7.32,
+      max_error_percentage: 62,
+      max_avg_response_time: 13.5,
+      max_total_check_time: 52.3,
+      min_success_percentage: 4
+    };
+    dataManager.SetStorageTouchpoints = jest.fn();
+    dataManager.SendToLogs = jest.fn();
+    dataManager.stages = [
+      {
+        title: 'BROWSE'
+      }
+    ];
+    dataManager.touchPoints = [
+      {
+        index: 0,
+        value: 'Orders API (APS)',
+        touchpoints: [
+          {
+            stage_index: 1,
+            touchpoint_index: 1,
+            measure_points: [
+              {
+                stage_index: 1,
+                type: 'APS',
+                max_avg_response_time: 0,
+                max_total_check_time: 0,
+                min_success_percentage: 0
+              }
+            ]
+          }
+        ]
+      }
+    ];
+    dataManager.UpdateTouchpointTune(touchpoint, datos);
+    expect(dataManager.SetStorageTouchpoints).toHaveBeenCalledTimes(1);
+  });
+
   it('Function UpdateTouchpointQuerys()', () => {
     const datos = [
       {
@@ -4906,5 +5335,238 @@ describe('Datamanager service', () => {
     expect(dataManager.SynConnector.UpdateFlameMonitor).toHaveBeenCalledTimes(
       0
     );
+  });
+
+  it('Function EmulatorMeasures with type = PRC', () => {
+    dataManager.graphQlmeasures = [
+      [
+        {
+          type: 'PRC'
+        }
+      ]
+    ];
+    dataManager.EmulateValue = jest.fn().mockReturnValue(15);
+    expect(dataManager.EmulatorMeasures()).toEqual({
+      data: { actor: { measure_0: { nrql: { results: [{ session: 15 }] } } } }
+    });
+  });
+
+  it('Function EmulatorMeasures with type = PCC', () => {
+    dataManager.graphQlmeasures = [
+      [
+        {
+          type: 'PCC'
+        }
+      ]
+    ];
+    dataManager.EmulateValue = jest.fn().mockReturnValue(15);
+    expect(dataManager.EmulatorMeasures()).toEqual({
+      data: { actor: { measure_0: { nrql: { results: [{ count: 15 }] } } } }
+    });
+  });
+
+  it('Function EmulatorMeasures with type = APP', () => {
+    dataManager.graphQlmeasures = [
+      [
+        {
+          type: 'APP'
+        }
+      ]
+    ];
+    dataManager.EmulatePercentage = jest.fn().mockReturnValue(49);
+    dataManager.EmulateValue = jest.fn().mockReturnValue(15);
+    dataManager.EmulateApdex = jest.fn().mockReturnValue(76);
+    expect(dataManager.EmulatorMeasures()).toEqual({
+      data: {
+        actor: {
+          measure_0: {
+            nrql: {
+              results: [
+                {
+                  apdex: { count: 0, score: 0, t: 0 },
+                  error: 49,
+                  response: 15,
+                  score: 76
+                }
+              ]
+            }
+          }
+        }
+      }
+    });
+  });
+
+  it('Function EmulatorMeasures with type = SYN', () => {
+    dataManager.graphQlmeasures = [
+      [
+        {
+          type: 'SYN'
+        }
+      ]
+    ];
+    dataManager.EmulatePercentage = jest.fn().mockReturnValue(49);
+    dataManager.EmulateValue = jest.fn().mockReturnValue(15);
+    expect(dataManager.EmulatorMeasures()).toEqual({
+      data: {
+        actor: {
+          measure_0: {
+            nrql: { results: [{ duration: 15, request: 15, success: 49 }] }
+          }
+        }
+      }
+    });
+  });
+
+  it('Function EmulatorMeasures with type = WLD', () => {
+    dataManager.graphQlmeasures = [
+      [
+        {
+          type: 'WLD'
+        }
+      ]
+    ];
+    dataManager.EmulateWLD = jest.fn().mockReturnValue(49);
+    expect(dataManager.EmulatorMeasures()).toEqual({
+      data: {
+        actor: { measure_0: { nrql: { results: [{ statusValue: 49 }] } } }
+      }
+    });
+  });
+
+  it('Function EmulatorMeasures with type = DRP', () => {
+    dataManager.graphQlmeasures = [
+      [
+        {
+          type: 'DRP'
+        }
+      ]
+    ];
+    dataManager.EmulatePercentage = jest.fn().mockReturnValue(49);
+    expect(dataManager.EmulatorMeasures()).toEqual({
+      data: { actor: { measure_0: { nrql: { results: [{ count: 490 }] } } } }
+    });
+  });
+
+  it('Function EmulatorMeasures with type = APC', () => {
+    dataManager.graphQlmeasures = [
+      [
+        {
+          type: 'APC'
+        }
+      ]
+    ];
+    dataManager.EmulateValue = jest.fn().mockReturnValue(49);
+    expect(dataManager.EmulatorMeasures()).toEqual({
+      data: {
+        actor: { measure_0: { nrql: { results: [{ count: 49 }] } } }
+      }
+    });
+  });
+
+  it('Function EmulatorMeasures with type = APS', () => {
+    dataManager.graphQlmeasures = [
+      [
+        {
+          type: 'APS'
+        }
+      ]
+    ];
+    dataManager.EmulatePercentage = jest.fn().mockReturnValue(49);
+    expect(dataManager.EmulatorMeasures()).toEqual({
+      data: {
+        actor: { measure_0: { nrql: { results: [{ percentage: 49 }] } } }
+      }
+    });
+  });
+
+  it('Function EmulatorMeasures with type = 100', () => {
+    dataManager.graphQlmeasures = [
+      [
+        {
+          type: 100
+        }
+      ]
+    ];
+    dataManager.EmulateValue = jest.fn().mockReturnValue(49);
+    expect(dataManager.EmulatorMeasures()).toEqual({
+      data: { actor: { measure_0: { nrql: { results: [{ value: 49 }] } } } }
+    });
+  });
+
+  it('Function EmulatorMeasures with type = 101', () => {
+    dataManager.graphQlmeasures = [
+      [
+        {
+          type: 101,
+          value: {
+            current: 12,
+            previous: 11
+          }
+        }
+      ]
+    ];
+    dataManager.EmulateValue = jest.fn().mockReturnValue(49);
+    expect(dataManager.EmulatorMeasures()).toEqual({
+      data: {
+        actor: {
+          measure_0: {
+            nrql: {
+              results: [
+                { comparison: 'current', value: 49 },
+                { comparison: 'previous', value: 49 }
+              ]
+            }
+          }
+        }
+      }
+    });
+  });
+
+  it('Function EmulateWLD', () => {
+    expect(dataManager.EmulateWLD()).toBeTruthy();
+  });
+
+  it('Function EmulateValue current = 0', () => {
+    const current = 0;
+    const result = dataManager.EmulateValue(current);
+    expect(typeof result).toEqual('number');
+  });
+
+  it('Function EmulateValue current = 10', () => {
+    const current = 10;
+    const result = dataManager.EmulateValue(current);
+    expect(typeof result).toEqual('number');
+  });
+
+  it('Function EmulatePercentage', () => {
+    const current = -10000;
+    const acurate = 10000;
+    const result = dataManager.EmulatePercentage(current, acurate);
+    expect(typeof result).toEqual('number');
+  });
+
+  it('Function EmulatePercentage min acurate', () => {
+    const current = -10000;
+    const acurate = -1;
+    const result = dataManager.EmulatePercentage(current, acurate);
+    expect(result).toEqual(current);
+  });
+
+  it('Function EmulateApdex, current = 0', () => {
+    const current = 0;
+    const result = dataManager.EmulateApdex(current);
+    expect(result).toEqual(0.8);
+  });
+
+  it('Function EmulateApdex, current < 0', () => {
+    const current = -10000;
+    const result = dataManager.EmulateApdex(current);
+    expect(result).toEqual(0.1);
+  });
+
+  it('Function EmulateApdex, current > 0', () => {
+    const current = 100;
+    const result = dataManager.EmulateApdex(current);
+    expect(result).toEqual(1);
   });
 });

@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import Header, {
   transformK,
   FormatMoney,
@@ -101,6 +101,7 @@ describe('<Header/>', () => {
           accountId={2710112}
           guiEditor={false}
           HandleChangeLogo={jest.fn()}
+          HandleOpenKPIEditor={jest.fn()}
         />
       );
       expect(header.length).toEqual(1);
@@ -132,6 +133,7 @@ describe('<Header/>', () => {
           accountId={2710112}
           guiEditor={false}
           HandleChangeLogo={jest.fn()}
+          HandleOpenKPIEditor={jest.fn()}
         />
       );
       expect(header.length).toEqual(1);
@@ -180,6 +182,7 @@ describe('<Header/>', () => {
           accountId={2710112}
           guiEditor={false}
           HandleChangeLogo={jest.fn()}
+          HandleOpenKPIEditor={jest.fn()}
         />
       );
       expect(header.length).toEqual(1);
@@ -212,6 +215,7 @@ describe('<Header/>', () => {
           accountId={2710112}
           guiEditor={false}
           HandleChangeLogo={jest.fn()}
+          HandleOpenKPIEditor={jest.fn()}
         />
       );
       header
@@ -248,6 +252,7 @@ describe('<Header/>', () => {
           accountId={2710112}
           guiEditor={false}
           HandleChangeLogo={jest.fn()}
+          HandleOpenKPIEditor={jest.fn()}
         />
       );
       header
@@ -284,6 +289,7 @@ describe('<Header/>', () => {
           accountId={2710112}
           guiEditor={false}
           HandleChangeLogo={jest.fn()}
+          HandleOpenKPIEditor={jest.fn()}
         />
       );
       header
@@ -320,6 +326,7 @@ describe('<Header/>', () => {
           accountId={2710112}
           guiEditor={false}
           HandleChangeLogo={jest.fn()}
+          HandleOpenKPIEditor={jest.fn()}
         />
       );
       header
@@ -356,6 +363,7 @@ describe('<Header/>', () => {
           accountId={2710112}
           guiEditor={false}
           HandleChangeLogo={jest.fn()}
+          HandleOpenKPIEditor={jest.fn()}
         />
       );
       header
@@ -391,14 +399,17 @@ describe('<Header/>', () => {
           accountId={2710112}
           guiEditor={false}
           HandleChangeLogo={jest.fn()}
+          HandleOpenKPIEditor={jest.fn()}
         />
       );
       const filterKpis = jest.fn();
       header.find('.kpicontent').simulate('click');
       expect(filterKpis).toHaveBeenCalledTimes(0);
     });
-    it('Banner kpis change order and values boolean', () => {
-      const header = mount(
+    it('Banner kpis change order and values boolean and change Logo', () => {
+      const HandleChangeLogo = jest.fn();
+      const guiEditor = true;
+      const wrapper = shallow(
         <Header
           iconSixthSenseStatus={false}
           iconCanaryStatus={false}
@@ -421,11 +432,14 @@ describe('<Header/>', () => {
           DisplayConsole={jest.fn()}
           credentials={credentials}
           accountId={2710112}
-          guiEditor={false}
-          HandleChangeLogo={jest.fn()}
+          guiEditor={guiEditor}
+          HandleChangeLogo={HandleChangeLogo}
+          HandleOpenKPIEditor={jest.fn()}
         />
       );
-      expect(header.length).toEqual(1);
+      const clickHeader = wrapper.find('#HandleChangeLogo');
+      clickHeader.simulate('click');
+      expect(HandleChangeLogo).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -509,7 +523,7 @@ describe('<Header/>', () => {
       const result = RenderLogo(logo);
       expect(result).toEqual(
         <div className="logo-container">
-          <img src={{}} />
+          <img src="SvgrURL" />
         </div>
       );
     });

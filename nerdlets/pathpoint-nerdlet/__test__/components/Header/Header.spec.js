@@ -86,6 +86,7 @@ describe('Header component', () => {
         accountId={2710112}
         guiEditor={false}
         HandleChangeLogo={jest.fn()}
+        HandleOpenKPIEditor={jest.fn()}
       />
     );
     expect(header.toJSON()).toMatchSnapshot();
@@ -117,6 +118,7 @@ describe('Header component', () => {
         accountId={2710112}
         guiEditor={false}
         HandleChangeLogo={jest.fn()}
+        HandleOpenKPIEditor={jest.fn()}
       />
     );
     expect(header.toJSON()).toMatchSnapshot();
@@ -148,6 +150,7 @@ describe('Header component', () => {
         accountId={2710112}
         guiEditor={false}
         HandleChangeLogo={jest.fn()}
+        HandleOpenKPIEditor={jest.fn()}
       />
     );
     expect(header.toJSON()).toMatchSnapshot();
@@ -179,6 +182,7 @@ describe('Header component', () => {
         accountId={2710112}
         guiEditor={false}
         HandleChangeLogo={jest.fn()}
+        HandleOpenKPIEditor={jest.fn()}
       />
     );
     expect(header.toJSON()).toMatchSnapshot();
@@ -210,6 +214,7 @@ describe('Header component', () => {
         accountId={2710112}
         guiEditor={false}
         HandleChangeLogo={jest.fn()}
+        HandleOpenKPIEditor={jest.fn()}
       />
     );
     expect(header.toJSON()).toMatchSnapshot();
@@ -241,6 +246,7 @@ describe('Header component', () => {
         accountId={2710112}
         guiEditor={false}
         HandleChangeLogo={jest.fn()}
+        HandleOpenKPIEditor={jest.fn()}
       />
     );
     expect(header.toJSON()).toMatchSnapshot();
@@ -272,6 +278,7 @@ describe('Header component', () => {
         accountId={2710112}
         guiEditor={false}
         HandleChangeLogo={jest.fn()}
+        HandleOpenKPIEditor={jest.fn()}
       />
     );
     expect(header.toJSON()).toMatchSnapshot();
@@ -306,6 +313,7 @@ describe('Header component', () => {
         accountId={2710112}
         guiEditor={false}
         HandleChangeLogo={jest.fn()}
+        HandleOpenKPIEditor={jest.fn()}
       />
     );
     expect(header.toJSON()).toMatchSnapshot();
@@ -341,6 +349,7 @@ describe('Header component', () => {
         accountId={2710112}
         guiEditor={false}
         HandleChangeLogo={jest.fn()}
+        HandleOpenKPIEditor={jest.fn()}
       />
     );
     expect(header.toJSON()).toMatchSnapshot();

@@ -85,4 +85,48 @@ describe('InterfaceEditor', () => {
     jest.spyOn(AccountStorageQuery, 'query').mockRejectedValue(Error('error'));
     await expect(interfaceEditor.GetTouchpoints()).rejects.toThrow('error');
   });
+
+  it('Function UpdateStagesInterface', () => {
+    const stagesInterface = [
+      {
+        visible: true,
+        touchpoints: [
+          {
+            visible: true,
+            status_on_off: 'status on off'
+          }
+        ]
+      }
+    ];
+    const stagesInterfaceUpdated = [
+      {
+        touchpoints: [
+          {
+            queryData: 'SELECT * FROM ApiCall'
+          }
+        ]
+      }
+    ];
+    const interfaceEdit = interfaceEditor.UpdateStagesInterface(
+      stagesInterface,
+      stagesInterfaceUpdated
+    );
+    expect(interfaceEdit[0].visible).toEqual(true);
+  });
+
+  it('Function UpdateStagesInterface with catch', () => {
+    const stagesInterface = [];
+    const stagesInterfaceUpdated = [];
+    // interfaceEditor.UpdateStagesInterface(stagesInterface, stagesInterfaceUpdated) = jest.spyOn().mockRejectedValue(Error('error'));
+    jest
+      .spyOn(interfaceEditor, 'UpdateStagesInterface')
+      .mockReturnValue(Error('error'));
+
+    expect(
+      interfaceEditor.UpdateStagesInterface(
+        stagesInterface,
+        stagesInterfaceUpdated
+      )
+    ).toEqual(Error('error'));
+  });
 });

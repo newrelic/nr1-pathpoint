@@ -8,6 +8,7 @@ import touchpointTypes from '../../config/touchpointTypes.json';
 import onIcon from '../../images/icon-on.svg';
 import offIcon from '../../images/icon-off.svg';
 import SelectIDs from '../SelectIDs/SelectIDs';
+import Editor from '../Editor/Editor';
 
 import iconHide from '../../images/icon-hide.svg';
 import iconView from '../../images/icon-view.svg';
@@ -902,6 +903,20 @@ class BodyTouchpointsEditor extends Component {
     });
   };
 
+  RunTest = () => {
+    const { form, current } = this.state; // Get state
+    const touchpoint = `tp_${current.touchpoint}`; // Define a string with the touchpoint value
+    const isQueryAvailable = form[touchpoint].query !== ''; // Verify if query is not empty
+
+    if (!isQueryAvailable) return false; // Query is empty, stop function
+
+    const touchpointType = form[touchpoint].type; // Get touchpoint type
+    const queryAccount = form[touchpoint].queryAccount; // Get touchpoint query account
+    const queryMeasure = `${form[touchpoint].query} SINCE ${form[touchpoint].queryMeasure}`; // Get touchpoint query measure
+
+    this.TestQuery(queryMeasure, queryAccount, touchpointType); // Test current query in field
+  };
+
   RenderTuneField = ({
     name,
     label,
@@ -1198,6 +1213,12 @@ class BodyTouchpointsEditor extends Component {
     }
   };
 
+  HandleDropdownOpen() {
+    const dialog = document.body.querySelector('div[role=dialog]');
+    if (!dialog && !dialog.nextSibling) return false;
+    dialog.nextSibling.style.minWidth = 'initial';
+  }
+
   render() {
     const {
       testQueryResult,
@@ -1378,6 +1399,7 @@ class BodyTouchpointsEditor extends Component {
                             >
                               <Dropdown
                                 style={{ width: '100%' }}
+                                onOpen={this.HandleDropdownOpen}
                                 title={this.state.form[`tp_${tp.id}`].type}
                                 disabled={
                                   this.state.current.touchpoint !== tp.id
@@ -1791,11 +1813,15 @@ class BodyTouchpointsEditor extends Component {
                           </div>
                         </div>
                       </div>
-                      <textarea
+
+                      {/* Query Editor */}
+                      <Editor
+                        style={{ height: 100 }}
                         value={
                           this.state.form[`tp_${this.state.current.touchpoint}`]
                             .query
                         }
+                        onPressEnter={this.RunTest}
                         onChange={e =>
                           this.HandleOnChange(
                             'query',
@@ -1803,13 +1829,8 @@ class BodyTouchpointsEditor extends Component {
                             this.state.current.touchpoint
                           )
                         }
-                        rows="6"
-                        style={{
-                          fontSize: '15px',
-                          backgroundColor: '#424242',
-                          color: '#4CAF50'
-                        }}
                       />
+
                       <div>
                         <span>
                           <b>SINCE </b>
@@ -1839,17 +1860,16 @@ class BodyTouchpointsEditor extends Component {
                           }
                         />
                       </div>
-                      <textarea
-                        rows="4"
-                        style={{
-                          fontSize: '15px',
-                          backgroundColor: '#424242',
-                          color: '#4CAF50'
-                        }}
+
+                      {/* Query Result */}
+                      <Editor
+                        isReadOnly
+                        style={{ height: 70 }}
                         value={
                           testQueryValue ? objToString(testQueryValue) : ''
                         }
                       />
+
                       <div
                         style={{
                           display: 'flex',
@@ -1872,6 +1892,7 @@ class BodyTouchpointsEditor extends Component {
                         <div>
                           <Button
                             disabled={testingNow}
+                            onClick={this.RunTest}
                             variant="contained"
                             color="primary"
                             style={{
@@ -1879,31 +1900,6 @@ class BodyTouchpointsEditor extends Component {
                               border: '1px solid #767B7F',
                               boxSizing: 'border-box',
                               marginRight: '15px'
-                            }}
-                            onClick={() => {
-                              if (
-                                this.state.form[
-                                  `tp_${this.state.current.touchpoint}`
-                                ].query !== ''
-                              ) {
-                                this.TestQuery(
-                                  `${
-                                    this.state.form[
-                                      `tp_${this.state.current.touchpoint}`
-                                    ].query
-                                  } SINCE ${
-                                    this.state.form[
-                                      `tp_${this.state.current.touchpoint}`
-                                    ].queryMeasure
-                                  }`,
-                                  this.state.form[
-                                    `tp_${this.state.current.touchpoint}`
-                                  ].queryAccount,
-                                  this.state.form[
-                                    `tp_${this.state.current.touchpoint}`
-                                  ].type
-                                );
-                              }
                             }}
                           >
                             Test

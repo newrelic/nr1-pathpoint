@@ -1,4 +1,5 @@
 import Validations from '../../services/Validations';
+import { NerdGraphQuery } from 'nr1';
 
 jest.mock(
   'nr1',
@@ -243,6 +244,11 @@ describe('Validations class', () => {
         errors: []
       });
     });
+
+    it('Function validateNrqlQuery with catch NerdGraphQuery', async () => {
+      jest.spyOn(NerdGraphQuery, 'query').mockRejectedValue(Error('error'));
+      await expect(validations.validateNrqlQuery()).toBeTruthy();
+    });
   });
 
   describe('Function validateQuery', () => {
@@ -397,6 +403,18 @@ describe('Validations class', () => {
       });
     });
 
+    it('Validate query type API-Status', async () => {
+      validations.checkAPSQueryValidation = jest.fn().mockReturnValue(true);
+      const validateQuery = await validations.validateQuery(
+        'API-Status',
+        'New query'
+      );
+      expect(validateQuery).toEqual({
+        goodQuery: true,
+        testText: 'Successfully validated'
+      });
+    });
+
     it('Validate query type Workload-Status', async () => {
       const validateQuery = await validations.validateQuery(
         'Workload-Status',
@@ -425,8 +443,8 @@ describe('Validations class', () => {
         'Full Open Query'
       );
       expect(validateQuery).toEqual({
-        goodQuery: true,
-        testText: 'Successfully validated'
+        goodQuery: false,
+        testText: 'Incorrect validated'
       });
     });
 
@@ -500,6 +518,13 @@ describe('Validations class', () => {
       validations.kpi101Validation([], query, data);
     });
 
+    it('Function kpi101Validation() with transactionComparison and data.length = 1', () => {
+      const data = [{ comparison: 'a' }];
+      const query =
+        'SELECT count(*) as value  FROM Transaction COMPARE WITH 1 day ago';
+      expect(validations.kpi101Validation([], query, data)).toEqual(false);
+    });
+
     it('checkDRPQueryValidation with errors', () => {
       const data = [{ a: 'a' }, { a: 'a' }];
       const errors = [{ error: true }];
@@ -509,11 +534,20 @@ describe('Validations class', () => {
     it('checkDRPQueryValidation with no errors', () => {
       const data = [{ count: 'a' }];
       const errors = [];
+      const dataCount = [{ count: 789 }];
+      const dataQuantity3 = [{ count: 789, percentage: 98, apex: 15 }];
       validations.checkDRPQueryValidation(errors, data);
+      validations.checkDRPQueryValidation(errors, dataCount);
+      validations.checkDRPQueryValidation(errors, dataQuantity3);
     });
 
     it('checkDRPQueryValidation with no errors and data with level 1', () => {
       const data = [{ count: 'a' }];
+      validations.checkDRPQueryValidation(null, data);
+    });
+
+    it('checkDRPQueryValidation with no errors and data with length > 1', () => {
+      const data = [{ count: 'a' }, { percenatge: 56 }];
       validations.checkDRPQueryValidation(null, data);
     });
 
@@ -634,9 +668,55 @@ describe('Validations class', () => {
           comparison: 'comparison'
         }
       ];
+      const data3 = [
+        {
+          statusComparison: 'statusComparison'
+        }
+      ];
       expect(validations.checkWLDQueryValidation('error', '')).toEqual(false);
       expect(validations.checkWLDQueryValidation(errors, data)).toEqual(false);
       expect(validations.checkWLDQueryValidation(errors, data2)).toEqual(false);
+      expect(validations.checkWLDQueryValidation(errors, data3)).toEqual(false);
+    });
+
+    it('Function checkAPSQueryValidation', () => {
+      const errors = [];
+      const data = [
+        {
+          statusValue: 'statusValue'
+        }
+      ];
+      const dataPercentage = [
+        {
+          percentage: 98
+        }
+      ];
+      const dataPercentage2values = [
+        {
+          percentage: 98,
+          error_treshold: 15,
+          apex: 19
+        }
+      ];
+      const dataLength2 = [
+        {
+          percentage: 98
+        },
+        {
+          percentage: 98
+        }
+      ];
+      expect(validations.checkAPSQueryValidation('errors', '')).toEqual(false);
+      expect(validations.checkAPSQueryValidation(errors, data)).toEqual(false);
+      expect(
+        validations.checkAPSQueryValidation(errors, dataPercentage)
+      ).toEqual(true);
+      expect(
+        validations.checkAPSQueryValidation(errors, dataPercentage2values)
+      ).toEqual(false);
+      expect(validations.checkAPSQueryValidation(errors, dataLength2)).toEqual(
+        false
+      );
     });
   });
 });

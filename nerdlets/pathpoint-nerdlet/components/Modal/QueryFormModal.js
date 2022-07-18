@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Button, Form } from 'react-bootstrap';
 import Select from '../Select/Select';
 import SelectIDs from '../SelectIDs/SelectIDs';
+import Editor from '../Editor/Editor';
 
 function HeaderQueryFormModal(props) {
   const { stageNameSelected, changeMessage } = props;
@@ -91,9 +92,16 @@ function BodyQueryFormModal(props) {
   const handleTimeoutChange = childData => {
     stageNameSelected.datos[value].timeout = childData.target.value;
   };
+
+  const runTest = React.useCallback(() => {
+    if (query_body === '') return false; // Query body is empty string
+    testQuery(`${query_body} ${query_footer}`, value); // Test query
+  }, [query_body, query_footer, value]);
+
   const query_body = stageNameSelected.datos[value].query_body;
   const query_footer = stageNameSelected.datos[value].query_footer;
   const timeout = stageNameSelected.datos[value].timeout;
+
   return (
     <div
       style={{
@@ -172,27 +180,33 @@ function BodyQueryFormModal(props) {
 
       <div>
         <Form onSubmit={event => handleSaveUpdateQuery(event)}>
-          {renderTextArea({
-            onChange: handleChangeTexarea,
-            query_body: query_body
-          })}
-          <strong>{query_footer}</strong>
-          <div
+          {/* Query Editor */}
+          <Editor
+            id="EditorChange"
+            value={query_body}
+            onPressEnter={runTest}
+            onChange={e => handleChangeTexarea(e.target.value)}
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              paddingTop: '15px',
-              backgroundColor: '#333333',
-              color: '#00EC64',
-              height: '60px',
-              padding: '15px'
+              height: 170,
+              marginBottom: 5,
+              padding: '10px 5px',
+              backgroundColor: '#f4f6f7'
             }}
-          >
-            <strong>
-              {resultsTestQuery ? objToString(resultsTestQuery) : ''}
-            </strong>
-          </div>
+          />
+
+          <strong>{query_footer}</strong>
+
+          {/* Query Result */}
+          <Editor
+            isReadOnly
+            value={resultsTestQuery ? objToString(resultsTestQuery) : ''}
+            style={{
+              height: 70,
+              padding: '10px 5px',
+              backgroundColor: '#f4f6f7'
+            }}
+          />
+
           <div
             style={{
               display: 'flex',
@@ -223,6 +237,7 @@ function BodyQueryFormModal(props) {
               </a>
               <div>
                 <Button
+                  onClick={runTest}
                   disabled={testingNow}
                   variant="contained"
                   color="primary"
@@ -232,13 +247,6 @@ function BodyQueryFormModal(props) {
                     boxSizing: 'border-box',
                     marginRight: '15px'
                   }}
-                  onClick={
-                    /* istanbul ignore next */ () => {
-                      if (query_body !== '') {
-                        testQuery(`${query_body} ${query_footer}`, value);
-                      }
-                    }
-                  }
                 >
                   Test
                 </Button>
@@ -283,22 +291,6 @@ function BodyQueryFormModal(props) {
     </div>
   );
 }
-
-const renderTextArea = ({ onChange, query_body }) => {
-  return (
-    <textarea
-      onChange={event => onChange(event.target.value)}
-      style={{
-        color: '#00EC64',
-        background: '#333333',
-        height: '180px',
-        border: '1px solid #D0D0D0',
-        padding: '15px'
-      }}
-      value={query_body}
-    />
-  );
-};
 
 const WrongIcon = () => {
   return (

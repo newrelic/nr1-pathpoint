@@ -281,6 +281,15 @@ export default class DataManager {
         });
       });
     });
+    this.kpis.forEach(kpi => {
+      kpi.queryByCity.forEach(cityQuery => {
+        if (Reflect.has(cityQuery, 'accountID')) {
+          if (ids.indexOf('--' + cityQuery.accountID + '--') === -1) {
+            ids += cityQuery.accountID + '--';
+          }
+        }
+      });
+    });
     if (ids.length > initial_length) {
       const newIds = ids.substring(initial_length, ids.length - 2).split('--');
       newIds.forEach(newId => {

@@ -2,6 +2,8 @@ import React from 'react';
 import { mount } from 'enzyme';
 import ShowHeader from '../../../components/Modal/ShowHeader';
 
+jest.mock('../../../components/Modal/KPIEditor/KPIEditor');
+
 describe('<ShowHeader/>', () => {
   describe('render view modal 0 ', () => {
     it('icon medal active true', () => {
@@ -290,6 +292,74 @@ describe('<ShowHeader/>', () => {
       />
     );
     expect(headerRender.length).toEqual(1);
+  });
+
+  it('Header on case 12', () => {
+    const headerRender = mount(
+      <ShowHeader
+        viewModal={12}
+        changeMessage={jest.fn()}
+        stageNameSelected={{
+          icon_description: 'medal',
+          icon_active: true,
+          title: 'touchpoint one'
+        }}
+        accountIDs={{ type: 'default' }}
+        changeID={1213212}
+      />
+    );
+    expect(headerRender).toBeTruthy();
+  });
+
+  it('Header on case 13', () => {
+    const headerRender = mount(
+      <ShowHeader
+        viewModal={13}
+        changeMessage={jest.fn()}
+        stageNameSelected={{
+          icon_description: 'medal',
+          icon_active: true,
+          title: 'touchpoint one'
+        }}
+        accountIDs={{ type: 'default' }}
+        changeID={1213212}
+      />
+    );
+    expect(headerRender).toBeTruthy();
+  });
+
+  it('Header on case 14', () => {
+    const headerRender = mount(
+      <ShowHeader
+        viewModal={14}
+        changeMessage={jest.fn()}
+        stageNameSelected={{
+          icon_description: 'medal',
+          icon_active: true,
+          title: 'touchpoint one'
+        }}
+        accountIDs={{ type: 'default' }}
+        changeID={1213212}
+      />
+    );
+    expect(headerRender).toBeTruthy();
+  });
+
+  it('Header on case 15', () => {
+    const headerRender = mount(
+      <ShowHeader
+        viewModal={15}
+        changeMessage={jest.fn()}
+        stageNameSelected={{
+          icon_description: 'medal',
+          icon_active: true,
+          title: 'touchpoint one'
+        }}
+        accountIDs={{ type: 'default' }}
+        changeID={1213212}
+      />
+    );
+    expect(headerRender).toBeTruthy();
   });
 
   it('Header on case with other icon description', () => {

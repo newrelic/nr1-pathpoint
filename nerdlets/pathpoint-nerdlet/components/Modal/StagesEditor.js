@@ -8,6 +8,10 @@ import iconHide from '../../images/icon-hide.svg';
 import iconView from '../../images/icon-view.svg';
 import iconCopy from '../../images/icon-copy.svg';
 import iconDelete from '../../images/icon-delete.svg';
+import arrowStage from '../../images/arrow_stage.svg';
+import staticStage from '../../images/static_stage.svg';
+import people from '../../images/People.svg';
+import traffic from '../../images/traffic.svg';
 
 class HeaderStagesEditor extends Component {
   constructor(props) {
@@ -170,7 +174,8 @@ class BodyStagesEditor extends Component {
         title: stage.title,
         order: i + 1,
         type: stage.type,
-        visible: stage.visible
+        visible: stage.visible,
+        arrowMode: stage.arrowMode
       };
     });
     let current = null;
@@ -276,6 +281,7 @@ class BodyStagesEditor extends Component {
               index: stages.length + 1,
               type: item.type,
               visible: true,
+              arrowMode: item.arrowMode,
               id
             };
           }
@@ -287,7 +293,8 @@ class BodyStagesEditor extends Component {
         form[`stage_${stage.id}`] = {
           order: stages.length,
           title: stage.title,
-          type: stage.type
+          type: stage.type,
+          arrowMode: stage.arrowMode
         };
         const inputs = document.querySelectorAll('.select-row-radio');
         this.DispatchCustomEvent('NoDisplayIcon');
@@ -440,7 +447,8 @@ class BodyStagesEditor extends Component {
         order: stages.length + 1,
         title: 'New Stage',
         type: 'People',
-        visible: true
+        visible: true,
+        arrowMode: 'FLOW'
       };
       stages.push({
         id,
@@ -502,7 +510,8 @@ class BodyStagesEditor extends Component {
             ...item,
             title: form.title,
             order: form.order,
-            type: form.type
+            type: form.type,
+            arrowMode: form.arrowMode
           });
         }
       });
@@ -563,6 +572,12 @@ class BodyStagesEditor extends Component {
     this.CancelDelete();
   };
 
+  HandleDropdownOpen() {
+    const dialog = document.body.querySelector('div[role=dialog]');
+    if (!dialog && !dialog?.nextSibling) return false;
+    dialog.nextSibling.style.minWidth = 'initial';
+  }
+
   render() {
     const { stages } = this.state;
     return (
@@ -620,6 +635,7 @@ class BodyStagesEditor extends Component {
                     <th className="headerTableTitle">Order</th>
                     <th className="headerTableTitle">Stage Name</th>
                     <th className="headerTableTitle">Type</th>
+                    <th className="headerTableTitle">Shape </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -655,7 +671,16 @@ class BodyStagesEditor extends Component {
                               }}
                             />
                             <Dropdown
-                              title={this.state.form[`stage_${stage.id}`].order}
+                              onOpen={this.HandleDropdownOpen}
+                              onToggle={this.HandleDropdownOpen}
+                              title={
+                                <div className="container_title">
+                                  <div className="label_dropdown_order">
+                                    {this.state.form[`stage_${stage.id}`].order}
+                                  </div>
+                                  <div className="title_separator" />
+                                </div>
+                              }
                               disabled={this.state.current !== stage.id}
                             >
                               {this.state.stages.map((item, i) => {
@@ -717,7 +742,42 @@ class BodyStagesEditor extends Component {
                         >
                           <Dropdown
                             style={{ width: '100%' }}
-                            title={this.state.form[`stage_${stage.id}`].type}
+                            onOpen={this.HandleDropdownOpen}
+                            onToggle={this.HandleDropdownOpen}
+                            title={
+                              <div>
+                                {this.state.form[`stage_${stage.id}`].type ===
+                                'People' ? (
+                                  <div className="container_title">
+                                    <img
+                                      src={people}
+                                      style={{ width: '15px', height: '10px' }}
+                                    />
+                                    <div className="label_dropdown_title">
+                                      {
+                                        this.state.form[`stage_${stage.id}`]
+                                          .type
+                                      }
+                                    </div>
+                                    <div className="title_separator" />
+                                  </div>
+                                ) : (
+                                  <div className="container_title">
+                                    <img
+                                      src={traffic}
+                                      style={{ width: '15px', height: '10px' }}
+                                    />
+                                    <div className="label_dropdown_title">
+                                      {
+                                        this.state.form[`stage_${stage.id}`]
+                                          .type
+                                      }
+                                    </div>
+                                    <div className="title_separator" />
+                                  </div>
+                                )}
+                              </div>
+                            }
                             disabled={this.state.current !== stage.id}
                           >
                             <DropdownItem
@@ -725,14 +785,89 @@ class BodyStagesEditor extends Component {
                                 this.HandleOnChange('type', 'People', stage.id)
                               }
                             >
-                              People
+                              <div
+                                style={{
+                                  display: 'flex',
+                                  flexDirection: 'row'
+                                }}
+                              >
+                                <img
+                                  src={people}
+                                  style={{ width: '22px', height: '22px' }}
+                                />
+                                <label className="label_dropdown">People</label>
+                              </div>
                             </DropdownItem>
                             <DropdownItem
                               onClick={() =>
                                 this.HandleOnChange('type', 'Process', stage.id)
                               }
                             >
-                              Process
+                              <div
+                                style={{
+                                  display: 'flex',
+                                  flexDirection: 'row'
+                                }}
+                              >
+                                <img
+                                  src={traffic}
+                                  style={{ width: '22px', height: '22px' }}
+                                />
+                                <label className="label_dropdown">
+                                  Process
+                                </label>
+                              </div>
+                            </DropdownItem>
+                          </Dropdown>
+                        </td>
+                        <td
+                          style={{
+                            backgroundColor:
+                              // eslint-disable-next-line no-nested-ternary
+                              this.state.current === stage.id
+                                ? '#0078BF'
+                                : stage.visible
+                                ? 'white'
+                                : 'lightgrey'
+                          }}
+                        >
+                          <Dropdown
+                            style={{ width: '100%' }}
+                            onOpen={this.HandleDropdownOpen}
+                            onToggle={this.HandleDropdownOpen}
+                            title={
+                              <div className="title_dropdown_stage">
+                                {this.state.form[`stage_${stage.id}`]
+                                  .arrowMode === 'FLOW' ? (
+                                  <img src={arrowStage} />
+                                ) : (
+                                  <img src={staticStage} />
+                                )}
+                              </div>
+                            }
+                            disabled={this.state.current !== stage.id}
+                          >
+                            <DropdownItem
+                              onClick={() =>
+                                this.HandleOnChange(
+                                  'arrowMode',
+                                  'FLOW',
+                                  stage.id
+                                )
+                              }
+                            >
+                              <img src={arrowStage} />
+                            </DropdownItem>
+                            <DropdownItem
+                              onClick={() =>
+                                this.HandleOnChange(
+                                  'arrowMode',
+                                  'STATIC',
+                                  stage.id
+                                )
+                              }
+                            >
+                              <img src={staticStage} />
                             </DropdownItem>
                           </Dropdown>
                         </td>

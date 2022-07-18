@@ -28,6 +28,7 @@ export default class Select extends PureComponent {
   };
 
   clickAction = () => {
+    if (this.props.disabled) return false;
     this.setState(prevState => ({ open: !prevState.open }));
   };
 
@@ -72,7 +73,12 @@ export default class Select extends PureComponent {
             className="custom-options"
             style={
               open
-                ? { visibility: 'visible', pointerEvents: 'all', opacity: 1 }
+                ? {
+                    visibility: 'visible',
+                    pointerEvents: 'all',
+                    opacity: 1,
+                    zIndex: 9999
+                  }
                 : {}
             }
           >
@@ -100,5 +106,6 @@ Select.propTypes = {
   options: PropTypes.array.isRequired,
   name: PropTypes.string.isRequired,
   handleOnChange: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
   width: PropTypes.string
 };

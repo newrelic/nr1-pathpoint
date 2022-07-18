@@ -1,95 +1,79 @@
 
-![Image](screenshots/New_Relic_Logo.png)
+![Image](screenshots/logo_pathpoint.png)
 
 # Steps Guide
 
-![Image](screenshots/Stepsa.png)
+![Image](screenshots/stages.png)
 
-# Introduction
+## Introduction
+
+### Stages mark the principal parts of the Journey of a Pathpoint   
+
+A STAGE consists of  STEPS, TOUCHPOINTS and INFRASTRUCTURE WORKLOADS. 
+
+Through the combination of these elements and their respective data sources, a STAGE provides a collective view of the:
+
+●	Health  
+●	Person Count  
+●	Process Count  
+●	Congestion  
+●	And Infrastructure Status of a Pathpoint
 
 
-Steps represent the various actions/events occurring throughout the stage. They can be placed in the traditional sequential manner of 1,2,3.., but also in a parallel form to represent optional and simultaneous actions and activities.
 
-## Types of Steps:
+## Coverage
 
-* Opening Steps 
-* Transitional Steps 
-* Closing Steps 
+Example Areas of Business and Operations that can be covered in a STAGE:
 
-![Image](screenshots/Steps2a.png)
+![Image](screenshots/stages2.png)
 
 
-In this example, you can see six Stages, and under each Stage, rows of Steps, showing you the 3 different types of Steps, which can be easily identified by their label, for instance: “Login” (Opening Step), “Order proc” (Transitional Step), and “Delivered” (Closing Step).
+### STAGE COUNT: 
 
-## Levels
+The number displayed at the top right corner of each STAGE, represents the sum of the COUNT of Touchpoints utilized within the STAGE.
 
-Levels establish order flow and sequence for steps. 
+![Image](screenshots/stages1.png)
 
-Pathpoint allows for up to 7 Steps per level and 7 Levels per Stage.
+A STAGE COUNT can be categorized as either a total PERSON count or total PROCESS count. This is Determined by the use of either Person Count (PRC) Touchpoints or Process Count (PCC) Touchpoints within a STAGE, and visualized with an icon on the left part of the Stage.
 
-![Image](screenshots/Steps3a.png)
+![Image](screenshots/stages4.png)
 
-## Steps
+In this example graphic you can see the two types of Stages:
 
-Steps can represent various functions in the flow. Places to start, mandatory areas, optional parts, and points of completion. 
+•	On the left you can see a Stage of the type that counts people.   
+•	And on the right, you can see a Stage of the type that counts processes.
 
-### Opening Steps: 
+### PERSON COUNT 
 
-Opening steps can represent Home/Landing pages, Welcome Mats, or even loading screens. They are points of entry that are found throughout your sites, mobile apps, and enterprise tools.
+![Image](screenshots/stages5.png)
 
-![Image](screenshots/Steps4.png)
+### PROCESS COUNT 
 
-In this example the first line of Steps, under the “Browse” Stage, denotes the beginning steps when someone starts the process of thinking of buying something online, so the 3 steps in the first row of Steps are: “Web”, “Mobile Web”, and “App”, meaning someone needs an internet connection, a Smart device, and an App to start the purchase.
+![Image](screenshots/stages6.png)
 
-### Transitional Steps 
 
-Between the Opening and Closing steps, we find the Transitional steps. These steps are used to bridge the actions, options, and functional parts between each Level.
+### HEALTH 
 
-![Image](screenshots/Steps5.png)
+Is displayed graphically, by a color displayed to the left of the STAGE name. And these are the 3 colors, as you can see on the next example graphic, that are used; Green, Yellow or Red.
+ 
+![Image](screenshots/stages7.png)
 
-### Closing Steps 
+![Image](screenshots/stages8.png)
 
-The stage level end goal or result is the closing step. Signup is completed, a form submitted, an action is confirmed, or a product has been shipped, these are all examples of closing steps. 
+### CONGESTION
 
-![Image](screenshots/Steps6.png)
+In a Stage, is represented by the blue arrow across the Stage; the greater the width of the arrow the more congested the Stage, the smaller the width of the arrow the less congested the Stage.
 
-## Flow
+![Image](screenshots/stages9.png)
 
-###  Uni-Flow
+### INFRASTRUCTURE STATUS (WORKLOAD)
 
-When stages consist of 1 step per level, we call this a uni-flow. Every step is mandatory and must occur one after the other. 
+Shows the health of a Workload entity. A Workload has 4 stages that represent their health in general.
 
-![Image](screenshots/Steps7a.png)
+![Image](screenshots/stages10.png)
 
-### Multi-Flow
+![Image](screenshots/stages11.png)
 
-When multiple steps are found within singular Levels, a Multi-Flow stage is created.
+test3
 
-![Image](screenshots/Steps8a.png)
-
-We describe these multiple steps as Parallel Steps.  They can represent options, actions, or states that can happen in parallel. These steps are usually viewed from left to right, to establish popularity and priority.
-
-![Image](screenshots/Steps9.png)
-
-# Status
-
-### Step Health
-
-When a Touchpoint experiences an error or performance issue, every Step it is mapped to, will be highlighted with a red border. This border disappears when the issue is resolved.
-
-![Image](screenshots/Steps10a.png)
-
-### Stage Health 
-
-The Green, Yellow or Red light to the left of the STAGE name represents Stage Health. The light changes based on the combined health status of every step.  
-
-![Image](screenshots/Steps11a.png)
-
-## Congestion
-
-When a Step exceeds a predefined threshold, it contributes to the overall congestion of the Stage. This is represented by the amount of blue within the Stage Arrow:
-
-![Image](screenshots/Steps12a.png)
-
-By clicking on the arrow of the Stage, Pathpoint will highlight the Step that is creating most of the congestion.
 
