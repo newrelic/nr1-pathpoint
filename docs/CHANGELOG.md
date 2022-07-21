@@ -1,3 +1,10 @@
+## [1.7.2](https://github.com/newrelic/nr1-pathpoint/compare/v1.7.1...v1.7.2) (2022-07-21)
+
+
+### Bug Fixes
+
+* Update config file version to 1.7.1 ([3c12011](https://github.com/newrelic/nr1-pathpoint/commit/3c12011e9151ea01895f83495965ce06ef6574e0))
+
 ## [1.7.1](https://github.com/newrelic/nr1-pathpoint/compare/v1.7.0...v1.7.1) (2022-07-18)
 
 
