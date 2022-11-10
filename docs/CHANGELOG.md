@@ -1,3 +1,10 @@
+## [1.7.3](https://github.com/newrelic/nr1-pathpoint/compare/v1.7.2...v1.7.3) (2022-11-10)
+
+
+### Bug Fixes
+
+* Added detailed install instructions from app catalog ([#50](https://github.com/newrelic/nr1-pathpoint/issues/50)) ([5d399eb](https://github.com/newrelic/nr1-pathpoint/commit/5d399eb7d654048cba303f08834de392d9570848))
+
 ## [1.7.2](https://github.com/newrelic/nr1-pathpoint/compare/v1.7.1...v1.7.2) (2022-07-21)
 
 
