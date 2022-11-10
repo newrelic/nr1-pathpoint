@@ -73,54 +73,32 @@ When you are ready to make some edits you can simply download the current versio
 
 In the Pathpoint UI it is possible to submit a support issue which will be triaged by the Pathpoint team.   They will respond within a few days to update you on our overall assesment and if we are able to resolve the issue we'll provide an ETA.
 
-## Getting started
-
-First, ensure that you have [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [NPM](https://www.npmjs.com/get-npm) installed. If you're unsure whether you have one or both of them installed, run the following command(s) (If you have them installed these commands will return a version number, if not, the commands won't be recognized):
-
-```bash
-git --version
-npm -v
-```
-
-Next, install the [NR1 CLI](https://one.newrelic.com/launcher/developer-center.launcher) by going to [this link](https://one.newrelic.com/launcher/developer-center.launcher) and following the instructions (5 minutes or less) to install and setup your New Relic development environment.
-
-Next, to clone this repository and run the code locally against your New Relic data, execute the following command:
-
-```bash
-nr1 nerdpack:clone -r https://github.com/newrelic/nr1-pathpoint.git
-cd nr1-pathpoint
-nr1 nerdpack:serve
-```
-
-Visit [https://one.newrelic.com/?nerdpacks=local](https://one.newrelic.com/?nerdpacks=local), navigate to the Nerdpack, and :sparkles:
+## Installing Pathpoint
 
 
-## Deploying this Nerdpack
+### Installing from the New Relic catalog (recommended)
 
-Open a command prompt in the nerdpack's directory and run the following commands.
+Installing from within New Relic ensures you are using the verified catalog version of the app.  This means it has gone through the New Relic open source approval process.  The version deployed from the catalog may not always be the latest in the open source repository.
 
-```bash
-# To create a new uuid for the nerdpack so that you can deploy it to your account:
-nr1 nerdpack:uuid -g [--profile=your_profile_name]
+1. *Click the "Add data" menu item*
+2. *Filter the installer to look at "Apps and Visualizations"*
+3. *Type the word pathpoint in the text filter*
+4. *Click on the installation icon for the verified Pathpoint*
+5. *Clock "Add this app"*
 
-# To see a list of APIkeys / profiles available in your development environment:
-# nr1 profiles:list
-nr1 nerdpack:publish [--profile=your_profile_name]
-nr1 nerdpack:deploy [-c [DEV|BETA|STABLE]] [--profile=your_profile_name]
-nr1 nerdpack:subscribe [-c [DEV|BETA|STABLE]] [--profile=your_profile_name]
-```
+![install_pathpoint_1_of_2](screenshots/install_pathpoint_1.png)
 
-Visit [https://one.newrelic.com](https://one.newrelic.com), navigate to the Nerdpack, and :sparkles:
+![install_pathpoint_2_of_2](screenshots/install_pathpoint_2.png)
 
-## Enabling the Support System
+Keep in mind that pathpoint configurations can be customized without any customization to the code.  Simply upload your modified JSON file to Pathpoint.  In addition you can make changes to the stages, steps, and touchpoints and save the current configuration as a JSON file.  We recommend you version control your own Pathpoint JSON file in your organizations own code repository.
 
-In order for the support system to work you will need to configure a Jira endpoint to submit issues to a special Jira project.  The variable that governs this is `proxyJira`.  This value may be pre-populated in the NR1 catalog repository, but if not you will need to get the valid URL from your New Relic account team.
+### Serving a local branch locally
 
-```bash
-{
-    "proxyJira":"[Pathpoint Proxy URL]"
-}
-```
+Occasionally you may want to experiment with the code and maybe you'll want to test some changes locally.   New Relic's programmability framework makes it possible to serve a [nerdpack locally](https://developer.newrelic.com/build-apps/publish-deploy/serve/).  This is the best approach when you just want to run a brief test of some code changes.
+
+### Installing a custom branch (rarely needed)
+
+Custom branches of Pathpoint are not supported by New Relic.  However you may want to make some modifications to the code and share it within your organization.  New Relic's developer site [developer.newrelic.com](developer.newrelic.com) has a very detailed [tutorial](https://developer.newrelic.com/build-apps/publish-deploy) on working with Nerdpacks including how to publish them to an account.
 
 ## Support
 
