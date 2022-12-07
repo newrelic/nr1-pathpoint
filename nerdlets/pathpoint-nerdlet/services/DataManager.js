@@ -1957,6 +1957,7 @@ export default class DataManager {
     let timeout = 10;
     let measure_time = this.TimeRangeTransform(this.timeRange);
     let queryMeasure = null;
+    const measure_time_default = '5 MINUTES AGO';
     this.touchPoints.forEach(element => {
       if (element.index === this.city) {
         element.touchpoints.some(touchpoint => {
@@ -1968,9 +1969,10 @@ export default class DataManager {
             found = true;
             touchpoint.measure_points.forEach(measure => {
               accountID = this.accountId;
-              measure_time = this.TimeRangeTransform(this.timeRange);
-              if (measure.measure_time) {
-                measure_time = measure.measure_time;
+              // measure_time = this.TimeRangeTransform(this.timeRange);
+              measure_time = measure.measure_time;
+              if (!measure.measure_time) {
+                measure_time = measure_time_default;
               }
               if (measure.accountID) {
                 accountID = measure.accountID;

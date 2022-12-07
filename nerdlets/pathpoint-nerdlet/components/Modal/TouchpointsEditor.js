@@ -9,12 +9,13 @@ import onIcon from '../../images/icon-on.svg';
 import offIcon from '../../images/icon-off.svg';
 import SelectIDs from '../SelectIDs/SelectIDs';
 import Editor from '../Editor/Editor';
-
 import iconHide from '../../images/icon-hide.svg';
 import iconView from '../../images/icon-view.svg';
 import iconCopy from '../../images/icon-copy.svg';
 import iconDelete from '../../images/icon-delete.svg';
 import messages from '../../config/messages.json';
+import Toast from '../Toast/Toast';
+import warningIcon from '../../images/warning.svg';
 
 const WrongIcon = () => {
   return (
@@ -223,7 +224,9 @@ class BodyTouchpointsEditor extends Component {
       testQueryResult: '',
       goodQuery: true,
       testQueryValue: '',
-      testingNow: false
+      testingNow: false,
+      listTpErrorMeasureField: [],
+      list: []
     };
   }
 
@@ -530,8 +533,31 @@ class BodyTouchpointsEditor extends Component {
     });
   };
 
+  TestMeasureTime = (touchpoint, value) => {
+    const { listTpErrorMeasureField, list } = this.state;
+    const valid_measure_time = /^((6[0]|[1-5][0-9]|[1-9])[\s]+minute[s]|1[\s]+hour)[\s]+ago$/i;
+    if (valid_measure_time.test(value)) {
+      if (listTpErrorMeasureField.includes(touchpoint)) {
+        const listErrorMeasure = listTpErrorMeasureField.filter(
+          e => e !== touchpoint
+        );
+        const listToast = list.filter(e => e.id !== touchpoint);
+        this.setState({
+          listTpErrorMeasureField: listErrorMeasure,
+          list: listToast
+        });
+      }
+    } else if (value && !listTpErrorMeasureField.includes(touchpoint)) {
+      listTpErrorMeasureField.push(touchpoint);
+      this.setState({
+        listTpErrorMeasureField: listTpErrorMeasureField
+      });
+    }
+  };
+
   HandleOnChange = (target, value, id) => {
     const { touchpoints, current } = this.state;
+    this.TestMeasureTime(current.touchpoint, value);
     this.setState(state => {
       const form = { ...state.form };
       form[`tp_${id}`][target] = value;
@@ -903,17 +929,70 @@ class BodyTouchpointsEditor extends Component {
     });
   };
 
+  TimeRangeTransform(timeRange) {
+    let time_start = 0;
+    let time_end = 0;
+    if (timeRange === '5 MINUTES AGO') {
+      return timeRange;
+    }
+    switch (timeRange) {
+      case '30 MINUTES AGO':
+        time_start = Math.floor(Date.now() / 1000) - 35 * 60;
+        time_end = Math.floor(Date.now() / 1000) - 30 * 60;
+        break;
+      case '60 MINUTES AGO':
+        time_start = Math.floor(Date.now() / 1000) - 65 * 60;
+        time_end = Math.floor(Date.now() / 1000) - 60 * 60;
+        break;
+      case '3 HOURS AGO':
+        time_start = Math.floor(Date.now() / 1000) - 3 * 60 * 60 - 5 * 60;
+        time_end = Math.floor(Date.now() / 1000) - 3 * 60 * 60;
+        break;
+      case '6 HOURS AGO':
+        time_start = Math.floor(Date.now() / 1000) - 6 * 60 * 60 - 5 * 60;
+        time_end = Math.floor(Date.now() / 1000) - 6 * 60 * 60;
+        break;
+      case '12 HOURS AGO':
+        time_start = Math.floor(Date.now() / 1000) - 12 * 60 * 60 - 5 * 60;
+        time_end = Math.floor(Date.now() / 1000) - 12 * 60 * 60;
+        break;
+      case '24 HOURS AGO':
+        time_start = Math.floor(Date.now() / 1000) - 24 * 60 * 60 - 5 * 60;
+        time_end = Math.floor(Date.now() / 1000) - 24 * 60 * 60;
+        break;
+      case '3 DAYS AGO':
+        time_start = Math.floor(Date.now() / 1000) - 3 * 24 * 60 * 60 - 5 * 60;
+        time_end = Math.floor(Date.now() / 1000) - 3 * 24 * 60 * 60;
+        break;
+      case '7 DAYS AGO':
+        time_start = Math.floor(Date.now() / 1000) - 3 * 24 * 60 * 60 - 5 * 60;
+        time_end = Math.floor(Date.now() / 1000) - 3 * 24 * 60 * 60;
+        break;
+      default:
+        return timeRange;
+    }
+    return `${time_start} UNTIL ${time_end}`;
+  }
+
   RunTest = () => {
     const { form, current } = this.state; // Get state
     const touchpoint = `tp_${current.touchpoint}`; // Define a string with the touchpoint value
     const isQueryAvailable = form[touchpoint].query !== ''; // Verify if query is not empty
-
     if (!isQueryAvailable) return false; // Query is empty, stop function
-
     const touchpointType = form[touchpoint].type; // Get touchpoint type
     const queryAccount = form[touchpoint].queryAccount; // Get touchpoint query account
-    const queryMeasure = `${form[touchpoint].query} SINCE ${form[touchpoint].queryMeasure}`; // Get touchpoint query measure
-
+    let queryMeasure;
+    // Function to read the time on Time Picker and set measure_time with this
+    if (form[touchpoint].queryMeasure.toUpperCase() === '5 MINUTES AGO') {
+      const transform_measure_time = this.TimeRangeTransform(
+        this.props.timeRangeBodyTouchpointsEditor
+      );
+      form[touchpoint].queryMeasure = transform_measure_time;
+      queryMeasure = `${form[touchpoint].query} SINCE ${form[touchpoint].queryMeasure}`; // Get touchpoint query measure
+      form[touchpoint].queryMeasure = '5 MINUTES AGO';
+    } else {
+      queryMeasure = `${form[touchpoint].query} SINCE ${form[touchpoint].queryMeasure}`; // Get touchpoint query measure
+    }
     this.TestQuery(queryMeasure, queryAccount, touchpointType); // Test current query in field
   };
 
@@ -1219,12 +1298,31 @@ class BodyTouchpointsEditor extends Component {
     dialog.nextSibling.style.minWidth = 'initial';
   }
 
+  showToast = touchpoint => {
+    const { list } = this.state;
+    const listToast = list;
+    const stageTitle = this.state.stages.filter(
+      result => this.state.current.stage === result.id
+    );
+    const objToast = {
+      id: touchpoint,
+      stage: stageTitle[0].title,
+      touchpoint: this.state.form[`tp_${this.state.current.touchpoint}`].title,
+      description: 'Syntax error on measure time',
+      backgroundColor: '#f0ad4e',
+      icon: warningIcon
+    };
+    if (listToast.find(result => result.id === touchpoint) === undefined)
+      listToast.push(objToast);
+  };
+
   render() {
     const {
       testQueryResult,
       goodQuery,
       testQueryValue,
-      testingNow
+      testingNow,
+      listTpErrorMeasureField
     } = this.state;
     return (
       <div style={{ width: '1000px' }}>
@@ -1441,6 +1539,7 @@ class BodyTouchpointsEditor extends Component {
                       type="submit"
                       variant="contained"
                       color="primary"
+                      disabled={listTpErrorMeasureField.length > 0}
                       style={{
                         background: '#0078BF',
                         color: 'white',
@@ -1835,32 +1934,64 @@ class BodyTouchpointsEditor extends Component {
                         <span>
                           <b>SINCE </b>
                         </span>
-                        <input
-                          type="text"
-                          value={
-                            this.state.form[
-                              `tp_${this.state.current.touchpoint}`
-                            ].queryMeasure
-                          }
+                        <div
                           style={{
-                            background: '#FFFFFF',
-                            border: '1px solid #BDBDBD',
-                            boxSizing: 'border-box',
-                            marginTop: '10px',
-                            marginBottom: '10px',
-                            marginLeft: '7px',
-                            width: '50%'
+                            display: 'inline',
+                            flexDirection: 'column',
+                            width: '100%'
                           }}
-                          onChange={e =>
-                            this.HandleOnChange(
-                              'queryMeasure',
-                              e.target.value,
-                              this.state.current.touchpoint
-                            )
-                          }
-                        />
+                        >
+                          <input
+                            type="text"
+                            value={
+                              this.state.form[
+                                `tp_${this.state.current.touchpoint}`
+                              ].queryMeasure
+                            }
+                            style={
+                              listTpErrorMeasureField.includes(
+                                this.state.current.touchpoint
+                              )
+                                ? {
+                                    background: '#FFFFFF',
+                                    border: '1px solid #FC1303',
+                                    boxSizing: 'border-box',
+                                    marginTop: '10px',
+                                    marginBottom: '10px',
+                                    marginLeft: '7px',
+                                    width: '50%'
+                                  }
+                                : {
+                                    background: '#FFFFFF',
+                                    border: '1px solid #BDBDBD',
+                                    boxSizing: 'border-box',
+                                    marginTop: '10px',
+                                    marginBottom: '10px',
+                                    marginLeft: '7px',
+                                    width: '50%'
+                                  }
+                            }
+                            onChange={e =>
+                              this.HandleOnChange(
+                                'queryMeasure',
+                                e.target.value,
+                                this.state.current.touchpoint
+                              )
+                            }
+                          />
+                          {listTpErrorMeasureField.includes(
+                            this.state.current.touchpoint
+                          )
+                            ? (this.showToast(this.state.current.touchpoint),
+                              (
+                                <span className="errorMessageMeasureTime">
+                                  Syntax error on measure time (e.g. 15 MINUTES
+                                  AGO)
+                                </span>
+                              ))
+                            : null}
+                        </div>
                       </div>
-
                       {/* Query Result */}
                       <Editor
                         isReadOnly
@@ -1869,7 +2000,6 @@ class BodyTouchpointsEditor extends Component {
                           testQueryValue ? objToString(testQueryValue) : ''
                         }
                       />
-
                       <div
                         style={{
                           display: 'flex',
@@ -1977,6 +2107,7 @@ class BodyTouchpointsEditor extends Component {
                     )}
                 </>
               )}
+              <Toast toastList={this.state.list} position="top-right" />
             </div>
           </div>
         </div>
@@ -1989,7 +2120,8 @@ BodyTouchpointsEditor.propTypes = {
   stagesInterface: PropTypes.array.isRequired,
   handleStagesEditorSubmit: PropTypes.func.isRequired,
   accountIDs: PropTypes.array.isRequired,
-  EditorValidateQuery: PropTypes.func.isRequired
+  EditorValidateQuery: PropTypes.func.isRequired,
+  timeRangeBodyTouchpointsEditor: PropTypes.string
 };
 
 export { HeaderTouchpointsEditor, BodyTouchpointsEditor };

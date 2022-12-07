@@ -181,6 +181,9 @@ export default {
                             },
                             accountID: {
                               type: 'number'
+                            },
+                            measure_time: {
+                              type: 'string'
                             }
                           }
                         }
@@ -272,6 +275,17 @@ export const CustomSchemaValidation = target => {
               touchpoint.title
             }, in query at position ${x + 1}, in property 'type', `,
             message: `must only contains letters, numbers, dashes and underscores`
+          });
+        }
+      });
+      const regexMeasureTime = /^((6[0]|[1-5][0-9]|[1-9])[\s]+minute[s]|1[\s]+hour)[\s]+ago$/i;
+      touchpoint.queries.forEach((query, x) => {
+        if (query.measure_time && !regexMeasureTime.test(query.measure_time)) {
+          errors.push({
+            dataPath: `The stage ${stage.title}, in touchpoint ${
+              touchpoint.title
+            }, in query at position ${x + 1}, in property 'measure_time', `,
+            message: `has a error in syntax`
           });
         }
       });

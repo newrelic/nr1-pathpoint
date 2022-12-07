@@ -1931,6 +1931,7 @@ export default class MainContainer extends React.Component {
       timeRangeKpi,
       kpis,
       accountIDs,
+      timeRange,
       accountId,
       credentials,
       configurationOptionSelected,
@@ -2604,6 +2605,7 @@ export default class MainContainer extends React.Component {
             RestoreJSONFromHistoric={this.RestoreJSONFromHistoric}
             username={this.state.username}
             handleStagesEditorSubmit={this.handleStagesEditorSubmit}
+            timeRangeBodyTouchpointsEditor={timeRange}
             stagesInterface={this.state.stagesInterface}
             EditorValidateQuery={this.EditorValidateQuery}
             kpis={this.state.kpis}
