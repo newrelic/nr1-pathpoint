@@ -2,8 +2,6 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import './Toast.scss';
-
 const Toast = props => {
   const { toastList, position, autoDelete, autoDeleteTime } = props;
   const [list, setList] = useState(toastList);

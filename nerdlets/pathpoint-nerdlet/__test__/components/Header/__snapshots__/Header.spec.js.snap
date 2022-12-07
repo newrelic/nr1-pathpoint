@@ -180,6 +180,8 @@ exports[`Header component Header component with default data 1`] = `
       <div
         className="custom-select-wrapper"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
       >
         <div
           className="custom-select"
@@ -198,7 +200,7 @@ exports[`Header component Header component with default data 1`] = `
                 }
               }
             >
-              last 5 minutes
+              Now
             </span>
             <div
               className="arrow"
@@ -212,7 +214,7 @@ exports[`Header component Header component with default data 1`] = `
               className="custom-option selected"
               onClick={[Function]}
             >
-              last 5 minutes
+              Now
             </span>
             <span
               className="custom-option"
@@ -484,6 +486,8 @@ exports[`Header component Header component with iconCanaryStatus 1`] = `
       <div
         className="custom-select-wrapper"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
       >
         <div
           className="custom-select"
@@ -502,7 +506,7 @@ exports[`Header component Header component with iconCanaryStatus 1`] = `
                 }
               }
             >
-              last 5 minutes
+              Now
             </span>
             <div
               className="arrow"
@@ -516,7 +520,7 @@ exports[`Header component Header component with iconCanaryStatus 1`] = `
               className="custom-option selected"
               onClick={[Function]}
             >
-              last 5 minutes
+              Now
             </span>
             <span
               className="custom-option"
@@ -788,6 +792,8 @@ exports[`Header component Header component with iconFireStatus 1`] = `
       <div
         className="custom-select-wrapper"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
       >
         <div
           className="custom-select"
@@ -806,7 +812,7 @@ exports[`Header component Header component with iconFireStatus 1`] = `
                 }
               }
             >
-              last 5 minutes
+              Now
             </span>
             <div
               className="arrow"
@@ -820,7 +826,7 @@ exports[`Header component Header component with iconFireStatus 1`] = `
               className="custom-option selected"
               onClick={[Function]}
             >
-              last 5 minutes
+              Now
             </span>
             <span
               className="custom-option"
@@ -1092,6 +1098,8 @@ exports[`Header component Header component with iconGoutStatus 1`] = `
       <div
         className="custom-select-wrapper"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
       >
         <div
           className="custom-select"
@@ -1110,7 +1118,7 @@ exports[`Header component Header component with iconGoutStatus 1`] = `
                 }
               }
             >
-              last 5 minutes
+              Now
             </span>
             <div
               className="arrow"
@@ -1124,7 +1132,7 @@ exports[`Header component Header component with iconGoutStatus 1`] = `
               className="custom-option selected"
               onClick={[Function]}
             >
-              last 5 minutes
+              Now
             </span>
             <span
               className="custom-option"
@@ -1396,6 +1404,8 @@ exports[`Header component Header component with iconSixthSenseStatus 1`] = `
       <div
         className="custom-select-wrapper"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
       >
         <div
           className="custom-select"
@@ -1414,7 +1424,7 @@ exports[`Header component Header component with iconSixthSenseStatus 1`] = `
                 }
               }
             >
-              last 5 minutes
+              Now
             </span>
             <div
               className="arrow"
@@ -1428,7 +1438,7 @@ exports[`Header component Header component with iconSixthSenseStatus 1`] = `
               className="custom-option selected"
               onClick={[Function]}
             >
-              last 5 minutes
+              Now
             </span>
             <span
               className="custom-option"
@@ -1700,6 +1710,8 @@ exports[`Header component Header component with iconStartStatus 1`] = `
       <div
         className="custom-select-wrapper"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
       >
         <div
           className="custom-select"
@@ -1718,7 +1730,7 @@ exports[`Header component Header component with iconStartStatus 1`] = `
                 }
               }
             >
-              last 5 minutes
+              Now
             </span>
             <div
               className="arrow"
@@ -1732,7 +1744,7 @@ exports[`Header component Header component with iconStartStatus 1`] = `
               className="custom-option selected"
               onClick={[Function]}
             >
-              last 5 minutes
+              Now
             </span>
             <span
               className="custom-option"
@@ -2004,6 +2016,8 @@ exports[`Header component Header component with logoSetup Text 1`] = `
       <div
         className="custom-select-wrapper"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
       >
         <div
           className="custom-select"
@@ -2022,7 +2036,7 @@ exports[`Header component Header component with logoSetup Text 1`] = `
                 }
               }
             >
-              last 5 minutes
+              Now
             </span>
             <div
               className="arrow"
@@ -2036,7 +2050,7 @@ exports[`Header component Header component with logoSetup Text 1`] = `
               className="custom-option selected"
               onClick={[Function]}
             >
-              last 5 minutes
+              Now
             </span>
             <span
               className="custom-option"
@@ -2308,6 +2322,8 @@ exports[`Header component Header component with logoSetup URL 1`] = `
       <div
         className="custom-select-wrapper"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
       >
         <div
           className="custom-select"
@@ -2326,7 +2342,7 @@ exports[`Header component Header component with logoSetup URL 1`] = `
                 }
               }
             >
-              last 5 minutes
+              Now
             </span>
             <div
               className="arrow"
@@ -2340,7 +2356,7 @@ exports[`Header component Header component with logoSetup URL 1`] = `
               className="custom-option selected"
               onClick={[Function]}
             >
-              last 5 minutes
+              Now
             </span>
             <span
               className="custom-option"
@@ -2612,6 +2628,8 @@ exports[`Header component Header component with showLeftPanel 1`] = `
       <div
         className="custom-select-wrapper"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
       >
         <div
           className="custom-select"
@@ -2630,7 +2648,7 @@ exports[`Header component Header component with showLeftPanel 1`] = `
                 }
               }
             >
-              last 5 minutes
+              Now
             </span>
             <div
               className="arrow"
@@ -2644,7 +2662,7 @@ exports[`Header component Header component with showLeftPanel 1`] = `
               className="custom-option selected"
               onClick={[Function]}
             >
-              last 5 minutes
+              Now
             </span>
             <span
               className="custom-option"

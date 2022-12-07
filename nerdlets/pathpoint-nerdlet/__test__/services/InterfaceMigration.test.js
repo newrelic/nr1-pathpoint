@@ -160,7 +160,7 @@ describe('InterfaceEditor', () => {
       accountID: 2710113,
       query: 'SELECT * FROM Transaction',
       query_timeout: 0.1,
-      measure_time: 0.25,
+      measure_time: '5 MINUTES AGO',
       min_count: 1.3,
       max_count: 5
     };
@@ -169,7 +169,7 @@ describe('InterfaceEditor', () => {
       accountID: 2710113,
       query: 'SELECT * FROM Transaction',
       query_timeout: 0.1,
-      measure_time: 0.25,
+      measure_time: '5 MINUTES AGO',
       min_count: 1.3,
       max_count: 5
     };
@@ -178,7 +178,7 @@ describe('InterfaceEditor', () => {
       accountID: 2710113,
       query: 'SELECT * FROM Transaction',
       query_timeout: 0.1,
-      measure_time: 0.25,
+      measure_time: '5 MINUTES AGO',
       min_count: 1.3,
       max_count: 5
     };
@@ -187,7 +187,7 @@ describe('InterfaceEditor', () => {
       accountID: 2710113,
       query: 'SELECT * FROM Transaction',
       query_timeout: 0.1,
-      measure_time: 0.25,
+      measure_time: '5 MINUTES AGO',
       min_apdex: 1.3,
       max_response_time: 5,
       max_error_percentage: 19
@@ -197,7 +197,7 @@ describe('InterfaceEditor', () => {
       accountID: 2710113,
       query: 'SELECT * FROM Transaction',
       query_timeout: 0.1,
-      measure_time: 0.25,
+      measure_time: '5 MINUTES AGO',
       min_apdex: 1.3,
       max_response_time: 5,
       max_error_percentage: 19
@@ -207,7 +207,7 @@ describe('InterfaceEditor', () => {
       accountID: 2710113,
       query: 'SELECT * FROM Transaction',
       query_timeout: 0.1,
-      measure_time: 0.25,
+      measure_time: '5 MINUTES AGO',
       min_apdex: 1.3,
       max_response_time: 5,
       max_error_percentage: 19
@@ -217,7 +217,7 @@ describe('InterfaceEditor', () => {
       accountID: 2710113,
       query: 'SELECT * FROM Transaction',
       query_timeout: 0.1,
-      measure_time: 0.25,
+      measure_time: '5 MINUTES AGO',
       max_avg_response_time: 1.3,
       max_total_check_time: 5,
       min_success_percentage: 2
@@ -227,7 +227,7 @@ describe('InterfaceEditor', () => {
       accountID: 2710113,
       query: 'SELECT * FROM Transaction',
       query_timeout: 0.1,
-      measure_time: 0.25,
+      measure_time: '5 MINUTES AGO',
       min_success_percentage: 2
     };
     expect(
@@ -235,7 +235,7 @@ describe('InterfaceEditor', () => {
     ).toEqual([
       {
         accountID: 2710113,
-        measure_time: 0.25,
+        measure_time: '5 MINUTES AGO',
         query: 'SELECT * FROM Transaction',
         query_timeout: 0.1,
         type: 'Person-Count',
@@ -248,7 +248,7 @@ describe('InterfaceEditor', () => {
     ).toEqual([
       {
         accountID: 2710113,
-        measure_time: 0.25,
+        measure_time: '5 MINUTES AGO',
         query: 'SELECT * FROM Transaction',
         query_timeout: 0.1,
         type: 'Process-Count',
@@ -259,7 +259,7 @@ describe('InterfaceEditor', () => {
     expect(interfaceMigration.SetTouchpointQueries(queryDataAPICount)).toEqual([
       {
         accountID: 2710113,
-        measure_time: 0.25,
+        measure_time: '5 MINUTES AGO',
         query: 'SELECT * FROM Transaction',
         query_timeout: 0.1,
         type: 'API-Count',
@@ -272,7 +272,7 @@ describe('InterfaceEditor', () => {
     ).toEqual([
       {
         accountID: 2710113,
-        measure_time: 0.25,
+        measure_time: '5 MINUTES AGO',
         query: 'SELECT * FROM Transaction',
         query_timeout: 0.1,
         type: 'Application-Performance',
@@ -286,7 +286,7 @@ describe('InterfaceEditor', () => {
     ).toEqual([
       {
         accountID: 2710113,
-        measure_time: 0.25,
+        measure_time: '5 MINUTES AGO',
         query: 'SELECT * FROM Transaction',
         query_timeout: 0.1,
         type: 'FrontEnd-Performance',
@@ -300,7 +300,7 @@ describe('InterfaceEditor', () => {
     ).toEqual([
       {
         accountID: 2710113,
-        measure_time: 0.25,
+        measure_time: '5 MINUTES AGO',
         query: 'SELECT * FROM Transaction',
         query_timeout: 0.1,
         type: 'API-Performance',
@@ -314,7 +314,7 @@ describe('InterfaceEditor', () => {
     ).toEqual([
       {
         accountID: 2710113,
-        measure_time: 0.25,
+        measure_time: '5 MINUTES AGO',
         query: 'SELECT * FROM Transaction',
         query_timeout: 0.1,
         type: 'Synthetics-Check',
@@ -327,7 +327,7 @@ describe('InterfaceEditor', () => {
       [
         {
           accountID: 2710113,
-          measure_time: 0.25,
+          measure_time: '5 MINUTES AGO',
           query: 'SELECT * FROM Transaction',
           query_timeout: 0.1,
           type: 'API-Status',

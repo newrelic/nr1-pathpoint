@@ -285,6 +285,8 @@ exports[`QueryFormModal component Render header with default data 1`] = `
     <div
       className="custom-select-wrapper"
       onClick={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
     >
       <div
         className="custom-select"
