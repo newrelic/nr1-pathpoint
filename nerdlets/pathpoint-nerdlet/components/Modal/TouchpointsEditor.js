@@ -965,8 +965,8 @@ class BodyTouchpointsEditor extends Component {
         time_end = Math.floor(Date.now() / 1000) - 3 * 24 * 60 * 60;
         break;
       case '7 DAYS AGO':
-        time_start = Math.floor(Date.now() / 1000) - 3 * 24 * 60 * 60 - 5 * 60;
-        time_end = Math.floor(Date.now() / 1000) - 3 * 24 * 60 * 60;
+        time_start = Math.floor(Date.now() / 1000) - 7 * 24 * 60 * 60 - 5 * 60;
+        time_end = Math.floor(Date.now() / 1000) - 7 * 24 * 60 * 60;
         break;
       default:
         return timeRange;
