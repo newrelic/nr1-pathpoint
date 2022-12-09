@@ -934,20 +934,16 @@ class BodyTouchpointsEditor extends Component {
     let time_end = 0;
     let range_duration_minutes = 5;
     let _now_as_seconds = Math.floor(Date.now() / 1000);
-    console.log(pointInTime);
-    console.log(sinceClause);
+    //console.log(pointInTime);
+    //console.log(sinceClause);
     if (sinceClause.includes(' MINUTES AGO')) {
-        console.log('includes minutes ago');
         const result = sinceClause.trim().split(/\s+/);
         range_duration_minutes = parseInt(result[0]);
-        console.log(range_duration_minutes);
     }
     else if (sinceClause === '') {
-        console.log('since clause is blank');
         range_duration_minutes = 5;
     }
     else {
-        console.log('since clause is unexpected format');
         range_duration_minutes = 5;
     }
 
@@ -988,11 +984,8 @@ class BodyTouchpointsEditor extends Component {
         time_start = _now_as_seconds - range_duration_minutes * 60;
         time_end = _now_as_seconds;
         break;
-      //default:
-      //  return timeRange;
     }
-    console.log('FULL TIME');
-    console.log(`${time_start} UNTIL ${time_end}`);
+    //console.log(`${time_start} UNTIL ${time_end}`);
     return `${time_start} UNTIL ${time_end}`;
   }
 

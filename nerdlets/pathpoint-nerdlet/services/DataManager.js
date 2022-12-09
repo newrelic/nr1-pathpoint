@@ -525,20 +525,16 @@ export default class DataManager {
     let time_end = 0;
     let range_duration_minutes = 5;
     let _now_as_seconds = Math.floor(Date.now() / 1000);
-    console.log(pointInTime);
-    console.log(sinceClause);
+    //console.log(pointInTime);
+    //console.log(sinceClause);
     if (sinceClause.includes(' MINUTES AGO')) {
-        console.log('includes minutes ago');
         const result = sinceClause.trim().split(/\s+/);
         range_duration_minutes = parseInt(result[0]);
-        console.log(range_duration_minutes);
     }
     else if (sinceClause === '') {
-        console.log('since clause is blank');
         range_duration_minutes = 5;
     }
     else {
-        console.log('since clause is unexpected format');
         range_duration_minutes = 5;
     }
 
@@ -579,11 +575,8 @@ export default class DataManager {
         time_start = _now_as_seconds - range_duration_minutes * 60;
         time_end = _now_as_seconds;
         break;
-      //default:
-      //  return timeRange;
     }
-    console.log('FULL TIME');
-    console.log(`${time_start} UNTIL ${time_end}`);
+    //console.log(`${time_start} UNTIL ${time_end}`);
     return `${time_start} UNTIL ${time_end}`;
   }
 
@@ -2590,7 +2583,7 @@ export default class DataManager {
     const response = `
     ${data.header}
     ${this.InserTouchpointsToScript()}
-    ${data.footer}`;
+    ${data.footer}`
     return response;
   }
 
@@ -2852,6 +2845,7 @@ export default class DataManager {
                   query_start: '',
                   query_body: measure.query,
                   query_footer: this.ValidateMeasureTime(measure),
+                  query_footer2: this.GetDisplayMeasureTime(measure),
                   timeout: measure.timeout
                 });
               } else if (measure.type === 'PCC') {
@@ -2863,6 +2857,7 @@ export default class DataManager {
                   query_start: '',
                   query_body: measure.query,
                   query_footer: this.ValidateMeasureTime(measure),
+                  query_footer2: this.GetDisplayMeasureTime(measure),
                   timeout: measure.timeout
                 });
               } else if (measure.type === 'APP') {
@@ -2874,6 +2869,7 @@ export default class DataManager {
                   query_start: '',
                   query_body: measure.query,
                   query_footer: this.ValidateMeasureTime(measure),
+                  query_footer2: this.GetDisplayMeasureTime(measure),
                   timeout: measure.timeout
                 });
               } else if (measure.type === 'FRT') {
@@ -2885,6 +2881,7 @@ export default class DataManager {
                   query_start: '',
                   query_body: measure.query,
                   query_footer: this.ValidateMeasureTime(measure),
+                  query_footer2: this.GetDisplayMeasureTime(measure),
                   timeout: measure.timeout
                 });
               } else if (measure.type === 'SYN') {
@@ -2896,6 +2893,7 @@ export default class DataManager {
                   query_start: '',
                   query_body: measure.query,
                   query_footer: this.ValidateMeasureTime(measure),
+                  query_footer2: this.GetDisplayMeasureTime(measure),
                   timeout: measure.timeout
                 });
               } else if (measure.type === 'WLD') {
@@ -2933,6 +2931,7 @@ export default class DataManager {
                   query_start: '',
                   query_body: measure.query,
                   query_footer: this.ValidateMeasureTime(measure),
+                  query_footer2: this.GetDisplayMeasureTime(measure),
                   timeout: measure.timeout
                 });
               } else if (measure.type === 'APC') {
@@ -2944,6 +2943,7 @@ export default class DataManager {
                   query_start: '',
                   query_body: measure.query,
                   query_footer: this.ValidateMeasureTime(measure),
+                  query_footer2: this.GetDisplayMeasureTime(measure),
                   timeout: measure.timeout
                 });
               } else if (measure.type === 'APS') {
@@ -2955,6 +2955,7 @@ export default class DataManager {
                   query_start: '',
                   query_body: measure.query,
                   query_footer: this.ValidateMeasureTime(measure),
+                  query_footer2: this.GetDisplayMeasureTime(measure),
                   timeout: measure.timeout
                 });
               }
@@ -2979,10 +2980,10 @@ export default class DataManager {
   GetDisplayMeasureTime(measure) {
     let absolute_range = `${this.TimeRangeTransform(this.timeRange, measure.measure_time)}`;
     const result = absolute_range.trim().split(/\s+/);
-    console.log(result);
-    let t1 = Date(parseInt(result[0]));
-    let t2 = Date(parseInt(result[2]));
-    return `${t1} TO ${t2} }`;
+    let t1 = new Date(parseInt(result[0])*1000);
+    let t2 = new Date(parseInt(result[2])*1000);
+
+    return `// (${t1.toLocaleDateString()} ${t1.toLocaleTimeString()} to ${t2.toLocaleDateString()} ${t2.toLocaleTimeString()})`;
     
   }
 
