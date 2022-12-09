@@ -42,6 +42,7 @@ describe('<QueryFormModal/>', () => {
         modifiedQuery
         handleChangeTexarea={jest.fn()}
         accountIDs={accountIDs}
+        timeRangeTransform={jest.fn()}
       />
     );
     expect(bodyQueryForm.length).toEqual(1);
@@ -75,6 +76,7 @@ describe('<QueryFormModal/>', () => {
         modifiedQuery
         handleChangeTexarea={jest.fn()}
         accountIDs={accountIDs}
+        timeRangeTransform={jest.fn()}
       />
     );
     expect(bodyQueryForm.length).toEqual(1);
@@ -117,6 +119,7 @@ describe('<QueryFormModal/>', () => {
         modifiedQuery
         handleChangeTexarea={jest.fn()}
         accountIDs={accountIDs}
+        timeRangeTransform={jest.fn()}
       />
     );
     expect(bodyQueryForm.length).toEqual(1);
@@ -147,6 +150,7 @@ describe('<QueryFormModal/>', () => {
         modifiedQuery={false}
         handleChangeTexarea={jest.fn()}
         accountIDs={accountIDs}
+        timeRangeTransform={jest.fn()}
       />
     );
     expect(bodyQueryForm.length).toEqual(1);
@@ -178,6 +182,7 @@ describe('<QueryFormModal/>', () => {
         modifiedQuery={false}
         handleChangeTexarea={jest.fn()}
         accountIDs={accountIDs}
+        timeRangeTransform={jest.fn()}
       />
     );
     bodyQueryForm
@@ -213,6 +218,7 @@ describe('<QueryFormModal/>', () => {
         modifiedQuery={false}
         handleChangeTexarea={jest.fn()}
         accountIDs={accountIDs}
+        timeRangeTransform={jest.fn()}
       />
     );
     bodyQueryForm.find('a').simulate('click');
@@ -269,6 +275,7 @@ describe('<QueryFormModal/>', () => {
         modifiedQuery={false}
         handleChangeTexarea={jest.fn()}
         accountIDs={accountIDs}
+        timeRangeTransform={jest.fn()}
       />
     );
     const button = bodyQueryForm.find('button').at(1);
@@ -302,6 +309,7 @@ describe('<QueryFormModal/>', () => {
         modifiedQuery={false}
         handleChangeTexarea={handleChangeTexarea}
         accountIDs={accountIDs}
+        timeRangeTransform={jest.fn()}
       />
     );
     const event = { target: { value: 'sometext' } };
@@ -338,6 +346,7 @@ describe('<QueryFormModal/>', () => {
         handleChangeTexarea={jest.fn()}
         accountIDs={accountIDs}
         handleOnChange={handleOnChange}
+        timeRangeTransform={jest.fn()}
       />
     );
     expect(bodyQueryForm.length).toEqual(1);
@@ -370,6 +379,7 @@ describe('<QueryFormModal/>', () => {
         modifiedQuery={false}
         handleChangeTexarea={jest.fn()}
         accountIDs={accountIDs}
+        timeRangeTransform={jest.fn()}
       />
     );
     bodyQueryForm.find('#Timeout').simulate('change');
