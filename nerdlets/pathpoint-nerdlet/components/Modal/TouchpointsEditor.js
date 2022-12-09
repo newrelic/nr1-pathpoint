@@ -929,48 +929,70 @@ class BodyTouchpointsEditor extends Component {
     });
   };
 
-  TimeRangeTransform(timeRange) {
+  TimeRangeTransform(pointInTime, sinceClause) {
     let time_start = 0;
     let time_end = 0;
-    if (timeRange === '5 MINUTES AGO') {
-      return timeRange;
+    let range_duration_minutes = 5;
+    let _now_as_seconds = Math.floor(Date.now() / 1000);
+    console.log(pointInTime);
+    console.log(sinceClause);
+    if (sinceClause.includes(' MINUTES AGO')) {
+        console.log('includes minutes ago');
+        const result = sinceClause.trim().split(/\s+/);
+        range_duration_minutes = parseInt(result[0]);
+        console.log(range_duration_minutes);
     }
-    switch (timeRange) {
+    else if (sinceClause === '') {
+        console.log('since clause is blank');
+        range_duration_minutes = 5;
+    }
+    else {
+        console.log('since clause is unexpected format');
+        range_duration_minutes = 5;
+    }
+
+    switch (pointInTime) {
       case '30 MINUTES AGO':
-        time_start = Math.floor(Date.now() / 1000) - 35 * 60;
-        time_end = Math.floor(Date.now() / 1000) - 30 * 60;
+        time_start = _now_as_seconds - 30 * 60 - range_duration_minutes * 60;
+        time_end = _now_as_seconds - 30 * 60;
         break;
       case '60 MINUTES AGO':
-        time_start = Math.floor(Date.now() / 1000) - 65 * 60;
-        time_end = Math.floor(Date.now() / 1000) - 60 * 60;
+        time_start = _now_as_seconds - 60 * 60 - range_duration_minutes * 60;
+        time_end = _now_as_seconds - 60 * 60
         break;
       case '3 HOURS AGO':
-        time_start = Math.floor(Date.now() / 1000) - 3 * 60 * 60 - 5 * 60;
-        time_end = Math.floor(Date.now() / 1000) - 3 * 60 * 60;
+        time_start = _now_as_seconds - 3 * 60 * 60 - range_duration_minutes * 60;
+        time_end = _now_as_seconds - 3 * 60 * 60;
         break;
       case '6 HOURS AGO':
-        time_start = Math.floor(Date.now() / 1000) - 6 * 60 * 60 - 5 * 60;
-        time_end = Math.floor(Date.now() / 1000) - 6 * 60 * 60;
+        time_start = _now_as_seconds - 6 * 60 * 60 - range_duration_minutes * 60;
+        time_end = _now_as_seconds - 6 * 60 * 60;
         break;
       case '12 HOURS AGO':
-        time_start = Math.floor(Date.now() / 1000) - 12 * 60 * 60 - 5 * 60;
-        time_end = Math.floor(Date.now() / 1000) - 12 * 60 * 60;
+        time_start =_now_as_seconds - 12 * 60 * 60 - range_duration_minutes * 60;
+        time_end = _now_as_seconds - 12 * 60 * 60;
         break;
       case '24 HOURS AGO':
-        time_start = Math.floor(Date.now() / 1000) - 24 * 60 * 60 - 5 * 60;
-        time_end = Math.floor(Date.now() / 1000) - 24 * 60 * 60;
+        time_start = _now_as_seconds - 24 * 60 * 60 - range_duration_minutes * 60;
+        time_end = _now_as_seconds - 24 * 60 * 60;
         break;
       case '3 DAYS AGO':
-        time_start = Math.floor(Date.now() / 1000) - 3 * 24 * 60 * 60 - 5 * 60;
-        time_end = Math.floor(Date.now() / 1000) - 3 * 24 * 60 * 60;
+        time_start = _now_as_seconds - 3 * 24 * 60 * 60 - range_duration_minutes * 60;
+        time_end = _now_as_seconds - 3 * 24 * 60 * 60;
         break;
       case '7 DAYS AGO':
-        time_start = Math.floor(Date.now() / 1000) - 3 * 24 * 60 * 60 - 5 * 60;
-        time_end = Math.floor(Date.now() / 1000) - 3 * 24 * 60 * 60;
+        time_start = _now_as_seconds - range_duration_minutes * 60;
+        time_end = _now_as_seconds - 7 * 24 * 60 * 60;
         break;
-      default:
-        return timeRange;
+      case '5 MINUTES AGO': // This really means "Now" and is labeled as such
+        time_start = _now_as_seconds - range_duration_minutes * 60;
+        time_end = _now_as_seconds;
+        break;
+      //default:
+      //  return timeRange;
     }
+    console.log('FULL TIME');
+    console.log(`${time_start} UNTIL ${time_end}`);
     return `${time_start} UNTIL ${time_end}`;
   }
 
@@ -983,17 +1005,12 @@ class BodyTouchpointsEditor extends Component {
     const queryAccount = form[touchpoint].queryAccount; // Get touchpoint query account
     let queryMeasure;
     // Function to read the time on Time Picker and set measure_time with this
-    if (form[touchpoint].queryMeasure.toUpperCase() === '5 MINUTES AGO') {
-      const transform_measure_time = this.TimeRangeTransform(
-        this.props.timeRangeBodyTouchpointsEditor
+    const transform_measure_time = this.TimeRangeTransform(
+        this.props.timeRangeBodyTouchpointsEditor, form[touchpoint].queryMeasure
       );
-      form[touchpoint].queryMeasure = transform_measure_time;
-      queryMeasure = `${form[touchpoint].query} SINCE ${form[touchpoint].queryMeasure}`; // Get touchpoint query measure
-      form[touchpoint].queryMeasure = '5 MINUTES AGO';
-    } else {
-      queryMeasure = `${form[touchpoint].query} SINCE ${form[touchpoint].queryMeasure}`; // Get touchpoint query measure
-    }
+    queryMeasure = `${form[touchpoint].query} SINCE ${transform_measure_time}`;
     this.TestQuery(queryMeasure, queryAccount, touchpointType); // Test current query in field
+    console.log(queryMeasure);
   };
 
   RenderTuneField = ({
