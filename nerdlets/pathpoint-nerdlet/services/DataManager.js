@@ -22,6 +22,74 @@ import LogConnector from './LogsConnector';
 import SynConnector from './SynConnector';
 import CredentialConnector from './CredentialConnector';
 
+
+export function TimeRangeTransform(pointInTime, sinceClause) {
+    //console.log(pointInTime + ' ' + sinceClause)
+    let time_start = 0;
+    let time_end = 0;
+    let range_duration_minutes = 5;
+    let _now_as_seconds = Math.floor(Date.now() / 1000);
+
+    // We don't want a preceding "SINCE " on the since Clause -- just the time window
+    let stripped_clause = sinceClause.replace("SINCE ", "");
+
+    if (stripped_clause.includes(' MINUTES AGO')) {
+        const result = stripped_clause.trim().split(/\s+/);
+        range_duration_minutes = parseInt(result[0]);
+    }
+    else if (stripped_clause === '') {
+        range_duration_minutes = 5;
+    }
+    else {
+        range_duration_minutes = 5;
+    }
+
+    switch (pointInTime) {
+      case '30 MINUTES AGO':
+        time_start = _now_as_seconds - 30 * 60 - range_duration_minutes * 60;
+        time_end = _now_as_seconds - 30 * 60;
+        break;
+      case '60 MINUTES AGO':
+        time_start = _now_as_seconds - 60 * 60 - range_duration_minutes * 60;
+        time_end = _now_as_seconds - 60 * 60
+        break;
+      case '3 HOURS AGO':
+        time_start = _now_as_seconds - 3 * 60 * 60 - range_duration_minutes * 60;
+        time_end = _now_as_seconds - 3 * 60 * 60;
+        break;
+      case '6 HOURS AGO':
+        time_start = _now_as_seconds - 6 * 60 * 60 - range_duration_minutes * 60;
+        time_end = _now_as_seconds - 6 * 60 * 60;
+        break;
+      case '12 HOURS AGO':
+        time_start =_now_as_seconds - 12 * 60 * 60 - range_duration_minutes * 60;
+        time_end = _now_as_seconds - 12 * 60 * 60;
+        break;
+      case '24 HOURS AGO':
+        time_start = _now_as_seconds - 24 * 60 * 60 - range_duration_minutes * 60;
+        time_end = _now_as_seconds - 24 * 60 * 60;
+        break;
+      case '3 DAYS AGO':
+        time_start = _now_as_seconds - 3 * 24 * 60 * 60 - range_duration_minutes * 60;
+        time_end = _now_as_seconds - 3 * 24 * 60 * 60;
+        break;
+      case '7 DAYS AGO':
+        time_start = _now_as_seconds - range_duration_minutes * 60;
+        time_end = _now_as_seconds - 7 * 24 * 60 * 60;
+        break;
+      case '5 MINUTES AGO': // This really means "Now" and is labeled as such
+        time_start = _now_as_seconds - range_duration_minutes * 60;
+        time_end = _now_as_seconds;
+        break;
+      case 'Now': // This really means "Now" and is labeled as such
+        time_start = _now_as_seconds - range_duration_minutes * 60;
+        time_end = _now_as_seconds;
+        break;
+    }
+    console.log(`${time_start} UNTIL ${time_end}`);
+    return `${time_start} UNTIL ${time_end}`;
+  }
+
 // DEFINE AND EXPORT CLASS
 export default class DataManager {
   constructor(useEmulator) {
@@ -427,6 +495,7 @@ export default class DataManager {
                   ? this.stages[touchpoint.stage_index - 1].title
                   : ''
               };
+              console.log(touchpoint.value);
               this.FetchMeasure(measure, extraInfo);
             });
           }
@@ -498,17 +567,25 @@ export default class DataManager {
 
   FetchMeasure(measure, extraInfo = null) {
     this.ClearMeasure(measure);
-    if (measure.query !== '') {
-      let query = `${measure.query} SINCE ${this.TimeRangeTransform(
-        this.timeRange, ""
-      )}`;
-      if (measure.measure_time) {
-        query = `${measure.query} SINCE ${measure.measure_time}`;
-      } else if (measure.type === 'WLD') {
+    console.log(measure.measure_time);
+    let query = '';
+
+    if (measure.type === 'WLD') {
         query = `${measure.query} SINCE 3 HOURS AGO`;
-      } else if (measure.type === 'DRP') {
+    }
+    else if (measure.type === 'DRP') {
         query = `${measure.query} SINCE ${this.dropParams.hours} HOURS AGO`;
+        }
+    else {
+        if (measure.measure_time) {
+            query = `${measure.query} SINCE ${TimeRangeTransform(this.timeRange, measure.measure_time)}`;
+            }
+        else {
+            query = `${measure.query} SINCE ${TimeRangeTransform(this.timeRange, "")}`;
+        }
       }
+      console.log(query);
+
       this.graphQlmeasures.push([
         measure,
         query
@@ -518,67 +595,6 @@ export default class DataManager {
         extraInfo
       ]);
     }
-  }
-
-  TimeRangeTransform(pointInTime, sinceClause='') {
-    let time_start = 0;
-    let time_end = 0;
-    let range_duration_minutes = 5;
-    let _now_as_seconds = Math.floor(Date.now() / 1000);
-    //console.log(pointInTime);
-    //console.log(sinceClause);
-    if (sinceClause.includes(' MINUTES AGO')) {
-        const result = sinceClause.trim().split(/\s+/);
-        range_duration_minutes = parseInt(result[0]);
-    }
-    else if (sinceClause === '') {
-        range_duration_minutes = 5;
-    }
-    else {
-        range_duration_minutes = 5;
-    }
-
-    switch (pointInTime) {
-      case '30 MINUTES AGO':
-        time_start = _now_as_seconds - 30 * 60 - range_duration_minutes * 60;
-        time_end = _now_as_seconds - 30 * 60;
-        break;
-      case '60 MINUTES AGO':
-        time_start = _now_as_seconds - 60 * 60 - range_duration_minutes * 60;
-        time_end = _now_as_seconds - 60 * 60
-        break;
-      case '3 HOURS AGO':
-        time_start = _now_as_seconds - 3 * 60 * 60 - range_duration_minutes * 60;
-        time_end = _now_as_seconds - 3 * 60 * 60;
-        break;
-      case '6 HOURS AGO':
-        time_start = _now_as_seconds - 6 * 60 * 60 - range_duration_minutes * 60;
-        time_end = _now_as_seconds - 6 * 60 * 60;
-        break;
-      case '12 HOURS AGO':
-        time_start =_now_as_seconds - 12 * 60 * 60 - range_duration_minutes * 60;
-        time_end = _now_as_seconds - 12 * 60 * 60;
-        break;
-      case '24 HOURS AGO':
-        time_start = _now_as_seconds - 24 * 60 * 60 - range_duration_minutes * 60;
-        time_end = _now_as_seconds - 24 * 60 * 60;
-        break;
-      case '3 DAYS AGO':
-        time_start = _now_as_seconds - 3 * 24 * 60 * 60 - range_duration_minutes * 60;
-        time_end = _now_as_seconds - 3 * 24 * 60 * 60;
-        break;
-      case '7 DAYS AGO':
-        time_start = _now_as_seconds - range_duration_minutes * 60;
-        time_end = _now_as_seconds - 7 * 24 * 60 * 60;
-        break;
-      case '5 MINUTES AGO': // This really means "Now" and is labeled as such
-        time_start = _now_as_seconds - range_duration_minutes * 60;
-        time_end = _now_as_seconds;
-        break;
-    }
-    //console.log(`${time_start} UNTIL ${time_end}`);
-    return `${time_start} UNTIL ${time_end}`;
-  }
 
   SendToLogs(logRecord) {
     this.LogConnector.SendLog(logRecord);
@@ -2194,6 +2210,8 @@ export default class DataManager {
     this.kpis = [];
     this.kpis.length = 0;
     let query_timeout = 10;
+    let query_measure_time = '';
+
     this.touchPoints.push({
       index: 0,
       country: 'PRODUCTION',
@@ -2330,6 +2348,9 @@ export default class DataManager {
           if (query.query_timeout) {
             query_timeout = query.query_timeout;
           }
+          if (query.measure_time) {
+            query_measure_time = query.measure_time;
+          }
           if (
             query.type === this.measureNames[0] ||
             query.type === 'PRC-COUNT-QUERY'
@@ -2338,6 +2359,7 @@ export default class DataManager {
               type: 'PRC',
               query: query.query,
               timeout: query_timeout,
+              measure_time: query_measure_time,
               min_count: query.min_count,
               max_count: Reflect.has(query, 'max_count')
                 ? query.max_count
@@ -2352,6 +2374,7 @@ export default class DataManager {
               type: 'PCC',
               query: query.query,
               timeout: query_timeout,
+              measure_time: query_measure_time,
               min_count: query.min_count,
               max_count: Reflect.has(query, 'max_count')
                 ? query.max_count
@@ -2366,6 +2389,7 @@ export default class DataManager {
               type: 'APP',
               query: query.query,
               timeout: query_timeout,
+              measure_time: query_measure_time,
               min_apdex: query.min_apdex,
               max_response_time: query.max_response_time,
               max_error_percentage: query.max_error_percentage,
@@ -2381,6 +2405,7 @@ export default class DataManager {
               type: 'FRT',
               query: query.query,
               timeout: query_timeout,
+              measure_time: query_measure_time,
               min_apdex: query.min_apdex,
               max_response_time: query.max_response_time,
               max_error_percentage: query.max_error_percentage,
@@ -2396,6 +2421,7 @@ export default class DataManager {
               type: 'SYN',
               query: query.query,
               timeout: query_timeout,
+              measure_time: query_measure_time,
               max_avg_response_time: query.max_avg_response_time,
               max_total_check_time: query.max_total_check_time,
               min_success_percentage: query.min_success_percentage,
@@ -2428,6 +2454,7 @@ export default class DataManager {
               type: 'API',
               query: query.query,
               timeout: query_timeout,
+              measure_time: query_measure_time,
               min_apdex: query.min_apdex,
               max_response_time: query.max_response_time,
               max_error_percentage: query.max_error_percentage,
@@ -2440,6 +2467,7 @@ export default class DataManager {
               type: 'APC',
               query: query.query,
               timeout: query_timeout,
+              measure_time: query_measure_time,
               min_count: query.min_count,
               max_count: query.max_count,
               api_count: 0
@@ -2457,7 +2485,7 @@ export default class DataManager {
             measure = { accountID: query.accountID, ...measure };
           }
           /*
-           if (query.measure_time !== this.TimeRangeTransform(this.timeRange)) {
+           if (query.measure_time !== TimeRangeTransform(this.timeRange)) {
             measure = { ...measure, measure_time: query.measure_time };
           }
           JIM HAGAN
@@ -2971,21 +2999,22 @@ export default class DataManager {
   }
 
   ValidateMeasureTime(measure) {
-    if (measure.measure_time) {
-      return `SINCE ${measure.measure_time}`;
-    }
-    return `SINCE ${this.TimeRangeTransform(this.timeRange, measure.measure_time)}`;
+    //if (measure.measure_time) {
+    //  return `SINCE ${measure.measure_time}`;
+    //}
+    return `SINCE ${TimeRangeTransform(this.timeRange, measure.measure_time)}`;
   }
 
   GetDisplayMeasureTime(measure) {
-    let absolute_range = `${this.TimeRangeTransform(this.timeRange, measure.measure_time)}`;
+    let absolute_range = `${TimeRangeTransform(this.timeRange, measure.measure_time)}`;
     const result = absolute_range.trim().split(/\s+/);
     let t1 = new Date(parseInt(result[0])*1000);
     let t2 = new Date(parseInt(result[2])*1000);
 
-    return `// (${t1.toLocaleDateString()} ${t1.toLocaleTimeString()} to ${t2.toLocaleDateString()} ${t2.toLocaleTimeString()})`;
+    return ` //(${t1.toLocaleDateString()} ${t1.toLocaleTimeString()} to ${t2.toLocaleDateString()} ${t2.toLocaleTimeString()})`;
     
   }
+
 
   UpdateTouchpointTune(touchpoint, datos) {
     this.touchPoints.some(element => {

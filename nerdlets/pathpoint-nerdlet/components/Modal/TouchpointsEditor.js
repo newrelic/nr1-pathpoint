@@ -16,6 +16,7 @@ import iconDelete from '../../images/icon-delete.svg';
 import messages from '../../config/messages.json';
 import Toast from '../Toast/Toast';
 import warningIcon from '../../images/warning.svg';
+import {TimeRangeTransform} from '../../services/DataManager';
 
 const WrongIcon = () => {
   return (
@@ -557,7 +558,9 @@ class BodyTouchpointsEditor extends Component {
 
   HandleOnChange = (target, value, id) => {
     const { touchpoints, current } = this.state;
-    this.TestMeasureTime(current.touchpoint, value);
+    if (target === "queryMeasure") {
+        this.TestMeasureTime(current.touchpoint, value);
+    }
     this.setState(state => {
       const form = { ...state.form };
       form[`tp_${id}`][target] = value;
@@ -642,6 +645,7 @@ class BodyTouchpointsEditor extends Component {
         const touchpoints = [...state.touchpoints];
         const form = { ...state.form };
         const id = shortid.generate();
+
         form[`tp_${id}`] = {
           title: 'New Touchpoint',
           type: 'PCC',
@@ -929,66 +933,6 @@ class BodyTouchpointsEditor extends Component {
     });
   };
 
-  TimeRangeTransform(pointInTime, sinceClause) {
-    let time_start = 0;
-    let time_end = 0;
-    let range_duration_minutes = 5;
-    let _now_as_seconds = Math.floor(Date.now() / 1000);
-    //console.log(pointInTime);
-    //console.log(sinceClause);
-    if (sinceClause.includes(' MINUTES AGO')) {
-        const result = sinceClause.trim().split(/\s+/);
-        range_duration_minutes = parseInt(result[0]);
-    }
-    else if (sinceClause === '') {
-        range_duration_minutes = 5;
-    }
-    else {
-        range_duration_minutes = 5;
-    }
-
-    switch (pointInTime) {
-      case '30 MINUTES AGO':
-        time_start = _now_as_seconds - 30 * 60 - range_duration_minutes * 60;
-        time_end = _now_as_seconds - 30 * 60;
-        break;
-      case '60 MINUTES AGO':
-        time_start = _now_as_seconds - 60 * 60 - range_duration_minutes * 60;
-        time_end = _now_as_seconds - 60 * 60
-        break;
-      case '3 HOURS AGO':
-        time_start = _now_as_seconds - 3 * 60 * 60 - range_duration_minutes * 60;
-        time_end = _now_as_seconds - 3 * 60 * 60;
-        break;
-      case '6 HOURS AGO':
-        time_start = _now_as_seconds - 6 * 60 * 60 - range_duration_minutes * 60;
-        time_end = _now_as_seconds - 6 * 60 * 60;
-        break;
-      case '12 HOURS AGO':
-        time_start =_now_as_seconds - 12 * 60 * 60 - range_duration_minutes * 60;
-        time_end = _now_as_seconds - 12 * 60 * 60;
-        break;
-      case '24 HOURS AGO':
-        time_start = _now_as_seconds - 24 * 60 * 60 - range_duration_minutes * 60;
-        time_end = _now_as_seconds - 24 * 60 * 60;
-        break;
-      case '3 DAYS AGO':
-        time_start = _now_as_seconds - 3 * 24 * 60 * 60 - range_duration_minutes * 60;
-        time_end = _now_as_seconds - 3 * 24 * 60 * 60;
-        break;
-      case '7 DAYS AGO':
-        time_start = _now_as_seconds - range_duration_minutes * 60;
-        time_end = _now_as_seconds - 7 * 24 * 60 * 60;
-        break;
-      case '5 MINUTES AGO': // This really means "Now" and is labeled as such
-        time_start = _now_as_seconds - range_duration_minutes * 60;
-        time_end = _now_as_seconds;
-        break;
-    }
-    //console.log(`${time_start} UNTIL ${time_end}`);
-    return `${time_start} UNTIL ${time_end}`;
-  }
-
   RunTest = () => {
     const { form, current } = this.state; // Get state
     const touchpoint = `tp_${current.touchpoint}`; // Define a string with the touchpoint value
@@ -998,7 +942,8 @@ class BodyTouchpointsEditor extends Component {
     const queryAccount = form[touchpoint].queryAccount; // Get touchpoint query account
     let queryMeasure;
     // Function to read the time on Time Picker and set measure_time with this
-    const transform_measure_time = this.TimeRangeTransform(
+    console.log("WHAT!!!!!!!!");
+    const transform_measure_time = TimeRangeTransform(
         this.props.timeRangeBodyTouchpointsEditor, form[touchpoint].queryMeasure
       );
     queryMeasure = `${form[touchpoint].query} SINCE ${transform_measure_time}`;
