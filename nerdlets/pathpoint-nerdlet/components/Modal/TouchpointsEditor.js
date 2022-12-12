@@ -645,7 +645,6 @@ class BodyTouchpointsEditor extends Component {
         const touchpoints = [...state.touchpoints];
         const form = { ...state.form };
         const id = shortid.generate();
-
         form[`tp_${id}`] = {
           title: 'New Touchpoint',
           type: 'PCC',

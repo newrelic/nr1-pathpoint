@@ -495,7 +495,6 @@ export default class DataManager {
                   ? this.stages[touchpoint.stage_index - 1].title
                   : ''
               };
-              console.log(touchpoint.value);
               this.FetchMeasure(measure, extraInfo);
             });
           }
@@ -3015,7 +3014,6 @@ export default class DataManager {
     
   }
 
-
   UpdateTouchpointTune(touchpoint, datos) {
     this.touchPoints.some(element => {
       let found = false;
@@ -3083,7 +3081,7 @@ export default class DataManager {
   }
 
   UpdateTouchpointQuerys(touchpoint, datos) {
-    console.log('Updating Touchpoint',touchpoint,'DATOS',datos)
+    // console.log('Updating Touchpoint',touchpoint,'DATOS',datos)
     this.touchPoints.some(element => {
       let found = false;
       if (element.index === this.city) {
