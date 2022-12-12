@@ -942,7 +942,6 @@ class BodyTouchpointsEditor extends Component {
     const queryAccount = form[touchpoint].queryAccount; // Get touchpoint query account
     let queryMeasure;
     // Function to read the time on Time Picker and set measure_time with this
-    console.log("WHAT!!!!!!!!");
     const transform_measure_time = TimeRangeTransform(
         this.props.timeRangeBodyTouchpointsEditor, form[touchpoint].queryMeasure
       );
