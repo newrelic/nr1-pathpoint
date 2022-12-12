@@ -4,8 +4,6 @@ import { Button, Form } from 'react-bootstrap';
 import Select from '../Select/Select';
 import SelectIDs from '../SelectIDs/SelectIDs';
 import Editor from '../Editor/Editor';
-import {TimeRangeTransform} from '../../services/DataManager';
-import {BodyTouchpointsEditor} from '../../components/Modal/TouchpointsEditor'
 
 function HeaderQueryFormModal(props) {
   const { stageNameSelected, changeMessage } = props;
