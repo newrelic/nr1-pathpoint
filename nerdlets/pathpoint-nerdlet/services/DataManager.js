@@ -164,12 +164,17 @@ export default class DataManager {
     }
     await this.GetGeneralConfiguration();
     this.TryToEnableServices();
+
+    console.log("Last storage version: " + this.lastStorageVersion);
+
     this.version = appPackage.version;
-    if (this.lastStorageVersion === appPackage.version) {
+    if (this.lastStorageVersion)  {
+      console.log("Re-using last stored configuration.");
       this.colors = ViewData.colors;
       await this.GetInitialDataFromStorage();
       await this.GetStorageTouchpoints();
     } else {
+      console.log("No Previous configuration found.  Loading demo config.");
       this.stages = ViewData.stages;
       this.colors = ViewData.colors;
       /* istanbul ignore next */
