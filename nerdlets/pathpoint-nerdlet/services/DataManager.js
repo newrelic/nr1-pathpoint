@@ -168,6 +168,19 @@ export default class DataManager {
     console.log("Last storage version: " + this.lastStorageVersion);
 
     this.version = appPackage.version;
+    /*
+      After Pathpoint 1.5.1 we had no more breaking changes.
+      We must NEVER allow breaking config changes in Pathpoint 1.x.x
+      We must always make things backward and forward compatible.
+
+      If you want you may add logic like below:
+
+      if ((this.lastStorageVersion) and (semver-compare(this.lastStorageVersion, "1.5.1") >=0) and (semver-compare(appPackage.version, "1.5.1") >=0 ) { use last stored}
+
+      reference: https://www.npmjs.com/package/semver-compare
+
+      For now this is okay...
+    */
     if (this.lastStorageVersion)  {
       console.log("Re-using last stored configuration.");
       this.colors = ViewData.colors;
