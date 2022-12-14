@@ -149,6 +149,7 @@ exports[`QueryFormModal component Render body with default data 1`] = `
       <strong>
         SINCE 2 DAYS AGO
       </strong>
+      <strong />
       <div
         style={
           Object {

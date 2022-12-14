@@ -16,6 +16,7 @@ import iconDelete from '../../images/icon-delete.svg';
 import messages from '../../config/messages.json';
 import Toast from '../Toast/Toast';
 import warningIcon from '../../images/warning.svg';
+import { TimeRangeTransform } from '../../services/DataManager';
 
 const WrongIcon = () => {
   return (
@@ -557,7 +558,9 @@ class BodyTouchpointsEditor extends Component {
 
   HandleOnChange = (target, value, id) => {
     const { touchpoints, current } = this.state;
-    this.TestMeasureTime(current.touchpoint, value);
+    if (target === 'queryMeasure') {
+      this.TestMeasureTime(current.touchpoint, value);
+    }
     this.setState(state => {
       const form = { ...state.form };
       form[`tp_${id}`][target] = value;
@@ -929,51 +932,6 @@ class BodyTouchpointsEditor extends Component {
     });
   };
 
-  TimeRangeTransform(timeRange) {
-    let time_start = 0;
-    let time_end = 0;
-    if (timeRange === '5 MINUTES AGO') {
-      return timeRange;
-    }
-    switch (timeRange) {
-      case '30 MINUTES AGO':
-        time_start = Math.floor(Date.now() / 1000) - 35 * 60;
-        time_end = Math.floor(Date.now() / 1000) - 30 * 60;
-        break;
-      case '60 MINUTES AGO':
-        time_start = Math.floor(Date.now() / 1000) - 65 * 60;
-        time_end = Math.floor(Date.now() / 1000) - 60 * 60;
-        break;
-      case '3 HOURS AGO':
-        time_start = Math.floor(Date.now() / 1000) - 3 * 60 * 60 - 5 * 60;
-        time_end = Math.floor(Date.now() / 1000) - 3 * 60 * 60;
-        break;
-      case '6 HOURS AGO':
-        time_start = Math.floor(Date.now() / 1000) - 6 * 60 * 60 - 5 * 60;
-        time_end = Math.floor(Date.now() / 1000) - 6 * 60 * 60;
-        break;
-      case '12 HOURS AGO':
-        time_start = Math.floor(Date.now() / 1000) - 12 * 60 * 60 - 5 * 60;
-        time_end = Math.floor(Date.now() / 1000) - 12 * 60 * 60;
-        break;
-      case '24 HOURS AGO':
-        time_start = Math.floor(Date.now() / 1000) - 24 * 60 * 60 - 5 * 60;
-        time_end = Math.floor(Date.now() / 1000) - 24 * 60 * 60;
-        break;
-      case '3 DAYS AGO':
-        time_start = Math.floor(Date.now() / 1000) - 3 * 24 * 60 * 60 - 5 * 60;
-        time_end = Math.floor(Date.now() / 1000) - 3 * 24 * 60 * 60;
-        break;
-      case '7 DAYS AGO':
-        time_start = Math.floor(Date.now() / 1000) - 7 * 24 * 60 * 60 - 5 * 60;
-        time_end = Math.floor(Date.now() / 1000) - 7 * 24 * 60 * 60;
-        break;
-      default:
-        return timeRange;
-    }
-    return `${time_start} UNTIL ${time_end}`;
-  }
-
   RunTest = () => {
     const { form, current } = this.state; // Get state
     const touchpoint = `tp_${current.touchpoint}`; // Define a string with the touchpoint value
@@ -981,18 +939,12 @@ class BodyTouchpointsEditor extends Component {
     if (!isQueryAvailable) return false; // Query is empty, stop function
     const touchpointType = form[touchpoint].type; // Get touchpoint type
     const queryAccount = form[touchpoint].queryAccount; // Get touchpoint query account
-    let queryMeasure;
     // Function to read the time on Time Picker and set measure_time with this
-    if (form[touchpoint].queryMeasure.toUpperCase() === '5 MINUTES AGO') {
-      const transform_measure_time = this.TimeRangeTransform(
-        this.props.timeRangeBodyTouchpointsEditor
-      );
-      form[touchpoint].queryMeasure = transform_measure_time;
-      queryMeasure = `${form[touchpoint].query} SINCE ${form[touchpoint].queryMeasure}`; // Get touchpoint query measure
-      form[touchpoint].queryMeasure = '5 MINUTES AGO';
-    } else {
-      queryMeasure = `${form[touchpoint].query} SINCE ${form[touchpoint].queryMeasure}`; // Get touchpoint query measure
-    }
+    const transform_measure_time = TimeRangeTransform(
+      this.props.timeRangeBodyTouchpointsEditor,
+      form[touchpoint].queryMeasure
+    );
+    const queryMeasure = `${form[touchpoint].query} SINCE ${transform_measure_time}`;
     this.TestQuery(queryMeasure, queryAccount, touchpointType); // Test current query in field
   };
 
