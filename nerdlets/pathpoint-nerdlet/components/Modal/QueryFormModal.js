@@ -95,7 +95,6 @@ function BodyQueryFormModal(props) {
 
   const runTest = React.useCallback(() => {
     if (query_body === '') return false; // Query body is empty string
-    console.log(query_body + ' ' + query_footer);
     testQuery(`${query_body} ${query_footer}`, value); // Test query
   }, [query_body, query_footer, value]);
 
@@ -197,9 +196,9 @@ function BodyQueryFormModal(props) {
           />
 
           <strong>{query_footer}</strong>
-          
+
           <strong>{query_footer2}</strong>
-        
+
           {/* Query Result */}
           <Editor
             isReadOnly

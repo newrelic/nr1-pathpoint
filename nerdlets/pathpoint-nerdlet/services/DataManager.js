@@ -22,73 +22,68 @@ import LogConnector from './LogsConnector';
 import SynConnector from './SynConnector';
 import CredentialConnector from './CredentialConnector';
 
-
 export function TimeRangeTransform(pointInTime, sinceClause) {
-    //console.log(pointInTime + ' ' + sinceClause)
-    let time_start = 0;
-    let time_end = 0;
-    let range_duration_minutes = 5;
-    let _now_as_seconds = Math.floor(Date.now() / 1000);
+  let time_start = 0;
+  let time_end = 0;
+  let range_duration_minutes = 5;
+  const _now_as_seconds = Math.floor(Date.now() / 1000);
+  // We don't want a preceding "SINCE " on the since Clause -- just the time window
+  const stripped_clause = sinceClause.replace('SINCE ', '');
 
-    // We don't want a preceding "SINCE " on the since Clause -- just the time window
-    let stripped_clause = sinceClause.replace("SINCE ", "");
-
-    if (stripped_clause.includes(' MINUTES AGO')) {
-        const result = stripped_clause.trim().split(/\s+/);
-        range_duration_minutes = parseInt(result[0]);
-    }
-    else if (stripped_clause === '') {
-        range_duration_minutes = 5;
-    }
-    else {
-        range_duration_minutes = 5;
-    }
-
-    switch (pointInTime) {
-      case '30 MINUTES AGO':
-        time_start = _now_as_seconds - 30 * 60 - range_duration_minutes * 60;
-        time_end = _now_as_seconds - 30 * 60;
-        break;
-      case '60 MINUTES AGO':
-        time_start = _now_as_seconds - 60 * 60 - range_duration_minutes * 60;
-        time_end = _now_as_seconds - 60 * 60
-        break;
-      case '3 HOURS AGO':
-        time_start = _now_as_seconds - 3 * 60 * 60 - range_duration_minutes * 60;
-        time_end = _now_as_seconds - 3 * 60 * 60;
-        break;
-      case '6 HOURS AGO':
-        time_start = _now_as_seconds - 6 * 60 * 60 - range_duration_minutes * 60;
-        time_end = _now_as_seconds - 6 * 60 * 60;
-        break;
-      case '12 HOURS AGO':
-        time_start =_now_as_seconds - 12 * 60 * 60 - range_duration_minutes * 60;
-        time_end = _now_as_seconds - 12 * 60 * 60;
-        break;
-      case '24 HOURS AGO':
-        time_start = _now_as_seconds - 24 * 60 * 60 - range_duration_minutes * 60;
-        time_end = _now_as_seconds - 24 * 60 * 60;
-        break;
-      case '3 DAYS AGO':
-        time_start = _now_as_seconds - 3 * 24 * 60 * 60 - range_duration_minutes * 60;
-        time_end = _now_as_seconds - 3 * 24 * 60 * 60;
-        break;
-      case '7 DAYS AGO':
-        time_start = _now_as_seconds - range_duration_minutes * 60;
-        time_end = _now_as_seconds - 7 * 24 * 60 * 60;
-        break;
-      case '5 MINUTES AGO': // This really means "Now" and is labeled as such
-        time_start = _now_as_seconds - range_duration_minutes * 60;
-        time_end = _now_as_seconds;
-        break;
-      case 'Now': // This really means "Now" and is labeled as such
-        time_start = _now_as_seconds - range_duration_minutes * 60;
-        time_end = _now_as_seconds;
-        break;
-    }
-    console.log(`${time_start} UNTIL ${time_end}`);
-    return `${time_start} UNTIL ${time_end}`;
+  if (stripped_clause.includes(' MINUTES AGO')) {
+    const result = stripped_clause.trim().split(/\s+/);
+    range_duration_minutes = parseInt(result[0]);
+  } else if (stripped_clause === '') {
+    range_duration_minutes = 5;
+  } else {
+    range_duration_minutes = 5;
   }
+
+  switch (pointInTime) {
+    case '30 MINUTES AGO':
+      time_start = _now_as_seconds - 30 * 60 - range_duration_minutes * 60;
+      time_end = _now_as_seconds - 30 * 60;
+      break;
+    case '60 MINUTES AGO':
+      time_start = _now_as_seconds - 60 * 60 - range_duration_minutes * 60;
+      time_end = _now_as_seconds - 60 * 60;
+      break;
+    case '3 HOURS AGO':
+      time_start = _now_as_seconds - 3 * 60 * 60 - range_duration_minutes * 60;
+      time_end = _now_as_seconds - 3 * 60 * 60;
+      break;
+    case '6 HOURS AGO':
+      time_start = _now_as_seconds - 6 * 60 * 60 - range_duration_minutes * 60;
+      time_end = _now_as_seconds - 6 * 60 * 60;
+      break;
+    case '12 HOURS AGO':
+      time_start = _now_as_seconds - 12 * 60 * 60 - range_duration_minutes * 60;
+      time_end = _now_as_seconds - 12 * 60 * 60;
+      break;
+    case '24 HOURS AGO':
+      time_start = _now_as_seconds - 24 * 60 * 60 - range_duration_minutes * 60;
+      time_end = _now_as_seconds - 24 * 60 * 60;
+      break;
+    case '3 DAYS AGO':
+      time_start =
+        _now_as_seconds - 3 * 24 * 60 * 60 - range_duration_minutes * 60;
+      time_end = _now_as_seconds - 3 * 24 * 60 * 60;
+      break;
+    case '7 DAYS AGO':
+      time_start = _now_as_seconds - range_duration_minutes * 60;
+      time_end = _now_as_seconds - 7 * 24 * 60 * 60;
+      break;
+    case '5 MINUTES AGO': // This really means "Now" and is labeled as such
+      time_start = _now_as_seconds - range_duration_minutes * 60;
+      time_end = _now_as_seconds;
+      break;
+    case 'Now': // This really means "Now" and is labeled as such
+      time_start = _now_as_seconds - range_duration_minutes * 60;
+      time_end = _now_as_seconds;
+      break;
+  }
+  return `${time_start} UNTIL ${time_end}`;
+}
 
 // DEFINE AND EXPORT CLASS
 export default class DataManager {
@@ -566,34 +561,32 @@ export default class DataManager {
 
   FetchMeasure(measure, extraInfo = null) {
     this.ClearMeasure(measure);
-    console.log(measure.measure_time);
     let query = '';
 
     if (measure.type === 'WLD') {
-        query = `${measure.query} SINCE 3 HOURS AGO`;
+      query = `${measure.query} SINCE 3 HOURS AGO`;
+    } else if (measure.type === 'DRP') {
+      query = `${measure.query} SINCE ${this.dropParams.hours} HOURS AGO`;
+    } else if (measure.measure_time) {
+      query = `${measure.query} SINCE ${TimeRangeTransform(
+        this.timeRange,
+        measure.measure_time
+      )}`;
+    } else {
+      query = `${measure.query} SINCE ${TimeRangeTransform(
+        this.timeRange,
+        ''
+      )}`;
     }
-    else if (measure.type === 'DRP') {
-        query = `${measure.query} SINCE ${this.dropParams.hours} HOURS AGO`;
-        }
-    else {
-        if (measure.measure_time) {
-            query = `${measure.query} SINCE ${TimeRangeTransform(this.timeRange, measure.measure_time)}`;
-            }
-        else {
-            query = `${measure.query} SINCE ${TimeRangeTransform(this.timeRange, "")}`;
-        }
-      }
-      console.log(query);
-
-      this.graphQlmeasures.push([
-        measure,
-        query
-          .replace(/\r?\n|\r/g, ' ')
-          .split('\\')
-          .join('\\\\'),
-        extraInfo
-      ]);
-    }
+    this.graphQlmeasures.push([
+      measure,
+      query
+        .replace(/\r?\n|\r/g, ' ')
+        .split('\\')
+        .join('\\\\'),
+      extraInfo
+    ]);
+  }
 
   SendToLogs(logRecord) {
     this.LogConnector.SendLog(logRecord);
@@ -1999,7 +1992,7 @@ export default class DataManager {
             found = true;
             touchpoint.measure_points.forEach(measure => {
               accountID = this.accountId;
-              
+
               measure_time = measure.measure_time;
               if (!measure.measure_time) {
                 measure_time = measure_time_default;
@@ -2610,7 +2603,7 @@ export default class DataManager {
     const response = `
     ${data.header}
     ${this.InserTouchpointsToScript()}
-    ${data.footer}`
+    ${data.footer}`;
     return response;
   }
 
@@ -2998,20 +2991,22 @@ export default class DataManager {
   }
 
   ValidateMeasureTime(measure) {
-    //if (measure.measure_time) {
+    // if (measure.measure_time) {
     //  return `SINCE ${measure.measure_time}`;
-    //}
+    // }
     return `SINCE ${TimeRangeTransform(this.timeRange, measure.measure_time)}`;
   }
 
   GetDisplayMeasureTime(measure) {
-    let absolute_range = `${TimeRangeTransform(this.timeRange, measure.measure_time)}`;
+    const absolute_range = `${TimeRangeTransform(
+      this.timeRange,
+      measure.measure_time
+    )}`;
     const result = absolute_range.trim().split(/\s+/);
-    let t1 = new Date(parseInt(result[0])*1000);
-    let t2 = new Date(parseInt(result[2])*1000);
+    const t1 = new Date(parseInt(result[0]) * 1000);
+    const t2 = new Date(parseInt(result[2]) * 1000);
 
     return ` //(${t1.toLocaleDateString()} ${t1.toLocaleTimeString()} to ${t2.toLocaleDateString()} ${t2.toLocaleTimeString()})`;
-    
   }
 
   UpdateTouchpointTune(touchpoint, datos) {

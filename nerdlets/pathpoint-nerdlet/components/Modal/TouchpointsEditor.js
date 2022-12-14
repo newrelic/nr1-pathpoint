@@ -16,7 +16,7 @@ import iconDelete from '../../images/icon-delete.svg';
 import messages from '../../config/messages.json';
 import Toast from '../Toast/Toast';
 import warningIcon from '../../images/warning.svg';
-import {TimeRangeTransform} from '../../services/DataManager';
+import { TimeRangeTransform } from '../../services/DataManager';
 
 const WrongIcon = () => {
   return (
@@ -558,8 +558,8 @@ class BodyTouchpointsEditor extends Component {
 
   HandleOnChange = (target, value, id) => {
     const { touchpoints, current } = this.state;
-    if (target === "queryMeasure") {
-        this.TestMeasureTime(current.touchpoint, value);
+    if (target === 'queryMeasure') {
+      this.TestMeasureTime(current.touchpoint, value);
     }
     this.setState(state => {
       const form = { ...state.form };
@@ -939,14 +939,13 @@ class BodyTouchpointsEditor extends Component {
     if (!isQueryAvailable) return false; // Query is empty, stop function
     const touchpointType = form[touchpoint].type; // Get touchpoint type
     const queryAccount = form[touchpoint].queryAccount; // Get touchpoint query account
-    let queryMeasure;
     // Function to read the time on Time Picker and set measure_time with this
     const transform_measure_time = TimeRangeTransform(
-        this.props.timeRangeBodyTouchpointsEditor, form[touchpoint].queryMeasure
-      );
-    queryMeasure = `${form[touchpoint].query} SINCE ${transform_measure_time}`;
+      this.props.timeRangeBodyTouchpointsEditor,
+      form[touchpoint].queryMeasure
+    );
+    const queryMeasure = `${form[touchpoint].query} SINCE ${transform_measure_time}`;
     this.TestQuery(queryMeasure, queryAccount, touchpointType); // Test current query in field
-    console.log(queryMeasure);
   };
 
   RenderTuneField = ({
