@@ -638,11 +638,8 @@ describe('Datamanager service', () => {
       });
     const result = await dataManager.BootstrapInitialData(accountName);
     expect(dataManager.lastStorageVersion).toEqual('1.0.0');
-    expect(result.stages.length).toEqual(5);
-    expect(result.accountIDs).toEqual([
-      { name: 'WigiBoards', id: 2710112 },
-      { name: 'Custom ID', id: 1606862 }
-    ]);
+    expect(result.stages.length).toEqual(2);
+    expect(result.accountIDs).toEqual([{ name: 'WigiBoards', id: 2710112 }]);
   });
 
   it('Function SetTotalContainers', () => {
