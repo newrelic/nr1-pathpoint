@@ -76,7 +76,6 @@ function BodyQueryFormModal(props) {
     goodQuery,
     modifiedQuery,
     accountIDs,
-    timeRangeTransform
   } = props;
   const value = stageNameSelected.selectedCase
     ? stageNameSelected.selectedCase
@@ -86,16 +85,7 @@ function BodyQueryFormModal(props) {
     accountIDs
   );
   stageNameSelected.datos[value].accountID = idSeleccionado;
-  let query_footer;
-  if (stageNameSelected.datos[value].query_footer === 'SINCE 5 MINUTES AGO') {
-    const timerangeTransform = timeRangeTransform();
-    query_footer = `SINCE ${timerangeTransform}`;
-  } else {
-    query_footer = stageNameSelected.datos[value].query_footer;
-  }
   const query_body = stageNameSelected.datos[value].query_body;
-  // const query_footer = stageNameSelected.datos[value].query_footer;
-  const timeout = stageNameSelected.datos[value].timeout;
   const handleChange = childData => {
     /* istanbul ignore next */
     stageNameSelected.datos[value].accountID = childData.target.value;
@@ -356,7 +346,6 @@ BodyQueryFormModal.propTypes = {
   modifiedQuery: PropTypes.bool,
   accountIDs: PropTypes.array.isRequired,
   testingNow: PropTypes.bool,
-  timeRangeTransform: PropTypes.func
 };
 
 export { HeaderQueryFormModal, BodyQueryFormModal };
