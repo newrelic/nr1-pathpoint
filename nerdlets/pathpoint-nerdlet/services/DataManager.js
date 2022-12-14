@@ -82,6 +82,7 @@ export function TimeRangeTransform(pointInTime, sinceClause) {
       time_end = _now_as_seconds;
       break;
   }
+  console.log(`${time_start} UNTIL ${time_end}`);
   return `${time_start} UNTIL ${time_end}`;
 }
 
@@ -508,6 +509,7 @@ export default class DataManager {
                   ? this.stages[touchpoint.stage_index - 1].title
                   : ''
               };
+              console.log(touchpoint.value);
               this.FetchMeasure(measure, extraInfo);
             });
           }
@@ -596,6 +598,9 @@ export default class DataManager {
         ''
       )}`;
     }
+    console.log(measure.measure_time);
+    console.log(query);
+
     this.graphQlmeasures.push([
       measure,
       query
