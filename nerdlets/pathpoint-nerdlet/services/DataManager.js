@@ -2950,7 +2950,7 @@ export default class DataManager {
                 });
               } else if (measure.type === 'WLD') {
                 if (!measure.measure_time) {
-                    measure.measure_time = '180 MINUTES AGO';
+                  measure.measure_time = '180 MINUTES AGO';
                 }
                 datos.push({
                   accountID: accountID,
