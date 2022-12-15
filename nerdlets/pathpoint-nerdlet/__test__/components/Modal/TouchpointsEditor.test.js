@@ -6,6 +6,7 @@ import {
 import { shallow } from 'enzyme';
 
 jest.mock('../../../components/SelectIDs/SelectIDs');
+jest.mock('../../../components/Toast/Toast');
 
 jest.mock(
   'nr1',
@@ -571,6 +572,7 @@ describe('<BodyTouchpointsEditor/>', () => {
     );
     const instance = touchpointEditor.instance();
     instance.TestQuery = jest.fn();
+    instance.state.form.tp_12.queryMeasure = '5 MINUTES AGO';
     instance.RunTest();
     expect(instance.state.current).toEqual({
       stage: 2710,

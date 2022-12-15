@@ -161,6 +161,10 @@
   padding: 4px;
 }
 //
+.timePickerTooltip {
+  display: flex;
+  flex-direction: row;
+}
 
 @media screen and (max-width: 1366px) {
   .checkDinner {

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable prefer-template */
 /* eslint-disable no-loop-func */
 /* eslint-disable require-atomic-updates */
@@ -21,6 +22,69 @@ import {
 import LogConnector from './LogsConnector';
 import SynConnector from './SynConnector';
 import CredentialConnector from './CredentialConnector';
+
+export function TimeRangeTransform(pointInTime, sinceClause) {
+  let time_start = 0;
+  let time_end = 0;
+  let range_duration_minutes = 5;
+  const _now_as_seconds = Math.floor(Date.now() / 1000);
+  // We don't want a preceding "SINCE " on the since Clause -- just the time window
+  const stripped_clause = sinceClause.replace('SINCE ', '');
+
+  if (stripped_clause.includes(' MINUTES AGO')) {
+    const result = stripped_clause.trim().split(/\s+/);
+    range_duration_minutes = parseInt(result[0]);
+  } else if (stripped_clause === '') {
+    range_duration_minutes = 5;
+  } else {
+    range_duration_minutes = 5;
+  }
+
+  switch (pointInTime) {
+    case '30 MINUTES AGO':
+      time_start = _now_as_seconds - 30 * 60 - range_duration_minutes * 60;
+      time_end = _now_as_seconds - 30 * 60;
+      break;
+    case '60 MINUTES AGO':
+      time_start = _now_as_seconds - 60 * 60 - range_duration_minutes * 60;
+      time_end = _now_as_seconds - 60 * 60;
+      break;
+    case '3 HOURS AGO':
+      time_start = _now_as_seconds - 3 * 60 * 60 - range_duration_minutes * 60;
+      time_end = _now_as_seconds - 3 * 60 * 60;
+      break;
+    case '6 HOURS AGO':
+      time_start = _now_as_seconds - 6 * 60 * 60 - range_duration_minutes * 60;
+      time_end = _now_as_seconds - 6 * 60 * 60;
+      break;
+    case '12 HOURS AGO':
+      time_start = _now_as_seconds - 12 * 60 * 60 - range_duration_minutes * 60;
+      time_end = _now_as_seconds - 12 * 60 * 60;
+      break;
+    case '24 HOURS AGO':
+      time_start = _now_as_seconds - 24 * 60 * 60 - range_duration_minutes * 60;
+      time_end = _now_as_seconds - 24 * 60 * 60;
+      break;
+    case '3 DAYS AGO':
+      time_start =
+        _now_as_seconds - 3 * 24 * 60 * 60 - range_duration_minutes * 60;
+      time_end = _now_as_seconds - 3 * 24 * 60 * 60;
+      break;
+    case '7 DAYS AGO':
+      time_start = _now_as_seconds - range_duration_minutes * 60;
+      time_end = _now_as_seconds - 7 * 24 * 60 * 60;
+      break;
+    case '5 MINUTES AGO': // This really means "Now" and is labeled as such
+      time_start = _now_as_seconds - range_duration_minutes * 60;
+      time_end = _now_as_seconds;
+      break;
+    case 'Now': // This really means "Now" and is labeled as such
+      time_start = _now_as_seconds - range_duration_minutes * 60;
+      time_end = _now_as_seconds;
+      break;
+  }
+  return `${time_start} UNTIL ${time_end}`;
+}
 
 // DEFINE AND EXPORT CLASS
 export default class DataManager {
@@ -96,12 +160,30 @@ export default class DataManager {
     }
     await this.GetGeneralConfiguration();
     this.TryToEnableServices();
+
+    console.log('Last storage version: ' + this.lastStorageVersion);
+
     this.version = appPackage.version;
-    if (this.lastStorageVersion === appPackage.version) {
+    /*
+      After Pathpoint 1.5.1 we had no more breaking changes.
+      We must NEVER allow breaking config changes in Pathpoint 1.x.x
+      We must always make things backward and forward compatible.
+
+      If you want you may add logic like below:
+
+      if ((this.lastStorageVersion) and (semver-compare(this.lastStorageVersion, "1.5.1") >=0) and (semver-compare(appPackage.version, "1.5.1") >=0 ) { use last stored}
+
+      reference: https://www.npmjs.com/package/semver-compare
+
+      For now this is okay...
+    */
+    if (this.lastStorageVersion) {
+      console.log('Re-using last stored configuration.');
       this.colors = ViewData.colors;
       await this.GetInitialDataFromStorage();
       await this.GetStorageTouchpoints();
     } else {
+      console.log('No Previous configuration found.  Loading demo config.');
       this.stages = ViewData.stages;
       this.colors = ViewData.colors;
       /* istanbul ignore next */
@@ -427,6 +509,7 @@ export default class DataManager {
                   ? this.stages[touchpoint.stage_index - 1].title
                   : ''
               };
+              console.log(touchpoint.value);
               this.FetchMeasure(measure, extraInfo);
             });
           }
@@ -498,71 +581,34 @@ export default class DataManager {
 
   FetchMeasure(measure, extraInfo = null) {
     this.ClearMeasure(measure);
-    if (measure.query !== '') {
-      let query = `${measure.query} SINCE ${this.TimeRangeTransform(
-        this.timeRange
-      )}`;
-      if (measure.measure_time) {
-        query = `${measure.query} SINCE ${measure.measure_time}`;
-      } else if (measure.type === 'WLD') {
-        query = `${measure.query} SINCE 3 HOURS AGO`;
-      } else if (measure.type === 'DRP') {
-        query = `${measure.query} SINCE ${this.dropParams.hours} HOURS AGO`;
-      }
-      this.graphQlmeasures.push([
-        measure,
-        query
-          .replace(/\r?\n|\r/g, ' ')
-          .split('\\')
-          .join('\\\\'),
-        extraInfo
-      ]);
-    }
-  }
+    let query = '';
 
-  TimeRangeTransform(timeRange) {
-    let time_start = 0;
-    let time_end = 0;
-    if (timeRange === '5 MINUTES AGO') {
-      return timeRange;
+    if (measure.type === 'WLD') {
+      query = `${measure.query} SINCE 3 HOURS AGO`;
+    } else if (measure.type === 'DRP') {
+      query = `${measure.query} SINCE ${this.dropParams.hours} HOURS AGO`;
+    } else if (measure.measure_time) {
+      query = `${measure.query} SINCE ${TimeRangeTransform(
+        this.timeRange,
+        measure.measure_time
+      )}`;
+    } else {
+      query = `${measure.query} SINCE ${TimeRangeTransform(
+        this.timeRange,
+        ''
+      )}`;
     }
-    switch (timeRange) {
-      case '30 MINUTES AGO':
-        time_start = Math.floor(Date.now() / 1000) - 35 * 60;
-        time_end = Math.floor(Date.now() / 1000) - 30 * 60;
-        break;
-      case '60 MINUTES AGO':
-        time_start = Math.floor(Date.now() / 1000) - 65 * 60;
-        time_end = Math.floor(Date.now() / 1000) - 60 * 60;
-        break;
-      case '3 HOURS AGO':
-        time_start = Math.floor(Date.now() / 1000) - 3 * 60 * 60 - 5 * 60;
-        time_end = Math.floor(Date.now() / 1000) - 3 * 60 * 60;
-        break;
-      case '6 HOURS AGO':
-        time_start = Math.floor(Date.now() / 1000) - 6 * 60 * 60 - 5 * 60;
-        time_end = Math.floor(Date.now() / 1000) - 6 * 60 * 60;
-        break;
-      case '12 HOURS AGO':
-        time_start = Math.floor(Date.now() / 1000) - 12 * 60 * 60 - 5 * 60;
-        time_end = Math.floor(Date.now() / 1000) - 12 * 60 * 60;
-        break;
-      case '24 HOURS AGO':
-        time_start = Math.floor(Date.now() / 1000) - 24 * 60 * 60 - 5 * 60;
-        time_end = Math.floor(Date.now() / 1000) - 24 * 60 * 60;
-        break;
-      case '3 DAYS AGO':
-        time_start = Math.floor(Date.now() / 1000) - 3 * 24 * 60 * 60 - 5 * 60;
-        time_end = Math.floor(Date.now() / 1000) - 3 * 24 * 60 * 60;
-        break;
-      case '7 DAYS AGO':
-        time_start = Math.floor(Date.now() / 1000) - 3 * 24 * 60 * 60 - 5 * 60;
-        time_end = Math.floor(Date.now() / 1000) - 3 * 24 * 60 * 60;
-        break;
-      default:
-        return timeRange;
-    }
-    return `${time_start} UNTIL ${time_end}`;
+    console.log(measure.measure_time);
+    console.log(query);
+
+    this.graphQlmeasures.push([
+      measure,
+      query
+        .replace(/\r?\n|\r/g, ' ')
+        .split('\\')
+        .join('\\\\'),
+      extraInfo
+    ]);
   }
 
   SendToLogs(logRecord) {
@@ -1955,8 +2001,9 @@ export default class DataManager {
     const queries = [];
     let accountID = this.accountId;
     let timeout = 10;
-    let measure_time = this.TimeRangeTransform(this.timeRange);
+    let measure_time;
     let queryMeasure = null;
+    const measure_time_default = '5 MINUTES AGO';
     this.touchPoints.forEach(element => {
       if (element.index === this.city) {
         element.touchpoints.some(touchpoint => {
@@ -1968,10 +2015,12 @@ export default class DataManager {
             found = true;
             touchpoint.measure_points.forEach(measure => {
               accountID = this.accountId;
-              measure_time = this.TimeRangeTransform(this.timeRange);
-              if (measure.measure_time) {
-                measure_time = measure.measure_time;
+
+              measure_time = measure.measure_time;
+              if (!measure.measure_time) {
+                measure_time = measure_time_default;
               }
+
               if (measure.accountID) {
                 accountID = measure.accountID;
               }
@@ -2176,6 +2225,8 @@ export default class DataManager {
     this.kpis = [];
     this.kpis.length = 0;
     let query_timeout = 10;
+    let query_measure_time = '';
+
     this.touchPoints.push({
       index: 0,
       country: 'PRODUCTION',
@@ -2312,6 +2363,9 @@ export default class DataManager {
           if (query.query_timeout) {
             query_timeout = query.query_timeout;
           }
+          if (query.measure_time) {
+            query_measure_time = query.measure_time;
+          }
           if (
             query.type === this.measureNames[0] ||
             query.type === 'PRC-COUNT-QUERY'
@@ -2320,6 +2374,7 @@ export default class DataManager {
               type: 'PRC',
               query: query.query,
               timeout: query_timeout,
+              measure_time: query_measure_time,
               min_count: query.min_count,
               max_count: Reflect.has(query, 'max_count')
                 ? query.max_count
@@ -2334,6 +2389,7 @@ export default class DataManager {
               type: 'PCC',
               query: query.query,
               timeout: query_timeout,
+              measure_time: query_measure_time,
               min_count: query.min_count,
               max_count: Reflect.has(query, 'max_count')
                 ? query.max_count
@@ -2348,6 +2404,7 @@ export default class DataManager {
               type: 'APP',
               query: query.query,
               timeout: query_timeout,
+              measure_time: query_measure_time,
               min_apdex: query.min_apdex,
               max_response_time: query.max_response_time,
               max_error_percentage: query.max_error_percentage,
@@ -2363,6 +2420,7 @@ export default class DataManager {
               type: 'FRT',
               query: query.query,
               timeout: query_timeout,
+              measure_time: query_measure_time,
               min_apdex: query.min_apdex,
               max_response_time: query.max_response_time,
               max_error_percentage: query.max_error_percentage,
@@ -2378,6 +2436,7 @@ export default class DataManager {
               type: 'SYN',
               query: query.query,
               timeout: query_timeout,
+              measure_time: query_measure_time,
               max_avg_response_time: query.max_avg_response_time,
               max_total_check_time: query.max_total_check_time,
               min_success_percentage: query.min_success_percentage,
@@ -2410,6 +2469,7 @@ export default class DataManager {
               type: 'API',
               query: query.query,
               timeout: query_timeout,
+              measure_time: query_measure_time,
               min_apdex: query.min_apdex,
               max_response_time: query.max_response_time,
               max_error_percentage: query.max_error_percentage,
@@ -2422,6 +2482,7 @@ export default class DataManager {
               type: 'APC',
               query: query.query,
               timeout: query_timeout,
+              measure_time: query_measure_time,
               min_count: query.min_count,
               max_count: query.max_count,
               api_count: 0
@@ -2438,9 +2499,12 @@ export default class DataManager {
           if (query.accountID !== this.accountId) {
             measure = { accountID: query.accountID, ...measure };
           }
-          if (query.measure_time !== this.TimeRangeTransform(this.timeRange)) {
+          /*
+           if (query.measure_time !== TimeRangeTransform(this.timeRange)) {
             measure = { ...measure, measure_time: query.measure_time };
           }
+          JIM HAGAN
+          */
           tpDef2.measure_points.push(measure);
         });
         stageDef.touchpoints.push(tpDef);
@@ -2824,6 +2888,7 @@ export default class DataManager {
                   query_start: '',
                   query_body: measure.query,
                   query_footer: this.ValidateMeasureTime(measure),
+                  query_footer2: this.GetDisplayMeasureTime(measure),
                   timeout: measure.timeout
                 });
               } else if (measure.type === 'PCC') {
@@ -2835,6 +2900,7 @@ export default class DataManager {
                   query_start: '',
                   query_body: measure.query,
                   query_footer: this.ValidateMeasureTime(measure),
+                  query_footer2: this.GetDisplayMeasureTime(measure),
                   timeout: measure.timeout
                 });
               } else if (measure.type === 'APP') {
@@ -2846,6 +2912,7 @@ export default class DataManager {
                   query_start: '',
                   query_body: measure.query,
                   query_footer: this.ValidateMeasureTime(measure),
+                  query_footer2: this.GetDisplayMeasureTime(measure),
                   timeout: measure.timeout
                 });
               } else if (measure.type === 'FRT') {
@@ -2857,6 +2924,7 @@ export default class DataManager {
                   query_start: '',
                   query_body: measure.query,
                   query_footer: this.ValidateMeasureTime(measure),
+                  query_footer2: this.GetDisplayMeasureTime(measure),
                   timeout: measure.timeout
                 });
               } else if (measure.type === 'SYN') {
@@ -2868,6 +2936,7 @@ export default class DataManager {
                   query_start: '',
                   query_body: measure.query,
                   query_footer: this.ValidateMeasureTime(measure),
+                  query_footer2: this.GetDisplayMeasureTime(measure),
                   timeout: measure.timeout
                 });
               } else if (measure.type === 'WLD') {
@@ -2905,6 +2974,7 @@ export default class DataManager {
                   query_start: '',
                   query_body: measure.query,
                   query_footer: this.ValidateMeasureTime(measure),
+                  query_footer2: this.GetDisplayMeasureTime(measure),
                   timeout: measure.timeout
                 });
               } else if (measure.type === 'APC') {
@@ -2916,6 +2986,7 @@ export default class DataManager {
                   query_start: '',
                   query_body: measure.query,
                   query_footer: this.ValidateMeasureTime(measure),
+                  query_footer2: this.GetDisplayMeasureTime(measure),
                   timeout: measure.timeout
                 });
               } else if (measure.type === 'APS') {
@@ -2927,6 +2998,7 @@ export default class DataManager {
                   query_start: '',
                   query_body: measure.query,
                   query_footer: this.ValidateMeasureTime(measure),
+                  query_footer2: this.GetDisplayMeasureTime(measure),
                   timeout: measure.timeout
                 });
               }
@@ -2942,10 +3014,22 @@ export default class DataManager {
   }
 
   ValidateMeasureTime(measure) {
-    if (measure.measure_time) {
-      return `SINCE ${measure.measure_time}`;
-    }
-    return `SINCE ${this.TimeRangeTransform(this.timeRange)}`;
+    // if (measure.measure_time) {
+    //  return `SINCE ${measure.measure_time}`;
+    // }
+    return `SINCE ${TimeRangeTransform(this.timeRange, measure.measure_time)}`;
+  }
+
+  GetDisplayMeasureTime(measure) {
+    const absolute_range = `${TimeRangeTransform(
+      this.timeRange,
+      measure.measure_time
+    )}`;
+    const result = absolute_range.trim().split(/\s+/);
+    const t1 = new Date(parseInt(result[0]) * 1000);
+    const t2 = new Date(parseInt(result[2]) * 1000);
+
+    return ` //(${t1.toLocaleDateString()} ${t1.toLocaleTimeString()} to ${t2.toLocaleDateString()} ${t2.toLocaleTimeString()})`;
   }
 
   UpdateTouchpointTune(touchpoint, datos) {

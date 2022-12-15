@@ -241,7 +241,7 @@ const Header = ({
 };
 
 const options = [
-  { label: 'last 5 minutes', value: '5 MINUTES AGO' },
+  { label: 'Now', value: '5 MINUTES AGO' },
   { label: '30 minutes ago', value: '30 MINUTES AGO' },
   { label: '60 minutes ago', value: '60 MINUTES AGO' },
   { label: '3 hours ago', value: '3 HOURS AGO' },

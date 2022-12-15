@@ -141,6 +141,8 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
           <div
             className="custom-select-wrapper"
             onClick={[Function]}
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
           >
             <div
               className="custom-select"
@@ -159,7 +161,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
                     }
                   }
                 >
-                  last 5 minutes
+                  Now
                 </span>
                 <div
                   className="arrow"
@@ -173,7 +175,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
                   className="custom-option selected"
                   onClick={[Function]}
                 >
-                  last 5 minutes
+                  Now
                 </span>
                 <span
                   className="custom-option"
@@ -1011,6 +1013,8 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
           <div
             className="custom-select-wrapper"
             onClick={[Function]}
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
           >
             <div
               className="custom-select"
@@ -1029,7 +1033,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
                     }
                   }
                 >
-                  last 5 minutes
+                  Now
                 </span>
                 <div
                   className="arrow"
@@ -1043,7 +1047,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
                   className="custom-option selected"
                   onClick={[Function]}
                 >
-                  last 5 minutes
+                  Now
                 </span>
                 <span
                   className="custom-option"
@@ -1881,6 +1885,8 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
           <div
             className="custom-select-wrapper"
             onClick={[Function]}
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
           >
             <div
               className="custom-select"
@@ -1899,7 +1905,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
                     }
                   }
                 >
-                  last 5 minutes
+                  Now
                 </span>
                 <div
                   className="arrow"
@@ -1913,7 +1919,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
                   className="custom-option selected"
                   onClick={[Function]}
                 >
-                  last 5 minutes
+                  Now
                 </span>
                 <span
                   className="custom-option"
@@ -2797,6 +2803,8 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
           <div
             className="custom-select-wrapper"
             onClick={[Function]}
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
           >
             <div
               className="custom-select"
@@ -2815,7 +2823,7 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
                     }
                   }
                 >
-                  last 5 minutes
+                  Now
                 </span>
                 <div
                   className="arrow"
@@ -2829,7 +2837,7 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
                   className="custom-option selected"
                   onClick={[Function]}
                 >
-                  last 5 minutes
+                  Now
                 </span>
                 <span
                   className="custom-option"
@@ -3667,6 +3675,8 @@ exports[`<MainContainer/> Values stages 1`] = `
           <div
             className="custom-select-wrapper"
             onClick={[Function]}
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
           >
             <div
               className="custom-select"
@@ -3685,7 +3695,7 @@ exports[`<MainContainer/> Values stages 1`] = `
                     }
                   }
                 >
-                  last 5 minutes
+                  Now
                 </span>
                 <div
                   className="arrow"
@@ -3699,7 +3709,7 @@ exports[`<MainContainer/> Values stages 1`] = `
                   className="custom-option selected"
                   onClick={[Function]}
                 >
-                  last 5 minutes
+                  Now
                 </span>
                 <span
                   className="custom-option"
@@ -4838,6 +4848,8 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
           <div
             className="custom-select-wrapper"
             onClick={[Function]}
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
           >
             <div
               className="custom-select"
@@ -4856,7 +4868,7 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
                     }
                   }
                 >
-                  last 5 minutes
+                  Now
                 </span>
                 <div
                   className="arrow"
@@ -4870,7 +4882,7 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
                   className="custom-option selected"
                   onClick={[Function]}
                 >
-                  last 5 minutes
+                  Now
                 </span>
                 <span
                   className="custom-option"

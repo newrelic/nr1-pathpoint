@@ -1024,6 +1024,13 @@ export default class MainContainer extends React.Component {
     });
   };
 
+  timeRangeTransform = () => {
+    const timeRangeTransform = this.DataManager.TimeRangeTransform(
+      this.state.timeRange
+    );
+    return timeRangeTransform;
+  };
+
   EditorValidateQuery = async (type, query, accountID) => {
     const { testText, goodQuery } = await this.validationQuery.validateQuery(
       type,
@@ -1931,6 +1938,7 @@ export default class MainContainer extends React.Component {
       timeRangeKpi,
       kpis,
       accountIDs,
+      timeRange,
       accountId,
       credentials,
       configurationOptionSelected,
@@ -2557,6 +2565,7 @@ export default class MainContainer extends React.Component {
             changeMessage={this.changeMessage}
             chargueSample={this.chargueSample}
             testQuery={this.testQuery}
+            timeRangeTransform={this.timeRangeTransform}
             handleChangeTexarea={this.handleChangeTexarea}
             handleSaveUpdateQuery={this.handleSaveUpdateQuery}
             handleSaveUpdateTune={this.handleSaveUpdateTune}
@@ -2604,6 +2613,7 @@ export default class MainContainer extends React.Component {
             RestoreJSONFromHistoric={this.RestoreJSONFromHistoric}
             username={this.state.username}
             handleStagesEditorSubmit={this.handleStagesEditorSubmit}
+            timeRangeBodyTouchpointsEditor={timeRange}
             stagesInterface={this.state.stagesInterface}
             EditorValidateQuery={this.EditorValidateQuery}
             kpis={this.state.kpis}

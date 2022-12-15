@@ -85,6 +85,7 @@ function BodyQueryFormModal(props) {
     accountIDs
   );
   stageNameSelected.datos[value].accountID = idSeleccionado;
+  const query_body = stageNameSelected.datos[value].query_body;
   const handleChange = childData => {
     /* istanbul ignore next */
     stageNameSelected.datos[value].accountID = childData.target.value;
@@ -92,14 +93,13 @@ function BodyQueryFormModal(props) {
   const handleTimeoutChange = childData => {
     stageNameSelected.datos[value].timeout = childData.target.value;
   };
-
   const runTest = React.useCallback(() => {
     if (query_body === '') return false; // Query body is empty string
     testQuery(`${query_body} ${query_footer}`, value); // Test query
   }, [query_body, query_footer, value]);
 
-  const query_body = stageNameSelected.datos[value].query_body;
   const query_footer = stageNameSelected.datos[value].query_footer;
+  const query_footer2 = stageNameSelected.datos[value].query_footer2;
   const timeout = stageNameSelected.datos[value].timeout;
 
   return (
@@ -195,6 +195,8 @@ function BodyQueryFormModal(props) {
           />
 
           <strong>{query_footer}</strong>
+
+          <strong>{query_footer2}</strong>
 
           {/* Query Result */}
           <Editor

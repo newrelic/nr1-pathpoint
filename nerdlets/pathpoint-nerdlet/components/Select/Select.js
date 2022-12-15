@@ -6,6 +6,7 @@ export default class Select extends PureComponent {
     super(props);
     this.state = {
       open: false,
+      showTooltip: false,
       selected: 0
     };
   }
@@ -39,13 +40,25 @@ export default class Select extends PureComponent {
     handleOnChange(event);
   };
 
+  showTooltip = () => {
+    if (this.props.disabled) return false;
+    this.setState({ showTooltip: true });
+  };
+
+  notShowTooltip = () => {
+    if (this.props.disabled) return false;
+    this.setState({ showTooltip: false });
+  };
+
   render() {
     const { options, width } = this.props;
-    const { selected, open } = this.state;
+    const { selected, open, showTooltip } = this.state;
     return (
       <div
         className="custom-select-wrapper"
         onClick={this.clickAction}
+        onMouseEnter={this.showTooltip}
+        onMouseLeave={this.notShowTooltip}
         ref={this.myRef}
       >
         <div
@@ -97,6 +110,12 @@ export default class Select extends PureComponent {
             ))}
           </div>
         </div>
+        {showTooltip ? (
+          <div id="tooltip" className="right">
+            <div className="tooltip-arrow" />
+            <div className="tooltip-label">Reference point in time</div>
+          </div>
+        ) : null}
       </div>
     );
   }
