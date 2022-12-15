@@ -1257,6 +1257,7 @@ describe('Datamanager service', () => {
           timeout: 10,
           query:
             "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
+          measure_time: "180 MINUTES AGO",
           min_count: 10,
           session_count: 0,
           accountID: 2710112,
