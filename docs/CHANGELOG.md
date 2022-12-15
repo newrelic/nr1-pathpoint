@@ -1,3 +1,10 @@
+## [1.7.4](https://github.com/newrelic/nr1-pathpoint/compare/v1.7.3...v1.7.4) (2022-12-15)
+
+
+### Bug Fixes
+
+*  Resolve issues on Touchpoint GUI editor & time picker ([#53](https://github.com/newrelic/nr1-pathpoint/issues/53)) ([15c0d26](https://github.com/newrelic/nr1-pathpoint/commit/15c0d264edf10d286b674f095937cf1e0bf0593c))
+
 ## [1.7.3](https://github.com/newrelic/nr1-pathpoint/compare/v1.7.2...v1.7.3) (2022-11-10)
 
 
