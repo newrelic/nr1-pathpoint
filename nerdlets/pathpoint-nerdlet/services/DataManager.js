@@ -30,8 +30,8 @@ export function TimeRangeTransform(pointInTime, sinceClause) {
   const _now_as_seconds = Math.floor(Date.now() / 1000);
   // We don't want a preceding "SINCE " on the since Clause -- just the time window
 
-  if (sinceClause === "3 HOURS AGO"){
-    sinceClause = "180 MINUTES AGO";
+  if (sinceClause === '3 HOURS AGO'){
+    sinceClause = '180 MINUTES AGO';
   }
 
   const stripped_clause = sinceClause.replace('SINCE ', '');
