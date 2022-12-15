@@ -1260,7 +1260,7 @@ describe('Datamanager service', () => {
           accountID: 2710112,
           status_value: 'NO-VALUE'
         },
-        "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue' SINCE 3 HOURS AGO",
+        "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue' SINCE ${time_start} UNTIL ${_now_as_seconds}",
         'TIME 5 HOURS AGO'
       ]
     ]);
