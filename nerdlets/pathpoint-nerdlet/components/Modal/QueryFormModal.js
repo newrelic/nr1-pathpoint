@@ -75,7 +75,7 @@ function BodyQueryFormModal(props) {
     resultsTestQuery,
     goodQuery,
     modifiedQuery,
-    accountIDs,
+    accountIDs
   } = props;
   const value = stageNameSelected.selectedCase
     ? stageNameSelected.selectedCase
@@ -97,7 +97,6 @@ function BodyQueryFormModal(props) {
     if (query_body === '') return false; // Query body is empty string
     testQuery(`${query_body} ${query_footer}`, value); // Test query
   }, [query_body, query_footer, value]);
-
 
   const query_footer = stageNameSelected.datos[value].query_footer;
   const query_footer2 = stageNameSelected.datos[value].query_footer2;
@@ -345,7 +344,7 @@ BodyQueryFormModal.propTypes = {
   goodQuery: PropTypes.bool.isRequired,
   modifiedQuery: PropTypes.bool,
   accountIDs: PropTypes.array.isRequired,
-  testingNow: PropTypes.bool,
+  testingNow: PropTypes.bool
 };
 
 export { HeaderQueryFormModal, BodyQueryFormModal };

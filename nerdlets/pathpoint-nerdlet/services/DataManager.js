@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable prefer-template */
 /* eslint-disable no-loop-func */
 /* eslint-disable require-atomic-updates */
@@ -82,7 +83,6 @@ export function TimeRangeTransform(pointInTime, sinceClause) {
       time_end = _now_as_seconds;
       break;
   }
-  console.log(`${time_start} UNTIL ${time_end}`);
   return `${time_start} UNTIL ${time_end}`;
 }
 
@@ -161,7 +161,7 @@ export default class DataManager {
     await this.GetGeneralConfiguration();
     this.TryToEnableServices();
 
-    console.log("Last storage version: " + this.lastStorageVersion);
+    console.log('Last storage version: ' + this.lastStorageVersion);
 
     this.version = appPackage.version;
     /*
@@ -177,13 +177,13 @@ export default class DataManager {
 
       For now this is okay...
     */
-    if (this.lastStorageVersion)  {
-      console.log("Re-using last stored configuration.");
+    if (this.lastStorageVersion) {
+      console.log('Re-using last stored configuration.');
       this.colors = ViewData.colors;
       await this.GetInitialDataFromStorage();
       await this.GetStorageTouchpoints();
     } else {
-      console.log("No Previous configuration found.  Loading demo config.");
+      console.log('No Previous configuration found.  Loading demo config.');
       this.stages = ViewData.stages;
       this.colors = ViewData.colors;
       /* istanbul ignore next */
