@@ -1248,6 +1248,8 @@ describe('Datamanager service', () => {
     const extrainfo = 'TIME 5 HOURS AGO';
     dataManager.TimeRangeTransform = jest.fn();
     dataManager.FetchMeasure(measure, extrainfo);
+    const _now_as_seconds = Math.floor(Date.now() / 1000);
+    const time_start = _now_as_seconds - 180 * 60;
     expect(dataManager.graphQlmeasures).toEqual([
       [
         {
