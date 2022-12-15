@@ -1248,6 +1248,8 @@ describe('Datamanager service', () => {
     const extrainfo = 'TIME 5 HOURS AGO';
     dataManager.TimeRangeTransform = jest.fn();
     dataManager.FetchMeasure(measure, extrainfo);
+    const _now_as_seconds = Math.floor(Date.now() / 1000);
+    const time_start = _now_as_seconds - 180 * 60;
     expect(dataManager.graphQlmeasures).toEqual([
       [
         {
@@ -1255,12 +1257,13 @@ describe('Datamanager service', () => {
           timeout: 10,
           query:
             "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
+          measure_time: '180 MINUTES AGO',
           min_count: 10,
           session_count: 0,
           accountID: 2710112,
           status_value: 'NO-VALUE'
         },
-        "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue' SINCE 3 HOURS AGO",
+        `SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue' SINCE ${time_start} UNTIL ${_now_as_seconds}`,
         'TIME 5 HOURS AGO'
       ]
     ]);
