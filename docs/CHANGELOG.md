@@ -1,3 +1,10 @@
+## [1.7.5](https://github.com/newrelic/nr1-pathpoint/compare/v1.7.4...v1.7.5) (2022-12-15)
+
+
+### Bug Fixes
+
+* Fixed time picker for WLD touchpoints ([#54](https://github.com/newrelic/nr1-pathpoint/issues/54)) ([a352818](https://github.com/newrelic/nr1-pathpoint/commit/a352818d537bc105415f6edc252bcb2d00b5b6a1))
+
 ## [1.7.4](https://github.com/newrelic/nr1-pathpoint/compare/v1.7.3...v1.7.4) (2022-12-15)
 
 
