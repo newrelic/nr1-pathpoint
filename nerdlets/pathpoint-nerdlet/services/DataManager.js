@@ -29,6 +29,11 @@ export function TimeRangeTransform(pointInTime, sinceClause) {
   let range_duration_minutes = 5;
   const _now_as_seconds = Math.floor(Date.now() / 1000);
   // We don't want a preceding "SINCE " on the since Clause -- just the time window
+
+  if (sinceClause === "3 HOURS AGO"){
+    sinceClause = "180 MINUTES AGO";
+  }
+
   const stripped_clause = sinceClause.replace('SINCE ', '');
 
   if (stripped_clause.includes(' MINUTES AGO')) {
@@ -584,8 +589,12 @@ export default class DataManager {
     let query = '';
 
     if (measure.type === 'WLD') {
-      query = `${measure.query} SINCE 3 HOURS AGO`;
-    } else if (measure.type === 'DRP') {
+      if (!measure.measure_time){
+        measure.measure_time = '180 MINUTES AGO';
+      }
+    }
+
+    if (measure.type === 'DRP') {
       query = `${measure.query} SINCE ${this.dropParams.hours} HOURS AGO`;
     } else if (measure.measure_time) {
       query = `${measure.query} SINCE ${TimeRangeTransform(
@@ -2451,6 +2460,7 @@ export default class DataManager {
             measure = {
               type: 'WLD',
               query: query.query,
+              measure_time: query_measure_time,
               timeout: query_timeout,
               status_value: 'NO-VALUE'
             };
@@ -2940,6 +2950,9 @@ export default class DataManager {
                   timeout: measure.timeout
                 });
               } else if (measure.type === 'WLD') {
+                if (!measure.measure_time){
+                    measure.measure_time = '180 MINUTES AGO';
+                }
                 datos.push({
                   accountID: accountID,
                   label: this.measureNames[5],
@@ -2947,9 +2960,8 @@ export default class DataManager {
                   type: 'WLD',
                   query_start: '',
                   query_body: measure.query,
-                  query_footer: Reflect.has(measure, 'measure_time')
-                    ? `SINCE ${measure.measure_time}`
-                    : 'SINCE 3 HOURS AGO',
+                  query_footer: this.ValidateMeasureTime(measure),
+                  query_footer2: this.GetDisplayMeasureTime(measure),
                   timeout: measure.timeout
                 });
               } else if (measure.type === 'DRP') {
