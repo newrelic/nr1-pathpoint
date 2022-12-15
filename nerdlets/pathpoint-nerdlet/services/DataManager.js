@@ -29,8 +29,7 @@ export function TimeRangeTransform(pointInTime, sinceClause) {
   let range_duration_minutes = 5;
   const _now_as_seconds = Math.floor(Date.now() / 1000);
   // We don't want a preceding "SINCE " on the since Clause -- just the time window
-
-  if (sinceClause === '3 HOURS AGO'){
+  if (sinceClause === '3 HOURS AGO') {
     sinceClause = '180 MINUTES AGO';
   }
 
@@ -589,7 +588,7 @@ export default class DataManager {
     let query = '';
 
     if (measure.type === 'WLD') {
-      if (!measure.measure_time){
+      if (!measure.measure_time) {
         measure.measure_time = '180 MINUTES AGO';
       }
     }
@@ -2950,7 +2949,7 @@ export default class DataManager {
                   timeout: measure.timeout
                 });
               } else if (measure.type === 'WLD') {
-                if (!measure.measure_time){
+                if (!measure.measure_time) {
                     measure.measure_time = '180 MINUTES AGO';
                 }
                 datos.push({
