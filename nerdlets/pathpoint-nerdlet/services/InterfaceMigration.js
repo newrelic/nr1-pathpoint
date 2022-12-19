@@ -123,8 +123,9 @@ export default class InterfaceMigration {
       accountID: Number(queryData.accountID),
       query: queryData.query,
       query_timeout: Number(queryData.query_timeout),
-      // measure_time: queryData.measure_time
-      measure_time: queryData.measure_time.toUpperCase()
+      measure_time: queryData.measure_time
+        ? queryData.measure_time.toUpperCase()
+        : ''
     };
     switch (queryData.type) {
       case 'Person-Count':
