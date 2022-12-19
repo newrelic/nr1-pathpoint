@@ -16,7 +16,10 @@ import iconDelete from '../../images/icon-delete.svg';
 import messages from '../../config/messages.json';
 import Toast from '../Toast/Toast';
 import warningIcon from '../../images/warning.svg';
-import { TimeRangeTransform } from '../../services/DataManager';
+import {
+  TimeRangeTransform,
+  regex_measure_time
+} from '../../services/DataManager';
 
 const WrongIcon = () => {
   return (
@@ -536,8 +539,7 @@ class BodyTouchpointsEditor extends Component {
 
   TestMeasureTime = (touchpoint, value) => {
     const { listTpErrorMeasureField, list } = this.state;
-    const valid_measure_time = /^((6[0]|[1-5][0-9]|[1-9])[\s]+minute[s]|1[\s]+hour)[\s]+ago$/i;
-    if (valid_measure_time.test(value)) {
+    if (regex_measure_time.test(value)) {
       if (listTpErrorMeasureField.includes(touchpoint)) {
         const listErrorMeasure = listTpErrorMeasureField.filter(
           e => e !== touchpoint
@@ -1947,7 +1949,7 @@ class BodyTouchpointsEditor extends Component {
                       {/* Query Result */}
                       <Editor
                         isReadOnly
-                        style={{ height: 70 }}
+                        style={{ height: 70, marginTop: '6px' }}
                         value={
                           testQueryValue ? objToString(testQueryValue) : ''
                         }

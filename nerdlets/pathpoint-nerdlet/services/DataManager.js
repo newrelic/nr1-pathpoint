@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable prefer-template */
 /* eslint-disable no-loop-func */
 /* eslint-disable require-atomic-updates */
@@ -90,6 +89,10 @@ export function TimeRangeTransform(pointInTime, sinceClause) {
   return `${time_start} UNTIL ${time_end}`;
 }
 
+// DEFINE THE REGULAR EXPRESION FOR MEASURE TIME
+const regex_measure_time = /^((180|1[0-7][0-9]|[1-9][0-9]|[1-9])[\s]+minute[s]|[1-3][\s]+hour[s])[\s]+ago/i;
+export { regex_measure_time };
+
 // DEFINE AND EXPORT CLASS
 export default class DataManager {
   constructor(useEmulator) {
@@ -165,7 +168,7 @@ export default class DataManager {
     await this.GetGeneralConfiguration();
     this.TryToEnableServices();
 
-    console.log('Last storage version: ' + this.lastStorageVersion);
+    // console.log('Last storage version: ' + this.lastStorageVersion);
 
     this.version = appPackage.version;
     /*
@@ -182,12 +185,12 @@ export default class DataManager {
       For now this is okay...
     */
     if (this.lastStorageVersion) {
-      console.log('Re-using last stored configuration.');
+      // console.log('Re-using last stored configuration.');
       this.colors = ViewData.colors;
       await this.GetInitialDataFromStorage();
       await this.GetStorageTouchpoints();
     } else {
-      console.log('No Previous configuration found.  Loading demo config.');
+      // console.log('No Previous configuration found.  Loading demo config.');
       this.stages = ViewData.stages;
       this.colors = ViewData.colors;
       /* istanbul ignore next */
@@ -513,7 +516,7 @@ export default class DataManager {
                   ? this.stages[touchpoint.stage_index - 1].title
                   : ''
               };
-              console.log(touchpoint.value);
+              // console.log(touchpoint.value);
               this.FetchMeasure(measure, extraInfo);
             });
           }
@@ -606,8 +609,8 @@ export default class DataManager {
         ''
       )}`;
     }
-    console.log(measure.measure_time);
-    console.log(query);
+    // console.log(measure.measure_time);
+    // console.log(query);
 
     this.graphQlmeasures.push([
       measure,
