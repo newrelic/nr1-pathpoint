@@ -28,22 +28,12 @@ export function TimeRangeTransform(pointInTime, sinceClause) {
   let range_duration_minutes = 5;
   const _now_as_seconds = Math.floor(Date.now() / 1000);
 
-  let stripped_clause = sinceClause.replace('SINCE ', '').trim();
-
-  // convert since HOURS to MINUTES if needed
-  if (sinceClause.includes(' HOUR')) {
-    const minutes = stripped_clause.trim().split(/\s+/)[0] * 60;
-    stripped_clause = `${minutes} MINUTES AGO`;
-    // console.log(`CONVERTING ${sinceClause} to ${stripped_clause}`);
-  }
-
-  if (stripped_clause.includes(' MINUTES AGO')) {
-    const result = stripped_clause.trim().split(/\s+/);
-    range_duration_minutes = parseInt(result[0]);
-  } else if (stripped_clause === '') {
-    range_duration_minutes = 5;
-  } else {
-    range_duration_minutes = 5;
+  const stripped_clause = sinceClause ? sinceClause.split(/\s+/) : false;
+  // Convert hours to minutes
+  if (stripped_clause && stripped_clause.length >= 3) {
+    range_duration_minutes = /hour[s]?/i.test(stripped_clause[1])
+      ? stripped_clause[0] * 60
+      : stripped_clause[0] * 1;
   }
 
   switch (pointInTime) {
