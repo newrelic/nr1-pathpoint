@@ -27,12 +27,15 @@ export function TimeRangeTransform(pointInTime, sinceClause) {
   let time_end = 0;
   let range_duration_minutes = 5;
   const _now_as_seconds = Math.floor(Date.now() / 1000);
-  // We don't want a preceding "SINCE " on the since Clause -- just the time window
-  if (sinceClause === '3 HOURS AGO') {
-    sinceClause = '180 MINUTES AGO';
-  }
 
-  const stripped_clause = sinceClause.replace('SINCE ', '');
+  let stripped_clause = sinceClause.replace('SINCE ', '').trim();
+
+  // convert since HOURS to MINUTES if needed
+  if (sinceClause.includes(' HOUR')) {
+    const minutes = stripped_clause.trim().split(/\s+/)[0] * 60;
+    stripped_clause = `${minutes} MINUTES AGO`;
+    // console.log(`CONVERTING ${sinceClause} to ${stripped_clause}`);
+  }
 
   if (stripped_clause.includes(' MINUTES AGO')) {
     const result = stripped_clause.trim().split(/\s+/);
@@ -90,7 +93,7 @@ export function TimeRangeTransform(pointInTime, sinceClause) {
 }
 
 // DEFINE THE REGULAR EXPRESION FOR MEASURE TIME
-const regex_measure_time = /^((180|1[0-7][0-9]|[1-9][0-9]|[1-9])[\s]+minute[s]|[1-3][\s]+hour[s])[\s]+ago/i;
+const regex_measure_time = /^((180|1[0-7][0-9]|[1-9][0-9]|[1-9])[\s]+minute[s]|[1-3][\s]+hours?)[\s]+ago/i;
 export { regex_measure_time };
 
 // DEFINE AND EXPORT CLASS
@@ -609,8 +612,8 @@ export default class DataManager {
         ''
       )}`;
     }
-    // console.log(measure.measure_time);
-    // console.log(query);
+     // console.log(measure.measure_time);
+     // console.log(query);
 
     this.graphQlmeasures.push([
       measure,
