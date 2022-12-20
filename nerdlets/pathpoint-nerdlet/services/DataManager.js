@@ -93,7 +93,7 @@ export function TimeRangeTransform(pointInTime, sinceClause) {
 }
 
 // DEFINE THE REGULAR EXPRESION FOR MEASURE TIME
-const regex_measure_time = /^((180|1[0-7][0-9]|[1-9][0-9]|[1-9])[\s]+minute[s]|[1-3][\s]+hours?)[\s]+ago/i;
+const regex_measure_time = /^((180|1[0-7][0-9]|[1-9][0-9]|[1-9])[\s]+minute[s]?|[1-3][\s]+hour[s]?)[\s]+ago/i;
 export { regex_measure_time };
 
 // DEFINE AND EXPORT CLASS
