@@ -612,8 +612,8 @@ export default class DataManager {
         ''
       )}`;
     }
-     // console.log(measure.measure_time);
-     // console.log(query);
+    // console.log(measure.measure_time);
+    // console.log(query);
 
     this.graphQlmeasures.push([
       measure,
