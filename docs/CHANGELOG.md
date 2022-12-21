@@ -1,3 +1,10 @@
+## [1.7.6](https://github.com/newrelic/nr1-pathpoint/compare/v1.7.5...v1.7.6) (2022-12-21)
+
+
+### Bug Fixes
+
+* Fixed the regex to increase the measuring time range ([#55](https://github.com/newrelic/nr1-pathpoint/issues/55)) ([865e627](https://github.com/newrelic/nr1-pathpoint/commit/865e6278f43037fdf8e0c62c9b8d7717269f1069))
+
 ## [1.7.5](https://github.com/newrelic/nr1-pathpoint/compare/v1.7.4...v1.7.5) (2022-12-15)
 
 
