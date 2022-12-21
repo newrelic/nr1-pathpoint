@@ -1,5 +1,6 @@
 // IMPORT LIBRARIES
 import appPackage from '../../../package.json';
+import { regex_measure_time } from '../services/DataManager';
 
 // EXPORT SCHEMA
 export default {
@@ -278,9 +279,11 @@ export const CustomSchemaValidation = target => {
           });
         }
       });
-      const regexMeasureTime = /^((6[0]|[1-5][0-9]|[1-9])[\s]+minute[s]|1[\s]+hour)[\s]+ago$/i;
       touchpoint.queries.forEach((query, x) => {
-        if (query.measure_time && !regexMeasureTime.test(query.measure_time)) {
+        if (
+          query.measure_time &&
+          !regex_measure_time.test(query.measure_time)
+        ) {
           errors.push({
             dataPath: `The stage ${stage.title}, in touchpoint ${
               touchpoint.title

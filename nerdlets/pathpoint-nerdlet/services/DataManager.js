@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable prefer-template */
 /* eslint-disable no-loop-func */
 /* eslint-disable require-atomic-updates */
@@ -28,20 +27,15 @@ export function TimeRangeTransform(pointInTime, sinceClause) {
   let time_end = 0;
   let range_duration_minutes = 5;
   const _now_as_seconds = Math.floor(Date.now() / 1000);
-  // We don't want a preceding "SINCE " on the since Clause -- just the time window
-  if (sinceClause === '3 HOURS AGO') {
-    sinceClause = '180 MINUTES AGO';
-  }
 
-  const stripped_clause = sinceClause.replace('SINCE ', '');
-
-  if (stripped_clause.includes(' MINUTES AGO')) {
-    const result = stripped_clause.trim().split(/\s+/);
-    range_duration_minutes = parseInt(result[0]);
-  } else if (stripped_clause === '') {
-    range_duration_minutes = 5;
-  } else {
-    range_duration_minutes = 5;
+  const stripped_clause = sinceClause
+    ? sinceClause.replace(/^\s*SINCE\s*/i, '').split(/\s+/)
+    : false;
+  // Convert hours to minutes
+  if (stripped_clause && stripped_clause.length >= 3) {
+    range_duration_minutes = /hour[s]?/i.test(stripped_clause[1])
+      ? stripped_clause[0] * 60
+      : stripped_clause[0] * 1;
   }
 
   switch (pointInTime) {
@@ -89,6 +83,10 @@ export function TimeRangeTransform(pointInTime, sinceClause) {
   }
   return `${time_start} UNTIL ${time_end}`;
 }
+
+// DEFINE THE REGULAR EXPRESION FOR MEASURE TIME
+const regex_measure_time = /^((180|1[0-7][0-9]|[1-9][0-9]|[1-9])[\s]+minute[s]?|[1-3][\s]+hour[s]?)[\s]+ago/i;
+export { regex_measure_time };
 
 // DEFINE AND EXPORT CLASS
 export default class DataManager {
@@ -165,7 +163,7 @@ export default class DataManager {
     await this.GetGeneralConfiguration();
     this.TryToEnableServices();
 
-    console.log('Last storage version: ' + this.lastStorageVersion);
+    // console.log('Last storage version: ' + this.lastStorageVersion);
 
     this.version = appPackage.version;
     /*
@@ -182,12 +180,12 @@ export default class DataManager {
       For now this is okay...
     */
     if (this.lastStorageVersion) {
-      console.log('Re-using last stored configuration.');
+      // console.log('Re-using last stored configuration.');
       this.colors = ViewData.colors;
       await this.GetInitialDataFromStorage();
       await this.GetStorageTouchpoints();
     } else {
-      console.log('No Previous configuration found.  Loading demo config.');
+      // console.log('No Previous configuration found.  Loading demo config.');
       this.stages = ViewData.stages;
       this.colors = ViewData.colors;
       /* istanbul ignore next */
@@ -513,7 +511,7 @@ export default class DataManager {
                   ? this.stages[touchpoint.stage_index - 1].title
                   : ''
               };
-              console.log(touchpoint.value);
+              // console.log(touchpoint.value);
               this.FetchMeasure(measure, extraInfo);
             });
           }
@@ -606,8 +604,8 @@ export default class DataManager {
         ''
       )}`;
     }
-    console.log(measure.measure_time);
-    console.log(query);
+    // console.log(measure.measure_time);
+    // console.log(query);
 
     this.graphQlmeasures.push([
       measure,
