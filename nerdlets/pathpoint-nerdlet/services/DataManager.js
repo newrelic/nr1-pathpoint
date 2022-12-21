@@ -28,7 +28,9 @@ export function TimeRangeTransform(pointInTime, sinceClause) {
   let range_duration_minutes = 5;
   const _now_as_seconds = Math.floor(Date.now() / 1000);
 
-  let stripped_clause = sinceClause ? sinceClause.replace(/^\s*SINCE\s*/i, '').split(/\s+/) : false;
+  const stripped_clause = sinceClause
+    ? sinceClause.replace(/^\s*SINCE\s*/i, '').split(/\s+/)
+    : false;
   // Convert hours to minutes
   if (stripped_clause && stripped_clause.length >= 3) {
     range_duration_minutes = /hour[s]?/i.test(stripped_clause[1])
