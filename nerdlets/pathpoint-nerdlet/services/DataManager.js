@@ -1603,12 +1603,17 @@ export default class DataManager {
             measure.type === 'FRT' ||
             measure.type === 'API'
           ) {
+            console.log(`value of set error ${setError}`);
+            console.log(`error pct: ${measure.error_percentage}`);
+            console.log(`apdex value: ${measure.apdex_value}`);
+            console.log(`response value: ${measure.response_value}`);
             if (
               measure.error_percentage > measure.max_error_percentage ||
               measure.apdex_value < measure.min_apdex ||
               measure.response_value > measure.max_response_time
             ) {
               setError = true;
+              console.log(`new value of set error ${setError}`);
             }
           } else if (measure.type === 'SYN') {
             if (
@@ -2291,7 +2296,7 @@ export default class DataManager {
         title: stage.title,
         type: Reflect.has(stage, 'type') ? stage.type : 'People',
         latencyStatus: false,
-        status_color: 'good',
+        status_color: 'unknown',
         gout_enable: false,
         gout_quantity: 150,
         gout_money: 250,
@@ -2506,12 +2511,6 @@ export default class DataManager {
           if (query.accountID !== this.accountId) {
             measure = { accountID: query.accountID, ...measure };
           }
-          /*
-           if (query.measure_time !== TimeRangeTransform(this.timeRange)) {
-            measure = { ...measure, measure_time: query.measure_time };
-          }
-          JIM HAGAN
-          */
           tpDef2.measure_points.push(measure);
         });
         stageDef.touchpoints.push(tpDef);

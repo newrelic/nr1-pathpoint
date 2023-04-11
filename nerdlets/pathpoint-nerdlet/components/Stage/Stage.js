@@ -8,16 +8,22 @@ import Workload from '../Workload/workload';
 import dangerHeart from '../../images/Red.svg';
 import goodHeart from '../../images/Green.svg';
 import warningHeart from '../../images/Yellow.svg';
+import unknownHeart from '../../images/Grey.svg';
 
 const Stage = ({ stage, onClickStage }) => {
   const textLevelBar = ``;
-  let healthIcon = warningHeart;
+  let healthIcon = unknownHeart;
   if (stage.status_color === 'danger') {
     healthIcon = dangerHeart;
   }
-  if (stage.status_color === 'good') {
+  else if (stage.status_color === 'good') {
     healthIcon = goodHeart;
   }
+  else if (stage.status_color === 'warning') {
+    healthIcon = warningHeart;
+  }
+
+
   const capacity = GetCapacity(stage.capacity);
   const status = GetStatus(stage.capacity);
   return (
