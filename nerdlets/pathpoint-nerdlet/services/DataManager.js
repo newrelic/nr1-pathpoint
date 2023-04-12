@@ -1603,10 +1603,10 @@ export default class DataManager {
             measure.type === 'FRT' ||
             measure.type === 'API'
           ) {
-            console.log(`value of set error ${setError}`);
-            console.log(`error pct: ${measure.error_percentage}`);
-            console.log(`apdex value: ${measure.apdex_value}`);
-            console.log(`response value: ${measure.response_value}`);
+            // console.log(`value of set error ${setError}`);
+            // console.log(`error pct: ${measure.error_percentage}`);
+            // console.log(`apdex value: ${measure.apdex_value}`);
+            // console.log(`response value: ${measure.response_value}`);
             if (
               measure.error_percentage > measure.max_error_percentage ||
               measure.apdex_value < measure.min_apdex ||
