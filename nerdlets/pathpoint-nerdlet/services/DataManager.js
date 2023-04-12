@@ -1613,7 +1613,7 @@ export default class DataManager {
               measure.response_value > measure.max_response_time
             ) {
               setError = true;
-              console.log(`new value of set error ${setError}`);
+              // console.log(`new value of set error ${setError}`);
             }
           } else if (measure.type === 'SYN') {
             if (
