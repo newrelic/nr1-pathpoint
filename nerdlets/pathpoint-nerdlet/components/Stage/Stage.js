@@ -14,14 +14,11 @@ const Stage = ({ stage, onClickStage }) => {
   const textLevelBar = ``;
   let healthIcon = unknownHeart;
   if (stage.status_color === 'danger') {
-    healthIcon = dangerHeart;
-  }
+    healthIcon = dangerHeart;}
   else if (stage.status_color === 'good') {
-    healthIcon = goodHeart;
-  }
+    healthIcon = goodHeart;}
   else if (stage.status_color === 'warning') {
-    healthIcon = warningHeart;
-  }
+    healthIcon = warningHeart;}
 
 
   const capacity = GetCapacity(stage.capacity);
