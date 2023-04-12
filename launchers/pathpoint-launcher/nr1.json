@@ -1,7 +1,7 @@
 {
     "schemaType": "LAUNCHER",
     "id": "pathpoint-launcher",
-    "displayName": "Pathpoint",
+    "displayName": "HW Led Quoting User Journey",
     "description": "Digital Business Tracker",
     "rootNerdletId": "pathpoint-nerdlet"
 }

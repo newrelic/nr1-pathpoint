@@ -61,7 +61,7 @@ export default class InterfaceMigration {
         touchpoints.push({
           title: tp.title,
           status_on_off: tp.status_on_off,
-          dashboard_url: this.SetDashboard_url(tp.dashboard_url),
+          dashboard_url: tp.dashboard_url,
           related_steps: this.SetRelatedSteps(tp.subs, steps),
           queries: this.SetTouchpointQueries(tp.queryData)
         });
@@ -85,13 +85,6 @@ export default class InterfaceMigration {
     });
     data.kpis = [...Nkpis];
     return data;
-  }
-
-  SetDashboard_url(url) {
-    if (url === '') {
-      return false;
-    }
-    return [url];
   }
 
   SetRelatedSteps(subs, steps) {

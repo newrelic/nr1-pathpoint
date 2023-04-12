@@ -16,6 +16,8 @@ import iconDelete from '../../images/icon-delete.svg';
 import messages from '../../config/messages.json';
 import Toast from '../Toast/Toast';
 import warningIcon from '../../images/warning.svg';
+import addIcon from '../../images/addGreyIcon.svg';
+import removeIcon from '../../images/removeGreyIcon.svg';
 import {
   TimeRangeTransform,
   regex_measure_time
@@ -408,6 +410,45 @@ class BodyTouchpointsEditor extends Component {
     }
   };
 
+  AddSecondaryLinks = () => {
+    const { touchpoints } = this.state;
+    this.setState(state => {
+      const form = { ...state.form };
+      form[`tp_${state.current.touchpoint}`].dashboardLink.push({
+        nickName: '',
+        url: ''
+      });
+      form[`tp_${state.current.touchpoint}`].dashboardLink.push({
+        nickName: '',
+        url: ''
+      });
+      form[`tp_${state.current.touchpoint}`].dashboardLink.push({
+        nickName: '',
+        url: ''
+      });
+      return {
+        form,
+        touchpoints,
+        testQueryResult: '',
+        testQueryValue: ''
+      };
+    });
+  };
+
+  RemoveSecondaryLinks = () => {
+    const { touchpoints } = this.state;
+    this.setState(state => {
+      const form = { ...state.form };
+      form[`tp_${state.current.touchpoint}`].dashboardLink.pop();
+      return {
+        form,
+        touchpoints,
+        testQueryResult: '',
+        testQueryValue: ''
+      };
+    });
+  };
+
   DeleteTouchpoint = () => {
     if (this.state.current.touchpoint) {
       let title = '';
@@ -586,8 +627,33 @@ class BodyTouchpointsEditor extends Component {
             case 'queryMeasure':
               item.queryData.measure_time = value;
               break;
-            case 'dashboardLink':
-              item.dashboard_url = value;
+            case 'dashboardLink0':
+              if (item.dashboard_url.length === 0) {
+                item.dashboard_url.push({
+                  nickName: '',
+                  url: ''
+                });
+              }
+              item.dashboard_url[0].url = value;
+              break;
+            case 'dashboardLink1':
+              item.dashboard_url[1].url = value;
+              break;
+            case 'dashboardLink2':
+              item.dashboard_url[2].url = value;
+              break;
+            case 'dashboardLink3':
+              item.dashboard_url[3].url = value;
+              break;
+            case 'nickName1':
+              item.dashboard_url[1].nickName = value;
+              break;
+            case 'nickName2':
+              item.dashboard_url[2].nickName = value;
+              break;
+            case 'nickName3':
+              item.dashboard_url[3].nickName = value;
+              break;
           }
         }
         return found;
@@ -655,7 +721,9 @@ class BodyTouchpointsEditor extends Component {
           queryAccount:
             this.props.accountIDs.length > 0 ? this.props.accountIDs[0].id : 1,
           queryMeasure: '5 MINUTES AGO',
-          dashboardLink: 'https://onenr.io/01qwL8KPxw5',
+          dashboardLink: [
+            { nickname: '', url: 'https://onenr.io/01qwL8KPxw5' }
+          ],
           timeout: 10
         };
         let touchpoint = {
@@ -664,7 +732,9 @@ class BodyTouchpointsEditor extends Component {
           title: 'New Touchpoint',
           status_on_off: true,
           visible: true,
-          dashboard_url: 'https://onenr.io/01qwL8KPxw5',
+          dashboard_url: [
+            { nickname: '', url: 'https://onenr.io/01qwL8KPxw5' }
+          ],
           subs: [],
           queryData: {
             accountID:
@@ -2035,7 +2105,7 @@ class BodyTouchpointsEditor extends Component {
                         <input
                           onChange={e =>
                             this.HandleOnChange(
-                              'dashboardLink',
+                              'dashboardLink0',
                               e.target.value,
                               this.state.current.touchpoint
                             )
@@ -2043,7 +2113,11 @@ class BodyTouchpointsEditor extends Component {
                           value={
                             this.state.form[
                               `tp_${this.state.current.touchpoint}`
-                            ].dashboardLink
+                            ].dashboardLink.length > 0
+                              ? this.state.form[
+                                  `tp_${this.state.current.touchpoint}`
+                                ].dashboardLink[0].url
+                              : ''
                           }
                           type="text"
                           style={{
@@ -2057,6 +2131,147 @@ class BodyTouchpointsEditor extends Component {
                             lineHeight: '16px'
                           }}
                         />
+                        <div style={{ height: '20px' }} />
+                        {this.state.form[`tp_${this.state.current.touchpoint}`]
+                          .dashboardLink.length > 0 && (
+                          <label
+                            style={{
+                              fontFamily: 'Open Sans',
+                              fontStyle: 'normal',
+                              fontWeight: '600',
+                              fontSize: '14px',
+                              lineHeight: '19px'
+                            }}
+                          >
+                            Secondary Links
+                          </label>
+                        )}
+                        {this.state.form[`tp_${this.state.current.touchpoint}`]
+                          .dashboardLink.length === 1 && (
+                          <img
+                            style={{
+                              width: '15px',
+                              marginLeft: '20px',
+                              marginBottom: '10px',
+                              height: 'auto',
+                              cursor: 'pointer',
+                              transform: 'translateY(3px)'
+                            }}
+                            onClick={() => this.AddSecondaryLinks()}
+                            src={addIcon}
+                          />
+                        )}
+                        {this.state.form[`tp_${this.state.current.touchpoint}`]
+                          .dashboardLink.length > 1 && (
+                          <img
+                            style={{
+                              width: '15px',
+                              marginLeft: '20px',
+                              marginBottom: '10px',
+                              height: 'auto',
+                              cursor: 'pointer',
+                              transform: 'translateY(3px)'
+                            }}
+                            onClick={() => this.RemoveSecondaryLinks()}
+                            src={removeIcon}
+                          />
+                        )}
+                        {this.state.form[`tp_${this.state.current.touchpoint}`]
+                          .dashboardLink.length > 1 && (
+                          <div>
+                            <label
+                              style={{
+                                fontFamily: 'Open Sans',
+                                fontStyle: 'normal',
+                                fontWeight: '400',
+                                fontSize: '10px',
+                                lineHeight: '10px'
+                              }}
+                            >
+                              Nick Name
+                            </label>
+                            <label
+                              style={{
+                                fontFamily: 'Open Sans',
+                                fontStyle: 'normal',
+                                fontWeight: '400',
+                                fontSize: '11px',
+                                lineHeight: '10px',
+                                marginLeft: '60px'
+                              }}
+                            >
+                              URL
+                            </label>
+                          </div>
+                        )}
+                        {this.state.form[`tp_${this.state.current.touchpoint}`]
+                          .dashboardLink.length > 1 &&
+                          this.state.form[
+                            `tp_${this.state.current.touchpoint}`
+                          ].dashboardLink
+                            .slice(1)
+                            .map((link, i) => {
+                              return (
+                                <>
+                                  <input
+                                    key={i + 1}
+                                    onChange={e =>
+                                      this.HandleOnChange(
+                                        `nickName${i + 1}`,
+                                        e.target.value,
+                                        this.state.current.touchpoint
+                                      )
+                                    }
+                                    value={
+                                      this.state.form[
+                                        `tp_${this.state.current.touchpoint}`
+                                      ].dashboardLink[i + 1].nickName
+                                    }
+                                    type="text"
+                                    style={{
+                                      width: '100px',
+                                      background: '#FFFFFF',
+                                      border: '1px solid #BDBDBD',
+                                      boxSizing: 'border-box',
+                                      fontFamily: 'Open Sans',
+                                      fontStyle: 'normal',
+                                      fontWeight: '400',
+                                      fontSize: '12px',
+                                      lineHeight: '16px'
+                                    }}
+                                  />
+                                  <input
+                                    key={i + 1}
+                                    onChange={e =>
+                                      this.HandleOnChange(
+                                        `dashboardLink${i + 1}`,
+                                        e.target.value,
+                                        this.state.current.touchpoint
+                                      )
+                                    }
+                                    value={
+                                      this.state.form[
+                                        `tp_${this.state.current.touchpoint}`
+                                      ].dashboardLink[i + 1].url
+                                    }
+                                    type="text"
+                                    style={{
+                                      width: '270px',
+                                      background: '#FFFFFF',
+                                      border: '1px solid #BDBDBD',
+                                      boxSizing: 'border-box',
+                                      fontFamily: 'Open Sans',
+                                      fontStyle: 'normal',
+                                      fontWeight: '400',
+                                      fontSize: '12px',
+                                      lineHeight: '16px',
+                                      marginLeft: '10px'
+                                    }}
+                                  />
+                                  <div style={{ height: '10px' }} />
+                                </>
+                              );
+                            })}
                       </div>
                     )}
                 </>

@@ -65,7 +65,7 @@
   &--option {
     padding: 6px 0px 5px 0px;
     min-width: 160px;
-    cursor: default;
+    cursor: pointer;
     font-size: 12px;
     &:hover {
       background: linear-gradient(to top, #555, #333);
@@ -81,6 +81,14 @@
       color: #999999;
       pointer-events: none;
     }
+  }
+
+  &--optionLink {
+    padding: 6px 0px 5px 0px;
+    min-width: 160px;
+    cursor: pointer;
+    font-size: 12px;
+    color: #0486f8;
   }
 
   &--option2 {

@@ -62,7 +62,7 @@ export default class MainContainer extends React.Component {
     this.InterfaceMigration = null;
     this.state = {
       useEmulator: false,
-      accountName: '',
+      accountName: 'HPE IT Operations',
       username: '',
       guiEditor: true,
       jsonMetaData: {
@@ -1654,7 +1654,7 @@ export default class MainContainer extends React.Component {
           title: tp.title,
           status_on_off: tp.status_on_off,
           subs,
-          dashboard_url: tp.dashboard_url[0],
+          dashboard_url: tp.dashboard_url,
           queryData: {
             ...tp.queries[0]
           },

@@ -185,7 +185,7 @@ export default class TouchPoint extends React.Component {
             onClick={() => {
               if (touchpoint.dashboard_url !== false) {
                 if (touchpoint.dashboard_url[city] !== false) {
-                  window.open(touchpoint.dashboard_url[city]);
+                  window.open(touchpoint.dashboard_url[city].url);
                 }
               }
             }}
@@ -259,6 +259,24 @@ export default class TouchPoint extends React.Component {
                       Queries
                     </div>
                   </div>
+                  {touchpoint.dashboard_url.length > 1 &&
+                    touchpoint.dashboard_url.map((link, i) => {
+                      if (link.nickName !== '') {
+                        return (
+                          <div key={i + 1} className="contextMenuItem">
+                            <div
+                              onClick={() => {
+                                window.open(link.url);
+                              }}
+                              className="contextMenu--optionLink"
+                            >
+                              {`> ${link.nickName}`}
+                            </div>
+                          </div>
+                        );
+                      }
+                      return null;
+                    })}
                 </Form>
               </div>
             </div>

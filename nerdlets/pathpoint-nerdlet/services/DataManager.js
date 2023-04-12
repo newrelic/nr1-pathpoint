@@ -85,7 +85,7 @@ export function TimeRangeTransform(pointInTime, sinceClause) {
 }
 
 // DEFINE THE REGULAR EXPRESION FOR MEASURE TIME
-const regex_measure_time = /^((180|1[0-7][0-9]|[1-9][0-9]|[1-9])[\s]+minute[s]?|[1-3][\s]+hour[s]?)[\s]+ago/i;
+const regex_measure_time = /^((180|1[0-7][0-9]|[1-9][0-9]|[1-9])[\s]+minute[s]?|([1-9]|[1-9][1-9]|[1-9][1-9][1-9])[\s]+hour[s]?)[\s]+ago/i;
 export { regex_measure_time };
 
 // DEFINE AND EXPORT CLASS
@@ -116,6 +116,8 @@ export default class DataManager {
     this.credentials = {};
     this.generalConfiguration = {};
     this.dataCanary = Canary;
+    this.setupReload = 0;
+    this.lastSetupReload = null;
     this.configuration = {
       pathpointVersion: null,
       kpis: [],
@@ -166,6 +168,7 @@ export default class DataManager {
     // console.log('Last storage version: ' + this.lastStorageVersion);
 
     this.version = appPackage.version;
+    this.setupReload = appPackage.setupReload;
     /*
       After Pathpoint 1.5.1 we had no more breaking changes.
       We must NEVER allow breaking config changes in Pathpoint 1.x.x
@@ -179,13 +182,14 @@ export default class DataManager {
 
       For now this is okay...
     */
-    if (this.lastStorageVersion) {
-      // console.log('Re-using last stored configuration.');
+    // if (this.lastStorageVersion) {
+    if (this.setupReload === this.lastSetupReload) {
+      console.log('Re-using last stored configuration.');
       this.colors = ViewData.colors;
       await this.GetInitialDataFromStorage();
       await this.GetStorageTouchpoints();
     } else {
-      // console.log('No Previous configuration found.  Loading demo config.');
+      console.log('Loading demo config.');
       this.stages = ViewData.stages;
       this.colors = ViewData.colors;
       /* istanbul ignore next */
@@ -400,6 +404,7 @@ export default class DataManager {
       });
       if (data) {
         this.lastStorageVersion = data.Version;
+        this.lastSetupReload = data.setupReload;
       }
     } catch (error) {
       /* istanbul ignore next */
@@ -776,7 +781,7 @@ export default class DataManager {
           return 0;
         }
         if (errors && errors.length > 0) {
-          // console.log('NRDB-Error:', errors);
+          console.log('NRDB-Error:', errors);
         }
       }
       // console.log('DATA', JSON.stringify(data));
@@ -791,6 +796,7 @@ export default class DataManager {
               // const query = this.graphQlmeasures[Number(c[1])][1];
               // console.log('Query:',query);
               // console.log('Result',value);
+              measure.getNRDBvalues = false;
               if (
                 measure.type === 'PRC' &&
                 value.nrql !== null &&
@@ -801,6 +807,7 @@ export default class DataManager {
                   'session'
                 )
               ) {
+                measure.getNRDBvalues = true;
                 if (value.nrql.results[0].session == null) {
                   this.CheckIfResponseErrorCanBeSet(extraInfo, true);
                 }
@@ -815,6 +822,7 @@ export default class DataManager {
                   'count'
                 )
               ) {
+                measure.getNRDBvalues = true;
                 if (value.nrql.results[0].count == null) {
                   this.CheckIfResponseErrorCanBeSet(extraInfo, true);
                 }
@@ -841,6 +849,7 @@ export default class DataManager {
                   'error'
                 )
               ) {
+                measure.getNRDBvalues = true;
                 if (
                   value.nrql.results[0].response === null ||
                   value.nrql.results[0].error === null
@@ -872,6 +881,7 @@ export default class DataManager {
                   'error'
                 )
               ) {
+                measure.getNRDBvalues = true;
                 if (
                   value.nrql.results[0].response === null ||
                   value.nrql.results[0].error === null
@@ -899,6 +909,7 @@ export default class DataManager {
                   'request'
                 )
               ) {
+                measure.getNRDBvalues = true;
                 if (
                   value.nrql.results[0].success === null ||
                   value.nrql.results[0].duration === null ||
@@ -919,12 +930,12 @@ export default class DataManager {
                   'statusValue'
                 )
               ) {
+                measure.getNRDBvalues = true;
                 if (value.nrql.results[0].statusValue == null) {
                   this.CheckIfResponseErrorCanBeSet(extraInfo, true);
                 }
                 measure.status_value = value.nrql.results[0].statusValue;
               } else if (
-                /* istanbul ignore next */
                 measure.type === 'DRP' &&
                 value.nrql !== null &&
                 value.nrql.results &&
@@ -934,11 +945,10 @@ export default class DataManager {
                   'count'
                 )
               ) {
-                /* istanbul ignore next */
+                measure.getNRDBvalues = true;
                 if (value.nrql.results[0].count == null) {
                   this.CheckIfResponseErrorCanBeSet(extraInfo, true);
                 }
-                /* istanbul ignore next */
                 measure.value = value.nrql.results[0].count;
               } else if (
                 measure.type === 'APC' &&
@@ -950,6 +960,7 @@ export default class DataManager {
                   'count'
                 )
               ) {
+                measure.getNRDBvalues = true;
                 if (value.nrql.results[0].count == null) {
                   this.CheckIfResponseErrorCanBeSet(extraInfo, true);
                 }
@@ -976,6 +987,7 @@ export default class DataManager {
                   'error'
                 )
               ) {
+                measure.getNRDBvalues = true;
                 if (
                   value.nrql.results[0].response === null ||
                   value.nrql.results[0].error === null
@@ -995,6 +1007,7 @@ export default class DataManager {
                   'percentage'
                 )
               ) {
+                measure.getNRDBvalues = true;
                 if (value.nrql.results[0].percentage == null) {
                   this.CheckIfResponseErrorCanBeSet(extraInfo, true);
                 }
@@ -1045,6 +1058,7 @@ export default class DataManager {
                 }
               } else {
                 // the Touchpoint response is with ERROR
+                measure.getNRDBvalues = true;
                 this.CheckIfResponseErrorCanBeSet(extraInfo, true);
               }
             }
@@ -1069,6 +1083,7 @@ export default class DataManager {
   }
 
   CheckIfResponseErrorCanBeSet(extraInfo, status) {
+    console.log('ExtraINFO:', extraInfo, 'STATUS:', status);
     if (extraInfo !== null) {
       if (extraInfo.measureType === 'touchpoint') {
         this.SetTouchpointResponseError(extraInfo.touchpointRef, status);
@@ -1629,7 +1644,8 @@ export default class DataManager {
           ) {
             setError = true;
           }
-          if (setError) {
+          if (measure.getNRDBvalues && setError) {
+          //if (setError) {
             touchpoint.relation_steps.forEach(rel => {
               steps_with_error[rel - 1] = 1;
             });
@@ -1851,7 +1867,8 @@ export default class DataManager {
         collection: 'pathpoint',
         documentId: 'version',
         document: {
-          Version: this.version
+          Version: this.version,
+          setupReload: this.setupReload
         }
       });
     } catch (error) {

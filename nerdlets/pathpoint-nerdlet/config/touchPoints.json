@@ -5,50 +5,48 @@
     "touchpoints": [
       {
         "stage_index": 1,
-        "value": "Login People (PRC)",
+        "value": "Okta",
         "touchpoint_index": 1,
-        "status_on_off": true,
+        "status_on_off": false,
         "relation_steps": [
-          4
-        ],
-        "measure_points": [
-          {
-            "type": "PRC",
-            "timeout": 10,
-            "query": "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
-            "min_count": 10,
-            "max_count": 110,
-            "session_count": 0,
-            "accountID": 1,
-            "measure_time": "15 minutes ago"
-          }
-        ]
-      },
-      {
-        "stage_index": 1,
-        "value": "App Backend Health (APP)",
-        "touchpoint_index": 2,
-        "status_on_off": true,
-        "relation_steps": [
+          1,
           3
         ],
         "measure_points": [
           {
-            "type": "APP",
+            "accountID": 2781667,
+            "type": "APS",
+            "query": "from Transaction select percentage(count(*), where http.statusCode >=200 or http.statusCode <= 399) where appName='210135-Partner Ready Portal (PRP)-Production' and request.uri = '/group/prp'",
             "timeout": 10,
-            "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
-            "min_apdex": 0.4,
-            "max_response_time": 0.5,
-            "max_error_percentage": 5,
-            "apdex_value": 0,
-            "response_value": 0,
-            "error_percentage": 0
+            "min_success_percentage": 95,
+            "success_percentage": 0,
+            "measure_time": "5 MINUTES AGO"
           }
         ]
       },
       {
         "stage_index": 1,
-        "value": "API Performance (API)",
+        "value": "Home Page Load",
+        "touchpoint_index": 2,
+        "status_on_off": true,
+        "relation_steps": [
+          2
+        ],
+        "measure_points": [
+          {
+            "accountID": 2781667,
+            "type": "APS",
+            "query": "from Transaction select percentage(count(*), where http.statusCode >= 200 and http.statusCode <=399) where appName='210135-Partner Ready Portal (PRP)-Production' and request.uri='/group/prp/home'",
+            "timeout": 10,
+            "min_success_percentage": 95,
+            "success_percentage": 0,
+            "measure_time": "5 MINUTES AGO"
+          }
+        ]
+      },
+      {
+        "stage_index": 1,
+        "value": "Tools Catalog",
         "touchpoint_index": 3,
         "status_on_off": true,
         "relation_steps": [
@@ -56,21 +54,278 @@
         ],
         "measure_points": [
           {
-            "type": "API",
+            "accountID": 2781667,
+            "type": "APS",
+            "query": "from Transaction select percentage(count(*), where http.statusCode >=200 and http.statusCode <=399) where appName='210135-Partner Ready Portal (PRP)-Production' and request.uri='/group/prp/tools-catalog'",
             "timeout": 10,
-            "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
-            "min_apdex": 0.4,
-            "max_response_time": 0.5,
-            "max_error_percentage": 5,
-            "apdex_value": 0,
-            "response_value": 0,
-            "error_percentage": 0
+            "min_success_percentage": 95,
+            "success_percentage": 0,
+            "measure_time": "5 MINUTES AGO"
           }
         ]
       },
       {
         "stage_index": 1,
-        "value": "API Count (APC)",
+        "value": "System Overall Infra health",
+        "touchpoint_index": 4,
+        "status_on_off": true,
+        "relation_steps": [],
+        "measure_points": [
+          {
+            "accountID": 2781667,
+            "type": "WLD",
+            "query": "SELECT latest(statusValue) as statusValue  FROM WorkloadStatus WHERE entity.name = 'PRP_WorkLoad_Observability_22FEB'",
+            "timeout": 10,
+            "status_value": "NO-VALUE",
+            "measure_time": "15 MINUTES AGO"
+          }
+        ]
+      },
+      {
+        "stage_index": 1,
+        "value": "Synthetic Availability",
+        "touchpoint_index": 5,
+        "status_on_off": true,
+        "relation_steps": [],
+        "measure_points": [
+          {
+            "accountID": 2781667,
+            "type": "SYN",
+            "query": "select percentage(count(*), where responseCode <400) as success, max(duration) as duration, max(durationReceive) as request from SyntheticRequest where entityGuid = 'Mjc4MTY2N3xTWU5USHxNT05JVE9SfDQ5YTMwMmMwLTM4MTQtNDgxMS04YWYyLWM4NmY5MmFhODAxZA' and hierarchicalURL='prp-dxp.it.hpe.com/group/prp'",
+            "timeout": 10,
+            "max_avg_response_time": 200000,
+            "max_total_check_time": 900000,
+            "min_success_percentage": 50,
+            "success_percentage": 0,
+            "max_duration": 0,
+            "max_request_time": 0,
+            "measure_time": "60 MINUTES AGO"
+          }
+        ]
+      },
+      {
+        "stage_index": 1,
+        "value": "System Overall Performance",
+        "touchpoint_index": 6,
+        "status_on_off": true,
+        "relation_steps": [],
+        "measure_points": [
+          {
+            "accountID": 2781667,
+            "type": "APP",
+            "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName = '210135-Partner Ready Portal (PRP)-Production'",
+            "timeout": 10,
+            "min_apdex": 0.4,
+            "max_response_time": 500,
+            "max_error_percentage": 5,
+            "apdex_value": 0,
+            "response_value": 0,
+            "error_percentage": 0,
+            "measure_time": "5 MINUTES AGO"
+          }
+        ]
+      },
+      {
+        "stage_index": 1,
+        "value": "# of User Impacted due to Failures",
+        "touchpoint_index": 7,
+        "status_on_off": true,
+        "relation_steps": [],
+        "measure_points": [
+          {
+            "accountID": 2781667,
+            "type": "DRP",
+            "query": "SELECT count(*) FROM Transaction where appName = '210135-Partner Ready Portal (PRP)-Production' and request.uri='/group/prp' and http.statusCode >= 400 and http.statusCode <=599",
+            "timeout": 10,
+            "value": 0,
+            "measure_time": "48 HOURS AGO"
+          }
+        ]
+      },
+      {
+        "stage_index": 2,
+        "value": "SSO",
+        "touchpoint_index": 1,
+        "status_on_off": false,
+        "relation_steps": [
+          1
+        ],
+        "measure_points": [
+          {
+            "accountID": 2781667,
+            "type": "APS",
+            "query": "SELECT percentage(count(*), WHERE http.statusCode >=200 and http.statusCode <=399) FROM Transaction WHERE appName like '210135-Partner Ready Portal (PRP)-Production' and request.uri='/group/prp/esm'",
+            "timeout": 10,
+            "min_success_percentage": 95,
+            "success_percentage": 0,
+            "measure_time": "5 MINUTES AGO"
+          }
+        ]
+      },
+      {
+        "stage_index": 2,
+        "value": "Load Opportunity Page",
+        "touchpoint_index": 2,
+        "status_on_off": true,
+        "relation_steps": [
+          2
+        ],
+        "measure_points": [
+          {
+            "accountID": 2781667,
+            "type": "APS",
+            "query": "SELECT percentage(count(*), WHERE http.statusCode >=200 and http.statusCode <=399) FROM Transaction WHERE appName like '210135-Partner Ready Portal (PRP)-Production' and request.uri='/group/prp/esm'",
+            "timeout": 10,
+            "min_success_percentage": 95,
+            "success_percentage": 0,
+            "measure_time": "5 MINUTES AGO"
+          }
+        ]
+      },
+      {
+        "stage_index": 2,
+        "value": "System Overall Infra health",
+        "touchpoint_index": 3,
+        "status_on_off": true,
+        "relation_steps": [],
+        "measure_points": [
+          {
+            "accountID": 2781667,
+            "type": "WLD",
+            "query": "SELECT latest(statusValue) as statusValue  FROM WorkloadStatus WHERE entity.name = 'PRP_WorkLoad_Observability_22FEB'",
+            "timeout": 10,
+            "status_value": "NO-VALUE",
+            "measure_time": "15 MINUTES AGO"
+          }
+        ]
+      },
+      {
+        "stage_index": 2,
+        "value": "Synthetic Availability",
+        "touchpoint_index": 4,
+        "status_on_off": true,
+        "relation_steps": [],
+        "measure_points": [
+          {
+            "accountID": 2781667,
+            "type": "SYN",
+            "query": "select percentage(count(*), where responseCode <400) as success, max(duration) as duration, max(durationReceive) as request from SyntheticRequest where entityGuid = 'Mjc4MTY2N3xTWU5USHxNT05JVE9SfDQ5YTMwMmMwLTM4MTQtNDgxMS04YWYyLWM4NmY5MmFhODAxZA' and hierarchicalURL='hp--community.force.com/partnerlightning/s/opportunity/Opportunity/Default'",
+            "timeout": 10,
+            "max_avg_response_time": 200000,
+            "max_total_check_time": 900000,
+            "min_success_percentage": 95,
+            "success_percentage": 0,
+            "max_duration": 0,
+            "max_request_time": 0,
+            "measure_time": "60 MINUTES AGO"
+          }
+        ]
+      },
+      {
+        "stage_index": 2,
+        "value": "Create Quote",
+        "touchpoint_index": 5,
+        "status_on_off": true,
+        "relation_steps": [
+          3
+        ],
+        "measure_points": [
+          {
+            "accountID": 2781667,
+            "type": "APS",
+            "query": "SELECT percentage(count(*), where http.statusCode >=200 and http.statusCode <=399)  FROM Transaction where appName = '212948-Next Generation Quoter-PRD' \nand request.uri='/q2cwngq/selfservice/getEmptyQuote'",
+            "timeout": 10,
+            "min_success_percentage": 95,
+            "success_percentage": 0,
+            "measure_time": "5 MINUTES AGO"
+          }
+        ]
+      },
+      {
+        "stage_index": 2,
+        "value": "System Overall Performance",
+        "touchpoint_index": 6,
+        "status_on_off": true,
+        "relation_steps": [],
+        "measure_points": [
+          {
+            "accountID": 2781667,
+            "type": "APP",
+            "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName = '210135-Partner Ready Portal (PRP)-Production'",
+            "timeout": 10,
+            "min_apdex": 0.4,
+            "max_response_time": 500,
+            "max_error_percentage": 5,
+            "apdex_value": 0,
+            "response_value": 0,
+            "error_percentage": 0,
+            "measure_time": "5 MINUTES AGO"
+          }
+        ]
+      },
+      {
+        "stage_index": 3,
+        "value": "Import Opty",
+        "touchpoint_index": 1,
+        "status_on_off": true,
+        "relation_steps": [
+          1
+        ],
+        "measure_points": [
+          {
+            "accountID": 2781667,
+            "type": "APS",
+            "query": "SELECT percentage(count(*), where http.statusCode >=200 and http.statusCode <=399) FROM Transaction WHERE appName ='212948-Next Generation Quoter-PRD' and\nrequest.uri='/q2cwngq/opty/lookup'",
+            "timeout": 10,
+            "min_success_percentage": 95,
+            "success_percentage": 0,
+            "measure_time": "5 MINUTES AGO"
+          }
+        ]
+      },
+      {
+        "stage_index": 3,
+        "value": "Add Product",
+        "touchpoint_index": 2,
+        "status_on_off": true,
+        "relation_steps": [
+          2
+        ],
+        "measure_points": [
+          {
+            "accountID": 2781667,
+            "type": "APS",
+            "query": "SELECT percentage(count(*), WHERE http.statusCode >=200 and http.statusCode <=399) FROM Transaction WHERE appName='212948-Next Generation Quoter-PRD' AND \nrequest.uri='/q2cwngq/itemDetail/getNewItemDetail'",
+            "timeout": 10,
+            "min_success_percentage": 95,
+            "success_percentage": 0,
+            "measure_time": "5 MINUTES AGO"
+          }
+        ]
+      },
+      {
+        "stage_index": 3,
+        "value": "Config Product",
+        "touchpoint_index": 3,
+        "status_on_off": true,
+        "relation_steps": [
+          3
+        ],
+        "measure_points": [
+          {
+            "accountID": 2781667,
+            "type": "APS",
+            "query": "SELECT percentage(count(*), WHERE http.statusCode >=200 and http.statusCode <=399) FROM Transaction WHERE appName='212948-Next Generation Quoter-PRD' AND request.uri='/q2cwngq/ocaConfig/getBomByUcid' or request.uri='/q2cwngq/ocacomparison/checkifmerge' or request.uri= '/q2cwngq/importMultipleUcids' or request.uri='/q2cwngq/itemDetail/getBundleBOM'",
+            "timeout": 10,
+            "min_success_percentage": 95,
+            "success_percentage": 0,
+            "measure_time": "5 MINUTES AGO"
+          }
+        ]
+      },
+      {
+        "stage_index": 3,
+        "value": "SaveQuote",
         "touchpoint_index": 4,
         "status_on_off": true,
         "relation_steps": [
@@ -78,60 +333,58 @@
         ],
         "measure_points": [
           {
-            "type": "APC",
+            "accountID": 2781667,
+            "type": "APS",
+            "query": "from Transaction select percentage(count(*), where http.statusCode >=200 and http.statusCode <=399) as percentage where appName = '212948-Next Generation Quoter-PRD' and request.uri='/q2cwngq/qids/saveNewQuoteToQids'",
             "timeout": 10,
-            "query": "SELECT count(*) as count FROM Public_APICall WHERE awsRegion='queue'",
-            "min_count": 10,
-            "max_count": 110,
-            "api_count": 0,
-            "measure_time": "15 minutes ago"
+            "min_success_percentage": 0,
+            "success_percentage": 0,
+            "measure_time": "5 MINUTES AGO"
           }
         ]
       },
       {
-        "stage_index": 1,
-        "value": "API Status (APS)",
+        "stage_index": 3,
+        "value": "System Overall Infra Health",
         "touchpoint_index": 5,
         "status_on_off": true,
-        "relation_steps": [
-          5
-        ],
+        "relation_steps": [],
         "measure_points": [
           {
-            "type": "APS",
+            "accountID": 2781667,
+            "type": "WLD",
+            "query": "SELECT latest(statusValue) as statusValue  FROM WorkloadStatus WHERE entity.name = 'NextGenerationQuoter-PROD'",
             "timeout": 10,
-            "query": "SELECT percentage(count(*),WHERE isStatus='ok') as percentage from PathpointKpiHealth",
-            "min_success_percentage": 98,
-            "success_percentage": 0,
-            "measure_time": "2 hours ago"
+            "status_value": "NO-VALUE",
+            "measure_time": "15 MINUTES AGO"
           }
         ]
       },
       {
-        "stage_index": 1,
-        "value": "App Frontend Health (FRT)",
+        "stage_index": 3,
+        "value": "Synthetic Availability",
         "touchpoint_index": 6,
-        "status_on_off": true,
-        "relation_steps": [
-          1
-        ],
+        "status_on_off": false,
+        "relation_steps": [],
         "measure_points": [
           {
-            "type": "FRT",
+            "accountID": 2781667,
+            "type": "SYN",
+            "query": "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE entityGuid ='Mjc4MTY2N3xTWU5USHxNT05JVE9SfDQ5YTMwMmMwLTM4MTQtNDgxMS04YWYyLWM4NmY5MmFhODAxZA'",
             "timeout": 10,
-            "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
-            "min_apdex": 0.6,
-            "max_response_time": 1.2,
-            "max_error_percentage": 5,
-            "apdex_value": 0,
-            "response_value": 0,
-            "error_percentage": 0
+            "max_avg_response_time": 200000,
+            "max_total_check_time": 900000,
+            "min_success_percentage": 95,
+            "success_percentage": 0,
+            "max_duration": 0,
+            "max_request_time": 0,
+            "measure_time": "60 MINUTES AGO"
           }
         ]
       },
       {
-        "stage_index": 1,
-        "value": "Login Check (SYN)",
+        "stage_index": 3,
+        "value": "# of Saved Quotes - Passed",
         "touchpoint_index": 7,
         "status_on_off": true,
         "relation_steps": [
@@ -139,188 +392,82 @@
         ],
         "measure_points": [
           {
-            "type": "SYN",
+            "accountID": 2781667,
+            "type": "PCC",
+            "query": "SELECT count(*)  FROM Transaction where appName = '212948-Next Generation Quoter-PRD' and http.statusCode >=200 and http.statusCode <=399 and request.uri='/q2cwngq/qids/saveNewQuoteToQids'",
             "timeout": 10,
-            "query": "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE monitorName='BDB Live person'",
-            "max_avg_response_time": 0.7,
-            "max_total_check_time": 1.25,
-            "min_success_percentage": 98,
-            "success_percentage": 0,
-            "max_duration": 0,
-            "max_request_time": 0,
-            "measure_time": "3 hours ago"
+            "min_count": 1,
+            "max_count": 1e+23,
+            "transaction_count": 0,
+            "measure_time": "5 MINUTES AGO"
           }
         ]
       },
       {
-        "stage_index": 1,
-        "value": "Signup People (PRC)",
+        "stage_index": 3,
+        "value": "# of Saved Quotes - Failed",
         "touchpoint_index": 8,
         "status_on_off": true,
         "relation_steps": [
-          5
+          4
         ],
         "measure_points": [
           {
-            "type": "PRC",
+            "accountID": 2781667,
+            "type": "PCC",
+            "query": "SELECT count(*)  FROM Transaction where appName = '212948-Next Generation Quoter-PRD'  and http.statusCode >=400 and request.uri='/q2cwngq/qids/saveNewQuoteToQids'",
             "timeout": 10,
-            "query": "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='us-east-1'",
-            "min_count": 36,
-            "max_count": 136,
-            "session_count": 0
+            "min_count": 0,
+            "max_count": 0,
+            "transaction_count": 0,
+            "measure_time": "5 MINUTES AGO"
           }
         ]
       },
       {
-        "stage_index": 1,
-        "value": "Workload (WLD)",
+        "stage_index": 3,
+        "value": "System Overall Performance",
         "touchpoint_index": 9,
         "status_on_off": true,
         "relation_steps": [],
         "measure_points": [
           {
-            "type": "WLD",
+            "accountID": 2781667,
+            "type": "APP",
+            "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName = '212948-Next Generation Quoter-PRD'",
             "timeout": 10,
-            "query": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='ACME Banking'",
-            "status_value": "NO-VALUE"
+            "min_apdex": 4,
+            "max_response_time": 500,
+            "max_error_percentage": 5,
+            "apdex_value": 0,
+            "response_value": 0,
+            "error_percentage": 0,
+            "measure_time": "5 MINUTES AGO"
           }
         ]
       },
       {
-        "stage_index": 1,
-        "value": "Drop Touchpoint (DRP)",
+        "stage_index": 3,
+        "value": "Drop outs - Save Quotes",
         "touchpoint_index": 10,
         "status_on_off": true,
         "relation_steps": [
-          1,
-          3
-        ],
-        "measure_points": [
-          {
-            "type": "DRP",
-            "timeout": 10,
-            "query": "SELECT count(*) as count FROM Public_APICall WHERE api='adyen.com'",
-            "value": 0
-          }
-        ]
-      },
-      {
-        "stage_index": 2,
-        "value": "Catalog API USE (PCC)",
-        "touchpoint_index": 1,
-        "status_on_off": true,
-        "relation_steps": [
-          1
-        ],
-        "measure_points": [
-          {
-            "type": "PCC",
-            "timeout": 10,
-            "query": "SELECT count(*) FROM Public_APICall WHERE awsRegion='us-east-1'",
-            "min_count": 20,
-            "max_count": 120,
-            "transaction_count": 0
-          }
-        ]
-      },
-      {
-        "stage_index": 2,
-        "value": "Pricing API (APP)",
-        "touchpoint_index": 2,
-        "status_on_off": true,
-        "relation_steps": [
           4
         ],
         "measure_points": [
           {
-            "type": "APP",
-            "timeout": 10,
-            "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
-            "min_apdex": 0.4,
-            "max_response_time": 0.5,
-            "max_error_percentage": 5,
-            "apdex_value": 0,
-            "response_value": 0,
-            "error_percentage": 0
-          }
-        ]
-      },
-      {
-        "stage_index": 2,
-        "value": "Master Data API (FRT)",
-        "touchpoint_index": 3,
-        "status_on_off": true,
-        "relation_steps": [
-          6
-        ],
-        "measure_points": [
-          {
-            "type": "FRT",
-            "timeout": 10,
-            "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
-            "min_apdex": 0.6,
-            "max_response_time": 1.2,
-            "max_error_percentage": 5,
-            "apdex_value": 0,
-            "response_value": 0,
-            "error_percentage": 0
-          }
-        ]
-      },
-      {
-        "stage_index": 2,
-        "value": "Subscriptions API (PCC)",
-        "touchpoint_index": 4,
-        "status_on_off": true,
-        "relation_steps": [
-          8
-        ],
-        "measure_points": [
-          {
-            "type": "PCC",
-            "timeout": 10,
-            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name='WebTransaction/Action/login'",
-            "min_count": 36,
-            "max_count": 136,
-            "transaction_count": 0
-          }
-        ]
-      },
-      {
-        "stage_index": 2,
-        "value": "Workload (WLD)",
-        "touchpoint_index": 5,
-        "status_on_off": true,
-        "relation_steps": [],
-        "measure_points": [
-          {
-            "type": "WLD",
-            "timeout": 10,
-            "query": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='Acme Telco - Ecommerce'",
-            "status_value": "NO-VALUE"
-          }
-        ]
-      },
-      {
-        "stage_index": 2,
-        "value": "Drop Touchpoint (DRP)",
-        "touchpoint_index": 6,
-        "status_on_off": true,
-        "relation_steps": [
-          1
-        ],
-        "measure_points": [
-          {
+            "accountID": 2781667,
             "type": "DRP",
+            "query": "SELECT count(*)  FROM Transaction where appName = '212948-Next Generation Quoter-PRD'  and http.statusCode >=400 and request.uri='/q2cwngq/qids/saveNewQuoteToQids'",
             "timeout": 10,
-            "query": "SELECT count(*) as count FROM Public_APICall WHERE api='magentocommerce.com'",
-            "value": 0
+            "value": 0,
+            "measure_time": "48 HOURS AGO"
           }
         ]
       },
       {
-        "stage_index": 3,
-        "value": "Session Manager API (PCC)",
+        "stage_index": 4,
+        "value": "Addison pricing call",
         "touchpoint_index": 1,
         "status_on_off": true,
         "relation_steps": [
@@ -328,82 +475,80 @@
         ],
         "measure_points": [
           {
-            "type": "PCC",
+            "accountID": 2781667,
+            "type": "APS",
+            "query": "select percentage(count(*), where http.statusCode >=200 and http.statusCode <=399) from Transaction where appName in ('211240-ADDISON-Production-pricing-services', '211240-ADDISON-Production-pricing', '211240-ADDISON-Production-deal-services') and (request.uri='/api/deal-offers' or request.uri='/api/get-exchange-rate' or request.uri='/api/get-ibp-exclusion' or request.uri='/api/get-ibp-percentage' or request.uri='/api/pricing/flexible-ibp' or request.uri ='/api/promotion-deals' or request.uri='/api/search/products' or request.uri='/api/v2/discount-indicators' or request.uri ='/api/v2/pricing/promotion-deals' or request.uri ='/api/v2/simulations/offer-prices' or request.uri ='/api/v3/simulate-sales-orders')",
             "timeout": 10,
-            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name='WebTransaction/Action/login'",
-            "min_count": 36,
-            "max_count": 136,
-            "transaction_count": 0
+            "min_success_percentage": 95,
+            "success_percentage": 0,
+            "measure_time": "5 MINUTES AGO"
           }
         ]
       },
       {
-        "stage_index": 3,
-        "value": "Checkout Check (SYN)",
+        "stage_index": 4,
+        "value": "C4 cost",
         "touchpoint_index": 2,
-        "status_on_off": true,
+        "status_on_off": false,
         "relation_steps": [
-          3
+          1
         ],
         "measure_points": [
           {
-            "type": "SYN",
+            "accountID": 2781667,
+            "type": "APS",
+            "query": "SELECT percentage(count(*), WHERE http.statusCode >=200 and http.statusCode <=399) FROM Transaction WHERE appName='212948-Next Generation Quoter-PRD' AND request.uri = '/q2cwngq/ngqpricing/toleranceLevel'",
             "timeout": 10,
-            "query": "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE monitorName='BDB Live person'",
-            "max_avg_response_time": 0.7,
-            "max_total_check_time": 1.25,
-            "min_success_percentage": 98,
+            "min_success_percentage": 95,
             "success_percentage": 0,
-            "max_duration": 0,
-            "max_request_time": 0,
-            "measure_time": "2 hours ago"
+            "measure_time": "5 MINUTES AGO"
           }
         ]
       },
       {
-        "stage_index": 3,
-        "value": "Customer Credit API (PCC)",
+        "stage_index": 4,
+        "value": "Optimus (PROS)",
         "touchpoint_index": 3,
         "status_on_off": true,
         "relation_steps": [
-          5
+          1
         ],
         "measure_points": [
           {
-            "type": "PCC",
+            "accountID": 2781667,
+            "type": "APS",
+            "query": "select percentage(count(*), where http.statusCode >=200 and http.statusCode <=399) from Transaction where appName in ('200394-Pricing Analytics-Production', '200394-Pricing Analytics-Production-Optimus') and request.uri='/optimus/services/OptimusService'",
             "timeout": 10,
-            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name LIKE 'WebTransaction/Action/App%'",
-            "min_count": 20,
-            "max_count": 120,
-            "transaction_count": 0
+            "min_success_percentage": 95,
+            "success_percentage": 0,
+            "measure_time": "5 MINUTES AGO"
           }
         ]
       },
       {
-        "stage_index": 3,
-        "value": "Gift Card API (APP)",
+        "stage_index": 4,
+        "value": "PPSS",
         "touchpoint_index": 4,
         "status_on_off": true,
         "relation_steps": [
-          9
+          1,
+          2
         ],
         "measure_points": [
           {
-            "type": "APP",
+            "accountID": 2948930,
+            "type": "APS",
+            "query": "from Transaction select percentage(count(*), where http.statusCode >=200 and http.statusCode <=399) where appName in ('213083-Pricing Analytics-PRD-PPSS','213083-Pricing Analytics-PRD') and request.uri='/axis2/services/PricingService'",
             "timeout": 10,
-            "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
-            "min_apdex": 0.4,
-            "max_response_time": 0.5,
-            "max_error_percentage": 5,
-            "apdex_value": 0,
-            "response_value": 0,
-            "error_percentage": 0
+            "min_success_percentage": 95,
+            "success_percentage": 0,
+            "measure_time": "5 MINUTES AGO"
           }
         ]
       },
       {
-        "stage_index": 3,
-        "value": "Gift Card Hub API (FRT)",
+        "stage_index": 4,
+        "value": "AutoSave to Qids",
         "touchpoint_index": 5,
         "status_on_off": true,
         "relation_steps": [
@@ -411,210 +556,161 @@
         ],
         "measure_points": [
           {
-            "type": "FRT",
+            "accountID": 2781667,
+            "type": "APS",
+            "query": "SELECT percentage(count(*), WHERE http.statusCode >=200 and http.statusCode <=399) FROM Transaction WHERE appName='212948-Next Generation Quoter-PRD' AND request.uri='/q2cwngq/ngqaction/autoSave'",
             "timeout": 10,
-            "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
-            "min_apdex": 0.6,
-            "max_response_time": 1.2,
-            "max_error_percentage": 5,
-            "apdex_value": 0,
-            "response_value": 0,
-            "error_percentage": 0
-          }
-        ]
-      },
-      {
-        "stage_index": 3,
-        "value": "Catalog API (PCC)",
-        "touchpoint_index": 6,
-        "status_on_off": true,
-        "relation_steps": [
-          4
-        ],
-        "measure_points": [
-          {
-            "type": "PCC",
-            "timeout": 10,
-            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name='WebTransaction/Action/login'",
-            "min_count": 36,
-            "max_count": 136,
-            "transaction_count": 0
-          }
-        ]
-      },
-      {
-        "stage_index": 3,
-        "value": "Workload (WLD)",
-        "touchpoint_index": 7,
-        "status_on_off": true,
-        "relation_steps": [],
-        "measure_points": [
-          {
-            "type": "WLD",
-            "timeout": 10,
-            "query": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='Demotron V2 - Acme Dev'",
-            "status_value": "NO-VALUE"
-          }
-        ]
-      },
-      {
-        "stage_index": 3,
-        "value": "Drop Touchpoint (DRP)",
-        "touchpoint_index": 8,
-        "status_on_off": true,
-        "relation_steps": [
-          3,
-          8
-        ],
-        "measure_points": [
-          {
-            "type": "DRP",
-            "timeout": 10,
-            "query": "SELECT count(*) as count FROM Public_APICall WHERE api='openexchangerates.org'",
-            "value": 0
+            "min_success_percentage": 95,
+            "success_percentage": 0,
+            "measure_time": "5 MINUTES AGO"
           }
         ]
       },
       {
         "stage_index": 4,
-        "value": "Orders API (PRC)",
-        "touchpoint_index": 1,
+        "value": "# of Price Check - Passed",
+        "touchpoint_index": 6,
         "status_on_off": true,
         "relation_steps": [
           1
         ],
         "measure_points": [
           {
-            "type": "PRC",
+            "accountID": 2781667,
+            "type": "PCC",
+            "query": "SELECT count(*) FROM Transaction WHERE http.statusCode >=200 and http.statusCode <=399 and appName LIKE '212948-Next Generation Quoter-PRD' and request.uri='/q2cwngq/ngqpricing/refreshOptimusWithSH'",
             "timeout": 10,
-            "query": "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='ap-southeast-2'",
-            "min_count": 10,
-            "max_count": 110,
-            "session_count": 0
+            "min_count": 1,
+            "max_count": 1e+23,
+            "transaction_count": 0,
+            "measure_time": "5 MINUTES AGO"
           }
         ]
       },
       {
         "stage_index": 4,
-        "value": "Customer Credit API (APP)",
-        "touchpoint_index": 2,
+        "value": "System Overall Infra Health",
+        "touchpoint_index": 7,
         "status_on_off": true,
-        "relation_steps": [
-          4
-        ],
+        "relation_steps": [],
         "measure_points": [
           {
-            "type": "APP",
+            "accountID": 2781667,
+            "type": "WLD",
+            "query": "SELECT latest(statusValue) as statusValue  FROM WorkloadStatus WHERE entity.name = 'NextGenerationQuoter-PROD'",
             "timeout": 10,
-            "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
-            "min_apdex": 0.4,
-            "max_response_time": 0.5,
-            "max_error_percentage": 5,
-            "apdex_value": 0,
-            "response_value": 0,
-            "error_percentage": 0
+            "status_value": "NO-VALUE",
+            "measure_time": "15 MINUTES AGO"
           }
         ]
       },
       {
         "stage_index": 4,
-        "value": "Gift Card API (FRT)",
-        "touchpoint_index": 3,
-        "status_on_off": true,
-        "relation_steps": [
-          7
-        ],
+        "value": "Synthetic Availability",
+        "touchpoint_index": 8,
+        "status_on_off": false,
+        "relation_steps": [],
         "measure_points": [
           {
-            "type": "FRT",
-            "timeout": 10,
-            "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
-            "min_apdex": 0.6,
-            "max_response_time": 1.2,
-            "max_error_percentage": 5,
-            "apdex_value": 0,
-            "response_value": 0,
-            "error_percentage": 0
-          }
-        ]
-      },
-      {
-        "stage_index": 4,
-        "value": "Gift Card Hub API (SYN)",
-        "touchpoint_index": 4,
-        "status_on_off": true,
-        "relation_steps": [
-          9
-        ],
-        "measure_points": [
-          {
+            "accountID": 2781667,
             "type": "SYN",
+            "query": "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE entityGuid ='Mjc4MTY2N3xTWU5USHxNT05JVE9SfDQ5YTMwMmMwLTM4MTQtNDgxMS04YWYyLWM4NmY5MmFhODAxZA'",
             "timeout": 10,
-            "query": "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE monitorName='BDB Live person'",
-            "max_avg_response_time": 0.7,
-            "max_total_check_time": 1.25,
-            "min_success_percentage": 98,
+            "max_avg_response_time": 200000,
+            "max_total_check_time": 900000,
+            "min_success_percentage": 95,
             "success_percentage": 0,
             "max_duration": 0,
             "max_request_time": 0,
-            "measure_time": "1 hour ago"
+            "measure_time": "5 MINUTES AGO"
           }
         ]
       },
       {
         "stage_index": 4,
-        "value": "Logistics API (PRC)",
-        "touchpoint_index": 5,
-        "status_on_off": true,
-        "relation_steps": [
-          10
-        ],
-        "measure_points": [
-          {
-            "type": "PRC",
-            "timeout": 10,
-            "query": "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='us-west-1'",
-            "min_count": 36,
-            "max_count": 136,
-            "session_count": 0
-          }
-        ]
-      },
-      {
-        "stage_index": 4,
-        "value": "Workload (WLD)",
-        "touchpoint_index": 6,
-        "status_on_off": true,
-        "relation_steps": [],
-        "measure_points": [
-          {
-            "type": "WLD",
-            "timeout": 10,
-            "query": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='Databases'",
-            "status_value": "NO-VALUE"
-          }
-        ]
-      },
-      {
-        "stage_index": 4,
-        "value": "Drop Touchpoint (DRP)",
-        "touchpoint_index": 7,
+        "value": "# of Price Check - Failed",
+        "touchpoint_index": 9,
         "status_on_off": true,
         "relation_steps": [
           1
         ],
         "measure_points": [
           {
-            "type": "DRP",
+            "accountID": 2781667,
+            "type": "PCC",
+            "query": "SELECT count(*) FROM Transaction WHERE http.statusCode >=400 and appName LIKE '212948-Next Generation Quoter-PRD' and request.uri='/q2cwngq/ngqpricing/refreshOptimusWithSH'",
             "timeout": 10,
-            "query": "SELECT count(*) as count FROM Public_APICall WHERE api='packagist.org'",
-            "value": 0
+            "min_count": 0,
+            "max_count": 0,
+            "transaction_count": 0,
+            "measure_time": "5 MINUTES AGO"
+          }
+        ]
+      },
+      {
+        "stage_index": 4,
+        "value": "System Overall Performance",
+        "touchpoint_index": 10,
+        "status_on_off": true,
+        "relation_steps": [],
+        "measure_points": [
+          {
+            "accountID": 2781667,
+            "type": "APP",
+            "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName = '212948-Next Generation Quoter-PRD'",
+            "timeout": 10,
+            "min_apdex": 0.4,
+            "max_response_time": 500,
+            "max_error_percentage": 5,
+            "apdex_value": 0,
+            "response_value": 0,
+            "error_percentage": 0,
+            "measure_time": "1 MINUTES AGO"
+          }
+        ]
+      },
+      {
+        "stage_index": 4,
+        "value": "SFDC Deal reg",
+        "touchpoint_index": 11,
+        "status_on_off": true,
+        "relation_steps": [
+          1
+        ],
+        "measure_points": [
+          {
+            "accountID": 2781667,
+            "type": "APS",
+            "query": "SELECT percentage(count(*), where http.statusCode >=200 and http.statusCode <=399)  FROM Transaction where appName = '212948-Next Generation Quoter-PRD' and request.uri='/q2cwngq/ngqpricing/getDealRegBenefits'",
+            "timeout": 10,
+            "min_success_percentage": 95,
+            "success_percentage": 0,
+            "measure_time": "5 MINUTES AGO"
+          }
+        ]
+      },
+      {
+        "stage_index": 4,
+        "value": "Drop Outs - Price checks",
+        "touchpoint_index": 12,
+        "status_on_off": true,
+        "relation_steps": [
+          1
+        ],
+        "measure_points": [
+          {
+            "accountID": 2781667,
+            "type": "DRP",
+            "query": "SELECT count(*) FROM Transaction WHERE http.statusCode >=400 and appName LIKE '212948-Next Generation Quoter-PRD' and request.uri='/q2cwngq/ngqpricing/refreshOptimusWithSH'",
+            "timeout": 10,
+            "value": 0,
+            "measure_time": "48 HOURS AGO"
           }
         ]
       },
       {
         "stage_index": 5,
-        "value": "VTEX Do API (PCC)",
+        "value": "Validate Price",
         "touchpoint_index": 1,
         "status_on_off": true,
         "relation_steps": [
@@ -622,18 +718,261 @@
         ],
         "measure_points": [
           {
-            "type": "PCC",
+            "accountID": 2781667,
+            "type": "APS",
+            "query": "SELECT percentage(count(*), WHERE http.statusCode >=200 and http.statusCode <=399) FROM Transaction WHERE appName='212948-Next Generation Quoter-PRD' AND  request.uri='/q2cwngq/ngqpricing/preCompleteCheck'",
             "timeout": 10,
-            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name='WebTransaction/Action/login'",
-            "min_count": 36,
-            "max_count": 136,
-            "transaction_count": 0
+            "min_success_percentage": 95,
+            "success_percentage": 0,
+            "measure_time": "5 MINUTES AGO"
           }
         ]
       },
       {
         "stage_index": 5,
-        "value": "Subscriptions API (SYN)",
+        "value": "Bundle",
+        "touchpoint_index": 2,
+        "status_on_off": true,
+        "relation_steps": [
+          1
+        ],
+        "measure_points": [
+          {
+            "accountID": 2781667,
+            "type": "APS",
+            "query": "SELECT percentage(count(*), WHERE http.statusCode >=200 and http.statusCode <=399) FROM Transaction WHERE appName='212948-Next Generation Quoter-PRD' AND  request.uri = '/q2cwngq/ngq/ngq/bundleCheck'",
+            "timeout": 10,
+            "min_success_percentage": 95,
+            "success_percentage": 0,
+            "measure_time": "5 MINUTES AGO"
+          }
+        ]
+      },
+      {
+        "stage_index": 5,
+        "value": "Config Check (clic)",
+        "touchpoint_index": 3,
+        "status_on_off": true,
+        "relation_steps": [
+          1
+        ],
+        "measure_points": [
+          {
+            "accountID": 2781667,
+            "type": "APS",
+            "query": "SELECT percentage(count(*), WHERE http.statusCode >=200 and http.statusCode <=399) FROM Transaction WHERE appName='212948-Next Generation Quoter-PRD' AND  request.uri='/q2cwngq/ngq/ngq/submitToClic'",
+            "timeout": 10,
+            "min_success_percentage": 95,
+            "success_percentage": 0,
+            "measure_time": "5 MINUTES AGO"
+          }
+        ]
+      },
+      {
+        "stage_index": 5,
+        "value": "Data Check",
+        "touchpoint_index": 4,
+        "status_on_off": true,
+        "relation_steps": [
+          1
+        ],
+        "measure_points": [
+          {
+            "accountID": 2781667,
+            "type": "APS",
+            "query": "SELECT percentage(count(*), WHERE http.statusCode >=200 and http.statusCode <=399) FROM Transaction WHERE appName='212948-Next Generation Quoter-PRD'  and request.uri ='/q2cwngq/prevalidation/dataCheck'",
+            "timeout": 10,
+            "min_success_percentage": 95,
+            "success_percentage": 0,
+            "measure_time": "5 MINUTES AGO"
+          }
+        ]
+      },
+      {
+        "stage_index": 5,
+        "value": "Deal Create",
+        "touchpoint_index": 5,
+        "status_on_off": true,
+        "relation_steps": [
+          3
+        ],
+        "measure_points": [
+          {
+            "accountID": 2781667,
+            "type": "APS",
+            "query": "SELECT percentage(count(*), WHERE http.statusCode >=200 and http.statusCode <=399) FROM Transaction WHERE appName='212948-Next Generation Quoter-PRD' AND request.uri='/q2cwngq/ngqedm/createDealWin'",
+            "timeout": 10,
+            "min_success_percentage": 95,
+            "success_percentage": 0,
+            "measure_time": "5 MINUTES AGO"
+          }
+        ]
+      },
+      {
+        "stage_index": 5,
+        "value": "Update Quote",
+        "touchpoint_index": 6,
+        "status_on_off": true,
+        "relation_steps": [
+          2
+        ],
+        "measure_points": [
+          {
+            "accountID": 2781667,
+            "type": "APS",
+            "query": "SELECT percentage(count(*), where http.statusCode >=200 and http.statusCode <=399)  FROM Transaction where appName = '212948-Next Generation Quoter-PRD' and  request.uri='/q2cwngq/ngqaction/updateQuote'",
+            "timeout": 10,
+            "min_success_percentage": 95,
+            "success_percentage": 0,
+            "measure_time": "5 MINUTES AGO"
+          }
+        ]
+      },
+      {
+        "stage_index": 5,
+        "value": "# of Save Quotes - Passed",
+        "touchpoint_index": 7,
+        "status_on_off": true,
+        "relation_steps": [
+          2
+        ],
+        "measure_points": [
+          {
+            "accountID": 2781667,
+            "type": "PCC",
+            "query": "SELECT count(*)  FROM Transaction where appName = '212948-Next Generation Quoter-PRD' and request.uri='/q2cwngq/qids/saveNewQuoteToQids' and http.statusCode >=200 and http.statusCode <=399",
+            "timeout": 10,
+            "min_count": 1,
+            "max_count": 1e+23,
+            "transaction_count": 0,
+            "measure_time": "5 MINUTES AGO"
+          }
+        ]
+      },
+      {
+        "stage_index": 5,
+        "value": "System Overall Infra Health",
+        "touchpoint_index": 8,
+        "status_on_off": true,
+        "relation_steps": [],
+        "measure_points": [
+          {
+            "accountID": 2781667,
+            "type": "WLD",
+            "query": "SELECT latest(statusValue) as statusValue  FROM WorkloadStatus WHERE entity.name = 'NextGenerationQuoter-PROD'",
+            "timeout": 10,
+            "status_value": "NO-VALUE",
+            "measure_time": "15 MINUTES AGO"
+          }
+        ]
+      },
+      {
+        "stage_index": 5,
+        "value": "Synthetic Availability",
+        "touchpoint_index": 9,
+        "status_on_off": false,
+        "relation_steps": [],
+        "measure_points": [
+          {
+            "accountID": 2781667,
+            "type": "SYN",
+            "query": "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE entityGuid ='Mjc4MTY2N3xTWU5USHxNT05JVE9SfDQ5YTMwMmMwLTM4MTQtNDgxMS04YWYyLWM4NmY5MmFhODAxZA'",
+            "timeout": 10,
+            "max_avg_response_time": 200000,
+            "max_total_check_time": 900000,
+            "min_success_percentage": 95,
+            "success_percentage": 0,
+            "max_duration": 0,
+            "max_request_time": 0,
+            "measure_time": "35 MINUTES AGO"
+          }
+        ]
+      },
+      {
+        "stage_index": 5,
+        "value": "# of Save Quotes - Failed",
+        "touchpoint_index": 10,
+        "status_on_off": true,
+        "relation_steps": [
+          2
+        ],
+        "measure_points": [
+          {
+            "accountID": 2781667,
+            "type": "PCC",
+            "query": "SELECT count(*)  FROM Transaction where appName = '212948-Next Generation Quoter-PRD' and request.uri='/q2cwngq/qids/saveNewQuoteToQids' and http.statusCode >=400 ",
+            "timeout": 10,
+            "min_count": 0,
+            "max_count": 0,
+            "transaction_count": 0,
+            "measure_time": "5 MINUTES AGO"
+          }
+        ]
+      },
+      {
+        "stage_index": 5,
+        "value": "System Overall Performance",
+        "touchpoint_index": 11,
+        "status_on_off": true,
+        "relation_steps": [],
+        "measure_points": [
+          {
+            "accountID": 2781667,
+            "type": "APP",
+            "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName = '212948-Next Generation Quoter-PRD'",
+            "timeout": 10,
+            "min_apdex": 0.4,
+            "max_response_time": 500,
+            "max_error_percentage": 5,
+            "apdex_value": 0,
+            "response_value": 0,
+            "error_percentage": 0,
+            "measure_time": "5 MINUTES AGO"
+          }
+        ]
+      },
+      {
+        "stage_index": 5,
+        "value": "Drop outs - Complete Quotes",
+        "touchpoint_index": 12,
+        "status_on_off": true,
+        "relation_steps": [
+          2
+        ],
+        "measure_points": [
+          {
+            "accountID": 2781667,
+            "type": "DRP",
+            "query": "SELECT count(*)  FROM Transaction where appName = '212948-Next Generation Quoter-PRD' and request.uri='/q2cwngq/qids/saveNewQuoteToQids' and http.statusCode >=400 ",
+            "timeout": 10,
+            "value": 0,
+            "measure_time": "48 HOURS AGO"
+          }
+        ]
+      },
+      {
+        "stage_index": 6,
+        "value": "Addison Customer Preference Services",
+        "touchpoint_index": 1,
+        "status_on_off": true,
+        "relation_steps": [
+          1
+        ],
+        "measure_points": [
+          {
+            "accountID": 2781667,
+            "type": "APS",
+            "query": "FROM Transaction select percentage(count(*), where numeric(http.statusCode) >=200 and numeric(http.statusCode) <=399) WHERE appName='211240-ADDISON-Production' AND request.uri LIKE '%customer-preference%'",
+            "timeout": 10,
+            "min_success_percentage": 95,
+            "success_percentage": 0,
+            "measure_time": "5 MINUTES AGO"
+          }
+        ]
+      },
+      {
+        "stage_index": 6,
+        "value": "Config Check",
         "touchpoint_index": 2,
         "status_on_off": true,
         "relation_steps": [
@@ -641,22 +980,19 @@
         ],
         "measure_points": [
           {
-            "type": "SYN",
+            "accountID": 2781667,
+            "type": "APS",
+            "query": "FROM Transaction select percentage(count(*), where http.statusCode >=200 and http.statusCode <=399) WHERE appName='213051-Next Gen Quote-To-Order Conversion Engine-PRD' and request.uri='/q2cngom/qtco/fannr/getFanFromClic' ",
             "timeout": 10,
-            "query": "SELECT filter(percentage(count(result),WHERE result='SUCCESS'),WHERE 1=1) as success, max(duration) as duration, max(longRunningTasksAvgTime) as request from SyntheticCheck,SyntheticRequest WHERE monitorName='BDB Live person'",
-            "max_avg_response_time": 0.7,
-            "max_total_check_time": 1.25,
-            "min_success_percentage": 98,
+            "min_success_percentage": 95,
             "success_percentage": 0,
-            "max_duration": 0,
-            "max_request_time": 0,
-            "measure_time": "1 week ago"
+            "measure_time": "5 MINUTES AGO"
           }
         ]
       },
       {
-        "stage_index": 5,
-        "value": "Session Manager API (PCC)",
+        "stage_index": 6,
+        "value": "Entity MDM",
         "touchpoint_index": 3,
         "status_on_off": true,
         "relation_steps": [
@@ -664,108 +1000,72 @@
         ],
         "measure_points": [
           {
-            "type": "PCC",
+            "accountID": 2781667,
+            "type": "APS",
+            "query": "FROM Transaction select percentage(count(*), where http.statusCode >=200 and http.statusCode <=399) WHERE appName='213051-Next Gen Quote-To-Order Conversion Engine-PRD' and request.uri='/q2cngom/qtco/emdm/getlocation' or request.uri='/q2cngom/qtco/emdm/lookup' or request.uri='/q2cngom/qtco/emdm/search'",
             "timeout": 10,
-            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name LIKE 'WebTransaction/Action/App%'",
-            "min_count": 20,
-            "max_count": 120,
-            "transaction_count": 0
+            "min_success_percentage": 95,
+            "success_percentage": 0,
+            "measure_time": "5 MINUTES AGO"
           }
         ]
       },
       {
-        "stage_index": 5,
-        "value": "Checkout API (APP)",
+        "stage_index": 6,
+        "value": "Seeburger idoc",
         "touchpoint_index": 4,
         "status_on_off": true,
         "relation_steps": [
-          5
+          4
         ],
         "measure_points": [
           {
-            "type": "APP",
+            "accountID": 2781667,
+            "type": "APS",
+            "query": "FROM Transaction select percentage(count(*), where http.statusCode >=200 and http.statusCode <=399) WHERE appName='213051-Next Gen Quote-To-Order Conversion Engine-PRD'  and request.uri='/q2cngom/qtco/ws/cto/convert'",
             "timeout": 10,
-            "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
-            "min_apdex": 0.4,
-            "max_response_time": 0.5,
-            "max_error_percentage": 5,
-            "apdex_value": 0,
-            "response_value": 0,
-            "error_percentage": 0
+            "min_success_percentage": 95,
+            "success_percentage": 0,
+            "measure_time": "5 MINUTES AGO"
           }
         ]
       },
       {
-        "stage_index": 5,
-        "value": "Customer Credit API (FRT)",
+        "stage_index": 6,
+        "value": "System Overall Infra Health",
         "touchpoint_index": 5,
-        "status_on_off": true,
-        "relation_steps": [
-          6
-        ],
-        "measure_points": [
-          {
-            "type": "FRT",
-            "timeout": 10,
-            "query": "SELECT filter(apdex(duration, t:1), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from PageView WHERE appName='QS'",
-            "min_apdex": 0.6,
-            "max_response_time": 1.2,
-            "max_error_percentage": 5,
-            "apdex_value": 0,
-            "response_value": 0,
-            "error_percentage": 0
-          }
-        ]
-      },
-      {
-        "stage_index": 5,
-        "value": "Gift Card API (PCC)",
-        "touchpoint_index": 6,
-        "status_on_off": true,
-        "relation_steps": [
-          8
-        ],
-        "measure_points": [
-          {
-            "type": "PCC",
-            "timeout": 10,
-            "query": "SELECT count(*) from Transaction WHERE appName='QS' AND name='WebTransaction/Action/login'",
-            "min_count": 36,
-            "max_count": 136,
-            "transaction_count": 0
-          }
-        ]
-      },
-      {
-        "stage_index": 5,
-        "value": "Workload (WLD)",
-        "touchpoint_index": 7,
         "status_on_off": true,
         "relation_steps": [],
         "measure_points": [
           {
+            "accountID": 2781667,
             "type": "WLD",
+            "query": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='NGQC_WorkLoad_Observability_22FEB'",
             "timeout": 10,
-            "query": "SELECT latest(statusValue) as statusValue FROM WorkloadStatus WHERE entity.name='Demotron V2 - Telco'",
-            "status_value": "NO-VALUE"
+            "status_value": "NO-VALUE",
+            "measure_time": "15 MINUTES AGO"
           }
         ]
       },
       {
-        "stage_index": 5,
-        "value": "Drop Touchpoint (DRP)",
-        "touchpoint_index": 8,
+        "stage_index": 6,
+        "value": "System Overall Performance",
+        "touchpoint_index": 6,
         "status_on_off": true,
-        "relation_steps": [
-          1,
-          5
-        ],
+        "relation_steps": [],
         "measure_points": [
           {
-            "type": "DRP",
+            "accountID": 2781667,
+            "type": "APP",
+            "query": "SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='213051-Next Gen Quote-To-Order Conversion Engine-PRD'",
             "timeout": 10,
-            "query": "SELECT count(*) as count FROM Public_APICall WHERE api='postcodeanywhere.co.uk'",
-            "value": 0
+            "min_apdex": 0.4,
+            "max_response_time": 500,
+            "max_error_percentage": 5,
+            "apdex_value": 0,
+            "response_value": 0,
+            "error_percentage": 0,
+            "measure_time": "5 MINUTES AGO"
           }
         ]
       }

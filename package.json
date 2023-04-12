@@ -1,7 +1,8 @@
 {
     "private": true,
     "name": "Pathpoint",
-    "version": "1.7.6",
+    "version": "1.7.63",
+    "setupReload": 2,
     "scripts": {
         "test": "jest -w 1 -u --clearMocks",
         "testm": "jest -w 1 MainContainer",
