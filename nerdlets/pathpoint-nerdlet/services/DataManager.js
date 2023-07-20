@@ -1083,7 +1083,7 @@ export default class DataManager {
   }
 
   CheckIfResponseErrorCanBeSet(extraInfo, status) {
-    console.log('ExtraINFO:', extraInfo, 'STATUS:', status);
+    // console.log('ExtraINFO:', extraInfo, 'STATUS:', status);
     if (extraInfo !== null) {
       if (extraInfo.measureType === 'touchpoint') {
         this.SetTouchpointResponseError(extraInfo.touchpointRef, status);
