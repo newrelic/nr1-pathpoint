@@ -11,7 +11,7 @@
 /coverage
 
 #setup
-/setup
+#/setup
 
 # production
 /build

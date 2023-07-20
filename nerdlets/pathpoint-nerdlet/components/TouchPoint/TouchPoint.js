@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import shortid from 'shortid';
 import { Form } from 'react-bootstrap';
+// import { navigation } from 'nr1';
 
 // IMPORT IMAGES
 import onOffIcon from '../../images/on-off.svg';
@@ -9,6 +10,10 @@ import onIcon from '../../images/icon-on.svg';
 import offIcon from '../../images/icon-off.svg';
 import tuneIcon from '../../images/Tune.svg';
 import queriesIcon from '../../images/Queries.svg';
+import AlertModal from './AlertModal';
+
+// Utils
+import isObject from '../../utils/isObject';
 
 export default class TouchPoint extends React.Component {
   constructor(props) {
@@ -18,7 +23,8 @@ export default class TouchPoint extends React.Component {
       stylesContext: {
         top: '',
         left: ''
-      }
+      },
+      showMouseOver: false
     };
   }
 
@@ -154,8 +160,44 @@ export default class TouchPoint extends React.Component {
     } else return 'default';
   };
 
+  // Check if is a valid touchpoint data
+  // validateTouchpointData = () => {
+  //   const { touchpoint } = this.props; // Get touchpoint prop
+
+  //   // Data prop not exists in the component
+  //   if (!('data' in touchpoint)) return false;
+  //   const { data } = touchpoint; // Get touchpoint data
+
+  //   // Data is null or undefined
+  //   if ([null, undefined].includes(data)) return false;
+
+  //   // Data is a valid object
+  //   if (typeof data === 'object' && !Array.isArray(data)) return true;
+  //   return false;
+  // }
+
+  HandleMouseOver = () => {
+    if (this.state.showMouseOver) {
+      return 0;
+    }
+
+    if (
+      this.props.touchpoint.type === 'ALE' &&
+      this.props.touchpoint.error &&
+      isObject(this.props.touchpoint.data)
+    ) {
+      this.setState({ showMouseOver: true });
+      this.props.renderMouseOver(this.state.showMouseOver);
+    }
+  };
+
+  HandleMouseLeave = () => {
+    this.setState({ showMouseOver: false });
+    this.props.renderMouseOver(this.state.showMouseOver);
+  };
+
   render() {
-    const { stylesContext } = this.state;
+    const { stylesContext, showMouseOver } = this.state;
     const {
       touchpoint,
       city,
@@ -166,6 +208,10 @@ export default class TouchPoint extends React.Component {
       idVisible
     } = this.props;
     const { status_on_off, active } = touchpoint;
+    // const contitionIds = touchpoint.alertId.split('|');
+    // if (touchpoint.type === 'ALE' && showMouseOver) {
+    //   console.log('ALE TOUCHPOINT DATA:', touchpoint.data);
+    // }
     return (
       <div className="divStep">
         <div className="divContentPoint">
@@ -182,12 +228,32 @@ export default class TouchPoint extends React.Component {
               background: this.BackgroundTouchPoint(status_on_off, active)
             }}
             onMouseDown={this.HandleContextMenu}
+            // onMouseOver={this.HandleMouseOver}
             onClick={() => {
-              if (touchpoint.dashboard_url !== false) {
+              if (touchpoint.type === 'ALE') {
+                this.HandleMouseOver();
+              } else if (touchpoint.dashboard_url !== false) {
                 if (touchpoint.dashboard_url[city] !== false) {
                   window.open(touchpoint.dashboard_url[city]);
                 }
               }
+
+              // const launcher = {
+              //   id: 'nr1-core.explorer'
+              // };
+              // navigation.openLauncher(launcher);
+
+              // const entityGuid = 'MjY2MzEyOXxWSVp8REFTSEJPQVJEfGRhOjMyNDcwNzE';
+              // navigation.openStackedEntity(entityGuid);
+
+              // const nerdlet = {
+              //   id: 'alerts-ai.issues-activity',
+              //   urlState: {
+              //     state: 'edf9141b-1c14-8168-899c-9d9ac403e6f5'
+              //   }
+              // };
+
+              // navigation.openStackedNerdlet(nerdlet);
             }}
           >
             <div
@@ -203,6 +269,14 @@ export default class TouchPoint extends React.Component {
             </div>
           </div>
         </div>
+
+        {/* Show Alert modal when touch is in red state */}
+        {showMouseOver && (
+          <AlertModal
+            data={touchpoint.data}
+            hideModal={this.HandleMouseLeave}
+          />
+        )}
 
         <div>
           {/* istanbul ignore next */}
@@ -280,5 +354,6 @@ TouchPoint.propTypes = {
   renderProps: PropTypes.func.isRequired,
   updateTouchpointOnOff: PropTypes.func.isRequired,
   openModalParent: PropTypes.func.isRequired,
-  iconCanaryStatus: PropTypes.bool.isRequired
+  iconCanaryStatus: PropTypes.bool.isRequired,
+  renderMouseOver: PropTypes.func.isRequired
 };

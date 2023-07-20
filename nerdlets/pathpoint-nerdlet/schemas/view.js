@@ -154,7 +154,7 @@ export default {
                       type: 'boolean'
                     },
                     dashboard_url: {
-                      type: 'array',
+                      type: ['array'],
                       minItems: 1,
                       maxItems: 1,
                       items: {

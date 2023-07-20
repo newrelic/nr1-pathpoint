@@ -45,7 +45,8 @@ export default class TouchPointerContainer extends React.Component {
       renderProps,
       openModalParent,
       updateTouchpointOnOff,
-      iconCanaryStatus
+      iconCanaryStatus,
+      renderMouseOver
     } = this.props;
     const touchpointsFilter = this.filterTouchpoints(touchpoints, city);
     return (
@@ -66,6 +67,7 @@ export default class TouchPointerContainer extends React.Component {
               openModalParent={openModalParent}
               updateTouchpointOnOff={updateTouchpointOnOff}
               iconCanaryStatus={iconCanaryStatus}
+              renderMouseOver={renderMouseOver}
             />
           );
         })}
@@ -86,5 +88,7 @@ TouchPointerContainer.propTypes = {
   renderProps: PropTypes.func.isRequired,
   openModalParent: PropTypes.func.isRequired,
   updateTouchpointOnOff: PropTypes.func.isRequired,
-  iconCanaryStatus: PropTypes.bool.isRequired
+  iconCanaryStatus: PropTypes.bool.isRequired,
+  renderMouseOver: PropTypes.func.isRequired
+
 };

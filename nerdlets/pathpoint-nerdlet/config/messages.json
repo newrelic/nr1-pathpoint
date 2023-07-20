@@ -57,7 +57,8 @@
         "drp": "SELECT count(*) as count FROM Public_APICall WHERE api='adyen.com'",
         "apc":"SELECT count(*) as count FROM Public_APICall WHERE awsRegion='queue'",
         "api":"SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
-        "aps":"SELECT percentage(count(*),WHERE isStatus='ok') as percentage from PathpointKpiHealth"
+        "aps":"SELECT percentage(count(*),WHERE isStatus='ok') as percentage from PathpointKpiHealth",
+        "ale":""
     },
     "test_query": {
         "wrong": "Incorrect validated",

@@ -16,6 +16,7 @@ import iconDelete from '../../images/icon-delete.svg';
 import messages from '../../config/messages.json';
 import Toast from '../Toast/Toast';
 import warningIcon from '../../images/warning.svg';
+import AlertSelector from '../AlertSelector';
 import {
   TimeRangeTransform,
   regex_measure_time
@@ -230,7 +231,8 @@ class BodyTouchpointsEditor extends Component {
       testQueryValue: '',
       testingNow: false,
       listTpErrorMeasureField: [],
-      list: []
+      list: [],
+      viewGlobalParameters: false
     };
   }
 
@@ -588,6 +590,7 @@ class BodyTouchpointsEditor extends Component {
               break;
             case 'dashboardLink':
               item.dashboard_url = value;
+              break;
           }
         }
         return found;
@@ -689,6 +692,9 @@ class BodyTouchpointsEditor extends Component {
             success_percentage: 0,
             api_count: 0,
             measure_time: '5 MINUTES AGO',
+            alertConditionId: [],
+            priority: ['CRITICAL'],
+            state: ['ACTIVATED'],
             query: this.SetSampleQuery(this.GetLongTouchpointTypeName('PCC')),
             query_timeout: 10,
             type: this.GetLongTouchpointTypeName('PCC')
@@ -923,15 +929,57 @@ class BodyTouchpointsEditor extends Component {
     });
   };
 
-  HandleOnChangeTune = value => {
-    this.state.touchpoints.some(item => {
-      let found = false;
-      if (item.id === this.state.current.touchpoint) {
-        found = true;
-        item.queryData[value.target.name] = value.target.value;
-      }
-      return found;
+  HandleOnChangePriority = priorities => {
+    this.setState(state => {
+      state.touchpoints.some(item => {
+        let found = false;
+        if (item.id === state.current.touchpoint) {
+          found = true;
+          item.queryData.priority = priorities;
+        }
+        return found;
+      });
+      return {
+        touchpoints: state.touchpoints
+      };
     });
+  };
+
+  HandleOnChangeState = states => {
+    this.setState(state => {
+      state.touchpoints.some(item => {
+        let found = false;
+        if (item.id === state.current.touchpoint) {
+          found = true;
+          item.queryData.state = states;
+        }
+        return found;
+      });
+      return {
+        touchpoints: state.touchpoints
+      };
+    });
+  };
+
+  HandleOnChangeTune = value => {
+    if (
+      value.target.name === 'alertsRefreshDelay' ||
+      value.target.name === 'alertsTimeWindow'
+    ) {
+      this.props.handleAlertParameterUpdate({
+        name: value.target.name,
+        value: value.target.value
+      });
+    } else {
+      this.state.touchpoints.some(item => {
+        let found = false;
+        if (item.id === this.state.current.touchpoint) {
+          found = true;
+          item.queryData[value.target.name] = value.target.value;
+        }
+        return found;
+      });
+    }
   };
 
   RunTest = () => {
@@ -1046,18 +1094,138 @@ class BodyTouchpointsEditor extends Component {
     );
   };
 
-  RenderTuneForm = () => {
-    let tp = null;
-    this.state.touchpoints.some(item => {
-      let found = false;
-      if (item.id === this.state.current.touchpoint) {
-        found = true;
-        tp = {
-          ...item
-        };
-      }
-      return found;
-    });
+  RenderAlertField = ({ name, label, defaultValue, id, onChange, key }) => {
+    return (
+      <>
+        <label
+          className="bodySubTitle"
+          style={{
+            fontSize: key === 'GLOBAL' ? '12px' : '14px',
+            fontFamily: 'Open Sans',
+            fontStyle: 'normal',
+            fontWeight: '400',
+            lineHeight: '19px',
+            textAlign: 'right',
+            width: '40%'
+          }}
+        >
+          {label}
+        </label>
+        <input
+          id={id}
+          name={name}
+          type="text"
+          defaultValue={defaultValue}
+          onChange={/* istanbul ignore next */ e => onChange(e)}
+          className="inputText"
+          style={{
+            width: key === 'GLOBAL' ? '50px' : '200px',
+            background: '#FFFFFF',
+            boxSizing: 'border-box',
+            border: '1px solid #BDBDBD',
+            marginLeft: '20px',
+            padding: '5px'
+          }}
+        />
+      </>
+    );
+  };
+
+  RenderAlertFieldType2 = ({ label, defaultValue, onChange, key }) => {
+    const data = defaultValue;
+    return (
+      <>
+        <label
+          className="bodySubTitle"
+          style={{
+            fontSize: key === 'GLOBAL' ? '12px' : '14px',
+            fontFamily: 'Open Sans',
+            fontStyle: 'normal',
+            fontWeight: '400',
+            lineHeight: '19px',
+            textAlign: 'right',
+            width: '40%',
+            verticalAlign: 'top',
+            height: '15px'
+          }}
+        >
+          {label}
+        </label>
+        <AlertSelector dataValues={data} updateDataChecked={onChange} />
+      </>
+    );
+  };
+
+  CheckStatus(dataValues, value) {
+    const found = dataValues.find(item => item === value);
+    if (found) {
+      return true;
+    }
+    return false;
+  }
+
+  MakeData(type, dataValues) {
+    let data = null;
+    if (type === 'priority') {
+      data = [
+        {
+          check: this.CheckStatus(dataValues, 'CRITICAL'),
+          name: 'CRITICAL'
+        },
+        {
+          check: this.CheckStatus(dataValues, 'HIGH'),
+          name: 'HIGH'
+        },
+        {
+          check: this.CheckStatus(dataValues, 'MEDIUM'),
+          name: 'MEDIUM'
+        },
+        {
+          check: this.CheckStatus(dataValues, 'LOW'),
+          name: 'LOW'
+        }
+      ];
+    } else {
+      data = [
+        {
+          check: this.CheckStatus(dataValues, 'ACTIVATED'),
+          name: 'ACTIVATED'
+        },
+        {
+          check: this.CheckStatus(dataValues, 'CREATED'),
+          name: 'CREATED'
+        },
+        {
+          check: this.CheckStatus(dataValues, 'DEACTIVATED'),
+          name: 'DEACTIVATED'
+        },
+        {
+          check: this.CheckStatus(dataValues, 'CLOSED'),
+          name: 'CLOSED'
+        }
+      ];
+    }
+    return data;
+  }
+
+  ReturnLastValueLabel = touchpoint => {
+    const tp = this.state.touchpoints.find(item => item.id === touchpoint);
+    if (tp.queryData.type !== 'Alert-Check') {
+      return <label className="headerSubtitleTune">Last Value</label>;
+    }
+  };
+
+  DoNotRenderForAlertTP = touchpoint => {
+    const tp = this.state.touchpoints.find(item => item.id === touchpoint);
+    if (tp.queryData.type === 'Alert-Check') {
+      return false;
+    }
+    return true;
+  };
+
+  RenderTuneForm = touchpoint => {
+    const { viewGlobalParameters } = this.state;
+    const tp = this.state.touchpoints.find(item => item.id === touchpoint);
     switch (tp.queryData.type) {
       case 'Person-Count':
         return (
@@ -1241,6 +1409,86 @@ class BodyTouchpointsEditor extends Component {
                 compare: tp.queryData.success_percentage
               })}
             </div>
+          </>
+        );
+      case 'Alert-Check':
+        return (
+          <>
+            <div style={{ height: '40px', width: '400px' }}>
+              {this.RenderAlertField({
+                label: 'ConditionID',
+                defaultValue: tp.queryData.alertConditionId,
+                id: 'alertConditionId',
+                onChange: this.HandleOnChangeTune,
+                name: 'alertConditionId',
+                key: 'ARRAY'
+              })}
+            </div>
+            <div style={{ height: '40px', width: '400px' }}>
+              {this.RenderAlertFieldType2({
+                label: 'Priority',
+                defaultValue: this.MakeData('priority', tp.queryData.priority),
+                onChange: this.HandleOnChangePriority,
+                key: 'ARRAY'
+              })}
+            </div>
+            <div style={{ height: '40px', width: '400px' }}>
+              {this.RenderAlertFieldType2({
+                label: 'State',
+                defaultValue: this.MakeData('state', tp.queryData.state),
+                onChange: this.HandleOnChangeState,
+                key: 'ARRAY'
+              })}
+            </div>
+            <div style={{ height: '40px', width: '400px', paddingTop: '20px' }}>
+              <label
+                className="bodySubTitle"
+                style={{
+                  fontSize: '10px',
+                  fontFamily: 'Open Sans',
+                  fontStyle: 'normal',
+                  fontWeight: '400',
+                  lineHeight: '19px',
+                  textAlign: 'left',
+                  width: '40%',
+                  color: '#D0D0D0',
+                  cursor: 'pointer'
+                }}
+                onClick={() =>
+                  this.setState(state => {
+                    return {
+                      viewGlobalParameters: !state.viewGlobalParameters
+                    };
+                  })
+                }
+              >
+                &nbsp;&nbsp;&nbsp;Global Parameters
+              </label>
+            </div>
+            {viewGlobalParameters && (
+              <>
+                <div style={{ height: '40px', width: '400px' }}>
+                  {this.RenderAlertField({
+                    label: 'Alerts Refresh Delay(min)',
+                    defaultValue: this.props.alertsRefreshDelay,
+                    id: 'alertsRefreshDelay',
+                    onChange: this.HandleOnChangeTune,
+                    name: 'alertsRefreshDelay',
+                    key: 'GLOBAL'
+                  })}
+                </div>
+                <div style={{ height: '40px', width: '400px' }}>
+                  {this.RenderAlertField({
+                    label: 'Alerts Time Window(min)',
+                    defaultValue: this.props.alertsTimeWindow,
+                    id: 'alertsTimeWindow',
+                    onChange: this.HandleOnChangeTune,
+                    name: 'alertsTimeWindow',
+                    key: 'GLOBAL'
+                  })}
+                </div>
+              </>
+            )}
           </>
         );
     }
@@ -1774,238 +2022,247 @@ class BodyTouchpointsEditor extends Component {
                               justifyContent: 'center'
                             }}
                           >
-                            <label className="headerSubtitleTune">
-                              Last Value
-                            </label>
+                            {this.ReturnLastValueLabel(
+                              this.state.current.touchpoint
+                            )}
                           </div>
                         </div>
                       </div>
-                      {this.RenderTuneForm()}
+                      {this.RenderTuneForm(this.state.current.touchpoint)}
                     </div>
                   )}
-                  {this.state.tab === 'query' && this.state.current.touchpoint && (
-                    <div
-                      style={{
-                        marginTop: '11px',
-                        marginLeft: '10px',
-                        marginRight: '10px',
-                        background: '#F7F7F8',
-                        paddingLeft: '20px',
-                        paddingRight: '20px',
-                        paddingBottom: '20px'
-                      }}
-                    >
-                      <div style={{ display: 'flex', width: '100%' }}>
-                        <div
-                          style={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            marginTop: '15px',
-                            marginBottom: '15px',
-                            width: '50%'
-                          }}
-                        >
-                          Account ID
-                          <div style={{ width: '110px', marginLeft: '10px' }}>
-                            <SelectIDs
-                              name="query"
-                              handleOnChange={e =>
-                                this.HandleOnChange(
-                                  'queryAccount',
-                                  e.target.value,
-                                  this.state.current.touchpoint
-                                )
-                              }
-                              options={this.props.accountIDs}
-                              idSeleccionado={
-                                this.state.form[
-                                  `tp_${this.state.current.touchpoint}`
-                                ].queryAccount
-                              }
-                            />
+                  {this.state.tab === 'query' &&
+                    this.state.current.touchpoint &&
+                    this.DoNotRenderForAlertTP(
+                      this.state.current.touchpoint
+                    ) && (
+                      <div
+                        style={{
+                          marginTop: '11px',
+                          marginLeft: '10px',
+                          marginRight: '10px',
+                          background: '#F7F7F8',
+                          paddingLeft: '20px',
+                          paddingRight: '20px',
+                          paddingBottom: '20px'
+                        }}
+                      >
+                        <div style={{ display: 'flex', width: '100%' }}>
+                          <div
+                            style={{
+                              display: 'flex',
+                              flexDirection: 'row',
+                              alignItems: 'center',
+                              marginTop: '15px',
+                              marginBottom: '15px',
+                              width: '50%'
+                            }}
+                          >
+                            Account ID
+                            <div style={{ width: '110px', marginLeft: '10px' }}>
+                              <SelectIDs
+                                name="query"
+                                handleOnChange={e =>
+                                  this.HandleOnChange(
+                                    'queryAccount',
+                                    e.target.value,
+                                    this.state.current.touchpoint
+                                  )
+                                }
+                                options={this.props.accountIDs}
+                                idSeleccionado={
+                                  this.state.form[
+                                    `tp_${this.state.current.touchpoint}`
+                                  ].queryAccount
+                                }
+                              />
+                            </div>
+                          </div>
+                          <div
+                            style={{
+                              marginTop: '15px',
+                              marginBottom: '15px',
+                              width: '50%',
+                              display: 'flex',
+                              justifyContent: 'flex-end',
+                              alignItems: 'center'
+                            }}
+                          >
+                            <div>
+                              Timeout
+                              <input
+                                type="text"
+                                value={
+                                  this.state.form[
+                                    `tp_${this.state.current.touchpoint}`
+                                  ].timeout
+                                }
+                                onChange={e =>
+                                  this.HandleOnChange(
+                                    'timeout',
+                                    e.target.value,
+                                    this.state.current.touchpoint
+                                  )
+                                }
+                                className="inputText"
+                                style={{
+                                  width: '50px',
+                                  background: '#FFFFFF',
+                                  border: '1px solid #BDBDBD',
+                                  boxSizing: 'border-box',
+                                  padding: '5px',
+                                  marginLeft: '10px',
+                                  textAlign: 'center'
+                                }}
+                              />
+                            </div>
                           </div>
                         </div>
-                        <div
-                          style={{
-                            marginTop: '15px',
-                            marginBottom: '15px',
-                            width: '50%',
-                            display: 'flex',
-                            justifyContent: 'flex-end',
-                            alignItems: 'center'
-                          }}
-                        >
-                          <div>
-                            Timeout
+
+                        {/* Query Editor */}
+                        <Editor
+                          style={{ height: 100 }}
+                          value={
+                            this.state.form[
+                              `tp_${this.state.current.touchpoint}`
+                            ].query
+                          }
+                          onPressEnter={this.RunTest}
+                          onChange={e =>
+                            this.HandleOnChange(
+                              'query',
+                              e.target.value,
+                              this.state.current.touchpoint
+                            )
+                          }
+                        />
+
+                        <div>
+                          <span>
+                            <b>SINCE </b>
+                          </span>
+                          <div
+                            style={{
+                              display: 'inline',
+                              flexDirection: 'column',
+                              width: '100%'
+                            }}
+                          >
                             <input
                               type="text"
                               value={
                                 this.state.form[
                                   `tp_${this.state.current.touchpoint}`
-                                ].timeout
+                                ].queryMeasure
+                              }
+                              style={
+                                listTpErrorMeasureField.includes(
+                                  this.state.current.touchpoint
+                                )
+                                  ? {
+                                      background: '#FFFFFF',
+                                      border: '1px solid #FC1303',
+                                      boxSizing: 'border-box',
+                                      marginTop: '10px',
+                                      marginBottom: '10px',
+                                      marginLeft: '7px',
+                                      width: '50%'
+                                    }
+                                  : {
+                                      background: '#FFFFFF',
+                                      border: '1px solid #BDBDBD',
+                                      boxSizing: 'border-box',
+                                      marginTop: '10px',
+                                      marginBottom: '10px',
+                                      marginLeft: '7px',
+                                      width: '50%'
+                                    }
                               }
                               onChange={e =>
                                 this.HandleOnChange(
-                                  'timeout',
+                                  'queryMeasure',
                                   e.target.value,
                                   this.state.current.touchpoint
                                 )
                               }
-                              className="inputText"
-                              style={{
-                                width: '50px',
-                                background: '#FFFFFF',
-                                border: '1px solid #BDBDBD',
-                                boxSizing: 'border-box',
-                                padding: '5px',
-                                marginLeft: '10px',
-                                textAlign: 'center'
-                              }}
                             />
+                            {listTpErrorMeasureField.includes(
+                              this.state.current.touchpoint
+                            )
+                              ? (this.showToast(this.state.current.touchpoint),
+                                (
+                                  <span className="errorMessageMeasureTime">
+                                    Syntax error on measure time (e.g. 15
+                                    MINUTES AGO)
+                                  </span>
+                                ))
+                              : null}
+                          </div>
+                        </div>
+                        {/* Query Result */}
+                        <Editor
+                          isReadOnly
+                          style={{ height: 70, marginTop: '6px' }}
+                          value={
+                            testQueryValue ? objToString(testQueryValue) : ''
+                          }
+                        />
+                        <div
+                          style={{
+                            display: 'flex',
+                            marginTop: '15px',
+                            alignItems: 'center'
+                          }}
+                        >
+                          <a
+                            style={{
+                              paddingRight: '20px'
+                            }}
+                            onClick={() =>
+                              this.HandleOnSampleQuery(
+                                this.state.current.touchpoint
+                              )
+                            }
+                          >
+                            Sample Query
+                          </a>
+                          <div>
+                            <Button
+                              disabled={testingNow}
+                              onClick={this.RunTest}
+                              variant="contained"
+                              color="primary"
+                              style={{
+                                background: 'white',
+                                border: '1px solid #767B7F',
+                                boxSizing: 'border-box',
+                                marginRight: '15px'
+                              }}
+                            >
+                              Test
+                            </Button>
+                          </div>
+                          <div>
+                            {testQueryResult !== '' && (
+                              <span
+                                style={{
+                                  color: goodQuery ? 'green' : 'red',
+                                  display: 'flex',
+                                  alignItems: 'center'
+                                }}
+                              >
+                                {goodQuery ? (
+                                  <SuccessfullIcon />
+                                ) : (
+                                  <WrongIcon />
+                                )}
+                                {testQueryResult}
+                              </span>
+                            )}
                           </div>
                         </div>
                       </div>
-
-                      {/* Query Editor */}
-                      <Editor
-                        style={{ height: 100 }}
-                        value={
-                          this.state.form[`tp_${this.state.current.touchpoint}`]
-                            .query
-                        }
-                        onPressEnter={this.RunTest}
-                        onChange={e =>
-                          this.HandleOnChange(
-                            'query',
-                            e.target.value,
-                            this.state.current.touchpoint
-                          )
-                        }
-                      />
-
-                      <div>
-                        <span>
-                          <b>SINCE </b>
-                        </span>
-                        <div
-                          style={{
-                            display: 'inline',
-                            flexDirection: 'column',
-                            width: '100%'
-                          }}
-                        >
-                          <input
-                            type="text"
-                            value={
-                              this.state.form[
-                                `tp_${this.state.current.touchpoint}`
-                              ].queryMeasure
-                            }
-                            style={
-                              listTpErrorMeasureField.includes(
-                                this.state.current.touchpoint
-                              )
-                                ? {
-                                    background: '#FFFFFF',
-                                    border: '1px solid #FC1303',
-                                    boxSizing: 'border-box',
-                                    marginTop: '10px',
-                                    marginBottom: '10px',
-                                    marginLeft: '7px',
-                                    width: '50%'
-                                  }
-                                : {
-                                    background: '#FFFFFF',
-                                    border: '1px solid #BDBDBD',
-                                    boxSizing: 'border-box',
-                                    marginTop: '10px',
-                                    marginBottom: '10px',
-                                    marginLeft: '7px',
-                                    width: '50%'
-                                  }
-                            }
-                            onChange={e =>
-                              this.HandleOnChange(
-                                'queryMeasure',
-                                e.target.value,
-                                this.state.current.touchpoint
-                              )
-                            }
-                          />
-                          {listTpErrorMeasureField.includes(
-                            this.state.current.touchpoint
-                          )
-                            ? (this.showToast(this.state.current.touchpoint),
-                              (
-                                <span className="errorMessageMeasureTime">
-                                  Syntax error on measure time (e.g. 15 MINUTES
-                                  AGO)
-                                </span>
-                              ))
-                            : null}
-                        </div>
-                      </div>
-                      {/* Query Result */}
-                      <Editor
-                        isReadOnly
-                        style={{ height: 70, marginTop: '6px' }}
-                        value={
-                          testQueryValue ? objToString(testQueryValue) : ''
-                        }
-                      />
-                      <div
-                        style={{
-                          display: 'flex',
-                          marginTop: '15px',
-                          alignItems: 'center'
-                        }}
-                      >
-                        <a
-                          style={{
-                            paddingRight: '20px'
-                          }}
-                          onClick={() =>
-                            this.HandleOnSampleQuery(
-                              this.state.current.touchpoint
-                            )
-                          }
-                        >
-                          Sample Query
-                        </a>
-                        <div>
-                          <Button
-                            disabled={testingNow}
-                            onClick={this.RunTest}
-                            variant="contained"
-                            color="primary"
-                            style={{
-                              background: 'white',
-                              border: '1px solid #767B7F',
-                              boxSizing: 'border-box',
-                              marginRight: '15px'
-                            }}
-                          >
-                            Test
-                          </Button>
-                        </div>
-                        <div>
-                          {testQueryResult !== '' && (
-                            <span
-                              style={{
-                                color: goodQuery ? 'green' : 'red',
-                                display: 'flex',
-                                alignItems: 'center'
-                              }}
-                            >
-                              {goodQuery ? <SuccessfullIcon /> : <WrongIcon />}
-                              {testQueryResult}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  )}
+                    )}
                   {this.state.tab === 'general' &&
                     this.state.current.touchpoint && (
                       <div
@@ -2075,7 +2332,10 @@ BodyTouchpointsEditor.propTypes = {
   handleStagesEditorSubmit: PropTypes.func.isRequired,
   accountIDs: PropTypes.array.isRequired,
   EditorValidateQuery: PropTypes.func.isRequired,
-  timeRangeBodyTouchpointsEditor: PropTypes.string
+  timeRangeBodyTouchpointsEditor: PropTypes.string,
+  alertsTimeWindow: PropTypes.number.isRequired,
+  alertsRefreshDelay: PropTypes.number.isRequired,
+  handleAlertParameterUpdate: PropTypes.func.isRequired
 };
 
 export { HeaderTouchpointsEditor, BodyTouchpointsEditor };

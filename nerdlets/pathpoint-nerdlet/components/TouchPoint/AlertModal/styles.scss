@@ -1,0 +1,329 @@
+// Mixins
+@import './mixins';
+
+$col-width-1: 200px;
+$col-width-2: 354px;
+$col-width-3: 508px;
+$border-right: 1px solid #d9d9d9;
+$green: #1cbc8b;
+$gray-text: #bdbdbd;
+$black-text: #333333;
+$shadow-left-green: 0 0 0, 5px 0 0 $green inset;
+
+#alert-modal {
+  & > .modal-content {
+    width: 1062px;
+    height: 370px;
+    border-radius: 4px;
+
+    // Modal Header
+    & > .modal-header {
+      padding: 0;
+
+      & > .headerModal {
+        & > .sections {
+          & > .section {
+            height: 60px;
+            padding-left: 2rem;
+            padding-right: 2rem;
+            border-right: $border-right;
+
+            &:last-of-type {
+              border-right: none;
+            }
+
+            & h3 {
+              margin: 0;
+            }
+
+            & .img {
+              margin-right: 5px;
+            }
+
+            & .of {
+              color: #828282;
+            }
+
+            & .short-text {
+              font-size: 12px;
+            }
+
+            & .text {
+              color: $gray-text;
+            }
+
+            & .count {
+              font-size: 18px;
+            }
+
+            & .subtitle {
+              font-weight: 600;
+            }
+
+            // Item name
+            &.item-name {
+              width: $col-width-1;
+
+              & > .value {
+                font-style: normal;
+                font-weight: 700;
+                font-size: 18px;
+                line-height: 25px;
+                color: #4f4f4f;
+              }
+            }
+
+            // List of issues
+            &.issues {
+              width: $col-width-2;
+
+              & .current-issues {
+                color: $green;
+              }
+            }
+
+            // List of incidents
+            &.incidents {
+              width: $col-width-3;
+            }
+          }
+        }
+      }
+    }
+
+    & > .content {
+      display: flex;
+
+      & ul {
+        margin-bottom: 0;
+      }
+
+      & a:active,
+      a:focus {
+        background-color: transparent !important;
+      }
+
+      & .small {
+        font-size: 9px;
+      }
+
+      & [role='button'] {
+        cursor: initial;
+      }
+
+      & > .section {
+        height: 308px;
+        overflow-y: auto;
+        text-align: left;
+        border-right: $border-right;
+
+        &:last-of-type {
+          border-right: none;
+        }
+
+        // Alerts styles
+        &.alerts {
+          width: calc($col-width-1 + 1px);
+
+          & > .alert-list {
+            & > .alert-item {
+              & > .alert-content {
+                @include clearItemStyles(1rem, 1.85rem);
+                border-bottom: none;
+
+                &.active {
+                  @include activeStyles;
+                }
+
+                &:not(.active) {
+                  & .title {
+                    font-weight: 400;
+                  }
+
+                  & .title,
+                  & .code {
+                    color: $gray-text;
+                  }
+
+                  &:hover {
+                    & {
+                      cursor: pointer;
+                    }
+
+                    & .title {
+                      color: $green;
+                    }
+
+                    & .code {
+                      color: $black-text;
+                    }
+                  }
+                }
+
+                & .title {
+                  color: $green;
+                  font-size: 12px;
+                }
+
+                & .code {
+                  color: $black-text;
+                  font-style: normal;
+                  font-weight: 300;
+                  font-size: 9px;
+                }
+              }
+            }
+          }
+        }
+
+        // Issues styles
+        &.issues {
+          width: calc($col-width-2 + 1px);
+
+          & > .issue-list {
+            & > .issue-item {
+              &:last-of-type > .issue-content {
+                border-bottom: none;
+              }
+
+              & > .issue-content {
+                @include clearItemStyles(1.35rem, 1.8rem);
+                display: initial;
+                padding-bottom: 1rem;
+                border-bottom: 1px solid #dad9d9;
+
+                & .tag {
+                  padding-right: 8px;
+                }
+
+                &.active {
+                  cursor: initial;
+                  user-select: text;
+                  @include activeStyles;
+                }
+
+                &:not(.active) {
+                  & .activated {
+                    font-weight: 400;
+                  }
+
+                  & .tag {
+                    background-color: rgba(224, 224, 224, 0.4) !important;
+                  }
+
+                  & .tag,
+                  & .clock,
+                  & .issue-name,
+                  & .issue-description,
+                  & .issue-link {
+                    color: $gray-text !important;
+                  }
+
+                  &:hover {
+                    & .tag {
+                      &.low {
+                        color: #828282 !important;
+                        background-color: rgba(189, 189, 189, 0.4) !important;
+                      }
+
+                      &.medium {
+                        color: #ca8a04 !important;
+                        background-color: rgba(250, 204, 21, 0.4) !important;
+                      }
+
+                      &.high {
+                        color: #d84918 !important;
+                        background-color: rgba(249, 115, 22, 0.4) !important;
+                      }
+
+                      &.critical {
+                        color: #a71717 !important;
+                        background-color: rgba(235, 87, 87, 0.4) !important;
+                      }
+                    }
+
+                    & .issue-link {
+                      color: #0c74df !important;
+                    }
+
+                    & .clock,
+                    & .issue-name,
+                    & .issue-description {
+                      color: $black-text !important;
+                    }
+                  }
+                }
+
+                & .clock {
+                  letter-spacing: 2px;
+
+                  & > img {
+                    width: 12px;
+                    height: 12px;
+                  }
+                }
+
+                & .issue-name {
+                  font-size: 12px;
+                  line-height: 16px;
+                }
+              }
+            }
+          }
+        }
+
+        &.incidents {
+          width: $col-width-3;
+
+          & > .incident-list {
+            & > .incident-item {
+              &:last-of-type > .incident-content > .wrapper {
+                padding-bottom: 0;
+                border-bottom: 0;
+              }
+
+              & > .incident-content {
+                padding: 1.35rem 2rem 0;
+
+                & > .wrapper {
+                  padding-bottom: 1.35rem;
+                  border-bottom: 1px solid #dad9d9;
+
+                  & .incident-name {
+                    align-items: flex-start;
+
+                    & .incident-title {
+                      font-size: 12px;
+                      font-style: normal;
+                      font-size: 12px;
+                      line-height: 16px;
+                      color: #000000;
+                    }
+                  }
+
+                  & .incident-time {
+                    font-size: 9px;
+                    font-weight: 400;
+                    line-height: 12px;
+                    font-style: normal;
+                    color: $black-text;
+                  }
+
+                  & .incident-link {
+                    display: initial;
+                    font-weight: 500;
+                    font-family: 'Inter', 'Segoe UI', 'Tahoma', sans-serif;
+
+                    &::after {
+                      height: auto;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

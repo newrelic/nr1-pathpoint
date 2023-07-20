@@ -17,6 +17,7 @@ import {
   NerdGraphQuery,
   logger
 } from 'nr1';
+import AlertIssues from './AlertTouchpoints';
 
 import LogConnector from './LogsConnector';
 import SynConnector from './SynConnector';
@@ -97,12 +98,14 @@ export default class DataManager {
     this.LogConnector = new LogConnector();
     this.SynConnector = new SynConnector();
     this.CredentialConnector = new CredentialConnector();
+    this.AlertIssues = new AlertIssues();
     this.SecureCredentialsExist = false;
     this.minPercentageError = 100;
     this.historicErrorsHours = 192;
     this.historicErrorsHighLightPercentage = 26;
     this.dropParams = null;
     this.version = null;
+    this.resetConfiguration = false;
     this.accountId = null;
     this.SyntheticAccountID = null;
     this.graphQlmeasures = [];
@@ -132,7 +135,8 @@ export default class DataManager {
       'Drops-Count',
       'API-Performance',
       'API-Count',
-      'API-Status'
+      'API-Status',
+      'Alert-Check'
     ];
     this.accountIDs = [
       {
@@ -141,6 +145,8 @@ export default class DataManager {
       }
     ];
     this.detaultTimeout = 10;
+    this.alertsRefreshDelay = ViewData.alertsRefreshDelay ?? 5;
+    this.alertsTimeWindow = ViewData.alertsTimeWindow ?? 120;
   }
 
   async BootstrapInitialData(accountName) {
@@ -149,6 +155,7 @@ export default class DataManager {
     this.accountIDs.forEach(account => {
       logger.log(`AccountName:${account.name}   ID:${account.id} `);
     });
+    this.AlertIssues.SetAccountId(this.accountId);
     await this.CheckVersion();
     await this.GetCanaryData();
     await this.GetStorageHistoricErrorsParams();
@@ -166,6 +173,7 @@ export default class DataManager {
     // console.log('Last storage version: ' + this.lastStorageVersion);
 
     this.version = appPackage.version;
+    this.resetConfiguration = appPackage.resetConfiguration;
     /*
       After Pathpoint 1.5.1 we had no more breaking changes.
       We must NEVER allow breaking config changes in Pathpoint 1.x.x
@@ -179,7 +187,8 @@ export default class DataManager {
 
       For now this is okay...
     */
-    if (this.lastStorageVersion) {
+    // if (this.lastStorageVersion && !this.resetConfiguration) {
+    if (this.lastStorageVersion === appPackage.version) {
       // console.log('Re-using last stored configuration.');
       this.colors = ViewData.colors;
       await this.GetInitialDataFromStorage();
@@ -205,7 +214,9 @@ export default class DataManager {
       totalContainers: this.SetTotalContainers(),
       accountIDs: this.accountIDs,
       credentials: this.credentials,
-      generalConfiguration: this.generalConfiguration
+      generalConfiguration: this.generalConfiguration,
+      alertsRefreshDelay: this.alertsRefreshDelay,
+      alertsTimeWindow: this.alertsTimeWindow
     };
   }
 
@@ -289,9 +300,19 @@ export default class DataManager {
     return total;
   }
 
-  async UpdateData(timeRange, city, stages, kpis, timeRangeKpi) {
+  async UpdateData(
+    timeRange,
+    city,
+    stages,
+    kpis,
+    timeRangeKpi,
+    alertsTimeWindow,
+    alertsRefreshDelay
+  ) {
     if (this.accountId !== null) {
       // console.log(`UPDATING-DATA: ${this.accountId}`);
+      this.alertsTimeWindow = alertsTimeWindow;
+      this.alertsRefreshDelay = alertsRefreshDelay;
       this.timeRange = timeRange;
       this.city = city;
       this.stages = stages;
@@ -300,7 +321,13 @@ export default class DataManager {
       await this.TouchPointsUpdate();
       await this.UpdateMerchatKpi();
       this.CalculateUpdates();
-      // console.log('FINISH-Update');
+      this.stages = await this.AlertIssues.Measure(
+        this.stages,
+        this.touchPoints,
+        alertsTimeWindow,
+        alertsRefreshDelay
+      );
+      console.log('FINISH-Update');
       return {
         stages: this.stages,
         kpis: this.kpis
@@ -417,6 +444,8 @@ export default class DataManager {
       if (data) {
         this.stages = data.ViewJSON;
         this.kpis = data.Kpis ?? [];
+        this.alertsRefreshDelay = data.AlertsRefreshDelay ?? 5;
+        this.alertsTimeWindow = data.AlertsTimeWindow ?? 120;
       }
     } catch (error) {
       /* istanbul ignore next */
@@ -433,9 +462,12 @@ export default class DataManager {
         documentId: 'newViewJSON',
         document: {
           ViewJSON: this.stages,
-          Kpis: this.kpis
+          Kpis: this.kpis,
+          AlertsTimeWindow: this.alertsTimeWindow,
+          AlertsRefreshDelay: this.alertsRefreshDelay
         }
       });
+      this.AlertIssues.ClearLastStagesStatus();
     } catch (error) {
       /* istanbul ignore next */
       throw new Error(error);
@@ -1897,6 +1929,8 @@ export default class DataManager {
     let multyQuery = null;
     let accountID = this.accountId;
     this.configuration.pathpointVersion = this.version;
+    this.configuration.alertsRefreshDelay = this.alertsRefreshDelay;
+    this.configuration.alertsTimeWindow = this.alertsTimeWindow;
     this.configuration.kpis.length = 0;
     for (let i = 0; i < this.kpis.length; i++) {
       accountID = this.accountId;
@@ -2189,6 +2223,26 @@ export default class DataManager {
                       : 0
                   };
                 }
+              } else if (measure.type === 'ALE') {
+                queryMeasure = {
+                  accountID: accountID,
+                  query: measure.query,
+                  query_timeout: timeout,
+                  type: this.measureNames[10],
+                  alertConditionId: measure.alertConditionId,
+                  priority: measure.priority,
+                  state: measure.state
+                };
+                if (withValues) {
+                  queryMeasure = {
+                    ...queryMeasure,
+                    createdAt: measure.createdAt ? measure.createdAt : 0,
+                    totalIncidents: measure.totalIncidents
+                      ? measure.totalIncidents
+                      : 0,
+                    title: measure.title ? measure.title : ''
+                  };
+                }
               }
               queries.push(queryMeasure);
             });
@@ -2285,6 +2339,12 @@ export default class DataManager {
       }
       this.kpis.push(ikpi);
     });
+    this.alertsRefreshDelay = this.configurationJSON.alertsRefreshDelay
+      ? this.configurationJSON.alertsRefreshDelay
+      : 5;
+    this.alertsTimeWindow = this.configurationJSON.alertsTimeWindow
+      ? this.configurationJSON.alertsTimeWindow
+      : 120;
     this.configurationJSON.stages.forEach(stage => {
       stageDef = {
         index: stageIndex,
@@ -2501,6 +2561,18 @@ export default class DataManager {
               timeout: query_timeout,
               min_success_percentage: query.min_success_percentage,
               success_percentage: 0
+            };
+          } else if (query.type === this.measureNames[10]) {
+            measure = {
+              type: 'ALE',
+              query: query.query,
+              timeout: query_timeout,
+              alertConditionId: query.alertConditionId,
+              priority: query.priority,
+              state: query.state,
+              createdAt: 0,
+              totalIncidents: 0,
+              title: ''
             };
           }
           if (query.accountID !== this.accountId) {
@@ -3008,6 +3080,18 @@ export default class DataManager {
                   query_body: measure.query,
                   query_footer: this.ValidateMeasureTime(measure),
                   query_footer2: this.GetDisplayMeasureTime(measure),
+                  timeout: measure.timeout
+                });
+              } else if (measure.type === 'ALE') {
+                datos.push({
+                  accountID: accountID,
+                  label: this.measureNames[10],
+                  value: actualValue,
+                  type: 'ALE',
+                  query_start: '',
+                  query_body: '',
+                  query_footer: '',
+                  query_footer2: '',
                   timeout: measure.timeout
                 });
               }

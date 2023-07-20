@@ -168,7 +168,9 @@ export default class MainContainer extends React.Component {
       fileNote: null,
       showMessageInformationStage: false,
       showMessageInformationStep: false,
-      showMessageInformationTouchpoint: false
+      showMessageInformationTouchpoint: false,
+      alertsTimeWindow: 10,
+      alertsRefreshDelay: 5
     };
   }
 
@@ -233,7 +235,9 @@ export default class MainContainer extends React.Component {
         totalContainers: data ? data.totalContainers : 1,
         accountIDs: data ? data.accountIDs : [],
         credentials,
-        credentialsBackup: credentials
+        credentialsBackup: credentials,
+        alertsRefreshDelay: data ? data.alertsRefreshDelay : 5,
+        alertsTimeWindow: data ? data.alertsTimeWindow : 10
       },
       async () => {
         this.validationQuery = new ValidationQuery(this.state.accountId);
@@ -251,7 +255,12 @@ export default class MainContainer extends React.Component {
   };
 
   ExecuteUpdateData = changeLoading => {
-    const { updating, queryModalShowing } = this.state;
+    const {
+      updating,
+      queryModalShowing,
+      alertsTimeWindow,
+      alertsRefreshDelay
+    } = this.state;
     if (!updating && !queryModalShowing) {
       this.setState(
         {
@@ -264,7 +273,9 @@ export default class MainContainer extends React.Component {
             city,
             stages,
             kpis,
-            timeRangeKpi
+            timeRangeKpi,
+            alertsTimeWindow,
+            alertsRefreshDelay
           );
           this.setState(
             {
@@ -910,6 +921,10 @@ export default class MainContainer extends React.Component {
     }
   };
 
+  renderMouseOver = showMouseOver => {
+    this.setState({ showMouseOver: showMouseOver });
+  };
+
   restoreTouchPoints = () => {
     this.setState(state => {
       const { stages } = state;
@@ -981,6 +996,9 @@ export default class MainContainer extends React.Component {
         break;
       case 'API-Status':
         querySample = messages.sample_querys.aps;
+        break;
+      case 'Alert-Check':
+        querySample = messages.sample_querys.ale;
         break;
     }
     if (stageNameSelected.selectedCase) {
@@ -1813,6 +1831,24 @@ export default class MainContainer extends React.Component {
         api_count: 0
       };
     }
+    if (!Reflect.has(queryData, 'alertConditionId')) {
+      qData = {
+        ...qData,
+        alertConditionId: []
+      };
+    }
+    if (!Reflect.has(queryData, 'priority')) {
+      qData = {
+        ...qData,
+        priority: ['CRITICAL']
+      };
+    }
+    if (!Reflect.has(queryData, 'state')) {
+      qData = {
+        ...qData,
+        state: ['ACTIVATED']
+      };
+    }
     return qData;
   }
 
@@ -1855,6 +1891,18 @@ export default class MainContainer extends React.Component {
     });
   };
 
+  handleAlertParameterUpdate = parameter => {
+    if (parameter.name === 'alertsTimeWindow') {
+      this.setState({
+        alertsTimeWindow: parameter.value
+      });
+    } else {
+      this.setState({
+        alertsRefreshDelay: parameter.value
+      });
+    }
+  };
+
   handleStagesEditorSubmit = async stagesInterface => {
     this._onClose();
     this.setState({
@@ -1864,6 +1912,9 @@ export default class MainContainer extends React.Component {
     await this.InterfaceEditor.SetStagesInterface(stagesInterface);
     let data = this.DataManager.GetCurrentConfigurationJSON();
     data = JSON.parse(data);
+    const { alertsTimeWindow, alertsRefreshDelay } = this.state;
+    data.alertsTimeWindow = alertsTimeWindow;
+    data.alertsRefreshDelay = alertsRefreshDelay;
     const updateData = this.InterfaceMigration.MigrateStagesInterface(
       stagesInterface,
       data
@@ -1946,7 +1997,9 @@ export default class MainContainer extends React.Component {
       fileNote,
       showMessageInformationStage,
       showMessageInformationStep,
-      showMessageInformationTouchpoint
+      showMessageInformationTouchpoint,
+      alertsTimeWindow,
+      alertsRefreshDelay
     } = this.state;
     if (this.state.waiting) {
       return (
@@ -2544,6 +2597,7 @@ export default class MainContainer extends React.Component {
                         updateTouchpointOnOff={this.updateTouchpointOnOff}
                         iconCanaryStatus={iconCanaryStatus}
                         tune={tune}
+                        renderMouseOver={this.renderMouseOver}
                       />
                     </div>
                   </div>
@@ -2619,6 +2673,9 @@ export default class MainContainer extends React.Component {
             kpis={this.state.kpis}
             timeRangeKpi={timeRangeKpi}
             handleKPIEditorUpdate={this.handleKPIEditorUpdate}
+            alertsTimeWindow={alertsTimeWindow}
+            alertsRefreshDelay={alertsRefreshDelay}
+            handleAlertParameterUpdate={this.handleAlertParameterUpdate}
           />
           <div id="cover-spin" style={{ display: loading ? '' : 'none' }} />
         </div>

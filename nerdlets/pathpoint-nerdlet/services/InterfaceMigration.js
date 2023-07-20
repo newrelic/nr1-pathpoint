@@ -89,7 +89,7 @@ export default class InterfaceMigration {
 
   SetDashboard_url(url) {
     if (url === '') {
-      return false;
+      return [false];
     }
     return [url];
   }
@@ -161,7 +161,61 @@ export default class InterfaceMigration {
           min_success_percentage: Number(queryData.min_success_percentage)
         };
         break;
+      case 'Alert-Check':
+        qdata = {
+          ...qdata,
+          alertConditionId: this.ValidateAlertCondition(
+            queryData.alertConditionId
+          ),
+          priority: this.ValidatePriority(queryData.priority),
+          state: this.ValidateState(queryData.state)
+        };
+        break;
     }
     return [qdata];
+  }
+
+  ValidateAlertCondition(alertConditionsIds) {
+    let result = alertConditionsIds;
+    if (typeof alertConditionsIds === 'string') {
+      const items = alertConditionsIds.split(',');
+      result = [];
+      items.forEach(item => {
+        if (!isNaN(Number(item.trim()))) {
+          result.push(Number(item.trim()));
+        }
+      });
+    }
+    return result;
+  }
+
+  ValidatePriority(priorityList) {
+    const acceptedValues = '--LOW--MEDIUM--HIGH--CRITICAL--';
+    let result = priorityList;
+    if (typeof priorityList === 'string') {
+      const items = priorityList.split(',');
+      result = [];
+      items.forEach(item => {
+        if (acceptedValues.includes(item.trim())) {
+          result.push(item.trim());
+        }
+      });
+    }
+    return result;
+  }
+
+  ValidateState(statesList) {
+    const acceptedValues = '--CREATED--ACTIVATED--DEACTIVATED--CLOSED--';
+    let result = statesList;
+    if (typeof statesList === 'string') {
+      const items = statesList.split(',');
+      result = [];
+      items.forEach(item => {
+        if (acceptedValues.includes(item.trim())) {
+          result.push(item.trim());
+        }
+      });
+    }
+    return result;
   }
 }

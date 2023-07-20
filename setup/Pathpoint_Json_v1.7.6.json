@@ -1,0 +1,448 @@
+{
+    "pathpointVersion": "1.7.64",
+    "kpis": [],
+    "stages": [
+        {
+            "title": "Browse",
+            "type": "People",
+            "active_dotted": "none",
+            "arrowMode": "FLOW",
+            "steps": [
+                {
+                    "line": 1,
+                    "values": [
+                        {
+                            "title": "Desktop Traffic",
+                            "id": "ST1-LINE1-SS1"
+                        },
+                        {
+                            "title": "Mobile Traffic",
+                            "id": "ST1-LINE1-SS2"
+                        }
+                    ]
+                },
+                {
+                    "line": 2,
+                    "values": [
+                        {
+                            "title": "Home page",
+                            "id": "ST1-LINE2-SS1"
+                        },
+                        {
+                            "title": "Search",
+                            "id": "ST1-LINE2-SS2"
+                        },
+                        {
+                            "title": "PLP",
+                            "id": "ST1-LINE2-SS3"
+                        }
+                    ]
+                },
+                {
+                    "line": 3,
+                    "values": [
+                        {
+                            "title": "PDP",
+                            "id": "ST1-LINE3-SS1"
+                        },
+                        {
+                            "title": " Delivery Options",
+                            "id": "ST1-LINE3-SS2"
+                        }
+                    ]
+                },
+                {
+                    "line": 4,
+                    "values": [
+                        {
+                            "title": "Add to Basket",
+                            "id": "ST1-LINE4-SS1"
+                        }
+                    ]
+                }
+            ],
+            "touchpoints": [
+                {
+                    "title": "Home Page sessions (RUM)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        false
+                    ],
+                    "related_steps": "ST1-LINE1-SS1,ST1-LINE1-SS2,ST1-LINE2-SS1",
+                    "queries": [
+                        {
+                            "accountID": 3280279,
+                            "query": "SELECT uniqueCount(DCGADBSession) FROM PageView WHERE appName = 'sfcc-currys-uk-production' AND pageRenderType = 'home'",
+                            "query_timeout": 10,
+                            "measure_time": "5 MINUTES AGO",
+                            "type": "Person-Count",
+                            "min_count": 10,
+                            "max_count": 8000
+                        }
+                    ]
+                },
+                {
+                    "title": "Add to Basket requests (RUM)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        false
+                    ],
+                    "related_steps": "ST1-LINE4-SS1",
+                    "queries": [
+                        {
+                            "accountID": 3280279,
+                            "query": "SELECT count(*) FROM AjaxRequest WHERE requestUrl LIKE 'www.currys.%/cart-add-product'",
+                            "query_timeout": 10,
+                            "measure_time": "5 MINUTES AGO",
+                            "type": "Process-Count",
+                            "min_count": 0,
+                            "max_count": 500
+                        }
+                    ]
+                },
+                {
+                    "title": "PDP Performance (RUM)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        false
+                    ],
+                    "related_steps": "ST1-LINE3-SS1",
+                    "queries": [
+                        {
+                            "accountID": 3280279,
+                            "query": "SELECT average(firstContentfulPaint)  FROM PageView WHERE appName LIKE 'sfcc-currys-%-production' AND pageRenderType = 'pdp'",
+                            "query_timeout": 10,
+                            "measure_time": "5 MINUTES AGO",
+                            "type": "FrontEnd-Performance",
+                            "min_apdex": 1,
+                            "max_response_time": 2,
+                            "max_error_percentage": 0
+                        }
+                    ]
+                },
+                {
+                    "title": "PLP Performance (RUM)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        false
+                    ],
+                    "related_steps": "ST1-LINE2-SS3",
+                    "queries": [
+                        {
+                            "accountID": 3280279,
+                            "query": "SELECT average(firstContentfulPaint)  FROM PageView WHERE appName LIKE 'sfcc-currys-%-production' AND pageRenderType = 'plp'",
+                            "query_timeout": 10,
+                            "measure_time": "5 MINUTES AGO",
+                            "type": "FrontEnd-Performance",
+                            "min_apdex": 1,
+                            "max_response_time": 2,
+                            "max_error_percentage": 0
+                        }
+                    ]
+                },
+                {
+                    "title": "Search Performance (RUM)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        false
+                    ],
+                    "related_steps": "ST1-LINE2-SS2",
+                    "queries": [
+                        {
+                            "accountID": 3280279,
+                            "query": "SELECT average(firstContentfulPaint)  FROM PageView WHERE appName LIKE 'sfcc-currys-%-production' AND pageRenderType = 'search'",
+                            "query_timeout": 10,
+                            "measure_time": "5 MINUTES AGO",
+                            "type": "FrontEnd-Performance",
+                            "min_apdex": 3,
+                            "max_response_time": 4,
+                            "max_error_percentage": 0
+                        }
+                    ]
+                },
+                {
+                    "title": "Home Page Performance (RUM)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        false
+                    ],
+                    "related_steps": "ST1-LINE2-SS1",
+                    "queries": [
+                        {
+                            "accountID": 3280279,
+                            "query": "SELECT average(firstContentfulPaint)  FROM PageView WHERE appName LIKE 'sfcc-currys-%-production' AND pageRenderType = 'home'",
+                            "query_timeout": 10,
+                            "measure_time": "5 MINUTES AGO",
+                            "type": "FrontEnd-Performance",
+                            "min_apdex": 1,
+                            "max_response_time": 2,
+                            "max_error_percentage": 0
+                        }
+                    ]
+                },
+                {
+                    "title": "ALERT-TEST-1x",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        false
+                    ],
+                    "related_steps": "ST1-LINE2-SS1",
+                    "queries": [
+                        {
+                            "accountID": 2119955,
+                            "query": "",
+                            "query_timeout": 10,
+                            "type": "Alert-Check",
+                            "alertConditionId": [
+                                20820414,
+                                20820391,
+                                20820393
+                            ],
+                            "priority": [
+                                "CRITICAL",
+                                "HIGH"
+                            ],
+                            "state": [
+                                "ACTIVATED",
+                                "CLOSED"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Basket",
+            "type": "People",
+            "active_dotted": "none",
+            "arrowMode": "FLOW",
+            "steps": [
+                {
+                    "line": 1,
+                    "values": [
+                        {
+                            "title": "Basket Page",
+                            "id": "ST2-LINE1-SS1"
+                        }
+                    ]
+                }
+            ],
+            "touchpoints": [
+                {
+                    "title": "Basket sessions (RUM)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        false
+                    ],
+                    "related_steps": "",
+                    "queries": [
+                        {
+                            "accountID": 3280279,
+                            "query": "SELECT uniqueCount(DCGADBSession) FROM PageView WHERE appName LIKE 'sfcc-currys-%-production' AND pageUrl LIKE 'https://www.currys.%/cart'",
+                            "query_timeout": 10,
+                            "measure_time": "5 MINUTES AGO",
+                            "type": "Person-Count",
+                            "min_count": 100,
+                            "max_count": 1000
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Checkout",
+            "type": "People",
+            "active_dotted": "none",
+            "arrowMode": "FLOW",
+            "steps": [
+                {
+                    "line": 1,
+                    "values": [
+                        {
+                            "title": "Checkout Page",
+                            "id": "ST3-LINE1-SS1"
+                        }
+                    ]
+                },
+                {
+                    "line": 2,
+                    "values": [
+                        {
+                            "title": "Delivery Options",
+                            "id": "ST3-LINE2-SS1"
+                        }
+                    ]
+                },
+                {
+                    "line": 3,
+                    "values": [
+                        {
+                            "title": "Temp Order Created",
+                            "id": "ST3-LINE3-SS1"
+                        }
+                    ]
+                },
+                {
+                    "line": 4,
+                    "values": [
+                        {
+                            "title": "Order Confirmation Screen",
+                            "id": "ST3-LINE4-SS1"
+                        }
+                    ]
+                }
+            ],
+            "touchpoints": [
+                {
+                    "title": "Order Confirmation sessions (RUM)",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        "https://onenr.io/01qwL8KPxw5"
+                    ],
+                    "related_steps": "ST3-LINE4-SS1",
+                    "queries": [
+                        {
+                            "accountID": 3280279,
+                            "query": "SELECT uniqueCount(DCGADBSession) FROM PageView WHERE appName LIKE 'sfcc-currys-%-production' AND pageUrl LIKE '%/order-confirmation'",
+                            "query_timeout": 10,
+                            "measure_time": "5 MINUTES AGO",
+                            "type": "Person-Count",
+                            "min_count": 0,
+                            "max_count": 100
+                        }
+                    ]
+                },
+                {
+                    "title": "ALERT-TEST-2",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        false
+                    ],
+                    "related_steps": "",
+                    "queries": [
+                        {
+                            "accountID": 2119955,
+                            "query": "",
+                            "query_timeout": 10,
+                            "type": "Alert-Check",
+                            "alertConditionId": [
+                                20820408
+                            ],
+                            "priority": [
+                                "CRITICAL"
+                            ],
+                            "state": [
+                                "ACTIVATED"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Order",
+            "type": "People",
+            "active_dotted": "none",
+            "arrowMode": "FLOW",
+            "steps": [
+                {
+                    "line": 1,
+                    "values": [
+                        {
+                            "title": "Order Confirmed",
+                            "id": "ST4-LINE1-SS1"
+                        }
+                    ]
+                },
+                {
+                    "line": 2,
+                    "values": [
+                        {
+                            "title": "Order Invoiced",
+                            "id": "ST4-LINE2-SS1"
+                        }
+                    ]
+                }
+            ],
+            "touchpoints": [
+                {
+                    "title": "Invoiced Orders",
+                    "status_on_off": true,
+                    "dashboard_url": [
+                        false
+                    ],
+                    "related_steps": "ST4-LINE2-SS1",
+                    "queries": [
+                        {
+                            "accountID": 3056204,
+                            "query": "SELECT count(*) AS 'Total orders (Invoiced)' FROM sre_orders where status = 'Invoiced'",
+                            "query_timeout": 10,
+                            "measure_time": "5 MINUTES AGO",
+                            "type": "Process-Count",
+                            "min_count": 10,
+                            "max_count": 200
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Distrubution",
+            "type": "People",
+            "active_dotted": "none",
+            "arrowMode": "FLOW",
+            "steps": [
+                {
+                    "line": 1,
+                    "values": [
+                        {
+                            "title": "Picking",
+                            "id": "ST5-LINE1-SS1"
+                        }
+                    ]
+                },
+                {
+                    "line": 2,
+                    "values": [
+                        {
+                            "title": "Shipping",
+                            "id": "ST5-LINE2-SS1"
+                        }
+                    ]
+                },
+                {
+                    "line": 3,
+                    "values": [
+                        {
+                            "title": "Order Received",
+                            "id": "ST5-LINE3-SS1"
+                        }
+                    ]
+                }
+            ],
+            "touchpoints": [
+                {
+                    "title": "Sample Touchpoint (PCC)",
+                    "status_on_off": false,
+                    "dashboard_url": [
+                        "https://onenr.io/01qwL8KPxw5"
+                    ],
+                    "related_steps": "",
+                    "queries": [
+                        {
+                            "accountID": 3280279,
+                            "query": "SELECT count(*) FROM Public_APICall",
+                            "query_timeout": 10,
+                            "measure_time": "5 MINUTES AGO",
+                            "type": "Process-Count",
+                            "min_count": 10,
+                            "max_count": 100
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "alertsRefreshDelay": "1",
+    "alertsTimeWindow": "5"
+}

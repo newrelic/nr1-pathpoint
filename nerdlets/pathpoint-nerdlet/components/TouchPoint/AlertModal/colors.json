@@ -1,0 +1,18 @@
+{
+  "low": {
+    "color": "#828282",
+    "backgroundColor": "rgba(189, 189, 189, 0.4)"
+  },
+  "medium": {
+    "color": "#ca8a04",
+    "backgroundColor": "rgba(250, 204, 21, 0.4)"
+  },
+  "high": {
+    "color": "#d84918",
+    "backgroundColor": "rgba(249, 115, 22, 0.4)"
+  },
+  "critical": {
+    "color": "#a71717",
+    "backgroundColor": "rgba(235, 87, 87, 0.4)"
+  }
+}
