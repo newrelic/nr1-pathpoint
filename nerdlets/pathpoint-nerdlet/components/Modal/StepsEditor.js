@@ -345,7 +345,7 @@ class BodyStepsEditor extends Component {
     const stages = [...this.state.stages];
     const stage = stages.find(item => item.id === current.stage);
     const currentStep = stage.steps.find(item => item.id === id);
-    const array = value.split(',');
+    const array = String(value).split(',');
     const sub_steps = [];
     array.forEach(item => {
       sub_steps.push({ value: item });
