@@ -323,8 +323,10 @@ class BodyStepsEditor extends Component {
       state => {
         const form = { ...state.form };
         form[`step_${id}`][target] = value;
+        const stages = this.UpdateSubSteps(value, id);
         return {
-          form
+          form,
+          stages
         };
       },
       () => {
@@ -337,6 +339,20 @@ class BodyStepsEditor extends Component {
       this.ChangeOrder(id, value);
     }
   };
+
+  UpdateSubSteps(value, id) {
+    const current = { ...this.state.current };
+    const stages = [...this.state.stages];
+    const stage = stages.find(item => item.id === current.stage);
+    const currentStep = stage.steps.find(item => item.id === id);
+    const array = value.split(',');
+    const sub_steps = [];
+    array.forEach(item => {
+      sub_steps.push({ value: item });
+    });
+    currentStep.sub_steps = [...sub_steps];
+    return stages;
+  }
 
   ChangeSubsteps = (id, value) => {
     this.setState(state => {
