@@ -319,24 +319,40 @@ class BodyStepsEditor extends Component {
   };
 
   HandleOnChange = (target, value, id) => {
-    this.setState(
-      state => {
-        const form = { ...state.form };
-        form[`step_${id}`][target] = value;
-        return {
-          form
-        };
-      },
-      () => {
-        if (target === 'substeps') {
+    if (target === 'substeps') {
+      this.setState(
+        state => {
+          const form = { ...state.form };
+          form[`step_${id}`][target] = value;
+          const stages = this.UpdateSubSteps(value, id);
+          return {
+            form,
+            stages
+          };
+        },
+        () => {
           this.ChangeSubsteps(id, value);
         }
-      }
-    );
+      );
+    }
     if (target === 'level') {
       this.ChangeOrder(id, value);
     }
   };
+
+  UpdateSubSteps(value, id) {
+    const current = { ...this.state.current };
+    const stages = [...this.state.stages];
+    const stage = stages.find(item => item.id === current.stage);
+    const currentStep = stage.steps.find(item => item.id === id);
+    const array = value.split(',');
+    const sub_steps = [];
+    array.forEach(item => {
+      sub_steps.push({ value: item });
+    });
+    currentStep.sub_steps = [...sub_steps];
+    return stages;
+  }
 
   ChangeSubsteps = (id, value) => {
     this.setState(state => {

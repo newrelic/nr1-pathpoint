@@ -3,6 +3,7 @@
     "name": "Pathpoint",
     "version": "1.7.6",
     "scripts": {
+        "testx":  "jest -w 1 -u",
         "test": "jest -w 1 -u --clearMocks",
         "testm": "jest -w 1 MainContainer",
         "eslint-check": "eslint nerdlets/",
