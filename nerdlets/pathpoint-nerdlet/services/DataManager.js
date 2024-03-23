@@ -2499,6 +2499,7 @@ export default class DataManager {
               type: 'APS',
               query: query.query,
               timeout: query_timeout,
+              measure_time: query_measure_time,
               min_success_percentage: query.min_success_percentage,
               success_percentage: 0
             };
