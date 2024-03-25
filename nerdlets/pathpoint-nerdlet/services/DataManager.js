@@ -17,6 +17,7 @@ import {
   NerdGraphQuery,
   logger
 } from 'nr1';
+import AlertIssues from './AlertTouchpoints';
 
 import LogConnector from './LogsConnector';
 import SynConnector from './SynConnector';
@@ -97,6 +98,7 @@ export default class DataManager {
     this.LogConnector = new LogConnector();
     this.SynConnector = new SynConnector();
     this.CredentialConnector = new CredentialConnector();
+    this.AlertIssues = new AlertIssues();
     this.SecureCredentialsExist = false;
     this.minPercentageError = 100;
     this.historicErrorsHours = 192;
@@ -132,7 +134,8 @@ export default class DataManager {
       'Drops-Count',
       'API-Performance',
       'API-Count',
-      'API-Status'
+      'API-Status',
+      'Alert-Check'
     ];
     this.accountIDs = [
       {
@@ -141,6 +144,10 @@ export default class DataManager {
       }
     ];
     this.detaultTimeout = 10;
+    this.alertsRefreshDelay = ViewData.alertsRefreshDelay ?? 5;
+    this.alertsTimeWindow = ViewData.alertsTimeWindow ?? 120;
+    this.measureAlertTouchpoints = false; // no carga la primera vez, para que el loading sea mas rapido
+    this.alertTouchpointsErrorCount = [];
   }
 
   async BootstrapInitialData(accountName) {
@@ -149,6 +156,7 @@ export default class DataManager {
     this.accountIDs.forEach(account => {
       logger.log(`AccountName:${account.name}   ID:${account.id} `);
     });
+    this.AlertIssues.SetAccountId(this.accountIDs);
     await this.CheckVersion();
     await this.GetCanaryData();
     await this.GetStorageHistoricErrorsParams();
@@ -289,9 +297,19 @@ export default class DataManager {
     return total;
   }
 
-  async UpdateData(timeRange, city, stages, kpis, timeRangeKpi) {
+  async UpdateData(
+    timeRange,
+    city,
+    stages,
+    kpis,
+    timeRangeKpi,
+    alertsTimeWindow,
+    alertsRefreshDelay
+  ) {
     if (this.accountId !== null) {
       // console.log(`UPDATING-DATA: ${this.accountId}`);
+      this.alertsTimeWindow = alertsTimeWindow;
+      this.alertsRefreshDelay = alertsRefreshDelay;
       this.timeRange = timeRange;
       this.city = city;
       this.stages = stages;
@@ -300,6 +318,16 @@ export default class DataManager {
       await this.TouchPointsUpdate();
       await this.UpdateMerchatKpi();
       this.CalculateUpdates();
+      if (this.measureAlertTouchpoints) {
+        this.stages = await this.AlertIssues.Measure(
+          this.stages,
+          this.touchPoints,
+          alertsTimeWindow,
+          alertsRefreshDelay
+        );
+        this.CheckAlertTouchpointsErrorDuration();
+      }
+      this.measureAlertTouchpoints = true;
       // console.log('FINISH-Update');
       return {
         stages: this.stages,
@@ -433,9 +461,12 @@ export default class DataManager {
         documentId: 'newViewJSON',
         document: {
           ViewJSON: this.stages,
-          Kpis: this.kpis
+          Kpis: this.kpis,
+          AlertsTimeWindow: this.alertsTimeWindow,
+          AlertsRefreshDelay: this.alertsRefreshDelay
         }
       });
+      this.AlertIssues.ClearLastStagesStatus();
     } catch (error) {
       /* istanbul ignore next */
       throw new Error(error);
@@ -1419,6 +1450,44 @@ export default class DataManager {
     this.UpdateDropSteps(element);
   }
 
+  CheckAlertTouchpointsErrorDuration() {
+    for (let i = 0; i < this.stages.length; i++) {
+      this.stages[i].touchpoints.forEach(touchpoint => {
+        if (
+          touchpoint.type &&
+          touchpoint.type === 'ALE' &&
+          this.lensForm.duration &&
+          this.lensForm.status === 'enable'
+        ) {
+          if (touchpoint.error === true) {
+            const N = (this.lensForm.durationMin * 60000) / this.timeRefresh;
+            if (
+              this.alertTouchpointsErrorCount[`${i}-${touchpoint.value}`] ===
+              undefined
+            )
+              this.alertTouchpointsErrorCount[`${i}-${touchpoint.value}`] = [];
+            this.alertTouchpointsErrorCount[`${i}-${touchpoint.value}`].push(1);
+            if (
+              this.alertTouchpointsErrorCount[`${i}-${touchpoint.value}`]
+                .length < N
+            )
+              touchpoint.error = false;
+            if (
+              this.alertTouchpointsErrorCount[`${i}-${touchpoint.value}`]
+                .length >
+              2 * N
+            )
+              this.alertTouchpointsErrorCount[`${i}-${touchpoint.value}`].pop();
+          } else {
+            // RESET touchpoint list errors
+            this.alertTouchpointsErrorCount[`${i}-${touchpoint.value}`] = [];
+          }
+          // console.log('Touchpoint:[',touchpoint.value,']:',this.alertTouchpointsErrorCount[`${i}-${touchpoint.value}`].length);
+        }
+      });
+    }
+  }
+
   Getmeasures(touchpoints_by_country) {
     const tpc = [];
     while (tpc.length < this.stages.length) {
@@ -2209,6 +2278,7 @@ export default class DataManager {
       error: false,
       json_file: configuration
     };
+    this.AlertIssues.ClearLastStagesStatus();
     this.SendToLogs(logRecord);
     return {
       stages: this.stages,
@@ -2841,6 +2911,7 @@ export default class DataManager {
       }
       return found;
     });
+    this.AlertIssues.ClearLastStagesStatus();
   }
 
   GetTouchpointTune(touchpoint) {
@@ -3105,6 +3176,7 @@ export default class DataManager {
       }
       return found;
     });
+    this.AlertIssues.ClearLastStagesStatus();
   }
 
   UpdateTouchpointQuerys(touchpoint, datos) {
@@ -3144,6 +3216,7 @@ export default class DataManager {
       }
       return found;
     });
+    this.AlertIssues.ClearLastStagesStatus();
   }
 
   UpdateMeasure(data, measure_points) {
