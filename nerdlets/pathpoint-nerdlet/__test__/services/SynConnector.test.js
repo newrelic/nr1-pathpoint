@@ -181,58 +181,49 @@ describe('LogsConnector', () => {
     expect(synConnector.UpdateFlameScript).toHaveBeenCalledTimes(1);
   });
 
-  it('Function ExistFlameScript()', async () => {
-    jest.spyOn(synConnector.axiosInstance, 'get').mockReturnValue({
-      status: 200,
-      data: {
-        monitors: [
-          {
-            name: 'Pathpoint-7d86cabe-5130-48ba-b2f8-ff9e9a395f66 Flame Script',
-            type: 'SCRIPT_API',
-            id: ''
-          }
-        ]
-      }
+  it('Function ExistFlameScript() flameScriptID=null', async () => {
+    synConnector.flameScriptId = null;
+    synConnector.AccountStorageQuery = await jest.fn().mockReturnValue({
+      accountId: '10203040',
+      collection: 'pathpoint',
+      documentId: 'flameScript'
     });
     const result = await synConnector.ExistFlameScript();
     expect(result.searchResult).toEqual(false);
+    expect(result.monitorID).toEqual('');
+    expect(result.error).toEqual(null);
   });
 
-  it('Function ExistFlameScript() with monitor name', async () => {
+  it('Function ExistFlameScript() flameScriptID= not null', async () => {
+    synConnector.flameScriptId = '102030';
     jest.spyOn(synConnector.axiosInstance, 'get').mockReturnValue({
       status: 200,
       data: {
-        monitors: [
-          {
-            name: 'Pathpoint-1 Flame Script',
-            type: 'SCRIPT_API',
-            id: ''
-          }
-        ]
+        name: 'Pathpoint-7d86cabe-5130-48ba-b2f8-ff9e9a395f66 Flame Script',
+        type: 'SCRIPT_API',
+        id: ''
       }
     });
     const result = await synConnector.ExistFlameScript();
     expect(result.searchResult).toEqual(true);
+    expect(result.monitorID).toEqual('102030');
+    expect(result.error).toEqual(null);
   });
 
-  it('Function ExistFlameScript() with error', async () => {
+  it('Function ExistFlameScript() flameScriptID= not null Bad axios response', async () => {
+    synConnector.flameScriptId = '102030';
     jest.spyOn(synConnector.axiosInstance, 'get').mockReturnValue({
-      status: 401,
-      data: {
-        monitors: [
-          {
-            name: 'Pathpoint',
-            type: 'SCRIPT_API',
-            id: ''
-          }
-        ]
-      }
+      status: 400,
+      data: {}
     });
     const result = await synConnector.ExistFlameScript();
+    expect(result.searchResult).toEqual(false);
+    expect(result.monitorID).toEqual('');
     expect(result.error).toEqual(true);
   });
 
   it('Function ExistFlameScript() with catch', async () => {
+    synConnector.flameScriptId = '102030';
     jest
       .spyOn(synConnector.axiosInstance, 'get')
       .mockRejectedValue(Error('error'));

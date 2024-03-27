@@ -1,6 +1,7 @@
 import axios from 'axios';
 import nr1 from '../../../nr1.json';
 import env from '../../../.env.json';
+import { AccountStorageQuery, AccountStorageMutation } from 'nr1';
 
 export default class SynConnector {
   constructor() {
@@ -13,6 +14,8 @@ export default class SynConnector {
     this.DropStatus = false;
     this.FlameStatus = false;
     this.uriSyntetic = env.synApiURL;
+    this.flameScriptId = null;
+    this.flameScriptName = null;
   }
 
   async ValidateUserApiKey(userApiKey) {
@@ -51,6 +54,24 @@ export default class SynConnector {
 
   EnableDisableFlame(status) {
     this.FlameStatus = status;
+  }
+
+  SetFlameScript(scriptID, scriptName) {
+    try {
+      AccountStorageMutation.mutate({
+        accountId: this.accountId,
+        actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
+        collection: 'pathpoint',
+        documentId: 'flameScript',
+        document: {
+          flameScriptId: scriptID,
+          flameScriptName: scriptName
+        }
+      });
+    } catch (error) {
+      /* istanbul ignore next */
+      throw new Error(error);
+    }
   }
 
   async UpdateFlameMonitor(encodedScript) {
@@ -94,43 +115,49 @@ export default class SynConnector {
   }
 
   async ExistFlameScript() {
-    const name = `Pathpoint-${this.pathpoint_id} Flame Script`;
     let searchResult = false;
     let monitorID = '';
     let error = null;
     try {
-      const response = await this.axiosInstance.get(this.uriSyntetic, {
-        headers: {
-          contentType: 'application/json',
-          'Api-Key': this.userApiKey
-        }
-      });
-      if (
-        response &&
-        response.status &&
-        response.status === 200 &&
-        response.data &&
-        response.data.monitors
-      ) {
-        // Se busaca en la lista de Monitores si existe el monitor de Flame
-        response.data.monitors.some(monitor => {
-          let found = false;
-          if (monitor.name === name && monitor.type === 'SCRIPT_API') {
-            monitorID = monitor.id;
-            searchResult = true;
-            found = true;
-          }
-          return found;
+      if (this.flameScriptId === null) {
+        const { data } = await AccountStorageQuery.query({
+          accountId: this.accountId,
+          collection: 'pathpoint',
+          documentId: 'flameScript'
         });
-      } else {
-        error = true;
+        if (data) {
+          this.flameScriptId = data.flameScriptId;
+          this.flameScriptName = data.flameScriptName;
+        }
       }
-      // console.log('Validating MonitorID:', response);
-      // remove the Fail entry from Nerdlet Storage
+      // const name = `Pathpoint-${this.pathpoint_id} Flame Script`;
+      if (this.flameScriptId) {
+        // validate if monitor already exist
+        const response = await this.axiosInstance.get(
+          `${this.uriSyntetic}/${this.flameScriptId}`,
+          {
+            headers: {
+              contentType: 'application/json',
+              'Api-Key': this.userApiKey
+            }
+          }
+        );
+        if (
+          response &&
+          response.status &&
+          response.status === 200 &&
+          response.data &&
+          response.data.name
+        ) {
+          monitorID = this.flameScriptId;
+          searchResult = true;
+        } else {
+          error = true;
+        }
+      }
     } catch (error) {
       throw new Error(error);
     }
-
     return { searchResult, monitorID, error };
   }
 
@@ -162,6 +189,7 @@ export default class SynConnector {
           'https://synthetics.newrelic.com/synthetics/api/v3/monitors/'
         );
         const monitorID = arrayLocation[1];
+        this.SetFlameScript(monitorID, FlameMonitor.name);
         return monitorID;
       } catch (error) {
         // console.log('Creation Script Error:',error);
