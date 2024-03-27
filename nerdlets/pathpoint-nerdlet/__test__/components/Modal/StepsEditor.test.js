@@ -402,12 +402,12 @@ describe('<BodyStepsEditor/>', () => {
     );
     const instance = stepsEditor.instance();
     const target = 'substeps';
-    const value = 1;
+    const value = 'A,B,C,D';
     const id = 11;
     instance.ChangeSubsteps = jest.fn();
     instance.HandleOnChange(target, value, id);
     expect(instance.state.form).toEqual({
-      step_11: { index: 1, level: 1, substeps: 1 },
+      step_11: { index: 1, level: 1, substeps: 'A,B,C,D' },
       step_12: { index: 2, level: 2, substeps: '' }
     });
   });
