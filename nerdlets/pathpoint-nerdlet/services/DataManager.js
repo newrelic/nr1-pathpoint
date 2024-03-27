@@ -2503,9 +2503,7 @@ export default class DataManager {
               success_percentage: 0
             };
           }
-          if (query.accountID !== this.accountId) {
-            measure = { accountID: query.accountID, ...measure };
-          }
+          measure = { accountID: query.accountID, ...measure };
           /*
            if (query.measure_time !== TimeRangeTransform(this.timeRange)) {
             measure = { ...measure, measure_time: query.measure_time };
