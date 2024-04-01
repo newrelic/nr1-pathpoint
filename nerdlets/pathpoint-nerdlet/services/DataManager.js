@@ -2569,13 +2569,12 @@ export default class DataManager {
               type: 'APS',
               query: query.query,
               timeout: query_timeout,
+              measure_time: query_measure_time,
               min_success_percentage: query.min_success_percentage,
               success_percentage: 0
             };
           }
-          if (query.accountID !== this.accountId) {
-            measure = { accountID: query.accountID, ...measure };
-          }
+          measure = { accountID: query.accountID, ...measure };
           /*
            if (query.measure_time !== TimeRangeTransform(this.timeRange)) {
             measure = { ...measure, measure_time: query.measure_time };

@@ -1874,7 +1874,8 @@ export default class MainContainer extends React.Component {
     document.dispatchEvent(event);
     this.setState({
       loading: false,
-      totalContainers
+      totalContainers,
+      updateBackgroundScript: true
     });
   };
 
