@@ -3,7 +3,7 @@
         "setup": {
             "json": "<p>Pathpoint is designed to be customized by the customer.  This is done through a JSON configuration file.  (See our main documentation for a detailed description of the file structure.)</p><ol type='1' style='padding-left: 15px'><li>Download the existing configuration</li><li>Modify it</li><li>Upload & Update it</li></ol><p>This will allow you to keep your JSON configuration in a version control system for save keeping.</p>",
             "json_link_demo": "https://www.youtube.com/watch?v=sp9r6hSWH_o",
-            "background": "<p>Pathpoint is a powerful interactive tool that pulls most of its telemetry from real-time NRQL queries.  However for some views like the “Fire Filter”, Pathpoint relies on historical data that is maintained through a background job.</p><ol type='1' style='padding-left: 15px'><li>Use the download link to download a pre-generated Node script.</li><li>Install this script as a synthetics check and the data will be collected continuously.</li></ol><p>You will need to update the script to contain your key information. You may also make customizations to the script as needed, but remember any updates will not be maintained by Pathpoint.   (See our main documentation for a detailed reference on these background jobs.)</p>",
+            "background": "<p>You will need to update the script to contain your key information. You may also make customizations to the script as needed, but remember any updates will not be maintained by Pathpoint.</p>",
             "background_link": "https://docs.newrelic.com/docs/synthetics/synthetic-monitoring/using-monitors/add-edit-monitors"
         },
         "support": {
@@ -57,7 +57,8 @@
         "drp": "SELECT count(*) as count FROM Public_APICall WHERE api='adyen.com'",
         "apc":"SELECT count(*) as count FROM Public_APICall WHERE awsRegion='queue'",
         "api":"SELECT filter(apdex(duration, t:0.028), WHERE 1=1) as apdex, filter( max(duration), WHERE 1=1) as response,filter(percentage(count(*), WHERE error is true), WHERE 1=1) as error from Transaction WHERE appName='QS'",
-        "aps":"SELECT percentage(count(*),WHERE isStatus='ok') as percentage from PathpointKpiHealth"
+        "aps":"SELECT percentage(count(*),WHERE isStatus='ok') as percentage from PathpointKpiHealth",
+        "val":"SELECT count(*) as value FROM Transaction WHERE appName='QS'"
     },
     "test_query": {
         "wrong": "Incorrect validated",

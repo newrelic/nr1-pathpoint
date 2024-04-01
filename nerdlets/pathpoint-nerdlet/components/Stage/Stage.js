@@ -56,7 +56,7 @@ const Stage = ({ stage, onClickStage }) => {
           style={SetCursorStyle(stage.capacity_link)}
           onClick={() => {
             if (stage.capacity_link !== false) {
-              window.open(stage.capacity_link);
+              window.open(stage.capacity_link.url);
             }
           }}
         >

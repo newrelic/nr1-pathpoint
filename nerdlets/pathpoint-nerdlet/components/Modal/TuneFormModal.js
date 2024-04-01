@@ -264,6 +264,22 @@ const RenderForm = (datos, handleOnChange) => {
           </div>
         </>
       );
+    case 'VAL':
+      return (
+        <>
+          <div style={{ height: '40px', width: '320px' }}>
+            {renderField({
+              label: 'Value (Max)',
+              defaultValue: datos[0].max_value,
+              id: 'max_value',
+              onChange: handleOnChange,
+              name: 'max_value',
+              key: 'Max',
+              compare: datos[0].value
+            })}
+          </div>
+        </>
+      );
   }
 };
 

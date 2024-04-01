@@ -45,82 +45,89 @@
       }
     ]
   },
+  "alertsRefreshDelay": 5,
+  "alertsTimeWindow": 120,
   "canary_status": false,
   "kpis": [
     {
       "index": 0,
       "type": 101,
-      "name": "Unique Visitors",
-      "shortName": "Unique",
+      "name": "Logins (Compare with 1 day ago)",
+      "shortName": "Login",
+      "value_type": "INT",
+      "prefix": "",
+      "suffix": "",
       "queryByCity": [
         {
-          "accountID": 1606862,
-          "query": "SELECT count(*) as value  FROM  Public_APICall COMPARE WITH 2 day ago",
-          "link": "https://onenr.io/01qwL8KPxw5"
+          "accountID": 2781667,
+          "query": "SELECT count(*) as value FROM Transaction where http.statusCode >= 200 and http.statusCode <=399 and appName='210135-Partner Ready Portal (PRP)-Production' and request.uri='/group/prp/home'  COMPARE WITH 1 day ago",
+          "link": "https://onenr.io/0oQDgKK21jy"
         }
       ],
       "value": {
         "current": 0,
         "previous": 0
       },
-      "value_type": "FLOAT",
-      "prefix": "$",
-      "suffix": "",
       "check": true
     },
     {
       "index": 1,
       "type": 101,
-      "name": "1 Account",
-      "shortName": "1 Acc.",
+      "name": "Save Quotes (Compare with 1 day ago)",
+      "shortName": "Quotes Save/Update",
+      "value_type": "INT",
+      "prefix": "",
+      "suffix": "",
       "queryByCity": [
         {
-          "query": "SELECT count(*) as value  FROM  Public_APICall COMPARE WITH 2 day ago",
-          "link": "https://onenr.io/01qwL8KPxw5"
+          "accountID": 2781667,
+          "query": "SELECT count(*) as value FROM Transaction where http.statusCode >=200 and http.statusCode <=399 and appName = '212948-Next Generation Quoter-PRD' and request.uri='/q2cwngq/qids/saveNewQuoteToQids' COMPARE WITH 1 day ago",
+          "link": "https://onenr.io/00jl67NNPwW"
         }
       ],
       "value": {
         "current": 0,
         "previous": 0
       },
-      "value_type": "FLOAT",
-      "prefix": "",
-      "suffix": "%",
-      "check": false
+      "check": true
     },
     {
       "index": 2,
-      "type": 100,
-      "name": "1+ Account",
-      "shortName": "1+ Acc.",
+      "type": 101,
+      "name": "PricingCalls (Compare with 1 day ago)",
+      "shortName": "NGQ Pricing",
+      "value_type": "INT",
+      "prefix": "",
+      "suffix": "",
       "queryByCity": [
         {
-          "accountID": 1606862,
-          "query": "SELECT count(*) as value  FROM  Public_APICall",
-          "link": "https://onenr.io/01qwL8KPxw5"
+          "accountID": 2781667,
+          "query": "SELECT count(*) as value FROM Transaction where http.statusCode >=200 and http.statusCode <=399 and appName = '212948-Next Generation Quoter-PRD' and request.uri='/q2cwngq/ngqpricing/refreshOptimusWithSH' COMPARE WITH 1 day ago",
+          "link": "https://onenr.io/0nQxlPPnaQV"
         }
       ],
-      "value": 0,
-      "value_type": "FLOAT",
-      "prefix": "R$",
-      "suffix": "",
-      "check": false
+      "value": {
+        "current": 0,
+        "previous": 0
+      },
+      "check": true
     },
     {
       "index": 3,
       "type": 100,
       "name": "Customers",
       "shortName": "Cust.",
+      "value_type": "INT",
+      "prefix": "#",
+      "suffix": "ACC",
       "queryByCity": [
         {
+          "accountID": 2781667,
           "query": "SELECT count(*) as value  FROM  Public_APICall",
           "link": "https://onenr.io/01qwL8KPxw5"
         }
       ],
       "value": 0,
-      "value_type": "INT",
-      "prefix": "#",
-      "suffix": "ACC",
       "check": false
     },
     {
@@ -128,6 +135,9 @@
       "type": 100,
       "name": "All Accounts",
       "shortName": "All Acc.",
+      "value_type": "INT",
+      "prefix": "",
+      "suffix": "",
       "queryByCity": [
         {
           "accountID": 1606862,
@@ -136,9 +146,6 @@
         }
       ],
       "value": 0,
-      "value_type": "INT",
-      "prefix": "",
-      "suffix": "",
       "check": false
     },
     {
@@ -146,6 +153,9 @@
       "type": 100,
       "name": "Monthly vs Annual Pay",
       "shortName": "MvsA",
+      "value_type": "INT",
+      "prefix": "",
+      "suffix": "",
       "queryByCity": [
         {
           "accountID": 1606862,
@@ -154,9 +164,6 @@
         }
       ],
       "value": 0,
-      "value_type": "INT",
-      "prefix": "",
-      "suffix": "",
       "check": false
     },
     {
@@ -164,16 +171,17 @@
       "type": 100,
       "name": "Autopay",
       "shortName": "Autopay",
+      "value_type": "INT",
+      "prefix": "",
+      "suffix": "",
       "queryByCity": [
         {
+          "accountID": 2781667,
           "query": "SELECT count(*) as value  FROM  Public_APICall",
           "link": "https://onenr.io/01qwL8KPxw5"
         }
       ],
       "value": 0,
-      "value_type": "INT",
-      "prefix": "",
-      "suffix": "",
       "check": false
     },
     {
@@ -181,6 +189,9 @@
       "type": 100,
       "name": "eStatement",
       "shortName": "eStat.",
+      "value_type": "INT",
+      "prefix": "",
+      "suffix": "",
       "queryByCity": [
         {
           "accountID": 1606862,
@@ -189,9 +200,6 @@
         }
       ],
       "value": 0,
-      "value_type": "INT",
-      "prefix": "",
-      "suffix": "",
       "check": false
     },
     {
@@ -199,6 +207,9 @@
       "type": 100,
       "name": "1 loan Signed-in",
       "shortName": "1_loan",
+      "value_type": "INT",
+      "prefix": "",
+      "suffix": "",
       "queryByCity": [
         {
           "accountID": 1606862,
@@ -207,9 +218,6 @@
         }
       ],
       "value": 0,
-      "value_type": "INT",
-      "prefix": "",
-      "suffix": "",
       "check": false
     },
     {
@@ -217,6 +225,9 @@
       "type": 100,
       "name": "1+ loan Signed-in",
       "shortName": "1+loan",
+      "value_type": "INT",
+      "prefix": "",
+      "suffix": "",
       "queryByCity": [
         {
           "accountID": 1606862,
@@ -225,9 +236,6 @@
         }
       ],
       "value": 0,
-      "value_type": "INT",
-      "prefix": "",
-      "suffix": "",
       "check": false
     },
     {
@@ -235,16 +243,17 @@
       "type": 100,
       "name": "Consumer Loans Signed-in",
       "shortName": "Cust L",
+      "value_type": "INT",
+      "prefix": "",
+      "suffix": "",
       "queryByCity": [
         {
+          "accountID": 2781667,
           "query": "SELECT count(*) as value  FROM  Public_APICall",
           "link": "https://onenr.io/01qwL8KPxw5"
         }
       ],
       "value": 0,
-      "value_type": "INT",
-      "prefix": "",
-      "suffix": "",
       "check": false
     },
     {
@@ -252,16 +261,17 @@
       "type": 100,
       "name": "green orders",
       "shortName": "Green orders (max)",
+      "value_type": "INT",
+      "prefix": "",
+      "suffix": "",
       "queryByCity": [
         {
+          "accountID": 2781667,
           "query": "SELECT count(*) as value  FROM  Public_APICall",
           "link": "https://onenr.io/01qwL8KPxw5"
         }
       ],
       "value": 0,
-      "value_type": "INT",
-      "prefix": "",
-      "suffix": "",
       "check": false
     },
     {
@@ -269,16 +279,17 @@
       "type": 100,
       "name": "Past Due",
       "shortName": "Past_Due",
+      "value_type": "INT",
+      "prefix": "",
+      "suffix": "",
       "queryByCity": [
         {
+          "accountID": 2781667,
           "query": "SELECT count(*) as value  FROM  Public_APICall",
           "link": "https://onenr.io/01qwL8KPxw5"
         }
       ],
       "value": 0,
-      "value_type": "INT",
-      "prefix": "",
-      "suffix": "",
       "check": false
     },
     {
@@ -286,24 +297,25 @@
       "type": 100,
       "name": "Auto-Dialer",
       "shortName": "Auto-Dialer",
+      "value_type": "INT",
+      "prefix": "",
+      "suffix": "",
       "queryByCity": [
         {
+          "accountID": 2781667,
           "query": "SELECT count(*) as value  FROM  Public_APICall",
           "link": "https://onenr.io/01qwL8KPxw5"
         }
       ],
       "value": 0,
-      "value_type": "INT",
-      "prefix": "",
-      "suffix": "",
       "check": false
     }
   ],
   "stages": [
     {
       "index": 1,
-      "title": "BROWSE",
-      "type": "People",
+      "title": "Login",
+      "type": "Process",
       "latencyStatus": false,
       "status_color": "good",
       "gout_enable": false,
@@ -313,11 +325,11 @@
       "trafficIconType": "traffic",
       "money": "",
       "icon_active": false,
-      "icon_description": "medal",
+      "icon_description": "star",
       "icon_visible": false,
       "congestion": {
         "value": 0,
-        "percentage": 15
+        "percentage": 0
       },
       "capacity": 0,
       "capacity_link": "",
@@ -334,7 +346,7 @@
               "id": "ST1-LINE1-SS1",
               "canary_state": false,
               "latency": true,
-              "value": "Web",
+              "value": "Authenticate",
               "dark": false,
               "history_error": false,
               "dotted": false,
@@ -342,40 +354,52 @@
               "error": false,
               "index_stage": 1,
               "relationship_touchpoints": [
-                6,
-                10
-              ]
-            },
-            {
-              "index": 2,
-              "id": "ST1-LINE1-SS2",
-              "canary_state": false,
-              "latency": false,
-              "value": "Mobile Web",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 1,
-              "relationship_touchpoints": []
-            },
-            {
-              "index": 3,
-              "id": "ST1-LINE1-SS3",
-              "canary_state": false,
-              "latency": false,
-              "value": "App",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 1,
-              "relationship_touchpoints": [
+                1,
                 2,
                 3,
-                10
+                6
+              ]
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 2,
+              "id": "ST1-LINE2-SS1",
+              "canary_state": false,
+              "latency": true,
+              "value": "Home Page",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 1,
+              "relationship_touchpoints": [
+                7
+              ]
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 3,
+              "id": "ST1-LINE3-SS1",
+              "canary_state": false,
+              "latency": true,
+              "value": "Synthetic Monitor",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 1,
+              "relationship_touchpoints": [
+                8
               ]
             }
           ]
@@ -385,179 +409,19 @@
           "sub_steps": [
             {
               "index": 4,
-              "id": "ST1-LINE2-SS1",
-              "canary_state": false,
-              "latency": true,
-              "value": "Login",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 1,
-              "relationship_touchpoints": [
-                1,
-                4,
-                7
-              ]
-            },
-            {
-              "index": 5,
-              "id": "ST1-LINE2-SS2",
-              "canary_state": false,
-              "latency": false,
-              "value": "Signup",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 1,
-              "relationship_touchpoints": [
-                5,
-                8
-              ]
-            },
-            {
-              "index": 6,
-              "id": "ST1-LINE2-SS3",
-              "canary_state": false,
-              "latency": false,
-              "value": "Guest",
-              "dark": true,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 1,
-              "relationship_touchpoints": []
-            }
-          ]
-        },
-        {
-          "value": "",
-          "sub_steps": [
-            {
-              "index": 7,
-              "id": "ST1-LINE3-SS1",
-              "canary_state": false,
-              "latency": false,
-              "value": "Search",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 1,
-              "relationship_touchpoints": []
-            },
-            {
-              "index": 8,
-              "id": "ST1-LINE3-SS2",
-              "canary_state": false,
-              "latency": false,
-              "value": "Menu",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 1,
-              "relationship_touchpoints": []
-            },
-            {
-              "index": 9,
-              "id": "ST1-LINE3-SS3",
-              "canary_state": false,
-              "latency": false,
-              "value": "Gift Card",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 1,
-              "relationship_touchpoints": []
-            },
-            {
-              "index": 10,
-              "id": "ST1-LINE3-SS4",
-              "canary_state": false,
-              "latency": false,
-              "value": "Rewards",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 1,
-              "relationship_touchpoints": []
-            }
-          ]
-        },
-        {
-          "value": "",
-          "sub_steps": [
-            {
-              "index": 11,
               "id": "ST1-LINE4-SS1",
               "canary_state": false,
-              "latency": false,
-              "value": "Rewards",
-              "dark": true,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 1,
-              "relationship_touchpoints": []
-            },
-            {
-              "index": 12,
-              "id": "ST1-LINE4-SS2",
-              "canary_state": false,
-              "latency": false,
-              "value": "Pick-Up Item",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 1,
-              "relationship_touchpoints": []
-            },
-            {
-              "index": 13,
-              "id": "ST1-LINE4-SS3",
-              "canary_state": false,
-              "latency": false,
-              "value": "Reward Item",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 1,
-              "relationship_touchpoints": []
-            }
-          ]
-        },
-        {
-          "value": "",
-          "sub_steps": [
-            {
-              "index": 14,
-              "id": "ST1-LINE5-SS1",
-              "canary_state": false,
               "latency": true,
-              "value": "Add to Bag",
+              "value": "  Infrastructure",
               "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
               "error": false,
               "index_stage": 1,
-              "relationship_touchpoints": []
+              "relationship_touchpoints": [
+                4
+              ]
             }
           ]
         }
@@ -570,7 +434,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "Login People (PRC)",
+          "value": "Okta - Token",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -578,11 +442,16 @@
             0
           ],
           "dashboard_url": [
-            "https://onenr.io/01qwL8KPxw5"
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0dQeOakpVRe"
+            }
           ],
           "relation_steps": [
-            4
-          ]
+            1
+          ],
+          "type": "",
+          "alertId": ""
         },
         {
           "index": 2,
@@ -591,7 +460,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "App Backend Health (APP)",
+          "value": "Okta - UserInfo",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -599,11 +468,16 @@
             0
           ],
           "dashboard_url": [
-            "https://onenr.io/01qwL8KPxw5"
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0dQeOakpVRe"
+            }
           ],
           "relation_steps": [
-            3
-          ]
+            1
+          ],
+          "type": "",
+          "alertId": ""
         },
         {
           "index": 3,
@@ -612,7 +486,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "API Performance (API)",
+          "value": "Login Page",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -620,11 +494,16 @@
             0
           ],
           "dashboard_url": [
-            "https://onenr.io/01qwL8KPxw5"
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0dQeOakpVRe"
+            }
           ],
           "relation_steps": [
-            3
-          ]
+            1
+          ],
+          "type": "",
+          "alertId": ""
         },
         {
           "index": 4,
@@ -633,7 +512,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "API Count (APC)",
+          "value": "System Overall Infra health",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -641,11 +520,16 @@
             0
           ],
           "dashboard_url": [
-            "https://onenr.io/01qwL8KPxw5"
+            {
+              "nickName": "",
+              "url": "https://onenr.io/02wd7YKopQE"
+            }
           ],
           "relation_steps": [
             4
-          ]
+          ],
+          "type": "",
+          "alertId": ""
         },
         {
           "index": 5,
@@ -654,7 +538,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "API Status (APS)",
+          "value": "System Overall Performance",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -662,11 +546,14 @@
             0
           ],
           "dashboard_url": [
-            "https://onenr.io/01qwL8KPxw5"
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0vwBlEA91jp"
+            }
           ],
-          "relation_steps": [
-            5
-          ]
+          "relation_steps": [],
+          "type": "",
+          "alertId": ""
         },
         {
           "index": 6,
@@ -675,7 +562,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "App Frontend Health (FRT)",
+          "value": "# of User Impacted due to Failures",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -683,11 +570,16 @@
             0
           ],
           "dashboard_url": [
-            "https://onenr.io/01qwL8KPxw5"
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0dQeOakpVRe"
+            }
           ],
           "relation_steps": [
             1
-          ]
+          ],
+          "type": "",
+          "alertId": ""
         },
         {
           "index": 7,
@@ -696,7 +588,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "Login Check (SYN)",
+          "value": "Home Page Load",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -704,11 +596,16 @@
             0
           ],
           "dashboard_url": [
-            "https://onenr.io/01qwL8KPxw5"
+            {
+              "nickname": "",
+              "url": "https://onenr.io/0dQeOakpVRe"
+            }
           ],
           "relation_steps": [
-            4
-          ]
+            2
+          ],
+          "type": "",
+          "alertId": ""
         },
         {
           "index": 8,
@@ -717,7 +614,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "Signup People (PRC)",
+          "value": "Login PRP - Synthetic Availability",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -725,11 +622,16 @@
             0
           ],
           "dashboard_url": [
-            "https://onenr.io/01qwL8KPxw5"
+            {
+              "nickname": "",
+              "url": "https://onenr.io/01wZgbpY4R6"
+            }
           ],
           "relation_steps": [
-            5
-          ]
+            3
+          ],
+          "type": "",
+          "alertId": ""
         },
         {
           "index": 9,
@@ -738,7 +640,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "Workload (WLD)",
+          "value": "Login Count",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -746,37 +648,20 @@
             0
           ],
           "dashboard_url": [
-            false
+            {
+              "nickname": "",
+              "url": "https://onenr.io/01qwL8KPxw5"
+            }
           ],
-          "relation_steps": []
-        },
-        {
-          "index": 10,
-          "stage_index": 1,
-          "status_on_off": true,
-          "response_error": false,
-          "show_grey_square": false,
-          "active": false,
-          "value": "Drop Touchpoint (DRP)",
-          "highlighted": false,
-          "error": false,
-          "history_error": false,
-          "countrys": [
-            0
-          ],
-          "dashboard_url": [
-            "https://onenr.io/01qwL8KPxw5"
-          ],
-          "relation_steps": [
-            1,
-            3
-          ]
+          "relation_steps": [],
+          "type": "",
+          "alertId": ""
         }
       ]
     },
     {
       "index": 2,
-      "title": "BAG",
+      "title": "Opportunity",
       "type": "Process",
       "latencyStatus": false,
       "status_color": "good",
@@ -786,12 +671,12 @@
       "money_enabled": false,
       "trafficIconType": "traffic",
       "money": "",
-      "icon_active": true,
-      "icon_description": "medal",
+      "icon_active": false,
+      "icon_description": "star",
       "icon_visible": false,
       "congestion": {
         "value": 0,
-        "percentage": 15
+        "percentage": 0
       },
       "capacity": 0,
       "capacity_link": "",
@@ -808,7 +693,7 @@
               "id": "ST2-LINE1-SS1",
               "canary_state": false,
               "latency": true,
-              "value": "Pay Items",
+              "value": "Navigate Opty (SFDC)",
               "dark": false,
               "history_error": false,
               "dotted": false,
@@ -819,116 +704,18 @@
                 1,
                 6
               ]
-            },
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
             {
               "index": 2,
-              "id": "ST2-LINE1-SS2",
-              "canary_state": false,
-              "latency": false,
-              "value": "Reward Items",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 2,
-              "relationship_touchpoints": []
-            },
-            {
-              "index": 3,
-              "id": "ST2-LINE1-SS3",
-              "canary_state": false,
-              "latency": false,
-              "value": "Saved items",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 2,
-              "relationship_touchpoints": []
-            }
-          ]
-        },
-        {
-          "value": "",
-          "sub_steps": [
-            {
-              "index": 4,
               "id": "ST2-LINE2-SS1",
               "canary_state": false,
-              "latency": false,
-              "value": "Add/Remove Item",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 2,
-              "relationship_touchpoints": [
-                2
-              ]
-            },
-            {
-              "index": 5,
-              "id": "ST2-LINE2-SS2",
-              "canary_state": false,
-              "latency": false,
-              "value": "Promo Code",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 2,
-              "relationship_touchpoints": []
-            }
-          ]
-        },
-        {
-          "value": "",
-          "sub_steps": [
-            {
-              "index": 6,
-              "id": "ST2-LINE3-SS1",
-              "canary_state": false,
-              "latency": false,
-              "value": "PAY Calculation",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 2,
-              "relationship_touchpoints": [
-                3
-              ]
-            },
-            {
-              "index": 7,
-              "id": "ST2-LINE3-SS2",
-              "canary_state": false,
-              "latency": false,
-              "value": "POINTS Calculation",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 2,
-              "relationship_touchpoints": []
-            }
-          ]
-        },
-        {
-          "value": "",
-          "sub_steps": [
-            {
-              "index": 8,
-              "id": "ST2-LINE4-SS1",
-              "canary_state": false,
-              "latency": false,
-              "value": "Checkout",
+              "latency": true,
+              "value": "NGQ Launch",
               "dark": false,
               "history_error": false,
               "dotted": false,
@@ -938,34 +725,48 @@
               "relationship_touchpoints": [
                 4
               ]
-            },
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
             {
-              "index": 9,
-              "id": "ST2-LINE4-SS2",
+              "index": 3,
+              "id": "ST2-LINE3-SS1",
               "canary_state": false,
-              "latency": false,
-              "value": "Continue Shopping",
+              "latency": true,
+              "value": "Synthetic Monitor",
               "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
               "error": false,
               "index_stage": 2,
-              "relationship_touchpoints": []
-            },
+              "relationship_touchpoints": [
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
             {
-              "index": 10,
-              "id": "ST2-LINE4-SS3",
+              "index": 4,
+              "id": "ST2-LINE4-SS1",
               "canary_state": false,
-              "latency": false,
-              "value": "Save For Later",
+              "latency": true,
+              "value": "  Infrastructure",
               "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
               "error": false,
               "index_stage": 2,
-              "relationship_touchpoints": []
+              "relationship_touchpoints": [
+                2
+              ]
             }
           ]
         }
@@ -978,7 +779,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "Catalog API USE (PCC)",
+          "value": "Load Opportunity Page",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -986,11 +787,16 @@
             0
           ],
           "dashboard_url": [
-            "https://onenr.io/01qwL8KPxw5"
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0VRVL0yPJQa"
+            }
           ],
           "relation_steps": [
             1
-          ]
+          ],
+          "type": "",
+          "alertId": ""
         },
         {
           "index": 2,
@@ -999,7 +805,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "Pricing API (APP)",
+          "value": "System Overall Infra health",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1007,11 +813,16 @@
             0
           ],
           "dashboard_url": [
-            "https://onenr.io/01qwL8KPxw5"
+            {
+              "nickName": "",
+              "url": "https://onenr.io/02wd7YKopQE"
+            }
           ],
           "relation_steps": [
             4
-          ]
+          ],
+          "type": "",
+          "alertId": ""
         },
         {
           "index": 3,
@@ -1020,7 +831,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "Master Data API (FRT)",
+          "value": "Synthetic Availability",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1028,11 +839,16 @@
             0
           ],
           "dashboard_url": [
-            "https://onenr.io/01qwL8KPxw5"
+            {
+              "nickName": "",
+              "url": "https://onenr.io/01wZgbpY4R6"
+            }
           ],
           "relation_steps": [
-            6
-          ]
+            3
+          ],
+          "type": "",
+          "alertId": ""
         },
         {
           "index": 4,
@@ -1041,7 +857,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "Subscriptions API (PCC)",
+          "value": "Create Quote",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1049,11 +865,16 @@
             0
           ],
           "dashboard_url": [
-            "https://onenr.io/01qwL8KPxw5"
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0VRVL0yPJQa"
+            }
           ],
           "relation_steps": [
-            8
-          ]
+            2
+          ],
+          "type": "",
+          "alertId": ""
         },
         {
           "index": 5,
@@ -1062,7 +883,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "Workload (WLD)",
+          "value": "System Overall Performance",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1070,9 +891,14 @@
             0
           ],
           "dashboard_url": [
-            "https://onenr.io/0a7j9pBB3RO"
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0vwBlEA91jp"
+            }
           ],
-          "relation_steps": []
+          "relation_steps": [],
+          "type": "",
+          "alertId": ""
         },
         {
           "index": 6,
@@ -1081,7 +907,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "Drop Touchpoint (DRP)",
+          "value": "Tool Catalogue",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1089,17 +915,46 @@
             0
           ],
           "dashboard_url": [
-            "https://onenr.io/01qwL8KPxw5"
+            {
+              "nickname": "",
+              "url": "https://onenr.io/0VRVL0yPJQa"
+            }
           ],
           "relation_steps": [
             1
-          ]
+          ],
+          "type": "",
+          "alertId": ""
+        },
+        {
+          "index": 7,
+          "stage_index": 2,
+          "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
+          "active": false,
+          "value": "#Tool Catalogue",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            {
+              "nickname": "",
+              "url": "https://onenr.io/01qwL8KPxw5"
+            }
+          ],
+          "relation_steps": [],
+          "type": "",
+          "alertId": ""
         }
       ]
     },
     {
       "index": 3,
-      "title": "CHECKOUT",
+      "title": "Start Quote",
       "type": "Process",
       "latencyStatus": false,
       "status_color": "good",
@@ -1114,7 +969,7 @@
       "icon_visible": false,
       "congestion": {
         "value": 0,
-        "percentage": 15
+        "percentage": 0
       },
       "capacity": 0,
       "capacity_link": "",
@@ -1131,7 +986,7 @@
               "id": "ST3-LINE1-SS1",
               "canary_state": false,
               "latency": true,
-              "value": "Customer info.",
+              "value": " Import Opty",
               "dark": false,
               "history_error": false,
               "dotted": false,
@@ -1139,7 +994,8 @@
               "error": false,
               "index_stage": 3,
               "relationship_touchpoints": [
-                1
+                1,
+                12
               ]
             }
           ]
@@ -1151,24 +1007,8 @@
               "index": 2,
               "id": "ST3-LINE2-SS1",
               "canary_state": false,
-              "latency": false,
-              "value": "Delivery Options",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 3,
-              "relationship_touchpoints": [
-                5
-              ]
-            },
-            {
-              "index": 3,
-              "id": "ST3-LINE2-SS2",
-              "canary_state": false,
-              "latency": false,
-              "value": "Pick-Up Options",
+              "latency": true,
+              "value": "Add Product",
               "dark": false,
               "history_error": false,
               "dotted": false,
@@ -1177,15 +1017,65 @@
               "index_stage": 3,
               "relationship_touchpoints": [
                 2,
-                8
+                11
               ]
-            },
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 3,
+              "id": "ST3-LINE3-SS1",
+              "canary_state": false,
+              "latency": true,
+              "value": "Config Product",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 3,
+              "relationship_touchpoints": [
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
             {
               "index": 4,
-              "id": "ST3-LINE2-SS3",
+              "id": "ST3-LINE4-SS1",
               "canary_state": false,
-              "latency": false,
-              "value": "Gift Option",
+              "latency": true,
+              "value": " Save Quote",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 3,
+              "relationship_touchpoints": [
+                4,
+                7,
+                8,
+                10
+              ]
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 5,
+              "id": "ST3-LINE5-SS1",
+              "canary_state": false,
+              "latency": true,
+              "value": "Synthetic Monitor",
               "dark": false,
               "history_error": false,
               "dotted": false,
@@ -1202,55 +1092,11 @@
           "value": "",
           "sub_steps": [
             {
-              "index": 5,
-              "id": "ST3-LINE3-SS1",
-              "canary_state": false,
-              "latency": false,
-              "value": "Credit Card",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 3,
-              "relationship_touchpoints": [
-                3
-              ]
-            },
-            {
               "index": 6,
-              "id": "ST3-LINE3-SS2",
+              "id": "ST3-LINE6-SS1",
               "canary_state": false,
-              "latency": false,
-              "value": "Paypal",
-              "dark": true,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 3,
-              "relationship_touchpoints": []
-            },
-            {
-              "index": 7,
-              "id": "ST3-LINE3-SS3",
-              "canary_state": false,
-              "latency": false,
-              "value": "Afterpay",
-              "dark": true,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 3,
-              "relationship_touchpoints": []
-            },
-            {
-              "index": 8,
-              "id": "ST3-LINE3-SS4",
-              "canary_state": false,
-              "latency": false,
-              "value": "Gift Card ",
+              "latency": true,
+              "value": "  Infrastructure",
               "dark": false,
               "history_error": false,
               "dotted": false,
@@ -1258,28 +1104,7 @@
               "error": false,
               "index_stage": 3,
               "relationship_touchpoints": [
-                8
-              ]
-            }
-          ]
-        },
-        {
-          "value": "",
-          "sub_steps": [
-            {
-              "index": 9,
-              "id": "ST3-LINE4-SS1",
-              "canary_state": false,
-              "latency": false,
-              "value": "Submit Order",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 3,
-              "relationship_touchpoints": [
-                4
+                5
               ]
             }
           ]
@@ -1293,7 +1118,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "Session Manager API (PCC)",
+          "value": "Import Opty",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1301,11 +1126,16 @@
             0
           ],
           "dashboard_url": [
-            "https://onenr.io/01qwL8KPxw5"
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0EjOokXaOj6"
+            }
           ],
           "relation_steps": [
             1
-          ]
+          ],
+          "type": "",
+          "alertId": ""
         },
         {
           "index": 2,
@@ -1314,7 +1144,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "Checkout Check (SYN)",
+          "value": "Add Product",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1322,11 +1152,16 @@
             0
           ],
           "dashboard_url": [
-            "https://onenr.io/01qwL8KPxw5"
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0EjOokXaOj6"
+            }
           ],
           "relation_steps": [
-            3
-          ]
+            2
+          ],
+          "type": "",
+          "alertId": ""
         },
         {
           "index": 3,
@@ -1335,7 +1170,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "Customer Credit API (PCC)",
+          "value": "Config Product",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1343,11 +1178,16 @@
             0
           ],
           "dashboard_url": [
-            "https://onenr.io/01qwL8KPxw5"
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0EjOokXaOj6"
+            }
           ],
           "relation_steps": [
-            5
-          ]
+            3
+          ],
+          "type": "",
+          "alertId": ""
         },
         {
           "index": 4,
@@ -1356,7 +1196,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "Gift Card API (APP)",
+          "value": "SaveQuote",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1364,11 +1204,16 @@
             0
           ],
           "dashboard_url": [
-            "https://onenr.io/01qwL8KPxw5"
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0EjOokXaOj6"
+            }
           ],
           "relation_steps": [
-            9
-          ]
+            4
+          ],
+          "type": "",
+          "alertId": ""
         },
         {
           "index": 5,
@@ -1377,7 +1222,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "Gift Card Hub API (FRT)",
+          "value": "System Overall Infra Health",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1385,11 +1230,16 @@
             0
           ],
           "dashboard_url": [
-            "https://onenr.io/01qwL8KPxw5"
+            {
+              "nickName": "",
+              "url": "https://onenr.io/02wd7YKopQE"
+            }
           ],
           "relation_steps": [
-            2
-          ]
+            6
+          ],
+          "type": "",
+          "alertId": ""
         },
         {
           "index": 6,
@@ -1398,7 +1248,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "Catalog API (PCC)",
+          "value": "Synthetic Availability",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1406,11 +1256,16 @@
             0
           ],
           "dashboard_url": [
-            "https://onenr.io/01qwL8KPxw5"
+            {
+              "nickName": "",
+              "url": "https://onenr.io/01wZgbpY4R6"
+            }
           ],
           "relation_steps": [
-            4
-          ]
+            5
+          ],
+          "type": "",
+          "alertId": ""
         },
         {
           "index": 7,
@@ -1419,7 +1274,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "Workload (WLD)",
+          "value": "# of Saved Quotes - Passed",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1427,9 +1282,16 @@
             0
           ],
           "dashboard_url": [
-            "https://onenr.io/0YBR6kKKqjO"
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0EjOokXaOj6"
+            }
           ],
-          "relation_steps": []
+          "relation_steps": [
+            4
+          ],
+          "type": "",
+          "alertId": ""
         },
         {
           "index": 8,
@@ -1438,7 +1300,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "Drop Touchpoint (DRP)",
+          "value": "# of Saved Quotes - Failed",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1446,33 +1308,139 @@
             0
           ],
           "dashboard_url": [
-            "https://onenr.io/01qwL8KPxw5"
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0EjOokXaOj6"
+            }
           ],
           "relation_steps": [
-            3,
-            8
-          ]
+            4
+          ],
+          "type": "",
+          "alertId": ""
+        },
+        {
+          "index": 9,
+          "stage_index": 3,
+          "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
+          "active": false,
+          "value": "System Overall Performance",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0vwBlEA91jp"
+            }
+          ],
+          "relation_steps": [],
+          "type": "",
+          "alertId": ""
+        },
+        {
+          "index": 10,
+          "stage_index": 3,
+          "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
+          "active": false,
+          "value": "Drop outs - Save Quotes",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0EjOokXaOj6"
+            }
+          ],
+          "relation_steps": [
+            4
+          ],
+          "type": "",
+          "alertId": ""
+        },
+        {
+          "index": 11,
+          "stage_index": 3,
+          "status_on_off": false,
+          "response_error": false,
+          "show_grey_square": false,
+          "active": false,
+          "value": "S4",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            {
+              "nickname": "",
+              "url": "https://onenr.io/0EjOokXaOj6"
+            }
+          ],
+          "relation_steps": [
+            2
+          ],
+          "type": "",
+          "alertId": ""
+        },
+        {
+          "index": 12,
+          "stage_index": 3,
+          "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
+          "active": false,
+          "value": "MDCP",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            {
+              "nickname": "",
+              "url": "https://onenr.io/0EjOokXaOj6"
+            }
+          ],
+          "relation_steps": [
+            1
+          ],
+          "type": "",
+          "alertId": ""
         }
       ]
     },
     {
       "index": 4,
-      "title": "ORDER",
-      "type": "People",
+      "title": "Price",
+      "type": "Process",
       "latencyStatus": false,
-      "status_color": "danger",
+      "status_color": "good",
       "gout_enable": false,
       "gout_quantity": 150,
       "gout_money": 250,
       "money_enabled": false,
       "trafficIconType": "traffic",
       "money": "",
-      "icon_active": true,
+      "icon_active": false,
       "icon_description": "star",
       "icon_visible": false,
       "congestion": {
         "value": 0,
-        "percentage": 15
+        "percentage": 0
       },
       "capacity": 0,
       "capacity_link": "",
@@ -1489,8 +1457,8 @@
               "id": "ST4-LINE1-SS1",
               "canary_state": false,
               "latency": true,
-              "value": "Delivery Items",
-              "dark": true,
+              "value": " Refresh Pricing",
+              "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
@@ -1498,148 +1466,27 @@
               "index_stage": 4,
               "relationship_touchpoints": [
                 1,
-                7
+                2,
+                3,
+                4,
+                6,
+                9,
+                11,
+                12,
+                13
               ]
-            },
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
             {
               "index": 2,
-              "id": "ST4-LINE1-SS2",
-              "canary_state": false,
-              "latency": false,
-              "value": "Pick-Up Items",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 4,
-              "relationship_touchpoints": []
-            },
-            {
-              "index": 3,
-              "id": "ST4-LINE1-SS3",
-              "canary_state": false,
-              "latency": false,
-              "value": "Item Not Available",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 4,
-              "relationship_touchpoints": []
-            }
-          ]
-        },
-        {
-          "value": "",
-          "sub_steps": [
-            {
-              "index": 4,
               "id": "ST4-LINE2-SS1",
               "canary_state": false,
-              "latency": false,
-              "value": "Order Processing",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 4,
-              "relationship_touchpoints": [
-                2
-              ]
-            },
-            {
-              "index": 5,
-              "id": "ST4-LINE2-SS2",
-              "canary_state": false,
-              "latency": false,
-              "value": "Order Canceled",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 4,
-              "relationship_touchpoints": []
-            },
-            {
-              "index": 6,
-              "id": "ST4-LINE2-SS3",
-              "canary_state": false,
-              "latency": false,
-              "value": "Order Delayed",
-              "dark": true,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 4,
-              "relationship_touchpoints": []
-            }
-          ]
-        },
-        {
-          "value": "",
-          "sub_steps": [
-            {
-              "index": 7,
-              "id": "ST4-LINE3-SS1",
-              "canary_state": false,
-              "latency": false,
-              "value": "Delivery Label Generated",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 4,
-              "relationship_touchpoints": [
-                3
-              ]
-            },
-            {
-              "index": 8,
-              "id": "ST4-LINE3-SS2",
-              "canary_state": false,
-              "latency": false,
-              "value": "Pick-up Prep",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 4,
-              "relationship_touchpoints": []
-            }
-          ]
-        },
-        {
-          "value": "",
-          "sub_steps": [
-            {
-              "index": 9,
-              "id": "ST4-LINE4-SS1",
-              "canary_state": false,
-              "latency": false,
-              "value": "Order Tracking #",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 4,
-              "relationship_touchpoints": [
-                4
-              ]
-            },
-            {
-              "index": 10,
-              "id": "ST4-LINE4-SS2",
-              "canary_state": false,
-              "latency": false,
-              "value": "Pick-up Date and Locatioon",
+              "latency": true,
+              "value": "Auto Save (Qids)",
               "dark": false,
               "history_error": false,
               "dotted": false,
@@ -1648,6 +1495,48 @@
               "index_stage": 4,
               "relationship_touchpoints": [
                 5
+              ]
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 3,
+              "id": "ST4-LINE3-SS1",
+              "canary_state": false,
+              "latency": true,
+              "value": "Synthetic Monitor",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 4,
+              "relationship_touchpoints": [
+                8
+              ]
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 4,
+              "id": "ST4-LINE4-SS1",
+              "canary_state": false,
+              "latency": true,
+              "value": "  Infrastructure",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 4,
+              "relationship_touchpoints": [
+                7
               ]
             }
           ]
@@ -1661,7 +1550,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "Orders API (PRC)",
+          "value": "Addison pricing call",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1669,11 +1558,16 @@
             0
           ],
           "dashboard_url": [
-            "https://onenr.io/01qwL8KPxw5"
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0kjn63ANJjo"
+            }
           ],
           "relation_steps": [
             1
-          ]
+          ],
+          "type": "",
+          "alertId": ""
         },
         {
           "index": 2,
@@ -1682,7 +1576,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "Customer Credit API (APP)",
+          "value": "C4 cost",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1690,11 +1584,16 @@
             0
           ],
           "dashboard_url": [
-            "https://onenr.io/01qwL8KPxw5"
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0kjn63ANJjo"
+            }
           ],
           "relation_steps": [
-            4
-          ]
+            1
+          ],
+          "type": "",
+          "alertId": ""
         },
         {
           "index": 3,
@@ -1703,7 +1602,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "Gift Card API (FRT)",
+          "value": "Optimus (PROS)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1711,11 +1610,16 @@
             0
           ],
           "dashboard_url": [
-            "https://onenr.io/01qwL8KPxw5"
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0kjn63ANJjo"
+            }
           ],
           "relation_steps": [
-            7
-          ]
+            1
+          ],
+          "type": "",
+          "alertId": ""
         },
         {
           "index": 4,
@@ -1724,7 +1628,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "Gift Card Hub API (SYN)",
+          "value": "PPSS",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1732,11 +1636,16 @@
             0
           ],
           "dashboard_url": [
-            "https://onenr.io/01qwL8KPxw5"
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0kjn63ANJjo"
+            }
           ],
           "relation_steps": [
-            9
-          ]
+            1
+          ],
+          "type": "",
+          "alertId": ""
         },
         {
           "index": 5,
@@ -1745,7 +1654,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "Logistics API (PRC)",
+          "value": "AutoSave to Qids",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1753,11 +1662,16 @@
             0
           ],
           "dashboard_url": [
-            "https://onenr.io/01qwL8KPxw5"
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0kjn63ANJjo"
+            }
           ],
           "relation_steps": [
-            10
-          ]
+            2
+          ],
+          "type": "",
+          "alertId": ""
         },
         {
           "index": 6,
@@ -1766,7 +1680,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "Workload (WLD)",
+          "value": "# of Price Check - Passed",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1774,9 +1688,16 @@
             0
           ],
           "dashboard_url": [
-            "https://onenr.io/0x0jlDzz7jW"
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0kjn63ANJjo"
+            }
           ],
-          "relation_steps": []
+          "relation_steps": [
+            1
+          ],
+          "type": "",
+          "alertId": ""
         },
         {
           "index": 7,
@@ -1785,7 +1706,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "Drop Touchpoint (DRP)",
+          "value": "System Overall Infra Health",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -1793,20 +1714,179 @@
             0
           ],
           "dashboard_url": [
-            "https://onenr.io/01qwL8KPxw5"
+            {
+              "nickName": "",
+              "url": "https://onenr.io/02wd7YKopQE"
+            }
+          ],
+          "relation_steps": [
+            4
+          ],
+          "type": "",
+          "alertId": ""
+        },
+        {
+          "index": 8,
+          "stage_index": 4,
+          "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
+          "active": false,
+          "value": "Synthetic Availability",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            {
+              "nickName": "",
+              "url": "https://onenr.io/01wZgbpY4R6"
+            }
+          ],
+          "relation_steps": [
+            3
+          ],
+          "type": "",
+          "alertId": ""
+        },
+        {
+          "index": 9,
+          "stage_index": 4,
+          "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
+          "active": false,
+          "value": "# of Price Check - Failed",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0kjn63ANJjo"
+            }
           ],
           "relation_steps": [
             1
-          ]
+          ],
+          "type": "",
+          "alertId": ""
+        },
+        {
+          "index": 10,
+          "stage_index": 4,
+          "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
+          "active": false,
+          "value": "System Overall Performance",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0vwBlEA91jp"
+            }
+          ],
+          "relation_steps": [],
+          "type": "",
+          "alertId": ""
+        },
+        {
+          "index": 11,
+          "stage_index": 4,
+          "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
+          "active": false,
+          "value": "SFDC Deal reg",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0kjn63ANJjo"
+            }
+          ],
+          "relation_steps": [
+            1
+          ],
+          "type": "",
+          "alertId": ""
+        },
+        {
+          "index": 12,
+          "stage_index": 4,
+          "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
+          "active": false,
+          "value": "Drop Outs - Price checks",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0kjn63ANJjo"
+            }
+          ],
+          "relation_steps": [
+            1
+          ],
+          "type": "",
+          "alertId": ""
+        },
+        {
+          "index": 13,
+          "stage_index": 4,
+          "status_on_off": false,
+          "response_error": false,
+          "show_grey_square": false,
+          "active": false,
+          "value": "S4",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            {
+              "nickname": "",
+              "url": "https://onenr.io/0kjn63ANJjo"
+            }
+          ],
+          "relation_steps": [
+            1
+          ],
+          "type": "",
+          "alertId": ""
         }
       ]
     },
     {
       "index": 5,
-      "title": "DISTRIBUTION",
+      "title": "Complete Quote",
       "type": "Process",
       "latencyStatus": false,
-      "status_color": "warning",
+      "status_color": "good",
       "gout_enable": false,
       "gout_quantity": 150,
       "gout_money": 250,
@@ -1818,7 +1898,7 @@
       "icon_visible": false,
       "congestion": {
         "value": 0,
-        "percentage": 15
+        "percentage": 0
       },
       "capacity": 0,
       "capacity_link": "",
@@ -1835,7 +1915,7 @@
               "id": "ST5-LINE1-SS1",
               "canary_state": false,
               "latency": true,
-              "value": "Ready for Store Pick-Up",
+              "value": "Validate",
               "dark": false,
               "history_error": false,
               "dotted": false,
@@ -1844,15 +1924,22 @@
               "index_stage": 5,
               "relationship_touchpoints": [
                 1,
-                8
+                2,
+                3,
+                4
               ]
-            },
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
             {
               "index": 2,
-              "id": "ST5-LINE1-SS2",
+              "id": "ST5-LINE2-SS1",
               "canary_state": false,
-              "latency": false,
-              "value": "Ready for Carrier",
+              "latency": true,
+              "value": "  Update Quote (qids)",
               "dark": false,
               "history_error": false,
               "dotted": false,
@@ -1860,7 +1947,10 @@
               "error": false,
               "index_stage": 5,
               "relationship_touchpoints": [
-                2
+                6,
+                7,
+                10,
+                12
               ]
             }
           ]
@@ -1870,10 +1960,10 @@
           "sub_steps": [
             {
               "index": 3,
-              "id": "ST5-LINE2-SS1",
+              "id": "ST5-LINE3-SS1",
               "canary_state": false,
-              "latency": false,
-              "value": "Carrier Pick-Up",
+              "latency": true,
+              "value": "Deal Creation",
               "dark": false,
               "history_error": false,
               "dotted": false,
@@ -1881,22 +1971,30 @@
               "error": false,
               "index_stage": 5,
               "relationship_touchpoints": [
-                3
+                5,
+                13
               ]
-            },
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
             {
               "index": 4,
-              "id": "ST5-LINE2-SS2",
+              "id": "ST5-LINE4-SS1",
               "canary_state": false,
-              "latency": false,
-              "value": "Customer Pick-Up",
+              "latency": true,
+              "value": "Synthetic Monitor",
               "dark": false,
               "history_error": false,
               "dotted": false,
               "highlighted": false,
               "error": false,
               "index_stage": 5,
-              "relationship_touchpoints": []
+              "relationship_touchpoints": [
+                9
+              ]
             }
           ]
         },
@@ -1905,67 +2003,10 @@
           "sub_steps": [
             {
               "index": 5,
-              "id": "ST5-LINE3-SS1",
-              "canary_state": false,
-              "latency": false,
-              "value": " Carrier Update",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 5,
-              "relationship_touchpoints": [
-                4,
-                8
-              ]
-            }
-          ]
-        },
-        {
-          "value": "",
-          "sub_steps": [
-            {
-              "index": 6,
-              "id": "ST5-LINE4-SS1",
-              "canary_state": false,
-              "latency": false,
-              "value": "Delivered",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 5,
-              "relationship_touchpoints": [
-                5
-              ]
-            },
-            {
-              "index": 7,
-              "id": "ST5-LINE4-SS2",
-              "canary_state": false,
-              "latency": false,
-              "value": "Returned",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 5,
-              "relationship_touchpoints": []
-            }
-          ]
-        },
-        {
-          "value": "",
-          "sub_steps": [
-            {
-              "index": 8,
               "id": "ST5-LINE5-SS1",
               "canary_state": false,
-              "latency": false,
-              "value": "Proof of Delivery",
+              "latency": true,
+              "value": "  Infrastructure",
               "dark": false,
               "history_error": false,
               "dotted": false,
@@ -1973,22 +2014,8 @@
               "error": false,
               "index_stage": 5,
               "relationship_touchpoints": [
-                6
+                8
               ]
-            },
-            {
-              "index": 9,
-              "id": "ST5-LINE5-SS2",
-              "canary_state": false,
-              "latency": false,
-              "value": "Proof of Store Pick-up",
-              "dark": false,
-              "history_error": false,
-              "dotted": false,
-              "highlighted": false,
-              "error": false,
-              "index_stage": 5,
-              "relationship_touchpoints": []
             }
           ]
         }
@@ -2001,7 +2028,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "VTEX Do API (PCC)",
+          "value": "Validate Price",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -2009,11 +2036,16 @@
             0
           ],
           "dashboard_url": [
-            "https://onenr.io/01qwL8KPxw5"
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0KQX6Jp90Ra"
+            }
           ],
           "relation_steps": [
             1
-          ]
+          ],
+          "type": "",
+          "alertId": ""
         },
         {
           "index": 2,
@@ -2022,7 +2054,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "Subscriptions API (SYN)",
+          "value": "Bundle",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -2030,11 +2062,16 @@
             0
           ],
           "dashboard_url": [
-            "https://onenr.io/01qwL8KPxw5"
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0KQX6Jp90Ra"
+            }
           ],
           "relation_steps": [
-            2
-          ]
+            1
+          ],
+          "type": "",
+          "alertId": ""
         },
         {
           "index": 3,
@@ -2043,7 +2080,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "Session Manager API (PCC)",
+          "value": "Config Check (clic)",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -2051,11 +2088,16 @@
             0
           ],
           "dashboard_url": [
-            "https://onenr.io/01qwL8KPxw5"
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0KQX6Jp90Ra"
+            }
           ],
           "relation_steps": [
-            3
-          ]
+            1
+          ],
+          "type": "",
+          "alertId": ""
         },
         {
           "index": 4,
@@ -2064,7 +2106,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "Checkout API (APP)",
+          "value": "Data Check",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -2072,11 +2114,16 @@
             0
           ],
           "dashboard_url": [
-            "https://onenr.io/01qwL8KPxw5"
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0KQX6Jp90Ra"
+            }
           ],
           "relation_steps": [
-            5
-          ]
+            1
+          ],
+          "type": "",
+          "alertId": ""
         },
         {
           "index": 5,
@@ -2085,7 +2132,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "Customer Credit API (FRT)",
+          "value": "Deal Create",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -2093,11 +2140,16 @@
             0
           ],
           "dashboard_url": [
-            "https://onenr.io/01qwL8KPxw5"
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0KQX6Jp90Ra"
+            }
           ],
           "relation_steps": [
-            6
-          ]
+            3
+          ],
+          "type": "",
+          "alertId": ""
         },
         {
           "index": 6,
@@ -2106,7 +2158,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "Gift Card API (PCC)",
+          "value": "Update Quote",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -2114,11 +2166,16 @@
             0
           ],
           "dashboard_url": [
-            "https://onenr.io/01qwL8KPxw5"
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0KQX6Jp90Ra"
+            }
           ],
           "relation_steps": [
-            8
-          ]
+            2
+          ],
+          "type": "",
+          "alertId": ""
         },
         {
           "index": 7,
@@ -2127,7 +2184,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "Workload (WLD)",
+          "value": "# of Save Quotes - Passed",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -2135,9 +2192,16 @@
             0
           ],
           "dashboard_url": [
-            "https://onenr.io/04ERPDJqaRW"
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0KQX6Jp90Ra"
+            }
           ],
-          "relation_steps": []
+          "relation_steps": [
+            2
+          ],
+          "type": "",
+          "alertId": ""
         },
         {
           "index": 8,
@@ -2146,7 +2210,7 @@
           "response_error": false,
           "show_grey_square": false,
           "active": false,
-          "value": "Drop Touchpoint (DRP)",
+          "value": "System Overall Infra Health",
           "highlighted": false,
           "error": false,
           "history_error": false,
@@ -2154,12 +2218,507 @@
             0
           ],
           "dashboard_url": [
-            "https://onenr.io/01qwL8KPxw5"
+            {
+              "nickName": "",
+              "url": "https://onenr.io/02wd7YKopQE"
+            }
           ],
           "relation_steps": [
-            1,
             5
+          ],
+          "type": "",
+          "alertId": ""
+        },
+        {
+          "index": 9,
+          "stage_index": 5,
+          "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
+          "active": false,
+          "value": "Synthetic Availability",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            {
+              "nickName": "",
+              "url": "https://onenr.io/01wZgbpY4R6"
+            }
+          ],
+          "relation_steps": [
+            4
+          ],
+          "type": "",
+          "alertId": ""
+        },
+        {
+          "index": 10,
+          "stage_index": 5,
+          "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
+          "active": false,
+          "value": "# of Save Quotes - Failed",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0KQX6Jp90Ra"
+            }
+          ],
+          "relation_steps": [
+            2
+          ],
+          "type": "",
+          "alertId": ""
+        },
+        {
+          "index": 11,
+          "stage_index": 5,
+          "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
+          "active": false,
+          "value": "System Overall Performance",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0vwBlEA91jp"
+            }
+          ],
+          "relation_steps": [],
+          "type": "",
+          "alertId": ""
+        },
+        {
+          "index": 12,
+          "stage_index": 5,
+          "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
+          "active": false,
+          "value": "Drop outs - Complete Quotes",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0KQX6Jp90Ra"
+            }
+          ],
+          "relation_steps": [
+            2
+          ],
+          "type": "",
+          "alertId": ""
+        },
+        {
+          "index": 13,
+          "stage_index": 5,
+          "status_on_off": false,
+          "response_error": false,
+          "show_grey_square": false,
+          "active": false,
+          "value": "S4",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            {
+              "nickname": "",
+              "url": "https://onenr.io/0KQX6Jp90Ra"
+            }
+          ],
+          "relation_steps": [
+            3
+          ],
+          "type": "",
+          "alertId": ""
+        }
+      ]
+    },
+    {
+      "index": 6,
+      "title": "Convert",
+      "type": "Process",
+      "latencyStatus": false,
+      "status_color": "good",
+      "gout_enable": false,
+      "gout_quantity": 150,
+      "gout_money": 250,
+      "money_enabled": false,
+      "trafficIconType": "traffic",
+      "money": "",
+      "icon_active": false,
+      "icon_description": "star",
+      "icon_visible": false,
+      "congestion": {
+        "value": 0,
+        "percentage": 0
+      },
+      "capacity": 0,
+      "capacity_link": "",
+      "total_count": 0,
+      "active_dotted": "none",
+      "active_dotted_color": "#828282",
+      "arrowMode": "FLOW",
+      "steps": [
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 1,
+              "id": "ST6-LINE1-SS1",
+              "canary_state": false,
+              "latency": true,
+              "value": " Price Check",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 6,
+              "relationship_touchpoints": [
+                1,
+                7
+              ]
+            }
           ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 2,
+              "id": "ST6-LINE2-SS1",
+              "canary_state": false,
+              "latency": true,
+              "value": "Config Check (clic)",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 6,
+              "relationship_touchpoints": [
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 3,
+              "id": "ST6-LINE3-SS1",
+              "canary_state": false,
+              "latency": true,
+              "value": "Entity MDM",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 6,
+              "relationship_touchpoints": [
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 4,
+              "id": "ST6-LINE4-SS1",
+              "canary_state": false,
+              "latency": true,
+              "value": "Convert to Order",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 6,
+              "relationship_touchpoints": [
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 5,
+              "id": "ST6-LINE5-SS1",
+              "canary_state": false,
+              "latency": true,
+              "value": "Synthetic Monitor",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 6,
+              "relationship_touchpoints": [
+                8
+              ]
+            }
+          ]
+        },
+        {
+          "value": "",
+          "sub_steps": [
+            {
+              "index": 6,
+              "id": "ST6-LINE6-SS1",
+              "canary_state": false,
+              "latency": true,
+              "value": "  Infrastructure",
+              "dark": false,
+              "history_error": false,
+              "dotted": false,
+              "highlighted": false,
+              "error": false,
+              "index_stage": 6,
+              "relationship_touchpoints": [
+                5
+              ]
+            }
+          ]
+        }
+      ],
+      "touchpoints": [
+        {
+          "index": 1,
+          "stage_index": 6,
+          "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
+          "active": false,
+          "value": "Addison Customer Preference Services",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0gR7qZ63aQo"
+            }
+          ],
+          "relation_steps": [
+            1
+          ],
+          "type": "",
+          "alertId": ""
+        },
+        {
+          "index": 2,
+          "stage_index": 6,
+          "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
+          "active": false,
+          "value": "Config Check",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0gR7qZ63aQo"
+            }
+          ],
+          "relation_steps": [
+            2
+          ],
+          "type": "",
+          "alertId": ""
+        },
+        {
+          "index": 3,
+          "stage_index": 6,
+          "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
+          "active": false,
+          "value": "Entity MDM",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0gR7qZ63aQo"
+            }
+          ],
+          "relation_steps": [
+            3
+          ],
+          "type": "",
+          "alertId": ""
+        },
+        {
+          "index": 4,
+          "stage_index": 6,
+          "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
+          "active": false,
+          "value": "Seeburger idoc",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0gR7qZ63aQo"
+            }
+          ],
+          "relation_steps": [
+            4
+          ],
+          "type": "",
+          "alertId": ""
+        },
+        {
+          "index": 5,
+          "stage_index": 6,
+          "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
+          "active": false,
+          "value": "System Overall Infra Health",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            {
+              "nickName": "",
+              "url": "https://onenr.io/02wd7YKopQE"
+            }
+          ],
+          "relation_steps": [
+            6
+          ],
+          "type": "",
+          "alertId": ""
+        },
+        {
+          "index": 6,
+          "stage_index": 6,
+          "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
+          "active": false,
+          "value": "System Overall Performance",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            {
+              "nickName": "",
+              "url": "https://onenr.io/0vwBlEA91jp"
+            }
+          ],
+          "relation_steps": [],
+          "type": "",
+          "alertId": ""
+        },
+        {
+          "index": 7,
+          "stage_index": 6,
+          "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
+          "active": false,
+          "value": "Read Quote",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            {
+              "nickname": "",
+              "url": "https://onenr.io/0gR7qZ63aQo"
+            }
+          ],
+          "relation_steps": [
+            1
+          ],
+          "type": "",
+          "alertId": ""
+        },
+        {
+          "index": 8,
+          "stage_index": 6,
+          "status_on_off": true,
+          "response_error": false,
+          "show_grey_square": false,
+          "active": false,
+          "value": "Synthetic Availability",
+          "highlighted": false,
+          "error": false,
+          "history_error": false,
+          "countrys": [
+            0
+          ],
+          "dashboard_url": [
+            {
+              "nickname": "",
+              "url": "https://onenr.io/01wZgbpY4R6"
+            }
+          ],
+          "relation_steps": [
+            5
+          ],
+          "type": "",
+          "alertId": ""
         }
       ]
     }

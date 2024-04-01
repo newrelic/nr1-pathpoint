@@ -42,5 +42,9 @@
   {
     "longName": "Alert-Check",
     "shortName": "ALE"
+  },
+  {
+    "longName": "Value-Performance",
+    "shortName": "VAL"
   }
 ]

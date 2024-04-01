@@ -9,6 +9,10 @@ import onIcon from '../../images/icon-on.svg';
 import offIcon from '../../images/icon-off.svg';
 import tuneIcon from '../../images/Tune.svg';
 import queriesIcon from '../../images/Queries.svg';
+import AlertModal from './AlertModal';
+
+// Utils
+import isObject from '../../utils/isObject';
 
 export default class TouchPoint extends React.Component {
   constructor(props) {
@@ -18,7 +22,8 @@ export default class TouchPoint extends React.Component {
       stylesContext: {
         top: '',
         left: ''
-      }
+      },
+      showMouseOver: false
     };
   }
 
@@ -154,8 +159,28 @@ export default class TouchPoint extends React.Component {
     } else return 'default';
   };
 
+  HandleMouseOver = () => {
+    if (this.state.showMouseOver) {
+      return 0;
+    }
+
+    if (
+      this.props.touchpoint.type === 'ALE' &&
+      this.props.touchpoint.error &&
+      isObject(this.props.touchpoint.data)
+    ) {
+      this.setState({ showMouseOver: true });
+      this.props.renderMouseOver(this.state.showMouseOver);
+    }
+  };
+
+  HandleMouseLeave = () => {
+    this.setState({ showMouseOver: false });
+    this.props.renderMouseOver(this.state.showMouseOver);
+  };
+
   render() {
-    const { stylesContext } = this.state;
+    const { stylesContext, showMouseOver } = this.state;
     const {
       touchpoint,
       city,
@@ -163,7 +188,8 @@ export default class TouchPoint extends React.Component {
       iconFireStatus,
       checkAllStatus,
       visible,
-      idVisible
+      idVisible,
+      accessToConfig
     } = this.props;
     const { status_on_off, active } = touchpoint;
     return (
@@ -183,9 +209,11 @@ export default class TouchPoint extends React.Component {
             }}
             onMouseDown={this.HandleContextMenu}
             onClick={() => {
-              if (touchpoint.dashboard_url !== false) {
+              if (touchpoint.type === 'ALE') {
+                this.HandleMouseOver();
+              } else if (touchpoint.dashboard_url !== false) {
                 if (touchpoint.dashboard_url[city] !== false) {
-                  window.open(touchpoint.dashboard_url[city]);
+                  window.open(touchpoint.dashboard_url[city].url);
                 }
               }
             }}
@@ -203,6 +231,14 @@ export default class TouchPoint extends React.Component {
             </div>
           </div>
         </div>
+
+        {/* Show Alert modal when touch is in red state */}
+        {showMouseOver && (
+          <AlertModal
+            data={touchpoint.data}
+            hideModal={this.HandleMouseLeave}
+          />
+        )}
 
         <div>
           {/* istanbul ignore next */}
@@ -224,8 +260,12 @@ export default class TouchPoint extends React.Component {
               <div>
                 <Form>
                   <div
-                    className="contextMenuItem"
-                    onClick={this.HandleClickonOff}
+                    className={
+                      accessToConfig
+                        ? 'contextMenuItem'
+                        : 'contextMenuItem cm-disabled'
+                    }
+                    onClick={accessToConfig ? this.HandleClickonOff : null}
                   >
                     <span className="functionIcon">
                       <img style={{ height: '15px' }} src={onOffIcon} />
@@ -239,8 +279,12 @@ export default class TouchPoint extends React.Component {
                   </div>
                   <div className="contextMenuItem">
                     <div
-                      onClick={this.HandleClickTune}
-                      className="contextMenu--option"
+                      onClick={accessToConfig ? this.HandleClickTune : null}
+                      className={
+                        accessToConfig
+                          ? 'contextMenu--option'
+                          : 'contextMenu--option cm-disabled'
+                      }
                     >
                       <span className="functionIcon">
                         <img style={{ height: '15px' }} src={tuneIcon} />
@@ -250,8 +294,12 @@ export default class TouchPoint extends React.Component {
                   </div>
                   <div className="contextMenuItem">
                     <div
-                      onClick={this.HandleClickQueries}
-                      className="contextMenu--option"
+                      onClick={accessToConfig ? this.HandleClickQueries : null}
+                      className={
+                        accessToConfig
+                          ? 'contextMenu--option'
+                          : 'contextMenu--option cm-disabled'
+                      }
                     >
                       <span className="functionIcon">
                         <img style={{ height: '15px' }} src={queriesIcon} />
@@ -259,6 +307,24 @@ export default class TouchPoint extends React.Component {
                       Queries
                     </div>
                   </div>
+                  {touchpoint.dashboard_url.length > 1 &&
+                    touchpoint.dashboard_url.map((link, i) => {
+                      if (link.nickName !== '') {
+                        return (
+                          <div key={i + 1} className="contextMenuItem">
+                            <div
+                              onClick={() => {
+                                window.open(link.url);
+                              }}
+                              className="contextMenu--optionLink"
+                            >
+                              {`> ${link.nickName}`}
+                            </div>
+                          </div>
+                        );
+                      }
+                      return null;
+                    })}
                 </Form>
               </div>
             </div>
@@ -280,5 +346,7 @@ TouchPoint.propTypes = {
   renderProps: PropTypes.func.isRequired,
   updateTouchpointOnOff: PropTypes.func.isRequired,
   openModalParent: PropTypes.func.isRequired,
-  iconCanaryStatus: PropTypes.bool.isRequired
+  iconCanaryStatus: PropTypes.bool.isRequired,
+  accessToConfig: PropTypes.bool.isRequired,
+  renderMouseOver: PropTypes.func.isRequired
 };

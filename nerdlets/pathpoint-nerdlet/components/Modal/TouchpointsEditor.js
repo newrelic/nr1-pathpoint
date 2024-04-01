@@ -16,6 +16,9 @@ import iconDelete from '../../images/icon-delete.svg';
 import messages from '../../config/messages.json';
 import Toast from '../Toast/Toast';
 import warningIcon from '../../images/warning.svg';
+import addIcon from '../../images/addGreyIcon.svg';
+import removeIcon from '../../images/removeGreyIcon.svg';
+import AlertSelector from '../AlertSelector';
 import {
   TimeRangeTransform,
   regex_measure_time
@@ -230,7 +233,8 @@ class BodyTouchpointsEditor extends Component {
       testQueryValue: '',
       testingNow: false,
       listTpErrorMeasureField: [],
-      list: []
+      list: [],
+      viewGlobalParameters: false
     };
   }
 
@@ -406,6 +410,45 @@ class BodyTouchpointsEditor extends Component {
         input.checked = false;
       });
     }
+  };
+
+  AddSecondaryLinks = () => {
+    const { touchpoints } = this.state;
+    this.setState(state => {
+      const form = { ...state.form };
+      form[`tp_${state.current.touchpoint}`].dashboardLink.push({
+        nickName: '',
+        url: ''
+      });
+      form[`tp_${state.current.touchpoint}`].dashboardLink.push({
+        nickName: '',
+        url: ''
+      });
+      form[`tp_${state.current.touchpoint}`].dashboardLink.push({
+        nickName: '',
+        url: ''
+      });
+      return {
+        form,
+        touchpoints,
+        testQueryResult: '',
+        testQueryValue: ''
+      };
+    });
+  };
+
+  RemoveSecondaryLinks = () => {
+    const { touchpoints } = this.state;
+    this.setState(state => {
+      const form = { ...state.form };
+      form[`tp_${state.current.touchpoint}`].dashboardLink.pop();
+      return {
+        form,
+        touchpoints,
+        testQueryResult: '',
+        testQueryValue: ''
+      };
+    });
   };
 
   DeleteTouchpoint = () => {
@@ -586,8 +629,33 @@ class BodyTouchpointsEditor extends Component {
             case 'queryMeasure':
               item.queryData.measure_time = value;
               break;
-            case 'dashboardLink':
-              item.dashboard_url = value;
+            case 'dashboardLink0':
+              if (item.dashboard_url.length === 0) {
+                item.dashboard_url.push({
+                  nickName: '',
+                  url: ''
+                });
+              }
+              item.dashboard_url[0].url = value;
+              break;
+            case 'dashboardLink1':
+              item.dashboard_url[1].url = value;
+              break;
+            case 'dashboardLink2':
+              item.dashboard_url[2].url = value;
+              break;
+            case 'dashboardLink3':
+              item.dashboard_url[3].url = value;
+              break;
+            case 'nickName1':
+              item.dashboard_url[1].nickName = value;
+              break;
+            case 'nickName2':
+              item.dashboard_url[2].nickName = value;
+              break;
+            case 'nickName3':
+              item.dashboard_url[3].nickName = value;
+              break;
           }
         }
         return found;
@@ -655,7 +723,9 @@ class BodyTouchpointsEditor extends Component {
           queryAccount:
             this.props.accountIDs.length > 0 ? this.props.accountIDs[0].id : 1,
           queryMeasure: '5 MINUTES AGO',
-          dashboardLink: 'https://onenr.io/01qwL8KPxw5',
+          dashboardLink: [
+            { nickname: '', url: 'https://onenr.io/01qwL8KPxw5' }
+          ],
           timeout: 10
         };
         let touchpoint = {
@@ -664,7 +734,9 @@ class BodyTouchpointsEditor extends Component {
           title: 'New Touchpoint',
           status_on_off: true,
           visible: true,
-          dashboard_url: 'https://onenr.io/01qwL8KPxw5',
+          dashboard_url: [
+            { nickname: '', url: 'https://onenr.io/01qwL8KPxw5' }
+          ],
           subs: [],
           queryData: {
             accountID:
@@ -673,6 +745,8 @@ class BodyTouchpointsEditor extends Component {
                 : 1,
             max_avg_response_time: 0,
             max_count: 0,
+            max_value: 0,
+            value: 0,
             max_error_percentage: 0,
             max_response_time: 0,
             max_total_check_time: 0,
@@ -689,6 +763,9 @@ class BodyTouchpointsEditor extends Component {
             success_percentage: 0,
             api_count: 0,
             measure_time: '5 MINUTES AGO',
+            alertConditionId: [],
+            priority: ['CRITICAL'],
+            state: ['ACTIVATED'],
             query: this.SetSampleQuery(this.GetLongTouchpointTypeName('PCC')),
             query_timeout: 10,
             type: this.GetLongTouchpointTypeName('PCC')
@@ -923,15 +1000,57 @@ class BodyTouchpointsEditor extends Component {
     });
   };
 
-  HandleOnChangeTune = value => {
-    this.state.touchpoints.some(item => {
-      let found = false;
-      if (item.id === this.state.current.touchpoint) {
-        found = true;
-        item.queryData[value.target.name] = value.target.value;
-      }
-      return found;
+  HandleOnChangePriority = priorities => {
+    this.setState(state => {
+      state.touchpoints.some(item => {
+        let found = false;
+        if (item.id === state.current.touchpoint) {
+          found = true;
+          item.queryData.priority = priorities;
+        }
+        return found;
+      });
+      return {
+        touchpoints: state.touchpoints
+      };
     });
+  };
+
+  HandleOnChangeState = states => {
+    this.setState(state => {
+      state.touchpoints.some(item => {
+        let found = false;
+        if (item.id === state.current.touchpoint) {
+          found = true;
+          item.queryData.state = states;
+        }
+        return found;
+      });
+      return {
+        touchpoints: state.touchpoints
+      };
+    });
+  };
+
+  HandleOnChangeTune = value => {
+    if (
+      value.target.name === 'alertsRefreshDelay' ||
+      value.target.name === 'alertsTimeWindow'
+    ) {
+      this.props.handleAlertParameterUpdate({
+        name: value.target.name,
+        value: value.target.value
+      });
+    } else {
+      this.state.touchpoints.some(item => {
+        let found = false;
+        if (item.id === this.state.current.touchpoint) {
+          found = true;
+          item.queryData[value.target.name] = value.target.value;
+        }
+        return found;
+      });
+    }
   };
 
   RunTest = () => {
@@ -1046,18 +1165,138 @@ class BodyTouchpointsEditor extends Component {
     );
   };
 
-  RenderTuneForm = () => {
-    let tp = null;
-    this.state.touchpoints.some(item => {
-      let found = false;
-      if (item.id === this.state.current.touchpoint) {
-        found = true;
-        tp = {
-          ...item
-        };
-      }
-      return found;
-    });
+  RenderAlertField = ({ name, label, defaultValue, id, onChange, key }) => {
+    return (
+      <>
+        <label
+          className="bodySubTitle"
+          style={{
+            fontSize: key === 'GLOBAL' ? '12px' : '14px',
+            fontFamily: 'Open Sans',
+            fontStyle: 'normal',
+            fontWeight: '400',
+            lineHeight: '19px',
+            textAlign: 'right',
+            width: '40%'
+          }}
+        >
+          {label}
+        </label>
+        <input
+          id={id}
+          name={name}
+          type="text"
+          defaultValue={defaultValue}
+          onChange={/* istanbul ignore next */ e => onChange(e)}
+          className="inputText"
+          style={{
+            width: key === 'GLOBAL' ? '50px' : '200px',
+            background: '#FFFFFF',
+            boxSizing: 'border-box',
+            border: '1px solid #BDBDBD',
+            marginLeft: '20px',
+            padding: '5px'
+          }}
+        />
+      </>
+    );
+  };
+
+  RenderAlertFieldType2 = ({ label, defaultValue, onChange, key }) => {
+    const data = defaultValue;
+    return (
+      <>
+        <label
+          className="bodySubTitle"
+          style={{
+            fontSize: key === 'GLOBAL' ? '12px' : '14px',
+            fontFamily: 'Open Sans',
+            fontStyle: 'normal',
+            fontWeight: '400',
+            lineHeight: '19px',
+            textAlign: 'right',
+            width: '40%',
+            verticalAlign: 'top',
+            height: '15px'
+          }}
+        >
+          {label}
+        </label>
+        <AlertSelector dataValues={data} updateDataChecked={onChange} />
+      </>
+    );
+  };
+
+  CheckStatus(dataValues, value) {
+    const found = dataValues.find(item => item === value);
+    if (found) {
+      return true;
+    }
+    return false;
+  }
+
+  MakeData(type, dataValues) {
+    let data = null;
+    if (type === 'priority') {
+      data = [
+        {
+          check: this.CheckStatus(dataValues, 'CRITICAL'),
+          name: 'CRITICAL'
+        },
+        {
+          check: this.CheckStatus(dataValues, 'HIGH'),
+          name: 'HIGH'
+        },
+        {
+          check: this.CheckStatus(dataValues, 'MEDIUM'),
+          name: 'MEDIUM'
+        },
+        {
+          check: this.CheckStatus(dataValues, 'LOW'),
+          name: 'LOW'
+        }
+      ];
+    } else {
+      data = [
+        {
+          check: this.CheckStatus(dataValues, 'ACTIVATED'),
+          name: 'ACTIVATED'
+        },
+        {
+          check: this.CheckStatus(dataValues, 'CREATED'),
+          name: 'CREATED'
+        },
+        {
+          check: this.CheckStatus(dataValues, 'DEACTIVATED'),
+          name: 'DEACTIVATED'
+        },
+        {
+          check: this.CheckStatus(dataValues, 'CLOSED'),
+          name: 'CLOSED'
+        }
+      ];
+    }
+    return data;
+  }
+
+  ReturnLastValueLabel = touchpoint => {
+    const tp = this.state.touchpoints.find(item => item.id === touchpoint);
+    if (tp.queryData.type !== 'Alert-Check') {
+      return <label className="headerSubtitleTune">Last Value</label>;
+    }
+  };
+
+  DoNotRenderForAlertTP = touchpoint => {
+    const tp = this.state.touchpoints.find(item => item.id === touchpoint);
+    if (tp.queryData.type === 'Alert-Check') {
+      return false;
+    }
+    return true;
+  };
+
+  RenderTuneForm = touchpoint => {
+    const { viewGlobalParameters } = this.state;
+    const tp = this.state.touchpoints.find(item => item.id === touchpoint);
     switch (tp.queryData.type) {
       case 'Person-Count':
         return (
@@ -1243,6 +1482,146 @@ class BodyTouchpointsEditor extends Component {
             </div>
           </>
         );
+      case 'Alert-Check':
+        return (
+          <>
+            <div style={{ height: '40px', width: '400px' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  marginTop: '15px',
+                  marginBottom: '15px',
+                  width: '100%'
+                }}
+              >
+                <label
+                  className="bodySubTitle"
+                  style={{
+                    fontSize: '14px',
+                    fontFamily: 'Open Sans',
+                    fontStyle: 'normal',
+                    fontWeight: '400',
+                    lineHeight: '19px',
+                    textAlign: 'right',
+                    width: '40%'
+                  }}
+                >
+                  Account ID
+                </label>
+                <div style={{ width: '110px', marginLeft: '20px' }}>
+                  <SelectIDs
+                    name="query"
+                    handleOnChange={e =>
+                      this.HandleOnChange(
+                        'queryAccount',
+                        e.target.value,
+                        this.state.current.touchpoint
+                      )
+                    }
+                    options={this.props.accountIDs}
+                    idSeleccionado={
+                      this.state.form[`tp_${this.state.current.touchpoint}`]
+                        .queryAccount
+                    }
+                  />
+                </div>
+              </div>
+            </div>
+            <div style={{ height: '40px', width: '400px' }}>
+              {this.RenderAlertField({
+                label: 'ConditionID',
+                defaultValue: tp.queryData.alertConditionId,
+                id: 'alertConditionId',
+                onChange: this.HandleOnChangeTune,
+                name: 'alertConditionId',
+                key: 'ARRAY'
+              })}
+            </div>
+            <div style={{ height: '40px', width: '400px' }}>
+              {this.RenderAlertFieldType2({
+                label: 'Priority',
+                defaultValue: this.MakeData('priority', tp.queryData.priority),
+                onChange: this.HandleOnChangePriority,
+                key: 'ARRAY'
+              })}
+            </div>
+            <div style={{ height: '40px', width: '400px' }}>
+              {this.RenderAlertFieldType2({
+                label: 'State',
+                defaultValue: this.MakeData('state', tp.queryData.state),
+                onChange: this.HandleOnChangeState,
+                key: 'ARRAY'
+              })}
+            </div>
+            <div style={{ height: '40px', width: '400px', paddingTop: '20px' }}>
+              <label
+                className="bodySubTitle"
+                style={{
+                  fontSize: '10px',
+                  fontFamily: 'Open Sans',
+                  fontStyle: 'normal',
+                  fontWeight: '400',
+                  lineHeight: '19px',
+                  textAlign: 'left',
+                  width: '40%',
+                  color: '#D0D0D0',
+                  cursor: 'pointer'
+                }}
+                onClick={() =>
+                  this.setState(state => {
+                    return {
+                      viewGlobalParameters: !state.viewGlobalParameters
+                    };
+                  })
+                }
+              >
+                &nbsp;&nbsp;&nbsp;Global Parameters
+              </label>
+            </div>
+            {viewGlobalParameters && (
+              <>
+                <div style={{ height: '40px', width: '400px' }}>
+                  {this.RenderAlertField({
+                    label: 'Alerts Refresh Delay(min)',
+                    defaultValue: this.props.alertsRefreshDelay,
+                    id: 'alertsRefreshDelay',
+                    onChange: this.HandleOnChangeTune,
+                    name: 'alertsRefreshDelay',
+                    key: 'GLOBAL'
+                  })}
+                </div>
+                <div style={{ height: '40px', width: '400px' }}>
+                  {this.RenderAlertField({
+                    label: 'Alerts Time Window(min)',
+                    defaultValue: this.props.alertsTimeWindow,
+                    id: 'alertsTimeWindow',
+                    onChange: this.HandleOnChangeTune,
+                    name: 'alertsTimeWindow',
+                    key: 'GLOBAL'
+                  })}
+                </div>
+              </>
+            )}
+          </>
+        );
+      case 'Value-Performance':
+        return (
+          <>
+            <div style={{ height: '40px', width: '400px' }}>
+              {this.RenderTuneField({
+                label: 'Value (Max)',
+                defaultValue: tp.queryData.max_value,
+                id: 'max_value',
+                onChange: this.HandleOnChangeTune,
+                name: 'max_value',
+                key: 'Max',
+                compare: tp.queryData.value
+              })}
+            </div>
+          </>
+        );
     }
   };
 
@@ -1395,8 +1774,8 @@ class BodyTouchpointsEditor extends Component {
                                   this.state.current.touchpoint === tp.id
                                     ? '#0078BF'
                                     : tp.visible
-                                    ? 'white'
-                                    : 'lightgrey'
+                                      ? 'white'
+                                      : 'lightgrey'
                               }}
                             >
                               <div
@@ -1445,8 +1824,8 @@ class BodyTouchpointsEditor extends Component {
                                   this.state.current.touchpoint === tp.id
                                     ? '#0078BF'
                                     : tp.visible
-                                    ? 'white'
-                                    : 'lightgrey'
+                                      ? 'white'
+                                      : 'lightgrey'
                               }}
                             >
                               <Dropdown
@@ -1774,139 +2153,144 @@ class BodyTouchpointsEditor extends Component {
                               justifyContent: 'center'
                             }}
                           >
-                            <label className="headerSubtitleTune">
-                              Last Value
-                            </label>
+                            {this.ReturnLastValueLabel(
+                              this.state.current.touchpoint
+                            )}
                           </div>
                         </div>
                       </div>
-                      {this.RenderTuneForm()}
+                      {this.RenderTuneForm(this.state.current.touchpoint)}
                     </div>
                   )}
-                  {this.state.tab === 'query' && this.state.current.touchpoint && (
-                    <div
-                      style={{
-                        marginTop: '11px',
-                        marginLeft: '10px',
-                        marginRight: '10px',
-                        background: '#F7F7F8',
-                        paddingLeft: '20px',
-                        paddingRight: '20px',
-                        paddingBottom: '20px'
-                      }}
-                    >
-                      <div style={{ display: 'flex', width: '100%' }}>
-                        <div
-                          style={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            marginTop: '15px',
-                            marginBottom: '15px',
-                            width: '50%'
-                          }}
-                        >
-                          Account ID
-                          <div style={{ width: '110px', marginLeft: '10px' }}>
-                            <SelectIDs
-                              name="query"
-                              handleOnChange={e =>
-                                this.HandleOnChange(
-                                  'queryAccount',
-                                  e.target.value,
-                                  this.state.current.touchpoint
-                                )
-                              }
-                              options={this.props.accountIDs}
-                              idSeleccionado={
-                                this.state.form[
-                                  `tp_${this.state.current.touchpoint}`
-                                ].queryAccount
-                              }
-                            />
+                  {this.state.tab === 'query' &&
+                    this.state.current.touchpoint &&
+                    this.DoNotRenderForAlertTP(
+                      this.state.current.touchpoint
+                    ) && (
+                      <div
+                        style={{
+                          marginTop: '11px',
+                          marginLeft: '10px',
+                          marginRight: '10px',
+                          background: '#F7F7F8',
+                          paddingLeft: '20px',
+                          paddingRight: '20px',
+                          paddingBottom: '20px'
+                        }}
+                      >
+                        <div style={{ display: 'flex', width: '100%' }}>
+                          <div
+                            style={{
+                              display: 'flex',
+                              flexDirection: 'row',
+                              alignItems: 'center',
+                              marginTop: '15px',
+                              marginBottom: '15px',
+                              width: '50%'
+                            }}
+                          >
+                            Account ID
+                            <div style={{ width: '110px', marginLeft: '10px' }}>
+                              <SelectIDs
+                                name="query"
+                                handleOnChange={e =>
+                                  this.HandleOnChange(
+                                    'queryAccount',
+                                    e.target.value,
+                                    this.state.current.touchpoint
+                                  )
+                                }
+                                options={this.props.accountIDs}
+                                idSeleccionado={
+                                  this.state.form[
+                                    `tp_${this.state.current.touchpoint}`
+                                  ].queryAccount
+                                }
+                              />
+                            </div>
+                          </div>
+                          <div
+                            style={{
+                              marginTop: '15px',
+                              marginBottom: '15px',
+                              width: '50%',
+                              display: 'flex',
+                              justifyContent: 'flex-end',
+                              alignItems: 'center'
+                            }}
+                          >
+                            <div>
+                              Timeout
+                              <input
+                                type="text"
+                                value={
+                                  this.state.form[
+                                    `tp_${this.state.current.touchpoint}`
+                                  ].timeout
+                                }
+                                onChange={e =>
+                                  this.HandleOnChange(
+                                    'timeout',
+                                    e.target.value,
+                                    this.state.current.touchpoint
+                                  )
+                                }
+                                className="inputText"
+                                style={{
+                                  width: '50px',
+                                  background: '#FFFFFF',
+                                  border: '1px solid #BDBDBD',
+                                  boxSizing: 'border-box',
+                                  padding: '5px',
+                                  marginLeft: '10px',
+                                  textAlign: 'center'
+                                }}
+                              />
+                            </div>
                           </div>
                         </div>
-                        <div
-                          style={{
-                            marginTop: '15px',
-                            marginBottom: '15px',
-                            width: '50%',
-                            display: 'flex',
-                            justifyContent: 'flex-end',
-                            alignItems: 'center'
-                          }}
-                        >
-                          <div>
-                            Timeout
+
+                        {/* Query Editor */}
+                        <Editor
+                          style={{ height: 100 }}
+                          value={
+                            this.state.form[
+                              `tp_${this.state.current.touchpoint}`
+                            ].query
+                          }
+                          onPressEnter={this.RunTest}
+                          onChange={e =>
+                            this.HandleOnChange(
+                              'query',
+                              e.target.value,
+                              this.state.current.touchpoint
+                            )
+                          }
+                        />
+
+                        <div>
+                          <span>
+                            <b>SINCE </b>
+                          </span>
+                          <div
+                            style={{
+                              display: 'inline',
+                              flexDirection: 'column',
+                              width: '100%'
+                            }}
+                          >
                             <input
                               type="text"
                               value={
                                 this.state.form[
                                   `tp_${this.state.current.touchpoint}`
-                                ].timeout
+                                ].queryMeasure
                               }
-                              onChange={e =>
-                                this.HandleOnChange(
-                                  'timeout',
-                                  e.target.value,
+                              style={
+                                listTpErrorMeasureField.includes(
                                   this.state.current.touchpoint
                                 )
-                              }
-                              className="inputText"
-                              style={{
-                                width: '50px',
-                                background: '#FFFFFF',
-                                border: '1px solid #BDBDBD',
-                                boxSizing: 'border-box',
-                                padding: '5px',
-                                marginLeft: '10px',
-                                textAlign: 'center'
-                              }}
-                            />
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Query Editor */}
-                      <Editor
-                        style={{ height: 100 }}
-                        value={
-                          this.state.form[`tp_${this.state.current.touchpoint}`]
-                            .query
-                        }
-                        onPressEnter={this.RunTest}
-                        onChange={e =>
-                          this.HandleOnChange(
-                            'query',
-                            e.target.value,
-                            this.state.current.touchpoint
-                          )
-                        }
-                      />
-
-                      <div>
-                        <span>
-                          <b>SINCE </b>
-                        </span>
-                        <div
-                          style={{
-                            display: 'inline',
-                            flexDirection: 'column',
-                            width: '100%'
-                          }}
-                        >
-                          <input
-                            type="text"
-                            value={
-                              this.state.form[
-                                `tp_${this.state.current.touchpoint}`
-                              ].queryMeasure
-                            }
-                            style={
-                              listTpErrorMeasureField.includes(
-                                this.state.current.touchpoint
-                              )
-                                ? {
+                                  ? {
                                     background: '#FFFFFF',
                                     border: '1px solid #FC1303',
                                     boxSizing: 'border-box',
@@ -1915,7 +2299,7 @@ class BodyTouchpointsEditor extends Component {
                                     marginLeft: '7px',
                                     width: '50%'
                                   }
-                                : {
+                                  : {
                                     background: '#FFFFFF',
                                     border: '1px solid #BDBDBD',
                                     boxSizing: 'border-box',
@@ -1924,88 +2308,92 @@ class BodyTouchpointsEditor extends Component {
                                     marginLeft: '7px',
                                     width: '50%'
                                   }
-                            }
-                            onChange={e =>
-                              this.HandleOnChange(
-                                'queryMeasure',
-                                e.target.value,
+                              }
+                              onChange={e =>
+                                this.HandleOnChange(
+                                  'queryMeasure',
+                                  e.target.value,
+                                  this.state.current.touchpoint
+                                )
+                              }
+                            />
+                            {listTpErrorMeasureField.includes(
+                              this.state.current.touchpoint
+                            )
+                              ? (this.showToast(this.state.current.touchpoint),
+                                (
+                                  <span className="errorMessageMeasureTime">
+                                    Syntax error on measure time (e.g. 15
+                                    MINUTES AGO)
+                                  </span>
+                                ))
+                              : null}
+                          </div>
+                        </div>
+                        {/* Query Result */}
+                        <Editor
+                          isReadOnly
+                          style={{ height: 70, marginTop: '6px' }}
+                          value={
+                            testQueryValue ? objToString(testQueryValue) : ''
+                          }
+                        />
+                        <div
+                          style={{
+                            display: 'flex',
+                            marginTop: '15px',
+                            alignItems: 'center'
+                          }}
+                        >
+                          <a
+                            style={{
+                              paddingRight: '20px'
+                            }}
+                            onClick={() =>
+                              this.HandleOnSampleQuery(
                                 this.state.current.touchpoint
                               )
                             }
-                          />
-                          {listTpErrorMeasureField.includes(
-                            this.state.current.touchpoint
-                          )
-                            ? (this.showToast(this.state.current.touchpoint),
-                              (
-                                <span className="errorMessageMeasureTime">
-                                  Syntax error on measure time (e.g. 15 MINUTES
-                                  AGO)
-                                </span>
-                              ))
-                            : null}
-                        </div>
-                      </div>
-                      {/* Query Result */}
-                      <Editor
-                        isReadOnly
-                        style={{ height: 70, marginTop: '6px' }}
-                        value={
-                          testQueryValue ? objToString(testQueryValue) : ''
-                        }
-                      />
-                      <div
-                        style={{
-                          display: 'flex',
-                          marginTop: '15px',
-                          alignItems: 'center'
-                        }}
-                      >
-                        <a
-                          style={{
-                            paddingRight: '20px'
-                          }}
-                          onClick={() =>
-                            this.HandleOnSampleQuery(
-                              this.state.current.touchpoint
-                            )
-                          }
-                        >
-                          Sample Query
-                        </a>
-                        <div>
-                          <Button
-                            disabled={testingNow}
-                            onClick={this.RunTest}
-                            variant="contained"
-                            color="primary"
-                            style={{
-                              background: 'white',
-                              border: '1px solid #767B7F',
-                              boxSizing: 'border-box',
-                              marginRight: '15px'
-                            }}
                           >
-                            Test
-                          </Button>
-                        </div>
-                        <div>
-                          {testQueryResult !== '' && (
-                            <span
+                            Sample Query
+                          </a>
+                          <div>
+                            <Button
+                              disabled={testingNow}
+                              onClick={this.RunTest}
+                              variant="contained"
+                              color="primary"
                               style={{
-                                color: goodQuery ? 'green' : 'red',
-                                display: 'flex',
-                                alignItems: 'center'
+                                background: 'white',
+                                border: '1px solid #767B7F',
+                                boxSizing: 'border-box',
+                                marginRight: '15px'
                               }}
                             >
-                              {goodQuery ? <SuccessfullIcon /> : <WrongIcon />}
-                              {testQueryResult}
-                            </span>
-                          )}
+                              Test
+                            </Button>
+                          </div>
+                          <div>
+                            {testQueryResult !== '' && (
+                              <span
+                                style={{
+                                  color: goodQuery ? 'green' : 'red',
+                                  display: 'flex',
+                                  alignItems: 'center'
+                                }}
+                              >
+                                {goodQuery ? (
+                                  <SuccessfullIcon />
+                                ) : (
+                                  <WrongIcon />
+                                )}
+                                {testQueryResult}
+                              </span>
+                            )}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )}
+                    )}
                   {this.state.tab === 'general' &&
                     this.state.current.touchpoint && (
                       <div
@@ -2035,7 +2423,7 @@ class BodyTouchpointsEditor extends Component {
                         <input
                           onChange={e =>
                             this.HandleOnChange(
-                              'dashboardLink',
+                              'dashboardLink0',
                               e.target.value,
                               this.state.current.touchpoint
                             )
@@ -2043,7 +2431,11 @@ class BodyTouchpointsEditor extends Component {
                           value={
                             this.state.form[
                               `tp_${this.state.current.touchpoint}`
-                            ].dashboardLink
+                            ].dashboardLink.length > 0
+                              ? this.state.form[
+                                `tp_${this.state.current.touchpoint}`
+                              ].dashboardLink[0].url
+                              : ''
                           }
                           type="text"
                           style={{
@@ -2057,6 +2449,147 @@ class BodyTouchpointsEditor extends Component {
                             lineHeight: '16px'
                           }}
                         />
+                        <div style={{ height: '20px' }} />
+                        {this.state.form[`tp_${this.state.current.touchpoint}`]
+                          .dashboardLink.length > 0 && (
+                            <label
+                              style={{
+                                fontFamily: 'Open Sans',
+                                fontStyle: 'normal',
+                                fontWeight: '600',
+                                fontSize: '14px',
+                                lineHeight: '19px'
+                              }}
+                            >
+                              Secondary Links
+                            </label>
+                          )}
+                        {this.state.form[`tp_${this.state.current.touchpoint}`]
+                          .dashboardLink.length === 1 && (
+                            <img
+                              style={{
+                                width: '15px',
+                                marginLeft: '20px',
+                                marginBottom: '10px',
+                                height: 'auto',
+                                cursor: 'pointer',
+                                transform: 'translateY(3px)'
+                              }}
+                              onClick={() => this.AddSecondaryLinks()}
+                              src={addIcon}
+                            />
+                          )}
+                        {this.state.form[`tp_${this.state.current.touchpoint}`]
+                          .dashboardLink.length > 1 && (
+                            <img
+                              style={{
+                                width: '15px',
+                                marginLeft: '20px',
+                                marginBottom: '10px',
+                                height: 'auto',
+                                cursor: 'pointer',
+                                transform: 'translateY(3px)'
+                              }}
+                              onClick={() => this.RemoveSecondaryLinks()}
+                              src={removeIcon}
+                            />
+                          )}
+                        {this.state.form[`tp_${this.state.current.touchpoint}`]
+                          .dashboardLink.length > 1 && (
+                            <div>
+                              <label
+                                style={{
+                                  fontFamily: 'Open Sans',
+                                  fontStyle: 'normal',
+                                  fontWeight: '400',
+                                  fontSize: '10px',
+                                  lineHeight: '10px'
+                                }}
+                              >
+                                Nick Name
+                              </label>
+                              <label
+                                style={{
+                                  fontFamily: 'Open Sans',
+                                  fontStyle: 'normal',
+                                  fontWeight: '400',
+                                  fontSize: '11px',
+                                  lineHeight: '10px',
+                                  marginLeft: '60px'
+                                }}
+                              >
+                                URL
+                              </label>
+                            </div>
+                          )}
+                        {this.state.form[`tp_${this.state.current.touchpoint}`]
+                          .dashboardLink.length > 1 &&
+                          this.state.form[
+                            `tp_${this.state.current.touchpoint}`
+                          ].dashboardLink
+                            .slice(1)
+                            .map((link, i) => {
+                              return (
+                                <>
+                                  <input
+                                    key={i + 1}
+                                    onChange={e =>
+                                      this.HandleOnChange(
+                                        `nickName${i + 1}`,
+                                        e.target.value,
+                                        this.state.current.touchpoint
+                                      )
+                                    }
+                                    value={
+                                      this.state.form[
+                                        `tp_${this.state.current.touchpoint}`
+                                      ].dashboardLink[i + 1].nickName
+                                    }
+                                    type="text"
+                                    style={{
+                                      width: '100px',
+                                      background: '#FFFFFF',
+                                      border: '1px solid #BDBDBD',
+                                      boxSizing: 'border-box',
+                                      fontFamily: 'Open Sans',
+                                      fontStyle: 'normal',
+                                      fontWeight: '400',
+                                      fontSize: '12px',
+                                      lineHeight: '16px'
+                                    }}
+                                  />
+                                  <input
+                                    key={i + 1}
+                                    onChange={e =>
+                                      this.HandleOnChange(
+                                        `dashboardLink${i + 1}`,
+                                        e.target.value,
+                                        this.state.current.touchpoint
+                                      )
+                                    }
+                                    value={
+                                      this.state.form[
+                                        `tp_${this.state.current.touchpoint}`
+                                      ].dashboardLink[i + 1].url
+                                    }
+                                    type="text"
+                                    style={{
+                                      width: '270px',
+                                      background: '#FFFFFF',
+                                      border: '1px solid #BDBDBD',
+                                      boxSizing: 'border-box',
+                                      fontFamily: 'Open Sans',
+                                      fontStyle: 'normal',
+                                      fontWeight: '400',
+                                      fontSize: '12px',
+                                      lineHeight: '16px',
+                                      marginLeft: '10px'
+                                    }}
+                                  />
+                                  <div style={{ height: '10px' }} />
+                                </>
+                              );
+                            })}
                       </div>
                     )}
                 </>
@@ -2075,7 +2608,10 @@ BodyTouchpointsEditor.propTypes = {
   handleStagesEditorSubmit: PropTypes.func.isRequired,
   accountIDs: PropTypes.array.isRequired,
   EditorValidateQuery: PropTypes.func.isRequired,
-  timeRangeBodyTouchpointsEditor: PropTypes.string
+  timeRangeBodyTouchpointsEditor: PropTypes.string,
+  alertsTimeWindow: PropTypes.number.isRequired,
+  alertsRefreshDelay: PropTypes.number.isRequired,
+  handleAlertParameterUpdate: PropTypes.func.isRequired
 };
 
 export { HeaderTouchpointsEditor, BodyTouchpointsEditor };

@@ -1,63 +1,82 @@
-import { NerdGraphMutation, NerdGraphQuery } from 'nr1';
+import { AccountStorageMutation, AccountStorageQuery } from 'nr1';
 
 export default class NerdStorageVault {
-  constructor() {
-    this.state = {
-      token: null
-    };
+  constructor(accountId) {
+    this.accountId = accountId;
   }
 
   async getCredentialsData() {
-    const query = `
-            query {
-                actor {
-                    nerdStorageVault {
-                        secrets {
-                            key
-                            value
-                        }
-                    }
-                }
-            }
-        `;
-    let credentials = null;
-    await NerdGraphQuery.query({
-      query: query
-    }).then(({ error, data }) => {
-      if (error) {
-        throw new Error(error);
-      } else {
-        credentials = data;
+    try {
+      const credentials = {
+        ingestLicense: null,
+        userAPIKey: null
+      };
+      const v1 = await AccountStorageQuery.query({
+        accountId: this.accountId,
+        collection: 'pathpoint',
+        documentId: 'ingestLicense'
+      });
+      // console.log('DATA1:', v1.data, 'AccountID:', this.accountId);
+      if (v1.data) {
+        credentials.ingestLicense = v1.data.value;
       }
-    });
-    return credentials;
+      const v2 = await AccountStorageQuery.query({
+        accountId: this.accountId,
+        collection: 'pathpoint',
+        documentId: 'userAPIKey'
+      });
+      // console.log('DATA2:', v2.data);
+      if (v2.data) {
+        credentials.userAPIKey = v2.data.value;
+      }
+      // console.log('GET CREDENTIALS:', credentials);
+      return credentials;
+    } catch (error) {
+      /* istanbul ignore next */
+      throw new Error(error);
+    }
   }
 
   async storeCredentialData(keySend, valueSend) {
+    if (keySend === 'ingestLicense') {
+      await this.storeIngestKey(valueSend);
+    } else {
+      await this.storeUserKey(valueSend);
+    }
+  }
+
+  async storeIngestKey(key) {
     try {
-      const mutation = `
-                mutation($key: String!, $token: SecureValue!) {
-                    nerdStorageVaultWriteSecret(
-                        scope: { actor: CURRENT_USER }
-                        secret: { key: $key, value: $token }
-                    ) {
-                        status
-                        errors {
-                            message
-                            type
-                        }
-                    }
-                }
-            `;
-      const variables = {
-        key: keySend,
-        token: valueSend
-      };
-      await NerdGraphMutation.mutate({
-        mutation: mutation,
-        variables: variables
+      await AccountStorageMutation.mutate({
+        accountId: this.accountId,
+        actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
+        collection: 'pathpoint',
+        documentId: 'ingestLicense',
+        document: {
+          value: key
+        }
       });
+      // console.log('STORE-userAPIKey:', key, 'AccountID:', this.accountId);
     } catch (error) {
+      /* istanbul ignore next */
+      throw new Error(error);
+    }
+  }
+
+  async storeUserKey(key) {
+    try {
+      await AccountStorageMutation.mutate({
+        accountId: this.accountId,
+        actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
+        collection: 'pathpoint',
+        documentId: 'userAPIKey',
+        document: {
+          value: key
+        }
+      });
+      // console.log('STORE-userAPIKey:', key, 'AccountID:', this.accountId);
+    } catch (error) {
+      /* istanbul ignore next */
       throw new Error(error);
     }
   }

@@ -511,6 +511,7 @@ ul.vertical li {
   flex-direction: column;
   padding-left: 0px;
 }
+
 .subItem:hover {
   color: #0078bf;
   cursor: pointer;
@@ -520,6 +521,19 @@ ul.vertical li:hover {
   color: #0078bf;
   cursor: pointer;
 }
+
+.support {
+  display: flex;
+  align-items: center;
+  padding-left: 20%;
+  width: 100%;
+}
+
+.support:hover {
+  color: #0078bf;
+  cursor: pointer;
+}
+
 .modalOptions {
   padding-left: 25px;
   padding-top: 15px;

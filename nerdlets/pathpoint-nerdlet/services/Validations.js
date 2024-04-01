@@ -75,6 +75,7 @@ export default class ValidationQuery {
         goodQuery = this.kpi101Validation(errors, query, data);
         break;
       case 'KPI-100':
+      case 'Value-Performance':
         goodQuery = this.kpiQueryValidation(errors, data);
         break;
     }

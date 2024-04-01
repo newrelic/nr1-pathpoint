@@ -11,7 +11,7 @@ function HeaderGeneralConfigurationFormModal() {
     <>
       <div style={{ display: 'flex' }}>
         <div className="titleModal">
-          <img src={setup} width="18" /> Credentials and General Configuration
+          <img src={setup} width="18" /> Background Functions
         </div>
       </div>
     </>

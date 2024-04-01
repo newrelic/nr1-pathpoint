@@ -21,7 +21,7 @@ touchpoints.forEach( tp_group => {
   tp_group.forEach( tp =>{
     data +=  `;
   data.footer += String.fromCharCode(96);
-  data.footer += 'measure_${tp.stage_index}_${tp.touchpoint_index}: account(id: ${myAccountID}) { nrql(query: "${tp.query} SINCE ${tp.measure_time}", timeout:${tp.timeout}) {results}} ';
+  data.footer += 'measure_${tp.stage_index}_${tp.touchpoint_index}: account(id: ${tp.measure.accountID}) { nrql(query: "${tp.measure.query} SINCE ${tp.measure.measure_time}", timeout:10) {results}} ';
   data.footer += String.fromCharCode(96);
   data.footer += `;
   });
@@ -40,7 +40,7 @@ graphQLdata.forEach( gql =>{
     url: 'https://api.newrelic.com/graphql',
     body: raw
   };
-  console.log(raw);
+  //console.log(raw);
   $http.post(graphqlpack, callback);
 });
 
@@ -50,6 +50,7 @@ let totalResponses = 0;
 function callback(err, response, body) {
   const results = JSON.parse(body);
   responses.push(results);
+  //responses.push(body);
   totalResponses++;
   console.log('Responses:',totalResponses);
   if (totalResponses === graphQLdata.length){
@@ -98,16 +99,16 @@ function MakeEvent(results,stage_index,touchpoint_index) {
     let measure_results = null;
     switch (tp.type) {
       case 'PRC':
-        if (Object.prototype.hasOwnProperty.call(results,'session')){
-          error =  results.session < tp.min_count;
+        if (Reflect.has(results,'session')){
+          error =  results.session < tp.measure.min_count;
           measure_results = {
             session_count: results.session
           }
         }
         break;
       case 'PCC':
-        if (Object.prototype.hasOwnProperty.call(results,'count')){
-          error = results.count < tp.min_count;
+        if (Reflect.has(results,'count')){
+          error = results.count < tp.measure.min_count;
           measure_results = {
             transaction_count: results.count
           }
@@ -115,25 +116,25 @@ function MakeEvent(results,stage_index,touchpoint_index) {
         break;
       case 'APP':
       case 'FRT':
-        if (Object.prototype.hasOwnProperty.call(results,'apdex') &&
-          Object.prototype.hasOwnProperty.call(results,'score') &&
-          Object.prototype.hasOwnProperty.call(results,'response') &&
-          Object.prototype.hasOwnProperty.call(results,'error')
+      case 'API':
+        if (Reflect.has(results,'apdex') &&
+        Reflect.has(results,'response') &&
+        Reflect.has(results,'error')
         ) {
-          error = results.error > tp.max_error_percentage || results.score < tp.min_apdex || results.response > tp.max_response_time;
+          error = results.error > tp.measure.max_error_percentage || results.score < tp.measure.min_apdex || results.response > tp.measure.max_response_time;
           measure_results = {
-            apdex_value: results.score,
+            apdex_value: results.score ? results.score : results.apdex,
             response_value: results.response,
             error_percentage: results.error
           }
         }
         break;
       case 'SYN':
-        if (Object.prototype.hasOwnProperty.call(results,'success') &&
-        Object.prototype.hasOwnProperty.call(results,'duration') &&
-        Object.prototype.hasOwnProperty.call(results,'request')
+        if (Reflect.has(results,'success') &&
+        Reflect.has(results,'duration') &&
+        Reflect.has(results,'request')
         ) {
-          error = results.success < tp.min_success_percentage || results.request > tp.max_avg_response_time || results.duration > tp.max_total_check_time;
+          error = results.success < tp.measure.min_success_percentage || results.request > tp.measure.max_avg_response_time || results.duration > tp.measure.max_total_check_time;
           measure_results = {
             success_percentage: results.success,
             max_duration: results.duration,
@@ -141,12 +142,54 @@ function MakeEvent(results,stage_index,touchpoint_index) {
           }
         }
         break;
+      case 'WLD':
+        if (Reflect.has(results,'statusValue')) {
+          error = results.status_value === 'DISRUPTED' || results.status_value === 'UNKNOWN' || results.status_value === 'NO-VALUE'
+          measure_results = {
+            status_value: results.status_value
+          }
+        }
+        break;
+      case 'DRP':
+        if (Reflect.has(results,'count')) {
+          error = false;
+          measure_results = {
+            value: results.count
+          }
+        }
+        break;
+      case 'APC':
+        if (Reflect.has(results,'count')) {
+          error = results.count < tp.measure.min_count;
+          measure_results = {
+            api_count: results.count
+          }
+        }
+        break;
+      case 'APS':
+        if (Reflect.has(results,'percentage')) {
+          error = results.percentage < tp.measure.min_success_percentage;
+          measure_results = {
+            success_percentage: results.percentage
+          }
+        }
+        break;
+      case 'VAL':
+        if (Reflect.has(results,'value')) {
+          error = results.value > tp.measure.max_value;
+          measure_results = {
+            value: results.value
+          }
+        }
+        break;
     }
     return {
       eventType: 'PathpointHistoricErrors',
       pathpoint_id: pathpointID,
+      stage_name: tp.stage_name,
       stage_index: stage_index,
       touchpoint_index: touchpoint_index,
+      touchpoint_name: tp.touchpoint_name,
       touchpoint_type: tp.type,
       error: error,
       ...measure_results

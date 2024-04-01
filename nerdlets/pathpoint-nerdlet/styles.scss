@@ -1,4 +1,5 @@
 @import './containers/MainContainer/styles.scss';
+@import './containers/MainContainer/LensPage/styles.scss';
 @import './containers/StepContainer/styles.scss';
 @import './components/Header/styles.scss';
 @import './components/Stage/style.scss';
@@ -10,10 +11,12 @@
 @import './components/Select/styles.scss';
 @import './components/RangeTime/styles.scss';
 @import './components/SelectorKpis/styles.scss';
+@import './components/AlertSelector/styles.scss';
 @import './components/SelectIDs/styles.scss';
 @import './components/Toast/styles.scss';
 @import './components/Workload/styles.scss';
 @import './components/Modal/KPIEditor/styles.scss';
+@import './components/TouchPoint/AlertModal/styles.scss';
 @import url('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css');
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@500');
 
