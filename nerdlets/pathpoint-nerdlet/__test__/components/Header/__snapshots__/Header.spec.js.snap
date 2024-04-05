@@ -126,7 +126,7 @@ exports[`Header component Header component with default data 1`] = `
     style={
       Object {
         "color": false,
-        "visibility": "hidden",
+        "visibility": "visible",
       }
     }
   />
@@ -139,6 +139,20 @@ exports[`Header component Header component with default data 1`] = `
       <div
         className="fireIconContainer"
         onClick={[Function]}
+      >
+        <img
+          src="SvgrURL"
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
+        className="fireIconContainer"
+        onClick={[Function]}
+        onMouseDown={[MockFunction]}
       >
         <img
           src="SvgrURL"
@@ -432,7 +446,7 @@ exports[`Header component Header component with iconCanaryStatus 1`] = `
     style={
       Object {
         "color": false,
-        "visibility": "hidden",
+        "visibility": "visible",
       }
     }
   />
@@ -445,6 +459,20 @@ exports[`Header component Header component with iconCanaryStatus 1`] = `
       <div
         className="fireIconContainer"
         onClick={[Function]}
+      >
+        <img
+          src="SvgrURL"
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
+        className="fireIconContainer"
+        onClick={[Function]}
+        onMouseDown={[MockFunction]}
       >
         <img
           src="SvgrURL"
@@ -790,6 +818,20 @@ exports[`Header component Header component with iconFireStatus 1`] = `
         />
       </div>
       <div
+        className="fireIconContainer"
+        onClick={[Function]}
+        onMouseDown={[MockFunction]}
+      >
+        <img
+          src="SvgrURL"
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
         className="custom-select-wrapper"
         onClick={[Function]}
         onMouseEnter={[Function]}
@@ -1096,6 +1138,20 @@ exports[`Header component Header component with iconGoutStatus 1`] = `
         />
       </div>
       <div
+        className="fireIconContainer"
+        onClick={[Function]}
+        onMouseDown={[MockFunction]}
+      >
+        <img
+          src="SvgrURL"
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
         className="custom-select-wrapper"
         onClick={[Function]}
         onMouseEnter={[Function]}
@@ -1350,7 +1406,7 @@ exports[`Header component Header component with iconSixthSenseStatus 1`] = `
     style={
       Object {
         "color": false,
-        "visibility": "hidden",
+        "visibility": "visible",
       }
     }
   />
@@ -1363,6 +1419,20 @@ exports[`Header component Header component with iconSixthSenseStatus 1`] = `
       <div
         className="fireIconContainer"
         onClick={[Function]}
+      >
+        <img
+          src="SvgrURL"
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
+        className="fireIconContainer"
+        onClick={[Function]}
+        onMouseDown={[MockFunction]}
       >
         <img
           src="SvgrURL"
@@ -1708,6 +1778,20 @@ exports[`Header component Header component with iconStartStatus 1`] = `
         />
       </div>
       <div
+        className="fireIconContainer"
+        onClick={[Function]}
+        onMouseDown={[MockFunction]}
+      >
+        <img
+          src="SvgrURL"
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
         className="custom-select-wrapper"
         onClick={[Function]}
         onMouseEnter={[Function]}
@@ -1962,7 +2046,7 @@ exports[`Header component Header component with logoSetup Text 1`] = `
     style={
       Object {
         "color": false,
-        "visibility": "hidden",
+        "visibility": "visible",
       }
     }
   />
@@ -1975,6 +2059,20 @@ exports[`Header component Header component with logoSetup Text 1`] = `
       <div
         className="fireIconContainer"
         onClick={[Function]}
+      >
+        <img
+          src="SvgrURL"
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
+        className="fireIconContainer"
+        onClick={[Function]}
+        onMouseDown={[MockFunction]}
       >
         <img
           src="SvgrURL"
@@ -2268,7 +2366,7 @@ exports[`Header component Header component with logoSetup URL 1`] = `
     style={
       Object {
         "color": false,
-        "visibility": "hidden",
+        "visibility": "visible",
       }
     }
   />
@@ -2281,6 +2379,20 @@ exports[`Header component Header component with logoSetup URL 1`] = `
       <div
         className="fireIconContainer"
         onClick={[Function]}
+      >
+        <img
+          src="SvgrURL"
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
+        className="fireIconContainer"
+        onClick={[Function]}
+        onMouseDown={[MockFunction]}
       >
         <img
           src="SvgrURL"
@@ -2574,7 +2686,7 @@ exports[`Header component Header component with showLeftPanel 1`] = `
     style={
       Object {
         "color": false,
-        "visibility": "hidden",
+        "visibility": "visible",
       }
     }
   />
@@ -2587,6 +2699,20 @@ exports[`Header component Header component with showLeftPanel 1`] = `
       <div
         className="fireIconContainer"
         onClick={[Function]}
+      >
+        <img
+          src="SvgrURL"
+          style={
+            Object {
+              "height": "18px",
+            }
+          }
+        />
+      </div>
+      <div
+        className="fireIconContainer"
+        onClick={[Function]}
+        onMouseDown={[MockFunction]}
       >
         <img
           src="SvgrURL"

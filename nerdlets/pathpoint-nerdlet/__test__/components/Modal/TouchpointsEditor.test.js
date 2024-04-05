@@ -90,6 +90,12 @@ const stagesInterface = [
           query:
             "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
         },
+        dashboard_url: [
+          {
+            nickName: '',
+            url: 'https://onenr.io/0dQeOakpVRe'
+          }
+        ],
         measure_points: [
           {
             type: 'PRC',
@@ -119,6 +125,12 @@ const touchpointsInterface = [
       query:
         "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
     },
+    dashboard_url: [
+      {
+        nickName: '',
+        url: 'https://onenr.io/0dQeOakpVRe'
+      }
+    ],
     substeps: 'substeps',
     measure_points: [
       {
@@ -135,6 +147,10 @@ const touchpointsInterface = [
     ]
   }
 ];
+
+const timeRangeBody = '1234-4567';
+const alertsTimeWindow = 5;
+const alertsRefreshDelay = 10;
 
 const accountIDs = [2710112, 2710113];
 
@@ -235,6 +251,12 @@ describe('<BodyTouchpointsEditor/>', () => {
               query:
                 "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
             },
+            dashboard_url: [
+              {
+                nickName: '',
+                url: 'https://onenr.io/0dQeOakpVRe'
+              }
+            ],
             measure_points: [
               {
                 type: 'PRC'
@@ -275,6 +297,12 @@ describe('<BodyTouchpointsEditor/>', () => {
               query:
                 "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
             },
+            dashboard_url: [
+              {
+                nickName: '',
+                url: 'https://onenr.io/0dQeOakpVRe'
+              }
+            ],
             measure_points: [
               {
                 type: 'PRC'
@@ -303,6 +331,9 @@ describe('<BodyTouchpointsEditor/>', () => {
         SelectStage={clickStage}
         SelectTab={clickStage}
         HandleOnChange={clickStage}
+        alertsTimeWindow={alertsTimeWindow}
+        alertsRefreshDelay={alertsRefreshDelay}
+        handleAlertParameterUpdate={jest.fn()}
       />
     );
     touchpointEditor
@@ -367,6 +398,12 @@ describe('<BodyTouchpointsEditor/>', () => {
               query:
                 "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
             },
+            dashboard_url: [
+              {
+                nickName: '',
+                url: 'https://onenr.io/0dQeOakpVRe'
+              }
+            ],
             measure_points: [
               {
                 type: 'PRC'
@@ -384,13 +421,13 @@ describe('<BodyTouchpointsEditor/>', () => {
       <BodyTouchpointsEditor
         stagesInterface={stagesInterfaceDidmount}
         handleStagesEditorSubmit={jest.fn()}
-        touchpointsInterface={touchpointsInterface}
-        EditorValidateQuery={jest.fn()}
-        handleChange={jest.fn()}
         accountIDs={accountIDs}
-        DuplicateTouchpoint={jest.fn()}
-        DeleteTouchpoint={jest.fn()}
-        ToggleVisible={jest.fn()}
+        EditorValidateQuery={jest.fn()}
+        timeRangeBodyTouchpointsEditor={timeRangeBody}
+        touchpointsInterface={touchpointsInterface}
+        alertsTimeWindow={alertsTimeWindow}
+        alertsRefreshDelay={alertsRefreshDelay}
+        handleAlertParameterUpdate={jest.fn()}
       />
     );
     expect(
@@ -408,13 +445,13 @@ describe('<BodyTouchpointsEditor/>', () => {
       <BodyTouchpointsEditor
         stagesInterface={stagesInterface}
         handleStagesEditorSubmit={jest.fn()}
-        touchpointsInterface={touchpointsInterface}
-        EditorValidateQuery={jest.fn()}
-        handleChange={jest.fn()}
         accountIDs={accountIDs}
-        DuplicateTouchpoint={jest.fn()}
-        DeleteTouchpoint={jest.fn()}
-        ToggleVisible={jest.fn()}
+        EditorValidateQuery={jest.fn()}
+        timeRangeBodyTouchpointsEditor={timeRangeBody}
+        touchpointsInterface={touchpointsInterface}
+        alertsTimeWindow={alertsTimeWindow}
+        alertsRefreshDelay={alertsRefreshDelay}
+        handleAlertParameterUpdate={jest.fn()}
       />
     );
     const instance = touchpointEditor.instance();
@@ -431,10 +468,13 @@ describe('<BodyTouchpointsEditor/>', () => {
       <BodyTouchpointsEditor
         stagesInterface={stagesInterface}
         handleStagesEditorSubmit={jest.fn()}
-        touchpointsInterface={touchpointsInterface}
-        EditorValidateQuery={jest.fn()}
-        handleChange={jest.fn()}
         accountIDs={accountIDs}
+        EditorValidateQuery={jest.fn()}
+        timeRangeBodyTouchpointsEditor={timeRangeBody}
+        touchpointsInterface={touchpointsInterface}
+        alertsTimeWindow={alertsTimeWindow}
+        alertsRefreshDelay={alertsRefreshDelay}
+        handleAlertParameterUpdate={jest.fn()}
       />
     );
     const instance = touchpointEditor.instance();
@@ -450,10 +490,13 @@ describe('<BodyTouchpointsEditor/>', () => {
       <BodyTouchpointsEditor
         stagesInterface={stagesInterface}
         handleStagesEditorSubmit={jest.fn()}
-        touchpointsInterface={touchpointsInterface}
-        EditorValidateQuery={jest.fn()}
-        handleChange={jest.fn()}
         accountIDs={accountIDs}
+        EditorValidateQuery={jest.fn()}
+        timeRangeBodyTouchpointsEditor={timeRangeBody}
+        touchpointsInterface={touchpointsInterface}
+        alertsTimeWindow={alertsTimeWindow}
+        alertsRefreshDelay={alertsRefreshDelay}
+        handleAlertParameterUpdate={jest.fn()}
         document={document}
       />
     );
@@ -473,10 +516,13 @@ describe('<BodyTouchpointsEditor/>', () => {
       <BodyTouchpointsEditor
         stagesInterface={stagesInterface}
         handleStagesEditorSubmit={jest.fn()}
-        touchpointsInterface={touchpointsInterface}
-        EditorValidateQuery={jest.fn()}
-        handleChange={jest.fn()}
         accountIDs={accountIDs}
+        EditorValidateQuery={jest.fn()}
+        timeRangeBodyTouchpointsEditor={timeRangeBody}
+        touchpointsInterface={touchpointsInterface}
+        alertsTimeWindow={alertsTimeWindow}
+        alertsRefreshDelay={alertsRefreshDelay}
+        handleAlertParameterUpdate={jest.fn()}
       />
     );
     const instance = touchpointEditor.instance();
@@ -492,10 +538,13 @@ describe('<BodyTouchpointsEditor/>', () => {
       <BodyTouchpointsEditor
         stagesInterface={stagesInterface}
         handleStagesEditorSubmit={jest.fn()}
-        touchpointsInterface={touchpointsInterface}
-        EditorValidateQuery={jest.fn()}
-        handleChange={jest.fn()}
         accountIDs={accountIDs}
+        EditorValidateQuery={jest.fn()}
+        timeRangeBodyTouchpointsEditor={timeRangeBody}
+        touchpointsInterface={touchpointsInterface}
+        alertsTimeWindow={alertsTimeWindow}
+        alertsRefreshDelay={alertsRefreshDelay}
+        handleAlertParameterUpdate={jest.fn()}
       />
     );
     const instance = touchpointEditor.instance();
@@ -515,10 +564,13 @@ describe('<BodyTouchpointsEditor/>', () => {
       <BodyTouchpointsEditor
         stagesInterface={stagesInterface}
         handleStagesEditorSubmit={jest.fn()}
-        touchpointsInterface={touchpointsInterface}
-        EditorValidateQuery={jest.fn()}
-        handleChange={jest.fn()}
         accountIDs={accountIDs}
+        EditorValidateQuery={jest.fn()}
+        timeRangeBodyTouchpointsEditor={timeRangeBody}
+        touchpointsInterface={touchpointsInterface}
+        alertsTimeWindow={alertsTimeWindow}
+        alertsRefreshDelay={alertsRefreshDelay}
+        handleAlertParameterUpdate={jest.fn()}
       />
     );
     const id = 12;
@@ -541,10 +593,13 @@ describe('<BodyTouchpointsEditor/>', () => {
       <BodyTouchpointsEditor
         stagesInterface={stagesInterface}
         handleStagesEditorSubmit={jest.fn()}
-        touchpointsInterface={touchpointsInterface}
-        EditorValidateQuery={EditorValidateQuery}
-        handleChange={jest.fn()}
         accountIDs={accountIDs}
+        EditorValidateQuery={EditorValidateQuery}
+        timeRangeBodyTouchpointsEditor={timeRangeBody}
+        touchpointsInterface={touchpointsInterface}
+        alertsTimeWindow={alertsTimeWindow}
+        alertsRefreshDelay={alertsRefreshDelay}
+        handleAlertParameterUpdate={jest.fn()}
       />
     );
     const query = 'SELECT * FROM ApiCall';
@@ -564,10 +619,13 @@ describe('<BodyTouchpointsEditor/>', () => {
       <BodyTouchpointsEditor
         stagesInterface={stagesInterface}
         handleStagesEditorSubmit={jest.fn()}
-        touchpointsInterface={touchpointsInterface}
-        EditorValidateQuery={jest.fn()}
-        handleChange={jest.fn()}
         accountIDs={accountIDs}
+        EditorValidateQuery={jest.fn()}
+        timeRangeBodyTouchpointsEditor={timeRangeBody}
+        touchpointsInterface={touchpointsInterface}
+        alertsTimeWindow={alertsTimeWindow}
+        alertsRefreshDelay={alertsRefreshDelay}
+        handleAlertParameterUpdate={jest.fn()}
       />
     );
     const instance = touchpointEditor.instance();
@@ -608,10 +666,13 @@ describe('<BodyTouchpointsEditor/>', () => {
       <BodyTouchpointsEditor
         stagesInterface={stagesInterface}
         handleStagesEditorSubmit={jest.fn()}
-        touchpointsInterface={touchpointsInterfaceHandle}
-        EditorValidateQuery={jest.fn()}
-        handleChange={jest.fn()}
         accountIDs={accountIDs}
+        EditorValidateQuery={jest.fn()}
+        timeRangeBodyTouchpointsEditor={timeRangeBody}
+        touchpointsInterface={touchpointsInterfaceHandle}
+        alertsTimeWindow={alertsTimeWindow}
+        alertsRefreshDelay={alertsRefreshDelay}
+        handleAlertParameterUpdate={jest.fn()}
       />
     );
     const instance = touchpointEditor.instance();
@@ -635,10 +696,13 @@ describe('<BodyTouchpointsEditor/>', () => {
       <BodyTouchpointsEditor
         stagesInterface={stagesInterface}
         handleStagesEditorSubmit={jest.fn()}
-        touchpointsInterface={touchpointsInterface}
-        EditorValidateQuery={jest.fn()}
-        handleChange={jest.fn()}
         accountIDs={accountIDs}
+        EditorValidateQuery={jest.fn()}
+        timeRangeBodyTouchpointsEditor={timeRangeBody}
+        touchpointsInterface={touchpointsInterface}
+        alertsTimeWindow={alertsTimeWindow}
+        alertsRefreshDelay={alertsRefreshDelay}
+        handleAlertParameterUpdate={jest.fn()}
       />
     );
     const instance = touchpointEditor.instance();
@@ -653,8 +717,13 @@ describe('<BodyTouchpointsEditor/>', () => {
     const value4 = 10;
     const target5 = 'queryMeasure';
     const value5 = 0.25;
-    const target6 = 'dashboardLink';
-    const value6 = 'https://nr1.io';
+    const target6 = 'dashboardLink0';
+    const value6 = [
+      {
+        nickName: '',
+        url: []
+      }
+    ];
     const id = 12;
     instance.HandleOnChange(target, value, id);
     expect(instance.state.form.tp_12.title).toEqual(value);
@@ -670,8 +739,10 @@ describe('<BodyTouchpointsEditor/>', () => {
     expect(instance.state.touchpoints[0].queryData.measure_time).toEqual(
       value5
     );
-    instance.HandleOnChange(target6, value6, id);
-    expect(instance.state.touchpoints[0].dashboard_url).toEqual(value6);
+    instance.HandleOnChange(target6, [], id);
+    expect(JSON.stringify(instance.state.touchpoints[0].dashboard_url)).toEqual(
+      JSON.stringify(value6)
+    );
   });
 
   it('SetSampleQuery', () => {
@@ -679,10 +750,13 @@ describe('<BodyTouchpointsEditor/>', () => {
       <BodyTouchpointsEditor
         stagesInterface={stagesInterface}
         handleStagesEditorSubmit={jest.fn()}
-        touchpointsInterface={touchpointsInterface}
-        EditorValidateQuery={jest.fn()}
-        handleChange={jest.fn()}
         accountIDs={accountIDs}
+        EditorValidateQuery={jest.fn()}
+        timeRangeBodyTouchpointsEditor={timeRangeBody}
+        touchpointsInterface={touchpointsInterface}
+        alertsTimeWindow={alertsTimeWindow}
+        alertsRefreshDelay={alertsRefreshDelay}
+        handleAlertParameterUpdate={jest.fn()}
       />
     );
     const touchpointType1 = 'Person-Count';
@@ -733,10 +807,13 @@ describe('<BodyTouchpointsEditor/>', () => {
       <BodyTouchpointsEditor
         stagesInterface={stagesInterface}
         handleStagesEditorSubmit={jest.fn()}
-        touchpointsInterface={touchpointsInterface}
-        EditorValidateQuery={jest.fn()}
-        handleChange={jest.fn()}
         accountIDs={accountIDs}
+        EditorValidateQuery={jest.fn()}
+        timeRangeBodyTouchpointsEditor={timeRangeBody}
+        touchpointsInterface={touchpointsInterface}
+        alertsTimeWindow={alertsTimeWindow}
+        alertsRefreshDelay={alertsRefreshDelay}
+        handleAlertParameterUpdate={jest.fn()}
       />
     );
     const instance = touchpointEditor.instance();
@@ -783,17 +860,25 @@ describe('<BodyTouchpointsEditor/>', () => {
       <BodyTouchpointsEditor
         stagesInterface={stagesInterface}
         handleStagesEditorSubmit={jest.fn()}
-        touchpointsInterface={touchpointsInterface}
-        EditorValidateQuery={jest.fn()}
-        handleChange={jest.fn()}
         accountIDs={accountIDs}
+        EditorValidateQuery={jest.fn()}
+        timeRangeBodyTouchpointsEditor={timeRangeBody}
+        touchpointsInterface={touchpointsInterface}
+        alertsTimeWindow={alertsTimeWindow}
+        alertsRefreshDelay={alertsRefreshDelay}
+        handleAlertParameterUpdate={jest.fn()}
       />
     );
     const instance = touchpointEditor.instance();
     instance.SelectStage(stage);
     expect(instance.state.form).toEqual({
       tp_12: {
-        dashboardLink: undefined,
+        dashboardLink: [
+          {
+            nickName: '',
+            url: []
+          }
+        ],
         query:
           "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
         queryAccount: 2710112,
@@ -844,6 +929,14 @@ describe('<BodyTouchpointsEditor/>', () => {
       {
         longName: 'API-Status',
         shortName: 'APS'
+      },
+      {
+        longName: 'Alert-Check',
+        shortName: 'ALE'
+      },
+      {
+        longName: 'Value-Performance',
+        shortName: 'VAL'
       }
     ]);
   });
@@ -856,10 +949,13 @@ describe('<BodyTouchpointsEditor/>', () => {
       <BodyTouchpointsEditor
         stagesInterface={stagesInterface}
         handleStagesEditorSubmit={jest.fn()}
-        touchpointsInterface={touchpointsInterface}
-        EditorValidateQuery={jest.fn()}
-        handleChange={jest.fn()}
         accountIDs={accountIDs}
+        EditorValidateQuery={jest.fn()}
+        timeRangeBodyTouchpointsEditor={timeRangeBody}
+        touchpointsInterface={touchpointsInterface}
+        alertsTimeWindow={alertsTimeWindow}
+        alertsRefreshDelay={alertsRefreshDelay}
+        handleAlertParameterUpdate={jest.fn()}
       />
     );
     const instance = touchpointEditor.instance();
@@ -905,6 +1001,14 @@ describe('<BodyTouchpointsEditor/>', () => {
       {
         longName: 'API-Status',
         shortName: 'APS'
+      },
+      {
+        longName: 'Alert-Check',
+        shortName: 'ALE'
+      },
+      {
+        longName: 'Value-Performance',
+        shortName: 'VAL'
       }
     ]);
   });
@@ -914,10 +1018,13 @@ describe('<BodyTouchpointsEditor/>', () => {
       <BodyTouchpointsEditor
         stagesInterface={stagesInterface}
         handleStagesEditorSubmit={jest.fn()}
-        touchpointsInterface={touchpointsInterface}
-        EditorValidateQuery={jest.fn()}
-        handleChange={jest.fn()}
         accountIDs={accountIDs}
+        EditorValidateQuery={jest.fn()}
+        timeRangeBodyTouchpointsEditor={timeRangeBody}
+        touchpointsInterface={touchpointsInterface}
+        alertsTimeWindow={alertsTimeWindow}
+        alertsRefreshDelay={alertsRefreshDelay}
+        handleAlertParameterUpdate={jest.fn()}
       />
     );
     const instance = touchpointEditor.instance();
@@ -934,10 +1041,13 @@ describe('<BodyTouchpointsEditor/>', () => {
       <BodyTouchpointsEditor
         stagesInterface={stagesInterface}
         handleStagesEditorSubmit={jest.fn()}
-        touchpointsInterface={touchpointsInterface}
-        EditorValidateQuery={jest.fn()}
-        handleChange={jest.fn()}
         accountIDs={accountIDs}
+        EditorValidateQuery={jest.fn()}
+        timeRangeBodyTouchpointsEditor={timeRangeBody}
+        touchpointsInterface={touchpointsInterface}
+        alertsTimeWindow={alertsTimeWindow}
+        alertsRefreshDelay={alertsRefreshDelay}
+        handleAlertParameterUpdate={jest.fn()}
       />
     );
     const instance = touchpointEditor.instance();
@@ -953,82 +1063,17 @@ describe('<BodyTouchpointsEditor/>', () => {
 
   it('SelectRow !item.visible', () => {
     const id = 12;
-    const stagesInterfaceSelectRow = [
-      {
-        id: 2710,
-        index: 1,
-        oldIndex: 1,
-        title: 'Login User',
-        type: 'PCC',
-        visible: false,
-        new: true,
-        steps: [
-          {
-            id: 11,
-            value: 'new',
-            visible: false,
-            sub_steps: [
-              {
-                index: 1,
-                value: 1,
-                latency: true,
-                id: 'ST1-LINE1-SS1',
-                relationship_touchpoints: [1]
-              }
-            ]
-          },
-          {
-            id: 12,
-            value: 'new',
-            visible: false,
-            sub_steps: [
-              {
-                index: 1,
-                value: 1,
-                latency: true,
-                id: 'ST1-LINE1-SS1',
-                relationship_touchpoints: [1]
-              }
-            ]
-          }
-        ],
-        touchpoints: [
-          {
-            stage_index: 1,
-            value: 'Touchpoint',
-            touchpoint_index: 1,
-            status_on_off: true,
-            relation_steps: [1],
-            visible: false,
-            queryData: {
-              query:
-                "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
-            },
-            measure_points: [
-              {
-                type: 'PRC',
-                timeout: 10,
-                query:
-                  "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'",
-                min_count: 10,
-                max_count: 110,
-                session_count: 0,
-                accountID: 1,
-                measure_time: '15 minutes ago'
-              }
-            ]
-          }
-        ]
-      }
-    ];
     const touchpointEditor = shallow(
       <BodyTouchpointsEditor
-        stagesInterface={stagesInterfaceSelectRow}
+        stagesInterface={stagesInterface}
         handleStagesEditorSubmit={jest.fn()}
-        touchpointsInterface={touchpointsInterface}
-        EditorValidateQuery={jest.fn()}
-        handleChange={jest.fn()}
         accountIDs={accountIDs}
+        EditorValidateQuery={jest.fn()}
+        timeRangeBodyTouchpointsEditor={timeRangeBody}
+        touchpointsInterface={touchpointsInterface}
+        alertsTimeWindow={alertsTimeWindow}
+        alertsRefreshDelay={alertsRefreshDelay}
+        handleAlertParameterUpdate={jest.fn()}
       />
     );
     const instance = touchpointEditor.instance();
@@ -1047,6 +1092,7 @@ describe('<BodyTouchpointsEditor/>', () => {
       subs: { '12': [], '13': [] }
     });
   });
+
   it('ToggleSelectMapping', () => {
     const value = 'value';
     const clickStage = jest.fn();
@@ -1054,10 +1100,13 @@ describe('<BodyTouchpointsEditor/>', () => {
       <BodyTouchpointsEditor
         stagesInterface={stagesInterface}
         handleStagesEditorSubmit={jest.fn()}
-        touchpointsInterface={touchpointsInterface}
-        EditorValidateQuery={jest.fn()}
-        handleChange={jest.fn()}
         accountIDs={accountIDs}
+        EditorValidateQuery={jest.fn()}
+        timeRangeBodyTouchpointsEditor={timeRangeBody}
+        touchpointsInterface={touchpointsInterface}
+        alertsTimeWindow={alertsTimeWindow}
+        alertsRefreshDelay={alertsRefreshDelay}
+        handleAlertParameterUpdate={jest.fn()}
         SelectTab={clickStage}
       />
     );
@@ -1087,10 +1136,13 @@ describe('<BodyTouchpointsEditor/>', () => {
       <BodyTouchpointsEditor
         stagesInterface={stagesInterface}
         handleStagesEditorSubmit={jest.fn()}
-        touchpointsInterface={touchpointsInterface}
-        EditorValidateQuery={jest.fn()}
-        handleChange={jest.fn()}
         accountIDs={accountIDs}
+        EditorValidateQuery={jest.fn()}
+        timeRangeBodyTouchpointsEditor={timeRangeBody}
+        touchpointsInterface={touchpointsInterface}
+        alertsTimeWindow={alertsTimeWindow}
+        alertsRefreshDelay={alertsRefreshDelay}
+        handleAlertParameterUpdate={jest.fn()}
       />
     );
     const instance = touchpointEditor.instance();
@@ -1114,10 +1166,14 @@ describe('<BodyTouchpointsEditor/>', () => {
       <BodyTouchpointsEditor
         stagesInterface={stagesInterface}
         handleStagesEditorSubmit={jest.fn()}
-        touchpointsInterface={touchpointsInterface}
-        EditorValidateQuery={jest.fn()}
-        handleChange={jest.fn()}
         accountIDs={accountIDs}
+        EditorValidateQuery={jest.fn()}
+        timeRangeBodyTouchpointsEditor={timeRangeBody}
+        touchpointsInterface={touchpointsInterface}
+        alertsTimeWindow={alertsTimeWindow}
+        alertsRefreshDelay={alertsRefreshDelay}
+        handleAlertParameterUpdate={jest.fn()}
+        handleChange={jest.fn()}
       />
     );
     const instance = touchpointEditor.instance();
@@ -1130,10 +1186,13 @@ describe('<BodyTouchpointsEditor/>', () => {
       <BodyTouchpointsEditor
         stagesInterface={stagesInterface}
         handleStagesEditorSubmit={jest.fn()}
-        touchpointsInterface={touchpointsInterface}
-        EditorValidateQuery={jest.fn()}
-        handleChange={jest.fn()}
         accountIDs={accountIDs}
+        EditorValidateQuery={jest.fn()}
+        timeRangeBodyTouchpointsEditor={timeRangeBody}
+        touchpointsInterface={touchpointsInterface}
+        alertsTimeWindow={alertsTimeWindow}
+        alertsRefreshDelay={alertsRefreshDelay}
+        handleAlertParameterUpdate={jest.fn()}
         CancelDelete={jest.fn()}
       />
     );
@@ -1155,6 +1214,12 @@ describe('<BodyTouchpointsEditor/>', () => {
           query:
             "SELECT count(*) as session FROM Public_APICall WHERE awsRegion='queue'"
         },
+        dashboard_url: [
+          {
+            nickName: '',
+            url: []
+          }
+        ],
         measure_points: [
           {
             accountID: 1,
@@ -1180,10 +1245,13 @@ describe('<BodyTouchpointsEditor/>', () => {
       <BodyTouchpointsEditor
         stagesInterface={stagesInterface}
         handleStagesEditorSubmit={jest.fn()}
-        touchpointsInterface={touchpointsInterface}
-        EditorValidateQuery={jest.fn()}
-        handleChange={jest.fn()}
         accountIDs={accountIDs}
+        EditorValidateQuery={jest.fn()}
+        timeRangeBodyTouchpointsEditor={timeRangeBody}
+        touchpointsInterface={touchpointsInterface}
+        alertsTimeWindow={alertsTimeWindow}
+        alertsRefreshDelay={alertsRefreshDelay}
+        handleAlertParameterUpdate={jest.fn()}
       />
     );
     const instance = touchpointEditor.instance();
@@ -1198,7 +1266,12 @@ describe('<BodyTouchpointsEditor/>', () => {
         queryAccount: 2710112,
         queryMeasure: 0.25,
         timeout: 10,
-        dashboardLink: undefined
+        dashboardLink: [
+          {
+            nickName: '',
+            url: []
+          }
+        ]
       }
     });
   });
@@ -1208,10 +1281,13 @@ describe('<BodyTouchpointsEditor/>', () => {
       <BodyTouchpointsEditor
         stagesInterface={stagesInterface}
         handleStagesEditorSubmit={jest.fn()}
-        touchpointsInterface={touchpointsInterface}
-        EditorValidateQuery={jest.fn()}
-        handleChange={jest.fn()}
         accountIDs={accountIDs}
+        EditorValidateQuery={jest.fn()}
+        timeRangeBodyTouchpointsEditor={timeRangeBody}
+        touchpointsInterface={touchpointsInterface}
+        alertsTimeWindow={alertsTimeWindow}
+        alertsRefreshDelay={alertsRefreshDelay}
+        handleAlertParameterUpdate={jest.fn()}
       />
     );
     const value = { target: { name: 'PCC', value: 'PCC' } };
@@ -1230,10 +1306,13 @@ describe('<BodyTouchpointsEditor/>', () => {
       <BodyTouchpointsEditor
         stagesInterface={stagesInterface}
         handleStagesEditorSubmit={jest.fn()}
-        touchpointsInterface={touchpointsInterface}
-        EditorValidateQuery={jest.fn()}
-        handleChange={jest.fn()}
         accountIDs={accountIDs}
+        EditorValidateQuery={jest.fn()}
+        timeRangeBodyTouchpointsEditor={timeRangeBody}
+        touchpointsInterface={touchpointsInterface}
+        alertsTimeWindow={alertsTimeWindow}
+        alertsRefreshDelay={alertsRefreshDelay}
+        handleAlertParameterUpdate={jest.fn()}
       />
     );
     const instance = touchpointEditor.instance();
@@ -1252,35 +1331,40 @@ describe('<BodyTouchpointsEditor/>', () => {
       <BodyTouchpointsEditor
         stagesInterface={stagesInterface}
         handleStagesEditorSubmit={jest.fn()}
-        touchpointsInterface={touchpointsInterface}
-        EditorValidateQuery={jest.fn()}
-        handleChange={jest.fn()}
         accountIDs={accountIDs}
+        EditorValidateQuery={jest.fn()}
+        timeRangeBodyTouchpointsEditor={timeRangeBody}
+        touchpointsInterface={touchpointsInterface}
+        alertsTimeWindow={alertsTimeWindow}
+        alertsRefreshDelay={alertsRefreshDelay}
+        handleAlertParameterUpdate={jest.fn()}
         CancelDelete={jest.fn()}
       />
     );
     const instance = touchpointEditor.instance();
     instance.state.touchpoints[0].queryData.type = 'Person-Count';
     instance.state.current.touchpoint = 12;
-    const result = instance.RenderTuneForm();
+    const result = instance.RenderTuneForm(12);
     expect(result).toBeTruthy();
     instance.state.touchpoints[0].queryData.type = 'Process-Count';
-    expect(instance.RenderTuneForm()).toBeTruthy();
+    expect(instance.RenderTuneForm(12)).toBeTruthy();
     instance.state.touchpoints[0].queryData.type = 'Application-Performance';
-    expect(instance.RenderTuneForm()).toBeTruthy();
+    expect(instance.RenderTuneForm(12)).toBeTruthy();
     instance.state.touchpoints[0].queryData.type = 'FrontEnd-Performance';
-    expect(instance.RenderTuneForm()).toBeTruthy();
+    expect(instance.RenderTuneForm(12)).toBeTruthy();
     instance.state.touchpoints[0].queryData.type = 'API-Performance';
-    expect(instance.RenderTuneForm()).toBeTruthy();
+    expect(instance.RenderTuneForm(12)).toBeTruthy();
     instance.state.touchpoints[0].queryData.type = 'Synthetics-Check';
-    expect(instance.RenderTuneForm()).toBeTruthy();
+    expect(instance.RenderTuneForm(12)).toBeTruthy();
     instance.state.touchpoints[0].queryData.type = 'Workload-Status';
-    expect(instance.RenderTuneForm()).toBeTruthy();
+    expect(instance.RenderTuneForm(12)).toBeTruthy();
     instance.state.touchpoints[0].queryData.type = 'Drops-Count';
-    expect(instance.RenderTuneForm()).toBeTruthy();
+    expect(instance.RenderTuneForm(12)).toBeTruthy();
     instance.state.touchpoints[0].queryData.type = 'API-Count';
-    expect(instance.RenderTuneForm()).toBeTruthy();
+    expect(instance.RenderTuneForm(12)).toBeTruthy();
     instance.state.touchpoints[0].queryData.type = 'API-Status';
-    expect(instance.RenderTuneForm()).toBeTruthy();
+    expect(instance.RenderTuneForm(12)).toBeTruthy();
+    instance.state.touchpoints[0].queryData.type = 'Value-Performance';
+    expect(instance.RenderTuneForm(12)).toBeTruthy();
   });
 });

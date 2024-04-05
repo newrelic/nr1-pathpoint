@@ -175,6 +175,19 @@ jest.mock(
                       historicErrorsHighLightPercentage: 0
                     }
                   };
+                case 'ingestLicense':
+                  return { data: { value: 'xxx-yyy-zzz-www' } };
+                case 'userAPIKey':
+                  return { data: { value: 'uuu-www-zzz-qqq' } };
+                case 'generalConfiguration':
+                  return {
+                    data: {
+                      dropTools: 'todo-drop-tools',
+                      flameTools: 'todo-flame-tools',
+                      loggin: 'todo-login',
+                      accountId: '11223344'
+                    }
+                  };
               }
               break;
             }
@@ -364,22 +377,9 @@ describe('Datamanager service', () => {
     ];
   });
 
-  it('Function BootstrapInitialData() with lastStorageVersion = appPackager.version', async () => {
+  it('Function BootstrapInitialData() with lastStorageVersion = appPackage.version', async () => {
     const accountName = 'WigiBoards';
     const version = appPackage.version;
-    const data = [
-      {
-        _typename: 'NerdStorageVaultSecret',
-        key: 'TEST',
-        value: 'test123'
-      },
-      {
-        _typename: 'NerdStorageVaultSecret',
-        key: 'api_token',
-        value: 'token'
-      }
-    ];
-    const error = null;
     jest
       .spyOn(AccountStorageQuery, 'query')
       .mockImplementation(({ accountId, collection, documentId }) => {
@@ -481,22 +481,8 @@ describe('Datamanager service', () => {
         }
         return accountId;
       });
-    jest
-      .spyOn(NerdGraphQuery, 'query')
-      .mockImplementationOnce(() => Promise.resolve({ error, data }));
-    dataManager.NerdStorageVault.getCredentialsData = await jest
-      .fn()
-      .mockReturnValue({
-        actor: {
-          nerdStorageVault: {
-            secrets: {
-              key: '123',
-              value: 'test123'
-            }
-          }
-        }
-      });
     dataManager.SetTotalContainers = jest.fn();
+    dataManager.SendToLogs = jest.fn();
     const result = await dataManager.BootstrapInitialData(accountName);
     expect(dataManager.lastStorageVersion).toEqual(version);
     expect(result.stages.length).toEqual(2);
@@ -505,19 +491,6 @@ describe('Datamanager service', () => {
 
   it('Fucntion BootstrapInitialData() with lastStorageVersion old', async () => {
     const accountName = 'WigiBoards';
-    const data = [
-      {
-        _typename: 'NerdStorageVaultSecret',
-        key: 'TEST',
-        value: 'test123'
-      },
-      {
-        _typename: 'NerdStorageVaultSecret',
-        key: 'api_token',
-        value: 'token'
-      }
-    ];
-    const error = null;
     jest
       .spyOn(AccountStorageQuery, 'query')
       .mockImplementation(({ accountId, collection, documentId }) => {
@@ -619,23 +592,7 @@ describe('Datamanager service', () => {
         }
         return accountId;
       });
-    jest
-      .spyOn(NerdGraphQuery, 'query')
-      .mockImplementationOnce(() => Promise.resolve({ error, data }));
-    dataManager.NerdStorageVault.getCredentialsData = await jest
-      .fn()
-      .mockReturnValue({
-        actor: {
-          nerdStorageVault: {
-            secrets: [
-              {
-                key: '123',
-                value: 'test123'
-              }
-            ]
-          }
-        }
-      });
+    dataManager.SendToLogs = jest.fn();
     const result = await dataManager.BootstrapInitialData(accountName);
     expect(dataManager.lastStorageVersion).toEqual('1.0.0');
     expect(result.stages.length).toEqual(2);
@@ -646,31 +603,68 @@ describe('Datamanager service', () => {
     expect(dataManager.SetTotalContainers()).toEqual(0);
   });
 
-  it('Function TryToSetKeys() call LogConnector', async () => {
-    const secrets = [
-      {
-        key: 'ingestLicense',
-        value: 'TEST1233'
-      }
-    ];
+  it('Function TryToSetKeys() without credentials', async () => {
+    const credentials = {
+      ingestLicense: '',
+      userAPIKey: ''
+    };
     dataManager.ValidateIngestLicense = await jest.fn().mockReturnValue(true);
-    dataManager.LogConnector.SetLicenseKey = jest.fn();
-    dataManager.SynConnector.SetLicenseKey = jest.fn();
-    await dataManager.TryToSetKeys(secrets);
-    expect(dataManager.ValidateIngestLicense).toHaveBeenCalledTimes(1);
+    dataManager.ValidateUserApiKey = await jest.fn().mockReturnValue(true);
+    await dataManager.TryToSetKeys(credentials);
+    expect(dataManager.ValidateIngestLicense).toHaveBeenCalledTimes(0);
+    expect(dataManager.ValidateUserApiKey).toHaveBeenCalledTimes(0);
   });
 
-  it('Function TryToSetKeys() call SynConnector', async () => {
-    const secrets = [
-      {
-        key: 'userAPIKey',
-        value: 'TEST1233'
-      }
-    ];
+  it('Function TryToSetKeys() with valid credentials', async () => {
+    const credentials = {
+      ingestLicense: 'userAPIKey',
+      userAPIKey: 'TEST1233'
+    };
+    dataManager.ValidateIngestLicense = await jest.fn().mockReturnValue(true);
     dataManager.ValidateUserApiKey = await jest.fn().mockReturnValue(true);
+    dataManager.LogConnector.SetLicenseKey = jest.fn();
+    dataManager.SynConnector.SetLicenseKey = jest.fn();
+    dataManager.CredentialConnector.SetLicenseKey = jest.fn();
     dataManager.SynConnector.SetUserApiKey = jest.fn();
-    await dataManager.TryToSetKeys(secrets);
+    dataManager.CredentialConnector.SetUserApiKey = jest.fn();
+    await dataManager.TryToSetKeys(credentials);
+    expect(dataManager.ValidateIngestLicense).toHaveBeenCalledTimes(1);
     expect(dataManager.ValidateUserApiKey).toHaveBeenCalledTimes(1);
+    expect(dataManager.LogConnector.SetLicenseKey).toHaveBeenCalledTimes(1);
+    expect(dataManager.SynConnector.SetLicenseKey).toHaveBeenCalledTimes(1);
+    expect(dataManager.CredentialConnector.SetLicenseKey).toHaveBeenCalledTimes(
+      1
+    );
+    expect(dataManager.SynConnector.SetUserApiKey).toHaveBeenCalledTimes(1);
+    expect(dataManager.CredentialConnector.SetUserApiKey).toHaveBeenCalledTimes(
+      1
+    );
+  });
+
+  it('Function TryToSetKeys() with invalid credentials', async () => {
+    const credentials = {
+      ingestLicense: 'no-valid',
+      userAPIKey: 'no-vaid'
+    };
+    dataManager.ValidateIngestLicense = await jest.fn().mockReturnValue(false);
+    dataManager.ValidateUserApiKey = await jest.fn().mockReturnValue(false);
+    dataManager.LogConnector.SetLicenseKey = jest.fn();
+    dataManager.SynConnector.SetLicenseKey = jest.fn();
+    dataManager.CredentialConnector.SetLicenseKey = jest.fn();
+    dataManager.SynConnector.SetUserApiKey = jest.fn();
+    dataManager.CredentialConnector.SetUserApiKey = jest.fn();
+    await dataManager.TryToSetKeys(credentials);
+    expect(dataManager.ValidateIngestLicense).toHaveBeenCalledTimes(1);
+    expect(dataManager.ValidateUserApiKey).toHaveBeenCalledTimes(1);
+    expect(dataManager.LogConnector.SetLicenseKey).toHaveBeenCalledTimes(0);
+    expect(dataManager.SynConnector.SetLicenseKey).toHaveBeenCalledTimes(0);
+    expect(dataManager.CredentialConnector.SetLicenseKey).toHaveBeenCalledTimes(
+      0
+    );
+    expect(dataManager.SynConnector.SetUserApiKey).toHaveBeenCalledTimes(0);
+    expect(dataManager.CredentialConnector.SetUserApiKey).toHaveBeenCalledTimes(
+      0
+    );
   });
 
   it('Function TryToEnableServices() with loggin', () => {
@@ -3265,6 +3259,11 @@ describe('Datamanager service', () => {
         }
       ]
     };
+    dataManager.lensForm = {
+      duration: 10,
+      durationMin: 20,
+      status: 'enable'
+    };
     dataManager.stepsByStage = [1];
     dataManager.SetTouchpointError = jest.fn();
     dataManager.GetTotalStepsWithError = jest.fn().mockReturnValue(1);
@@ -3291,6 +3290,11 @@ describe('Datamanager service', () => {
           relation_steps: [1]
         }
       ]
+    };
+    dataManager.lensForm = {
+      duration: 10,
+      durationMin: 20,
+      status: 'enable'
     };
     dataManager.stepsByStage = [1];
     dataManager.SetTouchpointError = jest.fn();
@@ -3319,6 +3323,11 @@ describe('Datamanager service', () => {
         }
       ]
     };
+    dataManager.lensForm = {
+      duration: 10,
+      durationMin: 20,
+      status: 'enable'
+    };
     dataManager.stepsByStage = [1];
     dataManager.SetTouchpointError = jest.fn();
     dataManager.GetTotalStepsWithError = jest.fn().mockReturnValue(0.07);
@@ -3345,6 +3354,11 @@ describe('Datamanager service', () => {
           relation_steps: [1]
         }
       ]
+    };
+    dataManager.lensForm = {
+      duration: 10,
+      durationMin: 20,
+      status: 'enable'
     };
     dataManager.stepsByStage = [1];
     dataManager.SetTouchpointError = jest.fn();
@@ -3373,6 +3387,11 @@ describe('Datamanager service', () => {
         }
       ]
     };
+    dataManager.lensForm = {
+      duration: 10,
+      durationMin: 20,
+      status: 'enable'
+    };
     dataManager.stepsByStage = [1];
     dataManager.SetTouchpointError = jest.fn();
     dataManager.GetTotalStepsWithError = jest.fn().mockReturnValue(0.07);
@@ -3400,6 +3419,11 @@ describe('Datamanager service', () => {
         }
       ]
     };
+    dataManager.lensForm = {
+      duration: 10,
+      durationMin: 20,
+      status: 'enable'
+    };
     dataManager.stepsByStage = [1];
     dataManager.SetTouchpointError = jest.fn();
     dataManager.GetTotalStepsWithError = jest.fn().mockReturnValue(0.07);
@@ -3425,6 +3449,11 @@ describe('Datamanager service', () => {
           relation_steps: [1]
         }
       ]
+    };
+    dataManager.lensForm = {
+      duration: 10,
+      durationMin: 20,
+      status: 'enable'
     };
     dataManager.stepsByStage = [1];
     dataManager.SetTouchpointError = jest.fn();
@@ -5270,30 +5299,34 @@ describe('Datamanager service', () => {
     const credentials = {
       ingestLicense: 'TEST1235'
     };
-    dataManager.ValidateIngestLicense = jest.fn().mockReturnValue(true);
-    dataManager.NerdStorageVault.storeCredentialData = jest.fn();
+    dataManager.ValidateIngestLicense = await jest.fn().mockReturnValue(true);
     dataManager.LogConnector.SetLicenseKey = jest.fn();
     dataManager.SynConnector.SetLicenseKey = jest.fn();
+    dataManager.CredentialConnector.SetLicenseKey = jest.fn();
+    dataManager.NerdStorageVault = {};
+    dataManager.NerdStorageVault.storeCredentialData = await jest.fn();
     dataManager.SaveCredentialsInVault(credentials);
     expect(dataManager.ValidateIngestLicense).toHaveBeenCalledTimes(1);
   });
-
   it('Function SaveCredentialsInVault() with userAPIKey', async () => {
     const credentials = {
       userAPIKey: 'TEST1235'
     };
-    dataManager.ValidateUserApiKey = jest.fn().mockReturnValue(true);
-    dataManager.NerdStorageVault.storeCredentialData = jest.fn();
+    dataManager.ValidateUserApiKey = await jest.fn().mockReturnValue(true);
+    dataManager.NerdStorageVault = {};
+    dataManager.NerdStorageVault.storeCredentialData = await jest.fn();
     dataManager.SaveCredentialsInVault(credentials);
     expect(dataManager.ValidateUserApiKey).toHaveBeenCalledTimes(1);
   });
 
-  it('Function ResetCredentialsInVault()', () => {
-    dataManager.NerdStorageVault.storeCredentialData = jest.fn();
+  it('Function ResetCredentialsInVault()', async () => {
+    dataManager.CredentialConnector.DeleteCredentials = jest.fn();
+    dataManager.NerdStorageVault = {};
+    dataManager.NerdStorageVault.storeCredentialData = await jest.fn();
     dataManager.ResetCredentialsInVault();
     expect(
       dataManager.NerdStorageVault.storeCredentialData
-    ).toHaveBeenCalledTimes(2);
+    ).toHaveBeenCalledTimes(1);
   });
 
   it('Function SaveGeneralConfiguration()', async () => {

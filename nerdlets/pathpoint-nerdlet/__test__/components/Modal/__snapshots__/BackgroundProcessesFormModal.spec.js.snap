@@ -6,7 +6,7 @@ exports[`BackgroundProcessesFormModal component Render body with default data 1`
     Object {
       "display": "grid",
       "gridTemplate": "55% 30% / 1fr",
-      "height": "500px",
+      "height": "200px",
       "paddingTop": "20px",
       "width": "400px",
     }
@@ -21,40 +21,8 @@ exports[`BackgroundProcessesFormModal component Render body with default data 1`
     }
   >
     <p>
-      Pathpoint is a powerful interactive tool that pulls most of its telemetry from real-time NRQL queries.  However for some views like the “Fire Filter”, Pathpoint relies on historical data that is maintained through a background job.
+      You will need to update the script to contain your key information. You may also make customizations to the script as needed, but remember any updates will not be maintained by Pathpoint.
     </p>
-    <ol
-      style={
-        Object {
-          "paddingLeft": "15px",
-        }
-      }
-      type="1"
-    >
-      <li>
-        Use the download link to download a pre-generated Node script.
-      </li>
-      <li>
-        Install this script as a synthetics check and the data will be collected continuously.
-      </li>
-    </ol>
-    <p>
-      You will need to update the script to contain your key information. You may also make customizations to the script as needed, but remember any updates will not be maintained by Pathpoint.   (See our main documentation for a detailed reference on these background jobs.)
-    </p>
-    <div>
-      <a
-        href="https://www.youtube.com/watch?v=sp9r6hSWH_o"
-        style={
-          Object {
-            "color": "red",
-            "textDecoration": "none",
-          }
-        }
-        target="_blank"
-      >
-        Click here
-      </a>
-    </div>
   </div>
   <div
     style={

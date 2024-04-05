@@ -200,7 +200,8 @@ export default class MainContainer extends React.Component {
         showKeyError: false,
         ingestUAMkey: ''
       },
-      accessToConfig: false
+      accessToConfig: false,
+      showMouseOver: false
     };
   }
 
@@ -230,7 +231,7 @@ export default class MainContainer extends React.Component {
     const { accountName } = this.state;
     const data = await this.DataManager.BootstrapInitialData(accountName);
     let credentials = {};
-    if (data.credentials.ingestLicense) {
+    if (data && data.credentials && data.credentials.ingestLicense) {
       const item = data.credentials.ingestLicense;
       let value = '';
       if (item !== '_') {
@@ -244,7 +245,7 @@ export default class MainContainer extends React.Component {
       }
       credentials.ingestLicense = value;
     }
-    if (data.credentials.userAPIKey) {
+    if (data && data.credentials && data.credentials.userAPIKey) {
       const item = data.credentials.userAPIKey;
       let value = '';
       if (item !== '_') {
@@ -267,13 +268,14 @@ export default class MainContainer extends React.Component {
     const userAccessInfo = await this.DataManager.GetUserAccessInfo();
     const user = await UserQuery.query();
     let accessToConfig = false;
-    const validAccess = userAccessInfo.find(
-      item => item.email === user.data.email
-    );
-    if (validAccess) {
-      accessToConfig = true;
+    if (userAccessInfo && userAccessInfo.constructor.name === 'Array') {
+      const validAccess = userAccessInfo.find(
+        item => item.email === user.data.email
+      );
+      if (validAccess) {
+        accessToConfig = true;
+      }
     }
-
     this.setState(
       {
         stages: data ? data.stages : [],
@@ -1375,7 +1377,6 @@ export default class MainContainer extends React.Component {
       account: account,
       company: company
     };
-    // this.sendLogs(datos, this.state.accountId);
     CreateJiraIssue(datos, this.state.accountId);
     this._resetFormSupport();
     this._onClose();
@@ -2373,7 +2374,8 @@ export default class MainContainer extends React.Component {
       alertsRefreshDelay,
       accessToConfig,
       iconLensStatus,
-      lensForm
+      lensForm,
+      showMouseOver
     } = this.state;
     if (this.state.waiting) {
       return (
@@ -2999,6 +3001,7 @@ export default class MainContainer extends React.Component {
                         iconCanaryStatus={iconCanaryStatus}
                         tune={tune}
                         renderMouseOver={this.renderMouseOver}
+                        showMouseOver={showMouseOver}
                       />
                     </div>
                   </div>

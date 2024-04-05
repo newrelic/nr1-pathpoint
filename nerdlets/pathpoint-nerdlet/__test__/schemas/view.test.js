@@ -47,7 +47,12 @@ describe('view schemas', () => {
         {
           title: 'Touchpoint browse',
           status_on_off: true,
-          dashboard_url: ['https://one.newrelic.com'],
+          dashboard_url: [
+            {
+              nickName: 'chaplin',
+              url: 'https://xxx.com'
+            }
+          ],
           related_steps: 'ST1-LINE4-SS1',
           queries: [
             {
@@ -126,7 +131,12 @@ describe('view schemas', () => {
         {
           title: 'Touchpoint bag one',
           status_on_off: true,
-          dashboard_url: ['https://one.newrelic.com'],
+          dashboard_url: [
+            {
+              nickName: 'chaplin',
+              url: 'https://xxx.com'
+            }
+          ],
           related_steps: 'ST2-LINE4-SS1',
           queries: [
             {
@@ -153,7 +163,12 @@ describe('view schemas', () => {
         {
           title: 'Touchpoint bag two',
           status_on_off: true,
-          dashboard_url: ['https://one.newrelic.com'],
+          dashboard_url: [
+            {
+              nickName: 'chaplin',
+              url: 'https://xxx.com'
+            }
+          ],
           related_steps: 'ST2-LINE2-SS1',
           queries: [
             {
@@ -183,9 +198,9 @@ describe('view schemas', () => {
   it('stages correct structure', () => {
     const result = CustomSchemaValidation({
       stages: stages,
-      pathpointVersion: '1.2.0'
+      pathpointVersion: '1.7.0'
     });
-    expect(!result).toBeFalsy();
+    expect(result).toBeFalsy();
   });
 
   it('Wrong version', () => {
@@ -197,26 +212,35 @@ describe('view schemas', () => {
   });
 
   it('stages wrong dashboard_url', () => {
-    stages[0].touchpoints[0].dashboard_url = ['https://google.com'];
+    stages[0].touchpoints[0].dashboard_url = [
+      {
+        nickName: 'chaplin',
+        url: 'http://xxx.com'
+      }
+    ];
+    stages[1].touchpoints[1].dashboard_url = [
+      {
+        nickName: 'chaplin',
+        url: 'http://xxx.com'
+      }
+    ];
     const result = CustomSchemaValidation({
       stages: stages,
-      pathpointVersion: '1.2.0'
+      pathpointVersion: '1.7.0'
     });
-    expect(result.length).toEqual(1);
+    expect(result.length).toEqual(2);
   });
 
   it('stages wrong related_steps', () => {
-    stages[0].touchpoints[0].dashboard_url = ['https://one.newrelic.com'];
     stages[0].touchpoints[0].related_steps = '123';
     const result = CustomSchemaValidation({
       stages: stages,
       pathpointVersion: '1.2.0'
     });
-    expect(result.length).toEqual(2);
+    expect(result.length).toEqual(4);
   });
 
   it('stages wrong query touchpoint', () => {
-    stages[0].touchpoints[0].dashboard_url = ['https://one.newrelic.com'];
     stages[0].touchpoints[0].related_steps = 'ST1-LINE4-SS1';
     stages[0].touchpoints[0].queries[0].type = 'COUNT-QUERY`';
     stages[0].touchpoints[0].queries[1].type = 'ERROR-PERCENTAGE-QUERY~';
@@ -224,11 +248,10 @@ describe('view schemas', () => {
       stages: stages,
       pathpointVersion: '1.2.0'
     });
-    expect(result.length).toEqual(3);
+    expect(result.length).toEqual(5);
   });
 
   it('stages wrong step consecutive', () => {
-    stages[0].touchpoints[0].dashboard_url = ['https://one.newrelic.com'];
     stages[0].touchpoints[0].related_steps = 'ST1-LINE4-SS1';
     stages[0].touchpoints[0].queries[0].type = 'COUNT-QUERY';
     stages[0].touchpoints[0].queries[1].type = 'ERROR-PERCENTAGE-QUERY';
@@ -237,11 +260,10 @@ describe('view schemas', () => {
       stages: stages,
       pathpointVersion: '1.2.0'
     });
-    expect(result.length).toEqual(2);
+    expect(result.length).toEqual(4);
   });
 
   it('stages wrong id step', () => {
-    stages[0].touchpoints[0].dashboard_url = ['https://one.newrelic.com'];
     stages[0].touchpoints[0].related_steps = 'ST1-LINE4-SS1';
     stages[0].touchpoints[0].queries[0].type = 'COUNT-QUERY';
     stages[0].touchpoints[0].queries[1].type = 'ERROR-PERCENTAGE-QUERY';
@@ -251,20 +273,30 @@ describe('view schemas', () => {
       stages: stages,
       pathpointVersion: '1.2.0'
     });
-    expect(result.length).toEqual(2);
+    expect(result.length).toEqual(4);
   });
 
   it('stages wrong dashboard_url with no includes http', () => {
-    stages[0].touchpoints[0].dashboard_url = ['://google.com'];
     const result = CustomSchemaValidation({
       stages: stages,
       pathpointVersion: '1.0.0'
     });
-    expect(result.length).toEqual(3);
+    expect(result.length).toEqual(4);
   });
 
   it('error return false', () => {
-    stages[0].touchpoints[0].dashboard_url = ['https://google.com'];
+    stages[0].touchpoints[0].dashboard_url = [
+      {
+        nickName: 'chaplin',
+        url: 'https://xxx.com'
+      }
+    ];
+    stages[1].touchpoints[1].dashboard_url = [
+      {
+        nickName: 'chaplin',
+        url: 'https://xxx.com'
+      }
+    ];
     stages[0].touchpoints[0].related_steps = '';
     stages[0].steps = [
       {

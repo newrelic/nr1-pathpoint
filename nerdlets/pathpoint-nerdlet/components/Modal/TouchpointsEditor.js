@@ -1774,8 +1774,8 @@ class BodyTouchpointsEditor extends Component {
                                   this.state.current.touchpoint === tp.id
                                     ? '#0078BF'
                                     : tp.visible
-                                      ? 'white'
-                                      : 'lightgrey'
+                                    ? 'white'
+                                    : 'lightgrey'
                               }}
                             >
                               <div
@@ -1824,8 +1824,8 @@ class BodyTouchpointsEditor extends Component {
                                   this.state.current.touchpoint === tp.id
                                     ? '#0078BF'
                                     : tp.visible
-                                      ? 'white'
-                                      : 'lightgrey'
+                                    ? 'white'
+                                    : 'lightgrey'
                               }}
                             >
                               <Dropdown
@@ -2291,23 +2291,23 @@ class BodyTouchpointsEditor extends Component {
                                   this.state.current.touchpoint
                                 )
                                   ? {
-                                    background: '#FFFFFF',
-                                    border: '1px solid #FC1303',
-                                    boxSizing: 'border-box',
-                                    marginTop: '10px',
-                                    marginBottom: '10px',
-                                    marginLeft: '7px',
-                                    width: '50%'
-                                  }
+                                      background: '#FFFFFF',
+                                      border: '1px solid #FC1303',
+                                      boxSizing: 'border-box',
+                                      marginTop: '10px',
+                                      marginBottom: '10px',
+                                      marginLeft: '7px',
+                                      width: '50%'
+                                    }
                                   : {
-                                    background: '#FFFFFF',
-                                    border: '1px solid #BDBDBD',
-                                    boxSizing: 'border-box',
-                                    marginTop: '10px',
-                                    marginBottom: '10px',
-                                    marginLeft: '7px',
-                                    width: '50%'
-                                  }
+                                      background: '#FFFFFF',
+                                      border: '1px solid #BDBDBD',
+                                      boxSizing: 'border-box',
+                                      marginTop: '10px',
+                                      marginBottom: '10px',
+                                      marginLeft: '7px',
+                                      width: '50%'
+                                    }
                               }
                               onChange={e =>
                                 this.HandleOnChange(
@@ -2433,8 +2433,8 @@ class BodyTouchpointsEditor extends Component {
                               `tp_${this.state.current.touchpoint}`
                             ].dashboardLink.length > 0
                               ? this.state.form[
-                                `tp_${this.state.current.touchpoint}`
-                              ].dashboardLink[0].url
+                                  `tp_${this.state.current.touchpoint}`
+                                ].dashboardLink[0].url
                               : ''
                           }
                           type="text"
@@ -2452,76 +2452,76 @@ class BodyTouchpointsEditor extends Component {
                         <div style={{ height: '20px' }} />
                         {this.state.form[`tp_${this.state.current.touchpoint}`]
                           .dashboardLink.length > 0 && (
+                          <label
+                            style={{
+                              fontFamily: 'Open Sans',
+                              fontStyle: 'normal',
+                              fontWeight: '600',
+                              fontSize: '14px',
+                              lineHeight: '19px'
+                            }}
+                          >
+                            Secondary Links
+                          </label>
+                        )}
+                        {this.state.form[`tp_${this.state.current.touchpoint}`]
+                          .dashboardLink.length === 1 && (
+                          <img
+                            style={{
+                              width: '15px',
+                              marginLeft: '20px',
+                              marginBottom: '10px',
+                              height: 'auto',
+                              cursor: 'pointer',
+                              transform: 'translateY(3px)'
+                            }}
+                            onClick={() => this.AddSecondaryLinks()}
+                            src={addIcon}
+                          />
+                        )}
+                        {this.state.form[`tp_${this.state.current.touchpoint}`]
+                          .dashboardLink.length > 1 && (
+                          <img
+                            style={{
+                              width: '15px',
+                              marginLeft: '20px',
+                              marginBottom: '10px',
+                              height: 'auto',
+                              cursor: 'pointer',
+                              transform: 'translateY(3px)'
+                            }}
+                            onClick={() => this.RemoveSecondaryLinks()}
+                            src={removeIcon}
+                          />
+                        )}
+                        {this.state.form[`tp_${this.state.current.touchpoint}`]
+                          .dashboardLink.length > 1 && (
+                          <div>
                             <label
                               style={{
                                 fontFamily: 'Open Sans',
                                 fontStyle: 'normal',
-                                fontWeight: '600',
-                                fontSize: '14px',
-                                lineHeight: '19px'
+                                fontWeight: '400',
+                                fontSize: '10px',
+                                lineHeight: '10px'
                               }}
                             >
-                              Secondary Links
+                              Nick Name
                             </label>
-                          )}
-                        {this.state.form[`tp_${this.state.current.touchpoint}`]
-                          .dashboardLink.length === 1 && (
-                            <img
+                            <label
                               style={{
-                                width: '15px',
-                                marginLeft: '20px',
-                                marginBottom: '10px',
-                                height: 'auto',
-                                cursor: 'pointer',
-                                transform: 'translateY(3px)'
+                                fontFamily: 'Open Sans',
+                                fontStyle: 'normal',
+                                fontWeight: '400',
+                                fontSize: '11px',
+                                lineHeight: '10px',
+                                marginLeft: '60px'
                               }}
-                              onClick={() => this.AddSecondaryLinks()}
-                              src={addIcon}
-                            />
-                          )}
-                        {this.state.form[`tp_${this.state.current.touchpoint}`]
-                          .dashboardLink.length > 1 && (
-                            <img
-                              style={{
-                                width: '15px',
-                                marginLeft: '20px',
-                                marginBottom: '10px',
-                                height: 'auto',
-                                cursor: 'pointer',
-                                transform: 'translateY(3px)'
-                              }}
-                              onClick={() => this.RemoveSecondaryLinks()}
-                              src={removeIcon}
-                            />
-                          )}
-                        {this.state.form[`tp_${this.state.current.touchpoint}`]
-                          .dashboardLink.length > 1 && (
-                            <div>
-                              <label
-                                style={{
-                                  fontFamily: 'Open Sans',
-                                  fontStyle: 'normal',
-                                  fontWeight: '400',
-                                  fontSize: '10px',
-                                  lineHeight: '10px'
-                                }}
-                              >
-                                Nick Name
-                              </label>
-                              <label
-                                style={{
-                                  fontFamily: 'Open Sans',
-                                  fontStyle: 'normal',
-                                  fontWeight: '400',
-                                  fontSize: '11px',
-                                  lineHeight: '10px',
-                                  marginLeft: '60px'
-                                }}
-                              >
-                                URL
-                              </label>
-                            </div>
-                          )}
+                            >
+                              URL
+                            </label>
+                          </div>
+                        )}
                         {this.state.form[`tp_${this.state.current.touchpoint}`]
                           .dashboardLink.length > 1 &&
                           this.state.form[

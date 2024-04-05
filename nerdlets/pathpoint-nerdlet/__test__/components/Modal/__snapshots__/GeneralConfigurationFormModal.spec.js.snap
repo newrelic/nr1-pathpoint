@@ -282,7 +282,7 @@ exports[`<GeneralConfigurationFormModal/> Render HeaderGeneralConfigurationFormM
       src="SvgrURL"
       width="18"
     />
-     Credentials and General Configuration
+     Background Functions
   </div>
 </div>
 `;

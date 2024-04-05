@@ -170,7 +170,7 @@ export default class DataManager {
     this.NerdStorageVault = new NerdStorageVault(this.accountId);
     logger.log('Accounts::');
     this.accountIDs.forEach(account => {
-      // logger.log(`AccountName:${account.name}   ID:${account.id} `);
+      logger.log(`AccountName:${account.name}   ID:${account.id} `);
     });
     this.AlertIssues.SetAccountId(this.accountIDs);
     await this.CheckVersion();
@@ -255,7 +255,7 @@ export default class DataManager {
     lensForm
   ) {
     if (this.accountId !== null) {
-      console.log(`UPDATING-DATA: ${this.accountId}`);
+      // console.log(`UPDATING-DATA: ${this.accountId}`);
       this.alertsTimeWindow = alertsTimeWindow;
       this.alertsRefreshDelay = alertsRefreshDelay;
       this.timeRange = timeRange;
@@ -277,7 +277,7 @@ export default class DataManager {
         this.CheckAlertTouchpointsErrorDuration();
       }
       this.measureAlertTouchpoints = true;
-      console.log('FINISH-Update');
+      // console.log('FINISH-Update');
       return {
         stages: this.stages,
         kpis: this.kpis
@@ -3753,7 +3753,7 @@ export default class DataManager {
       if (data) {
         historic = [...data.historic];
       }
-      //console.log('HISTORIC:', historic);
+      //  console.log('HISTORIC:', historic);
       historic.sort(function(a, b) {
         return new Date(b.jsonMetaData.date) - new Date(a.jsonMetaData.date);
       });
