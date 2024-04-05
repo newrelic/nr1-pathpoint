@@ -7,7 +7,7 @@ import isObject from '../../../utils/isObject';
 // Define storage for remember chaned values
 const storage = {
   alertId: null,
-  issuesId: {},
+  issuesId: {}
 };
 
 /**
@@ -112,7 +112,7 @@ export default function useAlertModal(data) {
     return (
       alerts?.map(alert => ({
         conditionId: alert.conditionId,
-        conditionName: alert.conditionName,
+        conditionName: alert.conditionName
       })) ?? []
     );
   }, [data?.alerts]);
@@ -163,6 +163,6 @@ export default function useAlertModal(data) {
     setAlertId: handleSetAlertId,
     setIssueId: handleSetIssueId,
     alerts: alertsFormatted,
-    issues: issuesFormatted,
+    issues: issuesFormatted
   };
 }

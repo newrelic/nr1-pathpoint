@@ -226,7 +226,7 @@ describe('<MainContainer/>', () => {
     const instance = mainContainer.instance();
     instance.BoootstrapApplication();
   });
-  
+
   it('ExecuteUpdateData', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();

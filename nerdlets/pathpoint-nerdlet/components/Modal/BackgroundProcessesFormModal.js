@@ -24,6 +24,7 @@ function HeaderBackgroundProcessesFormModal() {
 
 function BodyBackgroundProcessesFormModal(props) {
   const { GetCurrentHistoricErrorScript, _onClose } = props;
+  /*
   const href = messages.configuration.setup.json_link_demo;
   const hrefStyle = {
     textDecoration: 'none',
@@ -34,6 +35,7 @@ function BodyBackgroundProcessesFormModal(props) {
     target: '_blank',
     style: hrefStyle
   };
+  */
   return (
     <div
       style={{

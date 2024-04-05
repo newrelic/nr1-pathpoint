@@ -17,7 +17,7 @@ export default class AlertIssues {
   }
 
   PrepareToMeasure() {
-    console.log('READY-TO-MEASURE-SET');
+    // console.log('READY-TO-MEASURE-SET');
     this.readyToMeasure = true;
     setTimeout(() => {
       this.PrepareToMeasure();
@@ -96,7 +96,9 @@ export default class AlertIssues {
       actor {
         account(id: ${accountId}) {
           aiIssues {
-            issues(${filter}${this.SetTimeWindow(resetTimeWindow)}, cursor: "${cursor}") {
+            issues(${filter}${this.SetTimeWindow(
+      resetTimeWindow
+    )}, cursor: "${cursor}") {
               issues {
                 createdAt
                 state
@@ -124,14 +126,14 @@ export default class AlertIssues {
       let cursor = '';
       let resetTimeWindow = true;
       let gql = this.SetGQL(account.id, cursor, resetTimeWindow);
-      console.log('GQL:', gql);
+      // console.log('GQL:', gql);
       resetTimeWindow = false;
       while (cursor !== null) {
         // console.log('RUN-Query');
         const { data, error } = await NerdGraphQuery.query({
           query: gql
         }).catch(errors => {
-          console.log('ALERTS-GQL-ERROR:', errors);
+          // console.log('ALERTS-GQL-ERROR:', errors);
           return { error: { errors: [errors] } };
         });
         if (data && data.actor) {
@@ -147,7 +149,7 @@ export default class AlertIssues {
           cursor = null;
         }
         if (error && error.length > 0) {
-          console.log('ERROR-LIST:', error);
+          // console.log('ERROR-LIST:', error);
         }
         if (cursor) {
           // console.log('Other Cursor...');
@@ -159,14 +161,14 @@ export default class AlertIssues {
         account,
         issuesList
       });
-    };
-    console.log('FULL-ISSIES-LIST:', issuesByAccount);
+    }
+    // console.log('FULL-ISSIES-LIST:', issuesByAccount);
     const filterIssuesByAccount = this.FilterIssuesByAccount(issuesByAccount);
-    console.log('FilterIssueList:', filterIssuesByAccount);
+    // console.log('FilterIssueList:', filterIssuesByAccount);
     const NewIssuesList = await this.GetAdditionalDetailsByAccount(
       filterIssuesByAccount
     );
-    console.log('ISSUES-LIST:', NewIssuesList);
+    // console.log('ISSUES-LIST:', NewIssuesList);
     return NewIssuesList;
   }
 
@@ -231,10 +233,10 @@ export default class AlertIssues {
         }
       }`;
       // console.log('GGGQL-->');
-      const { data, error } = await NerdGraphQuery.query({
+      const { data } = await NerdGraphQuery.query({
         query: gql
       }).catch(errors => {
-        console.log('ISSUES-GQL-ERROR:', errors);
+        // console.log('ISSUES-GQL-ERROR:', errors);
         return { error: { errors: [errors] } };
       });
       // console.log('DATA:', data);
@@ -260,7 +262,7 @@ export default class AlertIssues {
       // console.log('AA-GQL:', gql);
       const incidents = [];
       if (totalIncidents > 0) {
-        const { data, error } = await NerdGraphQuery.query({
+        const { data } = await NerdGraphQuery.query({
           query: gql
         }).catch(errors => {
           return { error: { errors: [errors] } };
@@ -268,7 +270,7 @@ export default class AlertIssues {
         // console.log('DATA2:', data, 'ERRROR:', error);
         if (data && data.actor) {
           for (const [key, value] of Object.entries(data.actor)) {
-            if (value.nrql && value.nrql.results) {
+            if (key && value.nrql && value.nrql.results) {
               incidents.push({
                 incidentId: value.nrql.results[0].incidentId,
                 incidentLink: value.nrql.results[0].incidentLink,
@@ -432,7 +434,7 @@ export default class AlertIssues {
   }
 
   async Measure(stages, touchpoints, alertsTimeWindow, alertsRefreshDelay) {
-    console.log('MEASURE: refreshTime:', alertsRefreshDelay);
+    // console.log('MEASURE: refreshTime:', alertsRefreshDelay);
     this.AlertTouchpoints = this.GetAlertTouchpoints(touchpoints);
     this.MeasureAccountIds = this.GetMeasuresAccountIds(this.AlertTouchpoints);
     // console.log('MEASUREAccountIds:', this.MeasureAccountIds);

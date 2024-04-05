@@ -6,9 +6,9 @@ import right_icon from '../../../images/right.svg';
 class index extends Component {
   constructor() {
     super(...arguments);
-    this.state = {
-      visible: false
-    };
+    // this.state = {
+    //   visible: false
+    // };
   }
 
   componentDidMount() {
@@ -20,7 +20,7 @@ class index extends Component {
   }
 
   render() {
-    const { visible } = this.state;
+    // const { visible } = this.state;
     const { lensForm, CloseMenuRight, LensHandleChange } = this.props;
     return (
       <div className="container_rmenu">
