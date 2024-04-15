@@ -2568,6 +2568,8 @@ export default class DataManager {
           error: false,
           history_error: false,
           countrys: [0],
+          type: tp.queries[0].type === 'Alert-Check' ? 'ALE' : '',
+          alertId: '',
           dashboard_url: tp.dashboard_url,
           relation_steps: tp.related_steps.split(',')
         };

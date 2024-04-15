@@ -163,7 +163,6 @@ export default class TouchPoint extends React.Component {
     if (this.state.showMouseOver) {
       return 0;
     }
-
     if (
       this.props.touchpoint.type === 'ALE' &&
       this.props.touchpoint.error &&
@@ -192,6 +191,7 @@ export default class TouchPoint extends React.Component {
       accessToConfig
     } = this.props;
     const { status_on_off, active } = touchpoint;
+    const showTuneAndQuery = false; // Do not SHOW Any MORE TUNE and QUERY touchpoint.type !== 'ALE'; // Only Alert Touchpoints have a type='ALE'
     return (
       <div className="divStep">
         <div className="divContentPoint">
@@ -209,7 +209,7 @@ export default class TouchPoint extends React.Component {
             }}
             onMouseDown={this.HandleContextMenu}
             onClick={() => {
-              if (touchpoint.type === 'ALE') {
+              if (touchpoint.type === 'ALE' && this.props.touchpoint.error) {
                 this.HandleMouseOver();
               } else if (touchpoint.dashboard_url !== false) {
                 if (touchpoint.dashboard_url[city] !== false) {
@@ -277,39 +277,45 @@ export default class TouchPoint extends React.Component {
                       />
                     </span>
                   </div>
-                  <div className="contextMenuItem">
-                    <div
-                      onClick={accessToConfig ? this.HandleClickTune : null}
-                      className={
-                        accessToConfig
-                          ? 'contextMenu--option'
-                          : 'contextMenu--option cm-disabled'
-                      }
-                    >
-                      <span className="functionIcon">
-                        <img style={{ height: '15px' }} src={tuneIcon} />
-                      </span>
-                      Tune
-                    </div>
-                  </div>
-                  <div className="contextMenuItem">
-                    <div
-                      onClick={accessToConfig ? this.HandleClickQueries : null}
-                      className={
-                        accessToConfig
-                          ? 'contextMenu--option'
-                          : 'contextMenu--option cm-disabled'
-                      }
-                    >
-                      <span className="functionIcon">
-                        <img style={{ height: '15px' }} src={queriesIcon} />
-                      </span>
-                      Queries
-                    </div>
-                  </div>
+                  {showTuneAndQuery && (
+                    <>
+                      <div className="contextMenuItem">
+                        <div
+                          onClick={accessToConfig ? this.HandleClickTune : null}
+                          className={
+                            accessToConfig
+                              ? 'contextMenu--option'
+                              : 'contextMenu--option cm-disabled'
+                          }
+                        >
+                          <span className="functionIcon">
+                            <img style={{ height: '15px' }} src={tuneIcon} />
+                          </span>
+                          Tune
+                        </div>
+                      </div>
+                      <div className="contextMenuItem">
+                        <div
+                          onClick={
+                            accessToConfig ? this.HandleClickQueries : null
+                          }
+                          className={
+                            accessToConfig
+                              ? 'contextMenu--option'
+                              : 'contextMenu--option cm-disabled'
+                          }
+                        >
+                          <span className="functionIcon">
+                            <img style={{ height: '15px' }} src={queriesIcon} />
+                          </span>
+                          Queries
+                        </div>
+                      </div>
+                    </>
+                  )}
                   {touchpoint.dashboard_url.length > 1 &&
                     touchpoint.dashboard_url.map((link, i) => {
-                      if (link.nickName !== '') {
+                      if (link.nickName !== undefined && link.nickName !== '') {
                         return (
                           <div key={i + 1} className="contextMenuItem">
                             <div
