@@ -160,8 +160,6 @@ export default class DataManager {
       actionType: AccountStorageMutation.ACTION_TYPE.DELETE_DOCUMENT,
       collection: 'pathpoint',
       documentId: 'StagesInterface'
-    }).then(({ data }) => {
-      return data;
     });
   }
 

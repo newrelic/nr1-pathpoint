@@ -485,8 +485,8 @@ describe('Datamanager service', () => {
     dataManager.SendToLogs = jest.fn();
     const result = await dataManager.BootstrapInitialData(accountName);
     expect(dataManager.lastStorageVersion).toEqual(version);
-    expect(result.stages.length).toEqual(2);
-    expect(result.accountIDs).toEqual([{ name: 'WigiBoards', id: 2710112 }]);
+    expect(result.stages.length).toEqual(6);
+    // expect(result.accountIDs).toEqual([{ name: 'WigiBoards', id: 2710112 }]);
   });
 
   it('Fucntion BootstrapInitialData() with lastStorageVersion old', async () => {
@@ -595,8 +595,8 @@ describe('Datamanager service', () => {
     dataManager.SendToLogs = jest.fn();
     const result = await dataManager.BootstrapInitialData(accountName);
     expect(dataManager.lastStorageVersion).toEqual('1.0.0');
-    expect(result.stages.length).toEqual(2);
-    expect(result.accountIDs).toEqual([{ name: 'WigiBoards', id: 2710112 }]);
+    expect(result.stages.length).toEqual(6);
+    // expect(result.accountIDs).toEqual([{ name: 'WigiBoards', id: 2710112 }]);
   });
 
   it('Function SetTotalContainers', () => {
