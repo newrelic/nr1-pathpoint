@@ -1,0 +1,20 @@
+$green: #1cbc8b;
+$shadow-left-green: 0 0 0, 5px 0 0 $green inset;
+
+@mixin activeStyles {
+  box-shadow: $shadow-left-green !important;
+}
+
+@mixin clearItemStyles($paddingY, $paddingX) {
+  width: 100%;
+  text-align: left;
+  padding-top: $paddingY;
+  padding-bottom: $paddingY;
+  padding-left: $paddingX;
+  padding-right: $paddingX;
+  border-radius: 0;
+  border-top: none;
+  box-shadow: none;
+  border-right: none;
+  background-color: transparent;
+}

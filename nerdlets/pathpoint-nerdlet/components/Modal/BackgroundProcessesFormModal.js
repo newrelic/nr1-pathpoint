@@ -24,6 +24,7 @@ function HeaderBackgroundProcessesFormModal() {
 
 function BodyBackgroundProcessesFormModal(props) {
   const { GetCurrentHistoricErrorScript, _onClose } = props;
+  /*
   const href = messages.configuration.setup.json_link_demo;
   const hrefStyle = {
     textDecoration: 'none',
@@ -34,11 +35,12 @@ function BodyBackgroundProcessesFormModal(props) {
     target: '_blank',
     style: hrefStyle
   };
+  */
   return (
     <div
       style={{
         width: '400px',
-        height: '500px',
+        height: '200px',
         paddingTop: '20px',
         display: 'grid',
         gridTemplate: '55% 30% / 1fr'
@@ -46,9 +48,9 @@ function BodyBackgroundProcessesFormModal(props) {
     >
       <div className="modal4content" style={{ textAlign: 'justify' }}>
         {ReactHtmlParser(messages.configuration.setup.background)}
-        <div>
+        {/* <div>
           <a {...unsafeProps}>Click here</a>
-        </div>
+        </div> */}
       </div>
       <div
         style={{

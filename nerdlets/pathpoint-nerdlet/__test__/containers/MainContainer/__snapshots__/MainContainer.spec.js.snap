@@ -34,54 +34,10 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
             src="SvgrURL"
           />
         </div>
-        <div
-          id="HandleChangeLogo"
-          onClick={[Function]}
-          style={
-            Object {
-              "cursor": "pointer",
-              "marginLeft": "5px",
-              "marginTop": "20px",
-            }
-          }
-        >
-          <img
-            height="16"
-            src="SvgrURL"
-            style={
-              Object {
-                "marginBottom": "2px",
-                "marginRight": "5px",
-              }
-            }
-          />
-        </div>
       </div>
       <div
         className="kpi"
-      >
-        <div
-          onClick={[Function]}
-          style={
-            Object {
-              "cursor": "pointer",
-              "marginLeft": 0,
-              "marginTop": 0,
-            }
-          }
-        >
-          <img
-            height="16"
-            src="SvgrURL"
-            style={
-              Object {
-                "marginBottom": "2px",
-                "marginRight": "5px",
-              }
-            }
-          />
-        </div>
-      </div>
+      />
       <span
         className="budgetLoss"
         style={
@@ -100,6 +56,20 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
           <div
             className="fireIconContainer"
             onClick={[Function]}
+          >
+            <img
+              src="SvgrURL"
+              style={
+                Object {
+                  "height": "18px",
+                }
+              }
+            />
+          </div>
+          <div
+            className="fireIconContainer"
+            onClick={[Function]}
+            onMouseDown={[Function]}
           >
             <img
               src="SvgrURL"
@@ -351,7 +321,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
                 }
               }
             >
-              Credentials and General Configuration
+              Background Functions
             </div>
             <div
               className="subItem"
@@ -375,20 +345,45 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
             </div>
           </div>
         </div>
-        <li
-          onClick={[Function]}
+        <div
+          className="setup"
         >
-          <img
-            height="14"
-            src="SvgrURL"
+          <div
+            className="support"
+            onClick={[Function]}
+          >
+            <img
+              height="14"
+              src="SvgrURL"
+              style={
+                Object {
+                  "marginRight": "5px",
+                }
+              }
+            />
+            Support
+          </div>
+          <div
             style={
               Object {
-                "marginRight": "5px",
+                "paddingLeft": "25%",
+                "width": "100%",
               }
             }
-          />
-          Support
-        </li>
+          >
+            <div
+              className="subItem"
+              onClick={[Function]}
+              style={
+                Object {
+                  "padding": "5px",
+                }
+              }
+            >
+              UAM
+            </div>
+          </div>
+        </div>
       </ul>
       <div
         className="version"
@@ -739,25 +734,148 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
       </div>
     </div>
     <div
+      className="menuLeftClose"
+    >
+      <div
+        className="container_rmenu"
+      >
+        <div
+          className="content_rmenu"
+        >
+          <div
+            className="col1_rmenu"
+          >
+            <img
+              height="15px"
+              src="SvgrURL"
+              style={
+                Object {
+                  "paddingBottom": "2px",
+                }
+              }
+              width="15px"
+            />
+            <span
+              className="title_rmenu"
+            >
+              Lens
+            </span>
+            <span
+              className="subtitle_rmenu"
+            >
+              Tunning
+            </span>
+          </div>
+          <div
+            className="col2_rmenu"
+          >
+             
+            <img
+              height="18px"
+              onClick={[Function]}
+              src="SvgrURL"
+              style={
+                Object {
+                  "cursor": "pointer",
+                }
+              }
+              width="18px"
+            />
+             
+          </div>
+        </div>
+        <div
+          className="content_rmenu"
+        >
+          <div
+            className="col3_rmenu"
+          >
+            <div
+              className="subTitleRight_container flex-center"
+            >
+              <input
+                checked={true}
+                className="input_checkbox"
+                id="error"
+                name="error"
+                onChange={[Function]}
+                type="checkbox"
+              />
+              <span
+                className="checkbox_label"
+              >
+                Error %
+              </span>
+            </div>
+            <div
+              className="subTitleRight_container flex-center"
+            >
+              <input
+                checked={true}
+                className="input_checkbox"
+                id="response"
+                name="response"
+                onChange={[Function]}
+                type="checkbox"
+              />
+              <span
+                className="checkbox_label"
+              >
+                Response
+              </span>
+            </div>
+            <div
+              className="subTitleRight_container flex-center add50height"
+            >
+              <input
+                checked={true}
+                className="input_checkbox"
+                id="duration"
+                name="duration"
+                onChange={[Function]}
+                type="checkbox"
+              />
+              <span
+                className="checkbox_label"
+              >
+                Duration
+              </span>
+            </div>
+            <div
+              className="subTitleRight_container"
+            >
+              <input
+                className="input_mr"
+                id="durationMin"
+                name="durationMin"
+                onChange={[Function]}
+                type="text"
+                value={7}
+              />
+              Minutes Min
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
       className="mainContainerTouchPoints__title"
     >
       Stages
-      <div
-        className="containerGearWheel"
-        onClick={[Function]}
-        onMouseEnter={[Function]}
-        onMouseLeave={[Function]}
+      <a
+        href="https://github.com/newrelic/nr1-pathpoint/tree/main/docs/guides/Pathpoint-Stages#stages-guide"
+        rel="noreferrer"
+        style={
+          Object {
+            "marginLeft": "10px",
+          }
+        }
+        target="_blank"
       >
         <img
-          height="16"
           src="SvgrURL"
-          style={
-            Object {
-              "marginRight": "5px",
-            }
-          }
         />
-      </div>
+      </a>
     </div>
     <div
       style={
@@ -780,23 +898,20 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
         className="mainContainerSteps__title"
       >
         Steps
-        <div
-          className="containerGearWheel"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
+        <a
+          href="https://github.com/newrelic/nr1-pathpoint/tree/main/docs/guides/Pathpoint-Steps#steps-guide"
+          rel="noreferrer"
+          style={
+            Object {
+              "marginLeft": "10px",
+            }
+          }
+          target="_blank"
         >
           <img
-            height="16"
             src="SvgrURL"
-            style={
-              Object {
-                "marginBottom": "2px",
-                "marginRight": "5px",
-              }
-            }
           />
-        </div>
+        </a>
       </div>
     </div>
     <div
@@ -820,23 +935,20 @@ exports[`<MainContainer/> Values MenuRightDefault with value 1 1`] = `
         className="mainContainerTouchPoints__title"
       >
         TouchPoints
-        <div
-          className="containerGearWheel"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
+        <a
+          href="https://github.com/newrelic/nr1-pathpoint/tree/main/docs/guides/Pathpoint-Touchpoints#touchpoint-guide"
+          rel="noreferrer"
+          style={
+            Object {
+              "marginLeft": "10px",
+            }
+          }
+          target="_blank"
         >
           <img
-            height="16"
             src="SvgrURL"
-            style={
-              Object {
-                "marginBottom": "2px",
-                "marginRight": "5px",
-              }
-            }
           />
-        </div>
+        </a>
         <div
           className="touchPointCheckbox"
         >
@@ -906,54 +1018,10 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
             src="SvgrURL"
           />
         </div>
-        <div
-          id="HandleChangeLogo"
-          onClick={[Function]}
-          style={
-            Object {
-              "cursor": "pointer",
-              "marginLeft": "5px",
-              "marginTop": "20px",
-            }
-          }
-        >
-          <img
-            height="16"
-            src="SvgrURL"
-            style={
-              Object {
-                "marginBottom": "2px",
-                "marginRight": "5px",
-              }
-            }
-          />
-        </div>
       </div>
       <div
         className="kpi"
-      >
-        <div
-          onClick={[Function]}
-          style={
-            Object {
-              "cursor": "pointer",
-              "marginLeft": 0,
-              "marginTop": 0,
-            }
-          }
-        >
-          <img
-            height="16"
-            src="SvgrURL"
-            style={
-              Object {
-                "marginBottom": "2px",
-                "marginRight": "5px",
-              }
-            }
-          />
-        </div>
-      </div>
+      />
       <span
         className="budgetLoss"
         style={
@@ -972,6 +1040,20 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
           <div
             className="fireIconContainer"
             onClick={[Function]}
+          >
+            <img
+              src="SvgrURL"
+              style={
+                Object {
+                  "height": "18px",
+                }
+              }
+            />
+          </div>
+          <div
+            className="fireIconContainer"
+            onClick={[Function]}
+            onMouseDown={[Function]}
           >
             <img
               src="SvgrURL"
@@ -1223,7 +1305,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
                 }
               }
             >
-              Credentials and General Configuration
+              Background Functions
             </div>
             <div
               className="subItem"
@@ -1247,20 +1329,45 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
             </div>
           </div>
         </div>
-        <li
-          onClick={[Function]}
+        <div
+          className="setup"
         >
-          <img
-            height="14"
-            src="SvgrURL"
+          <div
+            className="support"
+            onClick={[Function]}
+          >
+            <img
+              height="14"
+              src="SvgrURL"
+              style={
+                Object {
+                  "marginRight": "5px",
+                }
+              }
+            />
+            Support
+          </div>
+          <div
             style={
               Object {
-                "marginRight": "5px",
+                "paddingLeft": "25%",
+                "width": "100%",
               }
             }
-          />
-          Support
-        </li>
+          >
+            <div
+              className="subItem"
+              onClick={[Function]}
+              style={
+                Object {
+                  "padding": "5px",
+                }
+              }
+            >
+              UAM
+            </div>
+          </div>
+        </div>
       </ul>
       <div
         className="version"
@@ -1611,25 +1718,148 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
       </div>
     </div>
     <div
+      className="menuLeftClose"
+    >
+      <div
+        className="container_rmenu"
+      >
+        <div
+          className="content_rmenu"
+        >
+          <div
+            className="col1_rmenu"
+          >
+            <img
+              height="15px"
+              src="SvgrURL"
+              style={
+                Object {
+                  "paddingBottom": "2px",
+                }
+              }
+              width="15px"
+            />
+            <span
+              className="title_rmenu"
+            >
+              Lens
+            </span>
+            <span
+              className="subtitle_rmenu"
+            >
+              Tunning
+            </span>
+          </div>
+          <div
+            className="col2_rmenu"
+          >
+             
+            <img
+              height="18px"
+              onClick={[Function]}
+              src="SvgrURL"
+              style={
+                Object {
+                  "cursor": "pointer",
+                }
+              }
+              width="18px"
+            />
+             
+          </div>
+        </div>
+        <div
+          className="content_rmenu"
+        >
+          <div
+            className="col3_rmenu"
+          >
+            <div
+              className="subTitleRight_container flex-center"
+            >
+              <input
+                checked={true}
+                className="input_checkbox"
+                id="error"
+                name="error"
+                onChange={[Function]}
+                type="checkbox"
+              />
+              <span
+                className="checkbox_label"
+              >
+                Error %
+              </span>
+            </div>
+            <div
+              className="subTitleRight_container flex-center"
+            >
+              <input
+                checked={true}
+                className="input_checkbox"
+                id="response"
+                name="response"
+                onChange={[Function]}
+                type="checkbox"
+              />
+              <span
+                className="checkbox_label"
+              >
+                Response
+              </span>
+            </div>
+            <div
+              className="subTitleRight_container flex-center add50height"
+            >
+              <input
+                checked={true}
+                className="input_checkbox"
+                id="duration"
+                name="duration"
+                onChange={[Function]}
+                type="checkbox"
+              />
+              <span
+                className="checkbox_label"
+              >
+                Duration
+              </span>
+            </div>
+            <div
+              className="subTitleRight_container"
+            >
+              <input
+                className="input_mr"
+                id="durationMin"
+                name="durationMin"
+                onChange={[Function]}
+                type="text"
+                value={7}
+              />
+              Minutes Min
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
       className="mainContainerTouchPoints__title"
     >
       Stages
-      <div
-        className="containerGearWheel"
-        onClick={[Function]}
-        onMouseEnter={[Function]}
-        onMouseLeave={[Function]}
+      <a
+        href="https://github.com/newrelic/nr1-pathpoint/tree/main/docs/guides/Pathpoint-Stages#stages-guide"
+        rel="noreferrer"
+        style={
+          Object {
+            "marginLeft": "10px",
+          }
+        }
+        target="_blank"
       >
         <img
-          height="16"
           src="SvgrURL"
-          style={
-            Object {
-              "marginRight": "5px",
-            }
-          }
         />
-      </div>
+      </a>
     </div>
     <div
       style={
@@ -1652,23 +1882,20 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
         className="mainContainerSteps__title"
       >
         Steps
-        <div
-          className="containerGearWheel"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
+        <a
+          href="https://github.com/newrelic/nr1-pathpoint/tree/main/docs/guides/Pathpoint-Steps#steps-guide"
+          rel="noreferrer"
+          style={
+            Object {
+              "marginLeft": "10px",
+            }
+          }
+          target="_blank"
         >
           <img
-            height="16"
             src="SvgrURL"
-            style={
-              Object {
-                "marginBottom": "2px",
-                "marginRight": "5px",
-              }
-            }
           />
-        </div>
+        </a>
       </div>
     </div>
     <div
@@ -1692,23 +1919,20 @@ exports[`<MainContainer/> Values MenuRightDefault with value 2 1`] = `
         className="mainContainerTouchPoints__title"
       >
         TouchPoints
-        <div
-          className="containerGearWheel"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
+        <a
+          href="https://github.com/newrelic/nr1-pathpoint/tree/main/docs/guides/Pathpoint-Touchpoints#touchpoint-guide"
+          rel="noreferrer"
+          style={
+            Object {
+              "marginLeft": "10px",
+            }
+          }
+          target="_blank"
         >
           <img
-            height="16"
             src="SvgrURL"
-            style={
-              Object {
-                "marginBottom": "2px",
-                "marginRight": "5px",
-              }
-            }
           />
-        </div>
+        </a>
         <div
           className="touchPointCheckbox"
         >
@@ -1778,54 +2002,10 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
             src="SvgrURL"
           />
         </div>
-        <div
-          id="HandleChangeLogo"
-          onClick={[Function]}
-          style={
-            Object {
-              "cursor": "pointer",
-              "marginLeft": "5px",
-              "marginTop": "20px",
-            }
-          }
-        >
-          <img
-            height="16"
-            src="SvgrURL"
-            style={
-              Object {
-                "marginBottom": "2px",
-                "marginRight": "5px",
-              }
-            }
-          />
-        </div>
       </div>
       <div
         className="kpi"
-      >
-        <div
-          onClick={[Function]}
-          style={
-            Object {
-              "cursor": "pointer",
-              "marginLeft": 0,
-              "marginTop": 0,
-            }
-          }
-        >
-          <img
-            height="16"
-            src="SvgrURL"
-            style={
-              Object {
-                "marginBottom": "2px",
-                "marginRight": "5px",
-              }
-            }
-          />
-        </div>
-      </div>
+      />
       <span
         className="budgetLoss"
         style={
@@ -1844,6 +2024,20 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
           <div
             className="fireIconContainer"
             onClick={[Function]}
+          >
+            <img
+              src="SvgrURL"
+              style={
+                Object {
+                  "height": "18px",
+                }
+              }
+            />
+          </div>
+          <div
+            className="fireIconContainer"
+            onClick={[Function]}
+            onMouseDown={[Function]}
           >
             <img
               src="SvgrURL"
@@ -2095,7 +2289,7 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
                 }
               }
             >
-              Credentials and General Configuration
+              Background Functions
             </div>
             <div
               className="subItem"
@@ -2119,20 +2313,45 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
             </div>
           </div>
         </div>
-        <li
-          onClick={[Function]}
+        <div
+          className="setup"
         >
-          <img
-            height="14"
-            src="SvgrURL"
+          <div
+            className="support"
+            onClick={[Function]}
+          >
+            <img
+              height="14"
+              src="SvgrURL"
+              style={
+                Object {
+                  "marginRight": "5px",
+                }
+              }
+            />
+            Support
+          </div>
+          <div
             style={
               Object {
-                "marginRight": "5px",
+                "paddingLeft": "25%",
+                "width": "100%",
               }
             }
-          />
-          Support
-        </li>
+          >
+            <div
+              className="subItem"
+              onClick={[Function]}
+              style={
+                Object {
+                  "padding": "5px",
+                }
+              }
+            >
+              UAM
+            </div>
+          </div>
+        </div>
       </ul>
       <div
         className="version"
@@ -2483,25 +2702,148 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
       </div>
     </div>
     <div
+      className="menuLeftClose"
+    >
+      <div
+        className="container_rmenu"
+      >
+        <div
+          className="content_rmenu"
+        >
+          <div
+            className="col1_rmenu"
+          >
+            <img
+              height="15px"
+              src="SvgrURL"
+              style={
+                Object {
+                  "paddingBottom": "2px",
+                }
+              }
+              width="15px"
+            />
+            <span
+              className="title_rmenu"
+            >
+              Lens
+            </span>
+            <span
+              className="subtitle_rmenu"
+            >
+              Tunning
+            </span>
+          </div>
+          <div
+            className="col2_rmenu"
+          >
+             
+            <img
+              height="18px"
+              onClick={[Function]}
+              src="SvgrURL"
+              style={
+                Object {
+                  "cursor": "pointer",
+                }
+              }
+              width="18px"
+            />
+             
+          </div>
+        </div>
+        <div
+          className="content_rmenu"
+        >
+          <div
+            className="col3_rmenu"
+          >
+            <div
+              className="subTitleRight_container flex-center"
+            >
+              <input
+                checked={true}
+                className="input_checkbox"
+                id="error"
+                name="error"
+                onChange={[Function]}
+                type="checkbox"
+              />
+              <span
+                className="checkbox_label"
+              >
+                Error %
+              </span>
+            </div>
+            <div
+              className="subTitleRight_container flex-center"
+            >
+              <input
+                checked={true}
+                className="input_checkbox"
+                id="response"
+                name="response"
+                onChange={[Function]}
+                type="checkbox"
+              />
+              <span
+                className="checkbox_label"
+              >
+                Response
+              </span>
+            </div>
+            <div
+              className="subTitleRight_container flex-center add50height"
+            >
+              <input
+                checked={true}
+                className="input_checkbox"
+                id="duration"
+                name="duration"
+                onChange={[Function]}
+                type="checkbox"
+              />
+              <span
+                className="checkbox_label"
+              >
+                Duration
+              </span>
+            </div>
+            <div
+              className="subTitleRight_container"
+            >
+              <input
+                className="input_mr"
+                id="durationMin"
+                name="durationMin"
+                onChange={[Function]}
+                type="text"
+                value={7}
+              />
+              Minutes Min
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
       className="mainContainerTouchPoints__title"
     >
       Stages
-      <div
-        className="containerGearWheel"
-        onClick={[Function]}
-        onMouseEnter={[Function]}
-        onMouseLeave={[Function]}
+      <a
+        href="https://github.com/newrelic/nr1-pathpoint/tree/main/docs/guides/Pathpoint-Stages#stages-guide"
+        rel="noreferrer"
+        style={
+          Object {
+            "marginLeft": "10px",
+          }
+        }
+        target="_blank"
       >
         <img
-          height="16"
           src="SvgrURL"
-          style={
-            Object {
-              "marginRight": "5px",
-            }
-          }
         />
-      </div>
+      </a>
     </div>
     <div
       style={
@@ -2524,23 +2866,20 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
         className="mainContainerSteps__title"
       >
         Steps
-        <div
-          className="containerGearWheel"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
+        <a
+          href="https://github.com/newrelic/nr1-pathpoint/tree/main/docs/guides/Pathpoint-Steps#steps-guide"
+          rel="noreferrer"
+          style={
+            Object {
+              "marginLeft": "10px",
+            }
+          }
+          target="_blank"
         >
           <img
-            height="16"
             src="SvgrURL"
-            style={
-              Object {
-                "marginBottom": "2px",
-                "marginRight": "5px",
-              }
-            }
           />
-        </div>
+        </a>
       </div>
     </div>
     <div
@@ -2564,23 +2903,20 @@ exports[`<MainContainer/> Values MenuRightDefault with value 3 1`] = `
         className="mainContainerTouchPoints__title"
       >
         TouchPoints
-        <div
-          className="containerGearWheel"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
+        <a
+          href="https://github.com/newrelic/nr1-pathpoint/tree/main/docs/guides/Pathpoint-Touchpoints#touchpoint-guide"
+          rel="noreferrer"
+          style={
+            Object {
+              "marginLeft": "10px",
+            }
+          }
+          target="_blank"
         >
           <img
-            height="16"
             src="SvgrURL"
-            style={
-              Object {
-                "marginBottom": "2px",
-                "marginRight": "5px",
-              }
-            }
           />
-        </div>
+        </a>
         <div
           className="touchPointCheckbox"
         >
@@ -2696,54 +3032,10 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
             src="SvgrURL"
           />
         </div>
-        <div
-          id="HandleChangeLogo"
-          onClick={[Function]}
-          style={
-            Object {
-              "cursor": "pointer",
-              "marginLeft": "5px",
-              "marginTop": "20px",
-            }
-          }
-        >
-          <img
-            height="16"
-            src="SvgrURL"
-            style={
-              Object {
-                "marginBottom": "2px",
-                "marginRight": "5px",
-              }
-            }
-          />
-        </div>
       </div>
       <div
         className="kpi"
-      >
-        <div
-          onClick={[Function]}
-          style={
-            Object {
-              "cursor": "pointer",
-              "marginLeft": 0,
-              "marginTop": 0,
-            }
-          }
-        >
-          <img
-            height="16"
-            src="SvgrURL"
-            style={
-              Object {
-                "marginBottom": "2px",
-                "marginRight": "5px",
-              }
-            }
-          />
-        </div>
-      </div>
+      />
       <span
         className="budgetLoss"
         style={
@@ -2762,6 +3054,20 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
           <div
             className="fireIconContainer"
             onClick={[Function]}
+          >
+            <img
+              src="SvgrURL"
+              style={
+                Object {
+                  "height": "18px",
+                }
+              }
+            />
+          </div>
+          <div
+            className="fireIconContainer"
+            onClick={[Function]}
+            onMouseDown={[Function]}
           >
             <img
               src="SvgrURL"
@@ -3013,7 +3319,7 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
                 }
               }
             >
-              Credentials and General Configuration
+              Background Functions
             </div>
             <div
               className="subItem"
@@ -3037,20 +3343,45 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
             </div>
           </div>
         </div>
-        <li
-          onClick={[Function]}
+        <div
+          className="setup"
         >
-          <img
-            height="14"
-            src="SvgrURL"
+          <div
+            className="support"
+            onClick={[Function]}
+          >
+            <img
+              height="14"
+              src="SvgrURL"
+              style={
+                Object {
+                  "marginRight": "5px",
+                }
+              }
+            />
+            Support
+          </div>
+          <div
             style={
               Object {
-                "marginRight": "5px",
+                "paddingLeft": "25%",
+                "width": "100%",
               }
             }
-          />
-          Support
-        </li>
+          >
+            <div
+              className="subItem"
+              onClick={[Function]}
+              style={
+                Object {
+                  "padding": "5px",
+                }
+              }
+            >
+              UAM
+            </div>
+          </div>
+        </div>
       </ul>
       <div
         className="version"
@@ -3401,25 +3732,148 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
       </div>
     </div>
     <div
+      className="menuLeftClose"
+    >
+      <div
+        className="container_rmenu"
+      >
+        <div
+          className="content_rmenu"
+        >
+          <div
+            className="col1_rmenu"
+          >
+            <img
+              height="15px"
+              src="SvgrURL"
+              style={
+                Object {
+                  "paddingBottom": "2px",
+                }
+              }
+              width="15px"
+            />
+            <span
+              className="title_rmenu"
+            >
+              Lens
+            </span>
+            <span
+              className="subtitle_rmenu"
+            >
+              Tunning
+            </span>
+          </div>
+          <div
+            className="col2_rmenu"
+          >
+             
+            <img
+              height="18px"
+              onClick={[Function]}
+              src="SvgrURL"
+              style={
+                Object {
+                  "cursor": "pointer",
+                }
+              }
+              width="18px"
+            />
+             
+          </div>
+        </div>
+        <div
+          className="content_rmenu"
+        >
+          <div
+            className="col3_rmenu"
+          >
+            <div
+              className="subTitleRight_container flex-center"
+            >
+              <input
+                checked={true}
+                className="input_checkbox"
+                id="error"
+                name="error"
+                onChange={[Function]}
+                type="checkbox"
+              />
+              <span
+                className="checkbox_label"
+              >
+                Error %
+              </span>
+            </div>
+            <div
+              className="subTitleRight_container flex-center"
+            >
+              <input
+                checked={true}
+                className="input_checkbox"
+                id="response"
+                name="response"
+                onChange={[Function]}
+                type="checkbox"
+              />
+              <span
+                className="checkbox_label"
+              >
+                Response
+              </span>
+            </div>
+            <div
+              className="subTitleRight_container flex-center add50height"
+            >
+              <input
+                checked={true}
+                className="input_checkbox"
+                id="duration"
+                name="duration"
+                onChange={[Function]}
+                type="checkbox"
+              />
+              <span
+                className="checkbox_label"
+              >
+                Duration
+              </span>
+            </div>
+            <div
+              className="subTitleRight_container"
+            >
+              <input
+                className="input_mr"
+                id="durationMin"
+                name="durationMin"
+                onChange={[Function]}
+                type="text"
+                value={7}
+              />
+              Minutes Min
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
       className="mainContainerTouchPoints__title"
     >
       Stages
-      <div
-        className="containerGearWheel"
-        onClick={[Function]}
-        onMouseEnter={[Function]}
-        onMouseLeave={[Function]}
+      <a
+        href="https://github.com/newrelic/nr1-pathpoint/tree/main/docs/guides/Pathpoint-Stages#stages-guide"
+        rel="noreferrer"
+        style={
+          Object {
+            "marginLeft": "10px",
+          }
+        }
+        target="_blank"
       >
         <img
-          height="16"
           src="SvgrURL"
-          style={
-            Object {
-              "marginRight": "5px",
-            }
-          }
         />
-      </div>
+      </a>
     </div>
     <div
       style={
@@ -3442,23 +3896,20 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
         className="mainContainerSteps__title"
       >
         Steps
-        <div
-          className="containerGearWheel"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
+        <a
+          href="https://github.com/newrelic/nr1-pathpoint/tree/main/docs/guides/Pathpoint-Steps#steps-guide"
+          rel="noreferrer"
+          style={
+            Object {
+              "marginLeft": "10px",
+            }
+          }
+          target="_blank"
         >
           <img
-            height="16"
             src="SvgrURL"
-            style={
-              Object {
-                "marginBottom": "2px",
-                "marginRight": "5px",
-              }
-            }
           />
-        </div>
+        </a>
       </div>
     </div>
     <div
@@ -3482,23 +3933,20 @@ exports[`<MainContainer/> Values left panel with true value 1`] = `
         className="mainContainerTouchPoints__title"
       >
         TouchPoints
-        <div
-          className="containerGearWheel"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
+        <a
+          href="https://github.com/newrelic/nr1-pathpoint/tree/main/docs/guides/Pathpoint-Touchpoints#touchpoint-guide"
+          rel="noreferrer"
+          style={
+            Object {
+              "marginLeft": "10px",
+            }
+          }
+          target="_blank"
         >
           <img
-            height="16"
             src="SvgrURL"
-            style={
-              Object {
-                "marginBottom": "2px",
-                "marginRight": "5px",
-              }
-            }
           />
-        </div>
+        </a>
         <div
           className="touchPointCheckbox"
         >
@@ -3568,54 +4016,10 @@ exports[`<MainContainer/> Values stages 1`] = `
             src="SvgrURL"
           />
         </div>
-        <div
-          id="HandleChangeLogo"
-          onClick={[Function]}
-          style={
-            Object {
-              "cursor": "pointer",
-              "marginLeft": "5px",
-              "marginTop": "20px",
-            }
-          }
-        >
-          <img
-            height="16"
-            src="SvgrURL"
-            style={
-              Object {
-                "marginBottom": "2px",
-                "marginRight": "5px",
-              }
-            }
-          />
-        </div>
       </div>
       <div
         className="kpi"
-      >
-        <div
-          onClick={[Function]}
-          style={
-            Object {
-              "cursor": "pointer",
-              "marginLeft": 0,
-              "marginTop": 0,
-            }
-          }
-        >
-          <img
-            height="16"
-            src="SvgrURL"
-            style={
-              Object {
-                "marginBottom": "2px",
-                "marginRight": "5px",
-              }
-            }
-          />
-        </div>
-      </div>
+      />
       <span
         className="budgetLoss"
         style={
@@ -3634,6 +4038,20 @@ exports[`<MainContainer/> Values stages 1`] = `
           <div
             className="fireIconContainer"
             onClick={[Function]}
+          >
+            <img
+              src="SvgrURL"
+              style={
+                Object {
+                  "height": "18px",
+                }
+              }
+            />
+          </div>
+          <div
+            className="fireIconContainer"
+            onClick={[Function]}
+            onMouseDown={[Function]}
           >
             <img
               src="SvgrURL"
@@ -3885,7 +4303,7 @@ exports[`<MainContainer/> Values stages 1`] = `
                 }
               }
             >
-              Credentials and General Configuration
+              Background Functions
             </div>
             <div
               className="subItem"
@@ -3909,20 +4327,45 @@ exports[`<MainContainer/> Values stages 1`] = `
             </div>
           </div>
         </div>
-        <li
-          onClick={[Function]}
+        <div
+          className="setup"
         >
-          <img
-            height="14"
-            src="SvgrURL"
+          <div
+            className="support"
+            onClick={[Function]}
+          >
+            <img
+              height="14"
+              src="SvgrURL"
+              style={
+                Object {
+                  "marginRight": "5px",
+                }
+              }
+            />
+            Support
+          </div>
+          <div
             style={
               Object {
-                "marginRight": "5px",
+                "paddingLeft": "25%",
+                "width": "100%",
               }
             }
-          />
-          Support
-        </li>
+          >
+            <div
+              className="subItem"
+              onClick={[Function]}
+              style={
+                Object {
+                  "padding": "5px",
+                }
+              }
+            >
+              UAM
+            </div>
+          </div>
+        </div>
       </ul>
       <div
         className="version"
@@ -4273,25 +4716,148 @@ exports[`<MainContainer/> Values stages 1`] = `
       </div>
     </div>
     <div
+      className="menuLeftClose"
+    >
+      <div
+        className="container_rmenu"
+      >
+        <div
+          className="content_rmenu"
+        >
+          <div
+            className="col1_rmenu"
+          >
+            <img
+              height="15px"
+              src="SvgrURL"
+              style={
+                Object {
+                  "paddingBottom": "2px",
+                }
+              }
+              width="15px"
+            />
+            <span
+              className="title_rmenu"
+            >
+              Lens
+            </span>
+            <span
+              className="subtitle_rmenu"
+            >
+              Tunning
+            </span>
+          </div>
+          <div
+            className="col2_rmenu"
+          >
+             
+            <img
+              height="18px"
+              onClick={[Function]}
+              src="SvgrURL"
+              style={
+                Object {
+                  "cursor": "pointer",
+                }
+              }
+              width="18px"
+            />
+             
+          </div>
+        </div>
+        <div
+          className="content_rmenu"
+        >
+          <div
+            className="col3_rmenu"
+          >
+            <div
+              className="subTitleRight_container flex-center"
+            >
+              <input
+                checked={true}
+                className="input_checkbox"
+                id="error"
+                name="error"
+                onChange={[Function]}
+                type="checkbox"
+              />
+              <span
+                className="checkbox_label"
+              >
+                Error %
+              </span>
+            </div>
+            <div
+              className="subTitleRight_container flex-center"
+            >
+              <input
+                checked={true}
+                className="input_checkbox"
+                id="response"
+                name="response"
+                onChange={[Function]}
+                type="checkbox"
+              />
+              <span
+                className="checkbox_label"
+              >
+                Response
+              </span>
+            </div>
+            <div
+              className="subTitleRight_container flex-center add50height"
+            >
+              <input
+                checked={true}
+                className="input_checkbox"
+                id="duration"
+                name="duration"
+                onChange={[Function]}
+                type="checkbox"
+              />
+              <span
+                className="checkbox_label"
+              >
+                Duration
+              </span>
+            </div>
+            <div
+              className="subTitleRight_container"
+            >
+              <input
+                className="input_mr"
+                id="durationMin"
+                name="durationMin"
+                onChange={[Function]}
+                type="text"
+                value={7}
+              />
+              Minutes Min
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
       className="mainContainerTouchPoints__title"
     >
       Stages
-      <div
-        className="containerGearWheel"
-        onClick={[Function]}
-        onMouseEnter={[Function]}
-        onMouseLeave={[Function]}
+      <a
+        href="https://github.com/newrelic/nr1-pathpoint/tree/main/docs/guides/Pathpoint-Stages#stages-guide"
+        rel="noreferrer"
+        style={
+          Object {
+            "marginLeft": "10px",
+          }
+        }
+        target="_blank"
       >
         <img
-          height="16"
           src="SvgrURL"
-          style={
-            Object {
-              "marginRight": "5px",
-            }
-          }
         />
-      </div>
+      </a>
     </div>
     <div
       style={
@@ -4514,23 +5080,20 @@ exports[`<MainContainer/> Values stages 1`] = `
         className="mainContainerSteps__title"
       >
         Steps
-        <div
-          className="containerGearWheel"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
+        <a
+          href="https://github.com/newrelic/nr1-pathpoint/tree/main/docs/guides/Pathpoint-Steps#steps-guide"
+          rel="noreferrer"
+          style={
+            Object {
+              "marginLeft": "10px",
+            }
+          }
+          target="_blank"
         >
           <img
-            height="16"
             src="SvgrURL"
-            style={
-              Object {
-                "marginBottom": "2px",
-                "marginRight": "5px",
-              }
-            }
           />
-        </div>
+        </a>
       </div>
     </div>
     <div
@@ -4600,23 +5163,20 @@ exports[`<MainContainer/> Values stages 1`] = `
         className="mainContainerTouchPoints__title"
       >
         TouchPoints
-        <div
-          className="containerGearWheel"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
+        <a
+          href="https://github.com/newrelic/nr1-pathpoint/tree/main/docs/guides/Pathpoint-Touchpoints#touchpoint-guide"
+          rel="noreferrer"
+          style={
+            Object {
+              "marginLeft": "10px",
+            }
+          }
+          target="_blank"
         >
           <img
-            height="16"
             src="SvgrURL"
-            style={
-              Object {
-                "marginBottom": "2px",
-                "marginRight": "5px",
-              }
-            }
           />
-        </div>
+        </a>
         <div
           className="touchPointCheckbox"
         >
@@ -4741,54 +5301,10 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
             src="SvgrURL"
           />
         </div>
-        <div
-          id="HandleChangeLogo"
-          onClick={[Function]}
-          style={
-            Object {
-              "cursor": "pointer",
-              "marginLeft": "5px",
-              "marginTop": "20px",
-            }
-          }
-        >
-          <img
-            height="16"
-            src="SvgrURL"
-            style={
-              Object {
-                "marginBottom": "2px",
-                "marginRight": "5px",
-              }
-            }
-          />
-        </div>
       </div>
       <div
         className="kpi"
-      >
-        <div
-          onClick={[Function]}
-          style={
-            Object {
-              "cursor": "pointer",
-              "marginLeft": 0,
-              "marginTop": 0,
-            }
-          }
-        >
-          <img
-            height="16"
-            src="SvgrURL"
-            style={
-              Object {
-                "marginBottom": "2px",
-                "marginRight": "5px",
-              }
-            }
-          />
-        </div>
-      </div>
+      />
       <span
         className="budgetLoss"
         style={
@@ -4807,6 +5323,20 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
           <div
             className="fireIconContainer"
             onClick={[Function]}
+          >
+            <img
+              src="SvgrURL"
+              style={
+                Object {
+                  "height": "18px",
+                }
+              }
+            />
+          </div>
+          <div
+            className="fireIconContainer"
+            onClick={[Function]}
+            onMouseDown={[Function]}
           >
             <img
               src="SvgrURL"
@@ -5058,7 +5588,7 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
                 }
               }
             >
-              Credentials and General Configuration
+              Background Functions
             </div>
             <div
               className="subItem"
@@ -5082,20 +5612,45 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
             </div>
           </div>
         </div>
-        <li
-          onClick={[Function]}
+        <div
+          className="setup"
         >
-          <img
-            height="14"
-            src="SvgrURL"
+          <div
+            className="support"
+            onClick={[Function]}
+          >
+            <img
+              height="14"
+              src="SvgrURL"
+              style={
+                Object {
+                  "marginRight": "5px",
+                }
+              }
+            />
+            Support
+          </div>
+          <div
             style={
               Object {
-                "marginRight": "5px",
+                "paddingLeft": "25%",
+                "width": "100%",
               }
             }
-          />
-          Support
-        </li>
+          >
+            <div
+              className="subItem"
+              onClick={[Function]}
+              style={
+                Object {
+                  "padding": "5px",
+                }
+              }
+            >
+              UAM
+            </div>
+          </div>
+        </div>
       </ul>
       <div
         className="version"
@@ -5446,25 +6001,148 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
       </div>
     </div>
     <div
+      className="menuLeftClose"
+    >
+      <div
+        className="container_rmenu"
+      >
+        <div
+          className="content_rmenu"
+        >
+          <div
+            className="col1_rmenu"
+          >
+            <img
+              height="15px"
+              src="SvgrURL"
+              style={
+                Object {
+                  "paddingBottom": "2px",
+                }
+              }
+              width="15px"
+            />
+            <span
+              className="title_rmenu"
+            >
+              Lens
+            </span>
+            <span
+              className="subtitle_rmenu"
+            >
+              Tunning
+            </span>
+          </div>
+          <div
+            className="col2_rmenu"
+          >
+             
+            <img
+              height="18px"
+              onClick={[Function]}
+              src="SvgrURL"
+              style={
+                Object {
+                  "cursor": "pointer",
+                }
+              }
+              width="18px"
+            />
+             
+          </div>
+        </div>
+        <div
+          className="content_rmenu"
+        >
+          <div
+            className="col3_rmenu"
+          >
+            <div
+              className="subTitleRight_container flex-center"
+            >
+              <input
+                checked={true}
+                className="input_checkbox"
+                id="error"
+                name="error"
+                onChange={[Function]}
+                type="checkbox"
+              />
+              <span
+                className="checkbox_label"
+              >
+                Error %
+              </span>
+            </div>
+            <div
+              className="subTitleRight_container flex-center"
+            >
+              <input
+                checked={true}
+                className="input_checkbox"
+                id="response"
+                name="response"
+                onChange={[Function]}
+                type="checkbox"
+              />
+              <span
+                className="checkbox_label"
+              >
+                Response
+              </span>
+            </div>
+            <div
+              className="subTitleRight_container flex-center add50height"
+            >
+              <input
+                checked={true}
+                className="input_checkbox"
+                id="duration"
+                name="duration"
+                onChange={[Function]}
+                type="checkbox"
+              />
+              <span
+                className="checkbox_label"
+              >
+                Duration
+              </span>
+            </div>
+            <div
+              className="subTitleRight_container"
+            >
+              <input
+                className="input_mr"
+                id="durationMin"
+                name="durationMin"
+                onChange={[Function]}
+                type="text"
+                value={7}
+              />
+              Minutes Min
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
       className="mainContainerTouchPoints__title"
     >
       Stages
-      <div
-        className="containerGearWheel"
-        onClick={[Function]}
-        onMouseEnter={[Function]}
-        onMouseLeave={[Function]}
+      <a
+        href="https://github.com/newrelic/nr1-pathpoint/tree/main/docs/guides/Pathpoint-Stages#stages-guide"
+        rel="noreferrer"
+        style={
+          Object {
+            "marginLeft": "10px",
+          }
+        }
+        target="_blank"
       >
         <img
-          height="16"
           src="SvgrURL"
-          style={
-            Object {
-              "marginRight": "5px",
-            }
-          }
         />
-      </div>
+      </a>
     </div>
     <div
       style={
@@ -5487,23 +6165,20 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
         className="mainContainerSteps__title"
       >
         Steps
-        <div
-          className="containerGearWheel"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
+        <a
+          href="https://github.com/newrelic/nr1-pathpoint/tree/main/docs/guides/Pathpoint-Steps#steps-guide"
+          rel="noreferrer"
+          style={
+            Object {
+              "marginLeft": "10px",
+            }
+          }
+          target="_blank"
         >
           <img
-            height="16"
             src="SvgrURL"
-            style={
-              Object {
-                "marginBottom": "2px",
-                "marginRight": "5px",
-              }
-            }
           />
-        </div>
+        </a>
       </div>
     </div>
     <div
@@ -5527,23 +6202,20 @@ exports[`<MainContainer/> Values waiting in false 1`] = `
         className="mainContainerTouchPoints__title"
       >
         TouchPoints
-        <div
-          className="containerGearWheel"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
+        <a
+          href="https://github.com/newrelic/nr1-pathpoint/tree/main/docs/guides/Pathpoint-Touchpoints#touchpoint-guide"
+          rel="noreferrer"
+          style={
+            Object {
+              "marginLeft": "10px",
+            }
+          }
+          target="_blank"
         >
           <img
-            height="16"
             src="SvgrURL"
-            style={
-              Object {
-                "marginBottom": "2px",
-                "marginRight": "5px",
-              }
-            }
           />
-        </div>
+        </a>
         <div
           className="touchPointCheckbox"
         >

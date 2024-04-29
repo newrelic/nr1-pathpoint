@@ -64,6 +64,9 @@ describe('Header component', () => {
   test('Header component with default data', async () => {
     const header = create(
       <Header
+        iconLensStatus
+        handleContextMenuLens={jest.fn()}
+        ToggleLensButton={jest.fn()}
         iconSixthSenseStatus={false}
         iconCanaryStatus={false}
         iconFireStatus={false}
@@ -95,6 +98,9 @@ describe('Header component', () => {
   test('Header component with iconSixthSenseStatus', async () => {
     const header = create(
       <Header
+        iconLensStatus
+        handleContextMenuLens={jest.fn()}
+        ToggleLensButton={jest.fn()}
         iconSixthSenseStatus
         iconCanaryStatus={false}
         iconFireStatus={false}
@@ -127,6 +133,9 @@ describe('Header component', () => {
   test('Header component with iconCanaryStatus', async () => {
     const header = create(
       <Header
+        iconLensStatus
+        handleContextMenuLens={jest.fn()}
+        ToggleLensButton={jest.fn()}
         iconSixthSenseStatus={false}
         iconCanaryStatus
         iconFireStatus={false}
@@ -159,6 +168,9 @@ describe('Header component', () => {
   test('Header component with iconFireStatus', async () => {
     const header = create(
       <Header
+        iconLensStatus
+        handleContextMenuLens={jest.fn()}
+        ToggleLensButton={jest.fn()}
         iconSixthSenseStatus={false}
         iconCanaryStatus={false}
         iconFireStatus
@@ -191,6 +203,9 @@ describe('Header component', () => {
   test('Header component with iconStartStatus', async () => {
     const header = create(
       <Header
+        iconLensStatus
+        handleContextMenuLens={jest.fn()}
+        ToggleLensButton={jest.fn()}
         iconSixthSenseStatus={false}
         iconCanaryStatus={false}
         iconFireStatus={false}
@@ -223,6 +238,9 @@ describe('Header component', () => {
   test('Header component with iconGoutStatus', async () => {
     const header = create(
       <Header
+        iconLensStatus
+        handleContextMenuLens={jest.fn()}
+        ToggleLensButton={jest.fn()}
         iconSixthSenseStatus={false}
         iconCanaryStatus={false}
         iconFireStatus={false}
@@ -255,6 +273,9 @@ describe('Header component', () => {
   test('Header component with showLeftPanel', async () => {
     const header = create(
       <Header
+        iconLensStatus
+        handleContextMenuLens={jest.fn()}
+        ToggleLensButton={jest.fn()}
         iconSixthSenseStatus={false}
         iconCanaryStatus={false}
         iconFireStatus={false}
@@ -287,6 +308,9 @@ describe('Header component', () => {
   test('Header component with logoSetup Text', async () => {
     const header = create(
       <Header
+        iconLensStatus
+        handleContextMenuLens={jest.fn()}
+        ToggleLensButton={jest.fn()}
         iconSixthSenseStatus={false}
         iconCanaryStatus={false}
         iconFireStatus={false}
@@ -322,6 +346,9 @@ describe('Header component', () => {
   test('Header component with logoSetup URL', async () => {
     const header = create(
       <Header
+        iconLensStatus
+        handleContextMenuLens={jest.fn()}
+        ToggleLensButton={jest.fn()}
         iconSixthSenseStatus={false}
         iconCanaryStatus={false}
         iconFireStatus={false}

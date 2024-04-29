@@ -38,5 +38,13 @@
   {
     "longName": "API-Status",
     "shortName": "APS"
+  },
+  {
+    "longName": "Alert-Check",
+    "shortName": "ALE"
+  },
+  {
+    "longName": "Value-Performance",
+    "shortName": "VAL"
   }
 ]

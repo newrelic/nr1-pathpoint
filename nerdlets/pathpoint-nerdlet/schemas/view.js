@@ -155,11 +155,22 @@ export default {
                     },
                     dashboard_url: {
                       type: 'array',
-                      minItems: 1,
-                      maxItems: 1,
-                      items: {
-                        type: ['string', 'boolean']
-                      }
+                      minItems: 0,
+                      maxItems: 4,
+                      items: [
+                        {
+                          type: 'object',
+                          required: ['nickName', 'url'],
+                          properties: {
+                            nickName: {
+                              type: 'string'
+                            },
+                            url: {
+                              type: 'string'
+                            }
+                          }
+                        }
+                      ]
                     },
                     related_steps: {
                       type: 'string'
@@ -243,12 +254,12 @@ export const CustomSchemaValidation = target => {
   target.stages.forEach(stage => {
     stage.touchpoints.forEach(touchpoint => {
       if (
-        touchpoint.dashboard_url[0] !== false &&
-        !touchpoint.dashboard_url[0].includes('https://')
+        touchpoint.dashboard_url.length > 0 &&
+        !touchpoint.dashboard_url[0].url.includes('https://')
       ) {
         errors.push({
           dataPath: `The stage '${stage.title}', in touchpoint ${touchpoint.title}, in dashboard_url at position 1, `,
-          message: `the URL must match with new relic domain`
+          message: `the URL must match with new https domain`
         });
       }
       if (touchpoint.related_steps !== '') {

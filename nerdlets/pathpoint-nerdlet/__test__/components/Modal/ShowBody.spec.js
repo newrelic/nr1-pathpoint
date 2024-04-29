@@ -25,6 +25,7 @@ describe('ShowBody component', () => {
   test('ShowBody with default data in 0 view', () => {
     const body = create(
       <ShowBody
+        handleContinueUAMButton={jest.fn()}
         GetCurrentHistoricErrorScript={jest.fn()}
         GetCurrentConfigurationJSON={jest.fn()}
         SetConfigurationJSON={jest.fn()}

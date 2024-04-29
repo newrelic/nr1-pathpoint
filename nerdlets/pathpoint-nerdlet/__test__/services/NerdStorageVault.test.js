@@ -1,54 +1,35 @@
 import NerdStorageVault from '../../services/NerdStorageVault';
-import { NerdGraphQuery, NerdGraphMutation } from 'nr1';
 
 jest.mock(
   'nr1',
   () => {
-    const NerdGraphQuery = {
-      query: jest.fn().mockImplementation(async ({ error, data }) => {
-        if (error) {
-          const errors = [];
-          await new Promise((resolve, reject) => {
-            errors.push('Unexpected query');
-            return reject(errors);
-          });
-        } else if (data) {
-          let dataReturn = {};
-          await new Promise(resolve => {
-            dataReturn = {
-              data: {
-                actor: {
-                  nerdStorageVault: {
-                    secrets: [
-                      {
-                        _typename: 'NerdStorageVaultSecret',
-                        key: 'TEST',
-                        value: 'test123'
-                      },
-                      {
-                        _typename: 'NerdStorageVaultSecret',
-                        key: 'api_token',
-                        value: 'token'
-                      }
-                    ]
-                  }
-                }
-              }
-            };
-            return resolve();
-          });
-          return dataReturn;
-        }
-      })
-    };
-    const NerdGraphMutation = {
+    const AccountStorageMutation = {
+      ACTION_TYPE: { WRITE_DOCUMENT: 'WRITE_DATA' },
       mutate: jest.fn().mockImplementation(() => {
         return { data: {} };
       })
     };
+    const AccountStorageQuery = {
+      query: jest
+        .fn()
+        .mockImplementation(({ accountId, collection, documentId }) => {
+          switch (collection) {
+            case 'pathpoint': {
+              switch (documentId) {
+                case 'ingestLicense':
+                  return { data: { value: 'xxx-yyy-zzz-www' } };
+                case 'userAPIKey':
+                  return { data: { value: 'uuu-www-zzz-qqq' } };
+              }
+              break;
+            }
+          }
+          return accountId;
+        })
+    };
     return {
-      NerdGraphQuery: NerdGraphQuery,
-      NerdGraphMutation: NerdGraphMutation
+      AccountStorageQuery: AccountStorageQuery,
+      AccountStorageMutation: AccountStorageMutation
     };
   },
   { virtual: true }
@@ -60,77 +41,30 @@ describe('NerdStorageVault', () => {
   });
 
   it('Function getCredentialsData()', async () => {
-    const data = [
-      {
-        _typename: 'NerdStorageVaultSecret',
-        key: 'TEST',
-        value: 'test123'
-      },
-      {
-        _typename: 'NerdStorageVaultSecret',
-        key: 'api_token',
-        value: 'token'
-      }
-    ];
-    const error = null;
-    jest
-      .spyOn(NerdGraphQuery, 'query')
-      .mockImplementationOnce(() => Promise.resolve({ error, data }));
-    await nerdStorageVault.getCredentialsData();
+    const credentials = await nerdStorageVault.getCredentialsData();
+    expect(credentials).toEqual({
+      ingestLicense: 'xxx-yyy-zzz-www',
+      userAPIKey: 'uuu-www-zzz-qqq'
+    });
   });
 
-  it('Function getCredentialsData() with error', async () => {
-    const data = [
-      {
-        _typename: 'NerdStorageVaultSecret',
-        key: 'TEST',
-        value: 'test123'
-      },
-      {
-        _typename: 'NerdStorageVaultSecret',
-        key: 'api_token',
-        value: 'token'
-      }
-    ];
-    const error = 'Network Error';
-    jest
-      .spyOn(NerdGraphQuery, 'query')
-      .mockImplementationOnce(() => Promise.resolve({ error, data }));
-    await expect(nerdStorageVault.getCredentialsData()).rejects.toThrow(
-      'Network Error'
-    );
-  });
-
-  it('Function getCredentialsData() with no data', async () => {
-    const error = 'Network Error';
-    jest
-      .spyOn(NerdGraphQuery, 'query')
-      .mockImplementationOnce(() => Promise.resolve(new Error(error)));
-    await nerdStorageVault.getCredentialsData();
-  });
-
-  it('Function storeCredentialData()', async () => {
-    const keySend = 'TEST';
+  it('Function storeCredentialData() insert ingestLicense', async () => {
+    const keySend = 'ingestLicense';
     const valueSend = 'test123';
-    const data = {
-      data: {
-        nerdStorageVaultWriteSecret: {
-          status: 'SUCCESS'
-        }
-      }
-    };
-    jest
-      .spyOn(NerdGraphMutation, 'mutate')
-      .mockImplementationOnce(() => Promise.resolve(data));
+    nerdStorageVault.storeIngestKey = await jest.fn();
+    nerdStorageVault.storeUserKey = await jest.fn();
     await nerdStorageVault.storeCredentialData(keySend, valueSend);
+    expect(nerdStorageVault.storeIngestKey).toHaveBeenCalledTimes(1);
+    expect(nerdStorageVault.storeUserKey).toHaveBeenCalledTimes(0);
   });
 
-  it('Function storeCredentialData() with catch', async () => {
-    const keySend = 'TEST';
+  it('Function storeCredentialData() insert userAPIKey', async () => {
+    const keySend = 'userAPIKey';
     const valueSend = 'test123';
-    jest.spyOn(NerdGraphMutation, 'mutate').mockRejectedValue(Error('error'));
-    await expect(
-      nerdStorageVault.storeCredentialData(keySend, valueSend)
-    ).rejects.toThrow('error');
+    nerdStorageVault.storeIngestKey = await jest.fn();
+    nerdStorageVault.storeUserKey = await jest.fn();
+    await nerdStorageVault.storeCredentialData(keySend, valueSend);
+    expect(nerdStorageVault.storeIngestKey).toHaveBeenCalledTimes(0);
+    expect(nerdStorageVault.storeUserKey).toHaveBeenCalledTimes(1);
   });
 });

@@ -5,6 +5,7 @@
 // IMPORT LIBRARIES DEPENDENCIES
 import NerdletData from '../../../nr1.json';
 import TouchPoints from '../config/touchPoints.json';
+import Setup from '../config/setup.json';
 import Canary from '../config/canary_states.json';
 import ViewData from '../config/view.json';
 import appPackage from '../../../package.json';
@@ -17,6 +18,7 @@ import {
   NerdGraphQuery,
   logger
 } from 'nr1';
+import AlertIssues from './AlertTouchpoints';
 
 import LogConnector from './LogsConnector';
 import SynConnector from './SynConnector';
@@ -85,7 +87,7 @@ export function TimeRangeTransform(pointInTime, sinceClause) {
 }
 
 // DEFINE THE REGULAR EXPRESION FOR MEASURE TIME
-const regex_measure_time = /^((180|1[0-7][0-9]|[1-9][0-9]|[1-9])[\s]+minute[s]?|[1-3][\s]+hour[s]?)[\s]+ago/i;
+const regex_measure_time = /^((180|1[0-7][0-9]|[1-9][0-9]|[1-9])[\s]+minute[s]?|([1-9]|[1-9][1-9]|[1-9][1-9][1-9])[\s]+hour[s]?)[\s]+ago/i;
 export { regex_measure_time };
 
 // DEFINE AND EXPORT CLASS
@@ -93,10 +95,10 @@ export default class DataManager {
   constructor(useEmulator) {
     this.useEmulator = useEmulator;
     this.timeRange = '5 MINUTES AGO';
-    this.NerdStorageVault = new NerdStorageVault();
     this.LogConnector = new LogConnector();
     this.SynConnector = new SynConnector();
     this.CredentialConnector = new CredentialConnector();
+    this.AlertIssues = new AlertIssues();
     this.SecureCredentialsExist = false;
     this.minPercentageError = 100;
     this.historicErrorsHours = 192;
@@ -116,6 +118,8 @@ export default class DataManager {
     this.credentials = {};
     this.generalConfiguration = {};
     this.dataCanary = Canary;
+    this.setupReload = 0;
+    this.lastSetupReload = null;
     this.configuration = {
       pathpointVersion: null,
       kpis: [],
@@ -132,7 +136,9 @@ export default class DataManager {
       'Drops-Count',
       'API-Performance',
       'API-Count',
-      'API-Status'
+      'API-Status',
+      'Alert-Check',
+      'Value-Performance'
     ];
     this.accountIDs = [
       {
@@ -141,31 +147,43 @@ export default class DataManager {
       }
     ];
     this.detaultTimeout = 10;
+    this.timeRefresh = Setup.time_refresh;
+    this.alertsRefreshDelay = ViewData.alertsRefreshDelay ?? 5;
+    this.alertsTimeWindow = ViewData.alertsTimeWindow ?? 120;
+    this.measureAlertTouchpoints = false; // no carga la primera vez, para que el loading sea mas rapido
+    this.alertTouchpointsErrorCount = [];
+  }
+
+  async ClearStagesInterface() {
+    await AccountStorageMutation.mutate({
+      accountId: this.accountId,
+      actionType: AccountStorageMutation.ACTION_TYPE.DELETE_DOCUMENT,
+      collection: 'pathpoint',
+      documentId: 'StagesInterface'
+    });
   }
 
   async BootstrapInitialData(accountName) {
     await this.GetAccountId(accountName);
+    this.NerdStorageVault = new NerdStorageVault(this.accountId);
     logger.log('Accounts::');
     this.accountIDs.forEach(account => {
       logger.log(`AccountName:${account.name}   ID:${account.id} `);
     });
+    this.AlertIssues.SetAccountId(this.accountIDs);
     await this.CheckVersion();
     await this.GetCanaryData();
     await this.GetStorageHistoricErrorsParams();
     await this.GetStorageDropParams();
     this.credentials = await this.NerdStorageVault.getCredentialsData();
-    if (
-      this.credentials &&
-      this.credentials.actor.nerdStorageVault.secrets.length > 0
-    ) {
-      await this.TryToSetKeys(this.credentials.actor.nerdStorageVault.secrets);
-    }
+    await this.TryToSetKeys(this.credentials);
     await this.GetGeneralConfiguration();
     this.TryToEnableServices();
 
     // console.log('Last storage version: ' + this.lastStorageVersion);
 
     this.version = appPackage.version;
+    this.setupReload = appPackage.setupReload;
     /*
       After Pathpoint 1.5.1 we had no more breaking changes.
       We must NEVER allow breaking config changes in Pathpoint 1.x.x
@@ -179,13 +197,18 @@ export default class DataManager {
 
       For now this is okay...
     */
-    if (this.lastStorageVersion) {
-      // console.log('Re-using last stored configuration.');
+    // if (this.lastStorageVersion) {
+    this.SendToLogs({
+      action: 'start-pathpoint'
+    });
+    if (this.setupReload === this.lastSetupReload) {
+      logger.log('Re-using last stored configuration.');
       this.colors = ViewData.colors;
       await this.GetInitialDataFromStorage();
       await this.GetStorageTouchpoints();
     } else {
-      // console.log('No Previous configuration found.  Loading demo config.');
+      logger.log('Loading demo config.');
+      await this.ClearStagesInterface();
       this.stages = ViewData.stages;
       this.colors = ViewData.colors;
       /* istanbul ignore next */
@@ -196,6 +219,13 @@ export default class DataManager {
     }
     this.AddCustomAccountIDs();
     this.stepsByStage = this.GetStepsByStage();
+    this.lensForm = await this.GetLensFormValues({
+      error: true,
+      response: true,
+      duration: false,
+      durationMin: 75,
+      status: 'disable'
+    });
     return {
       stages: [...this.stages],
       kpis: [...this.kpis],
@@ -205,34 +235,60 @@ export default class DataManager {
       totalContainers: this.SetTotalContainers(),
       accountIDs: this.accountIDs,
       credentials: this.credentials,
-      generalConfiguration: this.generalConfiguration
+      generalConfiguration: this.generalConfiguration,
+      alertsRefreshDelay: this.alertsRefreshDelay,
+      alertsTimeWindow: this.alertsTimeWindow,
+      lensForm: this.lensForm
     };
   }
 
-  async TryToSetKeys(secrets) {
+  async UpdateData(
+    timeRange,
+    city,
+    stages,
+    kpis,
+    timeRangeKpi,
+    alertsTimeWindow,
+    alertsRefreshDelay,
+    lensForm
+  ) {
+    if (this.accountId !== null) {
+      // console.log(`UPDATING-DATA: ${this.accountId}`);
+      this.alertsTimeWindow = alertsTimeWindow;
+      this.alertsRefreshDelay = alertsRefreshDelay;
+      this.timeRange = timeRange;
+      this.city = city;
+      this.stages = stages;
+      this.kpis = kpis;
+      this.timeRangeKpi = timeRangeKpi;
+      this.lensForm = lensForm;
+      await this.TouchPointsUpdate();
+      await this.UpdateMerchatKpi();
+      this.CalculateUpdates();
+      if (this.measureAlertTouchpoints) {
+        this.stages = await this.AlertIssues.Measure(
+          this.stages,
+          this.touchPoints,
+          alertsTimeWindow,
+          alertsRefreshDelay
+        );
+        this.CheckAlertTouchpointsErrorDuration();
+      }
+      this.measureAlertTouchpoints = true;
+      // console.log('FINISH-Update');
+      return {
+        stages: this.stages,
+        kpis: this.kpis
+      };
+    }
+  }
+
+  async TryToSetKeys(credentials) {
     // console.log('Secrets:',secrets);
     let licensekey = '';
     let userApiKey = '';
-    secrets.forEach(item => {
-      if (
-        item.key &&
-        item.key === 'ingestLicense' &&
-        item.value &&
-        item.value !== '_' &&
-        item.value.indexOf('xxxxxx') === -1
-      ) {
-        licensekey = item.value;
-      }
-      if (
-        item.key &&
-        item.key === 'userAPIKey' &&
-        item.value &&
-        item.value !== '_' &&
-        item.value.indexOf('xxxxxx') === -1
-      ) {
-        userApiKey = item.value;
-      }
-    });
+    if (credentials.ingestLicense) licensekey = credentials.ingestLicense;
+    if (credentials.userAPIKey) userApiKey = credentials.userAPIKey;
     if (licensekey !== '') {
       const valid = await this.ValidateIngestLicense(licensekey);
       if (valid) {
@@ -287,25 +343,6 @@ export default class DataManager {
       }
     });
     return total;
-  }
-
-  async UpdateData(timeRange, city, stages, kpis, timeRangeKpi) {
-    if (this.accountId !== null) {
-      // console.log(`UPDATING-DATA: ${this.accountId}`);
-      this.timeRange = timeRange;
-      this.city = city;
-      this.stages = stages;
-      this.kpis = kpis;
-      this.timeRangeKpi = timeRangeKpi;
-      await this.TouchPointsUpdate();
-      await this.UpdateMerchatKpi();
-      this.CalculateUpdates();
-      // console.log('FINISH-Update');
-      return {
-        stages: this.stages,
-        kpis: this.kpis
-      };
-    }
   }
 
   async GetAccountId(accountName) {
@@ -400,6 +437,7 @@ export default class DataManager {
       });
       if (data) {
         this.lastStorageVersion = data.Version;
+        this.lastSetupReload = data.setupReload;
       }
     } catch (error) {
       /* istanbul ignore next */
@@ -417,6 +455,8 @@ export default class DataManager {
       if (data) {
         this.stages = data.ViewJSON;
         this.kpis = data.Kpis ?? [];
+        this.alertsRefreshDelay = data.AlertsRefreshDelay ?? 5;
+        this.alertsTimeWindow = data.AlertsTimeWindow ?? 120;
       }
     } catch (error) {
       /* istanbul ignore next */
@@ -433,9 +473,12 @@ export default class DataManager {
         documentId: 'newViewJSON',
         document: {
           ViewJSON: this.stages,
-          Kpis: this.kpis
+          Kpis: this.kpis,
+          AlertsTimeWindow: this.alertsTimeWindow,
+          AlertsRefreshDelay: this.alertsRefreshDelay
         }
       });
+      this.AlertIssues.ClearLastStagesStatus();
     } catch (error) {
       /* istanbul ignore next */
       throw new Error(error);
@@ -548,6 +591,7 @@ export default class DataManager {
         measure.status_value = 'NO-VALUE';
         break;
       case 'DRP':
+      case 'VAL':
         measure.value = 0;
         break;
       case 'APC':
@@ -776,7 +820,7 @@ export default class DataManager {
           return 0;
         }
         if (errors && errors.length > 0) {
-          // console.log('NRDB-Error:', errors);
+          logger.log('NRDB-Error:', errors);
         }
       }
       // console.log('DATA', JSON.stringify(data));
@@ -791,6 +835,7 @@ export default class DataManager {
               // const query = this.graphQlmeasures[Number(c[1])][1];
               // console.log('Query:',query);
               // console.log('Result',value);
+              measure.getNRDBvalues = false;
               if (
                 measure.type === 'PRC' &&
                 value.nrql !== null &&
@@ -801,7 +846,9 @@ export default class DataManager {
                   'session'
                 )
               ) {
+                measure.getNRDBvalues = true;
                 if (value.nrql.results[0].session == null) {
+                  measure.getNRDBvalues = false;
                   this.CheckIfResponseErrorCanBeSet(extraInfo, true);
                 }
                 measure.session_count = value.nrql.results[0].session;
@@ -815,7 +862,9 @@ export default class DataManager {
                   'count'
                 )
               ) {
+                measure.getNRDBvalues = true;
                 if (value.nrql.results[0].count == null) {
+                  measure.getNRDBvalues = false;
                   this.CheckIfResponseErrorCanBeSet(extraInfo, true);
                 }
                 measure.transaction_count = value.nrql.results[0].count;
@@ -830,10 +879,6 @@ export default class DataManager {
                 ) &&
                 Object.prototype.hasOwnProperty.call(
                   value.nrql.results[0],
-                  'score'
-                ) &&
-                Object.prototype.hasOwnProperty.call(
-                  value.nrql.results[0],
                   'response'
                 ) &&
                 Object.prototype.hasOwnProperty.call(
@@ -841,13 +886,17 @@ export default class DataManager {
                   'error'
                 )
               ) {
+                measure.getNRDBvalues = true;
                 if (
                   value.nrql.results[0].response === null ||
                   value.nrql.results[0].error === null
                 ) {
+                  measure.getNRDBvalues = false;
                   this.CheckIfResponseErrorCanBeSet(extraInfo, true);
                 }
-                measure.apdex_value = value.nrql.results[0].score;
+                measure.apdex_value = value.nrql.results[0].score
+                  ? value.nrql.results[0].score
+                  : value.nrql.results[0].apdex;
                 measure.response_value = value.nrql.results[0].response;
                 measure.error_percentage = value.nrql.results[0].error;
               } else if (
@@ -861,10 +910,6 @@ export default class DataManager {
                 ) &&
                 Object.prototype.hasOwnProperty.call(
                   value.nrql.results[0],
-                  'score'
-                ) &&
-                Object.prototype.hasOwnProperty.call(
-                  value.nrql.results[0],
                   'response'
                 ) &&
                 Object.prototype.hasOwnProperty.call(
@@ -872,13 +917,17 @@ export default class DataManager {
                   'error'
                 )
               ) {
+                measure.getNRDBvalues = true;
                 if (
                   value.nrql.results[0].response === null ||
                   value.nrql.results[0].error === null
                 ) {
+                  measure.getNRDBvalues = false;
                   this.CheckIfResponseErrorCanBeSet(extraInfo, true);
                 }
-                measure.apdex_value = value.nrql.results[0].score;
+                measure.apdex_value = value.nrql.results[0].score
+                  ? value.nrql.results[0].score
+                  : value.nrql.results[0].apdex;
                 measure.response_value = value.nrql.results[0].response;
                 measure.error_percentage = value.nrql.results[0].error;
               } else if (
@@ -899,11 +948,13 @@ export default class DataManager {
                   'request'
                 )
               ) {
+                measure.getNRDBvalues = true;
                 if (
                   value.nrql.results[0].success === null ||
                   value.nrql.results[0].duration === null ||
                   value.nrql.results[0].request === null
                 ) {
+                  measure.getNRDBvalues = false;
                   this.CheckIfResponseErrorCanBeSet(extraInfo, true);
                 }
                 measure.success_percentage = value.nrql.results[0].success;
@@ -919,12 +970,13 @@ export default class DataManager {
                   'statusValue'
                 )
               ) {
+                measure.getNRDBvalues = true;
                 if (value.nrql.results[0].statusValue == null) {
+                  measure.getNRDBvalues = false;
                   this.CheckIfResponseErrorCanBeSet(extraInfo, true);
                 }
                 measure.status_value = value.nrql.results[0].statusValue;
               } else if (
-                /* istanbul ignore next */
                 measure.type === 'DRP' &&
                 value.nrql !== null &&
                 value.nrql.results &&
@@ -934,11 +986,11 @@ export default class DataManager {
                   'count'
                 )
               ) {
-                /* istanbul ignore next */
+                measure.getNRDBvalues = true;
                 if (value.nrql.results[0].count == null) {
+                  measure.getNRDBvalues = false;
                   this.CheckIfResponseErrorCanBeSet(extraInfo, true);
                 }
-                /* istanbul ignore next */
                 measure.value = value.nrql.results[0].count;
               } else if (
                 measure.type === 'APC' &&
@@ -950,7 +1002,9 @@ export default class DataManager {
                   'count'
                 )
               ) {
+                measure.getNRDBvalues = true;
                 if (value.nrql.results[0].count == null) {
+                  measure.getNRDBvalues = false;
                   this.CheckIfResponseErrorCanBeSet(extraInfo, true);
                 }
                 measure.api_count = value.nrql.results[0].count;
@@ -965,10 +1019,6 @@ export default class DataManager {
                 ) &&
                 Object.prototype.hasOwnProperty.call(
                   value.nrql.results[0],
-                  'score'
-                ) &&
-                Object.prototype.hasOwnProperty.call(
-                  value.nrql.results[0],
                   'response'
                 ) &&
                 Object.prototype.hasOwnProperty.call(
@@ -976,13 +1026,17 @@ export default class DataManager {
                   'error'
                 )
               ) {
+                measure.getNRDBvalues = true;
                 if (
                   value.nrql.results[0].response === null ||
                   value.nrql.results[0].error === null
                 ) {
+                  measure.getNRDBvalues = false;
                   this.CheckIfResponseErrorCanBeSet(extraInfo, true);
                 }
-                measure.apdex_value = value.nrql.results[0].score;
+                measure.apdex_value = value.nrql.results[0].score
+                  ? value.nrql.results[0].score
+                  : value.nrql.results[0].apdex;
                 measure.response_value = value.nrql.results[0].response;
                 measure.error_percentage = value.nrql.results[0].error;
               } else if (
@@ -995,10 +1049,28 @@ export default class DataManager {
                   'percentage'
                 )
               ) {
+                measure.getNRDBvalues = true;
                 if (value.nrql.results[0].percentage == null) {
                   this.CheckIfResponseErrorCanBeSet(extraInfo, true);
+                  measure.getNRDBvalues = false;
                 }
                 measure.success_percentage = value.nrql.results[0].percentage;
+              } else if (
+                measure.type === 'VAL' &&
+                value.nrql !== null &&
+                value.nrql.results &&
+                value.nrql.results[0] &&
+                Object.prototype.hasOwnProperty.call(
+                  value.nrql.results[0],
+                  'value'
+                )
+              ) {
+                measure.getNRDBvalues = true;
+                if (value.nrql.results[0].value == null) {
+                  this.CheckIfResponseErrorCanBeSet(extraInfo, true);
+                  measure.getNRDBvalues = false;
+                }
+                measure.value = value.nrql.results[0].value;
               } else if (
                 measure.type === 100 &&
                 value.nrql != null &&
@@ -1045,6 +1117,7 @@ export default class DataManager {
                 }
               } else {
                 // the Touchpoint response is with ERROR
+                measure.getNRDBvalues = false;
                 this.CheckIfResponseErrorCanBeSet(extraInfo, true);
               }
             }
@@ -1069,6 +1142,7 @@ export default class DataManager {
   }
 
   CheckIfResponseErrorCanBeSet(extraInfo, status) {
+    // console.log('ExtraINFO:', extraInfo, 'STATUS:', status);
     if (extraInfo !== null) {
       if (extraInfo.measureType === 'touchpoint') {
         this.SetTouchpointResponseError(extraInfo.touchpointRef, status);
@@ -1154,6 +1228,7 @@ export default class DataManager {
           };
           break;
         case 100:
+        case 'VAL':
           measure_result = {
             value: this.EmulateValue(nrql[0].value)
           };
@@ -1419,6 +1494,44 @@ export default class DataManager {
     this.UpdateDropSteps(element);
   }
 
+  CheckAlertTouchpointsErrorDuration() {
+    for (let i = 0; i < this.stages.length; i++) {
+      this.stages[i].touchpoints.forEach(touchpoint => {
+        if (
+          touchpoint.type &&
+          touchpoint.type === 'ALE' &&
+          this.lensForm.duration &&
+          this.lensForm.status === 'enable'
+        ) {
+          if (touchpoint.error === true) {
+            const N = (this.lensForm.durationMin * 60000) / this.timeRefresh;
+            if (
+              this.alertTouchpointsErrorCount[`${i}-${touchpoint.value}`] ===
+              undefined
+            )
+              this.alertTouchpointsErrorCount[`${i}-${touchpoint.value}`] = [];
+            this.alertTouchpointsErrorCount[`${i}-${touchpoint.value}`].push(1);
+            if (
+              this.alertTouchpointsErrorCount[`${i}-${touchpoint.value}`]
+                .length < N
+            )
+              touchpoint.error = false;
+            if (
+              this.alertTouchpointsErrorCount[`${i}-${touchpoint.value}`]
+                .length >
+              2 * N
+            )
+              this.alertTouchpointsErrorCount[`${i}-${touchpoint.value}`].pop();
+          } else {
+            // RESET touchpoint list errors
+            this.alertTouchpointsErrorCount[`${i}-${touchpoint.value}`] = [];
+          }
+          // console.log('Touchpoint:[',touchpoint.value,']:',this.alertTouchpointsErrorCount[`${i}-${touchpoint.value}`].length);
+        }
+      });
+    }
+  }
+
   Getmeasures(touchpoints_by_country) {
     const tpc = [];
     while (tpc.length < this.stages.length) {
@@ -1588,48 +1701,92 @@ export default class DataManager {
         count_touchpoints += 1;
         touchpoint.measure_points.forEach(measure => {
           let setError = false;
-          if (
-            measure.type === 'PRC' &&
-            measure.session_count < measure.min_count
-          ) {
-            setError = true;
-          } else if (
-            measure.type === 'PCC' &&
-            measure.transaction_count < measure.min_count
-          ) {
-            setError = true;
+          if (measure.type === 'PRC') {
+            if (measure.session_count < measure.min_count) {
+              setError = this.ValidateDurationError(measure);
+            } else {
+              measure.errorCount = [];
+            }
+          } else if (measure.type === 'PCC') {
+            if (measure.transaction_count < measure.min_count) {
+              setError = this.ValidateDurationError(measure);
+            } else {
+              measure.errorCount = [];
+            }
           } else if (
             measure.type === 'APP' ||
             measure.type === 'FRT' ||
             measure.type === 'API'
           ) {
             if (
-              measure.error_percentage > measure.max_error_percentage ||
+              (this.lensForm.error &&
+                this.lensForm.status === 'enable' &&
+                measure.error_percentage > measure.max_error_percentage) ||
               measure.apdex_value < measure.min_apdex ||
-              measure.response_value > measure.max_response_time
+              (this.lensForm.response &&
+                this.lensForm.status === 'enable' &&
+                measure.response_value > measure.max_response_time)
             ) {
-              setError = true;
+              setError = this.ValidateDurationError(measure);
+            } else {
+              measure.errorCount = [];
             }
+            // ------------------------------------------------------
+            /*
+            // only to DEBUG
+            if (measure.errorCount === undefined) measure.errorCount = [];
+            const N = (this.lensForm.durationMin * 60000) / this.timeRefresh;
+            console.log('TYPE:', measure.type, 'SIZE[', N, ']:', measure.errorCount.length);
+            */
+            // -------------------------------------------------------
           } else if (measure.type === 'SYN') {
             if (
               measure.success_percentage < measure.min_success_percentage ||
-              measure.max_request_time > measure.max_avg_response_time ||
+              (this.lensForm.response &&
+                this.lensForm.status === 'enable' &&
+                measure.max_request_time > measure.max_avg_response_time) ||
               measure.max_duration > measure.max_total_check_time
             ) {
-              setError = true;
+              setError = this.ValidateDurationError(measure);
+            } else {
+              measure.errorCount = [];
             }
-          } else if (
-            measure.type === 'APC' &&
-            measure.api_count < measure.min_count
-          ) {
-            setError = true;
-          } else if (
-            measure.type === 'APS' &&
-            measure.success_percentage < measure.min_success_percentage
-          ) {
-            setError = true;
+          } else if (measure.type === 'APC') {
+            if (measure.api_count < measure.min_count) {
+              setError = this.ValidateDurationError(measure);
+            } else {
+              measure.errorCount = [];
+            }
+          } else if (measure.type === 'APS') {
+            if (measure.success_percentage < measure.min_success_percentage) {
+              setError = this.ValidateDurationError(measure);
+            } else {
+              measure.errorCount = [];
+            }
+          } else if (measure.type === 'WLD') {
+            if (
+              measure.status_value === 'DISRUPTED' ||
+              measure.status_value === 'UNKNOWN' ||
+              measure.status_value === 'NO-VALUE'
+            ) {
+              setError = this.ValidateDurationError(measure);
+            } else {
+              measure.errorCount = [];
+            }
+          } else if (measure.type === 'VAL') {
+            if (measure.value > measure.max_value) {
+              setError = this.ValidateDurationError(measure);
+            } else {
+              measure.errorCount = [];
+            }
           }
-          if (setError) {
+          // SOLO para depurar
+          // -----------------------------------------------------------------------------
+          // if (measure.errorCount === undefined) measure.errorCount = [];
+          // const N = (this.lensForm.durationMin * 60000) / this.timeRefresh;
+          // console.log('TYPE:', measure.type,'SIZE[', N, ']:', measure.errorCount.length);
+          // -----------------------------------------------------------------------------
+          if (measure.getNRDBvalues && setError) {
             touchpoint.relation_steps.forEach(rel => {
               steps_with_error[rel - 1] = 1;
             });
@@ -1654,6 +1811,20 @@ export default class DataManager {
       return 'good';
     }
     return 'good';
+  }
+
+  ValidateDurationError(measure) {
+    let RESULT = false;
+    if (this.lensForm.duration && this.lensForm.status === 'enable') {
+      const N = (this.lensForm.durationMin * 60000) / this.timeRefresh;
+      if (measure.errorCount === undefined) measure.errorCount = [];
+      measure.errorCount.push(1);
+      if (measure.errorCount.length >= N) RESULT = true;
+      if (measure.errorCount.length > 2 * N) measure.errorCount.pop();
+    } else {
+      RESULT = true;
+    }
+    return RESULT;
   }
 
   SetTouchpointError(stage_index, touchpoint_index) {
@@ -1851,7 +2022,8 @@ export default class DataManager {
         collection: 'pathpoint',
         documentId: 'version',
         document: {
-          Version: this.version
+          Version: this.version,
+          setupReload: this.setupReload
         }
       });
     } catch (error) {
@@ -1897,6 +2069,8 @@ export default class DataManager {
     let multyQuery = null;
     let accountID = this.accountId;
     this.configuration.pathpointVersion = this.version;
+    this.configuration.alertsRefreshDelay = this.alertsRefreshDelay;
+    this.configuration.alertsTimeWindow = this.alertsTimeWindow;
     this.configuration.kpis.length = 0;
     for (let i = 0; i < this.kpis.length; i++) {
       accountID = this.accountId;
@@ -2189,6 +2363,38 @@ export default class DataManager {
                       : 0
                   };
                 }
+              } else if (measure.type === 'ALE') {
+                queryMeasure = {
+                  accountID: accountID,
+                  query: measure.query,
+                  query_timeout: timeout,
+                  type: this.measureNames[10],
+                  alertConditionId: measure.alertConditionId,
+                  priority: measure.priority,
+                  state: measure.state
+                };
+                if (withValues) {
+                  queryMeasure = {
+                    ...queryMeasure,
+                    createdAt: measure.createdAt ? measure.createdAt : 0,
+                    totalIncidents: measure.totalIncidents
+                      ? measure.totalIncidents
+                      : 0,
+                    title: measure.title ? measure.title : ''
+                  };
+                }
+              } else if (measure.type === 'VAL') {
+                queryMeasure = {
+                  ...queryMeasure,
+                  type: this.measureNames[11],
+                  max_value: measure.max_value
+                };
+                if (withValues) {
+                  queryMeasure = {
+                    ...queryMeasure,
+                    value: measure.value ? measure.value : 0
+                  };
+                }
               }
               queries.push(queryMeasure);
             });
@@ -2209,6 +2415,7 @@ export default class DataManager {
       error: false,
       json_file: configuration
     };
+    this.AlertIssues.ClearLastStagesStatus();
     this.SendToLogs(logRecord);
     return {
       stages: this.stages,
@@ -2285,6 +2492,12 @@ export default class DataManager {
       }
       this.kpis.push(ikpi);
     });
+    this.alertsRefreshDelay = this.configurationJSON.alertsRefreshDelay
+      ? this.configurationJSON.alertsRefreshDelay
+      : 5;
+    this.alertsTimeWindow = this.configurationJSON.alertsTimeWindow
+      ? this.configurationJSON.alertsTimeWindow
+      : 120;
     this.configurationJSON.stages.forEach(stage => {
       stageDef = {
         index: stageIndex,
@@ -2353,6 +2566,8 @@ export default class DataManager {
           error: false,
           history_error: false,
           countrys: [0],
+          type: tp.queries[0].type === 'Alert-Check' ? 'ALE' : '',
+          alertId: '',
           dashboard_url: tp.dashboard_url,
           relation_steps: tp.related_steps.split(',')
         };
@@ -2503,14 +2718,29 @@ export default class DataManager {
               min_success_percentage: query.min_success_percentage,
               success_percentage: 0
             };
+          } else if (query.type === this.measureNames[10]) {
+            measure = {
+              type: 'ALE',
+              query: query.query,
+              timeout: query_timeout,
+              alertConditionId: query.alertConditionId,
+              priority: query.priority,
+              state: query.state,
+              createdAt: 0,
+              totalIncidents: 0,
+              title: ''
+            };
+          } else if (query.type === this.measureNames[11]) {
+            measure = {
+              type: 'VAL',
+              query: query.query,
+              timeout: query_timeout,
+              measure_time: query_measure_time,
+              max_value: query.max_value,
+              value: 0
+            };
           }
           measure = { accountID: query.accountID, ...measure };
-          /*
-           if (query.measure_time !== TimeRangeTransform(this.timeRange)) {
-            measure = { ...measure, measure_time: query.measure_time };
-          }
-          JIM HAGAN
-          */
           tpDef2.measure_points.push(measure);
         });
         stageDef.touchpoints.push(tpDef);
@@ -2613,6 +2843,11 @@ export default class DataManager {
     this.touchPointsCopy = JSON.parse(JSON.stringify(this.touchPoints));
   }
 
+  GetCurrentHistoricErrorScript_v2() {
+    const data = JSON.stringify(this.touchPoints);
+    return data;
+  }
+
   GetCurrentHistoricErrorScript() {
     // console.log('Synthetic-AccountID:', this.SyntheticAccountID);
     const data = historicErrorScript(this.pathpointId);
@@ -2631,7 +2866,7 @@ export default class DataManager {
     }
     const response = `
     ${data.header}
-    ${this.InserTouchpointsToScript()}
+    ${this.InserTouchpointsToScript_v2()}
     ${data.footer}`;
     return response;
   }
@@ -2809,6 +3044,110 @@ export default class DataManager {
     return data;
   }
 
+  InserTouchpointsToScript_v2() {
+    let totalTouchpoints = 0;
+    const tp_per_group = 20;
+    let newgroup = false;
+    let data = `
+    const touchpoints = [`;
+    this.touchPoints.some(element => {
+      let found = false;
+      if (element.index === this.city) {
+        let first_item = true;
+        element.touchpoints.forEach(touchpoint => {
+          if (touchpoint.status_on_off) {
+            totalTouchpoints++;
+            /* istanbul ignore next */
+            if (first_item) {
+              if (newgroup) {
+                data += `,`;
+              }
+              data += `
+      [`;
+              first_item = false;
+            } else {
+              data += `,`;
+            }
+            data += `
+        {
+          stage_index: ${touchpoint.stage_index},
+          stage_name: '${this.GetStageName(touchpoint.stage_index)}',
+          touchpoint_name: '${touchpoint.value}',
+          touchpoint_index: ${touchpoint.touchpoint_index},
+          type: '${touchpoint.measure_points[0].type}',
+          measure: {
+              ${this.GetAllEntries(touchpoint.measure_points[0])}
+          }
+        }`;
+            /* istanbul ignore next */
+            if (totalTouchpoints % tp_per_group === 0) {
+              first_item = true;
+              newgroup = true;
+              data += `
+      ]`;
+            }
+          }
+        });
+        found = true;
+      }
+      return found;
+    });
+    /* istanbul ignore next */
+    if (totalTouchpoints % tp_per_group === 0) {
+      data += `
+    ];`;
+    } else {
+      data += `
+      ]
+    ];`;
+    }
+    return data;
+  }
+
+  GetStageName(stage_index) {
+    const stage = this.stages.find(item => item.index === stage_index);
+    if (stage) {
+      return stage.title;
+    }
+    return 'NOT-FOUND';
+  }
+
+  GetAllEntries(measure_point) {
+    const explideEntries = [
+      'results',
+      'type',
+      'timeout',
+      'success_percentage',
+      'errorCount',
+      'status_value',
+      'response_value',
+      'apdex_value',
+      'error_percentage',
+      'transaction_count',
+      'value'
+    ];
+    let attributes = '';
+    const entries = Object.entries(measure_point);
+    entries.forEach(entry => {
+      if (!explideEntries.includes(entry[0])) {
+        attributes += `${entry[0]}: ${
+          typeof entry[1] === 'number'
+            ? entry[1]
+            : `"${this.TransformEntryData(entry[0], entry[1])}"`
+        },
+          `;
+      }
+    });
+    return attributes;
+  }
+
+  TransformEntryData(name, data) {
+    if (name === 'query') {
+      return data.replace(/(\r\n|\n|\r)/gm, ' ');
+    }
+    return data;
+  }
+
   UpdateTouchpointOnOff(touchpoint, updateStorage) {
     this.touchPoints.some(element => {
       let found = false;
@@ -2840,6 +3179,7 @@ export default class DataManager {
       }
       return found;
     });
+    this.AlertIssues.ClearLastStagesStatus();
   }
 
   GetTouchpointTune(touchpoint) {
@@ -3009,6 +3349,30 @@ export default class DataManager {
                   query_footer2: this.GetDisplayMeasureTime(measure),
                   timeout: measure.timeout
                 });
+              } else if (measure.type === 'ALE') {
+                datos.push({
+                  accountID: accountID,
+                  label: this.measureNames[10],
+                  value: actualValue,
+                  type: 'ALE',
+                  query_start: '',
+                  query_body: '',
+                  query_footer: '',
+                  query_footer2: '',
+                  timeout: measure.timeout
+                });
+              } else if (measure.type === 'VAL') {
+                datos.push({
+                  accountID: accountID,
+                  label: this.measureNames[11],
+                  value: actualValue,
+                  type: 'VAL',
+                  query_start: '',
+                  query_body: measure.query,
+                  query_footer: this.ValidateMeasureTime(measure),
+                  query_footer2: this.GetDisplayMeasureTime(measure),
+                  timeout: measure.timeout
+                });
               }
               actualValue++;
             });
@@ -3096,6 +3460,9 @@ export default class DataManager {
                   datos.min_success_percentage
                 );
                 break;
+              case 'VAL':
+                tp.measure_points[0].max_value = parseFloat(datos.max_value);
+                break;
             }
             this.SetStorageTouchpoints();
           }
@@ -3104,6 +3471,7 @@ export default class DataManager {
       }
       return found;
     });
+    this.AlertIssues.ClearLastStagesStatus();
   }
 
   UpdateTouchpointQuerys(touchpoint, datos) {
@@ -3143,6 +3511,7 @@ export default class DataManager {
       }
       return found;
     });
+    this.AlertIssues.ClearLastStagesStatus();
   }
 
   UpdateMeasure(data, measure_points) {
@@ -3272,7 +3641,7 @@ export default class DataManager {
     ) {
       const check = await this.ValidateIngestLicense(credentials.ingestLicense);
       if (check) {
-        this.NerdStorageVault.storeCredentialData(
+        await this.NerdStorageVault.storeCredentialData(
           'ingestLicense',
           credentials.ingestLicense
         );
@@ -3287,7 +3656,7 @@ export default class DataManager {
     ) {
       const check = await this.ValidateUserApiKey(credentials.userAPIKey);
       if (check) {
-        this.NerdStorageVault.storeCredentialData(
+        await this.NerdStorageVault.storeCredentialData(
           'userAPIKey',
           credentials.userAPIKey
         );
@@ -3297,9 +3666,9 @@ export default class DataManager {
     }
   }
 
-  ResetCredentialsInVault() {
-    this.NerdStorageVault.storeCredentialData('ingestLicense', '_');
-    this.NerdStorageVault.storeCredentialData('userAPIKey', '_');
+  async ResetCredentialsInVault() {
+    await this.NerdStorageVault.storeCredentialData('ingestLicense', '');
+    await this.NerdStorageVault.storeCredentialData('userAPIKey', '');
     this.CredentialConnector.DeleteCredentials();
   }
 
@@ -3384,6 +3753,10 @@ export default class DataManager {
       if (data) {
         historic = [...data.historic];
       }
+      //  console.log('HISTORIC:', historic);
+      historic.sort(function(a, b) {
+        return new Date(b.jsonMetaData.date) - new Date(a.jsonMetaData.date);
+      });
       return historic;
     } catch (error) {
       /* istanbul ignore next */
@@ -3400,8 +3773,19 @@ export default class DataManager {
         documentId: 'JSONDataInHistoric'
       });
       let historic = [];
+      let revision = 0;
       if (data) {
         historic = [...data.historic];
+        if (historic.length > 999) {
+          historic.shift(); // remove the oldest document
+        }
+        if (Reflect.has(data, 'revision')) {
+          revision = Number(data.revision);
+        }
+      }
+      if (payload.jsonMetaData.filename === 'system update') {
+        revision += 1;
+        payload.jsonMetaData.filename = `system update RV:${revision}`;
       }
       historic.push(payload);
       AccountStorageMutation.mutate({
@@ -3410,8 +3794,82 @@ export default class DataManager {
         collection: 'pathpoint',
         documentId: 'JSONDataInHistoric',
         document: {
-          historic
+          historic,
+          revision
         }
+      });
+    } catch (error) {
+      /* istanbul ignore next */
+      throw new Error(error);
+    }
+  }
+
+  async GetUserAccessInfo() {
+    try {
+      const { data } = await AccountStorageQuery.query({
+        accountId: this.accountId,
+        collection: 'pathpoint',
+        documentId: 'userAccessInfo'
+      });
+      if (data) {
+        return data.userAccessInfo;
+      }
+      return [];
+    } catch (error) {
+      /* istanbul ignore next */
+      throw new Error(error);
+    }
+  }
+
+  SetUserAccessInfo(userAccessInfo) {
+    try {
+      AccountStorageMutation.mutate({
+        accountId: this.accountId,
+        actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
+        collection: 'pathpoint',
+        documentId: 'userAccessInfo',
+        document: {
+          userAccessInfo
+        }
+      });
+    } catch (error) {
+      /* istanbul ignore next */
+      throw new Error(error);
+    }
+  }
+
+  async GetLensFormValues(lensData) {
+    try {
+      const { data } = await AccountStorageQuery.query({
+        accountId: this.accountId,
+        collection: 'pathpoint',
+        documentId: 'LensDataX'
+      });
+      if (data) {
+        return data.lensForm;
+      }
+      return lensData;
+    } catch (error) {
+      /* istanbul ignore next */
+      throw new Error(error);
+    }
+  }
+
+  SetLensFormValues(data) {
+    try {
+      AccountStorageMutation.mutate({
+        accountId: this.accountId,
+        actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
+        collection: 'pathpoint',
+        documentId: 'LensDataX',
+        document: {
+          lensForm: data
+        }
+      });
+      this.AlertIssues.ClearLastStagesStatus();
+      this.SendToLogs({
+        action: 'set-lens-values',
+        ...data
       });
     } catch (error) {
       /* istanbul ignore next */

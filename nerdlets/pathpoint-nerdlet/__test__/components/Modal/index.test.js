@@ -6,6 +6,7 @@ describe('<Modal/>', () => {
   it('Render default values', () => {
     const modal = mount(
       <Modal
+        handleContinueUAMButton={jest.fn()}
         updateNewGui={jest.fn()}
         errorsList={[]}
         configuration={null}
@@ -61,6 +62,7 @@ describe('<Modal/>', () => {
     const onClose = jest.fn();
     const modal = shallow(
       <Modal
+        handleContinueUAMButton={jest.fn()}
         updateNewGui={jest.fn()}
         errorsList={[]}
         configuration={null}
@@ -116,6 +118,7 @@ describe('<Modal/>', () => {
   it('Render default values 3', () => {
     const modal = mount(
       <Modal
+        handleContinueUAMButton={jest.fn()}
         updateNewGui={jest.fn()}
         errorsList={[]}
         configuration={null}

@@ -86,6 +86,8 @@ describe('<ShowBody/>', () => {
         currentHistoricSelected={null}
         RestoreJSONFromHistoric={jest.fn()}
         username="PathPoint"
+        handleContinueUAMButton={jest.fn()}
+        HandleUAMkeyFormChange={jest.fn()}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -157,6 +159,8 @@ describe('<ShowBody/>', () => {
         currentHistoricSelected={null}
         RestoreJSONFromHistoric={jest.fn()}
         username="PathPoint"
+        handleContinueUAMButton={jest.fn()}
+        HandleUAMkeyFormChange={jest.fn()}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -224,6 +228,8 @@ describe('<ShowBody/>', () => {
         currentHistoricSelected={null}
         RestoreJSONFromHistoric={jest.fn()}
         username="PathPoint"
+        handleContinueUAMButton={jest.fn()}
+        HandleUAMkeyFormChange={jest.fn()}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -289,6 +295,8 @@ describe('<ShowBody/>', () => {
         currentHistoricSelected={null}
         RestoreJSONFromHistoric={jest.fn()}
         username="PathPoint"
+        handleContinueUAMButton={jest.fn()}
+        HandleUAMkeyFormChange={jest.fn()}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -359,6 +367,8 @@ describe('<ShowBody/>', () => {
         currentHistoricSelected={null}
         RestoreJSONFromHistoric={jest.fn()}
         username="PathPoint"
+        handleContinueUAMButton={jest.fn()}
+        HandleUAMkeyFormChange={jest.fn()}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -413,6 +423,8 @@ describe('<ShowBody/>', () => {
         currentHistoricSelected={null}
         RestoreJSONFromHistoric={jest.fn()}
         username="PathPoint"
+        handleContinueUAMButton={jest.fn()}
+        HandleUAMkeyFormChange={jest.fn()}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -469,6 +481,8 @@ describe('<ShowBody/>', () => {
         currentHistoricSelected={null}
         RestoreJSONFromHistoric={jest.fn()}
         username="PathPoint"
+        handleContinueUAMButton={jest.fn()}
+        HandleUAMkeyFormChange={jest.fn()}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -525,6 +539,8 @@ describe('<ShowBody/>', () => {
         currentHistoricSelected={null}
         RestoreJSONFromHistoric={jest.fn()}
         username="PathPoint"
+        handleContinueUAMButton={jest.fn()}
+        HandleUAMkeyFormChange={jest.fn()}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -586,6 +602,8 @@ describe('<ShowBody/>', () => {
         currentHistoricSelected={null}
         RestoreJSONFromHistoric={jest.fn()}
         username="PathPoint"
+        handleContinueUAMButton={jest.fn()}
+        HandleUAMkeyFormChange={jest.fn()}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -640,6 +658,8 @@ describe('<ShowBody/>', () => {
         currentHistoricSelected={null}
         RestoreJSONFromHistoric={jest.fn()}
         username="PathPoint"
+        handleContinueUAMButton={jest.fn()}
+        HandleUAMkeyFormChange={jest.fn()}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -696,6 +716,8 @@ describe('<ShowBody/>', () => {
         currentHistoricSelected={null}
         RestoreJSONFromHistoric={jest.fn()}
         username="PathPoint"
+        handleContinueUAMButton={jest.fn()}
+        HandleUAMkeyFormChange={jest.fn()}
       />
     );
     expect(bodyRender.length).toEqual(1);
@@ -752,6 +774,8 @@ describe('<ShowBody/>', () => {
         currentHistoricSelected={null}
         RestoreJSONFromHistoric={jest.fn()}
         username="PathPoint"
+        handleContinueUAMButton={jest.fn()}
+        HandleUAMkeyFormChange={jest.fn()}
       />
     );
     bodyRender.instance().handleOnChange({
@@ -815,6 +839,8 @@ describe('<ShowBody/>', () => {
         currentHistoricSelected={null}
         RestoreJSONFromHistoric={jest.fn()}
         username="PathPoint"
+        handleContinueUAMButton={jest.fn()}
+        HandleUAMkeyFormChange={jest.fn()}
       />
     );
     bodyRender.instance().handleSubmitLogo({
@@ -875,6 +901,8 @@ describe('<ShowBody/>', () => {
         currentHistoricSelected={null}
         RestoreJSONFromHistoric={jest.fn()}
         username="PathPoint"
+        handleContinueUAMButton={jest.fn()}
+        HandleUAMkeyFormChange={jest.fn()}
       />
     );
     bodyRender.instance().handleSubmitTune({
@@ -935,6 +963,8 @@ describe('<ShowBody/>', () => {
         currentHistoricSelected={null}
         RestoreJSONFromHistoric={jest.fn()}
         username="PathPoint"
+        handleContinueUAMButton={jest.fn()}
+        HandleUAMkeyFormChange={jest.fn()}
       />
     );
     bodyRender.instance().handleSubmitSupport({
@@ -995,6 +1025,8 @@ describe('<ShowBody/>', () => {
         currentHistoricSelected={null}
         RestoreJSONFromHistoric={jest.fn()}
         username="PathPoint"
+        handleContinueUAMButton={jest.fn()}
+        HandleUAMkeyFormChange={jest.fn()}
       />
     );
     bodyRender.instance().handleSubmitSupport({
@@ -1055,6 +1087,8 @@ describe('<ShowBody/>', () => {
         currentHistoricSelected={null}
         RestoreJSONFromHistoric={jest.fn()}
         username="PathPoint"
+        handleContinueUAMButton={jest.fn()}
+        HandleUAMkeyFormChange={jest.fn()}
       />
     );
     bodyRender.instance().handleSubmitSupport({

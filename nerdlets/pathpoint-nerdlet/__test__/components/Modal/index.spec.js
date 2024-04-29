@@ -6,6 +6,7 @@ describe('Modal component', () => {
   test('Modal with default data', () => {
     const modal = create(
       <Modal
+        handleContinueUAMButton={jest.fn()}
         updateNewGui={jest.fn()}
         errorsList={[]}
         configuration={null}

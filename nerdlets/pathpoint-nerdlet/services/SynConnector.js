@@ -56,6 +56,34 @@ export default class SynConnector {
     this.FlameStatus = status;
   }
 
+  async UpdateFlameMonitor(encodedScript) {
+    if (
+      !this.FlameStatus ||
+      this.userApiKey === '' ||
+      this.ingestLicense === ''
+    ) {
+      return 0;
+    }
+    const { searchResult, monitorID, error } = await this.ExistFlameScript();
+    if (error) {
+      return 0;
+    }
+    let flameMonitorId = monitorID;
+    if (!searchResult) {
+      flameMonitorId = await this.CreateFlameScript();
+      if (!flameMonitorId) {
+        flameMonitorId = await this.CreateFlameScript();
+      }
+    }
+    let response = '';
+    if (flameMonitorId) {
+      response = await this.UpdateFlameScript(encodedScript, flameMonitorId);
+      if (response === 'ERROR') {
+        response = await this.UpdateFlameScript(encodedScript, flameMonitorId);
+      }
+    }
+  }
+
   SetFlameScript(scriptID, scriptName) {
     try {
       AccountStorageMutation.mutate({
@@ -71,46 +99,6 @@ export default class SynConnector {
     } catch (error) {
       /* istanbul ignore next */
       throw new Error(error);
-    }
-  }
-
-  async UpdateFlameMonitor(encodedScript) {
-    if (
-      !this.FlameStatus ||
-      this.userApiKey === '' ||
-      this.ingestLicense === ''
-    ) {
-      // console.log('No hay Credenciales para actualizar el script');
-      return 0;
-    }
-    const { searchResult, monitorID, error } = await this.ExistFlameScript();
-    if (error) {
-      // console.log('Se produjo un ERROR y no se pudo continuar');
-      return 0;
-    }
-    // console.log('UpdateMonitor:', searchResult, '::', monitorID);
-    let flameMonitorId = monitorID;
-    if (!searchResult) {
-      flameMonitorId = await this.CreateFlameScript();
-      if (!flameMonitorId) {
-        // intenta crearlo nuevamente
-        // console.log('Segundo Intento para crear Flame Script');
-        flameMonitorId = await this.CreateFlameScript();
-      }
-      // console.log('flameMonitorId:', flameMonitorId);
-    }
-    let response = '';
-    if (flameMonitorId) {
-      response = await this.UpdateFlameScript(encodedScript, flameMonitorId);
-      if (response === 'ERROR') {
-        // intenta una segunda vez
-        // console.log('Segundo Intento para actualizar Flame Script');
-        response = await this.UpdateFlameScript(encodedScript, flameMonitorId);
-      }
-    }
-    if (response === 204) {
-      // TODO informar al cliente que se termino de actualizar el script
-      // console.log('Synthetic Script was Updated.');
     }
   }
 
@@ -156,13 +144,13 @@ export default class SynConnector {
         }
       }
     } catch (error) {
-      throw new Error(error);
+      // throw new Error(error);
+      // console.log('ERROR CODE:', error);
     }
     return { searchResult, monitorID, error };
   }
 
   async CreateFlameScript() {
-    // console.log('Creating New Flame Script...');
     const FlameMonitor = {
       name: `Pathpoint-${this.pathpoint_id} Flame Script`,
       type: 'SCRIPT_API',

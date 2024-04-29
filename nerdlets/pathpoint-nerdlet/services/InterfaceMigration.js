@@ -40,7 +40,7 @@ export default class InterfaceMigration {
           title: stage.title,
           type: stage.type,
           active_dotted:
-            stage.arrowMode === 'STATIC' || previousDotted ? 'dashed' : 'none',
+            stage.arrowMode === 'STATIC' || previousDotted ? 'dotted' : 'none',
           arrowMode: stage.arrowMode,
           steps: steps,
           touchpoints: touchpoints
@@ -61,7 +61,7 @@ export default class InterfaceMigration {
         touchpoints.push({
           title: tp.title,
           status_on_off: tp.status_on_off,
-          dashboard_url: this.SetDashboard_url(tp.dashboard_url),
+          dashboard_url: tp.dashboard_url,
           related_steps: this.SetRelatedSteps(tp.subs, steps),
           queries: this.SetTouchpointQueries(tp.queryData)
         });
@@ -85,13 +85,6 @@ export default class InterfaceMigration {
     });
     data.kpis = [...Nkpis];
     return data;
-  }
-
-  SetDashboard_url(url) {
-    if (url === '') {
-      return false;
-    }
-    return [url];
   }
 
   SetRelatedSteps(subs, steps) {
@@ -161,7 +154,67 @@ export default class InterfaceMigration {
           min_success_percentage: Number(queryData.min_success_percentage)
         };
         break;
+      case 'Alert-Check':
+        qdata = {
+          ...qdata,
+          alertConditionId: this.ValidateAlertCondition(
+            queryData.alertConditionId
+          ),
+          priority: this.ValidatePriority(queryData.priority),
+          state: this.ValidateState(queryData.state)
+        };
+        break;
+      case 'Value-Performance':
+        qdata = {
+          ...qdata,
+          max_value: Number(queryData.max_value)
+        };
+        break;
     }
     return [qdata];
+  }
+
+  ValidateAlertCondition(alertConditionsIds) {
+    let result = alertConditionsIds;
+    if (typeof alertConditionsIds === 'string') {
+      const items = alertConditionsIds.split(',');
+      result = [];
+      items.forEach(item => {
+        if (!isNaN(Number(item.trim()))) {
+          result.push(Number(item.trim()));
+        }
+      });
+    }
+    return result;
+  }
+
+  ValidatePriority(priorityList) {
+    const acceptedValues = '--LOW--MEDIUM--HIGH--CRITICAL--';
+    let result = priorityList;
+    if (typeof priorityList === 'string') {
+      const items = priorityList.split(',');
+      result = [];
+      items.forEach(item => {
+        if (acceptedValues.includes(item.trim())) {
+          result.push(item.trim());
+        }
+      });
+    }
+    return result;
+  }
+
+  ValidateState(statesList) {
+    const acceptedValues = '--CREATED--ACTIVATED--DEACTIVATED--CLOSED--';
+    let result = statesList;
+    if (typeof statesList === 'string') {
+      const items = statesList.split(',');
+      result = [];
+      items.forEach(item => {
+        if (acceptedValues.includes(item.trim())) {
+          result.push(item.trim());
+        }
+      });
+    }
+    return result;
   }
 }

@@ -15,6 +15,8 @@ import canaryIconOn from '../../images/CanaryIconOn.svg';
 import goutIcon from '../../images/GoutIcon.svg';
 import goutIconOn from '../../images/goutBlack.svg';
 import setup from '../../images/setup.svg';
+import lensIconOn from '../../images/lens_icon_blue.svg';
+import lensIcon from '../../images/lens_icon_gris.svg';
 
 // New KPI Tool Components
 import RangeDateSelector from '../RangeTime';
@@ -44,7 +46,10 @@ const Header = ({
   accountId,
   guiEditor,
   HandleChangeLogo,
-  HandleOpenKPIEditor
+  HandleOpenKPIEditor,
+  iconLensStatus,
+  ToggleLensButton,
+  handleContextMenuLens
 }) => {
   const filterKpis = kpis.filter(kpi => kpi.check);
   const showLogsLink = credentials.loggin; // TODO logic to hidden
@@ -155,7 +160,7 @@ const Header = ({
         className="budgetLoss"
         style={{
           visibility:
-            iconGoutStatus | iconStartStatus | iconFireStatus
+            iconGoutStatus | iconStartStatus | iconFireStatus | iconLensStatus
               ? 'visible'
               : 'hidden',
           color: iconFireStatus && 'red'
@@ -196,6 +201,18 @@ const Header = ({
             <img
               style={{ height: '18px' }}
               src={iconGoutStatus ? goutIconOn : goutIcon}
+            />
+          </div>
+          <div
+            className="fireIconContainer"
+            onClick={() => {
+              ToggleLensButton('iconLensStatus');
+            }}
+            onMouseDown={handleContextMenuLens}
+          >
+            <img
+              style={{ height: '18px' }}
+              src={iconLensStatus ? lensIconOn : lensIcon}
             />
           </div>
           <Select
@@ -392,5 +409,8 @@ Header.propTypes = {
   accountId: PropTypes.number.isRequired,
   guiEditor: PropTypes.bool.isRequired,
   HandleChangeLogo: PropTypes.func.isRequired,
-  HandleOpenKPIEditor: PropTypes.func.isRequired
+  HandleOpenKPIEditor: PropTypes.func.isRequired,
+  iconLensStatus: PropTypes.bool.isRequired,
+  ToggleLensButton: PropTypes.func.isRequired,
+  handleContextMenuLens: PropTypes.func.isRequired
 };

@@ -22,6 +22,7 @@ import { BodyStagesEditor } from './StagesEditor';
 import { BodyStepsEditor } from './StepsEditor';
 import { BodyTouchpointsEditor } from './TouchpointsEditor';
 import { BodyKPIEditor } from './KPIEditor/KPIEditor';
+import { BodyUAMFormModal } from './UAMFormModal';
 
 export default class ShowBody extends Component {
   constructor(props) {
@@ -44,7 +45,8 @@ export default class ShowBody extends Component {
       max_error_percentage: 0,
       max_avg_response_time: 0,
       max_total_check_time: 0,
-      min_success_percentage: 0
+      min_success_percentage: 0,
+      max_value: 0
     };
   }
 
@@ -63,7 +65,8 @@ export default class ShowBody extends Component {
         max_error_percentage,
         max_avg_response_time,
         max_total_check_time,
-        min_success_percentage
+        min_success_percentage,
+        max_value
       } = this.state;
       switch (stageNameSelected.datos[0].type) {
         case 'PRC':
@@ -91,6 +94,10 @@ export default class ShowBody extends Component {
         case 'APS':
           min_success_percentage =
             stageNameSelected.datos[0].min_success_percentage;
+          break;
+        case 'VAL':
+          max_value = stageNameSelected.datos[0].max_value;
+          break;
       }
       this.setState({
         min_count: min_count,
@@ -100,7 +107,8 @@ export default class ShowBody extends Component {
         max_error_percentage: max_error_percentage,
         max_avg_response_time: max_avg_response_time,
         max_total_check_time: max_total_check_time,
-        min_success_percentage: min_success_percentage
+        min_success_percentage: min_success_percentage,
+        max_value: max_value
       });
     }
     /* istanbul ignore next */
@@ -156,7 +164,8 @@ export default class ShowBody extends Component {
       max_error_percentage,
       max_avg_response_time,
       max_total_check_time,
-      min_success_percentage
+      min_success_percentage,
+      max_value
     } = this.state;
     const { handleSaveUpdateTune } = this.props;
     handleSaveUpdateTune({
@@ -167,7 +176,8 @@ export default class ShowBody extends Component {
       max_error_percentage,
       max_avg_response_time,
       max_total_check_time,
-      min_success_percentage
+      min_success_percentage,
+      max_value
     });
   };
 
@@ -232,6 +242,14 @@ export default class ShowBody extends Component {
         return <BodyTouchpointsEditor {...this.props} />;
       case 15:
         return <BodyKPIEditor {...this.props} />;
+      case 16:
+        return (
+          <BodyUAMFormModal
+            {...this.props}
+            handleOnChange={this.props.HandleUAMkeyFormChange}
+            handleFormSubmit={this.props.handleContinueUAMButton}
+          />
+        );
     }
   };
 
@@ -249,5 +267,7 @@ ShowBody.propTypes = {
   HandleCredentialsFormChange: PropTypes.func,
   resetCredentials: PropTypes.func,
   stageNameSelected: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  handleSaveUpdateGeneralConfiguration: PropTypes.func
+  handleSaveUpdateGeneralConfiguration: PropTypes.func,
+  handleContinueUAMButton: PropTypes.func.isRequired,
+  HandleUAMkeyFormChange: PropTypes.func
 };

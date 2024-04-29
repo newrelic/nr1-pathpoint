@@ -78,6 +78,9 @@ describe('<Header/>', () => {
     it('Banner kpis initial', () => {
       const header = mount(
         <Header
+          handleContextMenuLens={jest.fn()}
+          iconLensStatus={false}
+          ToggleLensButton={jest.fn()}
           iconSixthSenseStatus
           iconCanaryStatus
           iconFireStatus
@@ -110,6 +113,9 @@ describe('<Header/>', () => {
     it('Banner kpis initial with logging', () => {
       const header = mount(
         <Header
+          handleContextMenuLens={jest.fn()}
+          iconLensStatus={false}
+          ToggleLensButton={jest.fn()}
           iconSixthSenseStatus
           iconCanaryStatus
           iconFireStatus
@@ -159,6 +165,9 @@ describe('<Header/>', () => {
       ];
       const header = mount(
         <Header
+          handleContextMenuLens={jest.fn()}
+          iconLensStatus={false}
+          ToggleLensButton={jest.fn()}
           iconSixthSenseStatus
           iconCanaryStatus
           iconFireStatus
@@ -192,6 +201,9 @@ describe('<Header/>', () => {
       const handleAddToCart = jest.fn();
       const header = mount(
         <Header
+          handleContextMenuLens={jest.fn()}
+          iconLensStatus={false}
+          ToggleLensButton={jest.fn()}
           iconSixthSenseStatus
           iconCanaryStatus
           iconFireStatus
@@ -229,6 +241,9 @@ describe('<Header/>', () => {
       const handleAddToCart = jest.fn();
       const header = mount(
         <Header
+          handleContextMenuLens={jest.fn()}
+          iconLensStatus={false}
+          ToggleLensButton={jest.fn()}
           iconSixthSenseStatus
           iconCanaryStatus
           iconFireStatus
@@ -266,6 +281,9 @@ describe('<Header/>', () => {
       const handleAddToCart = jest.fn();
       const header = mount(
         <Header
+          handleContextMenuLens={jest.fn()}
+          iconLensStatus={false}
+          ToggleLensButton={jest.fn()}
           iconSixthSenseStatus
           iconCanaryStatus
           iconFireStatus
@@ -303,6 +321,9 @@ describe('<Header/>', () => {
       const handleAddToCart = jest.fn();
       const header = mount(
         <Header
+          handleContextMenuLens={jest.fn()}
+          iconLensStatus={false}
+          ToggleLensButton={jest.fn()}
           iconSixthSenseStatus
           iconCanaryStatus
           iconFireStatus
@@ -340,6 +361,9 @@ describe('<Header/>', () => {
       const handleAddToCart = jest.fn();
       const header = mount(
         <Header
+          handleContextMenuLens={jest.fn()}
+          iconLensStatus={false}
+          ToggleLensButton={jest.fn()}
           iconSixthSenseStatus
           iconCanaryStatus
           iconFireStatus
@@ -376,6 +400,9 @@ describe('<Header/>', () => {
     it('Kpi click to open link', () => {
       const header = mount(
         <Header
+          handleContextMenuLens={jest.fn()}
+          iconLensStatus={false}
+          ToggleLensButton={jest.fn()}
           iconSixthSenseStatus={false}
           iconCanaryStatus={false}
           iconFireStatus={false}
@@ -411,6 +438,9 @@ describe('<Header/>', () => {
       const guiEditor = true;
       const wrapper = shallow(
         <Header
+          handleContextMenuLens={jest.fn()}
+          iconLensStatus={false}
+          ToggleLensButton={jest.fn()}
           iconSixthSenseStatus={false}
           iconCanaryStatus={false}
           iconFireStatus={false}

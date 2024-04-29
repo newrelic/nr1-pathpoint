@@ -25,7 +25,8 @@ jest.mock(
     const UserQuery = {
       query: jest.fn().mockReturnValue({
         data: {
-          name: 'Pathpoint'
+          name: 'Pathpoint',
+          email: 'test@demo.com'
         }
       })
     };
@@ -154,7 +155,9 @@ describe('<MainContainer/>', () => {
       pending: false,
       loading: false
     };
+    instance.ExecuteUpdateData = jest.fn();
     instance.componentDidUpdate(null, prevState);
+    expect(instance.ExecuteUpdateData).toHaveBeenCalledTimes(0);
   });
 
   it('componentDidUpdate with updating', () => {
@@ -165,7 +168,9 @@ describe('<MainContainer/>', () => {
       pending: false,
       loading: false
     };
+    instance.ExecuteUpdateData = jest.fn();
     instance.componentDidUpdate(null, prevState);
+    expect(instance.ExecuteUpdateData).toHaveBeenCalledTimes(0);
   });
 
   it('componentDidUpdate with updating, pending', () => {
@@ -176,7 +181,9 @@ describe('<MainContainer/>', () => {
       pending: true,
       loading: false
     };
+    instance.ExecuteUpdateData = jest.fn();
     instance.componentDidUpdate(null, prevState);
+    expect(instance.ExecuteUpdateData).toHaveBeenCalledTimes(0);
   });
 
   it('componentDidUpdate with updating, pending, loading', () => {
@@ -189,6 +196,7 @@ describe('<MainContainer/>', () => {
     };
     instance.ExecuteUpdateData = jest.fn();
     instance.componentDidUpdate(null, prevState);
+    expect(instance.ExecuteUpdateData).toHaveBeenCalledTimes(0);
   });
 
   it('componentDidUpdate with all updating, pending, loading', () => {
@@ -204,6 +212,7 @@ describe('<MainContainer/>', () => {
     };
     instance.ExecuteUpdateData = jest.fn();
     instance.componentDidUpdate(null, prevState);
+    expect(instance.ExecuteUpdateData).toHaveBeenCalledTimes(1);
   });
 
   it('componentWillUnmount', () => {
@@ -215,27 +224,6 @@ describe('<MainContainer/>', () => {
   it('BoootstrapApplication', async () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
-    instance.InitLogoSetupData = jest.fn();
-    instance.ExecuteUpdateData = jest.fn();
-    instance.BoootstrapApplication();
-  });
-
-  it('BoootstrapApplication with mocking', async () => {
-    const mainContainer = shallow(<MainContainer />);
-    const instance = mainContainer.instance();
-    instance.InitLogoSetupData = jest.fn();
-    instance.ExecuteUpdateData = jest.fn();
-    mainContainer.DataManager = {
-      BootstrapInitialData: jest.fn().mockResolvedValue({
-        credentials: {
-          actor: {
-            nerdStorageVault: {
-              secrets: [{ value: '231' }]
-            }
-          }
-        }
-      })
-    };
     instance.BoootstrapApplication();
   });
 
@@ -490,11 +478,9 @@ describe('<MainContainer/>', () => {
   it('ExecuteSetCanaryData', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
-    instance.DataManager = {
-      SetCanaryData: jest.fn().mockReturnValue({
-        stages
-      })
-    };
+    instance.DataManager.SetCanaryData = jest.fn().mockReturnValue({
+      stages
+    });
     instance.ExecuteSetCanaryData();
   });
 
@@ -515,11 +501,7 @@ describe('<MainContainer/>', () => {
     instance.state.iconCanaryStatus = true;
     instance._onClose = jest.fn();
     instance.state.showCanaryWelcomeMat = true;
-    instance.DataManager = {
-      LoadCanaryData: jest.fn().mockReturnValue(canaryData),
-      SetCanaryData: jest.fn(),
-      UpdateData: jest.fn()
-    };
+    instance.DataManager.LoadCanaryData = jest.fn().mockReturnValue(canaryData);
     instance.ToggleCanaryIcon(false);
   });
 
@@ -532,11 +514,7 @@ describe('<MainContainer/>', () => {
     instance.state.showCanaryWelcomeMat = false;
     instance.PreSelectCanaryData = jest.fn();
     instance.updateDataNow = jest.fn();
-    instance.DataManager = {
-      LoadCanaryData: jest.fn().mockReturnValue(canaryData),
-      SetCanaryData: jest.fn(),
-      UpdateData: jest.fn()
-    };
+    instance.DataManager.LoadCanaryData = jest.fn().mockReturnValue(canaryData);
     instance.ToggleCanaryIcon(false);
   });
 
@@ -549,18 +527,16 @@ describe('<MainContainer/>', () => {
     instance.state.showCanaryWelcomeMat = false;
     instance.PreSelectCanaryData = jest.fn();
     instance.updateDataNow = jest.fn();
-    instance.DataManager = {
-      ClearCanaryData: jest.fn().mockReturnValue({
-        stages: [
-          {
-            index: 0,
-            title: 'BROWSE',
-            latencyStatus: false,
-            status_color: 'good'
-          }
-        ]
-      })
-    };
+    instance.DataManager.ClearCanaryData = jest.fn().mockReturnValue({
+      stages: [
+        {
+          index: 0,
+          title: 'BROWSE',
+          latencyStatus: false,
+          status_color: 'good'
+        }
+      ]
+    });
     instance.ToggleCanaryIcon(true);
     expect(instance.state.stages).toEqual([
       {
@@ -597,9 +573,7 @@ describe('<MainContainer/>', () => {
     instance._onClose = jest.fn();
     instance.updateHistoricErrors = jest.fn();
     instance.showFireWelcomeMat = true;
-    instance.DataManager = {
-      ReadHistoricErrors: jest.fn()
-    };
+    instance.DataManager.ReadHistoricErrors = jest.fn();
     instance.ToggleFireIcon(false);
   });
 
@@ -611,9 +585,7 @@ describe('<MainContainer/>', () => {
     instance.showFireWelcomeMat = true;
     instance._onClose = jest.fn();
     instance.updateHistoricErrors = jest.fn();
-    instance.DataManager = {
-      ReadHistoricErrors: jest.fn()
-    };
+    instance.DataManager.ReadHistoricErrors = jest.fn();
     instance.ToggleFireIcon(true);
   });
 
@@ -625,9 +597,7 @@ describe('<MainContainer/>', () => {
     instance.showFireWelcomeMat = false;
     instance._onClose = jest.fn();
     instance.updateHistoricErrors = jest.fn();
-    instance.DataManager = {
-      ReadHistoricErrors: jest.fn()
-    };
+    instance.DataManager.ReadHistoricErrors = jest.fn();
     instance.ToggleFireIcon(true);
   });
 
@@ -656,9 +626,7 @@ describe('<MainContainer/>', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
     instance.updateTouchpointStageOnOff = jest.fn();
-    instance.DataManager = {
-      UpdateTouchpointOnOff: jest.fn()
-    };
+    instance.DataManager.UpdateTouchpointOnOff = jest.fn();
     instance.state.stages = stages;
     instance.state.iconCanaryStatus = false;
     instance.updateTouchpointOnOff(stages[0].touchpoints[0]);
@@ -668,9 +636,7 @@ describe('<MainContainer/>', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
     instance.updateTouchpointStageOnOff = jest.fn();
-    instance.DataManager = {
-      UpdateTouchpointOnOff: jest.fn()
-    };
+    instance.DataManager.UpdateTouchpointOnOff = jest.fn();
     instance.state.stages = stages;
     instance.state.iconCanaryStatus = true;
     instance.updateTouchpointOnOff(stages[0].touchpoints[0]);
@@ -680,10 +646,8 @@ describe('<MainContainer/>', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
     instance._onClose = jest.fn();
-    instance.DataManager = {
-      GetTouchpointTune: jest.fn(),
-      GetTouchpointQuerys: jest.fn()
-    };
+    instance.DataManager.GetTouchpointTune = jest.fn();
+    instance.DataManager.GetTouchpointQuerys = jest.fn();
     instance.state.stages = stages;
     instance.openModalParent(stages[0].touchpoints[0], 1);
   });
@@ -692,10 +656,8 @@ describe('<MainContainer/>', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
     instance._onClose = jest.fn();
-    instance.DataManager = {
-      GetTouchpointTune: jest.fn(),
-      GetTouchpointQuerys: jest.fn()
-    };
+    instance.DataManager.GetTouchpointTune = jest.fn();
+    instance.DataManager.GetTouchpointQuerys = jest.fn();
     instance.state.stages = stages;
     instance.openModalParent(stages[0].touchpoints[0], 2);
   });
@@ -704,10 +666,8 @@ describe('<MainContainer/>', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
     instance._onClose = jest.fn();
-    instance.DataManager = {
-      GetTouchpointTune: jest.fn(),
-      GetTouchpointQuerys: jest.fn()
-    };
+    instance.DataManager.GetTouchpointTune = jest.fn();
+    instance.DataManager.GetTouchpointQuerys = jest.fn();
     instance.state.stages = stages;
     instance.openModalParent(stages[0].touchpoints[0], 9);
   });
@@ -1186,15 +1146,12 @@ describe('<MainContainer/>', () => {
         }
       ]
     };
-    instance.validationQuery = {
-      validateQuery: jest.fn().mockReturnValue({
-        testText: 'good',
-        goodQuery: true
-      })
-    };
-    instance.DataManager = {
-      ReadQueryResults: jest.fn().mockReturnValue([])
-    };
+    instance.validationQuery = {};
+    instance.validationQuery.validateQuery = jest.fn().mockReturnValue({
+      testText: 'good',
+      goodQuery: true
+    });
+    instance.DataManager.ReadQueryResults = jest.fn().mockReturnValue([]);
     instance.testQuery(
       'SELECT count(*) as value FROM Transaction SINCE 1 minute AGO',
       0
@@ -1283,9 +1240,7 @@ describe('<MainContainer/>', () => {
       touchpoint: []
     };
     instance._onClose = jest.fn();
-    instance.DataManager = {
-      UpdateTouchpointQuerys: jest.fn()
-    };
+    instance.DataManager.UpdateTouchpointQuerys = jest.fn();
     instance.handleSaveUpdateQuery({
       preventDefault: jest.fn(),
       target: {
@@ -1302,9 +1257,7 @@ describe('<MainContainer/>', () => {
       touchpoint: []
     };
     instance._onClose = jest.fn();
-    instance.DataManager = {
-      UpdateTouchpointTune: jest.fn()
-    };
+    instance.DataManager.UpdateTouchpointTune = jest.fn();
     instance.handleSaveUpdateTune({
       threshold: 1,
       apdex: 1
@@ -1348,9 +1301,8 @@ describe('<MainContainer/>', () => {
     const instance = mainContainer.instance();
     instance.state.stages = stages;
     instance._onClose = jest.fn();
-    instance.LogoSetupData = {
-      SetLogoSetupData: jest.fn()
-    };
+    instance.LogoSetupData = {};
+    instance.LogoSetupData.SetLogoSetupData = jest.fn();
     instance.LogoFormSubmit({ type: 'default' }, jest.fn());
   });
 
@@ -1417,9 +1369,7 @@ describe('<MainContainer/>', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
     instance.state.stages = stages;
-    instance.DataManager = {
-      GetGoutParameters: jest.fn()
-    };
+    instance.DataManager.GetGoutParameters = jest.fn();
     instance._handleContextMenuGout({
       button: 2
     });
@@ -1441,9 +1391,7 @@ describe('<MainContainer/>', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
     instance.state.stages = stages;
-    instance.DataManager = {
-      GetHistoricParameters: jest.fn()
-    };
+    instance.DataManager.GetHistoricParameters = jest.fn();
     instance._handleContextMenuFire({
       button: 2
     });
@@ -1456,9 +1404,7 @@ describe('<MainContainer/>', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
     instance.state.stages = stages;
-    instance.DataManager = {
-      UpdateHistoricParameters: jest.fn()
-    };
+    instance.DataManager.UpdateHistoricParameters = jest.fn();
     instance._onCloseMenuRight();
   });
 
@@ -1467,9 +1413,7 @@ describe('<MainContainer/>', () => {
     const instance = mainContainer.instance();
     instance.state.MenuRightDefault = 3;
     instance.state.stages = stages;
-    instance.DataManager = {
-      UpdateHistoricParameters: jest.fn()
-    };
+    instance.DataManager.UpdateHistoricParameters = jest.fn();
     instance._onCloseMenuRight();
   });
 
@@ -1478,9 +1422,7 @@ describe('<MainContainer/>', () => {
     const instance = mainContainer.instance();
     instance.state.MenuRightDefault = 2;
     instance.state.stages = stages;
-    instance.DataManager = {
-      UpdateHistoricParameters: jest.fn()
-    };
+    instance.DataManager.UpdateHistoricParameters = jest.fn();
     instance._onCloseMenuRight();
   });
 
@@ -1489,9 +1431,7 @@ describe('<MainContainer/>', () => {
     const instance = mainContainer.instance();
     instance.state.MenuRightDefault = 1;
     instance.state.stages = stages;
-    instance.DataManager = {
-      UpdateGoutParameters: jest.fn()
-    };
+    instance.DataManager.UpdateGoutParameters = jest.fn();
     instance._onCloseMenuRight();
   });
 
@@ -1532,9 +1472,7 @@ describe('<MainContainer/>', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
     instance.state.stages = stages;
-    instance.DataManager = {
-      GetCurrentConfigurationJSON: jest.fn()
-    };
+    instance.DataManager.GetCurrentConfigurationJSON = jest.fn();
     instance.GetCurrentConfigurationJSON();
   });
 
@@ -1542,13 +1480,11 @@ describe('<MainContainer/>', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
     instance.state.stages = stages;
-    instance.DataManager = {
-      StorageJSONDataInHistoric: jest.fn(),
-      SetConfigurationJSON: jest.fn().mockReturnValue({
-        stages
-      }),
-      SetTotalContainers: jest.fn().mockReturnValue(0)
-    };
+    instance.DataManager.StorageJSONDataInHistoric = jest.fn();
+    instance.DataManager.SetConfigurationJSON = jest.fn().mockReturnValue({
+      stages
+    });
+    instance.DataManager.SetTotalContainers = jest.fn().mockReturnValue(0);
     instance.SetConfigurationJSON(
       {
         stages
@@ -1569,9 +1505,7 @@ describe('<MainContainer/>', () => {
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
     instance.state.stages = stages;
-    instance.DataManager = {
-      GetCurrentHistoricErrorScript: jest.fn()
-    };
+    instance.DataManager.GetCurrentHistoricErrorScript = jest.fn();
     instance.GetCurrentHistoricErrorScript();
   });
 
@@ -1618,9 +1552,7 @@ describe('<MainContainer/>', () => {
     };
     const mainContainer = shallow(<MainContainer />);
     const instance = mainContainer.instance();
-    instance.DataManager = {
-      SaveKpisSelection: jest.fn()
-    };
+    instance.DataManager.SaveKpisSelection = jest.fn();
     instance.state.kpis = kpi;
     instance.updateDataKpisChecked();
   });

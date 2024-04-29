@@ -42,10 +42,13 @@ export default class TouchPointerContainer extends React.Component {
       element,
       visible,
       idVisible,
+      accessToConfig,
       renderProps,
       openModalParent,
       updateTouchpointOnOff,
-      iconCanaryStatus
+      iconCanaryStatus,
+      renderMouseOver,
+      showMouseOver
     } = this.props;
     const touchpointsFilter = this.filterTouchpoints(touchpoints, city);
     return (
@@ -55,6 +58,7 @@ export default class TouchPointerContainer extends React.Component {
             <TouchPoint
               idVisible={idVisible}
               visible={visible}
+              accessToConfig={accessToConfig}
               renderProps={renderProps}
               key={touchpoint.index}
               touchpoint={touchpoint}
@@ -66,6 +70,8 @@ export default class TouchPointerContainer extends React.Component {
               openModalParent={openModalParent}
               updateTouchpointOnOff={updateTouchpointOnOff}
               iconCanaryStatus={iconCanaryStatus}
+              renderMouseOver={renderMouseOver}
+              showMouseOver={showMouseOver}
             />
           );
         })}
@@ -76,6 +82,7 @@ export default class TouchPointerContainer extends React.Component {
 
 TouchPointerContainer.propTypes = {
   touchpoints: PropTypes.array.isRequired,
+  showMouseOver: PropTypes.bool.isRequired,
   city: PropTypes.number.isRequired,
   colors: PropTypes.object.isRequired,
   iconFireStatus: PropTypes.bool.isRequired,
@@ -86,5 +93,7 @@ TouchPointerContainer.propTypes = {
   renderProps: PropTypes.func.isRequired,
   openModalParent: PropTypes.func.isRequired,
   updateTouchpointOnOff: PropTypes.func.isRequired,
-  iconCanaryStatus: PropTypes.bool.isRequired
+  iconCanaryStatus: PropTypes.bool.isRequired,
+  accessToConfig: PropTypes.bool.isRequired,
+  renderMouseOver: PropTypes.func.isRequired
 };

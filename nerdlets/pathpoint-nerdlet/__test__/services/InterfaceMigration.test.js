@@ -95,7 +95,12 @@ describe('InterfaceEditor', () => {
         visible: true,
         oldIndex: 1,
         title: 'Touchpoint Login',
-        dashboard_url: 'https://owner.io',
+        dashboard_url: [
+          {
+            nickName: 'xx',
+            url: 'https://owner.io'
+          }
+        ],
         subs: ['new sub'],
         queryData: {
           query: 'SELECT * FROM Transaction'
@@ -116,23 +121,18 @@ describe('InterfaceEditor', () => {
     );
     expect(interfaceEdit).toEqual([
       {
-        dashboard_url: 'SELECT * FROM Transaction',
+        dashboard_url: [
+          {
+            nickName: 'xx',
+            url: 'https://owner.io'
+          }
+        ],
         queries: 'SELECT * FROM Transaction',
         related_steps: [3, 2],
         status_on_off: true,
         title: 'Touchpoint Login'
       }
     ]);
-  });
-
-  it('Function SetDashboard_url()', () => {
-    const url = 'https://owner.io';
-    expect(interfaceMigration.SetDashboard_url(url)).toEqual([url]);
-  });
-
-  it('Function SetDashboard_url() with url = vacio', () => {
-    const url = '';
-    expect(interfaceMigration.SetDashboard_url(url)).toEqual(false);
   });
 
   it('Function SetRelatedSteps()', () => {

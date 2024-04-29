@@ -34,6 +34,8 @@ describe('Touchpoint component', () => {
   test('Touchpoint component with default data', () => {
     const touchpoint = create(
       <TouchPoint
+        renderMouseOver={jest.fn()}
+        accessToConfig={false}
         iconCanaryStatus
         touchpoint={touchPoint}
         city={0}

@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import TouchPoint from '../../../components/TouchPoint/TouchPoint';
 
-describe('<Touchpoint/>', () => {
+describe('<TouchPoint/>', () => {
   const colors = {
     background_capacity: [19, 72, 104],
     stage_capacity: [255, 255, 255],
@@ -34,6 +34,8 @@ describe('<Touchpoint/>', () => {
       };
       const wrapper = mount(
         <TouchPoint
+          accessToConfig={false}
+          renderMouseOver={jest.fn()}
           touchpoint={touchPoint}
           city={0}
           colors={colors}
@@ -69,6 +71,8 @@ describe('<Touchpoint/>', () => {
       };
       const wrapper = mount(
         <TouchPoint
+          accessToConfig={false}
+          renderMouseOver={jest.fn()}
           touchpoint={touchPoint}
           city={0}
           colors={colors}
@@ -105,6 +109,8 @@ describe('<Touchpoint/>', () => {
       };
       const wrapper = mount(
         <TouchPoint
+          accessToConfig={false}
+          renderMouseOver={jest.fn()}
           touchpoint={touchPoint}
           city={0}
           colors={colors}
@@ -141,6 +147,8 @@ describe('<Touchpoint/>', () => {
       };
       const wrapper = mount(
         <TouchPoint
+          accessToConfig={false}
+          renderMouseOver={jest.fn()}
           touchpoint={touchPoint}
           city={0}
           colors={colors}
@@ -178,6 +186,8 @@ describe('<Touchpoint/>', () => {
       };
       const wrapper = mount(
         <TouchPoint
+          accessToConfig={false}
+          renderMouseOver={jest.fn()}
           touchpoint={touchPoint}
           city={0}
           colors={colors}
@@ -212,6 +222,8 @@ describe('<Touchpoint/>', () => {
       };
       const wrapper = mount(
         <TouchPoint
+          accessToConfig={false}
+          renderMouseOver={jest.fn()}
           touchpoint={touchPoint}
           city={0}
           colors={colors}
@@ -247,6 +259,8 @@ describe('<Touchpoint/>', () => {
       };
       const wrapper = mount(
         <TouchPoint
+          accessToConfig={false}
+          renderMouseOver={jest.fn()}
           touchpoint={touchPoint}
           city={0}
           colors={colors}
@@ -283,6 +297,8 @@ describe('<Touchpoint/>', () => {
       };
       const wrapper = mount(
         <TouchPoint
+          accessToConfig={false}
+          renderMouseOver={jest.fn()}
           touchpoint={touchPoint}
           city={0}
           colors={colors}
@@ -320,6 +336,8 @@ describe('<Touchpoint/>', () => {
       };
       const wrapper = mount(
         <TouchPoint
+          accessToConfig={false}
+          renderMouseOver={jest.fn()}
           touchpoint={touchPoint}
           city={0}
           colors={colors}
@@ -357,6 +375,8 @@ describe('<Touchpoint/>', () => {
       };
       const wrapper = mount(
         <TouchPoint
+          accessToConfig={false}
+          renderMouseOver={jest.fn()}
           touchpoint={touchPoint}
           city={0}
           colors={colors}
@@ -394,6 +414,8 @@ describe('<Touchpoint/>', () => {
       };
       const wrapper = mount(
         <TouchPoint
+          accessToConfig={false}
+          renderMouseOver={jest.fn()}
           touchpoint={touchPoint}
           city={0}
           colors={colors}
@@ -428,6 +450,8 @@ describe('<Touchpoint/>', () => {
       };
       const wrapper = mount(
         <TouchPoint
+          accessToConfig={false}
+          renderMouseOver={jest.fn()}
           touchpoint={touchPoint}
           city={0}
           colors={colors}
@@ -462,6 +486,8 @@ describe('<Touchpoint/>', () => {
       };
       const wrapper = mount(
         <TouchPoint
+          accessToConfig={false}
+          renderMouseOver={jest.fn()}
           touchpoint={touchPoint}
           city={0}
           colors={colors}
@@ -498,6 +524,8 @@ describe('<Touchpoint/>', () => {
 
     const wrapper = mount(
       <TouchPoint
+        accessToConfig={false}
+        renderMouseOver={jest.fn()}
         touchpoint={touchPoint}
         city={0}
         colors={colors}
@@ -546,6 +574,8 @@ describe('<Touchpoint/>', () => {
 
       const wrapper = mount(
         <TouchPoint
+          accessToConfig={false}
+          renderMouseOver={jest.fn()}
           touchpoint={touchPoint}
           city={0}
           colors={colors}
@@ -580,6 +610,8 @@ describe('<Touchpoint/>', () => {
 
       const wrapper = mount(
         <TouchPoint
+          accessToConfig={false}
+          renderMouseOver={jest.fn()}
           touchpoint={touchPoint}
           city={0}
           colors={colors}
@@ -614,6 +646,8 @@ describe('<Touchpoint/>', () => {
 
       const wrapper = mount(
         <TouchPoint
+          accessToConfig={false}
+          renderMouseOver={jest.fn()}
           touchpoint={touchPoint}
           city={0}
           colors={colors}
@@ -650,6 +684,8 @@ describe('<Touchpoint/>', () => {
 
     const wrapper = mount(
       <TouchPoint
+        accessToConfig={false}
+        renderMouseOver={jest.fn()}
         touchpoint={touchPoint}
         city={0}
         colors={colors}
@@ -687,6 +723,8 @@ describe('<Touchpoint/>', () => {
 
     const wrapper = mount(
       <TouchPoint
+        accessToConfig={false}
+        renderMouseOver={jest.fn()}
         touchpoint={touchPoint}
         city={0}
         colors={colors}
@@ -721,6 +759,8 @@ describe('<Touchpoint/>', () => {
 
     const wrapper = mount(
       <TouchPoint
+        accessToConfig={false}
+        renderMouseOver={jest.fn()}
         touchpoint={touchPoint}
         city={0}
         colors={colors}
@@ -760,6 +800,8 @@ describe('<Touchpoint/>', () => {
 
     const wrapper = mount(
       <TouchPoint
+        accessToConfig={false}
+        renderMouseOver={jest.fn()}
         touchpoint={touchPoint}
         city={0}
         colors={colors}
@@ -804,6 +846,8 @@ describe('<Touchpoint/>', () => {
     const updateTouchpointOnOff = jest.fn();
     const wrapper = mount(
       <TouchPoint
+        accessToConfig={false}
+        renderMouseOver={jest.fn()}
         touchpoint={touchPoint}
         city={0}
         colors={colors}
@@ -840,6 +884,8 @@ describe('<Touchpoint/>', () => {
     const openModalParent = jest.fn();
     const wrapper = mount(
       <TouchPoint
+        accessToConfig={false}
+        renderMouseOver={jest.fn()}
         touchpoint={touchPoint}
         city={0}
         colors={colors}
@@ -876,6 +922,8 @@ describe('<Touchpoint/>', () => {
     const openModalParent = jest.fn();
     const wrapper = mount(
       <TouchPoint
+        accessToConfig={false}
+        renderMouseOver={jest.fn()}
         touchpoint={touchPoint}
         city={0}
         colors={colors}

@@ -22,6 +22,7 @@ import { HeaderStagesEditor } from './StagesEditor';
 import { HeaderStepsEditor } from './StepsEditor';
 import { HeaderTouchpointsEditor } from './TouchpointsEditor';
 import { HeaderKPIEditor } from './KPIEditor/KPIEditor';
+import { HeaderUAMFormModal } from './UAMFormModal';
 
 export default function ShowHeader(props) {
   const {
@@ -115,6 +116,8 @@ export default function ShowHeader(props) {
       return <HeaderTouchpointsEditor />;
     case 15:
       return <HeaderKPIEditor />;
+    case 16:
+      return <HeaderUAMFormModal />;
   }
 }
 

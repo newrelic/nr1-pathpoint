@@ -222,14 +222,6 @@ describe('LogsConnector', () => {
     expect(result.error).toEqual(true);
   });
 
-  it('Function ExistFlameScript() with catch', async () => {
-    synConnector.flameScriptId = '102030';
-    jest
-      .spyOn(synConnector.axiosInstance, 'get')
-      .mockRejectedValue(Error('error'));
-    await expect(synConnector.ExistFlameScript()).rejects.toThrow('error');
-  });
-
   it('Function CreateFlameScript()', async () => {
     synConnector.FlameStatus = true;
     synConnector.userApiKey = '235ade9f';

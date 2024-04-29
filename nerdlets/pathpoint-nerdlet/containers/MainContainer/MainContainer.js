@@ -45,6 +45,8 @@ import onIcon from '../../images/icon-on.svg';
 import offIcon from '../../images/icon-off.svg';
 import setup_icon from '../../images/setup.svg';
 
+import LensPage from './LensPage';
+
 /**
  *Main container component
  * @export
@@ -62,9 +64,9 @@ export default class MainContainer extends React.Component {
     this.InterfaceMigration = null;
     this.state = {
       useEmulator: false,
-      accountName: '',
+      accountName: 'HPE IT Operations',
       username: '',
-      guiEditor: true,
+      guiEditor: false,
       jsonMetaData: {
         description: '',
         note: ''
@@ -168,7 +170,38 @@ export default class MainContainer extends React.Component {
       fileNote: null,
       showMessageInformationStage: false,
       showMessageInformationStep: false,
-      showMessageInformationTouchpoint: false
+      showMessageInformationTouchpoint: false,
+      alertsTimeWindow: 10,
+      alertsRefreshDelay: 5,
+      iconLensStatus: false,
+      lensForm: {
+        error: true,
+        response: true,
+        duration: true,
+        durationMin: 7,
+        status: 'disable'
+      },
+      UAMAccessKeys: [
+        'sacaro0159',
+        'Gr#xt0IUzu',
+        'ac!Ij@81fY',
+        'emd!XR6Sm0',
+        'I73eA#Cyv1',
+        '!ajkTQ!1Gi',
+        'uDPSL1@SGf',
+        '2n!18UBbGT',
+        '@Bg@9nc3FY',
+        'p1sz!Uc70m',
+        'Sg1uUC#0X0'
+      ],
+      UAMModal: {
+        view: 0,
+        continueButton: false,
+        showKeyError: false,
+        ingestUAMkey: ''
+      },
+      accessToConfig: false,
+      showMouseOver: false
     };
   }
 
@@ -193,35 +226,55 @@ export default class MainContainer extends React.Component {
   }
 
   BoootstrapApplication = async () => {
-    const { useEmulator } = this.state;
+    const { useEmulator, lensForm } = this.state;
     this.DataManager = new DataManager(useEmulator);
     const { accountName } = this.state;
     const data = await this.DataManager.BootstrapInitialData(accountName);
     let credentials = {};
-    if (
-      data &&
-      data.credentials &&
-      data.credentials.actor.nerdStorageVault.secrets.length > 0
-    ) {
-      data.credentials.actor.nerdStorageVault.secrets.forEach(item => {
-        let value = '';
-        if (item.value !== '_') {
-          item.value.split('').forEach((char, i) => {
-            if (i <= 3) {
-              value = `${value}${char}`;
-            } else {
-              value = `${value}x`;
-            }
-          });
-        }
-        credentials[item.key] = value;
-      });
+    if (data && data.credentials && data.credentials.ingestLicense) {
+      const item = data.credentials.ingestLicense;
+      let value = '';
+      if (item !== '_') {
+        item.split('').forEach((char, i) => {
+          if (i <= 3) {
+            value = `${value}${char}`;
+          } else {
+            value = `${value}x`;
+          }
+        });
+      }
+      credentials.ingestLicense = value;
+    }
+    if (data && data.credentials && data.credentials.userAPIKey) {
+      const item = data.credentials.userAPIKey;
+      let value = '';
+      if (item !== '_') {
+        item.split('').forEach((char, i) => {
+          if (i <= 3) {
+            value = `${value}${char}`;
+          } else {
+            value = `${value}x`;
+          }
+        });
+      }
+      credentials.userAPIKey = value;
     }
     if (data && data.generalConfiguration) {
       credentials = {
         ...credentials,
         ...data.generalConfiguration
       };
+    }
+    const userAccessInfo = await this.DataManager.GetUserAccessInfo();
+    const user = await UserQuery.query();
+    let accessToConfig = false;
+    if (userAccessInfo && userAccessInfo.constructor.name === 'Array') {
+      const validAccess = userAccessInfo.find(
+        item => item.email === user.data.email
+      );
+      if (validAccess) {
+        accessToConfig = true;
+      }
     }
     this.setState(
       {
@@ -233,7 +286,12 @@ export default class MainContainer extends React.Component {
         totalContainers: data ? data.totalContainers : 1,
         accountIDs: data ? data.accountIDs : [],
         credentials,
-        credentialsBackup: credentials
+        credentialsBackup: credentials,
+        alertsRefreshDelay: data ? data.alertsRefreshDelay : 5,
+        alertsTimeWindow: data ? data.alertsTimeWindow : 10,
+        accessToConfig,
+        lensForm: data ? data.lensForm : lensForm,
+        iconLensStatus: !!(data && data.lensForm.status === 'enable')
       },
       async () => {
         this.validationQuery = new ValidationQuery(this.state.accountId);
@@ -251,20 +309,35 @@ export default class MainContainer extends React.Component {
   };
 
   ExecuteUpdateData = changeLoading => {
-    const { updating, queryModalShowing } = this.state;
+    const {
+      updating,
+      queryModalShowing,
+      alertsTimeWindow,
+      alertsRefreshDelay
+    } = this.state;
     if (!updating && !queryModalShowing) {
       this.setState(
         {
           updating: true
         },
         async () => {
-          const { timeRange, city, stages, kpis, timeRangeKpi } = this.state;
+          const {
+            timeRange,
+            city,
+            stages,
+            kpis,
+            timeRangeKpi,
+            lensForm
+          } = this.state;
           const data = await this.DataManager.UpdateData(
             timeRange,
             city,
             stages,
             kpis,
-            timeRangeKpi
+            timeRangeKpi,
+            alertsTimeWindow,
+            alertsRefreshDelay,
+            lensForm
           );
           this.setState(
             {
@@ -301,7 +374,25 @@ export default class MainContainer extends React.Component {
       this.ExecuteUpdateData(true);
     }
   }
+
   // ===========================================================
+  ToggleLensButton = async () => {
+    const { iconLensStatus, lensForm } = this.state;
+    let newIconstatus = false;
+    if (!iconLensStatus) {
+      lensForm.status = 'enable';
+      // console.log('LENS-ENABLE');
+      newIconstatus = true;
+    } else {
+      // console.log('LENS-DISABLE');
+      lensForm.status = 'disable';
+    }
+    await this.DataManager.SetLensFormValues(lensForm);
+    this.setState({
+      lensForm,
+      iconLensStatus: newIconstatus
+    });
+  };
 
   ToggleHeaderButtons = target => {
     let previousIconCanaryStatus = null;
@@ -901,13 +992,18 @@ export default class MainContainer extends React.Component {
     this.restoreTouchPoints();
   };
 
-  renderProps = (idVisible, touchActive) => {
+  renderProps = async (idVisible, touchActive) => {
     const { visible } = this.state;
     this.setState({ visible: !visible, idVisible: idVisible });
     this.restoreTouchPoints();
     if (!visible) {
       touchActive.active = true;
     }
+  };
+
+  renderMouseOver = showMouseOver => {
+    // console.log('Mouse-OVER:', showMouseOver);
+    this.setState({ showMouseOver });
   };
 
   restoreTouchPoints = () => {
@@ -981,6 +1077,12 @@ export default class MainContainer extends React.Component {
         break;
       case 'API-Status':
         querySample = messages.sample_querys.aps;
+        break;
+      case 'Alert-Check':
+        querySample = messages.sample_querys.ale;
+        break;
+      case 'Value-Performance':
+        querySample = messages.sample_querys.val;
         break;
     }
     if (stageNameSelected.selectedCase) {
@@ -1095,10 +1197,17 @@ export default class MainContainer extends React.Component {
   // se le tiene que quitar el async por q esta demas
   handleSaveUpdateQuery = async event => {
     event.preventDefault();
-    await this.DataManager.UpdateTouchpointQuerys(
+    this.DataManager.UpdateTouchpointQuerys(
       this.state.stageNameSelected.touchpoint,
       this.state.stageNameSelected.datos
     );
+    this.DataManager.SendToLogs({
+      action: 'update-query-configuration',
+      set_data: {
+        ...this.state.stageNameSelected.touchpoint,
+        ...this.state.stageNameSelected.datos
+      }
+    });
     const stagesInterface = await this.UpdateStagesEditor();
     this.setState({
       updating: false,
@@ -1116,7 +1225,8 @@ export default class MainContainer extends React.Component {
     max_error_percentage,
     max_avg_response_time,
     max_total_check_time,
-    min_success_percentage
+    min_success_percentage,
+    max_value
   }) => {
     const datos = {
       min_count: min_count,
@@ -1126,12 +1236,20 @@ export default class MainContainer extends React.Component {
       max_error_percentage: max_error_percentage,
       max_avg_response_time: max_avg_response_time,
       max_total_check_time: max_total_check_time,
-      min_success_percentage: min_success_percentage
+      min_success_percentage: min_success_percentage,
+      max_value: max_value
     };
     await this.DataManager.UpdateTouchpointTune(
       this.state.stageNameSelected.touchpoint,
       datos
     );
+    this.DataManager.SendToLogs({
+      action: 'update-tune-configuration',
+      set_data: {
+        ...this.state.stageNameSelected.touchpoint,
+        ...datos
+      }
+    });
     const stagesInterface = await this.UpdateStagesEditor();
     this.setState({ updateBackgroundScript: true, stagesInterface });
     this._onClose();
@@ -1156,8 +1274,27 @@ export default class MainContainer extends React.Component {
     });
   };
 
+  MaskCredentials(credentials) {
+    const maskCerdentials = { ...credentials };
+    maskCerdentials.ingestLicense = `${maskCerdentials.ingestLicense.substring(
+      0,
+      4
+    )}xxxxxxxxxxxxxxxxxxxxxxxxxxxx`;
+    maskCerdentials.userAPIKey = `${maskCerdentials.userAPIKey.substring(
+      0,
+      4
+    )}xxxxxxxxxxxxxxxxxxxxxxxxxxxx`;
+    return maskCerdentials;
+  }
+
   handleSaveUpdateGeneralConfiguration = e => {
     e.preventDefault();
+    this.DataManager.SendToLogs({
+      action: 'save-update-credentials',
+      set_data: {
+        ...this.MaskCredentials(this.state.credentials)
+      }
+    });
     this.DataManager.SaveCredentialsInVault(this.state.credentials);
     this.DataManager.SaveGeneralConfiguration(this.state.credentials);
     this.setState(state => {
@@ -1203,7 +1340,9 @@ export default class MainContainer extends React.Component {
   };
 
   installUpdateBackgroundScripts = () => {
-    // TODO
+    this.DataManager.SendToLogs({
+      action: 'install-update-flame-synthetic'
+    });
     this.DataManager.InstallUpdateBackGroundScript();
     this.setState({ updateBackgroundScript: false });
     this._onClose();
@@ -1238,7 +1377,6 @@ export default class MainContainer extends React.Component {
       account: account,
       company: company
     };
-    // this.sendLogs(datos, this.state.accountId);
     CreateJiraIssue(datos, this.state.accountId);
     this._resetFormSupport();
     this._onClose();
@@ -1264,8 +1402,10 @@ export default class MainContainer extends React.Component {
   };
 
   _onCloseBackdrop = () => {
+    const { lensForm } = this.state;
     this.setState({
       backdrop: false,
+      iconLensStatus: lensForm.status === 'enable',
       showLeftPanel: false,
       MenuRightDefault: 0
     });
@@ -1276,6 +1416,142 @@ export default class MainContainer extends React.Component {
     this.setState({ username: user.data.name });
     this._onCloseBackdrop();
     this.openModalParent('null', 4);
+  };
+
+  _handleClickUAM = async () => {
+    this.setState({
+      UAMModal: {
+        view: 0,
+        continueButton: true,
+        showKeyError: false,
+        ingestUAMkey: ''
+      }
+    });
+    this._onCloseBackdrop();
+    this.openModalParent('null', 16);
+  };
+
+  handleContinueUAMButton = async e => {
+    e.preventDefault();
+    const userAccessInfo = await this.DataManager.GetUserAccessInfo();
+    if (userAccessInfo.length === 0) {
+      userAccessInfo.push({
+        id: 1,
+        name: '',
+        email: ''
+      });
+    }
+    this.setState({
+      UAMModal: {
+        view: 1,
+        userAccessInfo
+      }
+    });
+  };
+
+  ToggleEnableContinueButton = param => {
+    const { UAMModal } = this.state;
+    const _UAMModal = {
+      ...UAMModal,
+      continueButton: param,
+      showKeyError: false
+    };
+    this.setState({
+      UAMModal: _UAMModal
+    });
+  };
+
+  ValidateAdminKey = async ingestKey => {
+    const { UAMModal, UAMAccessKeys } = this.state;
+    const _UAMModal = {
+      ...UAMModal,
+      continueButton: true,
+      showKeyError: true
+    };
+    if (ingestKey && ingestKey !== '') {
+      if (UAMAccessKeys.includes(ingestKey)) {
+        _UAMModal.continueButton = false;
+        _UAMModal.showKeyError = false;
+      }
+    }
+    this.setState({
+      UAMModal: _UAMModal
+    });
+  };
+
+  HandleUAMkeyFormChange = event => {
+    const { UAMAccessKeys } = this.state;
+    let continueButton = true;
+    if (UAMAccessKeys.includes(event.target.value)) {
+      continueButton = false;
+    }
+    this.setState(state => {
+      return {
+        UAMModal: {
+          ...state.UAMModal,
+          [event.target.name]: event.target.value,
+          continueButton,
+          showKeyError: false
+        }
+      };
+    });
+  };
+
+  handleKeyEditorSubmit = async e => {
+    e.preventDefault();
+    const { UAMModal } = this.state;
+    const user = await UserQuery.query();
+    let accessToConfig = false;
+    const validAccess = UAMModal.userAccessInfo.find(
+      item => item.email === user.data.email
+    );
+    if (validAccess) {
+      accessToConfig = true;
+      this.DataManager.SendToLogs({
+        action: 'uam-admin-key-update'
+      });
+    }
+    this.setState({
+      accessToConfig
+    });
+    this.DataManager.SetUserAccessInfo(UAMModal.userAccessInfo);
+    this._onClose();
+  };
+
+  HandleOnChange = (target, value, id) => {
+    this.setState(state => {
+      const UAMModal = { ...state.UAMModal };
+      if (target === 'addEntry') {
+        UAMModal.userAccessInfo.unshift({
+          id: UAMModal.userAccessInfo.length + 1,
+          name: '',
+          email: ''
+        });
+      } else {
+        const userInfo = UAMModal.userAccessInfo.find(
+          element => element.id === id
+        );
+        userInfo[target] = value;
+      }
+      return {
+        UAMModal
+      };
+    });
+  };
+
+  HandleDeleteUser = id => {
+    this.setState(state => {
+      const UAMModal = { ...state.UAMModal };
+      const userInfo = UAMModal.userAccessInfo.findIndex(
+        element => element.id === id
+      );
+      if (userInfo > -1) {
+        UAMModal.userAccessInfo.splice(userInfo, 1);
+      }
+      return {
+        UAMModal
+      };
+    });
   };
 
   _handleClickProcesses = () => {
@@ -1306,11 +1582,29 @@ export default class MainContainer extends React.Component {
   _handleContextMenuGout = event => {
     if (event.button === 2) {
       const values = this.DataManager.GetGoutParameters();
+      const { lensForm } = this.state;
+      lensForm.status = 'disable';
       this.setState({
         backdrop: true,
+        lensForm,
+        iconLensStatus: false,
         showRightPanel: true,
         MenuRightDefault: 1,
         dropForm: values
+      });
+    }
+  };
+
+  _handleContextMenuLens = async event => {
+    if (event.button === 2) {
+      const { lensForm } = this.state;
+      const lensData = await this.DataManager.GetLensFormValues(lensForm);
+      this.setState({
+        lensForm: lensData,
+        iconLensStatus: lensData.status === 'enable',
+        backdrop: true,
+        showRightPanel: true,
+        MenuRightDefault: 4
       });
     }
   };
@@ -1328,9 +1622,13 @@ export default class MainContainer extends React.Component {
   _handleContextMenuFire = event => {
     if (event.button === 2) {
       const values = this.DataManager.GetHistoricParameters();
+      const { lensForm } = this.state;
+      lensForm.status = 'disable';
       this.setState({
         flameForm: values,
         backdrop: true,
+        lensForm,
+        iconLensStatus: false,
         showRightPanel: true,
         MenuRightDefault: 3
       });
@@ -1338,7 +1636,7 @@ export default class MainContainer extends React.Component {
   };
 
   _onCloseMenuRight = () => {
-    const { MenuRightDefault, flameForm, dropForm } = this.state;
+    const { MenuRightDefault, flameForm, dropForm, lensForm } = this.state;
     this.setState({
       backdrop: false,
       showRightPanel: false,
@@ -1353,6 +1651,9 @@ export default class MainContainer extends React.Component {
     }
     if (MenuRightDefault === 2) {
       // TO-DO
+    }
+    if (MenuRightDefault === 4) {
+      this.DataManager.SetLensFormValues(lensForm);
     }
     if (MenuRightDefault === 1) {
       this.DataManager.UpdateGoutParameters(dropForm);
@@ -1380,7 +1681,24 @@ export default class MainContainer extends React.Component {
     this.setState(flameForm);
   };
 
+  _LensHandleChange = event => {
+    const key = event.target.name;
+    const { lensForm } = this.state;
+    if (key === 'durationMin') {
+      lensForm[key] = event.target.value;
+    } else {
+      lensForm[key] = event.target.checked;
+    }
+    this.setState({
+      lensForm,
+      iconLensStatus: lensForm.status === 'enable'
+    });
+  };
+
   GetCurrentConfigurationJSON = () => {
+    this.DataManager.SendToLogs({
+      action: 'download-json-configuration'
+    });
     const data = this.DataManager.GetCurrentConfigurationJSON();
     return data;
   };
@@ -1416,7 +1734,7 @@ export default class MainContainer extends React.Component {
   };
 
   GetCurrentHistoricErrorScript = () => {
-    const data = this.DataManager.GetCurrentHistoricErrorScript();
+    const data = this.DataManager.GetCurrentHistoricErrorScript_v2();
     return data;
   };
 
@@ -1435,8 +1753,8 @@ export default class MainContainer extends React.Component {
       ).toString();
       const j = i.length > 3 ? i.length % 3 : 0;
       return `${amount < 0 ? '-' : ''}$${
-        j ? i.substr(0, j) + thousands : ''
-      }${i.substr(j).replace(/(\d{3})(?=\d)/g, `$1${thousands}`)}${
+        j ? i.substring(0, j) + thousands : ''
+      }${i.substring(j).replace(/(\d{3})(?=\d)/g, `$1${thousands}`)}${
         decimalCount
           ? decimal +
             Math.abs(amount - i)
@@ -1476,6 +1794,9 @@ export default class MainContainer extends React.Component {
   };
 
   resetCredentials = () => {
+    this.DataManager.SendToLogs({
+      action: 'reset-credentials'
+    });
     this.DataManager.ResetCredentialsInVault();
     this.DataManager.SaveGeneralConfiguration({
       loggin: false,
@@ -1484,7 +1805,7 @@ export default class MainContainer extends React.Component {
     });
     document.getElementById('logginCheck').checked = false;
     document.getElementById('flameToolsCheck').checked = false;
-    document.getElementById('dropToolsCheck').checked = false;
+    // document.getElementById('dropToolsCheck').checked = false;
     this.setState(state => {
       return {
         generalConfigurationSaved: true,
@@ -1605,13 +1926,29 @@ export default class MainContainer extends React.Component {
     });
   };
 
-  ToggleGuiEditor = () => {
-    this.setState(state => {
-      const guiEditor = !state.guiEditor;
-      return {
-        guiEditor
-      };
-    });
+  ToggleGuiEditor = async () => {
+    const userAccessInfo = await this.DataManager.GetUserAccessInfo();
+    const user = await UserQuery.query();
+    const validAccess = userAccessInfo.find(
+      item => item.email === user.data.email
+    );
+    if (validAccess) {
+      this.setState(state => {
+        const guiEditor = !state.guiEditor;
+        if (guiEditor) {
+          this.DataManager.SendToLogs({
+            action: 'enable-gui-editor'
+          });
+        } else {
+          this.DataManager.SendToLogs({
+            action: 'disable-gui-editor'
+          });
+        }
+        return {
+          guiEditor
+        };
+      });
+    }
   };
 
   CreateStagesEditor = async (saveUpdate = true) => {
@@ -1654,7 +1991,7 @@ export default class MainContainer extends React.Component {
           title: tp.title,
           status_on_off: tp.status_on_off,
           subs,
-          dashboard_url: tp.dashboard_url[0],
+          dashboard_url: tp.dashboard_url,
           queryData: {
             ...tp.queries[0]
           },
@@ -1813,6 +2150,36 @@ export default class MainContainer extends React.Component {
         api_count: 0
       };
     }
+    if (!Reflect.has(queryData, 'max_value')) {
+      qData = {
+        ...qData,
+        max_value: 0
+      };
+    }
+    if (!Reflect.has(queryData, 'value')) {
+      qData = {
+        ...qData,
+        value: 0
+      };
+    }
+    if (!Reflect.has(queryData, 'alertConditionId')) {
+      qData = {
+        ...qData,
+        alertConditionId: []
+      };
+    }
+    if (!Reflect.has(queryData, 'priority')) {
+      qData = {
+        ...qData,
+        priority: ['CRITICAL']
+      };
+    }
+    if (!Reflect.has(queryData, 'state')) {
+      qData = {
+        ...qData,
+        state: ['ACTIVATED']
+      };
+    }
     return qData;
   }
 
@@ -1845,6 +2212,15 @@ export default class MainContainer extends React.Component {
     const payload = this.state.JSONModal.historic[
       this.state.currentHistoricSelected
     ].payload;
+    const metadata = this.state.JSONModal.historic[
+      this.state.currentHistoricSelected
+    ].jsonMetaData;
+    this.DataManager.SendToLogs({
+      action: 'restore-configuration',
+      set_data: {
+        ...metadata
+      }
+    });
     this.SetConfigurationJSON(payload);
     this._onClose();
     this.setState({
@@ -1855,20 +2231,43 @@ export default class MainContainer extends React.Component {
     });
   };
 
+  handleAlertParameterUpdate = parameter => {
+    if (parameter.name === 'alertsTimeWindow') {
+      this.setState({
+        alertsTimeWindow: parameter.value
+      });
+    } else {
+      this.setState({
+        alertsRefreshDelay: parameter.value
+      });
+    }
+  };
+
   handleStagesEditorSubmit = async stagesInterface => {
     this._onClose();
     this.setState({
       loading: true
     });
     this.setState({ stagesInterface });
+    this.DataManager.SendToLogs({
+      action: 'update-gui-configuration',
+      set_data: {
+        ...stagesInterface
+      }
+    });
     await this.InterfaceEditor.SetStagesInterface(stagesInterface);
     let data = this.DataManager.GetCurrentConfigurationJSON();
     data = JSON.parse(data);
+    const { alertsTimeWindow, alertsRefreshDelay } = this.state;
+    data.alertsTimeWindow = alertsTimeWindow;
+    data.alertsRefreshDelay = alertsRefreshDelay;
     const updateData = this.InterfaceMigration.MigrateStagesInterface(
       stagesInterface,
       data
     );
-    this.DataManager.SetConfigurationJSON(JSON.stringify(updateData));
+    const payload = JSON.stringify(updateData);
+    this.DataManager.SetConfigurationJSON(payload);
+    await this.SavePayloadToHistoricConfig(payload);
     const totalContainers = this.DataManager.SetTotalContainers();
     const event = new Event('SetStagesInterfaceDone', {});
     document.dispatchEvent(event);
@@ -1878,6 +2277,29 @@ export default class MainContainer extends React.Component {
       updateBackgroundScript: true
     });
   };
+
+  async SavePayloadToHistoricConfig(payload) {
+    // console.log('UPDATE-Hadle submir');
+    // FIX to SAVE all the Pathpoint Updates to historic
+    const user = await UserQuery.query();
+    const now = new Date();
+    let hours = now.getHours();
+    if (hours < 10) hours = `0${hours}`;
+    let minutes = now.getMinutes();
+    if (minutes < 10) minutes = `0${minutes}`;
+    let seconds = now.getSeconds();
+    if (seconds < 10) seconds = `0${seconds}`;
+    this.DataManager.StorageJSONDataInHistoric({
+      payload,
+      jsonMetaData: {
+        description: 'User Configuration Update',
+        note: `Time : ${hours}:${minutes}:${seconds}`,
+        filename: 'system update',
+        date: now,
+        user: user.data.name
+      }
+    });
+  }
 
   handleKPIEditorUpdate = kpisUpdated => {
     this._onClose();
@@ -1890,9 +2312,9 @@ export default class MainContainer extends React.Component {
       kpisUpdated,
       data
     );
-    const newData = this.DataManager.SetConfigurationJSON(
-      JSON.stringify(updateData)
-    );
+    const payload = JSON.stringify(updateData);
+    const newData = this.DataManager.SetConfigurationJSON(payload);
+    this.SavePayloadToHistoricConfig(payload);
     const event = new Event('SetStagesInterfaceDone', {});
     document.dispatchEvent(event);
     this.setState({
@@ -1947,7 +2369,13 @@ export default class MainContainer extends React.Component {
       fileNote,
       showMessageInformationStage,
       showMessageInformationStep,
-      showMessageInformationTouchpoint
+      showMessageInformationTouchpoint,
+      alertsTimeWindow,
+      alertsRefreshDelay,
+      accessToConfig,
+      iconLensStatus,
+      lensForm,
+      showMouseOver
     } = this.state;
     if (this.state.waiting) {
       return (
@@ -2001,6 +2429,9 @@ export default class MainContainer extends React.Component {
               guiEditor={this.state.guiEditor}
               HandleChangeLogo={this.HandleChangeLogo}
               HandleOpenKPIEditor={this.HandleOpenKPIEditor}
+              iconLensStatus={iconLensStatus}
+              ToggleLensButton={this.ToggleLensButton}
+              handleContextMenuLens={this._handleContextMenuLens}
             />
           </div>
           <div
@@ -2055,14 +2486,14 @@ export default class MainContainer extends React.Component {
                       onClick={this._handleClickProcesses2}
                       style={{ padding: '5px' }}
                     >
-                      Background processes
+                      Download Fire Script
                     </div> */}
                     <div
                       className="subItem"
                       onClick={this._handleClickProcesses}
                       style={{ padding: '5px' }}
                     >
-                      Credentials and General Configuration
+                      Background Functions
                     </div>
                     <div
                       className="subItem"
@@ -2077,14 +2508,25 @@ export default class MainContainer extends React.Component {
                     </div>
                   </div>
                 </div>
-                <li onClick={this._handleClickSupport}>
-                  <img
-                    src={support}
-                    height="14"
-                    style={{ marginRight: '5px' }}
-                  />
-                  Support
-                </li>
+                <div className="setup">
+                  <div className="support" onClick={this._handleClickSupport}>
+                    <img
+                      src={support}
+                      height="14"
+                      style={{ marginRight: '5px' }}
+                    />
+                    Support
+                  </div>
+                  <div style={{ paddingLeft: '25%', width: '100%' }}>
+                    <div
+                      className="subItem"
+                      onClick={this._handleClickUAM}
+                      style={{ padding: '5px' }}
+                    >
+                      UAM
+                    </div>
+                  </div>
+                </div>
               </ul>
               <div className="version">v.{version}</div>
             </div>
@@ -2314,7 +2756,19 @@ export default class MainContainer extends React.Component {
                 </div>
               </div>
             </div>
-
+            <div
+              className={
+                this.state.MenuRightDefault === 4
+                  ? 'menuRight fadeInRight'
+                  : 'menuLeftClose'
+              }
+            >
+              <LensPage
+                lensForm={lensForm}
+                CloseMenuRight={this._onCloseMenuRight}
+                LensHandleChange={this._LensHandleChange}
+              />
+            </div>
             <div className="mainContainerTouchPoints__title">
               Stages
               {!this.state.guiEditor && (
@@ -2535,6 +2989,7 @@ export default class MainContainer extends React.Component {
                       <TouchPointContainer
                         visible={visible}
                         idVisible={idVisible}
+                        accessToConfig={accessToConfig}
                         renderProps={this.renderProps}
                         touchpoints={element.touchpoints}
                         city={city}
@@ -2545,6 +3000,8 @@ export default class MainContainer extends React.Component {
                         updateTouchpointOnOff={this.updateTouchpointOnOff}
                         iconCanaryStatus={iconCanaryStatus}
                         tune={tune}
+                        renderMouseOver={this.renderMouseOver}
+                        showMouseOver={showMouseOver}
                       />
                     </div>
                   </div>
@@ -2620,6 +3077,17 @@ export default class MainContainer extends React.Component {
             kpis={this.state.kpis}
             timeRangeKpi={timeRangeKpi}
             handleKPIEditorUpdate={this.handleKPIEditorUpdate}
+            UAMModal={this.state.UAMModal}
+            handleContinueUAMButton={this.handleContinueUAMButton}
+            ToggleEnableContinueButton={this.ToggleEnableContinueButton}
+            ValidateAdminKey={this.ValidateAdminKey}
+            HandleUAMkeyFormChange={this.HandleUAMkeyFormChange}
+            handleKeyEditorSubmit={this.handleKeyEditorSubmit}
+            HandleOnChange={this.HandleOnChange}
+            HandleDeleteUser={this.HandleDeleteUser}
+            alertsTimeWindow={alertsTimeWindow}
+            alertsRefreshDelay={alertsRefreshDelay}
+            handleAlertParameterUpdate={this.handleAlertParameterUpdate}
           />
           <div id="cover-spin" style={{ display: loading ? '' : 'none' }} />
         </div>

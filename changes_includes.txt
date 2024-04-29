@@ -1,0 +1,3 @@
+- move credentials from nerdStorageVault to AccountStorage. It was generating a bug when using the Pathpoint with multiple users, because the data saved in the nerdStorageVault is only accessible by the user who saved it.
+    This changes the functions getCredentialsData() and storeCredentialData() in the Object NerdStorageVault
+- Multiple Dashborards by Touchpoint, up to 4 links
