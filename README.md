@@ -7,7 +7,7 @@
 [![NR1 Library Deprecation Checks](https://github.com/newrelic/nr1-pathpoint/actions/workflows/nr1_library_deprecation_check.yml/badge.svg)](https://github.com/newrelic/nr1-pathpoint/actions/workflows/nr1_library_deprecation_check.yml)
 [![Release](https://github.com/newrelic/nr1-pathpoint/actions/workflows/release.yml/badge.svg)](https://github.com/newrelic/nr1-pathpoint/actions/workflows/release.yml)
 
-# Pathpoint V1 has been DEPRECATED.  It has been replaced with Pathpoint V2
+# Pathpoint V1 has been DEPRECATED.  It has been replaced with [Pathpoint V2](https://docs.newrelic.com/docs/new-relic-solutions/business-observability/intro-pathpoint/)
 
 ## This repository is for reference only.   
 
