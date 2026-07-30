@@ -1337,7 +1337,7 @@ export default class DataManager {
   }
 
   escapeQuote(data) {
-    return data.replace(/["]/g, '\\"');
+    return data.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
   }
 
   async UpdateMerchatKpi() {
