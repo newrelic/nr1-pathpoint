@@ -1,5 +1,5 @@
 
-[![New Relic One Catalog Project header](https://github.com/newrelic/opensource-website/raw/master/src/images/categories/New_Relic_One_Catalog_Project.png)](https://opensource.newrelic.com/oss-category/#new-relic-one-catalog-project)
+[![Archived](https://github.com/newrelic/opensource-website/raw/master/src/images/categories/Archived.png)](https://docs.newrelic.com/docs/licenses/open-source/oss-category/#archived)
 
 [![Pull Request](https://github.com/newrelic/nr1-pathpoint/actions/workflows/pr.yml/badge.svg)](https://github.com/newrelic/nr1-pathpoint/actions/workflows/pr.yml)
 [![Node.js CI](https://github.com/newrelic/nr1-pathpoint/actions/workflows/node.js.yml/badge.svg)](https://github.com/newrelic/nr1-pathpoint/actions/workflows/node.js.yml)
