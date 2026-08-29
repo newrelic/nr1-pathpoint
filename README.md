@@ -11,7 +11,7 @@
 
 ## This repository is for reference only.   
 
-New Relic has introduced Patpoint V2 which offers numerous enhancements including
+New Relic has introduced Pathpoint V2 which offers numerous enhancements including
 
 - Ability to manage more than one flow per instance
 - Tight linkage between signals (formerly touchpoints) to NR platform entities and alerts
